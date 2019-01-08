@@ -254,4 +254,11 @@ export class Namespace {
   static getDeadLetterQueuePathForQueue(queueName: string): string {
     return `${queueName}/$DeadLetterQueue`;
   }
+
+  static getDeadLetterSubcriptionPathForSubcription(
+    topicName: string,
+    subscriptionName: string
+  ): string {
+    return `${topicName}/Subscriptions/${subscriptionName}/$DeadLetterQueue`;
+  }
 }

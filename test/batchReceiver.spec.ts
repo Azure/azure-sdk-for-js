@@ -20,11 +20,11 @@ import {
 const testMessages: SendableMessageInfo[] = [
   {
     body: "hello1",
-    messageId: `test message ${generateUuid}`
+    messageId: `test message ${generateUuid()}`
   },
   {
     body: "hello2",
-    messageId: `test message ${generateUuid}`
+    messageId: `test message ${generateUuid()}`
   }
 ];
 
@@ -35,6 +35,8 @@ async function testPeekMsgsLength(
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
   should.equal(peekedMsgs.length, expectedPeekLength);
 }
+
+const maxDeliveryCount = 10;
 
 describe("ReceiveBatch from Queue/Subscription", function(): void {
   let namespace: Namespace;
@@ -212,5 +214,211 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
     await receivedMsgs[0].complete();
+  });
+
+  it("Message abandoned more than maxDeliveryCount goes to dead letter queue", async function(): Promise<
+    void
+  > {
+    await queueClient.send(testMessages[0]);
+    let abandonMsgCount = 0;
+
+    while (abandonMsgCount < maxDeliveryCount) {
+      const receivedMsgs = await queueClient.receiveBatch(1);
+
+      should.equal(receivedMsgs.length, 1);
+      should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+      should.equal(receivedMsgs[0].deliveryCount, abandonMsgCount);
+      abandonMsgCount++;
+
+      await receivedMsgs[0].abandon();
+    }
+
+    await testPeekMsgsLength(queueClient, 0);
+
+    const deadLetterQueuePath = Namespace.getDeadLetterQueuePathForQueue(queueClient.name);
+    const deadletterQueueClient = namespace.createQueueClient(deadLetterQueuePath);
+    const deadLetterMsgs = await deadletterQueueClient.receiveBatch(1);
+
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].body, testMessages[0].body);
+    should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
+
+    await deadLetterMsgs[0].complete();
+
+    await testPeekMsgsLength(deadletterQueueClient, 0);
+  });
+
+  it("Message abandoned more than maxDeliveryCount goes to dead letter subscriptions", async function(): Promise<
+    void
+  > {
+    await topicClient.send(testMessages[0]);
+    let abandonMsgCount = 0;
+
+    while (abandonMsgCount < maxDeliveryCount) {
+      const receivedMsgs = await subscriptionClient.receiveBatch(1);
+
+      should.equal(receivedMsgs.length, 1);
+      should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+      should.equal(receivedMsgs[0].deliveryCount, abandonMsgCount);
+      abandonMsgCount++;
+
+      await receivedMsgs[0].abandon();
+    }
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+
+    const deadLetterSubscriptionPath = Namespace.getDeadLetterSubcriptionPathForSubcription(
+      topicClient.name,
+      subscriptionClient.subscriptionName
+    );
+
+    const deadletterSubscriptionClient = namespace.createSubscriptionClient(
+      deadLetterSubscriptionPath ? deadLetterSubscriptionPath : "",
+      subscriptionClient.subscriptionName
+    );
+
+    const deadLetterMsgs = await deadletterSubscriptionClient.receiveBatch(1);
+
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].body, testMessages[0].body);
+    should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
+
+    await deadLetterMsgs[0].complete();
+
+    await testPeekMsgsLength(deadletterSubscriptionClient, 0);
+  });
+
+  it("Receive deferred message from queue", async function(): Promise<void> {
+    await queueClient.sendBatch(testMessages);
+    const msgs = await queueClient.receiveBatch(1);
+
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(msgs[0].messageId, testMessages[0].messageId);
+
+    if (!msgs[0].sequenceNumber) {
+      throw "Sequence Number can not be null";
+    }
+    const sequenceNumber = msgs[0].sequenceNumber;
+    await msgs[0].defer();
+
+    const receivedMsgs = await queueClient.receiveBatch(1);
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs[0].body === testMessages[0].body, false);
+    should.equal(receivedMsgs[0].messageId === testMessages[0].messageId, false);
+    await receivedMsgs[0].complete();
+
+    const deferredMsgs = await queueClient.receiveDeferredMessage(sequenceNumber);
+    if (!deferredMsgs) {
+      throw "No message received for sequence number";
+    }
+    should.equal(deferredMsgs.body, testMessages[0].body);
+    should.equal(deferredMsgs.messageId, testMessages[0].messageId);
+
+    await deferredMsgs.complete();
+
+    await testPeekMsgsLength(queueClient, 0);
+  });
+
+  it("Receive deferred message from subscription", async function(): Promise<void> {
+    await topicClient.sendBatch(testMessages);
+    const msgs = await subscriptionClient.receiveBatch(1);
+
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(msgs[0].messageId, testMessages[0].messageId);
+
+    if (!msgs[0].sequenceNumber) {
+      throw "Sequence Number can not be null";
+    }
+    const sequenceNumber = msgs[0].sequenceNumber;
+    await msgs[0].defer();
+
+    const receivedMsgs = await subscriptionClient.receiveBatch(1);
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs[0].body === testMessages[0].body, false);
+    should.equal(receivedMsgs[0].messageId === testMessages[0].messageId, false);
+    await receivedMsgs[0].complete();
+
+    const deferredMsgs = await subscriptionClient.receiveDeferredMessage(sequenceNumber);
+    if (!deferredMsgs) {
+      throw "No message received for sequence number";
+    }
+    should.equal(deferredMsgs.body, testMessages[0].body);
+    should.equal(deferredMsgs.messageId, testMessages[0].messageId);
+
+    await deferredMsgs.complete();
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("Receive dead letter message from queue", async function(): Promise<void> {
+    await queueClient.send(testMessages[0]);
+
+    const receivedMsgs = await queueClient.receiveBatch(1);
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs[0].body, testMessages[0].body);
+    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+
+    await receivedMsgs[0].deadLetter();
+
+    await testPeekMsgsLength(queueClient, 0);
+
+    const deadLetterQueuePath = Namespace.getDeadLetterQueuePathForQueue(queueClient.name);
+    const deadletterQueueClient = namespace.createQueueClient(deadLetterQueuePath);
+    const deadLetterMsgs = await deadletterQueueClient.receiveBatch(1);
+
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].body, testMessages[0].body);
+    should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
+
+    await deadLetterMsgs[0].complete();
+
+    await testPeekMsgsLength(deadletterQueueClient, 0);
+  });
+
+  it("Receive dead letter message from subscription", async function(): Promise<void> {
+    await topicClient.send(testMessages[0]);
+
+    const receivedMsgs = await subscriptionClient.receiveBatch(1);
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs[0].body, testMessages[0].body);
+    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+
+    await receivedMsgs[0].deadLetter();
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+
+    const deadLetterSubscriptionPath = Namespace.getDeadLetterSubcriptionPathForSubcription(
+      topicClient.name,
+      subscriptionClient.subscriptionName
+    );
+
+    const deadletterSubscriptionClient = namespace.createSubscriptionClient(
+      deadLetterSubscriptionPath ? deadLetterSubscriptionPath : "",
+      subscriptionClient.subscriptionName
+    );
+
+    const deadLetterMsgs = await deadletterSubscriptionClient.receiveBatch(1);
+
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].body, testMessages[0].body);
+    should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
+
+    await deadLetterMsgs[0].complete();
+
+    await testPeekMsgsLength(deadletterSubscriptionClient, 0);
   });
 });
