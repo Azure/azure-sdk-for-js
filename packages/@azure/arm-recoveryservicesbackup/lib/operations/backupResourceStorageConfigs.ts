@@ -99,45 +99,6 @@ export class BackupResourceStorageConfigs {
       updateOperationSpec,
       callback) as Promise<Models.BackupResourceStorageConfigsUpdateResponse>;
   }
-
-  /**
-   * Updates vault storage model type.
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param parameters Vault storage config request
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param parameters Vault storage config request
-   * @param callback The callback
-   */
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param parameters Vault storage config request
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        vaultName,
-        resourceGroupName,
-        parameters,
-        options
-      },
-      update1OperationSpec,
-      callback);
-  }
 }
 
 // Operation Specifications
@@ -192,36 +153,6 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.BackupResourceConfigResource
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const update1OperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
-  urlParameters: [
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.BackupResourceConfigResource,
-      required: true
-    }
-  },
-  responses: {
-    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -61,6 +61,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
   backupProtectionContainers: operations.BackupProtectionContainers;
   securityPINs: operations.SecurityPINs;
   backupResourceStorageConfigs: operations.BackupResourceStorageConfigs;
+  backupResourceStorageConfig: operations.BackupResourceStorageConfig;
   operations: operations.Operations;
 
   /**
@@ -115,6 +116,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
     this.backupProtectionContainers = new operations.BackupProtectionContainers(this);
     this.securityPINs = new operations.SecurityPINs(this);
     this.backupResourceStorageConfigs = new operations.BackupResourceStorageConfigs(this);
+    this.backupResourceStorageConfig = new operations.BackupResourceStorageConfig(this);
     this.operations = new operations.Operations(this);
   }
 }
