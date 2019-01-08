@@ -52,5 +52,4 @@ export * from "./backupProtectableItems";
 export * from "./backupProtectionContainers";
 export * from "./securityPINs";
 export * from "./backupResourceStorageConfigs";
-export * from "./backupResourceStorageConfig";
 export * from "./operations";
