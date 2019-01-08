@@ -479,7 +479,7 @@ export class MessageSession extends LinkEntity {
    */
   isOpen(): boolean {
     const result: boolean = this._receiver! && this._receiver!.isOpen();
-    log.error(
+    log.messageSession(
       "[%s] Receiver '%s' for sessionId '%s' is open? -> %s",
       this._context.namespace.connectionId,
       this.name,
