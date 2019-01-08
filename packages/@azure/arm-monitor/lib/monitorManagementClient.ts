@@ -36,6 +36,7 @@ class MonitorManagementClient extends MonitorManagementClientContext {
   metricAlertsStatus: operations.MetricAlertsStatus;
   scheduledQueryRules: operations.ScheduledQueryRules;
   metricNamespaces: operations.MetricNamespaces;
+  vMInsights: operations.VMInsights;
 
   /**
    * Initializes a new instance of the MonitorManagementClient class.
@@ -64,6 +65,7 @@ class MonitorManagementClient extends MonitorManagementClientContext {
     this.metricAlertsStatus = new operations.MetricAlertsStatus(this);
     this.scheduledQueryRules = new operations.ScheduledQueryRules(this);
     this.metricNamespaces = new operations.MetricNamespaces(this);
+    this.vMInsights = new operations.VMInsights(this);
   }
 }
 
