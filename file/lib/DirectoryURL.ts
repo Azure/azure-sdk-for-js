@@ -66,7 +66,7 @@ export class DirectoryURL extends StorageURL {
   /**
    * Creates a DirectoryURL object from an existing DirectoryURL.
    *
-   * @param directoryURL A DirectoryURl object
+   * @param directoryURL A DirectoryURL object
    * @param directoryName A subdirectory name
    */
   public static fromDirectoryURL(
