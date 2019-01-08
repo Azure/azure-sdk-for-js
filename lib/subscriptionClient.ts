@@ -9,7 +9,14 @@ import { BatchingReceiver } from "./core/batchingReceiver";
 import { ServiceBusMessage, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ReceiveMode } from "./core/messageReceiver";
-import { CorrelationFilter, RuleDescription } from "./core/managementClient";
+import { CorrelationFilter, RuleDescription, ListSessionsResponse } from "./core/managementClient";
+import {
+  MessageSession,
+  AcceptSessionOptions,
+  SessionHandlerOptions,
+  OnSessionMessage
+} from "./session/messageSession";
+import { EntityType } from "./session/sessionManager";
 
 /**
  * Describes the options that can be provided while creating the SubscriptionClient.
@@ -312,5 +319,53 @@ export class SubscriptionClient extends Client {
     return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   }
 
+  //#endregion
+
+  //#region sessions
+
+  /**
+   * Lists the sessions on the ServiceBus Subscription.
+   * @param skip The number of sessions to skip
+   * @param top Maximum numer of sessions.
+   * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
+   * value: 3 days ago from the current time.
+   */
+  async listMessageSessions(
+    skip: number,
+    top: number,
+    lastUpdatedTime?: Date
+  ): Promise<ListSessionsResponse> {
+    return this._context.managementClient!.listMessageSessions(skip, top, lastUpdatedTime);
+  }
+
+  /**
+   * Accept a new session on the ServiceBus Subscription.
+   * @param options Optional parameters that can be provided while accepting sessions.
+   */
+  async acceptSession(options?: AcceptSessionOptions): Promise<MessageSession> {
+    if (!options) options = {};
+    this._context.isSessionEnabled = true;
+    return MessageSession.create(this._context, options);
+  }
+
+  /**
+   * Receives messages from a session enabled Subscription.
+   * @param onSessionMessage The message handler to receive service bus messages from a session
+   * enabled Subscription.
+   * @param onError The error handler to receive an error that occurs while receiving messages
+   * from a session enabled Subscription.
+   */
+  receiveMessagesFromSessions(
+    onSessionMessage: OnSessionMessage,
+    onError: OnError,
+    options?: SessionHandlerOptions
+  ): Promise<void> {
+    return this._context.sessionManager!.manageMessageSessions(
+      EntityType.subscription,
+      onSessionMessage,
+      onError,
+      options
+    );
+  }
   //#endregion
 }
