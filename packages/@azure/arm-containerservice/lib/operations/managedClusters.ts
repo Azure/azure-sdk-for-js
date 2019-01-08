@@ -304,11 +304,11 @@ export class ManagedClusters {
    * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a
    * Managed Cluster.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ManagedClustersResetServicePrincipalProfileResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  resetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersResetServicePrincipalProfileResponse> {
+  resetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginResetServicePrincipalProfile(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedClustersResetServicePrincipalProfileResponse>;
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -318,11 +318,11 @@ export class ManagedClusters {
    * @param resourceName The name of the managed cluster resource.
    * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ManagedClustersResetAADProfileResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  resetAADProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterAADProfile, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersResetAADProfileResponse> {
+  resetAADProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterAADProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginResetAADProfile(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedClustersResetAADProfileResponse>;
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -779,12 +779,8 @@ const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    200: {
-      bodyMapper: Mappers.ManagedCluster
-    },
-    202: {
-      bodyMapper: Mappers.ManagedCluster
-    },
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -814,12 +810,8 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    200: {
-      bodyMapper: Mappers.ManagedCluster
-    },
-    202: {
-      bodyMapper: Mappers.ManagedCluster
-    },
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
