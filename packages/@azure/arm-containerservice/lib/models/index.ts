@@ -1304,8 +1304,10 @@ export interface CredentialResult {
  */
 export interface CredentialResults {
   /**
-   * @member {CredentialResult[]} [kubeconfigs] **NOTE: This property will not
-   * be serialized. It can only be populated by the server.**
+   * @member {CredentialResult[]} [kubeconfigs] Base64-encoded Kubernetes
+   * configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly kubeconfigs?: CredentialResult[];
 }
