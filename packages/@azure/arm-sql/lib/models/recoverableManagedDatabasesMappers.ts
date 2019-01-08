@@ -9,13 +9,12 @@
  */
 
 export {
-  ManagedInstanceVulnerabilityAssessment,
+  RecoverableManagedDatabaseListResult,
+  RecoverableManagedDatabase,
   ProxyResource,
   Resource,
   BaseResource,
-  VulnerabilityAssessmentRecurringScansProperties,
   CloudError,
-  ManagedInstanceVulnerabilityAssessmentListResult,
   RecoverableDatabase,
   RestorableDroppedDatabase,
   TrackedResource,
@@ -68,6 +67,7 @@ export {
   DatabaseVulnerabilityAssessmentRuleBaseline,
   DatabaseVulnerabilityAssessmentRuleBaselineItem,
   DatabaseVulnerabilityAssessment,
+  VulnerabilityAssessmentRecurringScansProperties,
   JobAgent,
   JobCredential,
   JobExecution,
@@ -109,7 +109,7 @@ export {
   TdeCertificate,
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
-  RecoverableManagedDatabase,
+  ManagedInstanceVulnerabilityAssessment,
   ServerVulnerabilityAssessment
 } from "../models/mappers";
 

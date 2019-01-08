@@ -6646,6 +6646,22 @@ export interface ManagedInstanceEncryptionProtector extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing RecoverableManagedDatabase.
+ * A recoverable managed database resource.
+ *
+ * @extends ProxyResource
+ */
+export interface RecoverableManagedDatabase extends ProxyResource {
+  /**
+   * @member {string} [lastAvailableBackupDate] The last available backup date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastAvailableBackupDate?: string;
+}
+
+/**
+ * @interface
  * An interface representing ManagedInstanceVulnerabilityAssessment.
  * A managed instance vulnerability assessment.
  *
@@ -7846,6 +7862,22 @@ export interface ManagedInstanceKeyListResult extends Array<ManagedInstanceKey> 
  * @extends Array<ManagedInstanceEncryptionProtector>
  */
 export interface ManagedInstanceEncryptionProtectorListResult extends Array<ManagedInstanceEncryptionProtector> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RecoverableManagedDatabaseListResult.
+ * A list of recoverable managed databases.
+ *
+ * @extends Array<RecoverableManagedDatabase>
+ */
+export interface RecoverableManagedDatabaseListResult extends Array<RecoverableManagedDatabase> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -14356,6 +14388,63 @@ export type ManagedInstanceEncryptionProtectorsListByInstanceNextResponse = Mana
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedInstanceEncryptionProtectorListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type RecoverableManagedDatabasesListByInstanceResponse = RecoverableManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RecoverableManagedDatabasesGetResponse = RecoverableManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type RecoverableManagedDatabasesListByInstanceNextResponse = RecoverableManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabaseListResult;
     };
 };
 

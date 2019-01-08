@@ -7621,6 +7621,24 @@ export const ManagedInstanceEncryptionProtector: msRest.CompositeMapper = {
   }
 };
 
+export const RecoverableManagedDatabase: msRest.CompositeMapper = {
+  serializedName: "RecoverableManagedDatabase",
+  type: {
+    name: "Composite",
+    className: "RecoverableManagedDatabase",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      lastAvailableBackupDate: {
+        readOnly: true,
+        serializedName: "properties.lastAvailableBackupDate",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedInstanceVulnerabilityAssessment: msRest.CompositeMapper = {
   serializedName: "ManagedInstanceVulnerabilityAssessment",
   type: {
@@ -9214,6 +9232,36 @@ export const ManagedInstanceEncryptionProtectorListResult: msRest.CompositeMappe
             type: {
               name: "Composite",
               className: "ManagedInstanceEncryptionProtector"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RecoverableManagedDatabaseListResult: msRest.CompositeMapper = {
+  serializedName: "RecoverableManagedDatabaseListResult",
+  type: {
+    name: "Composite",
+    className: "RecoverableManagedDatabaseListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RecoverableManagedDatabase"
             }
           }
         }

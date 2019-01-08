@@ -551,6 +551,16 @@ export const recommendedElasticPoolName: msRest.OperationURLParameter = {
     }
   }
 };
+export const recoverableDatabaseName: msRest.OperationURLParameter = {
+  parameterPath: "recoverableDatabaseName",
+  mapper: {
+    required: true,
+    serializedName: "recoverableDatabaseName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {

@@ -89,6 +89,7 @@ class SqlManagementClient extends SqlManagementClientContext {
   managedInstanceTdeCertificates: operations.ManagedInstanceTdeCertificates;
   managedInstanceKeys: operations.ManagedInstanceKeys;
   managedInstanceEncryptionProtectors: operations.ManagedInstanceEncryptionProtectors;
+  recoverableManagedDatabases: operations.RecoverableManagedDatabases;
   managedInstanceVulnerabilityAssessments: operations.ManagedInstanceVulnerabilityAssessments;
   serverVulnerabilityAssessments: operations.ServerVulnerabilityAssessments;
 
@@ -172,6 +173,7 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.managedInstanceTdeCertificates = new operations.ManagedInstanceTdeCertificates(this);
     this.managedInstanceKeys = new operations.ManagedInstanceKeys(this);
     this.managedInstanceEncryptionProtectors = new operations.ManagedInstanceEncryptionProtectors(this);
+    this.recoverableManagedDatabases = new operations.RecoverableManagedDatabases(this);
     this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(this);
     this.serverVulnerabilityAssessments = new operations.ServerVulnerabilityAssessments(this);
   }
