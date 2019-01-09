@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serverEndpointsMappers";
 import * as Parameters from "../models/parameters";
@@ -83,7 +83,7 @@ export class ServerEndpoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerEndpoint>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerEndpoint>): Promise<Models.ServerEndpointsGetResponse> {
+  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerEndpoint>, callback?: msRest.ServiceCallback<Models.ServerEndpoint>): Promise<Models.ServerEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class ServerEndpoints {
    * @param callback The callback
    */
   listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerEndpointArray>): void;
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerEndpointArray>): Promise<Models.ServerEndpointsListBySyncGroupResponse> {
+  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerEndpointArray>, callback?: msRest.ServiceCallback<Models.ServerEndpointArray>): Promise<Models.ServerEndpointsListBySyncGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

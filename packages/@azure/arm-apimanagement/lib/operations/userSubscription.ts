@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/userSubscriptionMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class UserSubscription {
    * @param callback The callback
    */
   list(resourceGroupName: string, serviceName: string, uid: string, options: Models.UserSubscriptionListOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserSubscriptionListOptionalParams, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListResponse> {
+  list(resourceGroupName: string, serviceName: string, uid: string, options?: Models.UserSubscriptionListOptionalParams | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +80,7 @@ export class UserSubscription {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.UserSubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

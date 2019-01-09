@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "ms-rest-js";
-import * as msRest from "ms-rest-js";
+import { ServiceClientOptions } from "@azure/ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 /**

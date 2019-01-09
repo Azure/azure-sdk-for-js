@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managedClustersMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -73,7 +73,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   getUpgradeProfile(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>): void;
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>): Promise<Models.ManagedClustersGetUpgradeProfileResponse> {
+  getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>, callback?: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>): Promise<Models.ManagedClustersGetUpgradeProfileResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +143,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): void;
-  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): Promise<Models.ManagedClustersGetAccessProfileResponse> {
+  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterAccessProfile>, callback?: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): Promise<Models.ManagedClustersGetAccessProfileResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse> {
+  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -210,7 +210,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   listClusterUserCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterUserCredentialsResponse> {
+  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterUserCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,7 +243,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedCluster>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedCluster>): Promise<Models.ManagedClustersGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedCluster>, callback?: msRest.ServiceCallback<Models.ManagedCluster>): Promise<Models.ManagedClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -378,7 +378,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -408,7 +408,7 @@ export class ManagedClusters {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

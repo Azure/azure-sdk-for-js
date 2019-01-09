@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -849,77 +849,36 @@ export interface RedisLinkedServerWithPropertiesList extends Array<RedisLinkedSe
 /**
  * Defines values for SkuName.
  * Possible values include: 'Basic', 'Standard', 'Premium'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  Basic = 'Basic',
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type SkuName = 'Basic' | 'Standard' | 'Premium';
 
 /**
  * Defines values for SkuFamily.
  * Possible values include: 'C', 'P'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuFamily = <SkuFamily>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuFamily {
-  C = 'C',
-  P = 'P',
-}
+export type SkuFamily = 'C' | 'P';
 
 /**
  * Defines values for TlsVersion.
  * Possible values include: '1.0', '1.1', '1.2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TlsVersion = <TlsVersion>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TlsVersion {
-  OneFullStopZero = '1.0',
-  OneFullStopOne = '1.1',
-  OneFullStopTwo = '1.2',
-}
+export type TlsVersion = '1.0' | '1.1' | '1.2';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'Deleting', 'Disabled', 'Failed',
- * 'Linking', 'Provisioning', 'RecoveringScaleFailure', 'Scaling', 'Succeeded',
- * 'Unlinking', 'Unprovisioning', 'Updating'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'Deleting', 'Disabled', 'Failed', 'Linking',
+ * 'Provisioning', 'RecoveringScaleFailure', 'Scaling', 'Succeeded', 'Unlinking', 'Unprovisioning',
+ * 'Updating'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Disabled = 'Disabled',
-  Failed = 'Failed',
-  Linking = 'Linking',
-  Provisioning = 'Provisioning',
-  RecoveringScaleFailure = 'RecoveringScaleFailure',
-  Scaling = 'Scaling',
-  Succeeded = 'Succeeded',
-  Unlinking = 'Unlinking',
-  Unprovisioning = 'Unprovisioning',
-  Updating = 'Updating',
-}
+export type ProvisioningState = 'Creating' | 'Deleting' | 'Disabled' | 'Failed' | 'Linking' | 'Provisioning' | 'RecoveringScaleFailure' | 'Scaling' | 'Succeeded' | 'Unlinking' | 'Unprovisioning' | 'Updating';
 
 /**
  * Defines values for RedisKeyType.
@@ -927,45 +886,24 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum RedisKeyType {
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-}
+export type RedisKeyType = 'Primary' | 'Secondary';
 
 /**
  * Defines values for RebootType.
  * Possible values include: 'PrimaryNode', 'SecondaryNode', 'AllNodes'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RebootType = <RebootType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RebootType {
-  PrimaryNode = 'PrimaryNode',
-  SecondaryNode = 'SecondaryNode',
-  AllNodes = 'AllNodes',
-}
+export type RebootType = 'PrimaryNode' | 'SecondaryNode' | 'AllNodes';
 
 /**
  * Defines values for DayOfWeek.
- * Possible values include: 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
- * 'Friday', 'Saturday', 'Sunday', 'Everyday', 'Weekend'
+ * Possible values include: 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+ * 'Sunday', 'Everyday', 'Weekend'
  * @readonly
  * @enum {string}
  */
-export enum DayOfWeek {
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-  Sunday = 'Sunday',
-  Everyday = 'Everyday',
-  Weekend = 'Weekend',
-}
+export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday' | 'Everyday' | 'Weekend';
 
 /**
  * Defines values for ReplicationRole.
@@ -973,10 +911,7 @@ export enum DayOfWeek {
  * @readonly
  * @enum {string}
  */
-export enum ReplicationRole {
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-}
+export type ReplicationRole = 'Primary' | 'Secondary';
 
 /**
  * Contains response data for the list operation.

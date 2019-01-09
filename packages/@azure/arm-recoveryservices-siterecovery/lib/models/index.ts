@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -9484,457 +9484,216 @@ export interface RecoveryPlanCollection extends Array<RecoveryPlan> {
 /**
  * Defines values for AgentAutoUpdateStatus.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AgentAutoUpdateStatus =
- * <AgentAutoUpdateStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AgentAutoUpdateStatus {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type AgentAutoUpdateStatus = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for SetMultiVmSyncStatus.
  * Possible values include: 'Enable', 'Disable'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SetMultiVmSyncStatus =
- * <SetMultiVmSyncStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SetMultiVmSyncStatus {
-  Enable = 'Enable',
-  Disable = 'Disable',
-}
+export type SetMultiVmSyncStatus = 'Enable' | 'Disable';
 
 /**
  * Defines values for RecoveryPointSyncType.
  * Possible values include: 'MultiVmSyncRecoveryPoint', 'PerVmRecoveryPoint'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RecoveryPointSyncType =
- * <RecoveryPointSyncType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RecoveryPointSyncType {
-  MultiVmSyncRecoveryPoint = 'MultiVmSyncRecoveryPoint',
-  PerVmRecoveryPoint = 'PerVmRecoveryPoint',
-}
+export type RecoveryPointSyncType = 'MultiVmSyncRecoveryPoint' | 'PerVmRecoveryPoint';
 
 /**
  * Defines values for MultiVmGroupCreateOption.
  * Possible values include: 'AutoCreated', 'UserSpecified'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MultiVmGroupCreateOption =
- * <MultiVmGroupCreateOption>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MultiVmGroupCreateOption {
-  AutoCreated = 'AutoCreated',
-  UserSpecified = 'UserSpecified',
-}
+export type MultiVmGroupCreateOption = 'AutoCreated' | 'UserSpecified';
 
 /**
  * Defines values for FailoverDeploymentModel.
  * Possible values include: 'NotApplicable', 'Classic', 'ResourceManager'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FailoverDeploymentModel =
- * <FailoverDeploymentModel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FailoverDeploymentModel {
-  NotApplicable = 'NotApplicable',
-  Classic = 'Classic',
-  ResourceManager = 'ResourceManager',
-}
+export type FailoverDeploymentModel = 'NotApplicable' | 'Classic' | 'ResourceManager';
 
 /**
  * Defines values for RecoveryPlanGroupType.
  * Possible values include: 'Shutdown', 'Boot', 'Failover'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RecoveryPlanGroupType =
- * <RecoveryPlanGroupType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RecoveryPlanGroupType {
-  Shutdown = 'Shutdown',
-  Boot = 'Boot',
-  Failover = 'Failover',
-}
+export type RecoveryPlanGroupType = 'Shutdown' | 'Boot' | 'Failover';
 
 /**
  * Defines values for ReplicationProtectedItemOperation.
- * Possible values include: 'ReverseReplicate', 'Commit', 'PlannedFailover',
- * 'UnplannedFailover', 'DisableProtection', 'TestFailover',
- * 'TestFailoverCleanup', 'Failback', 'FinalizeFailback', 'ChangePit',
- * 'RepairReplication', 'SwitchProtection', 'CompleteMigration'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReplicationProtectedItemOperation =
- * <ReplicationProtectedItemOperation>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'ReverseReplicate', 'Commit', 'PlannedFailover', 'UnplannedFailover',
+ * 'DisableProtection', 'TestFailover', 'TestFailoverCleanup', 'Failback', 'FinalizeFailback',
+ * 'ChangePit', 'RepairReplication', 'SwitchProtection', 'CompleteMigration'
  * @readonly
  * @enum {string}
  */
-export enum ReplicationProtectedItemOperation {
-  ReverseReplicate = 'ReverseReplicate',
-  Commit = 'Commit',
-  PlannedFailover = 'PlannedFailover',
-  UnplannedFailover = 'UnplannedFailover',
-  DisableProtection = 'DisableProtection',
-  TestFailover = 'TestFailover',
-  TestFailoverCleanup = 'TestFailoverCleanup',
-  Failback = 'Failback',
-  FinalizeFailback = 'FinalizeFailback',
-  ChangePit = 'ChangePit',
-  RepairReplication = 'RepairReplication',
-  SwitchProtection = 'SwitchProtection',
-  CompleteMigration = 'CompleteMigration',
-}
+export type ReplicationProtectedItemOperation = 'ReverseReplicate' | 'Commit' | 'PlannedFailover' | 'UnplannedFailover' | 'DisableProtection' | 'TestFailover' | 'TestFailoverCleanup' | 'Failback' | 'FinalizeFailback' | 'ChangePit' | 'RepairReplication' | 'SwitchProtection' | 'CompleteMigration';
 
 /**
  * Defines values for PossibleOperationsDirections.
  * Possible values include: 'PrimaryToRecovery', 'RecoveryToPrimary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PossibleOperationsDirections =
- * <PossibleOperationsDirections>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PossibleOperationsDirections {
-  PrimaryToRecovery = 'PrimaryToRecovery',
-  RecoveryToPrimary = 'RecoveryToPrimary',
-}
+export type PossibleOperationsDirections = 'PrimaryToRecovery' | 'RecoveryToPrimary';
 
 /**
  * Defines values for DisableProtectionReason.
  * Possible values include: 'NotSpecified', 'MigrationComplete'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DisableProtectionReason =
- * <DisableProtectionReason>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DisableProtectionReason {
-  NotSpecified = 'NotSpecified',
-  MigrationComplete = 'MigrationComplete',
-}
+export type DisableProtectionReason = 'NotSpecified' | 'MigrationComplete';
 
 /**
  * Defines values for HealthErrorCategory.
- * Possible values include: 'None', 'Replication', 'TestFailover',
- * 'Configuration', 'FabricInfrastructure', 'VersionExpiry', 'AgentAutoUpdate'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HealthErrorCategory =
- * <HealthErrorCategory>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'Replication', 'TestFailover', 'Configuration',
+ * 'FabricInfrastructure', 'VersionExpiry', 'AgentAutoUpdate'
  * @readonly
  * @enum {string}
  */
-export enum HealthErrorCategory {
-  None = 'None',
-  Replication = 'Replication',
-  TestFailover = 'TestFailover',
-  Configuration = 'Configuration',
-  FabricInfrastructure = 'FabricInfrastructure',
-  VersionExpiry = 'VersionExpiry',
-  AgentAutoUpdate = 'AgentAutoUpdate',
-}
+export type HealthErrorCategory = 'None' | 'Replication' | 'TestFailover' | 'Configuration' | 'FabricInfrastructure' | 'VersionExpiry' | 'AgentAutoUpdate';
 
 /**
  * Defines values for Severity.
  * Possible values include: 'NONE', 'Warning', 'Error', 'Info'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Severity = <Severity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Severity {
-  NONE = 'NONE',
-  Warning = 'Warning',
-  Error = 'Error',
-  Info = 'Info',
-}
+export type Severity = 'NONE' | 'Warning' | 'Error' | 'Info';
 
 /**
  * Defines values for PresenceStatus.
  * Possible values include: 'Unknown', 'Present', 'NotPresent'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PresenceStatus =
- * <PresenceStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PresenceStatus {
-  Unknown = 'Unknown',
-  Present = 'Present',
-  NotPresent = 'NotPresent',
-}
+export type PresenceStatus = 'Unknown' | 'Present' | 'NotPresent';
 
 /**
  * Defines values for IdentityProviderType.
  * Possible values include: 'RecoveryServicesActiveDirectory'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IdentityProviderType =
- * <IdentityProviderType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IdentityProviderType {
-  RecoveryServicesActiveDirectory = 'RecoveryServicesActiveDirectory',
-}
+export type IdentityProviderType = 'RecoveryServicesActiveDirectory';
 
 /**
  * Defines values for AgentVersionStatus.
- * Possible values include: 'Supported', 'NotSupported', 'Deprecated',
- * 'UpdateRequired', 'SecurityUpdateRequired'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AgentVersionStatus =
- * <AgentVersionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Supported', 'NotSupported', 'Deprecated', 'UpdateRequired',
+ * 'SecurityUpdateRequired'
  * @readonly
  * @enum {string}
  */
-export enum AgentVersionStatus {
-  Supported = 'Supported',
-  NotSupported = 'NotSupported',
-  Deprecated = 'Deprecated',
-  UpdateRequired = 'UpdateRequired',
-  SecurityUpdateRequired = 'SecurityUpdateRequired',
-}
+export type AgentVersionStatus = 'Supported' | 'NotSupported' | 'Deprecated' | 'UpdateRequired' | 'SecurityUpdateRequired';
 
 /**
  * Defines values for RecoveryPointType.
  * Possible values include: 'LatestTime', 'LatestTag', 'Custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RecoveryPointType =
- * <RecoveryPointType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RecoveryPointType {
-  LatestTime = 'LatestTime',
-  LatestTag = 'LatestTag',
-  Custom = 'Custom',
-}
+export type RecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
 
 /**
  * Defines values for MultiVmSyncStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MultiVmSyncStatus =
- * <MultiVmSyncStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MultiVmSyncStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type MultiVmSyncStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for A2ARpRecoveryPointType.
- * Possible values include: 'Latest', 'LatestApplicationConsistent',
- * 'LatestCrashConsistent', 'LatestProcessed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: A2ARpRecoveryPointType =
- * <A2ARpRecoveryPointType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Latest', 'LatestApplicationConsistent', 'LatestCrashConsistent',
+ * 'LatestProcessed'
  * @readonly
  * @enum {string}
  */
-export enum A2ARpRecoveryPointType {
-  Latest = 'Latest',
-  LatestApplicationConsistent = 'LatestApplicationConsistent',
-  LatestCrashConsistent = 'LatestCrashConsistent',
-  LatestProcessed = 'LatestProcessed',
-}
+export type A2ARpRecoveryPointType = 'Latest' | 'LatestApplicationConsistent' | 'LatestCrashConsistent' | 'LatestProcessed';
 
 /**
  * Defines values for MultiVmSyncPointOption.
- * Possible values include: 'UseMultiVmSyncRecoveryPoint',
- * 'UsePerVmRecoveryPoint'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MultiVmSyncPointOption =
- * <MultiVmSyncPointOption>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'UseMultiVmSyncRecoveryPoint', 'UsePerVmRecoveryPoint'
  * @readonly
  * @enum {string}
  */
-export enum MultiVmSyncPointOption {
-  UseMultiVmSyncRecoveryPoint = 'UseMultiVmSyncRecoveryPoint',
-  UsePerVmRecoveryPoint = 'UsePerVmRecoveryPoint',
-}
+export type MultiVmSyncPointOption = 'UseMultiVmSyncRecoveryPoint' | 'UsePerVmRecoveryPoint';
 
 /**
  * Defines values for RecoveryPlanActionLocation.
  * Possible values include: 'Primary', 'Recovery'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RecoveryPlanActionLocation =
- * <RecoveryPlanActionLocation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RecoveryPlanActionLocation {
-  Primary = 'Primary',
-  Recovery = 'Recovery',
-}
+export type RecoveryPlanActionLocation = 'Primary' | 'Recovery';
 
 /**
  * Defines values for DataSyncStatus.
  * Possible values include: 'ForDownTime', 'ForSynchronization'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DataSyncStatus =
- * <DataSyncStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DataSyncStatus {
-  ForDownTime = 'ForDownTime',
-  ForSynchronization = 'ForSynchronization',
-}
+export type DataSyncStatus = 'ForDownTime' | 'ForSynchronization';
 
 /**
  * Defines values for AlternateLocationRecoveryOption.
  * Possible values include: 'CreateVmIfNotFound', 'NoAction'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AlternateLocationRecoveryOption =
- * <AlternateLocationRecoveryOption>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AlternateLocationRecoveryOption {
-  CreateVmIfNotFound = 'CreateVmIfNotFound',
-  NoAction = 'NoAction',
-}
+export type AlternateLocationRecoveryOption = 'CreateVmIfNotFound' | 'NoAction';
 
 /**
  * Defines values for HyperVReplicaAzureRpRecoveryPointType.
- * Possible values include: 'Latest', 'LatestApplicationConsistent',
- * 'LatestProcessed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HyperVReplicaAzureRpRecoveryPointType =
- * <HyperVReplicaAzureRpRecoveryPointType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Latest', 'LatestApplicationConsistent', 'LatestProcessed'
  * @readonly
  * @enum {string}
  */
-export enum HyperVReplicaAzureRpRecoveryPointType {
-  Latest = 'Latest',
-  LatestApplicationConsistent = 'LatestApplicationConsistent',
-  LatestProcessed = 'LatestProcessed',
-}
+export type HyperVReplicaAzureRpRecoveryPointType = 'Latest' | 'LatestApplicationConsistent' | 'LatestProcessed';
 
 /**
  * Defines values for InMageV2RpRecoveryPointType.
- * Possible values include: 'Latest', 'LatestApplicationConsistent',
- * 'LatestCrashConsistent', 'LatestProcessed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: InMageV2RpRecoveryPointType =
- * <InMageV2RpRecoveryPointType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Latest', 'LatestApplicationConsistent', 'LatestCrashConsistent',
+ * 'LatestProcessed'
  * @readonly
  * @enum {string}
  */
-export enum InMageV2RpRecoveryPointType {
-  Latest = 'Latest',
-  LatestApplicationConsistent = 'LatestApplicationConsistent',
-  LatestCrashConsistent = 'LatestCrashConsistent',
-  LatestProcessed = 'LatestProcessed',
-}
+export type InMageV2RpRecoveryPointType = 'Latest' | 'LatestApplicationConsistent' | 'LatestCrashConsistent' | 'LatestProcessed';
 
 /**
  * Defines values for RpInMageRecoveryPointType.
  * Possible values include: 'LatestTime', 'LatestTag', 'Custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RpInMageRecoveryPointType =
- * <RpInMageRecoveryPointType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RpInMageRecoveryPointType {
-  LatestTime = 'LatestTime',
-  LatestTag = 'LatestTag',
-  Custom = 'Custom',
-}
+export type RpInMageRecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
 
 /**
  * Defines values for SourceSiteOperations.
  * Possible values include: 'Required', 'NotRequired'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SourceSiteOperations =
- * <SourceSiteOperations>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SourceSiteOperations {
-  Required = 'Required',
-  NotRequired = 'NotRequired',
-}
+export type SourceSiteOperations = 'Required' | 'NotRequired';
 
 /**
  * Defines values for LicenseType.
  * Possible values include: 'NotSpecified', 'NoLicenseType', 'WindowsServer'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LicenseType =
- * <LicenseType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LicenseType {
-  NotSpecified = 'NotSpecified',
-  NoLicenseType = 'NoLicenseType',
-  WindowsServer = 'WindowsServer',
-}
+export type LicenseType = 'NotSpecified' | 'NoLicenseType' | 'WindowsServer';
 
 /**
  * Contains response data for the list operation.

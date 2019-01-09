@@ -83,6 +83,7 @@ export {
   JobVersion,
   LongTermRetentionBackup,
   BackupLongTermRetentionPolicy,
+  ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,
@@ -104,6 +105,8 @@ export {
   ManagedInstancePairInfo,
   BackupShortTermRetentionPolicy,
   TdeCertificate,
-  ManagedInstanceKey
+  ManagedInstanceKey,
+  ManagedInstanceVulnerabilityAssessment,
+  ServerVulnerabilityAssessment
 } from "../models/mappers";
 

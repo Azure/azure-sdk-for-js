@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/classicAdministratorsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class ClassicAdministrators {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClassicAdministratorListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClassicAdministratorListResult>): Promise<Models.ClassicAdministratorsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClassicAdministratorListResult>, callback?: msRest.ServiceCallback<Models.ClassicAdministratorListResult>): Promise<Models.ClassicAdministratorsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class ClassicAdministrators {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClassicAdministratorListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ClassicAdministratorListResult>): Promise<Models.ClassicAdministratorsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClassicAdministratorListResult>, callback?: msRest.ServiceCallback<Models.ClassicAdministratorListResult>): Promise<Models.ClassicAdministratorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobsMappers";
 import * as Parameters from "../models/parameters";
@@ -63,7 +63,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByExperiment(resourceGroupName: string, workspaceName: string, experimentName: string, options: Models.JobsListByExperimentOptionalParams, callback: msRest.ServiceCallback<Models.JobListResult>): void;
-  listByExperiment(resourceGroupName: string, workspaceName: string, experimentName: string, options?: Models.JobsListByExperimentOptionalParams, callback?: msRest.ServiceCallback<Models.JobListResult>): Promise<Models.JobsListByExperimentResponse> {
+  listByExperiment(resourceGroupName: string, workspaceName: string, experimentName: string, options?: Models.JobsListByExperimentOptionalParams | msRest.ServiceCallback<Models.JobListResult>, callback?: msRest.ServiceCallback<Models.JobListResult>): Promise<Models.JobsListByExperimentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,7 +161,7 @@ export class Jobs {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -223,7 +223,7 @@ export class Jobs {
    * @param callback The callback
    */
   listOutputFiles(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileListResult>): void;
-  listOutputFiles(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileListResult>): Promise<Models.JobsListOutputFilesResponse> {
+  listOutputFiles(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileListResult>, callback?: msRest.ServiceCallback<Models.FileListResult>): Promise<Models.JobsListOutputFilesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -283,7 +283,7 @@ export class Jobs {
    * @param callback The callback
    */
   listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.JobsListRemoteLoginInformationResponse> {
+  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.JobsListRemoteLoginInformationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -420,7 +420,7 @@ export class Jobs {
    * @param callback The callback
    */
   listByExperimentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobListResult>): void;
-  listByExperimentNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobListResult>): Promise<Models.JobsListByExperimentNextResponse> {
+  listByExperimentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobListResult>, callback?: msRest.ServiceCallback<Models.JobListResult>): Promise<Models.JobsListByExperimentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -449,7 +449,7 @@ export class Jobs {
    * @param callback The callback
    */
   listOutputFilesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileListResult>): void;
-  listOutputFilesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FileListResult>): Promise<Models.JobsListOutputFilesNextResponse> {
+  listOutputFilesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileListResult>, callback?: msRest.ServiceCallback<Models.FileListResult>): Promise<Models.JobsListOutputFilesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -478,7 +478,7 @@ export class Jobs {
    * @param callback The callback
    */
   listRemoteLoginInformationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.JobsListRemoteLoginInformationNextResponse> {
+  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.JobsListRemoteLoginInformationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

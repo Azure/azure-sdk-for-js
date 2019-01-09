@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -86,7 +86,7 @@ export interface TemplateLink {
 /**
  * @interface
  * An interface representing ParametersLink.
- * Entity representing the reference to the deployment paramaters.
+ * Entity representing the reference to the deployment parameters.
  *
  */
 export interface ParametersLink {
@@ -454,7 +454,7 @@ export interface DeploymentPropertiesExtended {
    */
   readonly timestamp?: Date;
   /**
-   * @member {any} [outputs] Key/value pairs that represent deploymentoutput.
+   * @member {any} [outputs] Key/value pairs that represent deployment output.
    */
   outputs?: any;
   /**
@@ -541,6 +541,12 @@ export interface DeploymentExtended extends BaseResource {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {string} [type] The type of the deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
   /**
    * @member {string} [location] the location of the deployment.
    */
@@ -773,6 +779,12 @@ export interface ResourceGroup extends BaseResource {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {string} [type] The type of the resource group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
   /**
    * @member {ResourceGroupProperties} [properties]
    */
@@ -1495,10 +1507,7 @@ export interface DeploymentOperationsListResult extends Array<DeploymentOperatio
  * @readonly
  * @enum {string}
  */
-export enum DeploymentMode {
-  Incremental = 'Incremental',
-  Complete = 'Complete',
-}
+export type DeploymentMode = 'Incremental' | 'Complete';
 
 /**
  * Defines values for OnErrorDeploymentType.
@@ -1506,24 +1515,16 @@ export enum DeploymentMode {
  * @readonly
  * @enum {string}
  */
-export enum OnErrorDeploymentType {
-  LastSuccessful = 'LastSuccessful',
-  SpecificDeployment = 'SpecificDeployment',
-}
+export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
 
 /**
  * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned', 'None'
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export enum ResourceIdentityType {
-  SystemAssigned = 'SystemAssigned',
-  UserAssigned = 'UserAssigned',
-  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
-  None = 'None',
-}
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Contains response data for the list operation.

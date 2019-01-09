@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -812,91 +812,44 @@ export interface VaultUsageList extends Array<VaultUsage> {
 
 /**
  * Defines values for AuthType.
- * Possible values include: 'Invalid', 'ACS', 'AAD', 'AccessControlService',
- * 'AzureActiveDirectory'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AuthType = <AuthType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'ACS', 'AAD', 'AccessControlService', 'AzureActiveDirectory'
  * @readonly
  * @enum {string}
  */
-export enum AuthType {
-  Invalid = 'Invalid',
-  ACS = 'ACS',
-  AAD = 'AAD',
-  AccessControlService = 'AccessControlService',
-  AzureActiveDirectory = 'AzureActiveDirectory',
-}
+export type AuthType = 'Invalid' | 'ACS' | 'AAD' | 'AccessControlService' | 'AzureActiveDirectory';
 
 /**
  * Defines values for SkuName.
  * Possible values include: 'Standard', 'RS0'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuName {
-  Standard = 'Standard',
-  RS0 = 'RS0',
-}
+export type SkuName = 'Standard' | 'RS0';
 
 /**
  * Defines values for VaultUpgradeState.
  * Possible values include: 'Unknown', 'InProgress', 'Upgraded', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VaultUpgradeState =
- * <VaultUpgradeState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VaultUpgradeState {
-  Unknown = 'Unknown',
-  InProgress = 'InProgress',
-  Upgraded = 'Upgraded',
-  Failed = 'Failed',
-}
+export type VaultUpgradeState = 'Unknown' | 'InProgress' | 'Upgraded' | 'Failed';
 
 /**
  * Defines values for TriggerType.
  * Possible values include: 'UserTriggered', 'ForcedUpgrade'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TriggerType =
- * <TriggerType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TriggerType {
-  UserTriggered = 'UserTriggered',
-  ForcedUpgrade = 'ForcedUpgrade',
-}
+export type TriggerType = 'UserTriggered' | 'ForcedUpgrade';
 
 /**
  * Defines values for UsagesUnit.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
- * 'CountPerSecond', 'BytesPerSecond'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UsagesUnit = <UsagesUnit>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
+ * 'BytesPerSecond'
  * @readonly
  * @enum {string}
  */
-export enum UsagesUnit {
-  Count = 'Count',
-  Bytes = 'Bytes',
-  Seconds = 'Seconds',
-  Percent = 'Percent',
-  CountPerSecond = 'CountPerSecond',
-  BytesPerSecond = 'BytesPerSecond',
-}
+export type UsagesUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond';
 
 /**
  * Contains response data for the create operation.

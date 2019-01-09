@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dscNodeConfigurationOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class DscNodeConfigurationOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +87,7 @@ export class DscNodeConfigurationOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeConfiguration>): void;
-  get(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNodeConfiguration>): Promise<Models.DscNodeConfigurationGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeConfiguration>, callback?: msRest.ServiceCallback<Models.DscNodeConfiguration>): Promise<Models.DscNodeConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class DscNodeConfigurationOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.DscNodeConfigurationListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.DscNodeConfigurationListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscNodeConfigurationListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.DscNodeConfigurationListResult>): Promise<Models.DscNodeConfigurationListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscNodeConfigurationListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.DscNodeConfigurationListResult>, callback?: msRest.ServiceCallback<Models.DscNodeConfigurationListResult>): Promise<Models.DscNodeConfigurationListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class DscNodeConfigurationOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeConfigurationListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscNodeConfigurationListResult>): Promise<Models.DscNodeConfigurationListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeConfigurationListResult>, callback?: msRest.ServiceCallback<Models.DscNodeConfigurationListResult>): Promise<Models.DscNodeConfigurationListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

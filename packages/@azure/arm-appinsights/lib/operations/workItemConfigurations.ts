@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workItemConfigurationsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class WorkItemConfigurations {
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>): Promise<Models.WorkItemConfigurationsListResponse> {
+  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>, callback?: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>): Promise<Models.WorkItemConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class WorkItemConfigurations {
    * @param callback The callback
    */
   create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: Models.WorkItemCreateConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkItemConfiguration>): void;
-  create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: Models.WorkItemCreateConfiguration, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>): Promise<Models.WorkItemConfigurationsCreateResponse> {
+  create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: Models.WorkItemCreateConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfiguration>, callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>): Promise<Models.WorkItemConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class WorkItemConfigurations {
    * @param callback The callback
    */
   getDefault(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkItemConfiguration>): void;
-  getDefault(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>): Promise<Models.WorkItemConfigurationsGetDefaultResponse> {
+  getDefault(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfiguration>, callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>): Promise<Models.WorkItemConfigurationsGetDefaultResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +156,7 @@ export class WorkItemConfigurations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, workItemConfigId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkItemConfigurationsDeleteMethodResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkItemConfigurationsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

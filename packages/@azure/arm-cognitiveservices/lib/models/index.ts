@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -22,11 +22,10 @@ export { BaseResource, CloudError };
  */
 export interface Sku {
   /**
-   * @member {SkuName} name Gets or sets the sku name. Required for account
-   * creation, optional for update. Possible values include: 'F0', 'P0', 'P1',
-   * 'P2', 'S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
+   * @member {string} name Gets or sets the sku name. Required for account
+   * creation, optional for update.
    */
-  name: SkuName;
+  name: string;
   /**
    * @member {SkuTier} [tier] Gets the sku tier. This is based on the SKU name.
    * Possible values include: 'Free', 'Standard', 'Premium'
@@ -48,15 +47,9 @@ export interface CognitiveServicesAccountCreateParameters {
    */
   sku: Sku;
   /**
-   * @member {Kind} kind Required. Gets or sets the Kind of the resource.
-   * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch',
-   * 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
-   * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction',
-   * 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
-   * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics',
-   * 'TextTranslation', 'WebLM'
+   * @member {string} kind Required. Gets or sets the Kind of the resource.
    */
-  kind: Kind;
+  kind: string;
   /**
    * @member {string} location Required. Gets or sets the location of the
    * resource. This will be one of the supported and registered Azure Geo
@@ -415,18 +408,13 @@ export interface OperationEntity {
  */
 export interface CheckSkuAvailabilityParameter {
   /**
-   * @member {SkuName[]} skus The SKU of the resource.
+   * @member {string[]} skus The SKU of the resource.
    */
-  skus: SkuName[];
+  skus: string[];
   /**
-   * @member {Kind} kind The Kind of the resource. Possible values include:
-   * 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7',
-   * 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator',
-   * 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training',
-   * 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition',
-   * 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+   * @member {string} kind The Kind of the resource.
    */
-  kind: Kind;
+  kind: string;
   /**
    * @member {string} type The Type of the resource.
    */
@@ -441,24 +429,17 @@ export interface CheckSkuAvailabilityParameter {
  */
 export interface CheckSkuAvailabilityResult {
   /**
-   * @member {Kind} [kind] The Kind of the resource. Possible values include:
-   * 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7',
-   * 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator',
-   * 'CustomSpeech', 'CustomVision.Prediction', 'CustomVision.Training',
-   * 'Emotion', 'Face', 'LUIS', 'QnAMaker', 'SpeakerRecognition',
-   * 'SpeechTranslation', 'TextAnalytics', 'TextTranslation', 'WebLM'
+   * @member {string} [kind] The Kind of the resource.
    */
-  kind?: Kind;
+  kind?: string;
   /**
    * @member {string} [type] The Type of the resource.
    */
   type?: string;
   /**
-   * @member {SkuName} [skuName] The SKU of Cognitive Services account.
-   * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3',
-   * 'S4', 'S5', 'S6'
+   * @member {string} [skuName] The SKU of Cognitive Services account.
    */
-  skuName?: SkuName;
+  skuName?: string;
   /**
    * @member {boolean} [skuAvailable] Indicates the given SKU is available or
    * not.
@@ -692,99 +673,20 @@ export interface OperationEntityListResult extends Array<OperationEntity> {
 }
 
 /**
- * Defines values for SkuName.
- * Possible values include: 'F0', 'P0', 'P1', 'P2', 'S0', 'S1', 'S2', 'S3',
- * 'S4', 'S5', 'S6'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuName = <SkuName>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum SkuName {
-  F0 = 'F0',
-  P0 = 'P0',
-  P1 = 'P1',
-  P2 = 'P2',
-  S0 = 'S0',
-  S1 = 'S1',
-  S2 = 'S2',
-  S3 = 'S3',
-  S4 = 'S4',
-  S5 = 'S5',
-  S6 = 'S6',
-}
-
-/**
  * Defines values for SkuTier.
  * Possible values include: 'Free', 'Standard', 'Premium'
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Free = 'Free',
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
-
-/**
- * Defines values for Kind.
- * Possible values include: 'Bing.Autosuggest.v7', 'Bing.CustomSearch',
- * 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7', 'ComputerVision',
- * 'ContentModerator', 'CustomSpeech', 'CustomVision.Prediction',
- * 'CustomVision.Training', 'Emotion', 'Face', 'LUIS', 'QnAMaker',
- * 'SpeakerRecognition', 'SpeechTranslation', 'TextAnalytics',
- * 'TextTranslation', 'WebLM'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Kind = <Kind>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum Kind {
-  BingAutosuggestv7 = 'Bing.Autosuggest.v7',
-  BingCustomSearch = 'Bing.CustomSearch',
-  BingSearchv7 = 'Bing.Search.v7',
-  BingSpeech = 'Bing.Speech',
-  BingSpellCheckv7 = 'Bing.SpellCheck.v7',
-  ComputerVision = 'ComputerVision',
-  ContentModerator = 'ContentModerator',
-  CustomSpeech = 'CustomSpeech',
-  CustomVisionPrediction = 'CustomVision.Prediction',
-  CustomVisionTraining = 'CustomVision.Training',
-  Emotion = 'Emotion',
-  Face = 'Face',
-  LUIS = 'LUIS',
-  QnAMaker = 'QnAMaker',
-  SpeakerRecognition = 'SpeakerRecognition',
-  SpeechTranslation = 'SpeechTranslation',
-  TextAnalytics = 'TextAnalytics',
-  TextTranslation = 'TextTranslation',
-  WebLM = 'WebLM',
-}
+export type SkuTier = 'Free' | 'Standard' | 'Premium';
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting',
- * 'Succeeded', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Creating = 'Creating',
-  ResolvingDNS = 'ResolvingDNS',
-  Moving = 'Moving',
-  Deleting = 'Deleting',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleting' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for KeyName.
@@ -792,49 +694,24 @@ export enum ProvisioningState {
  * @readonly
  * @enum {string}
  */
-export enum KeyName {
-  Key1 = 'Key1',
-  Key2 = 'Key2',
-}
+export type KeyName = 'Key1' | 'Key2';
 
 /**
  * Defines values for UnitType.
- * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent',
- * 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UnitType = <UnitType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond',
+ * 'BytesPerSecond', 'Milliseconds'
  * @readonly
  * @enum {string}
  */
-export enum UnitType {
-  Count = 'Count',
-  Bytes = 'Bytes',
-  Seconds = 'Seconds',
-  Percent = 'Percent',
-  CountPerSecond = 'CountPerSecond',
-  BytesPerSecond = 'BytesPerSecond',
-  Milliseconds = 'Milliseconds',
-}
+export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond' | 'Milliseconds';
 
 /**
  * Defines values for QuotaUsageStatus.
  * Possible values include: 'Included', 'Blocked', 'InOverage', 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: QuotaUsageStatus =
- * <QuotaUsageStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum QuotaUsageStatus {
-  Included = 'Included',
-  Blocked = 'Blocked',
-  InOverage = 'InOverage',
-  Unknown = 'Unknown',
-}
+export type QuotaUsageStatus = 'Included' | 'Blocked' | 'InOverage' | 'Unknown';
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
@@ -842,26 +719,15 @@ export enum QuotaUsageStatus {
  * @readonly
  * @enum {string}
  */
-export enum ResourceSkuRestrictionsType {
-  Location = 'Location',
-  Zone = 'Zone',
-}
+export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResourceSkuRestrictionsReasonCode =
- * <ResourceSkuRestrictionsReasonCode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResourceSkuRestrictionsReasonCode {
-  QuotaId = 'QuotaId',
-  NotAvailableForSubscription = 'NotAvailableForSubscription',
-}
+export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 
 /**
  * Contains response data for the create operation.

@@ -4,15 +4,15 @@ import nodeResolve from "rollup-plugin-node-resolve";
  */
 const config = {
   input: './esm/eventGridManagementClient.js',
-  external: ["ms-rest-js", "ms-rest-azure-js"],
+  external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
   output: {
     file: "./dist/arm-eventgrid.js",
     format: "umd",
     name: "Azure.ArmEventgrid",
     sourcemap: true,
     globals: {
-      "ms-rest-js": "msRest",
-      "ms-rest-azure-js": "msRestAzure"
+      "@azure/ms-rest-js": "msRest",
+      "@azure/ms-rest-azure-js": "msRestAzure"
     },
     banner: `/*
  * Copyright (c) Microsoft Corporation. All rights reserved.

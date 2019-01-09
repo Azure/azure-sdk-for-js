@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/chapSettingsOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class ChapSettingsOperations {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ChapSettingsList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ChapSettingsList>): Promise<Models.ChapSettingsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChapSettingsList>, callback?: msRest.ServiceCallback<Models.ChapSettingsList>): Promise<Models.ChapSettingsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -90,7 +90,7 @@ export class ChapSettingsOperations {
    * @param callback The callback
    */
   get(deviceName: string, chapUserName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ChapSettings>): void;
-  get(deviceName: string, chapUserName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ChapSettings>): Promise<Models.ChapSettingsGetResponse> {
+  get(deviceName: string, chapUserName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChapSettings>, callback?: msRest.ServiceCallback<Models.ChapSettings>): Promise<Models.ChapSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

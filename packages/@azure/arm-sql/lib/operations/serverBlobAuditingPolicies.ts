@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serverBlobAuditingPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class ServerBlobAuditingPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerBlobAuditingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServerBlobAuditingPolicy>): Promise<Models.ServerBlobAuditingPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.ServerBlobAuditingPolicy>): Promise<Models.ServerBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

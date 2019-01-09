@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/oAuth2Mappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class OAuth2 {
    * @param callback The callback
    */
   get(options: Models.OAuth2GetOptionalParams, callback: msRest.ServiceCallback<Models.Permissions>): void;
-  get(options?: Models.OAuth2GetOptionalParams, callback?: msRest.ServiceCallback<Models.Permissions>): Promise<Models.OAuth2GetResponse> {
+  get(options?: Models.OAuth2GetOptionalParams | msRest.ServiceCallback<Models.Permissions>, callback?: msRest.ServiceCallback<Models.Permissions>): Promise<Models.OAuth2GetResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -65,7 +65,7 @@ export class OAuth2 {
    * @param callback The callback
    */
   grant(options: Models.OAuth2GrantOptionalParams, callback: msRest.ServiceCallback<Models.Permissions>): void;
-  grant(options?: Models.OAuth2GrantOptionalParams, callback?: msRest.ServiceCallback<Models.Permissions>): Promise<Models.OAuth2GrantResponse> {
+  grant(options?: Models.OAuth2GrantOptionalParams | msRest.ServiceCallback<Models.Permissions>, callback?: msRest.ServiceCallback<Models.Permissions>): Promise<Models.OAuth2GrantResponse> {
     return this.client.sendOperationRequest(
       {
         options

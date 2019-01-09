@@ -17,6 +17,7 @@ export {
   Resource,
   BaseResource,
   AccountResourceRequest,
+  AccountTagRequest,
   ExtensionResource,
   ExtensionResourcePlan,
   ProjectResource

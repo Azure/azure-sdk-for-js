@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachineSchedulesMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class VirtualMachineSchedules {
    * @param virtualMachineName The name of the virtual machine.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  list(resourceGroupName: string, labName: string, virtualMachineName: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -50,8 +50,8 @@ export class VirtualMachineSchedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, options: Models.VirtualMachineSchedulesListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
-  list(resourceGroupName: string, labName: string, virtualMachineName: string, options?: Models.VirtualMachineSchedulesListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.VirtualMachineSchedulesListResponse> {
+  list(resourceGroupName: string, labName: string, virtualMachineName: string, options: Models.VirtualMachineSchedulesListOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  list(resourceGroupName: string, labName: string, virtualMachineName: string, options?: Models.VirtualMachineSchedulesListOptionalParams | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.VirtualMachineSchedulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +90,7 @@ export class VirtualMachineSchedules {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options: Models.VirtualMachineSchedulesGetOptionalParams, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  get(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: Models.VirtualMachineSchedulesGetOptionalParams, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesGetResponse> {
+  get(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: Models.VirtualMachineSchedulesGetOptionalParams | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class VirtualMachineSchedules {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.Schedule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -174,7 +174,7 @@ export class VirtualMachineSchedules {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -217,7 +217,7 @@ export class VirtualMachineSchedules {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.ScheduleFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  update(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesUpdateResponse> {
+  update(resourceGroupName: string, labName: string, virtualMachineName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.VirtualMachineSchedulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,14 +278,14 @@ export class VirtualMachineSchedules {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationSchedule>): Promise<Models.VirtualMachineSchedulesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.VirtualMachineSchedulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -319,7 +319,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationSchedule
+      bodyMapper: Mappers.ScheduleList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -491,7 +491,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationSchedule
+      bodyMapper: Mappers.ScheduleList
     },
     default: {
       bodyMapper: Mappers.CloudError

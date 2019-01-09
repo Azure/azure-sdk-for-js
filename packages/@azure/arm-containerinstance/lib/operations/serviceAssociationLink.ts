@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Mappers from "../models/serviceAssociationLinkMappers";
 import * as Parameters from "../models/parameters";
 import { ContainerInstanceManagementClientContext } from "../containerInstanceManagementClientContext";
@@ -51,7 +51,7 @@ export class ServiceAssociationLink {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

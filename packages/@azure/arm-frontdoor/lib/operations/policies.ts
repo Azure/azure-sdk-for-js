@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/policiesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Policies {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.PoliciesListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.PoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class Policies {
    * @param callback The callback
    */
   get(resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): void;
-  get(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): Promise<Models.PoliciesGetResponse> {
+  get(resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): Promise<Models.PoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class Policies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy1, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): void;
-  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy1, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): Promise<Models.PoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, policyName: string, parameters: Models.WebApplicationFirewallPolicy1, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicy1>): Promise<Models.PoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +171,7 @@ export class Policies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.PoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>, callback?: msRest.ServiceCallback<Models.WebApplicationFirewallPolicyListResult>): Promise<Models.PoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,21 +8,21 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/newsOperationsMappers";
 import * as Parameters from "../models/parameters";
-import { NewsSearchAPIClientContext } from "../newsSearchAPIClientContext";
+import { NewsSearchClientContext } from "../newsSearchClientContext";
 
 /** Class representing a NewsOperations. */
 export class NewsOperations {
-  private readonly client: NewsSearchAPIClientContext;
+  private readonly client: NewsSearchClientContext;
 
   /**
    * Create a NewsOperations.
-   * @param {NewsSearchAPIClientContext} client Reference to the service client.
+   * @param {NewsSearchClientContext} client Reference to the service client.
    */
-  constructor(client: NewsSearchAPIClientContext) {
+  constructor(client: NewsSearchClientContext) {
     this.client = client;
   }
 
@@ -63,7 +63,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   search(query: string, options: Models.NewsSearchOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  search(query: string, options?: Models.NewsSearchOptionalParams, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsSearchResponse> {
+  search(query: string, options?: Models.NewsSearchOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
@@ -74,10 +74,10 @@ export class NewsOperations {
   }
 
   /**
-   * @summary The News Category API lets lets you search on Bing and get back a list of top news
-   * articles by category. This section provides technical details about the query parameters and
-   * headers that you use to request news and the JSON response objects that contain them.  For
-   * examples that show how to make requests, see [Searching the web for
+   * @summary The News Category API lets you search on Bing and get back a list of top news articles
+   * by category. This section provides technical details about the query parameters and headers that
+   * you use to request news and the JSON response objects that contain them.  For examples that show
+   * how to make requests, see [Searching the web for
    * news](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-news-search/search-the-web).
    * @param [options] The optional parameters
    * @returns Promise<Models.NewsCategoryResponse>
@@ -92,7 +92,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   category(options: Models.NewsCategoryOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  category(options?: Models.NewsCategoryOptionalParams, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsCategoryResponse> {
+  category(options?: Models.NewsCategoryOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsCategoryResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -102,11 +102,10 @@ export class NewsOperations {
   }
 
   /**
-   * @summary The News Trending Topics API lets lets you search on Bing and get back a list of
-   * trending news topics that are currently trending on Bing. This section provides technical
-   * details about the query parameters and headers that you use to request news and the JSON
-   * response objects that contain them.  For examples that show how to make requests, see [Searching
-   * the web for
+   * @summary The News Trending Topics API lets you search on Bing and get back a list of trending
+   * news topics that are currently trending on Bing. This section provides technical details about
+   * the query parameters and headers that you use to request news and the JSON response objects that
+   * contain them.  For examples that show how to make requests, see [Searching the web for
    * news](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-news-search/search-the-web).
    * @param [options] The optional parameters
    * @returns Promise<Models.NewsTrendingResponse>
@@ -121,7 +120,7 @@ export class NewsOperations {
    * @param callback The callback
    */
   trending(options: Models.NewsTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingTopics>): void;
-  trending(options?: Models.NewsTrendingOptionalParams, callback?: msRest.ServiceCallback<Models.TrendingTopics>): Promise<Models.NewsTrendingResponse> {
+  trending(options?: Models.NewsTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingTopics>, callback?: msRest.ServiceCallback<Models.TrendingTopics>): Promise<Models.NewsTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -135,7 +134,10 @@ export class NewsOperations {
 const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "bing/v7.0/news/search",
+  path: "news/search",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,
@@ -171,7 +173,10 @@ const searchOperationSpec: msRest.OperationSpec = {
 
 const categoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "bing/v7.0/news",
+  path: "news",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.countryCode,
     Parameters.category,
@@ -206,7 +211,10 @@ const categoryOperationSpec: msRest.OperationSpec = {
 
 const trendingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "bing/v7.0/news/trendingtopics",
+  path: "news/trendingtopics",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,

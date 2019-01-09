@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dataMaskingRulesMappers";
 import * as Parameters from "../models/parameters";
@@ -59,7 +59,7 @@ export class DataMaskingRules {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, dataMaskingRuleName: string, parameters: Models.DataMaskingRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMaskingRule>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, dataMaskingRuleName: string, parameters: Models.DataMaskingRule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMaskingRule>): Promise<Models.DataMaskingRulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, dataMaskingRuleName: string, parameters: Models.DataMaskingRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingRule>, callback?: msRest.ServiceCallback<Models.DataMaskingRule>): Promise<Models.DataMaskingRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +100,7 @@ export class DataMaskingRules {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMaskingRuleListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMaskingRuleListResult>): Promise<Models.DataMaskingRulesListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingRuleListResult>, callback?: msRest.ServiceCallback<Models.DataMaskingRuleListResult>): Promise<Models.DataMaskingRulesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

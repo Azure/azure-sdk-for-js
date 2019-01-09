@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/syncGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroupArray>): void;
-  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncGroupArray>): Promise<Models.SyncGroupsListByStorageSyncServiceResponse> {
+  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupArray>, callback?: msRest.ServiceCallback<Models.SyncGroupArray>): Promise<Models.SyncGroupsListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   create(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, parameters: Models.SyncGroupCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroup>): void;
-  create(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, parameters: Models.SyncGroupCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncGroup>): Promise<Models.SyncGroupsCreateResponse> {
+  create(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, parameters: Models.SyncGroupCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroup>, callback?: msRest.ServiceCallback<Models.SyncGroup>): Promise<Models.SyncGroupsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroup>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncGroup>): Promise<Models.SyncGroupsGetResponse> {
+  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroup>, callback?: msRest.ServiceCallback<Models.SyncGroup>): Promise<Models.SyncGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.SyncGroupsDeleteResponse> {
+  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SyncGroupsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

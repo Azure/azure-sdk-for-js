@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -161,6 +161,12 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
         serializedName: "id",
         type: {
           name: "String"
+        }
+      },
+      ignoreMissingVNetServiceEndpoint: {
+        serializedName: "ignoreMissingVNetServiceEndpoint",
+        type: {
+          name: "Boolean"
         }
       }
     }

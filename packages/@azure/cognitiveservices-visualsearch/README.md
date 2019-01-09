@@ -1,51 +1,69 @@
-# An isomorphic javascript sdk for - VisualSearchAPIClient
-This project provides an isomorphic javascript package. Right now it supports:
-- node.js version 6.x.x or higher
-- browser javascript
+## An isomorphic javascript sdk for - VisualSearchClient
 
-## How to Install
+This package contains an isomorphic SDK for VisualSearchClient.
 
-- nodejs
-```
+### Currently supported environments
+
+- Node.js version 6.x.x or higher
+- Browser JavaScript
+
+### How to Install
+
+```bash
 npm install @azure/cognitiveservices-visualsearch
 ```
-- browser
-```html
-<script type="text/javascript" src="@azure/cognitiveservices-visualsearch/dist/cognitiveservices-visualsearch.js"></script>
+
+### How to use
+
+#### nodejs - Authentication, client creation and visualSearch images as an example written in TypeScript.
+
+##### Install @azure/ms-rest-nodeauth
+
+```bash
+npm install @azure/ms-rest-nodeauth
 ```
 
-## How to use
+##### Sample code
 
-### nodejs - Authentication, client creation and visualSearch images as an example written in TypeScript.
-
-```ts
-import * as msRest from "ms-rest-js";
-import { VisualSearchAPIClient, VisualSearchAPIModels, VisualSearchAPIMappers } from "@azure/cognitiveservices-visualsearch";
+```typescript
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { VisualSearchClient, VisualSearchModels, VisualSearchMappers } from "@azure/cognitiveservices-visualsearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-const token = "<access_token>";
-const creds = new msRest.TokenCredentials(token);
-const client = new VisualSearchAPIClient(creds, subscriptionId);
-const acceptLanguage = "testacceptLanguage";
-const contentType = "testcontentType";
-const userAgent = "testuserAgent";
-const clientId = "testclientId";
-const clientIp = "testclientIp";
-const location = "westus";
-const market = "testmarket";
-const safeSearch = "Off";
-const setLang = "testsetLang";
-const knowledgeRequest = "testknowledgeRequest";
-const image = new ReadableStream();
-client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
-  console.log("The result is:");
-  console.log(result);
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new VisualSearchClient(creds, subscriptionId);
+  const acceptLanguage = "testacceptLanguage";
+  const contentType = "testcontentType";
+  const userAgent = "testuserAgent";
+  const clientId = "testclientId";
+  const clientIp = "testclientIp";
+  const location = "westus";
+  const market = "testmarket";
+  const safeSearch = "Off";
+  const setLang = "testsetLang";
+  const knowledgeRequest = "testknowledgeRequest";
+  const image = new require("stream").Readable();
+  client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
 }).catch((err) => {
   console.error(err);
 });
 ```
 
-### browser - Authentication, client creation and visualSearch images as an example written in javascript.
+#### browser - Authentication, client creation and visualSearch images as an example written in JavaScript.
+
+##### Install @azure/ms-rest-browserauth
+
+```bash
+npm install @azure/ms-rest-browserauth
+```
+
+##### Sample code
+
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -53,36 +71,46 @@ client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, cli
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-visualsearch sample</title>
-    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script type="text/javascript" src="./dist/cognitiveservices-visualsearch.js"></script>
+    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/cognitiveservices-visualsearch/dist/cognitiveservices-visualsearch.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const token = "<access_token>";
-      const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.CognitiveservicesVisualsearch.VisualSearchAPIClient(creds, subscriptionId);
-      const acceptLanguage = "testacceptLanguage";
-      const contentType = "testcontentType";
-      const userAgent = "testuserAgent";
-      const clientId = "testclientId";
-      const clientIp = "testclientIp";
-      const location = "westus";
-      const market = "testmarket";
-      const safeSearch = "Off";
-      const setLang = "testsetLang";
-      const knowledgeRequest = "testknowledgeRequest";
-      const image = new ReadableStream();
-      client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.error(err);
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesVisualsearch.VisualSearchClient(res.creds, subscriptionId);
+        const acceptLanguage = "testacceptLanguage";
+        const contentType = "testcontentType";
+        const userAgent = "testuserAgent";
+        const clientId = "testclientId";
+        const clientIp = "testclientIp";
+        const location = "westus";
+        const market = "testmarket";
+        const safeSearch = "Off";
+        const setLang = "testsetLang";
+        const knowledgeRequest = "testknowledgeRequest";
+        const image = new ReadableStream();
+        client.images.visualSearch(acceptLanguage, contentType, userAgent, clientId, clientIp, location, market, safeSearch, setLang, knowledgeRequest, image).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
       });
     </script>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
 ```
 
-# Related projects
- - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

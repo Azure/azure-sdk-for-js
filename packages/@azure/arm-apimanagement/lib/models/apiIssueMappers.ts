@@ -17,6 +17,7 @@ export {
   ErrorFieldContract,
   ApiIssueGetEntityTagHeaders,
   ApiIssueGetHeaders,
+  IssueUpdateContract,
   PolicyContract,
   ApiContract,
   AuthenticationSettingsContract,

@@ -8,21 +8,21 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/imagesMappers";
 import * as Parameters from "../models/parameters";
-import { VisualSearchAPIClientContext } from "../visualSearchAPIClientContext";
+import { VisualSearchClientContext } from "../visualSearchClientContext";
 
 /** Class representing a Images. */
 export class Images {
-  private readonly client: VisualSearchAPIClientContext;
+  private readonly client: VisualSearchClientContext;
 
   /**
    * Create a Images.
-   * @param {VisualSearchAPIClientContext} client Reference to the service client.
+   * @param {VisualSearchClientContext} client Reference to the service client.
    */
-  constructor(client: VisualSearchAPIClientContext) {
+  constructor(client: VisualSearchClientContext) {
     this.client = client;
   }
 
@@ -45,7 +45,7 @@ export class Images {
    * @param callback The callback
    */
   visualSearch(options: Models.ImagesVisualSearchOptionalParams, callback: msRest.ServiceCallback<Models.ImageKnowledge>): void;
-  visualSearch(options?: Models.ImagesVisualSearchOptionalParams, callback?: msRest.ServiceCallback<Models.ImageKnowledge>): Promise<Models.ImagesVisualSearchResponse> {
+  visualSearch(options?: Models.ImagesVisualSearchOptionalParams | msRest.ServiceCallback<Models.ImageKnowledge>, callback?: msRest.ServiceCallback<Models.ImageKnowledge>): Promise<Models.ImagesVisualSearchResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -59,7 +59,10 @@ export class Images {
 const serializer = new msRest.Serializer(Mappers);
 const visualSearchOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "bing/v7.0/images/visualsearch",
+  path: "images/visualsearch",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.market,
     Parameters.safeSearch,

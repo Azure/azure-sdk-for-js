@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/artifactsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Artifacts {
    * @param artifactSourceName The name of the artifact source.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -49,8 +49,8 @@ export class Artifacts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, options: Models.ArtifactsListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
-  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArtifactsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): Promise<Models.ArtifactsListResponse> {
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, options: Models.ArtifactsListOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
+  list(resourceGroupName: string, labName: string, artifactSourceName: string, options?: Models.ArtifactsListOptionalParams | msRest.ServiceCallback<Models.ArtifactList>, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class Artifacts {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options: Models.ArtifactsGetOptionalParams, callback: msRest.ServiceCallback<Models.Artifact>): void;
-  get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options?: Models.ArtifactsGetOptionalParams, callback?: msRest.ServiceCallback<Models.Artifact>): Promise<Models.ArtifactsGetResponse> {
+  get(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, options?: Models.ArtifactsGetOptionalParams | msRest.ServiceCallback<Models.Artifact>, callback?: msRest.ServiceCallback<Models.Artifact>): Promise<Models.ArtifactsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +136,7 @@ export class Artifacts {
    * @param callback The callback
    */
   generateArmTemplate(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, generateArmTemplateRequest: Models.GenerateArmTemplateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmTemplateInfo>): void;
-  generateArmTemplate(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, generateArmTemplateRequest: Models.GenerateArmTemplateRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ArmTemplateInfo>): Promise<Models.ArtifactsGenerateArmTemplateResponse> {
+  generateArmTemplate(resourceGroupName: string, labName: string, artifactSourceName: string, name: string, generateArmTemplateRequest: Models.GenerateArmTemplateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmTemplateInfo>, callback?: msRest.ServiceCallback<Models.ArmTemplateInfo>): Promise<Models.ArtifactsGenerateArmTemplateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,14 +161,14 @@ export class Artifacts {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationArtifact>): Promise<Models.ArtifactsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactList>, callback?: msRest.ServiceCallback<Models.ArtifactList>): Promise<Models.ArtifactsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -202,7 +202,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationArtifact
+      bodyMapper: Mappers.ArtifactList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -285,7 +285,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationArtifact
+      bodyMapper: Mappers.ArtifactList
     },
     default: {
       bodyMapper: Mappers.CloudError

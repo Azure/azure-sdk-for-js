@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/accountsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Accounts {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, mapsAccountCreateParameters: Models.MapsAccountCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, mapsAccountCreateParameters: Models.MapsAccountCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, mapsAccountCreateParameters: Models.MapsAccountCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +88,7 @@ export class Accounts {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
-  update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: Models.MapsAccountUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class Accounts {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -153,7 +153,7 @@ export class Accounts {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccount>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsGetResponse> {
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccount>, callback?: msRest.ServiceCallback<Models.MapsAccount>): Promise<Models.AccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class Accounts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +207,7 @@ export class Accounts {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccounts>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccounts>, callback?: msRest.ServiceCallback<Models.MapsAccounts>): Promise<Models.AccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -237,7 +237,7 @@ export class Accounts {
    * @param callback The callback
    */
   move(resourceGroupName: string, moveRequest: Models.MapsAccountsMoveRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  move(resourceGroupName: string, moveRequest: Models.MapsAccountsMoveRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  move(resourceGroupName: string, moveRequest: Models.MapsAccountsMoveRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -271,7 +271,7 @@ export class Accounts {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccountKeys>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsAccountKeys>): Promise<Models.AccountsListKeysResponse> {
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccountKeys>, callback?: msRest.ServiceCallback<Models.MapsAccountKeys>): Promise<Models.AccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -307,7 +307,7 @@ export class Accounts {
    * @param callback The callback
    */
   regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: Models.MapsKeySpecification, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsAccountKeys>): void;
-  regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: Models.MapsKeySpecification, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsAccountKeys>): Promise<Models.AccountsRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: Models.MapsKeySpecification, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsAccountKeys>, callback?: msRest.ServiceCallback<Models.MapsAccountKeys>): Promise<Models.AccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -334,7 +334,7 @@ export class Accounts {
    * @param callback The callback
    */
   listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsOperations>): void;
-  listOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MapsOperations>): Promise<Models.AccountsListOperationsResponse> {
+  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsOperations>, callback?: msRest.ServiceCallback<Models.MapsOperations>): Promise<Models.AccountsListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options

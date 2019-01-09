@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -436,6 +436,14 @@ export interface Application {
    * grant flow for OAuth2
    */
   oauth2AllowImplicitFlow?: boolean;
+  /**
+   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
+   * resources that this application requires access to and the set of OAuth
+   * permission scopes and application roles that it needs under each of those
+   * resources. This pre-configuration of required resource access drives the
+   * consent experience.
+   */
+  requiredResourceAccess?: RequiredResourceAccess[];
 }
 
 /**
@@ -1445,17 +1453,10 @@ export interface DomainListResult extends Array<Domain> {
 /**
  * Defines values for UserType.
  * Possible values include: 'Member', 'Guest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UserType = <UserType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UserType {
-  Member = 'Member',
-  Guest = 'Guest',
-}
+export type UserType = 'Member' | 'Guest';
 
 /**
  * Contains response data for the get operation.

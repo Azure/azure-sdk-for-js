@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -347,11 +347,6 @@ export const ServerForCreate: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "createMode",
-            clientName: "createMode"
-          },
-          uberParent: "ServerPropertiesForCreate",
           className: "ServerPropertiesForCreate"
         }
       },
@@ -457,6 +452,37 @@ export const FirewallRule: msRest.CompositeMapper = {
         constraints: {
           Pattern: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
         },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkRule: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRule",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRule",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      virtualNetworkSubnetId: {
+        required: true,
+        serializedName: "properties.virtualNetworkSubnetId",
+        type: {
+          name: "String"
+        }
+      },
+      ignoreMissingVnetServiceEndpoint: {
+        serializedName: "properties.ignoreMissingVnetServiceEndpoint",
+        type: {
+          name: "Boolean"
+        }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "properties.state",
         type: {
           name: "String"
         }
@@ -930,6 +956,36 @@ export const FirewallRuleListResult: msRest.CompositeMapper = {
               className: "FirewallRule"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkRuleListResult: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRuleListResult",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRuleListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualNetworkRule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

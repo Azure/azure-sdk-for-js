@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/summariesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Summaries {
    * @param callback The callback
    */
   getMachines(resourceGroupName: string, workspaceName: string, options: Models.SummariesGetMachinesOptionalParams, callback: msRest.ServiceCallback<Models.MachinesSummary>): void;
-  getMachines(resourceGroupName: string, workspaceName: string, options?: Models.SummariesGetMachinesOptionalParams, callback?: msRest.ServiceCallback<Models.MachinesSummary>): Promise<Models.SummariesGetMachinesResponse> {
+  getMachines(resourceGroupName: string, workspaceName: string, options?: Models.SummariesGetMachinesOptionalParams | msRest.ServiceCallback<Models.MachinesSummary>, callback?: msRest.ServiceCallback<Models.MachinesSummary>): Promise<Models.SummariesGetMachinesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

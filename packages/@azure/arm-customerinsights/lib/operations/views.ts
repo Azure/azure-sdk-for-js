@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/viewsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Views {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, userId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ViewListResult>): Promise<Models.ViewsListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewListResult>, callback?: msRest.ServiceCallback<Models.ViewListResult>): Promise<Models.ViewsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class Views {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, hubName: string, viewName: string, parameters: Models.ViewResourceFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewResourceFormat>): void;
-  createOrUpdate(resourceGroupName: string, hubName: string, viewName: string, parameters: Models.ViewResourceFormat, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ViewResourceFormat>): Promise<Models.ViewsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, hubName: string, viewName: string, parameters: Models.ViewResourceFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewResourceFormat>, callback?: msRest.ServiceCallback<Models.ViewResourceFormat>): Promise<Models.ViewsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class Views {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, viewName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ViewResourceFormat>): Promise<Models.ViewsGetResponse> {
+  get(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewResourceFormat>, callback?: msRest.ServiceCallback<Models.ViewResourceFormat>): Promise<Models.ViewsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +169,7 @@ export class Views {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +200,7 @@ export class Views {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ViewListResult>): Promise<Models.ViewsListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewListResult>, callback?: msRest.ServiceCallback<Models.ViewListResult>): Promise<Models.ViewsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

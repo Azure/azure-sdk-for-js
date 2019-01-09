@@ -4,11 +4,11 @@
  * license information.
  */
 
-import * as minimist from "minimist";
+import minimist from "minimist";
 import * as path from "path";
-import { arrayContains, findAzureRestApiSpecsRepositoryPathSync } from "./common";
-import { Options } from "yargs";
 import * as yargs from "yargs";
+import { Options } from "yargs";
+import { arrayContains, findAzureRestApiSpecsRepositoryPathSync } from "./common";
 
 export type YargsMapping = { [key: string]: Options };
 
@@ -20,6 +20,25 @@ export enum SdkType {
 }
 
 export module Argv {
+    export interface CommonOptions {
+        "logging-level": string | undefined;
+    }
+
+    export interface GenerateOptions {
+        "skip-spec": boolean;
+        "skip-sdk": boolean;
+    }
+
+    export interface PackageOptions {
+        package: string;
+        type: SdkType;
+    }
+
+    export interface RepositoryOptions {
+        azureSDKForJSRepoRoot: string;
+        azureRestAPISpecsRoot: string;
+    }
+
     export const Options: { [key: string]: YargsMapping } = {
         Common: {
             "logging-level": {
@@ -44,6 +63,7 @@ export module Argv {
             "package": {
                 alias: ["p", "package-name"],
                 string: true,
+                demand: true,
                 description: "Name of the manipulated package e.g. @azure/arm-servicebus"
             },
             "type": {
@@ -71,10 +91,10 @@ export module Argv {
     }
 
     export const Global = {
-        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"],
+        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"] as string,
     }
 
-    const combine = (...configs: YargsMapping[]): YargsMapping => {
+    export function combine(...configs: YargsMapping[]): YargsMapping {
         let result = Options.Common;
         for (const config of configs) {
             result = { ...result, ...config };
@@ -82,9 +102,9 @@ export module Argv {
         return result;
     }
 
-    export const construct = (...configs: YargsMapping[]) => {
-        const mergedOption = combine(...configs);
-        const args = yargs.options(mergedOption)
+    export function construct(...configs: YargsMapping[]): yargs.Argv {
+        const mergedOption: YargsMapping = combine(...configs);
+        const args: yargs.Argv = yargs.options(mergedOption)
             .strict()
             .help("?")
             .showHelpOnFail(true, "Invalid usage. Run with -? to see help.")
@@ -97,7 +117,7 @@ export module Argv {
         return args;
     }
 
-    export const print = () => {
+    export function print(): String {
         return process.argv.slice(2).join(", ");
     }
 }
@@ -117,7 +137,7 @@ export interface CommandLineOptions extends minimist.ParsedArgs {
     getSdkType(): SdkType;
 }
 
-export const commandLineConfiguration = {
+export const commandLineConfiguration: minimist.Opts = {
     string: ["azure-sdk-for-js-repo-root", "azure-rest-api-specs-root", "logging-level", "package", "type"],
     boolean: ["debugger", "use", "skip-sdk", "skip-spec", "verbose", "whatif"],
     alias: {
@@ -143,8 +163,8 @@ export function getCommandLineOptions(): CommandLineOptions {
 }
 
 function createCommandLineParameters(): CommandLineOptions {
-    const args = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
-    args.getSdkType = getSdkType;
+    const args: CommandLineOptions = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
+    args.getSdkType = () => parseSdkType(args.type);
     return args;
 }
 
@@ -163,8 +183,4 @@ export function parseSdkType(str: string): SdkType {
     } else {
         return SdkType.Unknown;
     }
-}
-
-function getSdkType(): SdkType {
-    return parseSdkType(this.type);
 }

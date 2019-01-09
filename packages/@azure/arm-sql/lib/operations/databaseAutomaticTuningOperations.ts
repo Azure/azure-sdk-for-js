@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/databaseAutomaticTuningOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class DatabaseAutomaticTuningOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): Promise<Models.DatabaseAutomaticTuningGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAutomaticTuning>, callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): Promise<Models.DatabaseAutomaticTuningGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +95,7 @@ export class DatabaseAutomaticTuningOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseAutomaticTuning, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): void;
-  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseAutomaticTuning, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): Promise<Models.DatabaseAutomaticTuningUpdateResponse> {
+  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseAutomaticTuning, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAutomaticTuning>, callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): Promise<Models.DatabaseAutomaticTuningUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobExecutionsMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class JobExecutions {
    * @param callback The callback
    */
   listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options: Models.JobExecutionsListByAgentOptionalParams, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: Models.JobExecutionsListByAgentOptionalParams, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByAgentResponse> {
+  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: Models.JobExecutionsListByAgentOptionalParams | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByAgentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class JobExecutions {
    * @param callback The callback
    */
   cancel(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class JobExecutions {
    * @param callback The callback
    */
   listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options: Models.JobExecutionsListByJobOptionalParams, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: Models.JobExecutionsListByJobOptionalParams, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByJobResponse> {
+  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: Models.JobExecutionsListByJobOptionalParams | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +204,7 @@ export class JobExecutions {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobExecution>): void;
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobExecution>): Promise<Models.JobExecutionsGetResponse> {
+  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecution>, callback?: msRest.ServiceCallback<Models.JobExecution>): Promise<Models.JobExecutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -300,7 +300,7 @@ export class JobExecutions {
    * @param callback The callback
    */
   listByAgentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByAgentNextResponse> {
+  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -328,7 +328,7 @@ export class JobExecutions {
    * @param callback The callback
    */
   listByJobNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByJobNextResponse> {
+  listByJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

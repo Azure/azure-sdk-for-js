@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -361,8 +361,10 @@ export interface NetworkInterfaceDnsSettings {
 export interface NetworkInterface extends Resource {
   /**
    * @member {SubResource} [virtualMachine] The reference of a virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  virtualMachine?: SubResource;
+  readonly virtualMachine?: SubResource;
   /**
    * @member {NetworkSecurityGroup} [networkSecurityGroup] The reference of the
    * NetworkSecurityGroup resource.
@@ -1841,9 +1843,10 @@ export interface ApplicationGatewayTrustedRootCertificate extends SubResource {
    */
   data?: string;
   /**
-   * @member {string} [keyvaultSecretId] KeyVault Secret Id for certificate.
+   * @member {string} [keyVaultSecretId] Secret Id of (base-64 encoded
+   * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
    */
-  keyvaultSecretId?: string;
+  keyVaultSecretId?: string;
   /**
    * @member {string} [provisioningState] Provisioning state of the trusted
    * root certificate resource. Possible values are: 'Updating', 'Deleting',
@@ -1889,6 +1892,11 @@ export interface ApplicationGatewaySslCertificate extends SubResource {
    * corresponding to pfx specified in data. Only applicable in GET request.
    */
   publicCertData?: string;
+  /**
+   * @member {string} [keyVaultSecretId] Secret Id of (base-64 encoded
+   * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+   */
+  keyVaultSecretId?: string;
   /**
    * @member {string} [provisioningState] Provisioning state of the SSL
    * certificate resource Possible values are: 'Updating', 'Deleting', and
@@ -1994,6 +2002,26 @@ export interface ApplicationGatewayFrontendPort extends SubResource {
 
 /**
  * @interface
+ * An interface representing ApplicationGatewayCustomError.
+ * Customer error of an application gateway.
+ *
+ */
+export interface ApplicationGatewayCustomError {
+  /**
+   * @member {ApplicationGatewayCustomErrorStatusCode} [statusCode] Status code
+   * of the application gateway customer error. Possible values include:
+   * 'HttpStatus403', 'HttpStatus502'
+   */
+  statusCode?: ApplicationGatewayCustomErrorStatusCode;
+  /**
+   * @member {string} [customErrorPageUrl] Error page URL of the application
+   * gateway customer error.
+   */
+  customErrorPageUrl?: string;
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGatewayHttpListener.
  * Http listener of an application gateway.
  *
@@ -2037,6 +2065,11 @@ export interface ApplicationGatewayHttpListener extends SubResource {
    */
   provisioningState?: string;
   /**
+   * @member {ApplicationGatewayCustomError[]} [customErrorConfigurations]
+   * Custom error configurations of the HTTP listener.
+   */
+  customErrorConfigurations?: ApplicationGatewayCustomError[];
+  /**
    * @member {string} [name] Name of the HTTP listener that is unique within an
    * Application Gateway.
    */
@@ -2079,6 +2112,11 @@ export interface ApplicationGatewayPathRule extends SubResource {
    * resource of URL path map path rule.
    */
   redirectConfiguration?: SubResource;
+  /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite rule set resource of URL
+   * path map path rule.
+   */
+  rewriteRuleSet?: SubResource;
   /**
    * @member {string} [provisioningState] Path rule of URL path map resource.
    * Possible values are: 'Updating', 'Deleting', and 'Failed'.
@@ -2232,6 +2270,11 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    */
   urlPathMap?: SubResource;
   /**
+   * @member {SubResource} [rewriteRuleSet] Rewrite Rule Set resource in Basic
+   * rule of the application gateway.
+   */
+  rewriteRuleSet?: SubResource;
+  /**
    * @member {SubResource} [redirectConfiguration] Redirect configuration
    * resource of the application gateway.
    */
@@ -2256,6 +2299,96 @@ export interface ApplicationGatewayRequestRoutingRule extends SubResource {
    * @member {string} [type] Type of the resource.
    */
   type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayHeaderConfiguration.
+ * Header configuration of the Actions set in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayHeaderConfiguration {
+  /**
+   * @member {string} [headerName] Header name of the header configuration
+   */
+  headerName?: string;
+  /**
+   * @member {string} [headerValue] Header value of the header configuration
+   */
+  headerValue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleActionSet.
+ * Set of actions in the Rewrite Rule in Application Gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRuleActionSet {
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration[]}
+   * [requestHeaderConfigurations] Request Header Actions in the Action Set
+   */
+  requestHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
+  /**
+   * @member {ApplicationGatewayHeaderConfiguration[]}
+   * [responseHeaderConfigurations] Response Header Actions in the Action Set
+   */
+  responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRule.
+ * Rewrite rule of an application gateway.
+ *
+ */
+export interface ApplicationGatewayRewriteRule {
+  /**
+   * @member {string} [name] Name of the rewrite rule that is unique within an
+   * Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {ApplicationGatewayRewriteRuleActionSet} [actionSet] Set of
+   * actions to be done as part of the rewrite Rule.
+   */
+  actionSet?: ApplicationGatewayRewriteRuleActionSet;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayRewriteRuleSet.
+ * Rewrite rule set of an application gateway.
+ *
+ * @extends SubResource
+ */
+export interface ApplicationGatewayRewriteRuleSet extends SubResource {
+  /**
+   * @member {ApplicationGatewayRewriteRule[]} [rewriteRules] Rewrite rules in
+   * the rewrite rule set.
+   */
+  rewriteRules?: ApplicationGatewayRewriteRule[];
+  /**
+   * @member {string} [provisioningState] Provisioning state of the rewrite
+   * rule set resource. Possible values are: 'Updating', 'Deleting', and
+   * 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [name] Name of the rewrite rule set that is unique within
+   * an Application Gateway.
+   */
+  name?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -2341,6 +2474,11 @@ export interface ApplicationGatewayUrlPathMap extends SubResource {
    */
   defaultBackendHttpSettings?: SubResource;
   /**
+   * @member {SubResource} [defaultRewriteRuleSet] Default Rewrite rule set
+   * resource of URL path map.
+   */
+  defaultRewriteRuleSet?: SubResource;
+  /**
    * @member {SubResource} [defaultRedirectConfiguration] Default redirect
    * configuration resource of URL path map.
    */
@@ -2393,6 +2531,31 @@ export interface ApplicationGatewayFirewallDisabledRuleGroup {
 
 /**
  * @interface
+ * An interface representing ApplicationGatewayFirewallExclusion.
+ * Allow to exclude some variable satisfy the condition for the WAF check
+ *
+ */
+export interface ApplicationGatewayFirewallExclusion {
+  /**
+   * @member {string} matchVariable The variable to be excluded.
+   */
+  matchVariable: string;
+  /**
+   * @member {string} selectorMatchOperator When matchVariable is a collection,
+   * operate on the selector to specify which elements in the collection this
+   * exclusion applies to.
+   */
+  selectorMatchOperator: string;
+  /**
+   * @member {string} selector When matchVariable is a collection, operator
+   * used to specify which elements in the collection this exclusion applies
+   * to.
+   */
+  selector: string;
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGatewayWebApplicationFirewallConfiguration.
  * Application gateway web application firewall configuration.
  *
@@ -2431,6 +2594,21 @@ export interface ApplicationGatewayWebApplicationFirewallConfiguration {
    * @member {number} [maxRequestBodySize] Maxium request body size for WAF.
    */
   maxRequestBodySize?: number;
+  /**
+   * @member {number} [maxRequestBodySizeInKb] Maxium request body size in Kb
+   * for WAF.
+   */
+  maxRequestBodySizeInKb?: number;
+  /**
+   * @member {number} [fileUploadLimitInMb] Maxium file upload size in Mb for
+   * WAF.
+   */
+  fileUploadLimitInMb?: number;
+  /**
+   * @member {ApplicationGatewayFirewallExclusion[]} [exclusions] The exclusion
+   * list.
+   */
+  exclusions?: ApplicationGatewayFirewallExclusion[];
 }
 
 /**
@@ -2445,6 +2623,67 @@ export interface ApplicationGatewayAutoscaleConfiguration {
    * instances
    */
   minCapacity: number;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedServiceIdentityUserAssignedIdentitiesValue.
+ */
+export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
+  /**
+   * @member {string} [principalId] The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [clientId] The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedServiceIdentity.
+ * Identity for the resource.
+ *
+ */
+export interface ManagedServiceIdentity {
+  /**
+   * @member {string} [principalId] The principal id of the system assigned
+   * identity. This property will only be provided for a system assigned
+   * identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [tenantId] The tenant id of the system assigned identity.
+   * This property will only be provided for a system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {ResourceIdentityType} [type] The type of identity used for the
+   * resource. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user assigned identities. The
+   * type 'None' will remove any identities from the virtual machine. Possible
+   * values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+   * UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * @member {{ [propertyName: string]:
+   * ManagedServiceIdentityUserAssignedIdentitiesValue }}
+   * [userAssignedIdentities] The list of user identities associated with
+   * resource. The user identity dictionary key references will be ARM resource
+   * ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue };
 }
 
 /**
@@ -2538,6 +2777,11 @@ export interface ApplicationGateway extends Resource {
    */
   requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
   /**
+   * @member {ApplicationGatewayRewriteRuleSet[]} [rewriteRuleSets] Rewrite
+   * rules for the application gateway resource.
+   */
+  rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
+  /**
    * @member {ApplicationGatewayRedirectConfiguration[]}
    * [redirectConfigurations] Redirect configurations of the application
    * gateway resource.
@@ -2576,6 +2820,11 @@ export interface ApplicationGateway extends Resource {
    */
   provisioningState?: string;
   /**
+   * @member {ApplicationGatewayCustomError[]} [customErrorConfigurations]
+   * Custom error configurations of the application gateway resource.
+   */
+  customErrorConfigurations?: ApplicationGatewayCustomError[];
+  /**
    * @member {string} [etag] A unique read-only string that changes whenever
    * the resource is updated.
    */
@@ -2585,6 +2834,11 @@ export interface ApplicationGateway extends Resource {
    * resource needs to come from.
    */
   zones?: string[];
+  /**
+   * @member {ManagedServiceIdentity} [identity] The identity of the
+   * application gateway, if configured.
+   */
+  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -2787,8 +3041,10 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   /**
    * @member {string} [privateIPAddress] The Firewall Internal Load Balancer IP
    * to be used as the next hop in User Defined Routes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  privateIPAddress?: string;
+  readonly privateIPAddress?: string;
   /**
    * @member {SubResource} [subnet] Reference of the subnet resource. This
    * resource must be named 'AzureFirewallSubnet'.
@@ -3700,8 +3956,8 @@ export interface ExpressRouteCircuitSku {
   name?: string;
   /**
    * @member {ExpressRouteCircuitSkuTier} [tier] The tier of the SKU. Possible
-   * values are 'Standard' and 'Premium'. Possible values include: 'Standard',
-   * 'Premium'
+   * values are 'Standard', 'Premium' or 'Basic'. Possible values include:
+   * 'Standard', 'Premium', 'Basic'
    */
   tier?: ExpressRouteCircuitSkuTier;
   /**
@@ -3784,6 +4040,24 @@ export interface ExpressRouteCircuit extends Resource {
    * [serviceProviderProperties] The ServiceProviderProperties.
    */
   serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
+  /**
+   * @member {SubResource} [expressRoutePort] The reference to the
+   * ExpressRoutePort resource when the circuit is provisioned on an
+   * ExpressRoutePort resource.
+   */
+  expressRoutePort?: SubResource;
+  /**
+   * @member {number} [bandwidthInGbps] The bandwidth of the circuit when the
+   * circuit is provisioned on an ExpressRoutePort resource.
+   */
+  bandwidthInGbps?: number;
+  /**
+   * @member {number} [stag] The identifier of the circuit traffic. Outer tag
+   * for QinQ encapsulation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly stag?: number;
   /**
    * @member {string} [provisioningState] Gets the provisioning state of the
    * public IP resource. Possible values are: 'Updating', 'Deleting', and
@@ -4391,6 +4665,221 @@ export interface ExpressRouteConnectionList {
    * connections
    */
   value?: ExpressRouteConnection[];
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRoutePortsLocationBandwidths.
+ * @summary ExpressRoutePorts Location Bandwidths
+ *
+ * Real-time inventory of available ExpressRoute port bandwidths.
+ *
+ */
+export interface ExpressRoutePortsLocationBandwidths {
+  /**
+   * @member {string} [offerName] Bandwidth descriptive name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offerName?: string;
+  /**
+   * @member {number} [valueInGbps] Bandwidth value in Gbps
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly valueInGbps?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRoutePortsLocation.
+ * @summary ExpressRoutePorts Peering Location
+ *
+ * Definition of the ExpressRoutePorts peering location resource.
+ *
+ * @extends Resource
+ */
+export interface ExpressRoutePortsLocation extends Resource {
+  /**
+   * @member {string} [address] Address of peering location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly address?: string;
+  /**
+   * @member {string} [contact] Contact details of peering locations.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly contact?: string;
+  /**
+   * @member {ExpressRoutePortsLocationBandwidths[]} [availableBandwidths] The
+   * inventory of available ExpressRoutePort bandwidths.
+   */
+  availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
+  /**
+   * @member {string} [provisioningState] The provisioning state of the
+   * ExpressRoutePortLocation resource. Possible values are: 'Succeeded',
+   * 'Updating', 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRouteLink.
+ * @summary ExpressRouteLink
+ *
+ * ExpressRouteLink child resource definition.
+ *
+ * @extends SubResource
+ */
+export interface ExpressRouteLink extends SubResource {
+  /**
+   * @member {string} [routerName] Name of Azure router associated with
+   * physical port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly routerName?: string;
+  /**
+   * @member {string} [interfaceName] Name of Azure router interface.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly interfaceName?: string;
+  /**
+   * @member {string} [patchPanelId] Mapping between physical port to patch
+   * panel port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly patchPanelId?: string;
+  /**
+   * @member {string} [rackId] Mapping of physical patch panel to rack.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly rackId?: string;
+  /**
+   * @member {ExpressRouteLinkConnectorType} [connectorType] Physical fiber
+   * port type. Possible values include: 'LC', 'SC'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly connectorType?: ExpressRouteLinkConnectorType;
+  /**
+   * @member {ExpressRouteLinkAdminState} [adminState] Administrative state of
+   * the physical port. Possible values include: 'Enabled', 'Disabled'
+   */
+  adminState?: ExpressRouteLinkAdminState;
+  /**
+   * @member {string} [provisioningState] The provisioning state of the
+   * ExpressRouteLink resource. Possible values are: 'Succeeded', 'Updating',
+   * 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [name] Name of child port resource that is unique among
+   * child port resources of the parent.
+   */
+  name?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExpressRoutePort.
+ * @summary ExpressRoute Port
+ *
+ * ExpressRoutePort resource definition.
+ *
+ * @extends Resource
+ */
+export interface ExpressRoutePort extends Resource {
+  /**
+   * @member {string} [peeringLocation] The name of the peering location that
+   * the ExpressRoutePort is mapped to physically.
+   */
+  peeringLocation?: string;
+  /**
+   * @member {number} [bandwidthInGbps] Bandwidth of procured ports in Gbps
+   */
+  bandwidthInGbps?: number;
+  /**
+   * @member {number} [provisionedBandwidthInGbps] Aggregate Gbps of associated
+   * circuit bandwidths.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisionedBandwidthInGbps?: number;
+  /**
+   * @member {string} [mtu] Maximum transmission unit of the physical port
+   * pair(s)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly mtu?: string;
+  /**
+   * @member {ExpressRoutePortsEncapsulation} [encapsulation] Encapsulation
+   * method on physical ports. Possible values include: 'Dot1Q', 'QinQ'
+   */
+  encapsulation?: ExpressRoutePortsEncapsulation;
+  /**
+   * @member {string} [etherType] Ethertype of the physical port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etherType?: string;
+  /**
+   * @member {string} [allocationDate] Date of the physical port allocation to
+   * be used in Letter of Authorization.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly allocationDate?: string;
+  /**
+   * @member {ExpressRouteLink[]} [links] ExpressRouteLink Sub-Resources. The
+   * set of physical links of the ExpressRoutePort resource
+   */
+  links?: ExpressRouteLink[];
+  /**
+   * @member {SubResource[]} [circuits] Reference the ExpressRoute circuit(s)
+   * that are provisioned on this ExpressRoutePort resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly circuits?: SubResource[];
+  /**
+   * @member {string} [provisioningState] The provisioning state of the
+   * ExpressRoutePort resource. Possible values are: 'Succeeded', 'Updating',
+   * 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [resourceGuid] The resource GUID property of the
+   * ExpressRoutePort resource.
+   */
+  resourceGuid?: string;
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -5078,11 +5567,11 @@ export interface ContainerNetworkInterfaceConfiguration extends SubResource {
    */
   ipConfigurations?: IPConfigurationProfile[];
   /**
-   * @member {ContainerNetworkInterface[]} [containerNetworkInterfaces] A list
-   * of container network interfaces created from this container network
-   * interface configuration.
+   * @member {SubResource[]} [containerNetworkInterfaces] A list of container
+   * network interfaces created from this container network interface
+   * configuration.
    */
-  containerNetworkInterfaces?: ContainerNetworkInterface[];
+  containerNetworkInterfaces?: SubResource[];
   /**
    * @member {string} [provisioningState] The provisioning state of the
    * resource.
@@ -6003,6 +6492,25 @@ export interface RetentionPolicyParameters {
 
 /**
  * @interface
+ * An interface representing FlowLogFormatParameters.
+ * Parameters that define the flow log format.
+ *
+ */
+export interface FlowLogFormatParameters {
+  /**
+   * @member {FlowLogFormatType} [type] The file type of flow log. Possible
+   * values include: 'JSON'
+   */
+  type?: FlowLogFormatType;
+  /**
+   * @member {number} [version] The version (revision) of the flow log. Default
+   * value: 0 .
+   */
+  version?: number;
+}
+
+/**
+ * @interface
  * An interface representing FlowLogStatusParameters.
  * Parameters that define a resource to query flow log and traffic analytics
  * (optional) status.
@@ -6039,6 +6547,11 @@ export interface TrafficAnalyticsConfigurationProperties {
    * @member {string} workspaceResourceId Resource Id of the attached workspace
    */
   workspaceResourceId: string;
+  /**
+   * @member {number} [trafficAnalyticsInterval] The interval in minutes which
+   * would decide how frequently TA service should do flow analytics
+   */
+  trafficAnalyticsInterval?: number;
 }
 
 /**
@@ -6081,6 +6594,10 @@ export interface FlowLogInformation {
    * @member {RetentionPolicyParameters} [retentionPolicy]
    */
   retentionPolicy?: RetentionPolicyParameters;
+  /**
+   * @member {FlowLogFormatParameters} [format]
+   */
+  format?: FlowLogFormatParameters;
   /**
    * @member {TrafficAnalyticsProperties} [flowAnalyticsConfiguration]
    */
@@ -6817,11 +7334,11 @@ export interface ConnectionMonitorQueryResult {
 
 /**
  * @interface
- * An interface representing TrafficQuery.
+ * An interface representing NetworkConfigurationDiagnosticProfile.
  * Parameters to compare with network configuration.
  *
  */
-export interface TrafficQuery {
+export interface NetworkConfigurationDiagnosticProfile {
   /**
    * @member {Direction} direction The direction of the traffic. Accepted
    * values are 'Inbound' and 'Outbound'. Possible values include: 'Inbound',
@@ -6865,9 +7382,16 @@ export interface NetworkConfigurationDiagnosticParameters {
    */
   targetResourceId: string;
   /**
-   * @member {TrafficQuery[]} queries List of traffic queries.
+   * @member {VerbosityLevel} [verbosityLevel] Verbosity level. Accepted values
+   * are 'Normal', 'Minimum', 'Full'. Possible values include: 'Normal',
+   * 'Minimum', 'Full'
    */
-  queries: TrafficQuery[];
+  verbosityLevel?: VerbosityLevel;
+  /**
+   * @member {NetworkConfigurationDiagnosticProfile[]} profiles List of network
+   * configuration diagnostic profiles.
+   */
+  profiles: NetworkConfigurationDiagnosticProfile[];
 }
 
 /**
@@ -6938,6 +7462,11 @@ export interface EvaluatedNetworkSecurityGroup {
    */
   networkSecurityGroupId?: string;
   /**
+   * @member {string} [appliedTo] Resource ID of nic or subnet to which network
+   * security group is applied.
+   */
+  appliedTo?: string;
+  /**
    * @member {MatchedRule} [matchedRule]
    */
   matchedRule?: MatchedRule;
@@ -6981,9 +7510,9 @@ export interface NetworkSecurityGroupResult {
  */
 export interface NetworkConfigurationDiagnosticResult {
   /**
-   * @member {TrafficQuery} [trafficQuery]
+   * @member {NetworkConfigurationDiagnosticProfile} [profile]
    */
-  trafficQuery?: TrafficQuery;
+  profile?: NetworkConfigurationDiagnosticProfile;
   /**
    * @member {NetworkSecurityGroupResult} [networkSecurityGroupResult]
    */
@@ -9751,20 +10280,6 @@ export interface VirtualNetworksGetOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
- * An interface representing VirtualNetworksCheckIPAddressAvailabilityOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface VirtualNetworksCheckIPAddressAvailabilityOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ipAddress] The private IP address to be verified.
-   */
-  ipAddress?: string;
-}
-
-/**
- * @interface
  * An interface representing SubnetsGetOptionalParams.
  * Optional Parameters.
  *
@@ -10000,6 +10515,21 @@ export interface ExpressRouteCircuitPeeringListResult extends Array<ExpressRoute
 
 /**
  * @interface
+ * An interface representing the ExpressRouteCircuitConnectionListResult.
+ * Response for ListConnections API service call retrieves all global reach
+ * connections that belongs to a Private Peering for an ExpressRouteCircuit.
+ *
+ * @extends Array<ExpressRouteCircuitConnection>
+ */
+export interface ExpressRouteCircuitConnectionListResult extends Array<ExpressRouteCircuitConnection> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ExpressRouteCircuitListResult.
  * Response for ListExpressRouteCircuit API service call.
  *
@@ -10057,6 +10587,54 @@ export interface ExpressRouteCrossConnectionPeeringList extends Array<ExpressRou
    * the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ExpressRoutePortsLocationListResult.
+ * @summary ExpressRoutePorts Location List Result
+ *
+ * Response for ListExpressRoutePortsLocations API service call.
+ *
+ * @extends Array<ExpressRoutePortsLocation>
+ */
+export interface ExpressRoutePortsLocationListResult extends Array<ExpressRoutePortsLocation> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ExpressRoutePortListResult.
+ * @summary ExpressRoute Port List Result
+ *
+ * Response for ListExpressRoutePorts API service call.
+ *
+ * @extends Array<ExpressRoutePort>
+ */
+export interface ExpressRoutePortListResult extends Array<ExpressRoutePort> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ExpressRouteLinkListResult.
+ * @summary ExpressRouteLink List Result
+ *
+ * Response for ListExpressRouteLinks API service call.
+ *
+ * @extends Array<ExpressRouteLink>
+ */
+export interface ExpressRouteLinkListResult extends Array<ExpressRouteLink> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -10147,6 +10725,22 @@ export interface InboundNatRuleListResult extends Array<InboundNatRule> {
  * @extends Array<LoadBalancingRule>
  */
 export interface LoadBalancerLoadBalancingRuleListResult extends Array<LoadBalancingRule> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the LoadBalancerOutboundRuleListResult.
+ * Response for ListOutboundRule API service call.
+ *
+ * @extends Array<OutboundRule>
+ */
+export interface LoadBalancerOutboundRuleListResult extends Array<OutboundRule> {
   /**
    * @member {string} [nextLink] The URL to get the next set of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -10528,20 +11122,6 @@ export interface VirtualNetworkPeeringListResult extends Array<VirtualNetworkPee
 
 /**
  * @interface
- * An interface representing the VirtualNetworkTapListResult.
- * Response for ListVirtualNetworkTap API service call.
- *
- * @extends Array<VirtualNetworkTap>
- */
-export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
-  /**
-   * @member {string} [nextLink] The URL to get the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the VirtualNetworkGatewayListResult.
  * Response for the ListVirtualNetworkGateways API service call.
  *
@@ -10602,6 +11182,20 @@ export interface LocalNetworkGatewayListResult extends Array<LocalNetworkGateway
    * the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the VirtualNetworkTapListResult.
+ * Response for ListVirtualNetworkTap API service call.
+ *
+ * @extends Array<VirtualNetworkTap>
+ */
+export interface VirtualNetworkTapListResult extends Array<VirtualNetworkTap> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -10737,1546 +11331,762 @@ export interface ListP2SVpnGatewaysResult extends Array<P2SVpnGateway> {
 /**
  * Defines values for IPAllocationMethod.
  * Possible values include: 'Static', 'Dynamic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IPAllocationMethod =
- * <IPAllocationMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IPAllocationMethod {
-  Static = 'Static',
-  Dynamic = 'Dynamic',
-}
+export type IPAllocationMethod = 'Static' | 'Dynamic';
 
 /**
  * Defines values for SecurityRuleProtocol.
  * Possible values include: 'Tcp', 'Udp', '*'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SecurityRuleProtocol =
- * <SecurityRuleProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SecurityRuleProtocol {
-  Tcp = 'Tcp',
-  Udp = 'Udp',
-  Asterisk = '*',
-}
+export type SecurityRuleProtocol = 'Tcp' | 'Udp' | '*';
 
 /**
  * Defines values for SecurityRuleAccess.
  * Possible values include: 'Allow', 'Deny'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SecurityRuleAccess =
- * <SecurityRuleAccess>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SecurityRuleAccess {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type SecurityRuleAccess = 'Allow' | 'Deny';
 
 /**
  * Defines values for SecurityRuleDirection.
  * Possible values include: 'Inbound', 'Outbound'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SecurityRuleDirection =
- * <SecurityRuleDirection>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SecurityRuleDirection {
-  Inbound = 'Inbound',
-  Outbound = 'Outbound',
-}
+export type SecurityRuleDirection = 'Inbound' | 'Outbound';
 
 /**
  * Defines values for RouteNextHopType.
- * Possible values include: 'VirtualNetworkGateway', 'VnetLocal', 'Internet',
- * 'VirtualAppliance', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RouteNextHopType =
- * <RouteNextHopType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'VirtualNetworkGateway', 'VnetLocal', 'Internet', 'VirtualAppliance',
+ * 'None'
  * @readonly
  * @enum {string}
  */
-export enum RouteNextHopType {
-  VirtualNetworkGateway = 'VirtualNetworkGateway',
-  VnetLocal = 'VnetLocal',
-  Internet = 'Internet',
-  VirtualAppliance = 'VirtualAppliance',
-  None = 'None',
-}
+export type RouteNextHopType = 'VirtualNetworkGateway' | 'VnetLocal' | 'Internet' | 'VirtualAppliance' | 'None';
 
 /**
  * Defines values for PublicIPAddressSkuName.
  * Possible values include: 'Basic', 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PublicIPAddressSkuName =
- * <PublicIPAddressSkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PublicIPAddressSkuName {
-  Basic = 'Basic',
-  Standard = 'Standard',
-}
+export type PublicIPAddressSkuName = 'Basic' | 'Standard';
 
 /**
  * Defines values for IPVersion.
  * Possible values include: 'IPv4', 'IPv6'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IPVersion = <IPVersion>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IPVersion {
-  IPv4 = 'IPv4',
-  IPv6 = 'IPv6',
-}
+export type IPVersion = 'IPv4' | 'IPv6';
 
 /**
  * Defines values for TransportProtocol.
  * Possible values include: 'Udp', 'Tcp', 'All'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TransportProtocol =
- * <TransportProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TransportProtocol {
-  Udp = 'Udp',
-  Tcp = 'Tcp',
-  All = 'All',
-}
+export type TransportProtocol = 'Udp' | 'Tcp' | 'All';
 
 /**
  * Defines values for ApplicationGatewayProtocol.
  * Possible values include: 'Http', 'Https'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayProtocol =
- * <ApplicationGatewayProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayProtocol {
-  Http = 'Http',
-  Https = 'Https',
-}
+export type ApplicationGatewayProtocol = 'Http' | 'Https';
 
 /**
  * Defines values for ApplicationGatewayCookieBasedAffinity.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayCookieBasedAffinity =
- * <ApplicationGatewayCookieBasedAffinity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayCookieBasedAffinity {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type ApplicationGatewayCookieBasedAffinity = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ApplicationGatewayBackendHealthServerHealth.
  * Possible values include: 'Unknown', 'Up', 'Down', 'Partial', 'Draining'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayBackendHealthServerHealth =
- * <ApplicationGatewayBackendHealthServerHealth>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayBackendHealthServerHealth {
-  Unknown = 'Unknown',
-  Up = 'Up',
-  Down = 'Down',
-  Partial = 'Partial',
-  Draining = 'Draining',
-}
+export type ApplicationGatewayBackendHealthServerHealth = 'Unknown' | 'Up' | 'Down' | 'Partial' | 'Draining';
 
 /**
  * Defines values for ApplicationGatewaySkuName.
- * Possible values include: 'Standard_Small', 'Standard_Medium',
- * 'Standard_Large', 'WAF_Medium', 'WAF_Large', 'Standard_v2', 'WAF_v2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySkuName =
- * <ApplicationGatewaySkuName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Standard_Small', 'Standard_Medium', 'Standard_Large', 'WAF_Medium',
+ * 'WAF_Large', 'Standard_v2', 'WAF_v2'
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySkuName {
-  StandardSmall = 'Standard_Small',
-  StandardMedium = 'Standard_Medium',
-  StandardLarge = 'Standard_Large',
-  WAFMedium = 'WAF_Medium',
-  WAFLarge = 'WAF_Large',
-  StandardV2 = 'Standard_v2',
-  WAFV2 = 'WAF_v2',
-}
+export type ApplicationGatewaySkuName = 'Standard_Small' | 'Standard_Medium' | 'Standard_Large' | 'WAF_Medium' | 'WAF_Large' | 'Standard_v2' | 'WAF_v2';
 
 /**
  * Defines values for ApplicationGatewayTier.
  * Possible values include: 'Standard', 'WAF', 'Standard_v2', 'WAF_v2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayTier =
- * <ApplicationGatewayTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayTier {
-  Standard = 'Standard',
-  WAF = 'WAF',
-  StandardV2 = 'Standard_v2',
-  WAFV2 = 'WAF_v2',
-}
+export type ApplicationGatewayTier = 'Standard' | 'WAF' | 'Standard_v2' | 'WAF_v2';
 
 /**
  * Defines values for ApplicationGatewaySslProtocol.
  * Possible values include: 'TLSv1_0', 'TLSv1_1', 'TLSv1_2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslProtocol =
- * <ApplicationGatewaySslProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslProtocol {
-  TLSv10 = 'TLSv1_0',
-  TLSv11 = 'TLSv1_1',
-  TLSv12 = 'TLSv1_2',
-}
+export type ApplicationGatewaySslProtocol = 'TLSv1_0' | 'TLSv1_1' | 'TLSv1_2';
 
 /**
  * Defines values for ApplicationGatewaySslPolicyType.
  * Possible values include: 'Predefined', 'Custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslPolicyType =
- * <ApplicationGatewaySslPolicyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslPolicyType {
-  Predefined = 'Predefined',
-  Custom = 'Custom',
-}
+export type ApplicationGatewaySslPolicyType = 'Predefined' | 'Custom';
 
 /**
  * Defines values for ApplicationGatewaySslPolicyName.
  * Possible values include: 'AppGwSslPolicy20150501', 'AppGwSslPolicy20170401',
  * 'AppGwSslPolicy20170401S'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslPolicyName =
- * <ApplicationGatewaySslPolicyName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslPolicyName {
-  AppGwSslPolicy20150501 = 'AppGwSslPolicy20150501',
-  AppGwSslPolicy20170401 = 'AppGwSslPolicy20170401',
-  AppGwSslPolicy20170401S = 'AppGwSslPolicy20170401S',
-}
+export type ApplicationGatewaySslPolicyName = 'AppGwSslPolicy20150501' | 'AppGwSslPolicy20170401' | 'AppGwSslPolicy20170401S';
 
 /**
  * Defines values for ApplicationGatewaySslCipherSuite.
  * Possible values include: 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384',
- * 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256',
- * 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA', 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA',
- * 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
+ * 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256', 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
+ * 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA', 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
  * 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256', 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA',
  * 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_AES_256_GCM_SHA384',
  * 'TLS_RSA_WITH_AES_128_GCM_SHA256', 'TLS_RSA_WITH_AES_256_CBC_SHA256',
  * 'TLS_RSA_WITH_AES_128_CBC_SHA256', 'TLS_RSA_WITH_AES_256_CBC_SHA',
  * 'TLS_RSA_WITH_AES_128_CBC_SHA', 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
- * 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
- * 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384',
- * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256',
- * 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
- * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA',
- * 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
+ * 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384',
+ * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256', 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
+ * 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
  * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256', 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA',
  * 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA', 'TLS_RSA_WITH_3DES_EDE_CBC_SHA'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewaySslCipherSuite =
- * <ApplicationGatewaySslCipherSuite>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewaySslCipherSuite {
-  TLSECDHERSAWITHAES256CBCSHA384 = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384',
-  TLSECDHERSAWITHAES128CBCSHA256 = 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256',
-  TLSECDHERSAWITHAES256CBCSHA = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
-  TLSECDHERSAWITHAES128CBCSHA = 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA',
-  TLSDHERSAWITHAES256GCMSHA384 = 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
-  TLSDHERSAWITHAES128GCMSHA256 = 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256',
-  TLSDHERSAWITHAES256CBCSHA = 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA',
-  TLSDHERSAWITHAES128CBCSHA = 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA',
-  TLSRSAWITHAES256GCMSHA384 = 'TLS_RSA_WITH_AES_256_GCM_SHA384',
-  TLSRSAWITHAES128GCMSHA256 = 'TLS_RSA_WITH_AES_128_GCM_SHA256',
-  TLSRSAWITHAES256CBCSHA256 = 'TLS_RSA_WITH_AES_256_CBC_SHA256',
-  TLSRSAWITHAES128CBCSHA256 = 'TLS_RSA_WITH_AES_128_CBC_SHA256',
-  TLSRSAWITHAES256CBCSHA = 'TLS_RSA_WITH_AES_256_CBC_SHA',
-  TLSRSAWITHAES128CBCSHA = 'TLS_RSA_WITH_AES_128_CBC_SHA',
-  TLSECDHEECDSAWITHAES256GCMSHA384 = 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
-  TLSECDHEECDSAWITHAES128GCMSHA256 = 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
-  TLSECDHEECDSAWITHAES256CBCSHA384 = 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384',
-  TLSECDHEECDSAWITHAES128CBCSHA256 = 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256',
-  TLSECDHEECDSAWITHAES256CBCSHA = 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA',
-  TLSECDHEECDSAWITHAES128CBCSHA = 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA',
-  TLSDHEDSSWITHAES256CBCSHA256 = 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256',
-  TLSDHEDSSWITHAES128CBCSHA256 = 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256',
-  TLSDHEDSSWITHAES256CBCSHA = 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA',
-  TLSDHEDSSWITHAES128CBCSHA = 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA',
-  TLSRSAWITH3DESEDECBCSHA = 'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
-}
+export type ApplicationGatewaySslCipherSuite = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA';
+
+/**
+ * Defines values for ApplicationGatewayCustomErrorStatusCode.
+ * Possible values include: 'HttpStatus403', 'HttpStatus502'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationGatewayCustomErrorStatusCode = 'HttpStatus403' | 'HttpStatus502';
 
 /**
  * Defines values for ApplicationGatewayRequestRoutingRuleType.
  * Possible values include: 'Basic', 'PathBasedRouting'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayRequestRoutingRuleType =
- * <ApplicationGatewayRequestRoutingRuleType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayRequestRoutingRuleType {
-  Basic = 'Basic',
-  PathBasedRouting = 'PathBasedRouting',
-}
+export type ApplicationGatewayRequestRoutingRuleType = 'Basic' | 'PathBasedRouting';
 
 /**
  * Defines values for ApplicationGatewayRedirectType.
  * Possible values include: 'Permanent', 'Found', 'SeeOther', 'Temporary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayRedirectType =
- * <ApplicationGatewayRedirectType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayRedirectType {
-  Permanent = 'Permanent',
-  Found = 'Found',
-  SeeOther = 'SeeOther',
-  Temporary = 'Temporary',
-}
+export type ApplicationGatewayRedirectType = 'Permanent' | 'Found' | 'SeeOther' | 'Temporary';
 
 /**
  * Defines values for ApplicationGatewayOperationalState.
  * Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayOperationalState =
- * <ApplicationGatewayOperationalState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayOperationalState {
-  Stopped = 'Stopped',
-  Starting = 'Starting',
-  Running = 'Running',
-  Stopping = 'Stopping',
-}
+export type ApplicationGatewayOperationalState = 'Stopped' | 'Starting' | 'Running' | 'Stopping';
 
 /**
  * Defines values for ApplicationGatewayFirewallMode.
  * Possible values include: 'Detection', 'Prevention'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationGatewayFirewallMode =
- * <ApplicationGatewayFirewallMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationGatewayFirewallMode {
-  Detection = 'Detection',
-  Prevention = 'Prevention',
-}
+export type ApplicationGatewayFirewallMode = 'Detection' | 'Prevention';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for ProvisioningState.
  * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Succeeded = 'Succeeded',
-  Updating = 'Updating',
-  Deleting = 'Deleting',
-  Failed = 'Failed',
-}
+export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
 
 /**
  * Defines values for AzureFirewallRCActionType.
  * Possible values include: 'Allow', 'Deny'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallRCActionType =
- * <AzureFirewallRCActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallRCActionType {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type AzureFirewallRCActionType = 'Allow' | 'Deny';
 
 /**
  * Defines values for AzureFirewallApplicationRuleProtocolType.
  * Possible values include: 'Http', 'Https'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallApplicationRuleProtocolType =
- * <AzureFirewallApplicationRuleProtocolType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallApplicationRuleProtocolType {
-  Http = 'Http',
-  Https = 'Https',
-}
+export type AzureFirewallApplicationRuleProtocolType = 'Http' | 'Https';
 
 /**
  * Defines values for AzureFirewallNatRCActionType.
  * Possible values include: 'Snat', 'Dnat'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallNatRCActionType =
- * <AzureFirewallNatRCActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallNatRCActionType {
-  Snat = 'Snat',
-  Dnat = 'Dnat',
-}
+export type AzureFirewallNatRCActionType = 'Snat' | 'Dnat';
 
 /**
  * Defines values for AzureFirewallNetworkRuleProtocol.
- * Possible values include: 'TCP', 'UDP', 'Any'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AzureFirewallNetworkRuleProtocol =
- * <AzureFirewallNetworkRuleProtocol>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'TCP', 'UDP', 'Any', 'ICMP'
  * @readonly
  * @enum {string}
  */
-export enum AzureFirewallNetworkRuleProtocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-  Any = 'Any',
-}
+export type AzureFirewallNetworkRuleProtocol = 'TCP' | 'UDP' | 'Any' | 'ICMP';
 
 /**
  * Defines values for AuthorizationUseStatus.
  * Possible values include: 'Available', 'InUse'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AuthorizationUseStatus =
- * <AuthorizationUseStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AuthorizationUseStatus {
-  Available = 'Available',
-  InUse = 'InUse',
-}
+export type AuthorizationUseStatus = 'Available' | 'InUse';
 
 /**
  * Defines values for ExpressRouteCircuitPeeringAdvertisedPublicPrefixState.
- * Possible values include: 'NotConfigured', 'Configuring', 'Configured',
- * 'ValidationNeeded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState =
- * <ExpressRouteCircuitPeeringAdvertisedPublicPrefixState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotConfigured', 'Configuring', 'Configured', 'ValidationNeeded'
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitPeeringAdvertisedPublicPrefixState {
-  NotConfigured = 'NotConfigured',
-  Configuring = 'Configuring',
-  Configured = 'Configured',
-  ValidationNeeded = 'ValidationNeeded',
-}
+export type ExpressRouteCircuitPeeringAdvertisedPublicPrefixState = 'NotConfigured' | 'Configuring' | 'Configured' | 'ValidationNeeded';
 
 /**
  * Defines values for Access.
  * Possible values include: 'Allow', 'Deny'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Access = <Access>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Access {
-  Allow = 'Allow',
-  Deny = 'Deny',
-}
+export type Access = 'Allow' | 'Deny';
 
 /**
  * Defines values for ExpressRoutePeeringType.
- * Possible values include: 'AzurePublicPeering', 'AzurePrivatePeering',
- * 'MicrosoftPeering'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRoutePeeringType =
- * <ExpressRoutePeeringType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'AzurePublicPeering', 'AzurePrivatePeering', 'MicrosoftPeering'
  * @readonly
  * @enum {string}
  */
-export enum ExpressRoutePeeringType {
-  AzurePublicPeering = 'AzurePublicPeering',
-  AzurePrivatePeering = 'AzurePrivatePeering',
-  MicrosoftPeering = 'MicrosoftPeering',
-}
+export type ExpressRoutePeeringType = 'AzurePublicPeering' | 'AzurePrivatePeering' | 'MicrosoftPeering';
 
 /**
  * Defines values for ExpressRoutePeeringState.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRoutePeeringState =
- * <ExpressRoutePeeringState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRoutePeeringState {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type ExpressRoutePeeringState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for CircuitConnectionStatus.
  * Possible values include: 'Connected', 'Connecting', 'Disconnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CircuitConnectionStatus =
- * <CircuitConnectionStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CircuitConnectionStatus {
-  Connected = 'Connected',
-  Connecting = 'Connecting',
-  Disconnected = 'Disconnected',
-}
+export type CircuitConnectionStatus = 'Connected' | 'Connecting' | 'Disconnected';
 
 /**
  * Defines values for ExpressRouteCircuitPeeringState.
  * Possible values include: 'Disabled', 'Enabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitPeeringState =
- * <ExpressRouteCircuitPeeringState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitPeeringState {
-  Disabled = 'Disabled',
-  Enabled = 'Enabled',
-}
+export type ExpressRouteCircuitPeeringState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for ExpressRouteCircuitSkuTier.
- * Possible values include: 'Standard', 'Premium'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitSkuTier =
- * <ExpressRouteCircuitSkuTier>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Standard', 'Premium', 'Basic'
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitSkuTier {
-  Standard = 'Standard',
-  Premium = 'Premium',
-}
+export type ExpressRouteCircuitSkuTier = 'Standard' | 'Premium' | 'Basic';
 
 /**
  * Defines values for ExpressRouteCircuitSkuFamily.
  * Possible values include: 'UnlimitedData', 'MeteredData'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ExpressRouteCircuitSkuFamily =
- * <ExpressRouteCircuitSkuFamily>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ExpressRouteCircuitSkuFamily {
-  UnlimitedData = 'UnlimitedData',
-  MeteredData = 'MeteredData',
-}
+export type ExpressRouteCircuitSkuFamily = 'UnlimitedData' | 'MeteredData';
 
 /**
  * Defines values for ServiceProviderProvisioningState.
- * Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned',
- * 'Deprovisioning'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceProviderProvisioningState =
- * <ServiceProviderProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned', 'Deprovisioning'
  * @readonly
  * @enum {string}
  */
-export enum ServiceProviderProvisioningState {
-  NotProvisioned = 'NotProvisioned',
-  Provisioning = 'Provisioning',
-  Provisioned = 'Provisioned',
-  Deprovisioning = 'Deprovisioning',
-}
+export type ServiceProviderProvisioningState = 'NotProvisioned' | 'Provisioning' | 'Provisioned' | 'Deprovisioning';
+
+/**
+ * Defines values for ExpressRouteLinkConnectorType.
+ * Possible values include: 'LC', 'SC'
+ * @readonly
+ * @enum {string}
+ */
+export type ExpressRouteLinkConnectorType = 'LC' | 'SC';
+
+/**
+ * Defines values for ExpressRouteLinkAdminState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type ExpressRouteLinkAdminState = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for ExpressRoutePortsEncapsulation.
+ * Possible values include: 'Dot1Q', 'QinQ'
+ * @readonly
+ * @enum {string}
+ */
+export type ExpressRoutePortsEncapsulation = 'Dot1Q' | 'QinQ';
 
 /**
  * Defines values for LoadBalancerSkuName.
  * Possible values include: 'Basic', 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LoadBalancerSkuName =
- * <LoadBalancerSkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LoadBalancerSkuName {
-  Basic = 'Basic',
-  Standard = 'Standard',
-}
+export type LoadBalancerSkuName = 'Basic' | 'Standard';
 
 /**
  * Defines values for LoadDistribution.
  * Possible values include: 'Default', 'SourceIP', 'SourceIPProtocol'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LoadDistribution =
- * <LoadDistribution>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LoadDistribution {
-  Default = 'Default',
-  SourceIP = 'SourceIP',
-  SourceIPProtocol = 'SourceIPProtocol',
-}
+export type LoadDistribution = 'Default' | 'SourceIP' | 'SourceIPProtocol';
 
 /**
  * Defines values for ProbeProtocol.
  * Possible values include: 'Http', 'Tcp', 'Https'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProbeProtocol =
- * <ProbeProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProbeProtocol {
-  Http = 'Http',
-  Tcp = 'Tcp',
-  Https = 'Https',
-}
+export type ProbeProtocol = 'Http' | 'Tcp' | 'Https';
 
 /**
  * Defines values for NetworkOperationStatus.
  * Possible values include: 'InProgress', 'Succeeded', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NetworkOperationStatus =
- * <NetworkOperationStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NetworkOperationStatus {
-  InProgress = 'InProgress',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-}
+export type NetworkOperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for EffectiveSecurityRuleProtocol.
  * Possible values include: 'Tcp', 'Udp', 'All'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EffectiveSecurityRuleProtocol =
- * <EffectiveSecurityRuleProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EffectiveSecurityRuleProtocol {
-  Tcp = 'Tcp',
-  Udp = 'Udp',
-  All = 'All',
-}
+export type EffectiveSecurityRuleProtocol = 'Tcp' | 'Udp' | 'All';
 
 /**
  * Defines values for EffectiveRouteSource.
- * Possible values include: 'Unknown', 'User', 'VirtualNetworkGateway',
- * 'Default'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EffectiveRouteSource =
- * <EffectiveRouteSource>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'User', 'VirtualNetworkGateway', 'Default'
  * @readonly
  * @enum {string}
  */
-export enum EffectiveRouteSource {
-  Unknown = 'Unknown',
-  User = 'User',
-  VirtualNetworkGateway = 'VirtualNetworkGateway',
-  Default = 'Default',
-}
+export type EffectiveRouteSource = 'Unknown' | 'User' | 'VirtualNetworkGateway' | 'Default';
 
 /**
  * Defines values for EffectiveRouteState.
  * Possible values include: 'Active', 'Invalid'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EffectiveRouteState =
- * <EffectiveRouteState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EffectiveRouteState {
-  Active = 'Active',
-  Invalid = 'Invalid',
-}
+export type EffectiveRouteState = 'Active' | 'Invalid';
 
 /**
  * Defines values for AssociationType.
  * Possible values include: 'Associated', 'Contains'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AssociationType =
- * <AssociationType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AssociationType {
-  Associated = 'Associated',
-  Contains = 'Contains',
-}
+export type AssociationType = 'Associated' | 'Contains';
 
 /**
  * Defines values for Direction.
  * Possible values include: 'Inbound', 'Outbound'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Direction = <Direction>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Direction {
-  Inbound = 'Inbound',
-  Outbound = 'Outbound',
-}
+export type Direction = 'Inbound' | 'Outbound';
 
 /**
  * Defines values for IpFlowProtocol.
  * Possible values include: 'TCP', 'UDP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IpFlowProtocol =
- * <IpFlowProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IpFlowProtocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-}
+export type IpFlowProtocol = 'TCP' | 'UDP';
 
 /**
  * Defines values for NextHopType.
- * Possible values include: 'Internet', 'VirtualAppliance',
- * 'VirtualNetworkGateway', 'VnetLocal', 'HyperNetGateway', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NextHopType =
- * <NextHopType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Internet', 'VirtualAppliance', 'VirtualNetworkGateway', 'VnetLocal',
+ * 'HyperNetGateway', 'None'
  * @readonly
  * @enum {string}
  */
-export enum NextHopType {
-  Internet = 'Internet',
-  VirtualAppliance = 'VirtualAppliance',
-  VirtualNetworkGateway = 'VirtualNetworkGateway',
-  VnetLocal = 'VnetLocal',
-  HyperNetGateway = 'HyperNetGateway',
-  None = 'None',
-}
+export type NextHopType = 'Internet' | 'VirtualAppliance' | 'VirtualNetworkGateway' | 'VnetLocal' | 'HyperNetGateway' | 'None';
 
 /**
  * Defines values for PcProtocol.
  * Possible values include: 'TCP', 'UDP', 'Any'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PcProtocol = <PcProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PcProtocol {
-  TCP = 'TCP',
-  UDP = 'UDP',
-  Any = 'Any',
-}
+export type PcProtocol = 'TCP' | 'UDP' | 'Any';
 
 /**
  * Defines values for PcStatus.
- * Possible values include: 'NotStarted', 'Running', 'Stopped', 'Error',
- * 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PcStatus = <PcStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotStarted', 'Running', 'Stopped', 'Error', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum PcStatus {
-  NotStarted = 'NotStarted',
-  Running = 'Running',
-  Stopped = 'Stopped',
-  Error = 'Error',
-  Unknown = 'Unknown',
-}
+export type PcStatus = 'NotStarted' | 'Running' | 'Stopped' | 'Error' | 'Unknown';
 
 /**
  * Defines values for PcError.
- * Possible values include: 'InternalError', 'AgentStopped', 'CaptureFailed',
- * 'LocalFileFailed', 'StorageFailed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PcError = <PcError>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'InternalError', 'AgentStopped', 'CaptureFailed', 'LocalFileFailed',
+ * 'StorageFailed'
  * @readonly
  * @enum {string}
  */
-export enum PcError {
-  InternalError = 'InternalError',
-  AgentStopped = 'AgentStopped',
-  CaptureFailed = 'CaptureFailed',
-  LocalFileFailed = 'LocalFileFailed',
-  StorageFailed = 'StorageFailed',
-}
+export type PcError = 'InternalError' | 'AgentStopped' | 'CaptureFailed' | 'LocalFileFailed' | 'StorageFailed';
+
+/**
+ * Defines values for FlowLogFormatType.
+ * Possible values include: 'JSON'
+ * @readonly
+ * @enum {string}
+ */
+export type FlowLogFormatType = 'JSON';
 
 /**
  * Defines values for Protocol.
  * Possible values include: 'Tcp', 'Http', 'Https', 'Icmp'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Protocol = <Protocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Protocol {
-  Tcp = 'Tcp',
-  Http = 'Http',
-  Https = 'Https',
-  Icmp = 'Icmp',
-}
+export type Protocol = 'Tcp' | 'Http' | 'Https' | 'Icmp';
 
 /**
  * Defines values for HTTPMethod.
  * Possible values include: 'Get'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HTTPMethod = <HTTPMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HTTPMethod {
-  Get = 'Get',
-}
+export type HTTPMethod = 'Get';
 
 /**
  * Defines values for Origin.
  * Possible values include: 'Local', 'Inbound', 'Outbound'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Origin = <Origin>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Origin {
-  Local = 'Local',
-  Inbound = 'Inbound',
-  Outbound = 'Outbound',
-}
+export type Origin = 'Local' | 'Inbound' | 'Outbound';
 
 /**
  * Defines values for Severity.
  * Possible values include: 'Error', 'Warning'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Severity = <Severity>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Severity {
-  Error = 'Error',
-  Warning = 'Warning',
-}
+export type Severity = 'Error' | 'Warning';
 
 /**
  * Defines values for IssueType.
- * Possible values include: 'Unknown', 'AgentStopped', 'GuestFirewall',
- * 'DnsResolution', 'SocketBind', 'NetworkSecurityRule', 'UserDefinedRoute',
- * 'PortThrottled', 'Platform'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IssueType = <IssueType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'AgentStopped', 'GuestFirewall', 'DnsResolution',
+ * 'SocketBind', 'NetworkSecurityRule', 'UserDefinedRoute', 'PortThrottled', 'Platform'
  * @readonly
  * @enum {string}
  */
-export enum IssueType {
-  Unknown = 'Unknown',
-  AgentStopped = 'AgentStopped',
-  GuestFirewall = 'GuestFirewall',
-  DnsResolution = 'DnsResolution',
-  SocketBind = 'SocketBind',
-  NetworkSecurityRule = 'NetworkSecurityRule',
-  UserDefinedRoute = 'UserDefinedRoute',
-  PortThrottled = 'PortThrottled',
-  Platform = 'Platform',
-}
+export type IssueType = 'Unknown' | 'AgentStopped' | 'GuestFirewall' | 'DnsResolution' | 'SocketBind' | 'NetworkSecurityRule' | 'UserDefinedRoute' | 'PortThrottled' | 'Platform';
 
 /**
  * Defines values for ConnectionStatus.
  * Possible values include: 'Unknown', 'Connected', 'Disconnected', 'Degraded'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConnectionStatus =
- * <ConnectionStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConnectionStatus {
-  Unknown = 'Unknown',
-  Connected = 'Connected',
-  Disconnected = 'Disconnected',
-  Degraded = 'Degraded',
-}
+export type ConnectionStatus = 'Unknown' | 'Connected' | 'Disconnected' | 'Degraded';
 
 /**
  * Defines values for ConnectionMonitorSourceStatus.
  * Possible values include: 'Uknown', 'Active', 'Inactive'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConnectionMonitorSourceStatus =
- * <ConnectionMonitorSourceStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConnectionMonitorSourceStatus {
-  Uknown = 'Uknown',
-  Active = 'Active',
-  Inactive = 'Inactive',
-}
+export type ConnectionMonitorSourceStatus = 'Uknown' | 'Active' | 'Inactive';
 
 /**
  * Defines values for ConnectionState.
  * Possible values include: 'Reachable', 'Unreachable', 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ConnectionState =
- * <ConnectionState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ConnectionState {
-  Reachable = 'Reachable',
-  Unreachable = 'Unreachable',
-  Unknown = 'Unknown',
-}
+export type ConnectionState = 'Reachable' | 'Unreachable' | 'Unknown';
 
 /**
  * Defines values for EvaluationState.
  * Possible values include: 'NotStarted', 'InProgress', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EvaluationState =
- * <EvaluationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EvaluationState {
-  NotStarted = 'NotStarted',
-  InProgress = 'InProgress',
-  Completed = 'Completed',
-}
+export type EvaluationState = 'NotStarted' | 'InProgress' | 'Completed';
+
+/**
+ * Defines values for VerbosityLevel.
+ * Possible values include: 'Normal', 'Minimum', 'Full'
+ * @readonly
+ * @enum {string}
+ */
+export type VerbosityLevel = 'Normal' | 'Minimum' | 'Full';
 
 /**
  * Defines values for PublicIPPrefixSkuName.
  * Possible values include: 'Standard'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PublicIPPrefixSkuName =
- * <PublicIPPrefixSkuName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PublicIPPrefixSkuName {
-  Standard = 'Standard',
-}
+export type PublicIPPrefixSkuName = 'Standard';
 
 /**
  * Defines values for VirtualNetworkPeeringState.
  * Possible values include: 'Initiated', 'Connected', 'Disconnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkPeeringState =
- * <VirtualNetworkPeeringState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkPeeringState {
-  Initiated = 'Initiated',
-  Connected = 'Connected',
-  Disconnected = 'Disconnected',
-}
+export type VirtualNetworkPeeringState = 'Initiated' | 'Connected' | 'Disconnected';
 
 /**
  * Defines values for VirtualNetworkGatewayType.
  * Possible values include: 'Vpn', 'ExpressRoute'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayType =
- * <VirtualNetworkGatewayType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayType {
-  Vpn = 'Vpn',
-  ExpressRoute = 'ExpressRoute',
-}
+export type VirtualNetworkGatewayType = 'Vpn' | 'ExpressRoute';
 
 /**
  * Defines values for VpnType.
  * Possible values include: 'PolicyBased', 'RouteBased'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnType = <VpnType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VpnType {
-  PolicyBased = 'PolicyBased',
-  RouteBased = 'RouteBased',
-}
+export type VpnType = 'PolicyBased' | 'RouteBased';
 
 /**
  * Defines values for VirtualNetworkGatewaySkuName.
- * Possible values include: 'Basic', 'HighPerformance', 'Standard',
- * 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ',
- * 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewaySkuName =
- * <VirtualNetworkGatewaySkuName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1',
+ * 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewaySkuName {
-  Basic = 'Basic',
-  HighPerformance = 'HighPerformance',
-  Standard = 'Standard',
-  UltraPerformance = 'UltraPerformance',
-  VpnGw1 = 'VpnGw1',
-  VpnGw2 = 'VpnGw2',
-  VpnGw3 = 'VpnGw3',
-  VpnGw1AZ = 'VpnGw1AZ',
-  VpnGw2AZ = 'VpnGw2AZ',
-  VpnGw3AZ = 'VpnGw3AZ',
-  ErGw1AZ = 'ErGw1AZ',
-  ErGw2AZ = 'ErGw2AZ',
-  ErGw3AZ = 'ErGw3AZ',
-}
+export type VirtualNetworkGatewaySkuName = 'Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ';
 
 /**
  * Defines values for VirtualNetworkGatewaySkuTier.
- * Possible values include: 'Basic', 'HighPerformance', 'Standard',
- * 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ',
- * 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewaySkuTier =
- * <VirtualNetworkGatewaySkuTier>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1',
+ * 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewaySkuTier {
-  Basic = 'Basic',
-  HighPerformance = 'HighPerformance',
-  Standard = 'Standard',
-  UltraPerformance = 'UltraPerformance',
-  VpnGw1 = 'VpnGw1',
-  VpnGw2 = 'VpnGw2',
-  VpnGw3 = 'VpnGw3',
-  VpnGw1AZ = 'VpnGw1AZ',
-  VpnGw2AZ = 'VpnGw2AZ',
-  VpnGw3AZ = 'VpnGw3AZ',
-  ErGw1AZ = 'ErGw1AZ',
-  ErGw2AZ = 'ErGw2AZ',
-  ErGw3AZ = 'ErGw3AZ',
-}
+export type VirtualNetworkGatewaySkuTier = 'Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ';
 
 /**
  * Defines values for VpnClientProtocol.
  * Possible values include: 'IkeV2', 'SSTP', 'OpenVPN'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnClientProtocol =
- * <VpnClientProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VpnClientProtocol {
-  IkeV2 = 'IkeV2',
-  SSTP = 'SSTP',
-  OpenVPN = 'OpenVPN',
-}
+export type VpnClientProtocol = 'IkeV2' | 'SSTP' | 'OpenVPN';
 
 /**
  * Defines values for IpsecEncryption.
- * Possible values include: 'None', 'DES', 'DES3', 'AES128', 'AES192',
- * 'AES256', 'GCMAES128', 'GCMAES192', 'GCMAES256'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IpsecEncryption =
- * <IpsecEncryption>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES128',
+ * 'GCMAES192', 'GCMAES256'
  * @readonly
  * @enum {string}
  */
-export enum IpsecEncryption {
-  None = 'None',
-  DES = 'DES',
-  DES3 = 'DES3',
-  AES128 = 'AES128',
-  AES192 = 'AES192',
-  AES256 = 'AES256',
-  GCMAES128 = 'GCMAES128',
-  GCMAES192 = 'GCMAES192',
-  GCMAES256 = 'GCMAES256',
-}
+export type IpsecEncryption = 'None' | 'DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256';
 
 /**
  * Defines values for IpsecIntegrity.
- * Possible values include: 'MD5', 'SHA1', 'SHA256', 'GCMAES128', 'GCMAES192',
- * 'GCMAES256'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IpsecIntegrity =
- * <IpsecIntegrity>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'MD5', 'SHA1', 'SHA256', 'GCMAES128', 'GCMAES192', 'GCMAES256'
  * @readonly
  * @enum {string}
  */
-export enum IpsecIntegrity {
-  MD5 = 'MD5',
-  SHA1 = 'SHA1',
-  SHA256 = 'SHA256',
-  GCMAES128 = 'GCMAES128',
-  GCMAES192 = 'GCMAES192',
-  GCMAES256 = 'GCMAES256',
-}
+export type IpsecIntegrity = 'MD5' | 'SHA1' | 'SHA256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256';
 
 /**
  * Defines values for IkeEncryption.
- * Possible values include: 'DES', 'DES3', 'AES128', 'AES192', 'AES256',
- * 'GCMAES256', 'GCMAES128'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IkeEncryption =
- * <IkeEncryption>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES256', 'GCMAES128'
  * @readonly
  * @enum {string}
  */
-export enum IkeEncryption {
-  DES = 'DES',
-  DES3 = 'DES3',
-  AES128 = 'AES128',
-  AES192 = 'AES192',
-  AES256 = 'AES256',
-  GCMAES256 = 'GCMAES256',
-  GCMAES128 = 'GCMAES128',
-}
+export type IkeEncryption = 'DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES256' | 'GCMAES128';
 
 /**
  * Defines values for IkeIntegrity.
- * Possible values include: 'MD5', 'SHA1', 'SHA256', 'SHA384', 'GCMAES256',
- * 'GCMAES128'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: IkeIntegrity =
- * <IkeIntegrity>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'MD5', 'SHA1', 'SHA256', 'SHA384', 'GCMAES256', 'GCMAES128'
  * @readonly
  * @enum {string}
  */
-export enum IkeIntegrity {
-  MD5 = 'MD5',
-  SHA1 = 'SHA1',
-  SHA256 = 'SHA256',
-  SHA384 = 'SHA384',
-  GCMAES256 = 'GCMAES256',
-  GCMAES128 = 'GCMAES128',
-}
+export type IkeIntegrity = 'MD5' | 'SHA1' | 'SHA256' | 'SHA384' | 'GCMAES256' | 'GCMAES128';
 
 /**
  * Defines values for DhGroup.
- * Possible values include: 'None', 'DHGroup1', 'DHGroup2', 'DHGroup14',
- * 'DHGroup2048', 'ECP256', 'ECP384', 'DHGroup24'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DhGroup = <DhGroup>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'DHGroup1', 'DHGroup2', 'DHGroup14', 'DHGroup2048', 'ECP256',
+ * 'ECP384', 'DHGroup24'
  * @readonly
  * @enum {string}
  */
-export enum DhGroup {
-  None = 'None',
-  DHGroup1 = 'DHGroup1',
-  DHGroup2 = 'DHGroup2',
-  DHGroup14 = 'DHGroup14',
-  DHGroup2048 = 'DHGroup2048',
-  ECP256 = 'ECP256',
-  ECP384 = 'ECP384',
-  DHGroup24 = 'DHGroup24',
-}
+export type DhGroup = 'None' | 'DHGroup1' | 'DHGroup2' | 'DHGroup14' | 'DHGroup2048' | 'ECP256' | 'ECP384' | 'DHGroup24';
 
 /**
  * Defines values for PfsGroup.
- * Possible values include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256',
- * 'ECP384', 'PFS24', 'PFS14', 'PFSMM'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PfsGroup = <PfsGroup>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256', 'ECP384', 'PFS24',
+ * 'PFS14', 'PFSMM'
  * @readonly
  * @enum {string}
  */
-export enum PfsGroup {
-  None = 'None',
-  PFS1 = 'PFS1',
-  PFS2 = 'PFS2',
-  PFS2048 = 'PFS2048',
-  ECP256 = 'ECP256',
-  ECP384 = 'ECP384',
-  PFS24 = 'PFS24',
-  PFS14 = 'PFS14',
-  PFSMM = 'PFSMM',
-}
+export type PfsGroup = 'None' | 'PFS1' | 'PFS2' | 'PFS2048' | 'ECP256' | 'ECP384' | 'PFS24' | 'PFS14' | 'PFSMM';
 
 /**
  * Defines values for BgpPeerState.
- * Possible values include: 'Unknown', 'Stopped', 'Idle', 'Connecting',
- * 'Connected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BgpPeerState =
- * <BgpPeerState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Stopped', 'Idle', 'Connecting', 'Connected'
  * @readonly
  * @enum {string}
  */
-export enum BgpPeerState {
-  Unknown = 'Unknown',
-  Stopped = 'Stopped',
-  Idle = 'Idle',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-}
+export type BgpPeerState = 'Unknown' | 'Stopped' | 'Idle' | 'Connecting' | 'Connected';
 
 /**
  * Defines values for ProcessorArchitecture.
  * Possible values include: 'Amd64', 'X86'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProcessorArchitecture =
- * <ProcessorArchitecture>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProcessorArchitecture {
-  Amd64 = 'Amd64',
-  X86 = 'X86',
-}
+export type ProcessorArchitecture = 'Amd64' | 'X86';
 
 /**
  * Defines values for AuthenticationMethod.
  * Possible values include: 'EAPTLS', 'EAPMSCHAPv2'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AuthenticationMethod =
- * <AuthenticationMethod>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AuthenticationMethod {
-  EAPTLS = 'EAPTLS',
-  EAPMSCHAPv2 = 'EAPMSCHAPv2',
-}
+export type AuthenticationMethod = 'EAPTLS' | 'EAPMSCHAPv2';
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayConnectionStatus =
- * <VirtualNetworkGatewayConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type VirtualNetworkGatewayConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionType.
  * Possible values include: 'IPsec', 'Vnet2Vnet', 'ExpressRoute', 'VPNClient'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayConnectionType =
- * <VirtualNetworkGatewayConnectionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayConnectionType {
-  IPsec = 'IPsec',
-  Vnet2Vnet = 'Vnet2Vnet',
-  ExpressRoute = 'ExpressRoute',
-  VPNClient = 'VPNClient',
-}
+export type VirtualNetworkGatewayConnectionType = 'IPsec' | 'Vnet2Vnet' | 'ExpressRoute' | 'VPNClient';
 
 /**
  * Defines values for VirtualNetworkGatewayConnectionProtocol.
  * Possible values include: 'IKEv2', 'IKEv1'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkGatewayConnectionProtocol =
- * <VirtualNetworkGatewayConnectionProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkGatewayConnectionProtocol {
-  IKEv2 = 'IKEv2',
-  IKEv1 = 'IKEv1',
-}
+export type VirtualNetworkGatewayConnectionProtocol = 'IKEv2' | 'IKEv1';
 
 /**
  * Defines values for OfficeTrafficCategory.
  * Possible values include: 'Optimize', 'OptimizeAndAllow', 'All', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OfficeTrafficCategory =
- * <OfficeTrafficCategory>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OfficeTrafficCategory {
-  Optimize = 'Optimize',
-  OptimizeAndAllow = 'OptimizeAndAllow',
-  All = 'All',
-  None = 'None',
-}
+export type OfficeTrafficCategory = 'Optimize' | 'OptimizeAndAllow' | 'All' | 'None';
 
 /**
  * Defines values for VpnGatewayTunnelingProtocol.
  * Possible values include: 'IkeV2', 'OpenVPN'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnGatewayTunnelingProtocol =
- * <VpnGatewayTunnelingProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VpnGatewayTunnelingProtocol {
-  IkeV2 = 'IkeV2',
-  OpenVPN = 'OpenVPN',
-}
+export type VpnGatewayTunnelingProtocol = 'IkeV2' | 'OpenVPN';
 
 /**
  * Defines values for VpnConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VpnConnectionStatus =
- * <VpnConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum VpnConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type VpnConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for VirtualWanSecurityProviderType.
  * Possible values include: 'External', 'Native'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualWanSecurityProviderType =
- * <VirtualWanSecurityProviderType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum VirtualWanSecurityProviderType {
-  External = 'External',
-  Native = 'Native',
-}
+export type VirtualWanSecurityProviderType = 'External' | 'Native';
 
 /**
  * Defines values for TunnelConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TunnelConnectionStatus =
- * <TunnelConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum TunnelConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type TunnelConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for HubVirtualNetworkConnectionStatus.
- * Possible values include: 'Unknown', 'Connecting', 'Connected',
- * 'NotConnected'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HubVirtualNetworkConnectionStatus =
- * <HubVirtualNetworkConnectionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'
  * @readonly
  * @enum {string}
  */
-export enum HubVirtualNetworkConnectionStatus {
-  Unknown = 'Unknown',
-  Connecting = 'Connecting',
-  Connected = 'Connected',
-  NotConnected = 'NotConnected',
-}
+export type HubVirtualNetworkConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for Protocol1.
  * Possible values include: 'Tcp', 'Udp', 'All'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Protocol1 = <Protocol1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Protocol1 {
-  Tcp = 'Tcp',
-  Udp = 'Udp',
-  All = 'All',
-}
+export type Protocol1 = 'Tcp' | 'Udp' | 'All';
 
 /**
  * Contains response data for the get operation.
@@ -13400,6 +13210,25 @@ export type ExpressRouteCircuitConnectionsCreateOrUpdateResponse = ExpressRouteC
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type ExpressRouteCircuitConnectionsListResponse = ExpressRouteCircuitConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteCircuitConnectionListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ExpressRouteCircuitConnectionsBeginCreateOrUpdateResponse = ExpressRouteCircuitConnection & {
@@ -13415,6 +13244,25 @@ export type ExpressRouteCircuitConnectionsBeginCreateOrUpdateResponse = ExpressR
        * The response body as parsed JSON or XML
        */
       parsedBody: ExpressRouteCircuitConnection;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRouteCircuitConnectionsListNextResponse = ExpressRouteCircuitConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteCircuitConnectionListResult;
     };
 };
 
@@ -14331,6 +14179,291 @@ export type ExpressRouteConnectionsBeginCreateOrUpdateResponse = ExpressRouteCon
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type ExpressRoutePortsLocationsListResponse = ExpressRoutePortsLocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortsLocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRoutePortsLocationsGetResponse = ExpressRoutePortsLocation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortsLocation;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRoutePortsLocationsListNextResponse = ExpressRoutePortsLocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortsLocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRoutePortsGetResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ExpressRoutePortsCreateOrUpdateResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type ExpressRoutePortsUpdateTagsResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ExpressRoutePortsListByResourceGroupResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExpressRoutePortsListResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ExpressRoutePortsBeginCreateOrUpdateResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type ExpressRoutePortsBeginUpdateTagsResponse = ExpressRoutePort & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePort;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ExpressRoutePortsListByResourceGroupNextResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRoutePortsListNextResponse = ExpressRoutePortListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRoutePortListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRouteLinksGetResponse = ExpressRouteLink & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteLink;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExpressRouteLinksListResponse = ExpressRouteLinkListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteLinkListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExpressRouteLinksListNextResponse = ExpressRouteLinkListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteLinkListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type InterfaceEndpointsGetResponse = InterfaceEndpoint & {
@@ -14897,6 +15030,63 @@ export type LoadBalancerLoadBalancingRulesListNextResponse = LoadBalancerLoadBal
        * The response body as parsed JSON or XML
        */
       parsedBody: LoadBalancerLoadBalancingRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type LoadBalancerOutboundRulesListResponse = LoadBalancerOutboundRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerOutboundRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LoadBalancerOutboundRulesGetResponse = OutboundRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundRule;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type LoadBalancerOutboundRulesListNextResponse = LoadBalancerOutboundRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LoadBalancerOutboundRuleListResult;
     };
 };
 
@@ -18606,177 +18796,6 @@ export type VirtualNetworkPeeringsListNextResponse = VirtualNetworkPeeringListRe
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAll operation.
- */
-export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTags operation.
- */
-export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTap;
-    };
-};
-
-/**
- * Contains response data for the listAllNext operation.
- */
-export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkTapListResult;
-    };
-};
-
-/**
  * Contains response data for the createOrUpdate operation.
  */
 export type VirtualNetworkGatewaysCreateOrUpdateResponse = VirtualNetworkGateway & {
@@ -19717,6 +19736,177 @@ export type LocalNetworkGatewaysListNextResponse = LocalNetworkGatewayListResult
        * The response body as parsed JSON or XML
        */
       parsedBody: LocalNetworkGatewayListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualNetworkTapsGetResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualNetworkTapsCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type VirtualNetworkTapsUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type VirtualNetworkTapsListAllResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualNetworkTapsBeginCreateOrUpdateResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type VirtualNetworkTapsBeginUpdateTagsResponse = VirtualNetworkTap & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTap;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type VirtualNetworkTapsListAllNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkTapListResult;
     };
 };
 

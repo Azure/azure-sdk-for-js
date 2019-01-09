@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteCrossConnectionPeeringsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param callback The callback
    */
   list(resourceGroupName: string, crossConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): void;
-  list(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse> {
+  list(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param callback The callback
    */
   get(resourceGroupName: string, crossConnectionName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>): void;
-  get(resourceGroupName: string, crossConnectionName: string, peeringName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>): Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse> {
+  get(resourceGroupName: string, crossConnectionName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>): Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

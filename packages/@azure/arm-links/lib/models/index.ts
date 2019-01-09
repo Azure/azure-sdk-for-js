@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -139,8 +139,8 @@ export interface Operation {
 export interface ResourceLinksListAtSubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the list resource links
-   * operation. The supported filter for list resource links is targetid. For
-   * example, $filter=targetid eq {value}
+   * operation. The supported filter for list resource links is targetId. For
+   * example, $filter=targetId eq {value}
    */
   filter?: string;
 }
@@ -213,9 +213,7 @@ export interface ResourceLinkResult extends Array<ResourceLink> {
  * @readonly
  * @enum {string}
  */
-export enum Filter {
-  AtScope = 'atScope()',
-}
+export type Filter = 'atScope()';
 
 /**
  * Contains response data for the list operation.

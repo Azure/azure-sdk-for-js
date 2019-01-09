@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/identityProviderMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class IdentityProvider {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentityProviderList>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IdentityProviderList>): Promise<Models.IdentityProviderListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderList>, callback?: msRest.ServiceCallback<Models.IdentityProviderList>): Promise<Models.IdentityProviderListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class IdentityProvider {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.IdentityProviderGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.IdentityProviderGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class IdentityProvider {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
-  get(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IdentityProviderContract>): Promise<Models.IdentityProviderGetResponse> {
+  get(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderContract>, callback?: msRest.ServiceCallback<Models.IdentityProviderContract>): Promise<Models.IdentityProviderGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +167,7 @@ export class IdentityProvider {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderContract, options: Models.IdentityProviderCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderContract, options?: Models.IdentityProviderCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.IdentityProviderContract>): Promise<Models.IdentityProviderCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderContract, options?: Models.IdentityProviderCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IdentityProviderContract>, callback?: msRest.ServiceCallback<Models.IdentityProviderContract>): Promise<Models.IdentityProviderCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -216,7 +216,7 @@ export class IdentityProvider {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -263,7 +263,7 @@ export class IdentityProvider {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -294,7 +294,7 @@ export class IdentityProvider {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentityProviderList>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IdentityProviderList>): Promise<Models.IdentityProviderListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderList>, callback?: msRest.ServiceCallback<Models.IdentityProviderList>): Promise<Models.IdentityProviderListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

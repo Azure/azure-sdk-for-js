@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -2200,6 +2200,68 @@ export interface MarketplacesListForBillingPeriodByEnrollmentAccountOptionalPara
 
 /**
  * @interface
+ * An interface representing MarketplacesListByManagementGroupOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface MarketplacesListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter marketplaces by
+   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
+   * properties/resourceGroup, properties/instanceName or
+   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
+   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] May be used to limit the number of results to the
+   * most recent N marketplaces.
+   */
+  top?: number;
+  /**
+   * @member {string} [skiptoken] Skiptoken is only used if a previous
+   * operation returned a partial result. If a previous response contains a
+   * nextLink element, the value of the nextLink element will include a
+   * skiptoken parameter that specifies a starting point to use for subsequent
+   * calls.
+   */
+  skiptoken?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MarketplacesListForBillingPeriodByManagementGroupOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface MarketplacesListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter marketplaces by
+   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
+   * properties/resourceGroup, properties/instanceName or
+   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
+   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] May be used to limit the number of results to the
+   * most recent N marketplaces.
+   */
+  top?: number;
+  /**
+   * @member {string} [skiptoken] Skiptoken is only used if a previous
+   * operation returned a partial result. If a previous response contains a
+   * nextLink element, the value of the nextLink element will include a
+   * skiptoken parameter that specifies a starting point to use for subsequent
+   * calls.
+   */
+  skiptoken?: string;
+}
+
+/**
+ * @interface
  * An interface representing ReservationsSummariesListByReservationOrderOptionalParams.
  * Optional Parameters.
  *
@@ -2553,136 +2615,66 @@ export interface OperationListResult extends Array<Operation> {
 /**
  * Defines values for BillingFrequency.
  * Possible values include: 'Month', 'Quarter', 'Year'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BillingFrequency =
- * <BillingFrequency>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BillingFrequency {
-  Month = 'Month',
-  Quarter = 'Quarter',
-  Year = 'Year',
-}
+export type BillingFrequency = 'Month' | 'Quarter' | 'Year';
 
 /**
  * Defines values for CategoryType.
  * Possible values include: 'Cost', 'Usage'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CategoryType =
- * <CategoryType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CategoryType {
-  Cost = 'Cost',
-  Usage = 'Usage',
-}
+export type CategoryType = 'Cost' | 'Usage';
 
 /**
  * Defines values for TimeGrainType.
  * Possible values include: 'Monthly', 'Quarterly', 'Annually'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TimeGrainType =
- * <TimeGrainType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TimeGrainType {
-  Monthly = 'Monthly',
-  Quarterly = 'Quarterly',
-  Annually = 'Annually',
-}
+export type TimeGrainType = 'Monthly' | 'Quarterly' | 'Annually';
 
 /**
  * Defines values for OperatorType.
  * Possible values include: 'EqualTo', 'GreaterThan', 'GreaterThanOrEqualTo'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperatorType =
- * <OperatorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperatorType {
-  EqualTo = 'EqualTo',
-  GreaterThan = 'GreaterThan',
-  GreaterThanOrEqualTo = 'GreaterThanOrEqualTo',
-}
+export type OperatorType = 'EqualTo' | 'GreaterThan' | 'GreaterThanOrEqualTo';
 
 /**
  * Defines values for Grain.
  * Possible values include: 'Daily', 'Monthly', 'Yearly'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Grain = <Grain>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Grain {
-  Daily = 'Daily',
-  Monthly = 'Monthly',
-  Yearly = 'Yearly',
-}
+export type Grain = 'Daily' | 'Monthly' | 'Yearly';
 
 /**
  * Defines values for ChargeType.
  * Possible values include: 'Actual', 'Forecast'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ChargeType = <ChargeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ChargeType {
-  Actual = 'Actual',
-  Forecast = 'Forecast',
-}
+export type ChargeType = 'Actual' | 'Forecast';
 
 /**
  * Defines values for Bound.
  * Possible values include: 'Upper', 'Lower'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Bound = <Bound>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Bound {
-  Upper = 'Upper',
-  Lower = 'Lower',
-}
+export type Bound = 'Upper' | 'Lower';
 
 /**
  * Defines values for Datagrain.
  * Possible values include: 'DailyGrain', 'MonthlyGrain'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Datagrain = <Datagrain>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Datagrain {
-  /**
-   * Daily grain of data
-   */
-  DailyGrain = 'daily',
-  /**
-   * Monthly grain of data
-   */
-  MonthlyGrain = 'monthly',
-}
+export type Datagrain = 'daily' | 'monthly';
 
 /**
  * Contains response data for the list operation.
@@ -3217,6 +3209,44 @@ export type MarketplacesListForBillingPeriodByEnrollmentAccountResponse = Market
 };
 
 /**
+ * Contains response data for the listByManagementGroup operation.
+ */
+export type MarketplacesListByManagementGroupResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForBillingPeriodByManagementGroup operation.
+ */
+export type MarketplacesListForBillingPeriodByManagementGroupResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type MarketplacesListNextResponse = MarketplacesListResult & {
@@ -3353,6 +3383,44 @@ export type MarketplacesListByEnrollmentAccountNextResponse = MarketplacesListRe
  * Contains response data for the listForBillingPeriodByEnrollmentAccountNext operation.
  */
 export type MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByManagementGroupNext operation.
+ */
+export type MarketplacesListByManagementGroupNextResponse = MarketplacesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MarketplacesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForBillingPeriodByManagementGroupNext operation.
+ */
+export type MarketplacesListForBillingPeriodByManagementGroupNextResponse = MarketplacesListResult & {
   /**
    * The underlying HTTP response.
    */

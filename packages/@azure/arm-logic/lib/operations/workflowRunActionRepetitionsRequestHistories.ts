@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workflowRunActionRepetitionsRequestHistoriesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class WorkflowRunActionRepetitionsRequestHistories {
    * @param callback The callback
    */
   list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RequestHistoryListResult>): void;
-  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>): Promise<Models.WorkflowRunActionRepetitionsRequestHistoriesListResponse> {
+  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistoryListResult>, callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>): Promise<Models.WorkflowRunActionRepetitionsRequestHistoriesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +103,7 @@ export class WorkflowRunActionRepetitionsRequestHistories {
    * @param callback The callback
    */
   get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, requestHistoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RequestHistory>): void;
-  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, requestHistoryName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RequestHistory>): Promise<Models.WorkflowRunActionRepetitionsRequestHistoriesGetResponse> {
+  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, requestHistoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistory>, callback?: msRest.ServiceCallback<Models.RequestHistory>): Promise<Models.WorkflowRunActionRepetitionsRequestHistoriesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +136,7 @@ export class WorkflowRunActionRepetitionsRequestHistories {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RequestHistoryListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>): Promise<Models.WorkflowRunActionRepetitionsRequestHistoriesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistoryListResult>, callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>): Promise<Models.WorkflowRunActionRepetitionsRequestHistoriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

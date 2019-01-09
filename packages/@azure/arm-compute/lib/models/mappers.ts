@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -842,6 +842,22 @@ export const Usage: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "UsageName"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineReimageParameters: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineReimageParameters",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineReimageParameters",
+    modelProperties: {
+      tempDisk: {
+        serializedName: "tempDisk",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3999,6 +4015,39 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
       },
       zones: {
         serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetVMReimageParameters: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMReimageParameters",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMReimageParameters",
+    modelProperties: {
+      ...VirtualMachineReimageParameters.type.modelProperties
+    }
+  }
+};
+
+export const VirtualMachineScaleSetReimageParameters: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetReimageParameters",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetReimageParameters",
+    modelProperties: {
+      ...VirtualMachineScaleSetVMReimageParameters.type.modelProperties,
+      instanceIds: {
+        serializedName: "instanceIds",
         type: {
           name: "Sequence",
           element: {

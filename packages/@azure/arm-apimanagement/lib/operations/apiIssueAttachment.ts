@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/apiIssueAttachmentMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class ApiIssueAttachment {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: Models.ApiIssueAttachmentListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueAttachmentListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>): Promise<Models.ApiIssueAttachmentListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueAttachmentListByServiceOptionalParams | msRest.ServiceCallback<Models.IssueAttachmentCollection>, callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>): Promise<Models.ApiIssueAttachmentListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +97,7 @@ export class ApiIssueAttachment {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueAttachmentGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueAttachmentGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -141,7 +141,7 @@ export class ApiIssueAttachment {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueAttachmentContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>): Promise<Models.ApiIssueAttachmentGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueAttachmentContract>, callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>): Promise<Models.ApiIssueAttachmentGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class ApiIssueAttachment {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, parameters: Models.IssueAttachmentContract, options: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IssueAttachmentContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, parameters: Models.IssueAttachmentContract, options?: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>): Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, parameters: Models.IssueAttachmentContract, options?: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IssueAttachmentContract>, callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>): Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -239,7 +239,7 @@ export class ApiIssueAttachment {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -272,7 +272,7 @@ export class ApiIssueAttachment {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>): Promise<Models.ApiIssueAttachmentListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueAttachmentCollection>, callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>): Promise<Models.ApiIssueAttachmentListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

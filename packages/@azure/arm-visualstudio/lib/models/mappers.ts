@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -98,6 +98,27 @@ export const AccountResourceListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "AccountResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AccountTagRequest: msRest.CompositeMapper = {
+  serializedName: "AccountTagRequest",
+  type: {
+    name: "Composite",
+    className: "AccountTagRequest",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
             }
           }
         }

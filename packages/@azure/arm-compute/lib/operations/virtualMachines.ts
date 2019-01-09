@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualMachinesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listByLocation(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResult>): void;
-  listByLocation(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListByLocationResponse> {
+  listByLocation(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -128,7 +128,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   get(resourceGroupName: string, vmName: string, options: Models.VirtualMachinesGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachine>): void;
-  get(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesGetOptionalParams, callback?: msRest.ServiceCallback<Models.VirtualMachine>): Promise<Models.VirtualMachinesGetResponse> {
+  get(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachine>, callback?: msRest.ServiceCallback<Models.VirtualMachine>): Promise<Models.VirtualMachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   instanceView(resourceGroupName: string, vmName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineInstanceView>): void;
-  instanceView(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineInstanceView>): Promise<Models.VirtualMachinesInstanceViewResponse> {
+  instanceView(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineInstanceView>, callback?: msRest.ServiceCallback<Models.VirtualMachineInstanceView>): Promise<Models.VirtualMachinesInstanceViewResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,7 +218,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   generalize(resourceGroupName: string, vmName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  generalize(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  generalize(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -248,7 +248,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -274,7 +274,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListAllResponse> {
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -304,7 +304,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listAvailableSizes(resourceGroupName: string, vmName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): void;
-  listAvailableSizes(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.VirtualMachinesListAvailableSizesResponse> {
+  listAvailableSizes(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineSizeListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineSizeListResult>): Promise<Models.VirtualMachinesListAvailableSizesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -361,6 +361,19 @@ export class VirtualMachines {
    */
   redeploy(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginRedeploy(resourceGroupName,vmName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
+   * differencing OS disks.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  reimage(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesReimageOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginReimage(resourceGroupName,vmName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -580,6 +593,25 @@ export class VirtualMachines {
   }
 
   /**
+   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
+   * differencing OS disks.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginReimage(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesBeginReimageOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        vmName,
+        options
+      },
+      beginReimageOperationSpec,
+      options);
+  }
+
+  /**
    * The operation to perform maintenance on a virtual machine.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
@@ -635,7 +667,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listByLocationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResult>): void;
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListByLocationNextResponse> {
+  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -664,7 +696,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -693,7 +725,7 @@ export class VirtualMachines {
    * @param callback The callback
    */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResult>): Promise<Models.VirtualMachinesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -1138,6 +1170,37 @@ const beginRedeployOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginReimageOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/reimage",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
+    mapper: Mappers.VirtualMachineReimageParameters
+  },
   responses: {
     200: {},
     202: {},

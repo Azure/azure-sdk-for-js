@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/diagnosticSettingsOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class DiagnosticSettingsOperations {
    * @param callback The callback
    */
   get(resourceUri: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticSettingsResource>): void;
-  get(resourceUri: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsResource>): Promise<Models.DiagnosticSettingsGetResponse> {
+  get(resourceUri: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticSettingsResource>, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsResource>): Promise<Models.DiagnosticSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -82,7 +82,7 @@ export class DiagnosticSettingsOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceUri: string, parameters: Models.DiagnosticSettingsResource, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticSettingsResource>): void;
-  createOrUpdate(resourceUri: string, parameters: Models.DiagnosticSettingsResource, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsResource>): Promise<Models.DiagnosticSettingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceUri: string, parameters: Models.DiagnosticSettingsResource, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticSettingsResource>, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsResource>): Promise<Models.DiagnosticSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -115,7 +115,7 @@ export class DiagnosticSettingsOperations {
    * @param callback The callback
    */
   deleteMethod(resourceUri: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceUri: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceUri: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -144,7 +144,7 @@ export class DiagnosticSettingsOperations {
    * @param callback The callback
    */
   list(resourceUri: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticSettingsResourceCollection>): void;
-  list(resourceUri: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsResourceCollection>): Promise<Models.DiagnosticSettingsListResponse> {
+  list(resourceUri: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticSettingsResourceCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticSettingsResourceCollection>): Promise<Models.DiagnosticSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,

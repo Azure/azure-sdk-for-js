@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/propertyMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Property {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, options: Models.PropertyListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PropertyCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PropertyListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.PropertyCollection>): Promise<Models.PropertyListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.PropertyListByServiceOptionalParams | msRest.ServiceCallback<Models.PropertyCollection>, callback?: msRest.ServiceCallback<Models.PropertyCollection>): Promise<Models.PropertyListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class Property {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, propId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.PropertyGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PropertyGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class Property {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, propId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PropertyContract>): void;
-  get(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PropertyContract>): Promise<Models.PropertyGetResponse> {
+  get(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PropertyContract>, callback?: msRest.ServiceCallback<Models.PropertyContract>): Promise<Models.PropertyGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class Property {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyContract, options: Models.PropertyCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PropertyContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyContract, options?: Models.PropertyCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.PropertyContract>): Promise<Models.PropertyCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyContract, options?: Models.PropertyCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PropertyContract>, callback?: msRest.ServiceCallback<Models.PropertyContract>): Promise<Models.PropertyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class Property {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +247,7 @@ export class Property {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, propId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, propId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, propId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,7 +278,7 @@ export class Property {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PropertyCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PropertyCollection>): Promise<Models.PropertyListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PropertyCollection>, callback?: msRest.ServiceCallback<Models.PropertyCollection>): Promise<Models.PropertyListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

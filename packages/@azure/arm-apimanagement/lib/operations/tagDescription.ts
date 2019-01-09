@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/tagDescriptionMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class TagDescription {
    * @param callback The callback
    */
   listByApi(resourceGroupName: string, serviceName: string, apiId: string, options: Models.TagDescriptionListByApiOptionalParams, callback: msRest.ServiceCallback<Models.TagDescriptionCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagDescriptionListByApiOptionalParams, callback?: msRest.ServiceCallback<Models.TagDescriptionCollection>): Promise<Models.TagDescriptionListByApiResponse> {
+  listByApi(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.TagDescriptionListByApiOptionalParams | msRest.ServiceCallback<Models.TagDescriptionCollection>, callback?: msRest.ServiceCallback<Models.TagDescriptionCollection>): Promise<Models.TagDescriptionListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class TagDescription {
    * @param callback The callback
    */
   getEntityState(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityState(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.TagDescriptionGetEntityStateResponse> {
+  getEntityState(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TagDescriptionGetEntityStateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +139,7 @@ export class TagDescription {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagDescriptionContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagDescriptionContract>): Promise<Models.TagDescriptionGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDescriptionContract>, callback?: msRest.ServiceCallback<Models.TagDescriptionContract>): Promise<Models.TagDescriptionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class TagDescription {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, parameters: Models.TagDescriptionCreateParameters, options: Models.TagDescriptionCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.TagDescriptionContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, parameters: Models.TagDescriptionCreateParameters, options?: Models.TagDescriptionCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.TagDescriptionContract>): Promise<Models.TagDescriptionCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, parameters: Models.TagDescriptionCreateParameters, options?: Models.TagDescriptionCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.TagDescriptionContract>, callback?: msRest.ServiceCallback<Models.TagDescriptionContract>): Promise<Models.TagDescriptionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -235,7 +235,7 @@ export class TagDescription {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, tagId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -268,7 +268,7 @@ export class TagDescription {
    * @param callback The callback
    */
   listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagDescriptionCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagDescriptionCollection>): Promise<Models.TagDescriptionListByApiNextResponse> {
+  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDescriptionCollection>, callback?: msRest.ServiceCallback<Models.TagDescriptionCollection>): Promise<Models.TagDescriptionListByApiNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -64,6 +64,18 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const blobServicesName: msRest.OperationURLParameter = {
+  parameterPath: "blobServicesName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "BlobServicesName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const containerName: msRest.OperationURLParameter = {
   parameterPath: "containerName",
   mapper: {
@@ -75,6 +87,21 @@ export const containerName: msRest.OperationURLParameter = {
     },
     type: {
       name: "String"
+    }
+  }
+};
+export const expand: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "geoReplicationStats"
+      ]
     }
   }
 };

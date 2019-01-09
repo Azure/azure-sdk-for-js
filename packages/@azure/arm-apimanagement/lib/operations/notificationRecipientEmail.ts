@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/notificationRecipientEmailMappers";
 import * as Parameters from "../models/parameters";
@@ -59,7 +59,7 @@ export class NotificationRecipientEmail {
    * @param callback The callback
    */
   listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecipientEmailCollection>): void;
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecipientEmailCollection>): Promise<Models.NotificationRecipientEmailListByNotificationResponse> {
+  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientEmailCollection>, callback?: msRest.ServiceCallback<Models.RecipientEmailCollection>): Promise<Models.NotificationRecipientEmailListByNotificationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +107,7 @@ export class NotificationRecipientEmail {
    * @param callback The callback
    */
   checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +156,7 @@ export class NotificationRecipientEmail {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecipientEmailContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RecipientEmailContract>): Promise<Models.NotificationRecipientEmailCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientEmailContract>, callback?: msRest.ServiceCallback<Models.RecipientEmailContract>): Promise<Models.NotificationRecipientEmailCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,7 +205,7 @@ export class NotificationRecipientEmail {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

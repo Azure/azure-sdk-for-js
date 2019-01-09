@@ -25,6 +25,8 @@ export {
   PasswordCredentialListResult,
   PasswordCredentialsUpdateParameters,
   Application,
+  RequiredResourceAccess,
+  ResourceAccess,
   ADGroup,
   User,
   SignInName

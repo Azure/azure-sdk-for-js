@@ -9,23 +9,16 @@
  */
 
 import * as Models from "./models";
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-devtestlabs";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 export class DevTestLabsClientContext extends msRestAzure.AzureServiceClient {
-
   credentials: msRest.ServiceClientCredentials;
-
-  apiVersion: string;
-
+  apiVersion?: string;
   subscriptionId: string;
-
-  acceptLanguage: string;
-
-  longRunningOperationRetryTimeout: number;
 
   /**
    * Initializes a new instance of the DevTestLabsClient class.
@@ -44,9 +37,14 @@ export class DevTestLabsClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
+
     super(credentials, options);
 
-    this.apiVersion = '2016-05-15';
+    this.apiVersion = '2018-09-15';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -54,7 +52,6 @@ export class DevTestLabsClientContext extends msRestAzure.AzureServiceClient {
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    this.addUserAgentInfo(`${packageName}/${packageVersion}`);
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }

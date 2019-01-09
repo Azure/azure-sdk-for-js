@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/redisMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Redis {
    * @param callback The callback
    */
   checkNameAvailability(parameters: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -82,7 +82,7 @@ export class Redis {
    * @param callback The callback
    */
   listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationListResponse>): void;
-  listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationListResponse>): Promise<Models.RedisListUpgradeNotificationsResponse> {
+  listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationListResponse>, callback?: msRest.ServiceCallback<Models.NotificationListResponse>): Promise<Models.RedisListUpgradeNotificationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +131,7 @@ export class Redis {
    * @param callback The callback
    */
   update(resourceGroupName: string, name: string, parameters: Models.RedisUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisResource>): void;
-  update(resourceGroupName: string, name: string, parameters: Models.RedisUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisResource>): Promise<Models.RedisUpdateResponse> {
+  update(resourceGroupName: string, name: string, parameters: Models.RedisUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisResource>, callback?: msRest.ServiceCallback<Models.RedisResource>): Promise<Models.RedisUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,7 +176,7 @@ export class Redis {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisResource>): void;
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisResource>): Promise<Models.RedisGetResponse> {
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisResource>, callback?: msRest.ServiceCallback<Models.RedisResource>): Promise<Models.RedisGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,7 +205,7 @@ export class Redis {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -230,7 +230,7 @@ export class Redis {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -261,7 +261,7 @@ export class Redis {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisAccessKeys>): void;
-  listKeys(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisAccessKeys>): Promise<Models.RedisListKeysResponse> {
+  listKeys(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisAccessKeys>, callback?: msRest.ServiceCallback<Models.RedisAccessKeys>): Promise<Models.RedisListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -300,7 +300,7 @@ export class Redis {
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, name: string, keyType: Models.RedisKeyType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisAccessKeys>): void;
-  regenerateKey(resourceGroupName: string, name: string, keyType: Models.RedisKeyType, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisAccessKeys>): Promise<Models.RedisRegenerateKeyResponse> {
+  regenerateKey(resourceGroupName: string, name: string, keyType: Models.RedisKeyType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisAccessKeys>, callback?: msRest.ServiceCallback<Models.RedisAccessKeys>): Promise<Models.RedisRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -337,7 +337,7 @@ export class Redis {
    * @param callback The callback
    */
   forceReboot(resourceGroupName: string, name: string, parameters: Models.RedisRebootParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisForceRebootResponse>): void;
-  forceReboot(resourceGroupName: string, name: string, parameters: Models.RedisRebootParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisForceRebootResponse>): Promise<Models.RedisForceRebootResponse2> {
+  forceReboot(resourceGroupName: string, name: string, parameters: Models.RedisRebootParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisForceRebootResponse>, callback?: msRest.ServiceCallback<Models.RedisForceRebootResponse>): Promise<Models.RedisForceRebootResponse2> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -471,7 +471,7 @@ export class Redis {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -499,7 +499,7 @@ export class Redis {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

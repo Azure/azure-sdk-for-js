@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/transparentDataEncryptionsMappers";
 import * as Parameters from "../models/parameters";
@@ -59,7 +59,7 @@ export class TransparentDataEncryptions {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.TransparentDataEncryption, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.TransparentDataEncryption, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.TransparentDataEncryption, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class TransparentDataEncryptions {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.TransparentDataEncryptionsGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.TransparentDataEncryptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

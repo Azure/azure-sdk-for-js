@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationProtectionContainersMappers";
 import * as Parameters from "../models/parameters";
@@ -46,7 +46,7 @@ export class ReplicationProtectionContainers {
    * @param callback The callback
    */
   listByReplicationFabrics(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerCollection>): void;
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListByReplicationFabricsResponse> {
+  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerCollection>, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -78,7 +78,7 @@ export class ReplicationProtectionContainers {
    * @param callback The callback
    */
   get(fabricName: string, protectionContainerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainer>): void;
-  get(fabricName: string, protectionContainerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainer>): Promise<Models.ReplicationProtectionContainersGetResponse> {
+  get(fabricName: string, protectionContainerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainer>, callback?: msRest.ServiceCallback<Models.ProtectionContainer>): Promise<Models.ReplicationProtectionContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -162,7 +162,7 @@ export class ReplicationProtectionContainers {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerCollection>, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -274,7 +274,7 @@ export class ReplicationProtectionContainers {
    * @param callback The callback
    */
   listByReplicationFabricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerCollection>): void;
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListByReplicationFabricsNextResponse> {
+  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerCollection>, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -303,7 +303,7 @@ export class ReplicationProtectionContainers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerCollection>, callback?: msRest.ServiceCallback<Models.ProtectionContainerCollection>): Promise<Models.ReplicationProtectionContainersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

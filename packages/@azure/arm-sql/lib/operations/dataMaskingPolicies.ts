@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dataMaskingPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class DataMaskingPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DataMaskingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMaskingPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DataMaskingPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>): Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DataMaskingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingPolicy>, callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>): Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class DataMaskingPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMaskingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>): Promise<Models.DataMaskingPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingPolicy>, callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>): Promise<Models.DataMaskingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

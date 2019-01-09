@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/endpointsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Endpoints {
    * @param callback The callback
    */
   listByProfile(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EndpointListResult>): void;
-  listByProfile(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EndpointListResult>): Promise<Models.EndpointsListByProfileResponse> {
+  listByProfile(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointListResult>, callback?: msRest.ServiceCallback<Models.EndpointListResult>): Promise<Models.EndpointsListByProfileResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class Endpoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, profileName: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Endpoint>): void;
-  get(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsGetResponse> {
+  get(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +225,7 @@ export class Endpoints {
    * @param callback The callback
    */
   validateCustomDomain(resourceGroupName: string, profileName: string, endpointName: string, hostName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): void;
-  validateCustomDomain(resourceGroupName: string, profileName: string, endpointName: string, hostName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): Promise<Models.EndpointsValidateCustomDomainResponse> {
+  validateCustomDomain(resourceGroupName: string, profileName: string, endpointName: string, hostName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateCustomDomainOutput>, callback?: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): Promise<Models.EndpointsValidateCustomDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -262,7 +262,7 @@ export class Endpoints {
    * @param callback The callback
    */
   listResourceUsage(resourceGroupName: string, profileName: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
-  listResourceUsage(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.EndpointsListResourceUsageResponse> {
+  listResourceUsage(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.EndpointsListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -447,7 +447,7 @@ export class Endpoints {
    * @param callback The callback
    */
   listByProfileNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EndpointListResult>): void;
-  listByProfileNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EndpointListResult>): Promise<Models.EndpointsListByProfileNextResponse> {
+  listByProfileNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointListResult>, callback?: msRest.ServiceCallback<Models.EndpointListResult>): Promise<Models.EndpointsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -475,7 +475,7 @@ export class Endpoints {
    * @param callback The callback
    */
   listResourceUsageNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
-  listResourceUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.EndpointsListResourceUsageNextResponse> {
+  listResourceUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.EndpointsListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

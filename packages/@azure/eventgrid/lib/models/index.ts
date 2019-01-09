@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "ms-rest-azure-js";
+import { BaseResource, CloudError } from "@azure/ms-rest-azure-js";
 
 export { BaseResource, CloudError };
 
@@ -2102,133 +2102,30 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
 
 /**
  * Defines values for MediaJobState.
- * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished',
- * 'Processing', 'Queued', 'Scheduled'
+ * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing', 'Queued',
+ * 'Scheduled'
  * @readonly
  * @enum {string}
  */
-export enum MediaJobState {
-  /**
-   * The job was canceled. This is a final state for the job.
-   */
-  Canceled = 'Canceled',
-  /**
-   * The job is in the process of being canceled. This is a transient state for
-   * the job.
-   */
-  Canceling = 'Canceling',
-  /**
-   * The job has encountered an error. This is a final state for the job.
-   */
-  Error = 'Error',
-  /**
-   * The job is finished. This is a final state for the job.
-   */
-  Finished = 'Finished',
-  /**
-   * The job is processing. This is a transient state for the job.
-   */
-  Processing = 'Processing',
-  /**
-   * The job is in a queued state, waiting for resources to become available.
-   * This is a transient state.
-   */
-  Queued = 'Queued',
-  /**
-   * The job is being scheduled to run on an available resource. This is a
-   * transient state, between queued and processing states.
-   */
-  Scheduled = 'Scheduled',
-}
+export type MediaJobState = 'Canceled' | 'Canceling' | 'Error' | 'Finished' | 'Processing' | 'Queued' | 'Scheduled';
 
 /**
  * Defines values for MediaJobErrorCode.
- * Possible values include: 'ServiceError', 'ServiceTransientError',
- * 'DownloadNotAccessible', 'DownloadTransientError', 'UploadNotAccessible',
- * 'UploadTransientError', 'ConfigurationUnsupported', 'ContentMalformed',
- * 'ContentUnsupported'
+ * Possible values include: 'ServiceError', 'ServiceTransientError', 'DownloadNotAccessible',
+ * 'DownloadTransientError', 'UploadNotAccessible', 'UploadTransientError',
+ * 'ConfigurationUnsupported', 'ContentMalformed', 'ContentUnsupported'
  * @readonly
  * @enum {string}
  */
-export enum MediaJobErrorCode {
-  /**
-   * Fatal service error, please contact support.
-   */
-  ServiceError = 'ServiceError',
-  /**
-   * Transient error, please retry, if retry is unsuccessful, please contact
-   * support.
-   */
-  ServiceTransientError = 'ServiceTransientError',
-  /**
-   * While trying to download the input files, the files were not accessible,
-   * please check the availability of the source.
-   */
-  DownloadNotAccessible = 'DownloadNotAccessible',
-  /**
-   * While trying to download the input files, there was an issue during
-   * transfer (storage service, network errors), see details and check your
-   * source.
-   */
-  DownloadTransientError = 'DownloadTransientError',
-  /**
-   * While trying to upload the output files, the destination was not
-   * reachable, please check the availability of the destination.
-   */
-  UploadNotAccessible = 'UploadNotAccessible',
-  /**
-   * While trying to upload the output files, there was an issue during
-   * transfer (storage service, network errors), see details and check your
-   * destination.
-   */
-  UploadTransientError = 'UploadTransientError',
-  /**
-   * There was a problem with the combination of input files and the
-   * configuration settings applied, fix the configuration settings and retry
-   * with the same input, or change input to match the configuration.
-   */
-  ConfigurationUnsupported = 'ConfigurationUnsupported',
-  /**
-   * There was a problem with the input content (for example: zero byte files,
-   * or corrupt/non-decodable files), check the input files.
-   */
-  ContentMalformed = 'ContentMalformed',
-  /**
-   * There was a problem with the format of the input (not valid media file, or
-   * an unsupported file/codec), check the validity of the input files.
-   */
-  ContentUnsupported = 'ContentUnsupported',
-}
+export type MediaJobErrorCode = 'ServiceError' | 'ServiceTransientError' | 'DownloadNotAccessible' | 'DownloadTransientError' | 'UploadNotAccessible' | 'UploadTransientError' | 'ConfigurationUnsupported' | 'ContentMalformed' | 'ContentUnsupported';
 
 /**
  * Defines values for MediaJobErrorCategory.
- * Possible values include: 'Service', 'Download', 'Upload', 'Configuration',
- * 'Content'
+ * Possible values include: 'Service', 'Download', 'Upload', 'Configuration', 'Content'
  * @readonly
  * @enum {string}
  */
-export enum MediaJobErrorCategory {
-  /**
-   * The error is service related.
-   */
-  Service = 'Service',
-  /**
-   * The error is download related.
-   */
-  Download = 'Download',
-  /**
-   * The error is upload related.
-   */
-  Upload = 'Upload',
-  /**
-   * The error is configuration related.
-   */
-  Configuration = 'Configuration',
-  /**
-   * The error is related to data in the input files.
-   */
-  Content = 'Content',
-}
+export type MediaJobErrorCategory = 'Service' | 'Download' | 'Upload' | 'Configuration' | 'Content';
 
 /**
  * Defines values for MediaJobRetry.
@@ -2236,15 +2133,4 @@ export enum MediaJobErrorCategory {
  * @readonly
  * @enum {string}
  */
-export enum MediaJobRetry {
-  /**
-   * Issue needs to be investigated and then the job resubmitted with
-   * corrections or retried once the underlying issue has been corrected.
-   */
-  DoNotRetry = 'DoNotRetry',
-  /**
-   * Issue may be resolved after waiting for a period of time and resubmitting
-   * the same Job.
-   */
-  MayRetry = 'MayRetry',
-}
+export type MediaJobRetry = 'DoNotRetry' | 'MayRetry';

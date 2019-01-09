@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/apiRevisionsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ApiRevisions {
    * @param callback The callback
    */
   list(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiRevisionsListOptionalParams, callback: msRest.ServiceCallback<Models.ApiRevisionCollection>): void;
-  list(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiRevisionsListOptionalParams, callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>): Promise<Models.ApiRevisionsListResponse> {
+  list(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiRevisionsListOptionalParams | msRest.ServiceCallback<Models.ApiRevisionCollection>, callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>): Promise<Models.ApiRevisionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +80,7 @@ export class ApiRevisions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiRevisionCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>): Promise<Models.ApiRevisionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiRevisionCollection>, callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>): Promise<Models.ApiRevisionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

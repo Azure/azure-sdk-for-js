@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/logProfilesMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class LogProfiles {
    * @param callback The callback
    */
   deleteMethod(logProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(logProfileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(logProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
@@ -72,7 +72,7 @@ export class LogProfiles {
    * @param callback The callback
    */
   get(logProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
-  get(logProfileName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesGetResponse> {
+  get(logProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
@@ -103,7 +103,7 @@ export class LogProfiles {
    * @param callback The callback
    */
   createOrUpdate(logProfileName: string, parameters: Models.LogProfileResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
-  createOrUpdate(logProfileName: string, parameters: Models.LogProfileResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesCreateOrUpdateResponse> {
+  createOrUpdate(logProfileName: string, parameters: Models.LogProfileResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
@@ -135,7 +135,7 @@ export class LogProfiles {
    * @param callback The callback
    */
   update(logProfileName: string, logProfilesResource: Models.LogProfileResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
-  update(logProfileName: string, logProfilesResource: Models.LogProfileResourcePatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesUpdateResponse> {
+  update(logProfileName: string, logProfilesResource: Models.LogProfileResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
@@ -161,7 +161,7 @@ export class LogProfiles {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileCollection>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogProfileCollection>): Promise<Models.LogProfilesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileCollection>, callback?: msRest.ServiceCallback<Models.LogProfileCollection>): Promise<Models.LogProfilesListResponse> {
     return this.client.sendOperationRequest(
       {
         options

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/largeFaceListOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   create(largeFaceListId: string, options: Models.LargeFaceListCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(largeFaceListId: string, options?: Models.LargeFaceListCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(largeFaceListId: string, options?: Models.LargeFaceListCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -73,7 +73,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   get(largeFaceListId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LargeFaceList>): void;
-  get(largeFaceListId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LargeFaceList>): Promise<Models.LargeFaceListGetResponse> {
+  get(largeFaceListId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LargeFaceList>, callback?: msRest.ServiceCallback<Models.LargeFaceList>): Promise<Models.LargeFaceListGetResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -101,7 +101,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   update(largeFaceListId: string, options: Models.LargeFaceListUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(largeFaceListId: string, options?: Models.LargeFaceListUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(largeFaceListId: string, options?: Models.LargeFaceListUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -130,7 +130,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   deleteMethod(largeFaceListId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(largeFaceListId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(largeFaceListId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -158,7 +158,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   getTrainingStatus(largeFaceListId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrainingStatus>): void;
-  getTrainingStatus(largeFaceListId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.LargeFaceListGetTrainingStatusResponse> {
+  getTrainingStatus(largeFaceListId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainingStatus>, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.LargeFaceListGetTrainingStatusResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -184,7 +184,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LargeFaceList[]>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LargeFaceList[]>): Promise<Models.LargeFaceListListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LargeFaceList[]>, callback?: msRest.ServiceCallback<Models.LargeFaceList[]>): Promise<Models.LargeFaceListListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -211,7 +211,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   train(largeFaceListId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  train(largeFaceListId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  train(largeFaceListId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -243,7 +243,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   deleteFace(largeFaceListId: string, persistedFaceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteFace(largeFaceListId: string, persistedFaceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteFace(largeFaceListId: string, persistedFaceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -276,7 +276,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   getFace(largeFaceListId: string, persistedFaceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersistedFace>): void;
-  getFace(largeFaceListId: string, persistedFaceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.LargeFaceListGetFaceResponse> {
+  getFace(largeFaceListId: string, persistedFaceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PersistedFace>, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.LargeFaceListGetFaceResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -308,7 +308,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   updateFace(largeFaceListId: string, persistedFaceId: string, options: Models.LargeFaceListUpdateFaceOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  updateFace(largeFaceListId: string, persistedFaceId: string, options?: Models.LargeFaceListUpdateFaceOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateFace(largeFaceListId: string, persistedFaceId: string, options?: Models.LargeFaceListUpdateFaceOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -342,7 +342,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   addFaceFromUrl(largeFaceListId: string, url: string, options: Models.LargeFaceListAddFaceFromUrlOptionalParams, callback: msRest.ServiceCallback<Models.PersistedFace>): void;
-  addFaceFromUrl(largeFaceListId: string, url: string, options?: Models.LargeFaceListAddFaceFromUrlOptionalParams, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.LargeFaceListAddFaceFromUrlResponse> {
+  addFaceFromUrl(largeFaceListId: string, url: string, options?: Models.LargeFaceListAddFaceFromUrlOptionalParams | msRest.ServiceCallback<Models.PersistedFace>, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.LargeFaceListAddFaceFromUrlResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -372,7 +372,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   listFaces(largeFaceListId: string, options: Models.LargeFaceListListFacesOptionalParams, callback: msRest.ServiceCallback<Models.PersistedFace[]>): void;
-  listFaces(largeFaceListId: string, options?: Models.LargeFaceListListFacesOptionalParams, callback?: msRest.ServiceCallback<Models.PersistedFace[]>): Promise<Models.LargeFaceListListFacesResponse> {
+  listFaces(largeFaceListId: string, options?: Models.LargeFaceListListFacesOptionalParams | msRest.ServiceCallback<Models.PersistedFace[]>, callback?: msRest.ServiceCallback<Models.PersistedFace[]>): Promise<Models.LargeFaceListListFacesResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -405,7 +405,7 @@ export class LargeFaceListOperations {
    * @param callback The callback
    */
   addFaceFromStream(largeFaceListId: string, image: msRest.HttpRequestBody, options: Models.LargeFaceListAddFaceFromStreamOptionalParams, callback: msRest.ServiceCallback<Models.PersistedFace>): void;
-  addFaceFromStream(largeFaceListId: string, image: msRest.HttpRequestBody, options?: Models.LargeFaceListAddFaceFromStreamOptionalParams, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.LargeFaceListAddFaceFromStreamResponse> {
+  addFaceFromStream(largeFaceListId: string, image: msRest.HttpRequestBody, options?: Models.LargeFaceListAddFaceFromStreamOptionalParams | msRest.ServiceCallback<Models.PersistedFace>, callback?: msRest.ServiceCallback<Models.PersistedFace>): Promise<Models.LargeFaceListAddFaceFromStreamResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -390,6 +390,34 @@ export interface FirewallRule extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing VirtualNetworkRule.
+ * A virtual network rule.
+ *
+ * @extends ProxyResource
+ */
+export interface VirtualNetworkRule extends ProxyResource {
+  /**
+   * @member {string} virtualNetworkSubnetId The ARM resource id of the virtual
+   * network subnet.
+   */
+  virtualNetworkSubnetId: string;
+  /**
+   * @member {boolean} [ignoreMissingVnetServiceEndpoint] Create firewall rule
+   * before the virtual network has vnet service endpoint enabled.
+   */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+  /**
+   * @member {VirtualNetworkRuleState} [state] Virtual Network Rule State.
+   * Possible values include: 'Initializing', 'InProgress', 'Ready',
+   * 'Deleting', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: VirtualNetworkRuleState;
+}
+
+/**
+ * @interface
  * An interface representing Database.
  * Represents a Database.
  *
@@ -751,6 +779,22 @@ export interface FirewallRuleListResult extends Array<FirewallRule> {
 
 /**
  * @interface
+ * An interface representing the VirtualNetworkRuleListResult.
+ * A list of virtual network rules.
+ *
+ * @extends Array<VirtualNetworkRule>
+ */
+export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the DatabaseListResult.
  * A List of databases.
  *
@@ -792,18 +836,10 @@ export interface PerformanceTierListResult extends Array<PerformanceTierProperti
 /**
  * Defines values for ServerVersion.
  * Possible values include: '5.6', '5.7'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServerVersion =
- * <ServerVersion>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServerVersion {
-  FiveFullStopSix = '5.6',
-  FiveFullStopSeven = '5.7',
-}
+export type ServerVersion = '5.6' | '5.7';
 
 /**
  * Defines values for SslEnforcementEnum.
@@ -811,76 +847,47 @@ export enum ServerVersion {
  * @readonly
  * @enum {string}
  */
-export enum SslEnforcementEnum {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type SslEnforcementEnum = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ServerState.
  * Possible values include: 'Ready', 'Dropping', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServerState =
- * <ServerState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServerState {
-  Ready = 'Ready',
-  Dropping = 'Dropping',
-  Disabled = 'Disabled',
-}
+export type ServerState = 'Ready' | 'Dropping' | 'Disabled';
 
 /**
  * Defines values for GeoRedundantBackup.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GeoRedundantBackup =
- * <GeoRedundantBackup>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum GeoRedundantBackup {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type GeoRedundantBackup = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Basic', 'GeneralPurpose', 'MemoryOptimized'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Basic = 'Basic',
-  GeneralPurpose = 'GeneralPurpose',
-  MemoryOptimized = 'MemoryOptimized',
-}
+export type SkuTier = 'Basic' | 'GeneralPurpose' | 'MemoryOptimized';
+
+/**
+ * Defines values for VirtualNetworkRuleState.
+ * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting', 'Unknown'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 'Deleting' | 'Unknown';
 
 /**
  * Defines values for OperationOrigin.
  * Possible values include: 'NotSpecified', 'user', 'system'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperationOrigin =
- * <OperationOrigin>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperationOrigin {
-  NotSpecified = 'NotSpecified',
-  User = 'user',
-  System = 'system',
-}
+export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
 
 /**
  * Defines values for ServerSecurityAlertPolicyState.
@@ -888,10 +895,7 @@ export enum OperationOrigin {
  * @readonly
  * @enum {string}
  */
-export enum ServerSecurityAlertPolicyState {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type ServerSecurityAlertPolicyState = 'Enabled' | 'Disabled';
 
 /**
  * Contains response data for the create operation.
@@ -1099,6 +1103,101 @@ export type FirewallRulesBeginCreateOrUpdateResponse = FirewallRule & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FirewallRule;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualNetworkRulesGetResponse = VirtualNetworkRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRule;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type VirtualNetworkRulesCreateOrUpdateResponse = VirtualNetworkRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRule;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type VirtualNetworkRulesBeginCreateOrUpdateResponse = VirtualNetworkRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRule;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type VirtualNetworkRulesListByServerNextResponse = VirtualNetworkRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRuleListResult;
     };
 };
 

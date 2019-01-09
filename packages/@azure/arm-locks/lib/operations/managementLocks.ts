@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managementLocksMappers";
 import * as Parameters from "../models/parameters";
@@ -57,7 +57,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   createOrUpdateAtResourceGroupLevel(resourceGroupName: string, lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateAtResourceGroupLevel(resourceGroupName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse> {
+  createOrUpdateAtResourceGroupLevel(resourceGroupName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +93,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   deleteAtResourceGroupLevel(resourceGroupName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   getAtResourceGroupLevel(resourceGroupName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse> {
+  getAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +172,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   createOrUpdateByScope(scope: string, lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateByScope(scope: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse> {
+  createOrUpdateByScope(scope: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -205,7 +205,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   deleteByScope(scope: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -237,7 +237,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   getByScope(scope: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetByScopeResponse> {
+  getByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetByScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -292,7 +292,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   createOrUpdateAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse> {
+  createOrUpdateAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -350,7 +350,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   deleteAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -398,7 +398,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   getAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtResourceLevelResponse> {
+  getAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtResourceLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -441,7 +441,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   createOrUpdateAtSubscriptionLevel(lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateAtSubscriptionLevel(lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse> {
+  createOrUpdateAtSubscriptionLevel(lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse> {
     return this.client.sendOperationRequest(
       {
         lockName,
@@ -473,7 +473,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   deleteAtSubscriptionLevel(lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         lockName,
@@ -501,7 +501,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   getAtSubscriptionLevel(lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse> {
+  getAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse> {
     return this.client.sendOperationRequest(
       {
         lockName,
@@ -529,7 +529,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   listAtResourceGroupLevel(resourceGroupName: string, options: Models.ManagementLocksListAtResourceGroupLevelOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceGroupLevel(resourceGroupName: string, options?: Models.ManagementLocksListAtResourceGroupLevelOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceGroupLevelResponse> {
+  listAtResourceGroupLevel(resourceGroupName: string, options?: Models.ManagementLocksListAtResourceGroupLevelOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -572,7 +572,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.ManagementLocksListAtResourceLevelOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.ManagementLocksListAtResourceLevelOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceLevelResponse> {
+  listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.ManagementLocksListAtResourceLevelOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -601,7 +601,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   listAtSubscriptionLevel(options: Models.ManagementLocksListAtSubscriptionLevelOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtSubscriptionLevel(options?: Models.ManagementLocksListAtSubscriptionLevelOptionalParams, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtSubscriptionLevelResponse> {
+  listAtSubscriptionLevel(options?: Models.ManagementLocksListAtSubscriptionLevelOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtSubscriptionLevelResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -628,7 +628,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   listAtResourceGroupLevelNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceGroupLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse> {
+  listAtResourceGroupLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -656,7 +656,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   listAtResourceLevelNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceLevelNextResponse> {
+  listAtResourceLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceLevelNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -684,7 +684,7 @@ export class ManagementLocks {
    * @param callback The callback
    */
   listAtSubscriptionLevelNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtSubscriptionLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse> {
+  listAtSubscriptionLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -9,6 +9,8 @@
  */
 
 export {
+  VirtualMachineScaleSetVMReimageParameters,
+  VirtualMachineReimageParameters,
   CloudError,
   VirtualMachineScaleSetVM,
   Resource,
@@ -99,6 +101,7 @@ export {
   SubResourceReadOnly,
   VirtualMachineScaleSetIdentity,
   VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue,
+  VirtualMachineScaleSetReimageParameters,
   RollingUpgradeStatusInfo,
   RollingUpgradeRunningStatus,
   RollingUpgradeProgressInfo,

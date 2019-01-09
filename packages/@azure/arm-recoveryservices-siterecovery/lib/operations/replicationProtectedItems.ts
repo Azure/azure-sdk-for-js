@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationProtectedItemsMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class ReplicationProtectedItems {
    * @param callback The callback
    */
   listByReplicationProtectionContainers(fabricName: string, protectionContainerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  listByReplicationProtectionContainers(fabricName: string, protectionContainerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse> {
+  listByReplicationProtectionContainers(fabricName: string, protectionContainerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -85,7 +85,7 @@ export class ReplicationProtectedItems {
    * @param callback The callback
    */
   get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItem>): void;
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItem>): Promise<Models.ReplicationProtectedItemsGetResponse> {
+  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItem>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItem>): Promise<Models.ReplicationProtectedItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -312,7 +312,7 @@ export class ReplicationProtectedItems {
    * @param callback The callback
    */
   list(options: Models.ReplicationProtectedItemsListOptionalParams, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  list(options?: Models.ReplicationProtectedItemsListOptionalParams, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListResponse> {
+  list(options?: Models.ReplicationProtectedItemsListOptionalParams | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -641,7 +641,7 @@ export class ReplicationProtectedItems {
    * @param callback The callback
    */
   listByReplicationProtectionContainersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  listByReplicationProtectionContainersNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse> {
+  listByReplicationProtectionContainersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -670,7 +670,7 @@ export class ReplicationProtectedItems {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

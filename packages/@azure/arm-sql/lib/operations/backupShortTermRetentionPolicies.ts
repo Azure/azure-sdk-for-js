@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupShortTermRetentionPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class BackupShortTermRetentionPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>): Promise<Models.BackupShortTermRetentionPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>): Promise<Models.BackupShortTermRetentionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +123,7 @@ export class BackupShortTermRetentionPolicies {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +199,7 @@ export class BackupShortTermRetentionPolicies {
    * @param callback The callback
    */
   listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseNextResponse> {
+  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

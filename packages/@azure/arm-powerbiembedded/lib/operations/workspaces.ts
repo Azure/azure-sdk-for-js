@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workspacesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Workspaces {
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceCollectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceList>): void;
-  list(resourceGroupName: string, workspaceCollectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceList>): Promise<Models.WorkspacesListResponse> {
+  list(resourceGroupName: string, workspaceCollectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceList>, callback?: msRest.ServiceCallback<Models.WorkspaceList>): Promise<Models.WorkspacesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -19,6 +19,7 @@ export {
   Server,
   Sku,
   StorageProfile,
+  VirtualNetworkRule,
   Database,
   Configuration,
   LogFile,
