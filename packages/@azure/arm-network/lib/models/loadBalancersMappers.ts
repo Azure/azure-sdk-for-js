@@ -98,6 +98,8 @@ export {
   AzureFirewallNetworkRule,
   AzureFirewall,
   AzureFirewallFqdnTag,
+  DdosCustomPolicy,
+  ProtocolCustomSettingsFormat,
   DdosProtectionPlan,
   EndpointServiceResult,
   ExpressRouteCircuitAuthorization,
