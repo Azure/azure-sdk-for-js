@@ -77,7 +77,7 @@ const validateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

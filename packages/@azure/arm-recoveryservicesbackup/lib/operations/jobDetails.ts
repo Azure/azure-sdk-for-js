@@ -78,7 +78,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

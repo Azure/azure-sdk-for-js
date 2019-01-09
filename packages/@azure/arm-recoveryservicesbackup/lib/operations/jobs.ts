@@ -73,7 +73,7 @@ const exportMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [

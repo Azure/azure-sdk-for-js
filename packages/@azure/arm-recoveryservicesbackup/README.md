@@ -13,7 +13,7 @@ npm install @azure/arm-recoveryservicesbackup
 
 ## How to use
 
-### nodejs - Authentication, client creation and list backupFabrics as an example written in TypeScript.
+### nodejs - Authentication, client creation and get protectionIntent as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -26,9 +26,9 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new RecoveryServicesBackupClient(creds, subscriptionId);
   const vaultName = "testvaultName";
   const resourceGroupName = "testresourceGroupName";
-  const filter = "testfilter";
-  const skipToken = "testskipToken";
-  client.backupFabrics.list(vaultName, resourceGroupName, filter, skipToken).then((result) => {
+  const fabricName = "testfabricName";
+  const intentObjectName = "testintentObjectName";
+  client.protectionIntent.get(vaultName, resourceGroupName, fabricName, intentObjectName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -37,7 +37,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and list backupFabrics as an example written in JavaScript.
+### browser - Authentication, client creation and get protectionIntent as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -64,9 +64,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmRecoveryservicesbackup.RecoveryServicesBackupClient(res.creds, subscriptionId);
         const vaultName = "testvaultName";
         const resourceGroupName = "testresourceGroupName";
-        const filter = "testfilter";
-        const skipToken = "testskipToken";
-        client.backupFabrics.list(vaultName, resourceGroupName, filter, skipToken).then((result) => {
+        const fabricName = "testfabricName";
+        const intentObjectName = "testintentObjectName";
+        client.protectionIntent.get(vaultName, resourceGroupName, fabricName, intentObjectName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

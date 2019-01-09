@@ -17,14 +17,6 @@ import { RecoveryServicesBackupClientContext } from "./recoveryServicesBackupCli
 
 class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
   // Operation groups
-  backupFabrics: operations.BackupFabrics;
-  scopedBackupPolicies: operations.ScopedBackupPolicies;
-  scopedProtectionPolicies: operations.ScopedProtectionPolicies;
-  scopedProtectionPolicyOperationResults: operations.ScopedProtectionPolicyOperationResults;
-  scopedProtectionPolicyOperationStatuses: operations.ScopedProtectionPolicyOperationStatuses;
-  backupProtectionContainersInFabric: operations.BackupProtectionContainersInFabric;
-  backupProtectedItemsInContainer: operations.BackupProtectedItemsInContainer;
-  protectionContainers: operations.ProtectionContainers;
   protectionIntent: operations.ProtectionIntentOperations;
   backupStatus: operations.BackupStatus;
   featureSupport: operations.FeatureSupport;
@@ -41,6 +33,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
   backupEngines: operations.BackupEngines;
   protectionContainerRefreshOperationResults: operations.ProtectionContainerRefreshOperationResults;
   protectableContainers: operations.ProtectableContainers;
+  protectionContainers: operations.ProtectionContainers;
   backupWorkloadItems: operations.BackupWorkloadItems;
   protectionContainerOperationResults: operations.ProtectionContainerOperationResults;
   protectedItems: operations.ProtectedItems;
@@ -71,14 +64,6 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.RecoveryServicesBackupClientOptions) {
     super(credentials, subscriptionId, options);
-    this.backupFabrics = new operations.BackupFabrics(this);
-    this.scopedBackupPolicies = new operations.ScopedBackupPolicies(this);
-    this.scopedProtectionPolicies = new operations.ScopedProtectionPolicies(this);
-    this.scopedProtectionPolicyOperationResults = new operations.ScopedProtectionPolicyOperationResults(this);
-    this.scopedProtectionPolicyOperationStatuses = new operations.ScopedProtectionPolicyOperationStatuses(this);
-    this.backupProtectionContainersInFabric = new operations.BackupProtectionContainersInFabric(this);
-    this.backupProtectedItemsInContainer = new operations.BackupProtectedItemsInContainer(this);
-    this.protectionContainers = new operations.ProtectionContainers(this);
     this.protectionIntent = new operations.ProtectionIntentOperations(this);
     this.backupStatus = new operations.BackupStatus(this);
     this.featureSupport = new operations.FeatureSupport(this);
@@ -95,6 +80,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
     this.backupEngines = new operations.BackupEngines(this);
     this.protectionContainerRefreshOperationResults = new operations.ProtectionContainerRefreshOperationResults(this);
     this.protectableContainers = new operations.ProtectableContainers(this);
+    this.protectionContainers = new operations.ProtectionContainers(this);
     this.backupWorkloadItems = new operations.BackupWorkloadItems(this);
     this.protectionContainerOperationResults = new operations.ProtectionContainerOperationResults(this);
     this.protectedItems = new operations.ProtectedItems(this);

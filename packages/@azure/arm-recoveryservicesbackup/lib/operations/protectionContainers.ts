@@ -27,53 +27,6 @@ export class ProtectionContainers {
   }
 
   /**
-   * Grants restore access to container.
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param fabricName Fabric name associated the container.
-   * @param containerName Name of the container for which access is required
-   * @param parameters restore access request
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ProtectionContainersAccessRestoreResponse>
-   */
-  accessRestore(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: Models.GenericRestoreAccessRequest, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionContainersAccessRestoreResponse>;
-  /**
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param fabricName Fabric name associated the container.
-   * @param containerName Name of the container for which access is required
-   * @param parameters restore access request
-   * @param callback The callback
-   */
-  accessRestore(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: Models.GenericRestoreAccessRequest, callback: msRest.ServiceCallback<Models.GenericRestoreAccessResponse>): void;
-  /**
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   * present.
-   * @param fabricName Fabric name associated the container.
-   * @param containerName Name of the container for which access is required
-   * @param parameters restore access request
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  accessRestore(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: Models.GenericRestoreAccessRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericRestoreAccessResponse>): void;
-  accessRestore(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: Models.GenericRestoreAccessRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericRestoreAccessResponse>, callback?: msRest.ServiceCallback<Models.GenericRestoreAccessResponse>): Promise<Models.ProtectionContainersAccessRestoreResponse> {
-    return this.client.sendOperationRequest(
-      {
-        vaultName,
-        resourceGroupName,
-        fabricName,
-        containerName,
-        parameters,
-        options
-      },
-      accessRestoreOperationSpec,
-      callback) as Promise<Models.ProtectionContainersAccessRestoreResponse>;
-  }
-
-  /**
    * Gets details of the specific container registered to your Recovery Services Vault.
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -304,40 +257,6 @@ export class ProtectionContainers {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const accessRestoreOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/restoreAccess",
-  urlParameters: [
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.fabricName,
-    Parameters.containerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.GenericRestoreAccessRequest,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.GenericRestoreAccessResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}",
