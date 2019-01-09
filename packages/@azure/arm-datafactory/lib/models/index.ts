@@ -529,7 +529,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * @interface
@@ -2329,6 +2329,53 @@ export interface ScheduleTrigger {
    * configuration.
    */
   recurrence: ScheduleTriggerRecurrence;
+}
+
+/**
+ * @interface
+ * An interface representing AzureFunctionLinkedService.
+ * Azure Function linked service.
+ *
+ */
+export interface AzureFunctionLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureFunction";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} functionAppUrl The endpoint of the Azure Function App. URL
+   * will be in the format https://<accountName>.azurewebsites.net.
+   */
+  functionAppUrl: any;
+  /**
+   * @member {any} [functionKey] Function or Host key for Azure Function App.
+   */
+  functionKey?: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
 }
 
 /**
@@ -10437,7 +10484,7 @@ export interface ActivityPolicy {
 /**
  * Contains the possible cases for ExecutionActivity.
  */
-export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
+export type ExecutionActivityUnion = ExecutionActivity | AzureFunctionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
 
 /**
  * @interface
@@ -10475,6 +10522,68 @@ export interface ExecutionActivity {
    * @member {ActivityPolicy} [policy] Activity policy.
    */
   policy?: ActivityPolicy;
+}
+
+/**
+ * @interface
+ * An interface representing AzureFunctionActivity.
+ * Azure Function activity.
+ *
+ */
+export interface AzureFunctionActivity {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureFunctionActivity";
+  /**
+   * @member {string} name Activity name.
+   */
+  name: string;
+  /**
+   * @member {string} [description] Activity description.
+   */
+  description?: string;
+  /**
+   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
+   */
+  dependsOn?: ActivityDependency[];
+  /**
+   * @member {UserProperty[]} [userProperties] Activity user properties.
+   */
+  userProperties?: UserProperty[];
+  /**
+   * @member {LinkedServiceReference} [linkedServiceName] Linked service
+   * reference.
+   */
+  linkedServiceName?: LinkedServiceReference;
+  /**
+   * @member {ActivityPolicy} [policy] Activity policy.
+   */
+  policy?: ActivityPolicy;
+  /**
+   * @member {AzureFunctionActivityMethod} method Rest API method for target
+   * endpoint. Possible values include: 'GET', 'POST', 'PUT', 'DELETE',
+   * 'OPTIONS', 'HEAD', 'TRACE'
+   */
+  method: AzureFunctionActivityMethod;
+  /**
+   * @member {any} functionName Name of the Function that the Azure Function
+   * Activity will call.
+   */
+  functionName: any;
+  /**
+   * @member {any} [headers] Represents the headers that will be sent to the
+   * request. For example, to set the language and type on a request: "headers"
+   * : { "Accept-Language": "en-us", "Content-Type": "application/json" }.
+   * Type: string (or Expression with resultType string).
+   */
+  headers?: any;
+  /**
+   * @member {any} [body] Represents the payload that will be sent to the
+   * endpoint. Required for POST/PUT method, not allowed for GET method Type:
+   * string (or Expression with resultType string).
+   */
+  body?: any;
 }
 
 /**
@@ -16452,6 +16561,14 @@ export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
  * @enum {string}
  */
 export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
+
+/**
+ * Defines values for AzureFunctionActivityMethod.
+ * Possible values include: 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureFunctionActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE';
 
 /**
  * Defines values for WebActivityMethod.
