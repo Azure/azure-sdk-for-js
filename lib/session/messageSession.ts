@@ -567,7 +567,11 @@ export class MessageSession extends LinkEntity {
 
         // If we've made it this far, then user's message handler completed fine. Let us try
         // completing the message.
-        if (this.autoComplete && this.receiveMode === ReceiveMode.peekLock) {
+        if (
+          this.autoComplete &&
+          this.receiveMode === ReceiveMode.peekLock &&
+          !bMessage.delivery.remote_settled
+        ) {
           try {
             log.messageSession(
               "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
