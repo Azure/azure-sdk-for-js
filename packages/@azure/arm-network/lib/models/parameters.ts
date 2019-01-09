@@ -134,6 +134,16 @@ export const crossConnectionName: msRest.OperationURLParameter = {
     }
   }
 };
+export const ddosCustomPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "ddosCustomPolicyName",
+  mapper: {
+    required: true,
+    serializedName: "ddosCustomPolicyName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const ddosProtectionPlanName: msRest.OperationURLParameter = {
   parameterPath: "ddosProtectionPlanName",
   mapper: {
