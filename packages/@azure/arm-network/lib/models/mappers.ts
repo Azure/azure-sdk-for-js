@@ -4919,7 +4919,38 @@ export const DdosCustomPolicy: msRest.CompositeMapper = {
     name: "Composite",
     className: "DdosCustomPolicy",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       resourceGuid: {
         readOnly: true,
         serializedName: "properties.resourceGuid",
