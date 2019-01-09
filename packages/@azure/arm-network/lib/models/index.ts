@@ -3606,9 +3606,9 @@ export interface ProtocolCustomSettingsFormat {
  * An interface representing DdosCustomPolicy.
  * A DDoS custom policy in a resource group.
  *
- * @extends BaseResource
+ * @extends Resource
  */
-export interface DdosCustomPolicy extends BaseResource {
+export interface DdosCustomPolicy extends Resource {
   /**
    * @member {string} [resourceGuid] The resource GUID property of the DDoS
    * custom policy resource. It uniquely identifies the resource, even if the

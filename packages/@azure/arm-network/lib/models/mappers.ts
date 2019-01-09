@@ -4919,6 +4919,7 @@ export const DdosCustomPolicy: msRest.CompositeMapper = {
     name: "Composite",
     className: "DdosCustomPolicy",
     modelProperties: {
+      ...Resource.type.modelProperties,
       resourceGuid: {
         readOnly: true,
         serializedName: "properties.resourceGuid",
