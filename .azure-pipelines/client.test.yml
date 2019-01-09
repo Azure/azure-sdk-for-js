@@ -1,0 +1,56 @@
+parameters:
+  name: ''
+  vmImage: ''
+
+jobs:
+  - job: ${{ format('Test_{0}', parameters.name) }}
+    dependsOn:
+      - 'Publish'
+
+    pool:
+      vmImage: ${{ parameters.vmImage }}
+
+    strategy:
+      matrix:
+        Node8:
+          node.version: '8.x'
+        Node10:
+          node.version: '10.x'
+        Node11:
+          node.version: '11.x'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
+
+      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
+      # which is the minimum required to run the composite script commands.
+      # 
+      # Also, "npm install" in the repo root fails when using Node11 on Windows or Linux
+      # (https://github.com/Azure/azure-sdk-for-js/issues/845)
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'install npm-run-all'
+        displayName: 'npm install npm-run-all'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run install-client'
+        displayName: 'npm run install-client'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run test-client -- -- -- --reporter mocha-junit-reporter'
+        displayName: 'npm run test-client'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/test-results.xml'
+          testRunTitle: ${{ format('{0} Node $(node.version)', parameters.name) }}
+        condition: succeededOrFailed()
+        displayName: 'Publish test results'
