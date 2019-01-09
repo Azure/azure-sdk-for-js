@@ -264,6 +264,7 @@ export {
   SetVariableActivity,
   FilterActivity,
   Expression,
+  ValidationActivity,
   UntilActivity,
   WaitActivity,
   ForEachActivity,
