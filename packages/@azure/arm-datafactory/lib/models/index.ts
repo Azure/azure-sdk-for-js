@@ -626,6 +626,12 @@ export interface Dataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7428,6 +7434,12 @@ export interface ResponsysObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7475,6 +7487,12 @@ export interface SalesforceMarketingCloudObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7524,6 +7542,12 @@ export interface VerticaTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7571,6 +7595,12 @@ export interface NetezzaTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7620,6 +7650,12 @@ export interface ZohoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7667,6 +7703,12 @@ export interface XeroObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7716,6 +7758,12 @@ export interface SquareObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7763,6 +7811,12 @@ export interface SparkObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7812,6 +7866,12 @@ export interface ShopifyObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7859,6 +7919,12 @@ export interface ServiceNowObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7908,6 +7974,12 @@ export interface QuickBooksObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7955,6 +8027,12 @@ export interface PrestoObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8004,6 +8082,12 @@ export interface PhoenixObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8051,6 +8135,12 @@ export interface PaypalObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8100,6 +8190,12 @@ export interface MarketoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8147,6 +8243,12 @@ export interface MariaDBTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8196,6 +8298,12 @@ export interface MagentoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8243,6 +8351,12 @@ export interface JiraObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8292,6 +8406,12 @@ export interface ImpalaObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8339,6 +8459,12 @@ export interface HubspotObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8388,6 +8514,12 @@ export interface HiveObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8435,6 +8567,12 @@ export interface HBaseObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8484,6 +8622,12 @@ export interface GreenplumTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8531,6 +8675,12 @@ export interface GoogleBigQueryObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8580,6 +8730,12 @@ export interface EloquaObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8627,6 +8783,12 @@ export interface DrillTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8676,6 +8838,12 @@ export interface CouchbaseTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8723,6 +8891,12 @@ export interface ConcurObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8772,6 +8946,12 @@ export interface AzurePostgreSqlTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8819,6 +8999,12 @@ export interface AmazonMWSObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9196,6 +9382,12 @@ export interface HttpDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9272,6 +9464,12 @@ export interface AzureSearchIndexDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9319,6 +9517,12 @@ export interface WebTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9373,6 +9577,12 @@ export interface SqlServerTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9420,6 +9630,12 @@ export interface SapEccResourceDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9469,6 +9685,12 @@ export interface SapCloudForCustomerResourceDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9516,6 +9738,12 @@ export interface SalesforceObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9565,6 +9793,12 @@ export interface RelationalTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9612,6 +9846,12 @@ export interface AzureMySqlTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9661,6 +9901,12 @@ export interface OracleTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9708,6 +9954,12 @@ export interface ODataResourceDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9757,6 +10009,12 @@ export interface MongoDbCollectionDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9804,6 +10062,12 @@ export interface FileShareDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9873,6 +10137,12 @@ export interface AzureDataLakeStoreDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9936,6 +10206,12 @@ export interface DynamicsEntityDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9983,6 +10259,12 @@ export interface DocumentDbCollectionDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10032,6 +10314,12 @@ export interface CustomDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10078,6 +10366,12 @@ export interface CassandraTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10132,6 +10426,12 @@ export interface AzureSqlDWTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10179,6 +10479,12 @@ export interface AzureSqlTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10228,6 +10534,12 @@ export interface AzureTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10275,6 +10587,12 @@ export interface AzureBlobDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10343,6 +10661,12 @@ export interface AmazonS3Dataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.

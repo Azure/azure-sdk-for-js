@@ -843,6 +843,12 @@ export const Dataset: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      schema: {
+        serializedName: "schema",
+        type: {
+          name: "Object"
+        }
+      },
       linkedServiceName: {
         required: true,
         serializedName: "linkedServiceName",
