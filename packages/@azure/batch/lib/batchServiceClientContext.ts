@@ -8,7 +8,6 @@
  * regenerated.
  */
 
-import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
@@ -18,15 +17,20 @@ const packageVersion = "0.1.0";
 export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   apiVersion?: string;
+  batchUrl: string;
 
   /**
    * Initializes a new instance of the BatchServiceClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param batchUrl The base URL for all Azure Batch service requests.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.BatchServiceClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, batchUrl: string, options?: msRestAzure.AzureServiceClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
+    }
+    if (batchUrl == undefined) {
+      throw new Error('\'batchUrl\' cannot be null.');
     }
 
     if (!options) {
@@ -39,12 +43,13 @@ export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2018-08-01.7.0';
+    this.apiVersion = '2018-12-01.8.0';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = options.baseUri || this.baseUri || "https://batch.core.windows.net";
+    this.baseUri = '{batchUrl}';
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
+    this.batchUrl = batchUrl;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
