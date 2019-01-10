@@ -13064,53 +13064,6 @@ export const IfConditionActivity: msRest.CompositeMapper = {
   }
 };
 
-export const WebHookActivityAuthentication: msRest.CompositeMapper = {
-  serializedName: "WebHookActivityAuthentication",
-  type: {
-    name: "Composite",
-    className: "WebHookActivityAuthentication",
-    modelProperties: {
-      type: {
-        required: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      pfx: {
-        serializedName: "pfx",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "SecureString"
-        }
-      },
-      username: {
-        serializedName: "username",
-        type: {
-          name: "String"
-        }
-      },
-      password: {
-        serializedName: "password",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-          uberParent: "SecretBase",
-          className: "SecureString"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const WebHookActivity: msRest.CompositeMapper = {
   serializedName: "WebHook",
   type: {
@@ -13158,7 +13111,7 @@ export const WebHookActivity: msRest.CompositeMapper = {
         serializedName: "typeProperties.authentication",
         type: {
           name: "Composite",
-          className: "WebHookActivityAuthentication"
+          className: "WebActivityAuthentication"
         }
       }
     },

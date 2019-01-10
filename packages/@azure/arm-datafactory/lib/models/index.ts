@@ -10910,10 +10910,11 @@ export interface GetMetadataActivity {
  */
 export interface WebActivityAuthentication {
   /**
-   * @member {string} type Web activity authentication
-   * (Basic/ClientCertificate/MSI)
+   * @member {WebActivityAuthenticationType} type Web activity authentication
+   * (Basic/ClientCertificate/MSI). Possible values include: 'Basic',
+   * 'ClientCertificate', 'MSI'
    */
-  type: string;
+  type: WebActivityAuthenticationType;
   /**
    * @member {SecureString} [pfx] Base64-encoded contents of a PFX file.
    */
@@ -14710,39 +14711,6 @@ export interface IfConditionActivity {
 
 /**
  * @interface
- * An interface representing WebHookActivityAuthentication.
- * WebHook activity authentication properties.
- *
- */
-export interface WebHookActivityAuthentication {
-  /**
-   * @member {string} type WebHook activity authentication
-   * (Basic/ClientCertificate/MSI)
-   */
-  type: string;
-  /**
-   * @member {SecureString} [pfx] Base64-encoded contents of a PFX file.
-   */
-  pfx?: SecureString;
-  /**
-   * @member {string} [username] WebHook activity authentication user name for
-   * basic authentication.
-   */
-  username?: string;
-  /**
-   * @member {SecureString} [password] Password for the PFX file or basic
-   * authentication.
-   */
-  password?: SecureString;
-  /**
-   * @member {string} [resource] Resource for which Azure Auth token will be
-   * requested when using MSI Authentication.
-   */
-  resource?: string;
-}
-
-/**
- * @interface
  * An interface representing WebHookActivity.
  * WebHook activity.
  *
@@ -14795,10 +14763,10 @@ export interface WebHookActivity {
    */
   body?: any;
   /**
-   * @member {WebHookActivityAuthentication} [authentication] Authentication
-   * method used for calling the endpoint.
+   * @member {WebActivityAuthentication} [authentication] Authentication method
+   * used for calling the endpoint.
    */
-  authentication?: WebHookActivityAuthentication;
+  authentication?: WebActivityAuthentication;
 }
 
 /**
@@ -16545,6 +16513,14 @@ export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
  * @enum {string}
  */
 export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
+
+/**
+ * Defines values for WebActivityAuthenticationType.
+ * Possible values include: 'Basic', 'ClientCertificate', 'MSI'
+ * @readonly
+ * @enum {string}
+ */
+export type WebActivityAuthenticationType = 'Basic' | 'ClientCertificate' | 'MSI';
 
 /**
  * Defines values for WebActivityMethod.
