@@ -715,6 +715,26 @@ export interface PublicIPAddressDnsSettings {
 
 /**
  * @interface
+ * An interface representing DdosSettings.
+ * Contains the DDoS protection settings of the public IP.
+ *
+ */
+export interface DdosSettings {
+  /**
+   * @member {SubResource} [ddosCustomPolicy] The DDoS custom policy associated
+   * with the public IP.
+   */
+  ddosCustomPolicy?: SubResource;
+  /**
+   * @member {ProtectionCoverage} [protectionCoverage] The DDoS protection
+   * policy customizability of the public IP. Only standard coverage will have
+   * the ability to be customized. Possible values include: 'Basic', 'Standard'
+   */
+  protectionCoverage?: ProtectionCoverage;
+}
+
+/**
+ * @interface
  * An interface representing IpTag.
  * Contains the IpTag associated with the object
  *
@@ -768,6 +788,11 @@ export interface PublicIPAddress extends Resource {
    * record associated with the public IP address.
    */
   dnsSettings?: PublicIPAddressDnsSettings;
+  /**
+   * @member {DdosSettings} [ddosSettings] The DDoS protection custom policy
+   * associated with the public IP address.
+   */
+  ddosSettings?: DdosSettings;
   /**
    * @member {IpTag[]} [ipTags] The list of tags associated with the public IP
    * address.
@@ -2843,6 +2868,48 @@ export interface ApplicationGateway extends Resource {
 
 /**
  * @interface
+ * An interface representing ApplicationGatewayAvailableServerVariablesResult.
+ * Response for ApplicationGatewayAvailableServerVariables API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableServerVariablesResult {
+  /**
+   * @member {string[]} [value] The list of supported server variables in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayAvailableRequestHeadersResult.
+ * Response for ApplicationGatewayAvailableRequestHeaders API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableRequestHeadersResult {
+  /**
+   * @member {string[]} [value] The list of supported request headers in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationGatewayAvailableResponseHeadersResult.
+ * Response for ApplicationGatewayAvailableResponeHeaders API service call.
+ *
+ */
+export interface ApplicationGatewayAvailableResponseHeadersResult {
+  /**
+   * @member {string[]} [value] The list of supported response header in
+   * application gateway.
+   */
+  value?: string[];
+}
+
+/**
+ * @interface
  * An interface representing ApplicationGatewayFirewallRule.
  * A web application firewall rule.
  *
@@ -2983,6 +3050,52 @@ export interface ApplicationGatewaySslPredefinedPolicy extends SubResource {
    * values include: 'TLSv1_0', 'TLSv1_1', 'TLSv1_2'
    */
   minProtocolVersion?: ApplicationGatewaySslProtocol;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorDetails.
+ */
+export interface ErrorDetails {
+  /**
+   * @member {string} [code]
+   */
+  code?: string;
+  /**
+   * @member {string} [target]
+   */
+  target?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ */
+export interface ErrorModel {
+  /**
+   * @member {string} [code]
+   */
+  code?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+  /**
+   * @member {string} [target]
+   */
+  target?: string;
+  /**
+   * @member {ErrorDetails[]} [details]
+   */
+  details?: ErrorDetails[];
+  /**
+   * @member {string} [innerError]
+   */
+  innerError?: string;
 }
 
 /**
@@ -3451,6 +3564,87 @@ export interface DnsNameAvailabilityResult {
    * @member {boolean} [available] Domain availability (True/False).
    */
   available?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ProtocolCustomSettingsFormat.
+ * DDoS custom policy properties.
+ *
+ */
+export interface ProtocolCustomSettingsFormat {
+  /**
+   * @member {DdosCustomPolicyProtocol} [protocol] The protocol for which the
+   * DDoS protection policy is being customized. Possible values include:
+   * 'Tcp', 'Udp', 'Syn'
+   */
+  protocol?: DdosCustomPolicyProtocol;
+  /**
+   * @member {string} [triggerRateOverride] The customized DDoS protection
+   * trigger rate.
+   */
+  triggerRateOverride?: string;
+  /**
+   * @member {string} [sourceRateOverride] The customized DDoS protection
+   * source rate.
+   */
+  sourceRateOverride?: string;
+  /**
+   * @member {DdosCustomPolicyTriggerSensitivityOverride}
+   * [triggerSensitivityOverride] The customized DDoS protection trigger rate
+   * sensitivity degrees. High: Trigger rate set with most sensitivity w.r.t.
+   * normal traffic. Default: Trigger rate set with moderate sensitivity w.r.t.
+   * normal traffic. Low: Trigger rate set with less sensitivity w.r.t. normal
+   * traffic. Relaxed: Trigger rate set with least sensitivity w.r.t. normal
+   * traffic. Possible values include: 'Relaxed', 'Low', 'Default', 'High'
+   */
+  triggerSensitivityOverride?: DdosCustomPolicyTriggerSensitivityOverride;
+}
+
+/**
+ * @interface
+ * An interface representing DdosCustomPolicy.
+ * A DDoS custom policy in a resource group.
+ *
+ * @extends Resource
+ */
+export interface DdosCustomPolicy extends Resource {
+  /**
+   * @member {string} [resourceGuid] The resource GUID property of the DDoS
+   * custom policy resource. It uniquely identifies the resource, even if the
+   * user changes its name or migrate the resource across subscriptions or
+   * resource groups.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning state of the DDoS
+   * custom policy resource. Possible values are: 'Succeeded', 'Updating',
+   * 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {SubResource[]} [publicIPAddresses] The list of public IPs
+   * associated with the DDoS custom policy resource. This list is read-only.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publicIPAddresses?: SubResource[];
+  /**
+   * @member {ProtocolCustomSettingsFormat[]} [protocolCustomSettings] The
+   * protocol-specific DDoS policy customization parameters.
+   */
+  protocolCustomSettings?: ProtocolCustomSettingsFormat[];
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -5260,52 +5454,6 @@ export interface LoadBalancer extends Resource {
    * the resource is updated.
    */
   etag?: string;
-}
-
-/**
- * @interface
- * An interface representing ErrorDetails.
- */
-export interface ErrorDetails {
-  /**
-   * @member {string} [code]
-   */
-  code?: string;
-  /**
-   * @member {string} [target]
-   */
-  target?: string;
-  /**
-   * @member {string} [message]
-   */
-  message?: string;
-}
-
-/**
- * @interface
- * An interface representing ErrorModel.
- */
-export interface ErrorModel {
-  /**
-   * @member {string} [code]
-   */
-  code?: string;
-  /**
-   * @member {string} [message]
-   */
-  message?: string;
-  /**
-   * @member {string} [target]
-   */
-  target?: string;
-  /**
-   * @member {ErrorDetails[]} [details]
-   */
-  details?: ErrorDetails[];
-  /**
-   * @member {string} [innerError]
-   */
-  innerError?: string;
 }
 
 /**
@@ -11569,6 +11717,22 @@ export type AzureFirewallNatRCActionType = 'Snat' | 'Dnat';
 export type AzureFirewallNetworkRuleProtocol = 'TCP' | 'UDP' | 'Any' | 'ICMP';
 
 /**
+ * Defines values for DdosCustomPolicyProtocol.
+ * Possible values include: 'Tcp', 'Udp', 'Syn'
+ * @readonly
+ * @enum {string}
+ */
+export type DdosCustomPolicyProtocol = 'Tcp' | 'Udp' | 'Syn';
+
+/**
+ * Defines values for DdosCustomPolicyTriggerSensitivityOverride.
+ * Possible values include: 'Relaxed', 'Low', 'Default', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type DdosCustomPolicyTriggerSensitivityOverride = 'Relaxed' | 'Low' | 'Default' | 'High';
+
+/**
  * Defines values for AuthorizationUseStatus.
  * Possible values include: 'Available', 'InUse'
  * @readonly
@@ -12081,6 +12245,14 @@ export type TunnelConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'N
 export type HubVirtualNetworkConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
 
 /**
+ * Defines values for ProtectionCoverage.
+ * Possible values include: 'Basic', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type ProtectionCoverage = 'Basic' | 'Standard';
+
+/**
  * Defines values for Protocol1.
  * Possible values include: 'Tcp', 'Udp', 'All'
  * @readonly
@@ -12199,6 +12371,63 @@ export type ApplicationGatewaysBackendHealthResponse = ApplicationGatewayBackend
        * The response body as parsed JSON or XML
        */
       parsedBody: ApplicationGatewayBackendHealth;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServerVariables operation.
+ */
+export type ApplicationGatewaysListAvailableServerVariablesResponse = ApplicationGatewayAvailableServerVariablesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableServerVariablesResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableRequestHeaders operation.
+ */
+export type ApplicationGatewaysListAvailableRequestHeadersResponse = ApplicationGatewayAvailableRequestHeadersResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableRequestHeadersResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableResponseHeaders operation.
+ */
+export type ApplicationGatewaysListAvailableResponseHeadersResponse = ApplicationGatewayAvailableResponseHeadersResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationGatewayAvailableResponseHeadersResult;
     };
 };
 
@@ -12431,6 +12660,25 @@ export type ApplicationSecurityGroupsCreateOrUpdateResponse = ApplicationSecurit
 };
 
 /**
+ * Contains response data for the updateTags operation.
+ */
+export type ApplicationSecurityGroupsUpdateTagsResponse = ApplicationSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationSecurityGroup;
+    };
+};
+
+/**
  * Contains response data for the listAll operation.
  */
 export type ApplicationSecurityGroupsListAllResponse = ApplicationSecurityGroupListResult & {
@@ -12472,6 +12720,25 @@ export type ApplicationSecurityGroupsListResponse = ApplicationSecurityGroupList
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ApplicationSecurityGroupsBeginCreateOrUpdateResponse = ApplicationSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type ApplicationSecurityGroupsBeginUpdateTagsResponse = ApplicationSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
@@ -12807,6 +13074,101 @@ export type SupportedSecurityProvidersResponse = VirtualWanSecurityProviders & {
        * The response body as parsed JSON or XML
        */
       parsedBody: VirtualWanSecurityProviders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DdosCustomPoliciesGetResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DdosCustomPoliciesCreateOrUpdateResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type DdosCustomPoliciesUpdateTagsResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DdosCustomPoliciesBeginCreateOrUpdateResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type DdosCustomPoliciesBeginUpdateTagsResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
     };
 };
 
