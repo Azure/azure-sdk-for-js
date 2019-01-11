@@ -1831,6 +1831,39 @@ export const MediaJobOutputAsset: msRest.CompositeMapper = {
   }
 };
 
+export const MediaJobOutputProgressEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputProgress",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputProgressEventData",
+    modelProperties: {
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      progress: {
+        serializedName: "progress",
+        type: {
+          name: "Number"
+        }
+      },
+      jobCorrelationData: {
+        serializedName: "jobCorrelationData",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const MediaJobOutputStateChangeEventData: msRest.CompositeMapper = {
   serializedName: "MediaJobOutputStateChangeEventData",
   type: {
