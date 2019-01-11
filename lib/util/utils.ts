@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as AsyncLock from "async-lock";
+import AsyncLock from "async-lock";
 export { AsyncLock };
 /**
  * Describes the options that can be provided to create an async lock.

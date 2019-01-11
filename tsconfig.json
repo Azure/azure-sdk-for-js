@@ -10,6 +10,7 @@
     "noImplicitReturns": true,
     "outDir": "dist",
     "allowJs": false,
+    "esModuleInterop": true,
     "noUnusedLocals":true,
     "strict": true,
     "declaration": true,

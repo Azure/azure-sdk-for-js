@@ -1,3 +1,6 @@
+### 2019-1-11 1.0.0-preview.1
+- Enabled esModuleInterop flag for the TypeScript compiler.
+
 ### 2018-12-15 0.1.9
 - Added constants for rule and filter descriptors as defined in the [service bus docs](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-request-response#rule-operations)
 

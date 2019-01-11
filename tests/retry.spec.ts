@@ -6,7 +6,7 @@ import {
   retry, translate, RetryConfig, RetryOperationType, Constants, delay, MessagingError
 } from "../lib";
 import * as chai from "chai";
-import * as debugModule from "debug";
+import debugModule from "debug";
 const debug = debugModule("azure:amqp-common:retry-spec");
 const should = chai.should();
 import * as dotenv from "dotenv";

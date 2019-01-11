@@ -4,7 +4,7 @@
 import "mocha";
 import * as chai from "chai";
 chai.should();
-import * as debugModule from "debug";
+import debugModule from "debug";
 const debug = debugModule("azure:amqp-common:token-spec");
 import { SasTokenProvider, IotSasTokenProvider } from "../lib";
 
