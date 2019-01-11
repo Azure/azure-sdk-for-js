@@ -14,7 +14,8 @@ import {
   SendableMessageInfo,
   generateUuid,
   TopicClient,
-  SubscriptionClient
+  SubscriptionClient,
+  delay
 } from "../lib";
 
 const testMessages: SendableMessageInfo[] = [
@@ -922,5 +923,18 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
 
     await deadLetterMsgs[0].complete();
+  });
+
+  it("Throws error when call the second ReceiveBatch while the first one is not done", async function(): Promise<
+    void
+  > {
+    const firstBatchPromise = queueClient.receiveBatch(1, 10);
+    await delay(5000);
+    const secondBatchPromise = queueClient.receiveBatch(1, 10).catch((err) => {
+      should.equal(err.name, "Error");
+      errorWasThrown = true;
+    });
+    await Promise.all([firstBatchPromise, secondBatchPromise]);
+    should.equal(errorWasThrown, true);
   });
 });
