@@ -1880,23 +1880,23 @@ export const AS2MdnSettings: msRest.CompositeMapper = {
     name: "Composite",
     className: "AS2MdnSettings",
     modelProperties: {
-      needMdn: {
+      needMDN: {
         required: true,
-        serializedName: "needMdn",
+        serializedName: "needMDN",
         type: {
           name: "Boolean"
         }
       },
-      signMdn: {
+      signMDN: {
         required: true,
-        serializedName: "signMdn",
+        serializedName: "signMDN",
         type: {
           name: "Boolean"
         }
       },
-      sendMdnAsynchronously: {
+      sendMDNAsynchronously: {
         required: true,
-        serializedName: "sendMdnAsynchronously",
+        serializedName: "sendMDNAsynchronously",
         type: {
           name: "Boolean"
         }
@@ -1913,9 +1913,9 @@ export const AS2MdnSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      signOutboundMdnIfOptional: {
+      signOutboundMDNIfOptional: {
         required: true,
-        serializedName: "signOutboundMdnIfOptional",
+        serializedName: "signOutboundMDNIfOptional",
         type: {
           name: "Boolean"
         }
@@ -1926,9 +1926,9 @@ export const AS2MdnSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      sendInboundMdnToMessageBox: {
+      sendInboundMDNToMessageBox: {
         required: true,
-        serializedName: "sendInboundMdnToMessageBox",
+        serializedName: "sendInboundMDNToMessageBox",
         type: {
           name: "Boolean"
         }
@@ -1969,44 +1969,44 @@ export const AS2SecuritySettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      enableNrrForInboundEncodedMessages: {
+      enableNRRForInboundEncodedMessages: {
         required: true,
-        serializedName: "enableNrrForInboundEncodedMessages",
+        serializedName: "enableNRRForInboundEncodedMessages",
         type: {
           name: "Boolean"
         }
       },
-      enableNrrForInboundDecodedMessages: {
+      enableNRRForInboundDecodedMessages: {
         required: true,
-        serializedName: "enableNrrForInboundDecodedMessages",
+        serializedName: "enableNRRForInboundDecodedMessages",
         type: {
           name: "Boolean"
         }
       },
-      enableNrrForOutboundMdn: {
+      enableNRRForOutboundMDN: {
         required: true,
-        serializedName: "enableNrrForOutboundMdn",
+        serializedName: "enableNRRForOutboundMDN",
         type: {
           name: "Boolean"
         }
       },
-      enableNrrForOutboundEncodedMessages: {
+      enableNRRForOutboundEncodedMessages: {
         required: true,
-        serializedName: "enableNrrForOutboundEncodedMessages",
+        serializedName: "enableNRRForOutboundEncodedMessages",
         type: {
           name: "Boolean"
         }
       },
-      enableNrrForOutboundDecodedMessages: {
+      enableNRRForOutboundDecodedMessages: {
         required: true,
-        serializedName: "enableNrrForOutboundDecodedMessages",
+        serializedName: "enableNRRForOutboundDecodedMessages",
         type: {
           name: "Boolean"
         }
       },
-      enableNrrForInboundMdn: {
+      enableNRRForInboundMDN: {
         required: true,
-        serializedName: "enableNrrForInboundMdn",
+        serializedName: "enableNRRForInboundMDN",
         type: {
           name: "Boolean"
         }
@@ -2158,9 +2158,9 @@ export const AS2ErrorSettings: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      resendIfMdnNotReceived: {
+      resendIfMDNNotReceived: {
         required: true,
-        serializedName: "resendIfMdnNotReceived",
+        serializedName: "resendIfMDNNotReceived",
         type: {
           name: "Boolean"
         }
