@@ -37,31 +37,6 @@ export const ContainerHostMapping: msRest.CompositeMapper = {
   }
 };
 
-export const Sku: msRest.CompositeMapper = {
-  serializedName: "Sku",
-  type: {
-    name: "Composite",
-    className: "Sku",
-    modelProperties: {
-      name: {
-        required: true,
-        isConstant: true,
-        serializedName: "name",
-        defaultValue: 'S1',
-        type: {
-          name: "String"
-        }
-      },
-      tier: {
-        serializedName: "tier",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -121,6 +96,88 @@ export const TrackedResource: msRest.CompositeMapper = {
   }
 };
 
+export const ResourceProviderOperationDisplay: msRest.CompositeMapper = {
+  serializedName: "ResourceProviderOperationDisplay",
+  type: {
+    name: "Composite",
+    className: "ResourceProviderOperationDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        type: {
+          name: "String"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceProviderOperationDefinition: msRest.CompositeMapper = {
+  serializedName: "ResourceProviderOperationDefinition",
+  type: {
+    name: "Composite",
+    className: "ResourceProviderOperationDefinition",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "ResourceProviderOperationDisplay"
+        }
+      }
+    }
+  }
+};
+
+export const Sku: msRest.CompositeMapper = {
+  serializedName: "Sku",
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        required: true,
+        isConstant: true,
+        serializedName: "name",
+        defaultValue: 'S1',
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Controller: msRest.CompositeMapper = {
   serializedName: "Controller",
   type: {
@@ -136,7 +193,7 @@ export const Controller: msRest.CompositeMapper = {
         }
       },
       hostSuffix: {
-        required: true,
+        readOnly: true,
         serializedName: "properties.hostSuffix",
         type: {
           name: "String"
@@ -232,20 +289,6 @@ export const ControllerConnectionDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      workspaceStorageAccountName: {
-        readOnly: true,
-        serializedName: "workspaceStorageAccountName",
-        type: {
-          name: "String"
-        }
-      },
-      workspaceStorageSasToken: {
-        readOnly: true,
-        serializedName: "workspaceStorageSasToken",
-        type: {
-          name: "String"
-        }
-      },
       orchestratorSpecificConnectionDetails: {
         serializedName: "orchestratorSpecificConnectionDetails",
         type: {
@@ -273,63 +316,6 @@ export const ControllerConnectionDetailsList: msRest.CompositeMapper = {
               className: "ControllerConnectionDetails"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ResourceProviderOperationDisplay: msRest.CompositeMapper = {
-  serializedName: "ResourceProviderOperationDisplay",
-  type: {
-    name: "Composite",
-    className: "ResourceProviderOperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        type: {
-          name: "String"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceProviderOperationDefinition: msRest.CompositeMapper = {
-  serializedName: "ResourceProviderOperationDefinition",
-  type: {
-    name: "Composite",
-    className: "ResourceProviderOperationDefinition",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "ResourceProviderOperationDisplay"
         }
       }
     }
@@ -403,11 +389,11 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ControllerList: msRest.CompositeMapper = {
-  serializedName: "ControllerList",
+export const ResourceProviderOperationList: msRest.CompositeMapper = {
+  serializedName: "ResourceProviderOperationList",
   type: {
     name: "Composite",
-    className: "ControllerList",
+    className: "ResourceProviderOperationList",
     modelProperties: {
       value: {
         serializedName: "",
@@ -416,7 +402,7 @@ export const ControllerList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Controller"
+              className: "ResourceProviderOperationDefinition"
             }
           }
         }
@@ -432,11 +418,11 @@ export const ControllerList: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceProviderOperationList: msRest.CompositeMapper = {
-  serializedName: "ResourceProviderOperationList",
+export const ControllerList: msRest.CompositeMapper = {
+  serializedName: "ControllerList",
   type: {
     name: "Composite",
-    className: "ResourceProviderOperationList",
+    className: "ControllerList",
     modelProperties: {
       value: {
         serializedName: "",
@@ -445,7 +431,7 @@ export const ResourceProviderOperationList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceProviderOperationDefinition"
+              className: "Controller"
             }
           }
         }

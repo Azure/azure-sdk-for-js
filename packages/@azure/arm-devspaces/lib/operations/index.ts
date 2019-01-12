@@ -9,5 +9,5 @@
  */
 
 export * from "./containerHostMappings";
-export * from "./controllers";
 export * from "./operations";
+export * from "./controllers";
