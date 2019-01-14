@@ -1,6 +1,8 @@
 @azure/amqp-common
 ================
 
+[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/amqp-common-js?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=61?branchName=master)
+
 Library that provides common functionality for different **Azure** Javascript libraries using amqp protocol. 
 Some of the common functionalities include:
 - CBS Auth
