@@ -11480,6 +11480,40 @@ export const SSISExecutionParameter: msRest.CompositeMapper = {
   }
 };
 
+export const SSISExecutionCredential: msRest.CompositeMapper = {
+  serializedName: "SSISExecutionCredential",
+  type: {
+    name: "Composite",
+    className: "SSISExecutionCredential",
+    modelProperties: {
+      domain: {
+        required: true,
+        serializedName: "domain",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        required: true,
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+          uberParent: "SecretBase",
+          className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
 export const SSISPackageLocation: msRest.CompositeMapper = {
   serializedName: "SSISPackageLocation",
   type: {
@@ -11530,6 +11564,18 @@ export const ExecuteSSISPackageActivity: msRest.CompositeMapper = {
         serializedName: "typeProperties.environmentPath",
         type: {
           name: "Object"
+        }
+      },
+      executionCredential: {
+        serializedName: "typeProperties.executionCredential",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISExecutionCredential"
+            }
+          }
         }
       },
       connectVia: {
