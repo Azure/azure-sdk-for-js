@@ -94,6 +94,16 @@ export const connectionType: msRest.OperationURLParameter = {
     }
   }
 };
+export const deviceSecurityGroupName: msRest.OperationURLParameter = {
+  parameterPath: "deviceSecurityGroupName",
+  mapper: {
+    required: true,
+    serializedName: "deviceSecurityGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const discoveredSecuritySolutionName: msRest.OperationURLParameter = {
   parameterPath: "discoveredSecuritySolutionName",
   mapper: {
@@ -143,16 +153,6 @@ export const informationProtectionPolicyName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "informationProtectionPolicyName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const iotSecurityGroupName: msRest.OperationURLParameter = {
-  parameterPath: "iotSecurityGroupName",
-  mapper: {
-    required: true,
-    serializedName: "iotSecurityGroupName",
     type: {
       name: "String"
     }

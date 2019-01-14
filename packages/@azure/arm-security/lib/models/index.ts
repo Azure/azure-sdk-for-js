@@ -205,39 +205,29 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 }
 
 /**
- * Contains the possible cases for Setting.
+ * @interface
+ * An interface representing SettingResource.
+ * The kind of the security setting
+ *
+ * @extends Resource
  */
-export type SettingUnion = Setting | DataExportSetting;
+export interface SettingResource extends Resource {
+  /**
+   * @member {SettingKind} kind the kind of the settings string
+   * (DataExportSetting). Possible values include: 'DataExportSetting',
+   * 'AlertSuppressionSetting'
+   */
+  kind: SettingKind;
+}
 
 /**
  * @interface
  * An interface representing Setting.
  * Represents a security setting in Azure Security Center.
  *
+ * @extends SettingResource
  */
-export interface Setting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "Setting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface Setting extends SettingResource {
 }
 
 /**
@@ -245,48 +235,13 @@ export interface Setting {
  * An interface representing DataExportSetting.
  * Represents a data export setting
  *
+ * @extends Setting
  */
-export interface DataExportSetting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "DataExportSetting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface DataExportSetting extends Setting {
   /**
    * @member {boolean} enabled Is the data export setting is enabled
    */
   enabled: boolean;
-}
-
-/**
- * @interface
- * An interface representing SettingKind1.
- * The kind of the security setting
- *
- */
-export interface SettingKind1 {
-  /**
-   * @member {SettingKind} [kind] the kind of the settings string. Possible
-   * values include: 'DataExportSetting'
-   */
-  kind?: SettingKind;
 }
 
 /**
@@ -525,12 +480,12 @@ export interface DenylistCustomAlertRule extends CustomAlertRule {
 
 /**
  * @interface
- * An interface representing IotSecurityGroup.
- * The IoT security group resource
+ * An interface representing DeviceSecurityGroup.
+ * The device security group resource
  *
  * @extends Resource
  */
-export interface IotSecurityGroup extends Resource {
+export interface DeviceSecurityGroup extends Resource {
   /**
    * @member {ThresholdCustomAlertRule[]} [thresholdRules] A list of threshold
    * custom alert rules.
@@ -551,19 +506,6 @@ export interface IotSecurityGroup extends Resource {
    * custom alert rules.
    */
   denylistRules?: DenylistCustomAlertRule[];
-}
-
-/**
- * @interface
- * An interface representing IotSecurityGroupList.
- * List of IoT security groups
- *
- */
-export interface IotSecurityGroupList {
-  /**
-   * @member {IotSecurityGroup[]} [value] List of IoT security group objects
-   */
-  value?: IotSecurityGroup[];
 }
 
 /**
@@ -1933,12 +1875,28 @@ export interface ComplianceList extends Array<Compliance> {
 
 /**
  * @interface
+ * An interface representing the DeviceSecurityGroupList.
+ * List of device security groups
+ *
+ * @extends Array<DeviceSecurityGroup>
+ */
+export interface DeviceSecurityGroupList extends Array<DeviceSecurityGroup> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the SettingsList.
  * Subscription settings list.
  *
- * @extends Array<SettingUnion>
+ * @extends Array<Setting>
  */
-export interface SettingsList extends Array<SettingUnion> {
+export interface SettingsList extends Array<Setting> {
   /**
    * @member {string} [nextLink] The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -2133,11 +2091,11 @@ export type AutoProvision = 'On' | 'Off';
 
 /**
  * Defines values for SettingKind.
- * Possible values include: 'DataExportSetting'
+ * Possible values include: 'DataExportSetting', 'AlertSuppressionSetting'
  * @readonly
  * @enum {string}
  */
-export type SettingKind = 'DataExportSetting';
+export type SettingKind = 'DataExportSetting' | 'AlertSuppressionSetting';
 
 /**
  * Defines values for SecurityFamily.
@@ -2775,7 +2733,7 @@ export type AdvancedThreatProtectionCreateResponse = AdvancedThreatProtectionSet
 /**
  * Contains response data for the list operation.
  */
-export type IotSecurityGroupsListResponse = IotSecurityGroupList & {
+export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList & {
   /**
    * The underlying HTTP response.
    */
@@ -2787,14 +2745,14 @@ export type IotSecurityGroupsListResponse = IotSecurityGroupList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IotSecurityGroupList;
+      parsedBody: DeviceSecurityGroupList;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type IotSecurityGroupsGetResponse = IotSecurityGroup & {
+export type DeviceSecurityGroupsGetResponse = DeviceSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
@@ -2806,14 +2764,14 @@ export type IotSecurityGroupsGetResponse = IotSecurityGroup & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IotSecurityGroup;
+      parsedBody: DeviceSecurityGroup;
     };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type IotSecurityGroupsCreateOrUpdateResponse = IotSecurityGroup & {
+export type DeviceSecurityGroupsCreateOrUpdateResponse = DeviceSecurityGroup & {
   /**
    * The underlying HTTP response.
    */
@@ -2825,7 +2783,26 @@ export type IotSecurityGroupsCreateOrUpdateResponse = IotSecurityGroup & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: IotSecurityGroup;
+      parsedBody: DeviceSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DeviceSecurityGroupsListNextResponse = DeviceSecurityGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroupList;
     };
 };
 
@@ -2851,7 +2828,7 @@ export type SettingsListResponse = SettingsList & {
 /**
  * Contains response data for the get operation.
  */
-export type SettingsGetResponse = SettingUnion & {
+export type SettingsGetResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2863,14 +2840,14 @@ export type SettingsGetResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type SettingsUpdateResponse = SettingUnion & {
+export type SettingsUpdateResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2882,7 +2859,7 @@ export type SettingsUpdateResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 

@@ -22,11 +22,12 @@ export {
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
+  SettingResource,
   InformationProtectionPolicy,
   SensitivityLabel,
   InformationType,
   InformationProtectionKeyword,
-  IotSecurityGroup,
+  DeviceSecurityGroup,
   ThresholdCustomAlertRule,
   CustomAlertRule,
   TimeWindowCustomAlertRule,
@@ -36,6 +37,8 @@ export {
   SecurityTaskParameters,
   Alert,
   AlertEntity,
-  AlertConfidenceReason
+  AlertConfidenceReason,
+  Setting,
+  DataExportSetting
 } from "../models/mappers";
 

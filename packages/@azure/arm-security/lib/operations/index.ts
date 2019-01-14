@@ -14,7 +14,7 @@ export * from "./workspaceSettings";
 export * from "./autoProvisioningSettings";
 export * from "./compliances";
 export * from "./advancedThreatProtection";
-export * from "./iotSecurityGroups";
+export * from "./deviceSecurityGroups";
 export * from "./settings";
 export * from "./informationProtectionPolicies";
 export * from "./operations";

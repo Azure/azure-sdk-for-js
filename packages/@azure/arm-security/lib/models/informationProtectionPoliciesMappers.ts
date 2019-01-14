@@ -25,7 +25,8 @@ export {
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
-  IotSecurityGroup,
+  SettingResource,
+  DeviceSecurityGroup,
   ThresholdCustomAlertRule,
   CustomAlertRule,
   TimeWindowCustomAlertRule,
@@ -36,6 +37,8 @@ export {
   AscLocation,
   Alert,
   AlertEntity,
-  AlertConfidenceReason
+  AlertConfidenceReason,
+  Setting,
+  DataExportSetting
 } from "../models/mappers";
 
