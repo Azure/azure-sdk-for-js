@@ -37,6 +37,9 @@ node_modules
 .nyc_output
 coverage
 
+# Node #
+test-results.xml
+
 # Mac OS #
 .DS_Store
 .DS_Store?

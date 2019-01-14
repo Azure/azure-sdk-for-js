@@ -1,0 +1,139 @@
+trigger:
+  - master
+
+variables:
+  node.version: '10.x'
+
+jobs:
+  - job: 'Publish'
+
+    pool:
+      vmImage: 'ubuntu-16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'pack'
+        displayName: 'npm pack'
+
+      - task: CopyFiles@2
+        inputs:
+          contents: '*.tgz'
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          flattenFolders: true
+        displayName: 'Copy Packages'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Package'
+
+  - job: 'Audit'
+
+    pool:
+      vmImage: 'ubuntu-16.04'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'audit'
+        displayName: 'npm audit'
+
+      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+        # builds should be sufficient.
+        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: 'Component Detection'
+
+  - job: 'Test'
+
+    dependsOn:
+      - 'Publish'
+
+    strategy:
+      matrix:
+        Linux_Node6:
+          os.name: 'Linux'
+          os.vmImage: 'ubuntu-16.04'
+          node.version: '6.x'
+        Linux_Node8:
+          os.name: 'Linux'
+          os.vmImage: 'ubuntu-16.04'
+          node.version: '8.x'
+        Linux_Node10:
+          os.name: 'Linux'
+          os.vmImage: 'ubuntu-16.04'
+          node.version: '10.x'
+        Linux_Node11:
+          os.name: 'Linux'
+          os.vmImage: 'ubuntu-16.04'
+          node.version: '11.x'
+        macOS_Node6:
+          os.name: 'macOS'
+          os.vmImage: 'macOS-10.13'
+          node.version: '6.x'
+        macOS_Node8:
+          os.name: 'macOS'
+          os.vmImage: 'macOS-10.13'
+          node.version: '8.x'
+        macOS_Node10:
+          os.name: 'macOS'
+          os.vmImage: 'macOS-10.13'
+          node.version: '10.x'
+        macOS_Node11:
+          os.name: 'macOS'
+          os.vmImage: 'macOS-10.13'
+          node.version: '11.x'
+        Windows_Node6:
+          os.name: 'Windows'
+          os.vmImage: 'vs2017-win2016'
+          node.version: '6.x'
+        Windows_Node8:
+          os.name: 'Windows'
+          os.vmImage: 'vs2017-win2016'
+          node.version: '8.x'
+        Windows_Node10:
+          os.name: 'Windows'
+          os.vmImage: 'vs2017-win2016'
+          node.version: '10.x'
+        Windows_Node11:
+          os.name: 'Windows'
+          os.vmImage: 'vs2017-win2016'
+          node.version: '11.x'
+
+    pool:
+      vmImage: '$(os.vmImage)'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
+
+      - task: Npm@1
+        inputs:
+          command: 'install'
+        displayName: 'npm install'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run test -- -- --reporter mocha-junit-reporter'
+        displayName: 'npm run test'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: 'test-results.xml'
+          testRunTitle: '$(os.name) Node $(node.version)'
+        condition: succeededOrFailed()
+        displayName: 'Publish test results'

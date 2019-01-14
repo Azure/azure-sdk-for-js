@@ -30,6 +30,7 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "^6.1.0",
     "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
     "nyc": "^12.0.2",
     "rhea-promise": "^0.1.7",
     "rimraf": "^2.6.2",
