@@ -237,6 +237,7 @@ export {
   CustomActivityReferenceObject,
   ExecuteSSISPackageActivity,
   SSISPackageLocation,
+  SSISExecutionCredential,
   SSISExecutionParameter,
   SSISPropertyOverride,
   HDInsightSparkActivity,
