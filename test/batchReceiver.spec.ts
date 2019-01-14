@@ -35,7 +35,11 @@ async function testPeekMsgsLength(
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
-  should.equal(peekedMsgs.length, expectedPeekLength);
+  should.equal(
+    peekedMsgs.length,
+    expectedPeekLength,
+    "Unexpected number of msgs found when peeking"
+  );
 }
 
 const maxDeliveryCount = 10;
@@ -156,7 +160,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", () => {
     await testComplete(queueClient, queueClient);
   });
 
-  it("Queue: complete() removes message", async function(): Promise<void> {
+  it("Subscription: complete() removes message", async function(): Promise<void> {
     await testComplete(topicClient, subscriptionClient);
   });
 
@@ -172,13 +176,13 @@ describe("Complete/Abandon/Defer/Deadletter normal message", () => {
     await completeMessages(receiverClient, 1);
   }
 
-  it("Queue: Abandoned message is retained with incremented deliveryCount", async function(): Promise<
+  it("Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
     await testAbandon(queueClient, queueClient);
   });
 
-  it("Subscription: Abandoned message is retained with incremented deliveryCount", async function(): Promise<
+  it("Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
     await testAbandon(topicClient, subscriptionClient);
@@ -209,13 +213,11 @@ describe("Complete/Abandon/Defer/Deadletter normal message", () => {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Queue: Receive deferred message from queue/subscription", async function(): Promise<void> {
+  it("Queue: defer() moves message to deferred queue", async function(): Promise<void> {
     await testDefer(queueClient, queueClient);
   });
 
-  it("Subscription: Receive deferred message from queue/subscription", async function(): Promise<
-    void
-  > {
+  it("Subscription: defer() moves message to deferred queue", async function(): Promise<void> {
     await testDefer(topicClient, subscriptionClient);
   });
 
@@ -232,11 +234,11 @@ describe("Complete/Abandon/Defer/Deadletter normal message", () => {
     await completeMessages(deadLetterClient, 0);
   }
 
-  it("Queue: Receive dead letter message from queue/subscription", async function(): Promise<void> {
+  it("Queue: deadLetter() moves message to deadletter queue", async function(): Promise<void> {
     await testDeadletter(queueClient, queueClient, deadletterQueueClient);
   });
 
-  it("Subscription: Receive dead letter message from queue/subscription", async function(): Promise<
+  it("Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
     await testDeadletter(topicClient, subscriptionClient, deadletterSubscriptionClient);
@@ -601,7 +603,7 @@ describe("Multiple ReceiveBatch calls", () => {
   });
 });
 
-describe("Other ReceiveBatch Tests", function(): void {
+describe("Batching Receiver Misc Tests", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
