@@ -4336,6 +4336,171 @@ export const MetricNamespace: msRest.CompositeMapper = {
   }
 };
 
+export const ProxyResource: msRest.CompositeMapper = {
+  serializedName: "ProxyResource",
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: msRest.CompositeMapper = {
+  serializedName: "Error",
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResponseWithError: msRest.CompositeMapper = {
+  serializedName: "ResponseWithError",
+  type: {
+    name: "Composite",
+    className: "ResponseWithError",
+    modelProperties: {
+      error: {
+        required: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      }
+    }
+  }
+};
+
+export const WorkspaceInfo: msRest.CompositeMapper = {
+  serializedName: "WorkspaceInfo",
+  type: {
+    name: "Composite",
+    className: "WorkspaceInfo",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      customerId: {
+        required: true,
+        serializedName: "properties.customerId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataContainer: msRest.CompositeMapper = {
+  serializedName: "DataContainer",
+  type: {
+    name: "Composite",
+    className: "DataContainer",
+    modelProperties: {
+      workspace: {
+        required: true,
+        serializedName: "workspace",
+        type: {
+          name: "Composite",
+          className: "WorkspaceInfo"
+        }
+      }
+    }
+  }
+};
+
+export const VMInsightsOnboardingStatus: msRest.CompositeMapper = {
+  serializedName: "VMInsightsOnboardingStatus",
+  type: {
+    name: "Composite",
+    className: "VMInsightsOnboardingStatus",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      resourceId: {
+        required: true,
+        serializedName: "properties.resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      onboardingStatus: {
+        required: true,
+        serializedName: "properties.onboardingStatus",
+        type: {
+          name: "String"
+        }
+      },
+      dataStatus: {
+        required: true,
+        serializedName: "properties.dataStatus",
+        type: {
+          name: "String"
+        }
+      },
+      data: {
+        serializedName: "properties.data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataContainer"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AutoscaleSettingResourceCollection: msRest.CompositeMapper = {
   serializedName: "AutoscaleSettingResourceCollection",
   type: {

@@ -3144,6 +3144,133 @@ export interface MetricNamespace {
 
 /**
  * @interface
+ * An interface representing ProxyResource.
+ * An azure resource object
+ *
+ * @extends BaseResource
+ */
+export interface ProxyResource extends BaseResource {
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ * Error details.
+ *
+ */
+export interface ErrorModel {
+  /**
+   * @member {string} code Error code identifying the specific error.
+   */
+  code: string;
+  /**
+   * @member {string} [message] Error message in the caller's locale.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResponseWithError.
+ * An error response from the API.
+ *
+ */
+export interface ResponseWithError {
+  /**
+   * @member {ErrorModel} error Error information.
+   */
+  error: ErrorModel;
+}
+
+/**
+ * @interface
+ * An interface representing WorkspaceInfo.
+ * Information about a Log Analytics Workspace.
+ *
+ */
+export interface WorkspaceInfo {
+  /**
+   * @member {string} id Azure Resource Manager identifier of the Log Analytics
+   * Workspace.
+   */
+  id: string;
+  /**
+   * @member {string} location Location of the Log Analytics workspace.
+   */
+  location: string;
+  /**
+   * @member {string} customerId Log Analytics workspace identifier.
+   */
+  customerId: string;
+}
+
+/**
+ * @interface
+ * An interface representing DataContainer.
+ * Information about a container with data for a given resource.
+ *
+ */
+export interface DataContainer {
+  /**
+   * @member {WorkspaceInfo} workspace Log Analytics workspace information.
+   */
+  workspace: WorkspaceInfo;
+}
+
+/**
+ * @interface
+ * An interface representing VMInsightsOnboardingStatus.
+ * VM Insights onboarding status for a resource.
+ *
+ * @extends ProxyResource
+ */
+export interface VMInsightsOnboardingStatus extends ProxyResource {
+  /**
+   * @member {string} resourceId Azure Resource Manager identifier of the
+   * resource whose onboarding status is being represented.
+   */
+  resourceId: string;
+  /**
+   * @member {OnboardingStatus} onboardingStatus The onboarding status for the
+   * resource. Note that, a higher level scope, e.g., resource group or
+   * subscription, is considered onboarded if at least one resource under it is
+   * onboarded. Possible values include: 'onboarded', 'notOnboarded', 'unknown'
+   */
+  onboardingStatus: OnboardingStatus;
+  /**
+   * @member {DataStatus} dataStatus The status of VM Insights data from the
+   * resource. When reported as `present` the data array will contain
+   * information about the data containers to which data for the specified
+   * resource is being routed. Possible values include: 'present', 'notPresent'
+   */
+  dataStatus: DataStatus;
+  /**
+   * @member {DataContainer[]} [data] Containers that currently store VM
+   * Insights data for the specified resource.
+   */
+  data?: DataContainer[];
+}
+
+/**
+ * @interface
  * An interface representing ActivityLogsListOptionalParams.
  * Optional Parameters.
  *
@@ -3701,6 +3828,22 @@ export type MetricTriggerType = 'Consecutive' | 'Total';
  * @enum {string}
  */
 export type AlertSeverity = '0' | '1' | '2' | '3' | '4';
+
+/**
+ * Defines values for OnboardingStatus.
+ * Possible values include: 'onboarded', 'notOnboarded', 'unknown'
+ * @readonly
+ * @enum {string}
+ */
+export type OnboardingStatus = 'onboarded' | 'notOnboarded' | 'unknown';
+
+/**
+ * Defines values for DataStatus.
+ * Possible values include: 'present', 'notPresent'
+ * @readonly
+ * @enum {string}
+ */
+export type DataStatus = 'present' | 'notPresent';
 
 /**
  * Defines values for ResultType.
@@ -4771,5 +4914,24 @@ export type MetricNamespacesListResponse = MetricNamespaceCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MetricNamespaceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getOnboardingStatus operation.
+ */
+export type VMInsightsGetOnboardingStatusResponse = VMInsightsOnboardingStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMInsightsOnboardingStatus;
     };
 };
