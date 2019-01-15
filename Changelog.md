@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 - 2019-01-15
+
+- Allow ServiceClientOptions.userAgent property to be a function.
+
 ## 1.1.1 - 2018-11-13
 
 - Improve debugging by adding rollup-plugin-sourcemaps
