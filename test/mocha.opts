@@ -3,5 +3,4 @@
 --reporter mocha-multi-reporters
 --reporter-options configFile=mocha.config.json
 --colors
-test/node/**/*.ts
-test/shared/**/*.ts
+test/**/*.ts

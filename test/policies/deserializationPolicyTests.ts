@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import assert from "assert";
-import { HttpHeaders } from "../../../lib/httpHeaders";
-import { HttpOperationResponse } from "../../../lib/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer } from "../../../lib/msRest";
-import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../../lib/policies/deserializationPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../../../lib/policies/requestPolicy";
-import { WebResource } from "../../../lib/webResource";
+import { assert } from "chai";
+import { HttpHeaders } from "../../lib/httpHeaders";
+import { HttpOperationResponse } from "../../lib/httpOperationResponse";
+import { HttpClient, OperationSpec, Serializer } from "../../lib/msRest";
+import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../lib/policies/deserializationPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
+import { WebResource } from "../../lib/webResource";
 
 describe("deserializationPolicy", function () {
   const mockPolicy: RequestPolicy = {
@@ -43,7 +43,7 @@ describe("deserializationPolicy", function () {
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
+    assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
   it("should parse a JSON response body with a charset specified in Content-Type", async function () {
@@ -59,7 +59,7 @@ describe("deserializationPolicy", function () {
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
+    assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
   it("should parse a JSON response body with an uppercase Content-Type", async function () {
@@ -75,7 +75,7 @@ describe("deserializationPolicy", function () {
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
+    assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
   it("should parse a JSON response body with a missing Content-Type", async function () {
@@ -91,7 +91,7 @@ describe("deserializationPolicy", function () {
 
     const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
+    assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
   describe(`parse(HttpOperationResponse)`, () => {

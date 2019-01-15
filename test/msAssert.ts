@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import assert from "assert";
+import { assert } from "chai";
 
 /**
  * Assert that the provided syncFunction throws an Error. If the expectedError is undefined, then
@@ -22,7 +22,7 @@ export function throws(syncFunction: () => void, expectedError?: ((error: Error)
   if (!thrownError) {
     assert.throws(() => { });
   } else if (expectedError instanceof Error) {
-    assert.deepStrictEqual(thrownError, expectedError);
+    assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {
     expectedError(thrownError);
   }
@@ -49,7 +49,7 @@ export async function throwsAsync<T>(asyncFunction: (() => Promise<T>) | Promise
   if (!thrownError) {
     assert.throws(() => { });
   } else if (expectedError instanceof Error) {
-    assert.deepStrictEqual(thrownError, expectedError);
+    assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {
     expectedError(thrownError);
   }

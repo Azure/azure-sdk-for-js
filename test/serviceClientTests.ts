@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import assert from "assert";
-import { HttpClient } from "../../lib/httpClient";
-import { deserializationPolicy, HttpHeaders, OperationArguments, RestResponse, isNode } from "../../lib/msRest";
-import { ParameterPath } from "../../lib/operationParameter";
-import { QueryCollectionFormat } from "../../lib/queryCollectionFormat";
-import { DictionaryMapper, Mapper, MapperType, Serializer } from "../../lib/serializer";
-import { getOperationArgumentValueFromParameterPath, serializeRequestBody, ServiceClient } from "../../lib/serviceClient";
-import { WebResource } from "../../lib/webResource";
+import { assert } from "chai";
+import { HttpClient } from "../lib/httpClient";
+import { QueryCollectionFormat } from "../lib/queryCollectionFormat";
+import { DictionaryMapper, MapperType, Serializer, Mapper } from "../lib/serializer";
+import { serializeRequestBody, ServiceClient, getOperationArgumentValueFromParameterPath } from "../lib/serviceClient";
+import { WebResource } from "../lib/webResource";
+import { OperationArguments, HttpHeaders, deserializationPolicy, RestResponse, isNode } from "../lib/msRest";
+import { ParameterPath } from "../lib/operationParameter";
 
 describe("ServiceClient", function () {
   it("should serialize headerCollectionPrefix", async function () {
@@ -70,7 +70,7 @@ describe("ServiceClient", function () {
       });
 
     assert(request!);
-    assert.deepStrictEqual(request!.headers.toJson(), expected);
+    assert.deepEqual(request!.headers.toJson(), expected);
   });
 
   it("responses should not show the _response property when serializing", async function () {

@@ -12,10 +12,10 @@
 /* jshint forin:false */
 /* jshint noempty:false */
 
-'use strict';
+"use strict";
 
-import * as msRest from '../../../../../lib/msRest';
-import { Mappers } from './models/mappers';
+import * as msRest from "../../../../lib/msRest";
+import { Mappers } from "./models/mappers";
 
 /**
  * @class
@@ -44,11 +44,11 @@ class TestClient extends msRest.ServiceClient {
     super(undefined, options);
     this.baseUri = baseUri;
     if (!this.baseUri) {
-      this.baseUri = 'https://management.azure.com';
+      this.baseUri = "https://management.azure.com";
     }
 
     if (!this.acceptLanguage) {
-      this.acceptLanguage = 'en-US';
+      this.acceptLanguage = "en-US";
     }
     this.serializer = new msRest.Serializer(Mappers);
   }

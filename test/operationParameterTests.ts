@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import assert from "assert";
-import { getPathStringFromParameter, OperationParameter } from "../../lib/operationParameter";
+import { assert } from "chai";
+import { getPathStringFromParameter, OperationParameter } from "../lib/operationParameter";
 
 describe("getParameterPathString()", () => {
   it("should throw when given undefined", () => {

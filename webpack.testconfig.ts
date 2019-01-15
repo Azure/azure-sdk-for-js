@@ -3,12 +3,12 @@ import * as glob from "glob";
 import * as path from "path";
 
 const config: webpack.Configuration = {
-  entry: [...glob.sync(path.join(__dirname, "test/shared/**/*.ts")), ...glob.sync(path.join(__dirname, "test/browser/**/*.ts"))],
+  entry: glob.sync(path.join(__dirname, "test/**/*.ts")),
   mode: "development",
   devtool: "source-map",
   output: {
-    filename: "testBundle.js",
-    path: __dirname
+    filename: "msRest.browser.test.js",
+    path: path.resolve(__dirname, "test")
   },
   plugins: [
     new webpack.NormalModuleReplacementPlugin(/(\.).+util\/base64/, path.resolve(__dirname, "./lib/util/base64.browser.ts")),
