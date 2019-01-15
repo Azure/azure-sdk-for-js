@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import { HttpClient } from "../../lib/httpClient";
-import { deserializationPolicy, HttpHeaders, OperationArguments, RestResponse } from "../../lib/msRest";
+import { deserializationPolicy, HttpHeaders, OperationArguments, RestResponse, isNode } from "../../lib/msRest";
 import { ParameterPath } from "../../lib/operationParameter";
 import { QueryCollectionFormat } from "../../lib/queryCollectionFormat";
 import { DictionaryMapper, Mapper, MapperType, Serializer } from "../../lib/serializer";
@@ -112,7 +112,7 @@ describe("ServiceClient", function () {
           return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
         },
       },
-      requestPolicyFactories: [],
+      requestPolicyFactories: () => [],
     });
 
     await client.sendOperationRequest(
@@ -162,7 +162,7 @@ describe("ServiceClient", function () {
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      requestPolicyFactories: []
+      requestPolicyFactories: () => []
     });
     await client1.sendOperationRequest(
       {},
@@ -253,7 +253,7 @@ describe("ServiceClient", function () {
       });
 
     assert.strictEqual(response._response.status, 200);
-    assert.strictEqual(response._response.request.headers.get("user-agent"), "blah blah");
+    assert.strictEqual(response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"), "blah blah");
   });
 
   it("should use userAgent function from options that appends to defaultUserAgent", async function () {
@@ -278,7 +278,7 @@ describe("ServiceClient", function () {
       });
 
     assert.strictEqual(response._response.status, 200);
-    const userAgentHeaderValue: string | undefined = response._response.request.headers.get("user-agent");
+    const userAgentHeaderValue: string | undefined = response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name");
     assert(userAgentHeaderValue);
     assert(userAgentHeaderValue!.startsWith("ms-rest-js/"));
     assert(userAgentHeaderValue!.endsWith("/blah blah"));
@@ -306,7 +306,7 @@ describe("ServiceClient", function () {
       });
 
     assert.strictEqual(response._response.status, 200);
-    assert.strictEqual(response._response.request.headers.get("user-agent"), "blah blah 2");
+    assert.strictEqual(response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"), "blah blah 2");
   });
 
   describe("serializeRequestBody()", () => {
