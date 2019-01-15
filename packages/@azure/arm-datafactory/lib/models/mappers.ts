@@ -11569,13 +11569,8 @@ export const ExecuteSSISPackageActivity: msRest.CompositeMapper = {
       executionCredential: {
         serializedName: "typeProperties.executionCredential",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "SSISExecutionCredential"
-            }
-          }
+          name: "Composite",
+          className: "SSISExecutionCredential"
         }
       },
       connectVia: {

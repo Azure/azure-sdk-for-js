@@ -13050,10 +13050,10 @@ export interface ExecuteSSISPackageActivity {
    */
   environmentPath?: any;
   /**
-   * @member {{ [propertyName: string]: SSISExecutionCredential }}
-   * [executionCredential] The package execution credential.
+   * @member {SSISExecutionCredential} [executionCredential] The package
+   * execution credential.
    */
-  executionCredential?: { [propertyName: string]: SSISExecutionCredential };
+  executionCredential?: SSISExecutionCredential;
   /**
    * @member {IntegrationRuntimeReference} connectVia The integration runtime
    * reference.
