@@ -1,4 +1,4 @@
-### 2019-1-11 1.0.0-preview.1
+### 2019-1-15 1.0.0-preview.1
 - Enabled esModuleInterop flag for the TypeScript compiler.
 
 ### 2018-12-15 0.1.9
