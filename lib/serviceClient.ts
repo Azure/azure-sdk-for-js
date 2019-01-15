@@ -33,10 +33,11 @@ import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
  */
 export interface ServiceClientOptions {
   /**
-   * An array of factories which get called to create the RequestPolicy pipeline
-   * used to send a HTTP request on the wire.
+   * An array of factories which get called to create the RequestPolicy pipeline used to send a HTTP
+   * request on the wire, or a function that takes in the defaultRequestPolicyFactories and returns
+   * the requestPolicyFactories that will be used.
    */
-  requestPolicyFactories?: RequestPolicyFactory[];
+  requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => (void | RequestPolicyFactory[]));
   /**
    * The HttpClient that will be used to send HTTP requests.
    */
@@ -123,7 +124,19 @@ export class ServiceClient {
     this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
-    this._requestPolicyFactories = options.requestPolicyFactories || createDefaultRequestPolicyFactories(credentials, options);
+    let requestPolicyFactories: RequestPolicyFactory[];
+    if (Array.isArray(options.requestPolicyFactories)) {
+      requestPolicyFactories = options.requestPolicyFactories;
+    } else {
+      requestPolicyFactories = createDefaultRequestPolicyFactories(credentials, options);
+      if (options.requestPolicyFactories) {
+        const newRequestPolicyFactories: void | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
+        if (newRequestPolicyFactories) {
+          requestPolicyFactories = newRequestPolicyFactories;
+        }
+      }
+    }
+    this._requestPolicyFactories = requestPolicyFactories;
   }
 
   /**
