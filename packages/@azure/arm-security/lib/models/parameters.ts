@@ -20,6 +20,28 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const adaptiveNetworkControlsEnforceAction: msRest.OperationURLParameter = {
+  parameterPath: "adaptiveNetworkControlsEnforceAction",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "adaptiveNetworkControlsEnforceAction",
+    defaultValue: 'enforce',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const adaptiveNetworkControlsResourceName: msRest.OperationURLParameter = {
+  parameterPath: "adaptiveNetworkControlsResourceName",
+  mapper: {
+    required: true,
+    serializedName: "adaptiveNetworkControlsResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const alertName: msRest.OperationURLParameter = {
   parameterPath: "alertName",
   mapper: {
@@ -211,16 +233,6 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const northSouthResourceName: msRest.OperationURLParameter = {
-  parameterPath: "northSouthResourceName",
-  mapper: {
-    required: true,
-    serializedName: "northSouthResourceName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const pricingName: msRest.OperationURLParameter = {
   parameterPath: "pricingName",
   mapper: {
@@ -348,18 +360,6 @@ export const topologyResourceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "topologyResourceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const trafficHardeningsRulesEnforceAction: msRest.OperationURLParameter = {
-  parameterPath: "trafficHardeningsRulesEnforceAction",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "trafficHardeningsRulesEnforceAction",
-    defaultValue: 'enforce',
     type: {
       name: "String"
     }

@@ -239,38 +239,13 @@ export const AdvancedThreatProtectionSetting: msRest.CompositeMapper = {
   }
 };
 
-export const Setting: msRest.CompositeMapper = {
-  serializedName: "Setting",
+export const SettingResource: msRest.CompositeMapper = {
+  serializedName: "SettingResource",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    uberParent: "Setting",
-    className: "Setting",
+    className: "SettingResource",
     modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
+      ...Resource.type.modelProperties,
       kind: {
         required: true,
         serializedName: "kind",
@@ -278,6 +253,17 @@ export const Setting: msRest.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const Setting: msRest.CompositeMapper = {
+  serializedName: "Setting",
+  type: {
+    name: "Composite",
+    className: "Setting",
+    modelProperties: {
+      ...SettingResource.type.modelProperties
     }
   }
 };
@@ -286,8 +272,6 @@ export const DataExportSetting: msRest.CompositeMapper = {
   serializedName: "DataExportSetting",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Setting.type.polymorphicDiscriminator,
-    uberParent: "Setting",
     className: "DataExportSetting",
     modelProperties: {
       ...Setting.type.modelProperties,
@@ -296,22 +280,6 @@ export const DataExportSetting: msRest.CompositeMapper = {
         serializedName: "properties.enabled",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SettingKind1: msRest.CompositeMapper = {
-  serializedName: "SettingKind",
-  type: {
-    name: "Composite",
-    className: "SettingKind1",
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1749,11 +1717,11 @@ export const AadConnectivityState1: msRest.CompositeMapper = {
   }
 };
 
-export const TrafficHardeningRule: msRest.CompositeMapper = {
-  serializedName: "TrafficHardeningRule",
+export const AdaptiveNetworkControlsRule: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkControlsRule",
   type: {
     name: "Composite",
-    className: "TrafficHardeningRule",
+    className: "AdaptiveNetworkControlsRule",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -1784,8 +1752,8 @@ export const TrafficHardeningRule: msRest.CompositeMapper = {
           }
         }
       },
-      allowRemoteAddresses: {
-        serializedName: "allowRemoteAddresses",
+      ipAddresses: {
+        serializedName: "ipAddresses",
         type: {
           name: "Sequence",
           element: {
@@ -1799,66 +1767,25 @@ export const TrafficHardeningRule: msRest.CompositeMapper = {
   }
 };
 
-export const TrafficAlertTrafficItem: msRest.CompositeMapper = {
-  serializedName: "TrafficAlert_trafficItem",
+export const AdaptiveNetworkControlsEffectiveNetworkSecurityGroups: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkControlsEffectiveNetworkSecurityGroups",
   type: {
     name: "Composite",
-    className: "TrafficAlertTrafficItem",
+    className: "AdaptiveNetworkControlsEffectiveNetworkSecurityGroups",
     modelProperties: {
-      remoteAddress: {
-        serializedName: "remoteAddress",
+      networkInterface: {
+        serializedName: "networkInterface",
         type: {
           name: "String"
         }
       },
-      attempts: {
-        serializedName: "attempts",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const TrafficAlert: msRest.CompositeMapper = {
-  serializedName: "TrafficAlert",
-  type: {
-    name: "Composite",
-    className: "TrafficAlert",
-    modelProperties: {
-      detectionDate: {
-        serializedName: "detectionDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      direction: {
-        serializedName: "direction",
-        type: {
-          name: "String"
-        }
-      },
-      destinationPort: {
-        serializedName: "destinationPort",
-        type: {
-          name: "Number"
-        }
-      },
-      protocol: {
-        serializedName: "protocol",
-        type: {
-          name: "String"
-        }
-      },
-      traffic: {
-        serializedName: "traffic",
+      networkSecurityGroups: {
+        serializedName: "networkSecurityGroups",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "Composite",
-              className: "TrafficAlertTrafficItem"
+              name: "String"
             }
           }
         }
@@ -1867,33 +1794,21 @@ export const TrafficAlert: msRest.CompositeMapper = {
   }
 };
 
-export const NorthSouthHardenings: msRest.CompositeMapper = {
-  serializedName: "NorthSouthHardenings",
+export const AdaptiveNetworkControls: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkControls",
   type: {
     name: "Composite",
-    className: "NorthSouthHardenings",
+    className: "AdaptiveNetworkControls",
     modelProperties: {
       ...Resource.type.modelProperties,
-      trafficHardeningRules: {
-        serializedName: "properties.trafficHardeningRules",
+      rules: {
+        serializedName: "properties.rules",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "TrafficHardeningRule"
-            }
-          }
-        }
-      },
-      trafficAlerts: {
-        serializedName: "properties.trafficAlerts",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TrafficAlert"
+              className: "AdaptiveNetworkControlsRule"
             }
           }
         }
@@ -1902,6 +1817,18 @@ export const NorthSouthHardenings: msRest.CompositeMapper = {
         serializedName: "properties.rulesCalculationTime",
         type: {
           name: "DateTime"
+        }
+      },
+      effectiveNetworkSecurityGroups: {
+        serializedName: "properties.effectiveNetworkSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdaptiveNetworkControlsEffectiveNetworkSecurityGroups"
+            }
+          }
         }
       }
     }
@@ -2201,11 +2128,6 @@ export const SettingsList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "kind",
-                clientName: "kind"
-              },
-              uberParent: "Setting",
               className: "Setting"
             }
           }
@@ -2461,11 +2383,11 @@ export const ExternalSecuritySolutionList: msRest.CompositeMapper = {
   }
 };
 
-export const NorthSouthHardeningsList: msRest.CompositeMapper = {
-  serializedName: "NorthSouthHardeningsList",
+export const AdaptiveNetworkControlsList: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkControlsList",
   type: {
     name: "Composite",
-    className: "NorthSouthHardeningsList",
+    className: "AdaptiveNetworkControlsList",
     modelProperties: {
       value: {
         serializedName: "",
@@ -2474,7 +2396,7 @@ export const NorthSouthHardeningsList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NorthSouthHardenings"
+              className: "AdaptiveNetworkControls"
             }
           }
         }
@@ -2550,8 +2472,6 @@ export const AllowedConnectionsList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Setting' : Setting,
-  'Setting.DataExportSetting' : DataExportSetting,
   'ExternalSecuritySolution' : ExternalSecuritySolution,
   'ExternalSecuritySolution.CEF' : CefExternalSecuritySolution,
   'ExternalSecuritySolution.ATA' : AtaExternalSecuritySolution,

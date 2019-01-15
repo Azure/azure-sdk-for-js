@@ -205,39 +205,29 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 }
 
 /**
- * Contains the possible cases for Setting.
+ * @interface
+ * An interface representing SettingResource.
+ * The kind of the security setting
+ *
+ * @extends Resource
  */
-export type SettingUnion = Setting | DataExportSetting;
+export interface SettingResource extends Resource {
+  /**
+   * @member {SettingKind} kind the kind of the settings string
+   * (DataExportSetting). Possible values include: 'DataExportSetting',
+   * 'AlertSuppressionSetting'
+   */
+  kind: SettingKind;
+}
 
 /**
  * @interface
  * An interface representing Setting.
  * Represents a security setting in Azure Security Center.
  *
+ * @extends SettingResource
  */
-export interface Setting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "Setting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface Setting extends SettingResource {
 }
 
 /**
@@ -245,48 +235,13 @@ export interface Setting {
  * An interface representing DataExportSetting.
  * Represents a data export setting
  *
+ * @extends Setting
  */
-export interface DataExportSetting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "DataExportSetting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface DataExportSetting extends Setting {
   /**
    * @member {boolean} enabled Is the data export setting is enabled
    */
   enabled: boolean;
-}
-
-/**
- * @interface
- * An interface representing SettingKind1.
- * The kind of the security setting
- *
- */
-export interface SettingKind1 {
-  /**
-   * @member {SettingKind} [kind] the kind of the settings string. Possible
-   * values include: 'DataExportSetting'
-   */
-  kind?: SettingKind;
 }
 
 /**
@@ -1440,110 +1395,82 @@ export interface AadConnectivityState1 {
 
 /**
  * @interface
- * An interface representing TrafficHardeningRule.
- * A north-south traffic hardening rule
+ * An interface representing AdaptiveNetworkControlsRule.
+ * Describes remote addresses that is recommended to communicate with the Azure
+ * resource on some (Protocol, Port, Direction). All other remote addresses are
+ * recommended to be blocked
  *
  */
-export interface TrafficHardeningRule {
+export interface AdaptiveNetworkControlsRule {
   /**
    * @member {string} [name] The name of the rule
    */
   name?: string;
   /**
-   * @member {NorthSouthTrafficDirection} [direction] The rule;s traffic
-   * direction. Possible values include: 'Inbound', 'Outbound'
+   * @member {Direction} [direction] The rule's direction. Possible values
+   * include: 'Inbound', 'Outbound'
    */
-  direction?: NorthSouthTrafficDirection;
+  direction?: Direction;
   /**
    * @member {number} [destinationPort] The rule's destination port
    */
   destinationPort?: number;
   /**
-   * @member {NorthSouthProtocol[]} [protocols] The rule's transport protocol
+   * @member {TransportProtocol[]} [protocols] The rule's transport protocols
    */
-  protocols?: NorthSouthProtocol[];
+  protocols?: TransportProtocol[];
   /**
-   * @member {string[]} [allowRemoteAddresses] The remote addresses that should
-   * be able to communicate with the Azure resource on the rule's destination
-   * port and protocol
+   * @member {string[]} [ipAddresses] The remote IP addresses that should be
+   * able to communicate with the Azure resource on the rule's destination port
+   * and protocol
    */
-  allowRemoteAddresses?: string[];
+  ipAddresses?: string[];
 }
 
 /**
  * @interface
- * An interface representing TrafficAlertTrafficItem.
- */
-export interface TrafficAlertTrafficItem {
-  /**
-   * @member {string} [remoteAddress] The IP address of the remote host that is
-   * associated with the traffic
-   */
-  remoteAddress?: string;
-  /**
-   * @member {number} [attempts] The detected number of packets sent to or from
-   * the remote address (depends on the direction of the traffic)
-   */
-  attempts?: number;
-}
-
-/**
- * @interface
- * An interface representing TrafficAlert.
- * A north-south traffic hardening alert
+ * An interface representing AdaptiveNetworkControlsEffectiveNetworkSecurityGroups.
+ * Describes the Network Security Groups effective on a network interface
  *
  */
-export interface TrafficAlert {
+export interface AdaptiveNetworkControlsEffectiveNetworkSecurityGroups {
   /**
-   * @member {Date} [detectionDate] the date (UTC) that the traffic was
-   * detected
+   * @member {string} [networkInterface] The Azure resource ID of the network
+   * interface
    */
-  detectionDate?: Date;
+  networkInterface?: string;
   /**
-   * @member {NorthSouthTrafficDirection} [direction] The alert's traffic
-   * direction. Possible values include: 'Inbound', 'Outbound'
+   * @member {string[]} [networkSecurityGroups] The Network Security Groups
+   * effective on the network interface
    */
-  direction?: NorthSouthTrafficDirection;
-  /**
-   * @member {number} [destinationPort] The alert's destination port
-   */
-  destinationPort?: number;
-  /**
-   * @member {NorthSouthProtocol} [protocol] The alert's transport protocol.
-   * Possible values include: 'TCP', 'UDP'
-   */
-  protocol?: NorthSouthProtocol;
-  /**
-   * @member {TrafficAlertTrafficItem[]} [traffic] The traffic that was
-   * detected and raised the alert
-   */
-  traffic?: TrafficAlertTrafficItem[];
+  networkSecurityGroups?: string[];
 }
 
 /**
  * @interface
- * An interface representing NorthSouthHardenings.
- * The resource whose properties describes the North-south hardening settings
- * for some Azure resource
+ * An interface representing AdaptiveNetworkControls.
+ * The resource whose properties describes the Adaptive Network Controls
+ * settings for some Azure resource
  *
  * @extends Resource
  */
-export interface NorthSouthHardenings extends Resource {
+export interface AdaptiveNetworkControls extends Resource {
   /**
-   * @member {TrafficHardeningRule[]} [trafficHardeningRules] The set of
-   * North-south traffic hardening rules
+   * @member {AdaptiveNetworkControlsRule[]} [rules] The security rules which
+   * are recommended to be effective on the VM
    */
-  trafficHardeningRules?: TrafficHardeningRule[];
+  rules?: AdaptiveNetworkControlsRule[];
   /**
-   * @member {TrafficAlert[]} [trafficAlerts] The set of North-south hardening
-   * alerts associated with the Azure resource
-   */
-  trafficAlerts?: TrafficAlert[];
-  /**
-   * @member {Date} [rulesCalculationTime] The UTC time on which the traffic
-   * hardening rules were calculated
+   * @member {Date} [rulesCalculationTime] The UTC time on which the rules were
+   * calculated
    */
   rulesCalculationTime?: Date;
+  /**
+   * @member {AdaptiveNetworkControlsEffectiveNetworkSecurityGroups[]}
+   * [effectiveNetworkSecurityGroups] The Network Security Groups effective on
+   * the network interfaces of the protected resource
+   */
+  effectiveNetworkSecurityGroups?: AdaptiveNetworkControlsEffectiveNetworkSecurityGroups[];
 }
 
 /**
@@ -1879,9 +1806,9 @@ export interface ComplianceList extends Array<Compliance> {
  * An interface representing the SettingsList.
  * Subscription settings list.
  *
- * @extends Array<SettingUnion>
+ * @extends Array<Setting>
  */
-export interface SettingsList extends Array<SettingUnion> {
+export interface SettingsList extends Array<Setting> {
   /**
    * @member {string} [nextLink] The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -2014,12 +1941,12 @@ export interface ExternalSecuritySolutionList extends Array<ExternalSecuritySolu
 
 /**
  * @interface
- * An interface representing the NorthSouthHardeningsList.
- * Response for ListNorthSouthHardenings API service call
+ * An interface representing the AdaptiveNetworkControlsList.
+ * Response for ListAdaptiveNetworkControls API service call
  *
- * @extends Array<NorthSouthHardenings>
+ * @extends Array<AdaptiveNetworkControls>
  */
-export interface NorthSouthHardeningsList extends Array<NorthSouthHardenings> {
+export interface AdaptiveNetworkControlsList extends Array<AdaptiveNetworkControls> {
   /**
    * @member {string} [nextLink] The URL to get the next set of results
    */
@@ -2090,11 +2017,11 @@ export type AutoProvision = 'On' | 'Off';
 
 /**
  * Defines values for SettingKind.
- * Possible values include: 'DataExportSetting'
+ * Possible values include: 'DataExportSetting', 'AlertSuppressionSetting'
  * @readonly
  * @enum {string}
  */
-export type SettingKind = 'DataExportSetting';
+export type SettingKind = 'DataExportSetting' | 'AlertSuppressionSetting';
 
 /**
  * Defines values for SecurityFamily.
@@ -2145,20 +2072,20 @@ export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
 export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
 
 /**
- * Defines values for NorthSouthProtocol.
- * Possible values include: 'TCP', 'UDP'
- * @readonly
- * @enum {string}
- */
-export type NorthSouthProtocol = 'TCP' | 'UDP';
-
-/**
- * Defines values for NorthSouthTrafficDirection.
+ * Defines values for Direction.
  * Possible values include: 'Inbound', 'Outbound'
  * @readonly
  * @enum {string}
  */
-export type NorthSouthTrafficDirection = 'Inbound' | 'Outbound';
+export type Direction = 'Inbound' | 'Outbound';
+
+/**
+ * Defines values for TransportProtocol.
+ * Possible values include: 'TCP', 'UDP'
+ * @readonly
+ * @enum {string}
+ */
+export type TransportProtocol = 'TCP' | 'UDP';
 
 /**
  * Defines values for ConnectionType.
@@ -2767,7 +2694,7 @@ export type SettingsListResponse = SettingsList & {
 /**
  * Contains response data for the get operation.
  */
-export type SettingsGetResponse = SettingUnion & {
+export type SettingsGetResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2779,14 +2706,14 @@ export type SettingsGetResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type SettingsUpdateResponse = SettingUnion & {
+export type SettingsUpdateResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2798,7 +2725,7 @@ export type SettingsUpdateResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 
@@ -3734,9 +3661,9 @@ export type ExternalSecuritySolutionsListByHomeRegionNextResponse = ExternalSecu
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the listByExtendedResource operation.
  */
-export type NorthSouthHardeningsListResponse = NorthSouthHardeningsList & {
+export type AdaptiveNetworkControlsListByExtendedResourceResponse = AdaptiveNetworkControlsList & {
   /**
    * The underlying HTTP response.
    */
@@ -3748,33 +3675,14 @@ export type NorthSouthHardeningsListResponse = NorthSouthHardeningsList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NorthSouthHardeningsList;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type NorthSouthHardeningsListByResourceGroupResponse = NorthSouthHardeningsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NorthSouthHardeningsList;
+      parsedBody: AdaptiveNetworkControlsList;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type NorthSouthHardeningsGetResponse = NorthSouthHardenings & {
+export type AdaptiveNetworkControlsGetResponse = AdaptiveNetworkControls & {
   /**
    * The underlying HTTP response.
    */
@@ -3786,14 +3694,14 @@ export type NorthSouthHardeningsGetResponse = NorthSouthHardenings & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NorthSouthHardenings;
+      parsedBody: AdaptiveNetworkControls;
     };
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the listByExtendedResourceNext operation.
  */
-export type NorthSouthHardeningsListNextResponse = NorthSouthHardeningsList & {
+export type AdaptiveNetworkControlsListByExtendedResourceNextResponse = AdaptiveNetworkControlsList & {
   /**
    * The underlying HTTP response.
    */
@@ -3805,26 +3713,7 @@ export type NorthSouthHardeningsListNextResponse = NorthSouthHardeningsList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: NorthSouthHardeningsList;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type NorthSouthHardeningsListByResourceGroupNextResponse = NorthSouthHardeningsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NorthSouthHardeningsList;
+      parsedBody: AdaptiveNetworkControlsList;
     };
 };
 

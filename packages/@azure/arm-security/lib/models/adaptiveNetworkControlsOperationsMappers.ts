@@ -10,11 +10,12 @@
 
 export {
   discriminators,
-  SettingsList,
-  Setting,
-  SettingResource,
+  AdaptiveNetworkControlsList,
+  AdaptiveNetworkControls,
   Resource,
   BaseResource,
+  AdaptiveNetworkControlsRule,
+  AdaptiveNetworkControlsEffectiveNetworkSecurityGroups,
   CloudError,
   SecurityContact,
   Pricing,
@@ -23,7 +24,7 @@ export {
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
-  DataExportSetting,
+  SettingResource,
   InformationProtectionPolicy,
   SensitivityLabel,
   InformationType,
@@ -34,8 +35,7 @@ export {
   Alert,
   AlertEntity,
   AlertConfidenceReason,
-  AdaptiveNetworkControls,
-  AdaptiveNetworkControlsRule,
-  AdaptiveNetworkControlsEffectiveNetworkSecurityGroups
+  Setting,
+  DataExportSetting
 } from "../models/mappers";
 

@@ -32,7 +32,7 @@ class SecurityCenter extends SecurityCenterContext {
   discoveredSecuritySolutions: operations.DiscoveredSecuritySolutions;
   jitNetworkAccessPolicies: operations.JitNetworkAccessPolicies;
   externalSecuritySolutions: operations.ExternalSecuritySolutions;
-  northSouthHardenings: operations.NorthSouthHardeningsOperations;
+  adaptiveNetworkControls: operations.AdaptiveNetworkControlsOperations;
   topology: operations.Topology;
   allowedConnections: operations.AllowedConnections;
 
@@ -61,7 +61,7 @@ class SecurityCenter extends SecurityCenterContext {
     this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
     this.jitNetworkAccessPolicies = new operations.JitNetworkAccessPolicies(this);
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
-    this.northSouthHardenings = new operations.NorthSouthHardeningsOperations(this);
+    this.adaptiveNetworkControls = new operations.AdaptiveNetworkControlsOperations(this);
     this.topology = new operations.Topology(this);
     this.allowedConnections = new operations.AllowedConnections(this);
   }

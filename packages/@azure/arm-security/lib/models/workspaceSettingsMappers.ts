@@ -21,6 +21,7 @@ export {
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
+  SettingResource,
   InformationProtectionPolicy,
   SensitivityLabel,
   InformationType,
@@ -31,9 +32,10 @@ export {
   Alert,
   AlertEntity,
   AlertConfidenceReason,
-  NorthSouthHardenings,
-  TrafficHardeningRule,
-  TrafficAlert,
-  TrafficAlertTrafficItem
+  AdaptiveNetworkControls,
+  AdaptiveNetworkControlsRule,
+  AdaptiveNetworkControlsEffectiveNetworkSecurityGroups,
+  Setting,
+  DataExportSetting
 } from "../models/mappers";
 
