@@ -12,7 +12,7 @@ import { isStreamOperation, OperationSpec } from "./operationSpec";
 import { deserializationPolicy, DeserializationContentTypes } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-import { userAgentPolicy } from "./policies/userAgentPolicy";
+import { userAgentPolicy, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
@@ -72,9 +72,10 @@ export interface ServiceClientOptions {
    */
   deserializationContentTypes?: DeserializationContentTypes;
   /**
-   * The string to be set to the telemetry header while sending the request.
+   * The string to be set to the telemetry header while sending the request, or a function that
+   * takes in the default user-agent string and returns the user-agent string that will be used.
    */
-  userAgent?: string;
+  userAgent?: string | ((defaultUserAgent: string) => string);
 }
 
 /**
@@ -359,7 +360,16 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
     }
   }
 
-  factories.push(userAgentPolicy({ value: options.userAgent }));
+  let userAgentString: string;
+  if (typeof options.userAgent === "string") {
+    userAgentString = options.userAgent;
+  } else {
+    userAgentString = getDefaultUserAgentValue();
+    if (typeof options.userAgent === "function") {
+      userAgentString = options.userAgent(userAgentString);
+    }
+  }
+  factories.push(userAgentPolicy({ value: userAgentString }));
   factories.push(redirectPolicy());
   factories.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 
