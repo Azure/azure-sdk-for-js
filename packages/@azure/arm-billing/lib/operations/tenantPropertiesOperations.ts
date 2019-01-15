@@ -59,7 +59,7 @@ export class TenantPropertiesOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/DiscoverTenants",
+  path: "providers/Microsoft.Billing/discoverTenants",
   urlParameters: [
     Parameters.billingProfileId
   ],
