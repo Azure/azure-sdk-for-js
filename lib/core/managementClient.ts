@@ -677,11 +677,30 @@ export class ManagementClient extends LinkEntity {
     }
 
     const messageList: ServiceBusMessage[] = [];
+    const messageBody: any = {};
+    messageBody[Constants.sequenceNumbers] = [];
+    for (let i = 0; i < sequenceNumbers.length; i++) {
+      const sequenceNumber = sequenceNumbers[i];
+      if (!Long.isLong(sequenceNumber)) {
+        throw new Error("An item in the 'sequenceNumbers' Array must be an instance of 'Long'.");
+      }
+      try {
+        messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
+      } catch (err) {
+        const error = translate(err);
+        log.error(
+          "An error occurred while encoding the item at position %d in the " +
+            "sequenceNumbers array: %O",
+          i,
+          error
+        );
+        throw error;
+      }
+    }
 
     try {
-      const messageBody: any = {};
-      messageBody["sequence-numbers"] = types.wrap_array(
-        sequenceNumbers.map((i) => Buffer.from(i.toBytesBE())),
+      messageBody[Constants.sequenceNumbers] = types.wrap_array(
+        messageBody[Constants.sequenceNumbers],
         0x81,
         undefined
       );
