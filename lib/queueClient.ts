@@ -292,6 +292,9 @@ export class QueueClient extends Client {
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
   async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+    if (this.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
     return this._context.managementClient!.renewLock(lockTokenOrMessage);
   }
 
