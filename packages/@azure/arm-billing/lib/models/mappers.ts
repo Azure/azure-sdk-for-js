@@ -71,21 +71,21 @@ export const TenantProperties: msRest.CompositeMapper = {
     modelProperties: {
       billingProfileName: {
         readOnly: true,
-        serializedName: "BillingProfileName",
+        serializedName: "billingProfileName",
         type: {
           name: "String"
         }
       },
       billingAccountId: {
         readOnly: true,
-        serializedName: "BillingAccountId",
+        serializedName: "billingAccountId",
         type: {
           name: "String"
         }
       },
       tenantId: {
         readOnly: true,
-        serializedName: "TenantId",
+        serializedName: "tenantId",
         type: {
           name: "String"
         }
