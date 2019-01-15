@@ -14,6 +14,7 @@ import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { DispositionStatus } from "./core/managementClient";
 import { DispositionType } from "./core/messageReceiver";
+import { ReceiveMode } from "./core/messageReceiver";
 
 /**
  * Describes the delivery annotations for ServiceBus.
@@ -866,6 +867,9 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
+      if (receiver.receiveMode !== ReceiveMode.peekLock) {
+        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      }
       return receiver.settleMessage(this, DispositionType.complete);
     } else {
       throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
@@ -898,6 +902,9 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
+      if (receiver.receiveMode !== ReceiveMode.peekLock) {
+        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      }
       return receiver.settleMessage(this, DispositionType.abandon, {
         propertiesToModify: propertiesToModify
       });
@@ -934,6 +941,9 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
+      if (receiver.receiveMode !== ReceiveMode.peekLock) {
+        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      }
       return receiver.settleMessage(this, DispositionType.defer, {
         propertiesToModify: propertiesToModify
       });
@@ -979,6 +989,9 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
     if (receiver) {
+      if (receiver.receiveMode !== ReceiveMode.peekLock) {
+        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      }
       return receiver.settleMessage(this, DispositionType.deadletter, {
         error: error
       });
