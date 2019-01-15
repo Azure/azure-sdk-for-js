@@ -20,6 +20,8 @@ import {
   ReceiveHandler
 } from "../lib";
 
+import { DispositionType } from "../lib/core/messageReceiver";
+
 const testMessages: SendableMessageInfo[] = [
   {
     body: "hello1",
@@ -50,6 +52,7 @@ let topicClient: TopicClient;
 let subscriptionClient: SubscriptionClient;
 let deadletterQueueClient: QueueClient;
 let deadletterSubscriptionClient: SubscriptionClient;
+let errorWasThrown: boolean;
 
 async function beforeEachTest(): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
@@ -99,6 +102,7 @@ async function beforeEachTest(): Promise<void> {
   if (peekedSubscriptionMsg.length) {
     throw new Error("Please use an empty Subscription for integration testing");
   }
+  errorWasThrown = false;
 }
 
 async function afterEachTest(): Promise<void> {
@@ -549,7 +553,6 @@ describe("Multiple Streaming Receivers", function(): void {
       }
     );
     await delay(5000);
-    let errorWasThrown = false;
     try {
       const receiveListener2 = await receiverClient.receive(
         (msg: ServiceBusMessage) => {
@@ -579,5 +582,92 @@ describe("Multiple Streaming Receivers", function(): void {
     void
   > {
     await testMultipleReceiveCalls(subscriptionClient);
+  });
+
+  describe("Settle an already Settled message throws error", () => {
+    beforeEach(async () => {
+      await beforeEachTest();
+    });
+
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    const testError = (err: Error) => {
+      should.equal(err.message, "This message has been already settled.");
+      errorWasThrown = true;
+    };
+
+    async function testSettlement(
+      senderClient: QueueClient | TopicClient,
+      receiverClient: QueueClient | SubscriptionClient,
+      operation: DispositionType
+    ): Promise<void> {
+      await senderClient.send(testMessages[0]);
+      const receivedMsgs: ServiceBusMessage[] = [];
+      const receiveListener = receiverClient.receive(
+        (msg: ServiceBusMessage) => {
+          receivedMsgs.push(msg);
+          return Promise.resolve();
+        },
+        (err: Error) => {
+          should.not.exist(err);
+        }
+      );
+
+      await delay(2000);
+
+      should.equal(receivedMsgs.length, 1);
+      should.equal(receivedMsgs[0].body, testMessages[0].body);
+      should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+
+      await testPeekMsgsLength(receiverClient, 0);
+
+      if (operation === DispositionType.complete) {
+        await receivedMsgs[0].complete().catch((err) => testError(err));
+      } else if (operation === DispositionType.abandon) {
+        await receivedMsgs[0].abandon().catch((err) => testError(err));
+      } else if (operation === DispositionType.deadletter) {
+        await receivedMsgs[0].deadLetter().catch((err) => testError(err));
+      } else if (operation === DispositionType.defer) {
+        await receivedMsgs[0].defer().catch((err) => testError(err));
+      }
+
+      should.equal(errorWasThrown, true);
+
+      await receiveListener.stop();
+    }
+
+    it("Queue: complete() throws error", async function(): Promise<void> {
+      await testSettlement(queueClient, queueClient, DispositionType.complete);
+    });
+
+    it("Subscription: complete() throws error", async function(): Promise<void> {
+      await testSettlement(topicClient, subscriptionClient, DispositionType.complete);
+    });
+
+    it("Queue: abandon() throws error", async function(): Promise<void> {
+      await testSettlement(queueClient, queueClient, DispositionType.abandon);
+    });
+
+    it("Subscription: abandon() throws error", async function(): Promise<void> {
+      await testSettlement(topicClient, subscriptionClient, DispositionType.abandon);
+    });
+
+    it("Queue: defer() throws error", async function(): Promise<void> {
+      await testSettlement(queueClient, queueClient, DispositionType.defer);
+    });
+
+    it("Subscription: defer() throws error", async function(): Promise<void> {
+      await testSettlement(topicClient, subscriptionClient, DispositionType.defer);
+    });
+
+    it("Queue: deadLetter() throws error", async function(): Promise<void> {
+      await testSettlement(queueClient, queueClient, DispositionType.deadletter);
+    });
+
+    it("Subscription: deadLetter()", async function(): Promise<void> {
+      await testSettlement(topicClient, subscriptionClient, DispositionType.deadletter);
+    });
   });
 });
