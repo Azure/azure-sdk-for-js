@@ -63,11 +63,11 @@ export const EnrollmentAccount: msRest.CompositeMapper = {
   }
 };
 
-export const DiscoverTenants: msRest.CompositeMapper = {
-  serializedName: "DiscoverTenants",
+export const DiscoverTenant: msRest.CompositeMapper = {
+  serializedName: "DiscoverTenant",
   type: {
     name: "Composite",
-    className: "DiscoverTenants",
+    className: "DiscoverTenant",
     modelProperties: {
       billingProfileName: {
         readOnly: true,
