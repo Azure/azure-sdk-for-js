@@ -145,6 +145,11 @@ export interface CognitiveServicesAccount extends BaseResource {
    */
   internalId?: string;
   /**
+   * @member {string} [customSubDomainName] Optional subdomain name used for
+   * token-based authentication.
+   */
+  customSubDomainName?: string;
+  /**
    * @member {Sku} [sku] The SKU of Cognitive Services account.
    */
   sku?: Sku;

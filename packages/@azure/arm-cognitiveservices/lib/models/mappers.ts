@@ -178,6 +178,12 @@ export const CognitiveServicesAccount: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      customSubDomainName: {
+        serializedName: "properties.customSubDomainName",
+        type: {
+          name: "String"
+        }
+      },
       sku: {
         serializedName: "sku",
         type: {
