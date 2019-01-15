@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hanaInstancesMappers";
 import * as Parameters from "../models/parameters";
@@ -161,29 +162,27 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName,hanaInstanceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
   /**
+   * The operation to restart a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param callback The callback
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
-  restart(resourceGroupName: string, hanaInstanceName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group.
-   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  restart(resourceGroupName: string, hanaInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
+  beginRestart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
       {
         resourceGroupName,
         hanaInstanceName,
         options
       },
-      restartOperationSpec,
-      callback);
+      beginRestartOperationSpec,
+      options);
   }
 
   /**
@@ -353,7 +352,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const restartOperationSpec: msRest.OperationSpec = {
+const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/restart",
   urlParameters: [
