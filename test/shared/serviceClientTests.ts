@@ -112,7 +112,7 @@ describe("ServiceClient", function () {
           return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
         },
       },
-      requestPolicyFactories: [],
+      requestPolicyFactories: () => [],
     });
 
     await client.sendOperationRequest(
@@ -162,7 +162,7 @@ describe("ServiceClient", function () {
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      requestPolicyFactories: []
+      requestPolicyFactories: () => []
     });
     await client1.sendOperationRequest(
       {},
