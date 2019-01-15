@@ -19,6 +19,7 @@ class BillingManagementClient extends BillingManagementClientContext {
   // Operation groups
   enrollmentAccounts: operations.EnrollmentAccounts;
   billingPeriods: operations.BillingPeriods;
+  tenantProperties: operations.TenantPropertiesOperations;
   invoices: operations.Invoices;
   operations: operations.Operations;
 
@@ -32,6 +33,7 @@ class BillingManagementClient extends BillingManagementClientContext {
     super(credentials, subscriptionId, options);
     this.enrollmentAccounts = new operations.EnrollmentAccounts(this);
     this.billingPeriods = new operations.BillingPeriods(this);
+    this.tenantProperties = new operations.TenantPropertiesOperations(this);
     this.invoices = new operations.Invoices(this);
     this.operations = new operations.Operations(this);
   }

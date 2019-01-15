@@ -63,6 +63,37 @@ export const EnrollmentAccount: msRest.CompositeMapper = {
   }
 };
 
+export const TenantProperties: msRest.CompositeMapper = {
+  serializedName: "TenantProperties",
+  type: {
+    name: "Composite",
+    className: "TenantProperties",
+    modelProperties: {
+      billingProfileName: {
+        readOnly: true,
+        serializedName: "BillingProfileName",
+        type: {
+          name: "String"
+        }
+      },
+      billingAccountId: {
+        readOnly: true,
+        serializedName: "BillingAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "TenantId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BillingPeriod: msRest.CompositeMapper = {
   serializedName: "BillingPeriod",
   type: {
