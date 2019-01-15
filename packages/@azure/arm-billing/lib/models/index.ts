@@ -60,11 +60,11 @@ export interface EnrollmentAccount extends Resource {
 
 /**
  * @interface
- * An interface representing TenantProperties.
+ * An interface representing DiscoverTenants.
  * A Tenant properties Resource
  *
  */
-export interface TenantProperties {
+export interface DiscoverTenants {
   /**
    * @member {string} [billingProfileName] The Billing Profile name.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -528,7 +528,7 @@ export type BillingPeriodsListNextResponse = BillingPeriodsListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type TenantPropertiesGetResponse = TenantProperties & {
+export type DiscoverTenantsGetResponse = DiscoverTenants & {
   /**
    * The underlying HTTP response.
    */
@@ -540,7 +540,7 @@ export type TenantPropertiesGetResponse = TenantProperties & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: TenantProperties;
+      parsedBody: DiscoverTenants;
     };
 };
 
