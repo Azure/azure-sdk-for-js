@@ -50,4 +50,9 @@ jobs:
 - template: azure-pipelines-job.yml
   parameters:
     nodeVersion: '8'
-
+- template: azure-pipelines-job.yml
+  parameters:
+    nodeVersion: '10'
+- template: azure-pipelines-job.yml
+  parameters:
+    nodeVersion: '11'
