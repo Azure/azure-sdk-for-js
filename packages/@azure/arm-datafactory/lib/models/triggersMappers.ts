@@ -185,6 +185,7 @@ export {
   ManagedIntegrationRuntime,
   IntegrationRuntimeComputeProperties,
   IntegrationRuntimeVNetProperties,
+  IntegrationRuntimeVirtualNetworkProperties,
   IntegrationRuntimeSsisProperties,
   IntegrationRuntimeSsisCatalogInfo,
   SecureString,

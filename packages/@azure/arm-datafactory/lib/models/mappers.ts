@@ -688,6 +688,22 @@ export const CreateLinkedIntegrationRuntimeRequest: msRest.CompositeMapper = {
   }
 };
 
+export const EnableInteractiveQueryForIntegrationRuntimeRequest: msRest.CompositeMapper = {
+  serializedName: "EnableInteractiveQueryForIntegrationRuntimeRequest",
+  type: {
+    name: "Composite",
+    className: "EnableInteractiveQueryForIntegrationRuntimeRequest",
+    modelProperties: {
+      autoTerminationMinutes: {
+        serializedName: "AutoTerminationMinutes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ParameterSpecification: msRest.CompositeMapper = {
   serializedName: "ParameterSpecification",
   type: {
@@ -13981,6 +13997,27 @@ export const IntegrationRuntimeSsisProperties: msRest.CompositeMapper = {
   }
 };
 
+export const IntegrationRuntimeVirtualNetworkProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeVirtualNetworkProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeVirtualNetworkProperties",
+    modelProperties: {
+      subnetId: {
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
 export const IntegrationRuntimeVNetProperties: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeVNetProperties",
   type: {
@@ -14049,6 +14086,18 @@ export const IntegrationRuntimeComputeProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IntegrationRuntimeVNetProperties",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      virtualNetwork: {
+        serializedName: "virtualNetwork",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeVirtualNetworkProperties",
           additionalProperties: {
             type: {
               name: "Object"

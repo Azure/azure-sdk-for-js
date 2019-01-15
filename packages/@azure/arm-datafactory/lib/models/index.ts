@@ -510,6 +510,20 @@ export interface CreateLinkedIntegrationRuntimeRequest {
 
 /**
  * @interface
+ * An interface representing EnableInteractiveQueryForIntegrationRuntimeRequest.
+ * the request of enable interactive query for an integration runtime.
+ *
+ */
+export interface EnableInteractiveQueryForIntegrationRuntimeRequest {
+  /**
+   * @member {number} [autoTerminationMinutes] the number of minutes that the
+   * resource will be reserved.
+   */
+  autoTerminationMinutes?: number;
+}
+
+/**
+ * @interface
  * An interface representing ParameterSpecification.
  * Definition of a single parameter for an entity.
  *
@@ -15506,6 +15520,25 @@ export interface IntegrationRuntimeSsisProperties {
 
 /**
  * @interface
+ * An interface representing IntegrationRuntimeVirtualNetworkProperties.
+ * VNet properties for managed integration runtime.
+ *
+ */
+export interface IntegrationRuntimeVirtualNetworkProperties {
+  /**
+   * @member {string} [subnetId] The ID of the Subnet that this integration
+   * runtime will join.
+   */
+  subnetId?: string;
+  /**
+   * @property Describes unknown properties. The value of an unknown property
+   * can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * @interface
  * An interface representing IntegrationRuntimeVNetProperties.
  * VNet properties for managed integration runtime.
  *
@@ -15561,6 +15594,11 @@ export interface IntegrationRuntimeComputeProperties {
    * properties for managed integration runtime.
    */
   vNetProperties?: IntegrationRuntimeVNetProperties;
+  /**
+   * @member {IntegrationRuntimeVirtualNetworkProperties} [virtualNetwork] VNet
+   * properties for managed integration runtime.
+   */
+  virtualNetwork?: IntegrationRuntimeVirtualNetworkProperties;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
