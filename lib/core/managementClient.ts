@@ -1235,7 +1235,7 @@ export class ManagementClient extends LinkEntity {
     if (!ruleName || typeof ruleName !== "string") {
       throw new Error("Cannot add rule. Rule name is missing or is not a string.");
     }
-    if (!filter) {
+    if (filter === "" || filter === null || filter === undefined) {
       throw new Error("Cannot add rule. Filter is missing.");
     }
     if (sqlRuleActionExpression && typeof sqlRuleActionExpression !== "string") {
