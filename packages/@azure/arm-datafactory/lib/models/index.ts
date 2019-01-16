@@ -1870,6 +1870,44 @@ export interface SsisObjectMetadataStatusResponse {
 }
 
 /**
+ * @interface
+ * An interface representing ExposureControlRequest.
+ * The exposure control request.
+ *
+ */
+export interface ExposureControlRequest {
+  /**
+   * @member {string} [featureName] The feature name.
+   */
+  featureName?: string;
+  /**
+   * @member {string} [featureType] The feature type.
+   */
+  featureType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExposureControlResponse.
+ * The exposure control response.
+ *
+ */
+export interface ExposureControlResponse {
+  /**
+   * @member {string} [featureName] The feature name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly featureName?: string;
+  /**
+   * @member {string} [value] The feature value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: string;
+}
+
+/**
  * Contains the possible cases for DependencyReference.
  */
 export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
@@ -17312,6 +17350,25 @@ export type FactoriesListByResourceGroupNextResponse = FactoryListResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FactoryListResponse;
+    };
+};
+
+/**
+ * Contains response data for the getFeatureValue operation.
+ */
+export type ExposureControlGetFeatureValueResponse = ExposureControlResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlResponse;
     };
 };
 
