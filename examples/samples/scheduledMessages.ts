@@ -22,7 +22,7 @@ async function sendMessages(queueClient: QueueClient, data: any[]): Promise<void
     console.log(
       `>>>> Sending message:\t ${message.body}, scheduled for UTC: ${scheduledEnqueueTimeUtc}`
     );
-    await queueClient.scheduleMessage(message, scheduledEnqueueTimeUtc);
+    await queueClient.scheduleMessage(scheduledEnqueueTimeUtc, message);
   }
 }
 
