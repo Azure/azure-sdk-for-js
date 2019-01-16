@@ -1264,9 +1264,10 @@ export class ManagementClient extends LinkEntity {
       }
 
       if (sqlRuleActionExpression && typeof sqlRuleActionExpression === "string") {
-        ruleDescription["sql-rule-action"] = sqlRuleActionExpression;
+        ruleDescription["sql-rule-action"] = {
+          expression: sqlRuleActionExpression
+        };
       }
-
       const request: AmqpMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),
