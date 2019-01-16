@@ -38,20 +38,6 @@ export interface ContainerHostMapping {
 
 /**
  * @interface
- * An interface representing Sku.
- * Model representing SKU for Azure Dev Spaces Controller.
- *
- */
-export interface Sku {
-  /**
-   * @member {SkuTier} [tier] The tier of the SKU for Azure Dev Spaces
-   * Controller. Possible values include: 'Standard'
-   */
-  tier?: SkuTier;
-}
-
-/**
- * @interface
  * An interface representing Resource.
  * An Azure resource.
  *
@@ -99,6 +85,59 @@ export interface TrackedResource extends Resource {
 
 /**
  * @interface
+ * An interface representing ResourceProviderOperationDisplay.
+ */
+export interface ResourceProviderOperationDisplay {
+  /**
+   * @member {string} [provider] Name of the resource provider.
+   */
+  provider?: string;
+  /**
+   * @member {string} [resource] Name of the resource type.
+   */
+  resource?: string;
+  /**
+   * @member {string} [operation] Name of the resource provider operation.
+   */
+  operation?: string;
+  /**
+   * @member {string} [description] Description of the resource provider
+   * operation.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceProviderOperationDefinition.
+ */
+export interface ResourceProviderOperationDefinition {
+  /**
+   * @member {string} [name] Resource provider operation name.
+   */
+  name?: string;
+  /**
+   * @member {ResourceProviderOperationDisplay} [display]
+   */
+  display?: ResourceProviderOperationDisplay;
+}
+
+/**
+ * @interface
+ * An interface representing Sku.
+ * Model representing SKU for Azure Dev Spaces Controller.
+ *
+ */
+export interface Sku {
+  /**
+   * @member {SkuTier} [tier] The tier of the SKU for Azure Dev Spaces
+   * Controller. Possible values include: 'Standard'
+   */
+  tier?: SkuTier;
+}
+
+/**
+ * @interface
  * An interface representing Controller.
  * @extends TrackedResource
  */
@@ -112,10 +151,12 @@ export interface Controller extends TrackedResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * @member {string} hostSuffix DNS suffix for public endpoints running in the
-   * Azure Dev Spaces Controller.
+   * @member {string} [hostSuffix] DNS suffix for public endpoints running in
+   * the Azure Dev Spaces Controller.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  hostSuffix: string;
+  readonly hostSuffix?: string;
   /**
    * @member {string} [dataPlaneFqdn] DNS name for accessing DataPlane services
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -184,20 +225,6 @@ export interface ControllerConnectionDetails {
    */
   readonly authKey?: string;
   /**
-   * @member {string} [workspaceStorageAccountName] Workspace storage account
-   * name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly workspaceStorageAccountName?: string;
-  /**
-   * @member {string} [workspaceStorageSasToken] Workspace storage account SAS
-   * token.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly workspaceStorageSasToken?: string;
-  /**
    * @member {OrchestratorSpecificConnectionDetailsUnion}
    * [orchestratorSpecificConnectionDetails]
    */
@@ -214,45 +241,6 @@ export interface ControllerConnectionDetailsList {
    * Azure Dev Spaces Controller connection details.
    */
   connectionDetailsList?: ControllerConnectionDetails[];
-}
-
-/**
- * @interface
- * An interface representing ResourceProviderOperationDisplay.
- */
-export interface ResourceProviderOperationDisplay {
-  /**
-   * @member {string} [provider] Name of the resource provider.
-   */
-  provider?: string;
-  /**
-   * @member {string} [resource] Name of the resource type.
-   */
-  resource?: string;
-  /**
-   * @member {string} [operation] Name of the resource provider operation.
-   */
-  operation?: string;
-  /**
-   * @member {string} [description] Description of the resource provider
-   * operation.
-   */
-  description?: string;
-}
-
-/**
- * @interface
- * An interface representing ResourceProviderOperationDefinition.
- */
-export interface ResourceProviderOperationDefinition {
-  /**
-   * @member {string} [name] Resource provider operation name.
-   */
-  name?: string;
-  /**
-   * @member {ResourceProviderOperationDisplay} [display]
-   */
-  display?: ResourceProviderOperationDisplay;
 }
 
 /**
@@ -326,13 +314,13 @@ export interface DevSpacesManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
- * An interface representing the ControllerList.
- * @extends Array<Controller>
+ * An interface representing the ResourceProviderOperationList.
+ * @extends Array<ResourceProviderOperationDefinition>
  */
-export interface ControllerList extends Array<Controller> {
+export interface ResourceProviderOperationList extends Array<ResourceProviderOperationDefinition> {
   /**
    * @member {string} [nextLink] The URI that can be used to request the next
-   * page for list of Azure Dev Spaces Controllers.
+   * page for list of Azure operations.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -341,13 +329,13 @@ export interface ControllerList extends Array<Controller> {
 
 /**
  * @interface
- * An interface representing the ResourceProviderOperationList.
- * @extends Array<ResourceProviderOperationDefinition>
+ * An interface representing the ControllerList.
+ * @extends Array<Controller>
  */
-export interface ResourceProviderOperationList extends Array<ResourceProviderOperationDefinition> {
+export interface ControllerList extends Array<Controller> {
   /**
    * @member {string} [nextLink] The URI that can be used to request the next
-   * page for list of Azure operations.
+   * page for list of Azure Dev Spaces Controllers.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -391,6 +379,44 @@ export type ContainerHostMappingsGetContainerHostMappingResponse = {
        * The response body as parsed JSON or XML
        */
       parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = ResourceProviderOperationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceProviderOperationList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OperationsListNextResponse = ResourceProviderOperationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceProviderOperationList;
     };
 };
 
@@ -562,43 +588,5 @@ export type ControllersListNextResponse = ControllerList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ControllerList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = ResourceProviderOperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = ResourceProviderOperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
     };
 };

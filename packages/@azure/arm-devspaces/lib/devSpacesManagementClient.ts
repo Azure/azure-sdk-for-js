@@ -18,8 +18,8 @@ import { DevSpacesManagementClientContext } from "./devSpacesManagementClientCon
 class DevSpacesManagementClient extends DevSpacesManagementClientContext {
   // Operation groups
   containerHostMappings: operations.ContainerHostMappings;
-  controllers: operations.Controllers;
   operations: operations.Operations;
+  controllers: operations.Controllers;
 
   /**
    * Initializes a new instance of the DevSpacesManagementClient class.
@@ -30,8 +30,8 @@ class DevSpacesManagementClient extends DevSpacesManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DevSpacesManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.containerHostMappings = new operations.ContainerHostMappings(this);
-    this.controllers = new operations.Controllers(this);
     this.operations = new operations.Operations(this);
+    this.controllers = new operations.Controllers(this);
   }
 }
 
