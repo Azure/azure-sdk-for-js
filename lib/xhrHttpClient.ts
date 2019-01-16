@@ -14,6 +14,10 @@ export class XhrHttpClient implements HttpClient {
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const xhr = new XMLHttpRequest();
 
+    if (request.proxySettings) {
+      throw new Error("HTTP proxy is not supported in browser environment");
+    }
+
     const abortSignal = request.abortSignal;
     if (abortSignal) {
       const listener = () => {
@@ -93,7 +97,7 @@ export class XhrHttpClient implements HttpClient {
         rejectOnTerminalEvent(request, xhr, reject);
       });
     } else {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         xhr.addEventListener("load", () => resolve({
           request,
           status: xhr.status,

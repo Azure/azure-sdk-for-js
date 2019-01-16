@@ -7,6 +7,7 @@ import { Mapper, Serializer } from "./serializer";
 import { generateUuid } from "./util/utils";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
+import { ProxySettings } from "./serviceClient";
 
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
@@ -64,6 +65,7 @@ export class WebResource {
   operationSpec?: OperationSpec;
   withCredentials: boolean;
   timeout: number;
+  proxySettings?: ProxySettings;
 
   abortSignal?: AbortSignalLike;
 
@@ -84,7 +86,8 @@ export class WebResource {
     abortSignal?: AbortSignalLike,
     timeout?: number,
     onUploadProgress?: (progress: TransferProgressEvent) => void,
-    onDownloadProgress?: (progress: TransferProgressEvent) => void) {
+    onDownloadProgress?: (progress: TransferProgressEvent) => void,
+    proxySettings?: ProxySettings) {
 
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
@@ -98,6 +101,7 @@ export class WebResource {
     this.timeout = timeout || 0;
     this.onUploadProgress = onUploadProgress;
     this.onDownloadProgress = onDownloadProgress;
+    this.proxySettings = proxySettings;
   }
 
   /**

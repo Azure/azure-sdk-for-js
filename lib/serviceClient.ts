@@ -27,6 +27,18 @@ import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webRes
 import { OperationResponse } from "./operationResponse";
 import { ServiceCallback } from "./util/utils";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { proxyPolicy } from "./policies/proxyPolicy";
+
+
+/**
+ * HTTP proxy settings (Node.js only)
+ */
+export interface ProxySettings {
+  host: string;
+  port: number;
+  username?: string;
+  password?: string;
+}
 
 /**
  * Options to be provided while creating the client.
@@ -77,6 +89,10 @@ export interface ServiceClientOptions {
    * takes in the default user-agent string and returns the user-agent string that will be used.
    */
   userAgent?: string | ((defaultUserAgent: string) => string);
+  /**
+   * Proxy settings which will be used for every HTTP request (Node.js only).
+   */
+  proxySettings?: ProxySettings;
 }
 
 /**
@@ -393,6 +409,10 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
   }
 
   factories.push(deserializationPolicy(options.deserializationContentTypes));
+
+  if (options.proxySettings) {
+    factories.push(proxyPolicy(options.proxySettings));
+  }
 
   return factories;
 }

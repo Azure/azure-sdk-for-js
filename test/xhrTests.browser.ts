@@ -2,7 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { assert } from "chai";
-import { parseHeaders } from "../lib/xhrHttpClient";
+import { parseHeaders, XhrHttpClient } from "../lib/xhrHttpClient";
+import { WebResource } from "../lib/webResource";
 
 describe("XhrHttpClient", function() {
   it("parses headers", function() {
@@ -25,5 +26,16 @@ describe("XhrHttpClient", function() {
     const headers = parseHeaders(xhr);
     assert.strictEqual(headers.get("content-type"), "");
     assert.strictEqual(headers.get("value"), "");
+  });
+
+  it("throws when proxy settings are passed", function() {
+    const request = new WebResource();
+    request.proxySettings = {
+      host: "1.1.1.1",
+      port: 8080
+    };
+
+    const client = new XhrHttpClient();
+    assert.throws(() => { client.sendRequest(request); }, Error);
   });
 });

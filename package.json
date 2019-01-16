@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/ms-rest-js"
   },
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
