@@ -2645,9 +2645,14 @@ export interface ApplicationGatewayWebApplicationFirewallConfiguration {
 export interface ApplicationGatewayAutoscaleConfiguration {
   /**
    * @member {number} minCapacity Lower bound on number of Application Gateway
-   * instances
+   * capacity
    */
   minCapacity: number;
+  /**
+   * @member {number} [maxCapacity] Upper bound on number of Application
+   * Gateway capacity
+   */
+  maxCapacity?: number;
 }
 
 /**

@@ -3493,6 +3493,15 @@ export const ApplicationGatewayAutoscaleConfiguration: msRest.CompositeMapper = 
         required: true,
         serializedName: "minCapacity",
         constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      maxCapacity: {
+        serializedName: "maxCapacity",
+        constraints: {
           InclusiveMinimum: 2
         },
         type: {
