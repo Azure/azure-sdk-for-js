@@ -174,7 +174,7 @@ describe("Send to Queue/Subscription", function(): void {
     receiverClient: QueueClient | SubscriptionClient
   ): Promise<void> {
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await senderClient.scheduleMessage(testMessages[0], scheduleTime);
+    await senderClient.scheduleMessage(scheduleTime, testMessages[0]);
 
     const msgs = await receiverClient.receiveBatch(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -207,6 +207,50 @@ describe("Send to Queue/Subscription", function(): void {
   > {
     await testScheduleMessage(unpartitionedTopicClient, unpartitionedSubscriptionClient);
   });
+
+  async function testScheduleMessages(
+    senderClient: QueueClient | TopicClient,
+    receiverClient: QueueClient | SubscriptionClient
+  ): Promise<void> {
+    const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
+    await senderClient.scheduleMessages(scheduleTime, testMessages);
+
+    const msgs = await receiverClient.receiveBatch(2);
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 2);
+
+    const msgEnqueueTime1 = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
+    const msgEnqueueTime2 = msgs[1].enqueuedTimeUtc ? msgs[1].enqueuedTimeUtc.valueOf() : 0;
+
+    // checking received message enqueue time is greater or equal to the scheduled time.
+    should.equal(msgEnqueueTime1 - scheduleTime.valueOf() >= 0, true);
+    should.equal(msgEnqueueTime2 - scheduleTime.valueOf() >= 0, true);
+    should.equal(msgs[0].messageId, testMessages[0].messageId);
+    should.equal(msgs[1].messageId, testMessages[1].messageId);
+
+    await msgs[0].complete();
+    await msgs[1].complete();
+
+    await testPeekMsgsLength(receiverClient, 0);
+  }
+
+  it("Schedule messages using Queues", async function(): Promise<void> {
+    await testScheduleMessages(partitionedQueueClient, partitionedQueueClient);
+  });
+
+  it("Schedule messages using Topics and Subscriptions", async function(): Promise<void> {
+    await testScheduleMessages(partitionedTopicClient, partitionedSubscriptionClient);
+  });
+
+  it("Schedule messages using UnPartitioned Queues", async function(): Promise<void> {
+    await testScheduleMessages(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("Schedule messages using UnPartitioned Topics and Subscriptions", async function(): Promise<
+    void
+  > {
+    await testScheduleMessages(unpartitionedTopicClient, unpartitionedSubscriptionClient);
+  });
 });
 
 describe("Cancel Scheduled messages for sending to Queue/Subscription", function(): void {
@@ -223,7 +267,7 @@ describe("Cancel Scheduled messages for sending to Queue/Subscription", function
     receiverClient: QueueClient | SubscriptionClient
   ): Promise<void> {
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const sequenceNumber = await senderClient.scheduleMessage(testMessages[0], scheduleTime);
+    const sequenceNumber = await senderClient.scheduleMessage(scheduleTime, testMessages[0]);
 
     await delay(2000);
 
@@ -260,8 +304,8 @@ describe("Cancel Scheduled messages for sending to Queue/Subscription", function
     msgs: SendableMessageInfo[]
   ): Promise<void> {
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const sequenceNumber1 = await senderClient.scheduleMessage(msgs[0], scheduleTime);
-    const sequenceNumber2 = await senderClient.scheduleMessage(msgs[1], scheduleTime);
+    const sequenceNumber1 = await senderClient.scheduleMessage(scheduleTime, msgs[0]);
+    const sequenceNumber2 = await senderClient.scheduleMessage(scheduleTime, msgs[1]);
 
     await delay(2000);
 

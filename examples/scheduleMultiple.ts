@@ -1,4 +1,4 @@
-import { Namespace, delay, ScheduleMessage } from "../lib";
+import { Namespace, delay, SendableMessageInfo } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -11,19 +11,12 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path);
-  const scheduleTime1 = new Date(Date.now() + 30000); // 30 seconds from now
-  const scheduleTime2 = new Date(Date.now() + 32000); // 32 seconds from now
-  const messages: ScheduleMessage[] = [
-    {
-      message: { body: "Hello sb world!!" + scheduleTime1.toString() },
-      scheduledEnqueueTimeUtc: scheduleTime1
-    },
-    {
-      message: { body: "Hello sb world!!" + scheduleTime2.toString() },
-      scheduledEnqueueTimeUtc: scheduleTime2
-    }
+  const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now
+  const messages: SendableMessageInfo[] = [
+    { body: "Hello sb world!! 1" + scheduleTime.toString() },
+    { body: "Hello sb world!! 2" + scheduleTime.toString() }
   ];
-  const sequenceNumbers = await client.scheduleMessages(messages);
+  const sequenceNumbers = await client.scheduleMessages(scheduleTime, messages);
   console.log("***********Created sender and sent the message... %o", sequenceNumbers);
   await delay(3000);
   console.log(">>>> Cancelling scheduled messages");
