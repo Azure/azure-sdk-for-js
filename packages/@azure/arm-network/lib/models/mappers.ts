@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -4873,6 +4873,97 @@ export const DnsNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "available",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ProtocolCustomSettingsFormat: msRest.CompositeMapper = {
+  serializedName: "ProtocolCustomSettingsFormat",
+  type: {
+    name: "Composite",
+    className: "ProtocolCustomSettingsFormat",
+    modelProperties: {
+      protocol: {
+        serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      triggerRateOverride: {
+        serializedName: "triggerRateOverride",
+        type: {
+          name: "String"
+        }
+      },
+      sourceRateOverride: {
+        serializedName: "sourceRateOverride",
+        type: {
+          name: "String"
+        }
+      },
+      triggerSensitivityOverride: {
+        serializedName: "triggerSensitivityOverride",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DdosCustomPolicy: msRest.CompositeMapper = {
+  serializedName: "DdosCustomPolicy",
+  type: {
+    name: "Composite",
+    className: "DdosCustomPolicy",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      resourceGuid: {
+        readOnly: true,
+        serializedName: "properties.resourceGuid",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      publicIPAddresses: {
+        readOnly: true,
+        serializedName: "properties.publicIPAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      protocolCustomSettings: {
+        serializedName: "properties.protocolCustomSettings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProtocolCustomSettingsFormat"
+            }
+          }
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
         }
       }
     }

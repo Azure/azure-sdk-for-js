@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -3565,6 +3565,87 @@ export interface DnsNameAvailabilityResult {
    * @member {boolean} [available] Domain availability (True/False).
    */
   available?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ProtocolCustomSettingsFormat.
+ * DDoS custom policy properties.
+ *
+ */
+export interface ProtocolCustomSettingsFormat {
+  /**
+   * @member {DdosCustomPolicyProtocol} [protocol] The protocol for which the
+   * DDoS protection policy is being customized. Possible values include:
+   * 'Tcp', 'Udp', 'Syn'
+   */
+  protocol?: DdosCustomPolicyProtocol;
+  /**
+   * @member {string} [triggerRateOverride] The customized DDoS protection
+   * trigger rate.
+   */
+  triggerRateOverride?: string;
+  /**
+   * @member {string} [sourceRateOverride] The customized DDoS protection
+   * source rate.
+   */
+  sourceRateOverride?: string;
+  /**
+   * @member {DdosCustomPolicyTriggerSensitivityOverride}
+   * [triggerSensitivityOverride] The customized DDoS protection trigger rate
+   * sensitivity degrees. High: Trigger rate set with most sensitivity w.r.t.
+   * normal traffic. Default: Trigger rate set with moderate sensitivity w.r.t.
+   * normal traffic. Low: Trigger rate set with less sensitivity w.r.t. normal
+   * traffic. Relaxed: Trigger rate set with least sensitivity w.r.t. normal
+   * traffic. Possible values include: 'Relaxed', 'Low', 'Default', 'High'
+   */
+  triggerSensitivityOverride?: DdosCustomPolicyTriggerSensitivityOverride;
+}
+
+/**
+ * @interface
+ * An interface representing DdosCustomPolicy.
+ * A DDoS custom policy in a resource group.
+ *
+ * @extends Resource
+ */
+export interface DdosCustomPolicy extends Resource {
+  /**
+   * @member {string} [resourceGuid] The resource GUID property of the DDoS
+   * custom policy resource. It uniquely identifies the resource, even if the
+   * user changes its name or migrate the resource across subscriptions or
+   * resource groups.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning state of the DDoS
+   * custom policy resource. Possible values are: 'Succeeded', 'Updating',
+   * 'Deleting', and 'Failed'.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {SubResource[]} [publicIPAddresses] The list of public IPs
+   * associated with the DDoS custom policy resource. This list is read-only.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publicIPAddresses?: SubResource[];
+  /**
+   * @member {ProtocolCustomSettingsFormat[]} [protocolCustomSettings] The
+   * protocol-specific DDoS policy customization parameters.
+   */
+  protocolCustomSettings?: ProtocolCustomSettingsFormat[];
+  /**
+   * @member {string} [etag] A unique read-only string that changes whenever
+   * the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -11635,6 +11716,22 @@ export type AzureFirewallNatRCActionType = 'Snat' | 'Dnat';
 export type AzureFirewallNetworkRuleProtocol = 'TCP' | 'UDP' | 'Any' | 'ICMP';
 
 /**
+ * Defines values for DdosCustomPolicyProtocol.
+ * Possible values include: 'Tcp', 'Udp', 'Syn'
+ * @readonly
+ * @enum {string}
+ */
+export type DdosCustomPolicyProtocol = 'Tcp' | 'Udp' | 'Syn';
+
+/**
+ * Defines values for DdosCustomPolicyTriggerSensitivityOverride.
+ * Possible values include: 'Relaxed', 'Low', 'Default', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type DdosCustomPolicyTriggerSensitivityOverride = 'Relaxed' | 'Low' | 'Default' | 'High';
+
+/**
  * Defines values for AuthorizationUseStatus.
  * Possible values include: 'Available', 'InUse'
  * @readonly
@@ -12976,6 +13073,101 @@ export type SupportedSecurityProvidersResponse = VirtualWanSecurityProviders & {
        * The response body as parsed JSON or XML
        */
       parsedBody: VirtualWanSecurityProviders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DdosCustomPoliciesGetResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DdosCustomPoliciesCreateOrUpdateResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type DdosCustomPoliciesUpdateTagsResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DdosCustomPoliciesBeginCreateOrUpdateResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type DdosCustomPoliciesBeginUpdateTagsResponse = DdosCustomPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosCustomPolicy;
     };
 };
 

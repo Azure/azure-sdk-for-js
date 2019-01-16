@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -129,6 +129,16 @@ export const crossConnectionName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "crossConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const ddosCustomPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "ddosCustomPolicyName",
+  mapper: {
+    required: true,
+    serializedName: "ddosCustomPolicyName",
     type: {
       name: "String"
     }
