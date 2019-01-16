@@ -7,7 +7,15 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { Namespace, SubscriptionClient } from "../lib";
+import {
+  Namespace,
+  SubscriptionClient,
+  ServiceBusMessage,
+  generateUuid,
+  TopicClient,
+  SendableMessageInfo,
+  delay
+} from "../lib";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -18,9 +26,22 @@ async function removeAllRules(client: SubscriptionClient): Promise<void> {
   }
 }
 
+async function testPeekMsgsLength(
+  client: SubscriptionClient,
+  expectedPeekLength: number
+): Promise<void> {
+  const peekedMsgs = await client.peek(expectedPeekLength + 1);
+  should.equal(
+    peekedMsgs.length,
+    expectedPeekLength,
+    "Unexpected number of msgs found when peeking"
+  );
+}
+
 let namespace: Namespace;
 let subscriptionClient: SubscriptionClient;
 let defaultSubscriptionClient: SubscriptionClient;
+let topicClient: TopicClient;
 
 async function beforeEachTest(): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
@@ -46,6 +67,7 @@ async function beforeEachTest(): Promise<void> {
   }
 
   namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  topicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
   subscriptionClient = namespace.createSubscriptionClient(
     process.env.TOPIC_NAME,
     process.env.SUBSCRIPTION_NAME
@@ -59,6 +81,57 @@ async function beforeEachTest(): Promise<void> {
 
 async function afterEachTest(): Promise<void> {
   await namespace.close();
+}
+
+const data = [
+  { Color: "blue", Quantity: 5, Priority: "low" },
+  { Color: "red", Quantity: 10, Priority: "high" },
+  { Color: "yellow", Quantity: 5, Priority: "low" },
+  { Color: "blue", Quantity: 10, Priority: "low" },
+  { Color: "blue", Quantity: 5, Priority: "high" },
+  { Color: "blue", Quantity: 10, Priority: "low" },
+  { Color: "red", Quantity: 5, Priority: "low" },
+  { Color: "red", Quantity: 10, Priority: "low" },
+  { Color: "red", Quantity: 5, Priority: "low" },
+  { Color: "yellow", Quantity: 10, Priority: "high" },
+  { Color: "yellow", Quantity: 5, Priority: "low" },
+  { Color: "yellow", Quantity: 10, Priority: "low" }
+];
+
+async function sendOrders(): Promise<void> {
+  for (let index = 0; index < data.length; index++) {
+    const element = data[index];
+    const message: SendableMessageInfo = {
+      body: "",
+      messageId: generateUuid(),
+      correlationId: `${element.Priority}`,
+      label: `${element.Color}`,
+      userProperties: {
+        color: `${element.Color}`,
+        quantity: `${element.Quantity}`,
+        priority: `${element.Priority}`
+      }
+    };
+    await topicClient.send(message);
+  }
+}
+
+async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
+  const receivedMsgs: ServiceBusMessage[] = [];
+  const receiveListener = client.receive(
+    (msg: ServiceBusMessage) => {
+      receivedMsgs.push(msg);
+      return Promise.resolve();
+    },
+    (err: Error) => {
+      should.not.exist(err);
+    }
+  );
+
+  await delay(5000);
+  await receiveListener.stop();
+
+  return receivedMsgs;
 }
 
 describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
@@ -287,5 +360,74 @@ describe("Topic Filters: Get Rules", function(): void {
     };
     should.equal(rules.length, 1);
     should.equal(JSON.stringify(rules[0].filter), JSON.stringify(matchexpr));
+  });
+});
+
+describe("Send/Receive messages using default filter of subscription", function(): void {
+  beforeEach(async () => {
+    await beforeEachTest();
+  });
+
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("Subscription with default filter receives all messages", async function(): Promise<void> {
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(defaultSubscriptionClient);
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, data.length);
+
+    await testPeekMsgsLength(defaultSubscriptionClient, 0);
+  });
+});
+
+describe("Send/Receive messages using boolean filters of subscription", function(): void {
+  beforeEach(async () => {
+    await beforeEachTest();
+  });
+
+  afterEach(async () => {
+    await receiveOrders(defaultSubscriptionClient);
+    await testPeekMsgsLength(defaultSubscriptionClient, 0);
+    await afterEachTest();
+  });
+
+  async function addFilterAndReceiveOrders(
+    bool: boolean,
+    client: SubscriptionClient
+  ): Promise<ServiceBusMessage[]> {
+    await subscriptionClient.addRule("BooleanFilter", bool);
+    const rules = await subscriptionClient.getRules();
+    should.equal(rules.length, 1);
+    should.equal(rules[0].name, "BooleanFilter");
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(client);
+
+    return receivedMsgs;
+  }
+
+  it("Subscription with true boolean filter receives all messages", async function(): Promise<
+    void
+  > {
+    const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient);
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, data.length);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("Subscription with false boolean filter does not receive any messages", async function(): Promise<
+    void
+  > {
+    const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient);
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, 0);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
   });
 });
