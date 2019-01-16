@@ -109,7 +109,7 @@ export class BackupResourceStorageConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  patch(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -117,7 +117,7 @@ export class BackupResourceStorageConfigs {
    * @param parameters Vault storage config request
    * @param callback The callback
    */
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, callback: msRest.ServiceCallback<void>): void;
+  patch(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -126,8 +126,8 @@ export class BackupResourceStorageConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update1(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  patch(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  patch(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -135,7 +135,7 @@ export class BackupResourceStorageConfigs {
         parameters,
         options
       },
-      update1OperationSpec,
+      patchOperationSpec,
       callback);
   }
 }
@@ -199,7 +199,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const update1OperationSpec: msRest.OperationSpec = {
+const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
   urlParameters: [
