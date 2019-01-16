@@ -27,7 +27,7 @@ export class JobDetails {
   }
 
   /**
-   * Gets exteded information associated with the job.
+   * Gets extended information associated with the job.
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
