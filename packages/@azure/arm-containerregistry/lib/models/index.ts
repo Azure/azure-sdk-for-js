@@ -1649,7 +1649,7 @@ export interface SecretObject {
   /**
    * @member {string} [value] The value of the secret. The format of this value
    * will be determined
-   * based on the type of the secret object. If the type is Opaque, the vaule
+   * based on the type of the secret object. If the type is Opaque, the value
    * will be
    * used as is without any modification.
    */
