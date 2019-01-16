@@ -105,7 +105,7 @@ async function afterEachTest(): Promise<void> {
   await namespace.close();
 }
 
-describe("Complete/Abandon/Defer/Deadletter normal message", () => {
+describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -244,7 +244,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", () => {
   });
 });
 
-describe("Abandon/Defer/Deadletter deferred message", () => {
+describe("Abandon/Defer/Deadletter deferred message", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -389,7 +389,7 @@ describe("Abandon/Defer/Deadletter deferred message", () => {
   });
 });
 
-describe("Abandon/Defer/Deadletter deadlettered message", () => {
+describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -530,7 +530,7 @@ describe("Abandon/Defer/Deadletter deadlettered message", () => {
   });
 });
 
-describe("Multiple ReceiveBatch calls", () => {
+describe("Multiple ReceiveBatch calls", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });

@@ -101,7 +101,7 @@ async function afterEachTest(): Promise<void> {
   await namespace.close();
 }
 
-describe("ReceiveBatch from Queue/Subscription", () => {
+describe("ReceiveBatch from Queue/Subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -200,7 +200,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   });
 });
 
-describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of message", () => {
+describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of message", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
