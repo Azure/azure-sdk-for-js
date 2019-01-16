@@ -1481,6 +1481,28 @@ export interface MediaJobOutputAsset {
 
 /**
  * @interface
+ * An interface representing MediaJobOutputProgressEventData.
+ * Job Output Progress Event Data.
+ *
+ */
+export interface MediaJobOutputProgressEventData {
+  /**
+   * @member {string} [label] Gets the Job output label.
+   */
+  label?: string;
+  /**
+   * @member {number} [progress] Gets the Job output progress.
+   */
+  progress?: number;
+  /**
+   * @member {{ [propertyName: string]: string }} [jobCorrelationData] Gets the
+   * Job correlation data.
+   */
+  jobCorrelationData?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
  * An interface representing MediaJobOutputStateChangeEventData.
  * Schema of the Data property of an EventGridEvent for a
  * Microsoft.Media.JobOutputStateChange event.
