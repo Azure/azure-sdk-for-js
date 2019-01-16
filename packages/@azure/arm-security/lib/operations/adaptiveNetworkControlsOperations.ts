@@ -263,6 +263,7 @@ const beginEnforceOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
