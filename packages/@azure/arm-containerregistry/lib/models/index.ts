@@ -1649,10 +1649,8 @@ export interface SecretObject {
   /**
    * @member {string} [value] The value of the secret. The format of this value
    * will be determined
-   * based on the type of the secret object. For example, if the type is of
-   * vault secret,
-   * the value will be the URL to the vault secret. If the type is Opaque, the
-   * vaule will be
+   * based on the type of the secret object. If the type is Opaque, the vaule
+   * will be
    * used as is without any modification.
    */
   value?: string;
