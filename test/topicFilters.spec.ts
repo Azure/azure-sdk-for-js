@@ -71,11 +71,19 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     await afterEachTest();
   });
 
-  it("Add Rule with Boolean filter", async function(): Promise<void> {
-    await subscriptionClient.addRule("TrueFilter", true);
+  async function BooleanFilter(bool: boolean): Promise<void> {
+    await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1);
-    should.equal(rules[0].name, "TrueFilter");
+    should.equal(rules[0].name, "BooleanFilter");
+  }
+
+  it("Add Rule with Boolean filter - True Filter", async function(): Promise<void> {
+    await BooleanFilter(true);
+  });
+
+  it("Add Rule with Boolean filter - False Filter", async function(): Promise<void> {
+    await BooleanFilter(false);
   });
 
   it("Add Rule with SQL filter", async function(): Promise<void> {
