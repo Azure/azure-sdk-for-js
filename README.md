@@ -1,7 +1,13 @@
 @azure/service-bus
 ================
 
-This sdk provides a convenient way to interact with the Azure Service Bus.
+This SDK provides a convenient way to interact with the Azure Service Bus.
+
+## Status ##
+
+This SDK is currently under development and there is no published version of this SDK in npmjs.com yet.
+
+We are working on publishing a preview of this SDK by the end of January 2019.
 
 ## Pre-requisite ##
 - **Node.js version: 6.x or higher.** 
