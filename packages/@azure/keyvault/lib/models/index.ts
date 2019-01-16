@@ -673,6 +673,23 @@ export interface LifetimeAction {
 
 /**
  * @interface
+ * An interface representing ValidationEmail.
+ */
+export interface ValidationEmail {
+  /**
+   * @member {string} [dnsName] Validation emails will be sent for certificate
+   * requests with this dns name as subject name or subject alternative name.
+   */
+  dnsName?: string;
+  /**
+   * @member {string} [email] Email address where validation emails will be
+   * sent.
+   */
+  email?: string;
+}
+
+/**
+ * @interface
  * An interface representing IssuerParameters.
  * Parameters for the issuer of the X509 component of a certificate.
  *
@@ -694,6 +711,17 @@ export interface IssuerParameters {
    * transparency logs.
    */
   certificateTransparency?: boolean;
+  /**
+   * @member {ValidationMethod} [validationMethod] The method the issuer will
+   * use to validate certificate creation and renewal requests. Possible values
+   * include: 'email', 'dns-txt-token', 'http-token'
+   */
+  validationMethod?: ValidationMethod;
+  /**
+   * @member {ValidationEmail[]} [validationEmails] A list of email addresses
+   * where validation emails should be sent for specific DNS names.
+   */
+  validationEmails?: ValidationEmail[];
 }
 
 /**
@@ -3009,6 +3037,14 @@ export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherm
  * @enum {string}
  */
 export type ActionType = 'EmailContacts' | 'AutoRenew';
+
+/**
+ * Defines values for ValidationMethod.
+ * Possible values include: 'email', 'dns-txt-token', 'http-token'
+ * @readonly
+ * @enum {string}
+ */
+export type ValidationMethod = 'email' | 'dns-txt-token' | 'http-token';
 
 /**
  * Defines values for JsonWebKeyOperation.

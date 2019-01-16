@@ -857,6 +857,28 @@ export const LifetimeAction: msRest.CompositeMapper = {
   }
 };
 
+export const ValidationEmail: msRest.CompositeMapper = {
+  serializedName: "ValidationEmail",
+  type: {
+    name: "Composite",
+    className: "ValidationEmail",
+    modelProperties: {
+      dnsName: {
+        serializedName: "dns",
+        type: {
+          name: "String"
+        }
+      },
+      email: {
+        serializedName: "email",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IssuerParameters: msRest.CompositeMapper = {
   serializedName: "IssuerParameters",
   type: {
@@ -879,6 +901,24 @@ export const IssuerParameters: msRest.CompositeMapper = {
         serializedName: "cert_transparency",
         type: {
           name: "Boolean"
+        }
+      },
+      validationMethod: {
+        serializedName: "validation_method",
+        type: {
+          name: "String"
+        }
+      },
+      validationEmails: {
+        serializedName: "validation_emails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidationEmail"
+            }
+          }
         }
       }
     }
