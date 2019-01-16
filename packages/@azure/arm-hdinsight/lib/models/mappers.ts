@@ -470,6 +470,46 @@ export const StorageProfile: msRest.CompositeMapper = {
   }
 };
 
+export const DiskEncryptionProperties: msRest.CompositeMapper = {
+  serializedName: "DiskEncryptionProperties",
+  type: {
+    name: "Composite",
+    className: "DiskEncryptionProperties",
+    modelProperties: {
+      vaultUri: {
+        serializedName: "vaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      keyName: {
+        serializedName: "keyName",
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        serializedName: "keyVersion",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionAlgorithm: {
+        serializedName: "encryptionAlgorithm",
+        type: {
+          name: "String"
+        }
+      },
+      msiResourceId: {
+        serializedName: "msiResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ClusterCreateProperties: msRest.CompositeMapper = {
   serializedName: "ClusterCreateProperties",
   type: {
@@ -528,6 +568,13 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "StorageProfile"
+        }
+      },
+      diskEncryptionProperties: {
+        serializedName: "diskEncryptionProperties",
+        type: {
+          name: "Composite",
+          className: "DiskEncryptionProperties"
         }
       }
     }
@@ -849,6 +896,13 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
               className: "ConnectivityEndpoint"
             }
           }
+        }
+      },
+      diskEncryptionProperties: {
+        serializedName: "diskEncryptionProperties",
+        type: {
+          name: "Composite",
+          className: "DiskEncryptionProperties"
         }
       }
     }
@@ -1182,6 +1236,34 @@ export const ClusterResizeParameters: msRest.CompositeMapper = {
         serializedName: "targetInstanceCount",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterDiskEncryptionParameters: msRest.CompositeMapper = {
+  serializedName: "ClusterDiskEncryptionParameters",
+  type: {
+    name: "Composite",
+    className: "ClusterDiskEncryptionParameters",
+    modelProperties: {
+      vaultUri: {
+        serializedName: "vaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      keyName: {
+        serializedName: "keyName",
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        serializedName: "keyVersion",
+        type: {
+          name: "String"
         }
       }
     }

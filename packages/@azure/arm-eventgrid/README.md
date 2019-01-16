@@ -9,23 +9,23 @@ This package contains an isomorphic SDK for EventGridManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-eventgrid
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get domains as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get eventSubscriptions as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -34,9 +34,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new EventGridManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const domainName = "testdomainName";
-  client.domains.get(resourceGroupName, domainName).then((result) => {
+  const scope = "testscope";
+  const eventSubscriptionName = "testeventSubscriptionName";
+  client.eventSubscriptions.get(scope, eventSubscriptionName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,11 +45,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get domains as an example written in JavaScript.
+#### browser - Authentication, client creation and get eventSubscriptions as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -79,9 +79,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmEventgrid.EventGridManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const domainName = "testdomainName";
-        client.domains.get(resourceGroupName, domainName).then((result) => {
+        const scope = "testscope";
+        const eventSubscriptionName = "testeventSubscriptionName";
+        client.eventSubscriptions.get(scope, eventSubscriptionName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

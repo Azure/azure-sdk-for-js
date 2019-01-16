@@ -1288,10 +1288,10 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing NewsSearchAPIClientOptions.
+ * An interface representing NewsSearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface NewsSearchAPIClientOptions extends ServiceClientOptions {
+export interface NewsSearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:

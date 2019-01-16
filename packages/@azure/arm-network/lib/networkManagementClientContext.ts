@@ -13,7 +13,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-network";
-const packageVersion = "0.2.0";
+const packageVersion = "0.2.1";
 
 export class NetworkManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
