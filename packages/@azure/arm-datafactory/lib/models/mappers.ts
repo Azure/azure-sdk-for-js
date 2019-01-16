@@ -843,6 +843,12 @@ export const Dataset: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      schema: {
+        serializedName: "schema",
+        type: {
+          name: "Object"
+        }
+      },
       linkedServiceName: {
         required: true,
         serializedName: "linkedServiceName",
@@ -11526,6 +11532,40 @@ export const SSISExecutionParameter: msRest.CompositeMapper = {
   }
 };
 
+export const SSISExecutionCredential: msRest.CompositeMapper = {
+  serializedName: "SSISExecutionCredential",
+  type: {
+    name: "Composite",
+    className: "SSISExecutionCredential",
+    modelProperties: {
+      domain: {
+        required: true,
+        serializedName: "domain",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        required: true,
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+          uberParent: "SecretBase",
+          className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
 export const SSISPackageLocation: msRest.CompositeMapper = {
   serializedName: "SSISPackageLocation",
   type: {
@@ -11576,6 +11616,18 @@ export const ExecuteSSISPackageActivity: msRest.CompositeMapper = {
         serializedName: "typeProperties.environmentPath",
         type: {
           name: "Object"
+        }
+      },
+      executionCredential: {
+        serializedName: "typeProperties.executionCredential",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISExecutionCredential"
+            }
+          }
         }
       },
       connectVia: {
@@ -12909,6 +12961,47 @@ export const FilterActivity: msRest.CompositeMapper = {
   }
 };
 
+export const ValidationActivity: msRest.CompositeMapper = {
+  serializedName: "Validation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "ValidationActivity",
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      timeout: {
+        serializedName: "typeProperties.timeout",
+        type: {
+          name: "Object"
+        }
+      },
+      sleep: {
+        serializedName: "typeProperties.sleep",
+        type: {
+          name: "Number"
+        }
+      },
+      minimumSize: {
+        serializedName: "typeProperties.minimumSize",
+        type: {
+          name: "Number"
+        }
+      },
+      dataset: {
+        required: true,
+        serializedName: "typeProperties.dataset",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "DatasetReference"
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
 export const UntilActivity: msRest.CompositeMapper = {
   serializedName: "Until",
   type: {
@@ -13103,6 +13196,61 @@ export const IfConditionActivity: msRest.CompositeMapper = {
               }
             }
           }
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const WebHookActivity: msRest.CompositeMapper = {
+  serializedName: "WebHook",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "WebHookActivity",
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      method: {
+        required: true,
+        isConstant: true,
+        serializedName: "typeProperties.method",
+        defaultValue: 'POST',
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        required: true,
+        serializedName: "typeProperties.url",
+        type: {
+          name: "Object"
+        }
+      },
+      timeout: {
+        serializedName: "typeProperties.timeout",
+        type: {
+          name: "Object"
+        }
+      },
+      headers: {
+        serializedName: "typeProperties.headers",
+        type: {
+          name: "Object"
+        }
+      },
+      body: {
+        serializedName: "typeProperties.body",
+        type: {
+          name: "Object"
+        }
+      },
+      authentication: {
+        serializedName: "typeProperties.authentication",
+        type: {
+          name: "Composite",
+          className: "WebActivityAuthentication"
         }
       }
     },
@@ -14840,10 +14988,12 @@ export const discriminators = {
   'Activity.AppendVariable' : AppendVariableActivity,
   'Activity.SetVariable' : SetVariableActivity,
   'Activity.Filter' : FilterActivity,
+  'Activity.Validation' : ValidationActivity,
   'Activity.Until' : UntilActivity,
   'Activity.Wait' : WaitActivity,
   'Activity.ForEach' : ForEachActivity,
   'Activity.IfCondition' : IfConditionActivity,
+  'Activity.WebHook' : WebHookActivity,
   'Activity.ExecutePipeline' : ExecutePipelineActivity,
   'Activity.Container' : ControlActivity,
   'IntegrationRuntimeStatus.SelfHosted' : SelfHostedIntegrationRuntimeStatus,
