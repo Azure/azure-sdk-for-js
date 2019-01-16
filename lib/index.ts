@@ -28,10 +28,11 @@ export {
   SendableMessageInfo,
   ServiceBusDeliveryAnnotations,
   ServiceBusMessageAnnotations,
-  DeadLetterOptions
+  DeadLetterOptions,
+  ReceiveMode
 } from "./serviceBusMessage";
 export { ReceiveHandler, MessageHandlerOptions } from "./core/streamingReceiver";
-export { OnError, OnMessage, ReceiveMode } from "./core/messageReceiver";
+export { OnError, OnMessage } from "./core/messageReceiver";
 export {
   MessageSession,
   OnSessionMessage,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as Long from "long";
+import Long from "long";
 import {
   Delivery,
   uuid_to_string,
@@ -12,9 +12,44 @@ import {
 import { Constants, Dictionary, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { DispositionStatus } from "./core/managementClient";
-import { DispositionType } from "./core/messageReceiver";
-import { ReceiveMode } from "./core/messageReceiver";
+
+/**
+ * The mode in which messages should be received
+ */
+export enum ReceiveMode {
+  /**
+   * Peek the message and lock it until it is settled or times out.
+   * @type {Number}
+   */
+  peekLock = 1,
+
+  /**
+   * Remove the message from the service bus upon delivery.
+   * @type {Number}
+   */
+  receiveAndDelete = 2
+}
+
+/**
+ * @ignore
+ */
+export enum DispositionType {
+  complete = "complete",
+  deadletter = "deadletter",
+  abandon = "abandon",
+  defer = "defer"
+}
+
+/**
+ * @ignore
+ */
+export enum DispositionStatus {
+  completed = "completed",
+  defered = "defered",
+  suspended = "suspended",
+  abandoned = "abandoned",
+  renewed = "renewed"
+}
 
 /**
  * Describes the delivery annotations for ServiceBus.

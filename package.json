@@ -1,13 +1,30 @@
 {
   "name": "@azure/service-bus",
-  "version": "0.1.0",
-  "description": "Azure ServiceBus SDK for JS",
   "author": "Microsoft Corporation",
+  "version": "0.1.0",
   "license": "MIT",
+  "description": "Azure ServiceBus SDK for JS",
+  "homepage": "http://github.com/azure/azure-sdk-for-js",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "cloud",
+    "service bus"
+  ],
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
   "main": "./dist/lib/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./typings/lib/index.d.ts",
+  "browser": {
+    "./dist/index.js": "./browser/index.js"
+  },
+  "engine": {
+    "node": ">=6.0.0"
+  },
   "dependencies": {
-    "@azure/amqp-common": "^0.1.9",
+    "@azure/amqp-common": "^1.0.0-preview.1",
     "debug": "^3.1.0",
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
@@ -26,30 +43,43 @@
     "@types/node": "^8.0.37",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cross-env": "^5.2.0",
     "dotenv": "^6.1.0",
     "mocha": "^5.2.0",
-    "nyc": "^11.8.0",
     "prettier": "^1.15.3",
     "rimraf": "^2.6.2",
+    "rollup": "^0.66.6",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-multi-entry": "^2.0.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-uglify": "^6.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.2.1"
   },
+  "files": [
+    "LICENSE",
+    "changelog.md",
+    "Readme.md",
+    "dist/",
+    "dist-esm/lib/",
+    "lib/",
+    "typings/"
+  ],
   "scripts": {
     "tslint": "tslint -p . -c tslint.json",
     "tsc": "tsc",
     "prebuild": "rimraf dist && rimraf typings",
-    "build": "npm run tslint && npm run tsc",
+    "build": "npm run tslint && tsc -p . && rollup -c",
+    "build-browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c",
+    "build-node": "tsc -p . && cross-env ONLY_NODE=true rollup -c",
+    "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js",
+    "build-samples": "cd examples && tsc -p .",
     "test": "npm run build",
-    "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 test/**/*.spec.ts",
+    "unit": "npm run build-test && mocha -t 50000 test-dist/index.js",
     "prepack": "npm i && npm run build"
-  },
-  "homepage": "http://github.com/azure/azure-servcie-bus-node",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/azure/azure-servcie-bus-node.git"
-  },
-  "bugs": {
-    "url": "http://github.com/Azure/azure-servcie-bus-node/issues"
   }
 }

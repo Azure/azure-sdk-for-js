@@ -6,7 +6,7 @@
 git clone https://github.com/azure/azure-service-bus-node.git
 cd azure-service-bus-node
 ```
-- Install typescript, ts-node globally (optional, but very useful)
+- Install typescript, ts-node globally (required for running the samples)
 ```bash
 npm i -g typescript
 npm i -g ts-node
@@ -42,12 +42,8 @@ SUBSCRIPTION_NAME3=<Subscription-3>
 ## Executing a sample
 - If you've already installed ts-node, you should be able to execute the typescript samples as follows:
 ```bash
-ts-node examples\samples\<sample>.ts
-```
-- Otherwise, execute them in the following manner:
-```bash
-tsc examples\samples\<sample>.ts
-node examples\samples\<sample>.js
+cd examples
+ts-node samples\<sample>.ts
 ```
 - For debugging:
 [VS Code - Debugging](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations) -  Update the `Debug sample` configuration in `launch.json` by changing the `program` attrbute to point to the sample you want to debug.

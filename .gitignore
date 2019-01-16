@@ -54,6 +54,10 @@ obj/*
 .env
 typings/
 dist/
+dist-esm/
+browser/
+test-browser/
+test-dist/
 out/
 output/
 typedoc

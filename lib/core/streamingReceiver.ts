@@ -8,9 +8,9 @@ import {
   ReceiveOptions,
   OnMessage,
   OnError,
-  ReceiverType,
-  ReceiveMode
+  ReceiverType
 } from "./messageReceiver";
+import { ReceiveMode } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";

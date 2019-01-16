@@ -8,9 +8,14 @@ import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./core/messageSender";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
-import { ServiceBusMessage, SendableMessageInfo, ReceivedMessageInfo } from "./serviceBusMessage";
+import {
+  ServiceBusMessage,
+  SendableMessageInfo,
+  ReceivedMessageInfo,
+  ReceiveMode
+} from "./serviceBusMessage";
 import { Client } from "./client";
-import { ReceiveMode, ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
+import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ScheduleMessage, ListSessionsResponse } from "./core/managementClient";
 import {
   MessageSession,
