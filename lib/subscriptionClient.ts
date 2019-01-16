@@ -6,9 +6,8 @@ import { ConnectionContext } from "./connectionContext";
 import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
-import { ServiceBusMessage, ReceivedMessageInfo } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
 import { Client } from "./client";
-import { ReceiveMode } from "./core/messageReceiver";
 import { CorrelationFilter, RuleDescription, ListSessionsResponse } from "./core/managementClient";
 import {
   MessageSession,

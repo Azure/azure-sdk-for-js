@@ -21,7 +21,7 @@ import {
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { ServiceBusMessage } from "../serviceBusMessage";
+import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
 import { messageDispositionTimeout } from "../util/constants";
@@ -60,33 +60,6 @@ export interface PromiseLike {
 export interface DispositionOptions {
   propertiesToModify?: Dictionary<any>;
   error?: AmqpError;
-}
-
-/**
- * @ignore
- */
-export enum DispositionType {
-  complete = "complete",
-  deadletter = "deadletter",
-  abandon = "abandon",
-  defer = "defer"
-}
-
-/**
- * The mode in which messages should be received
- */
-export enum ReceiveMode {
-  /**
-   * Peek the message and lock it until it is settled or times out.
-   * @type {Number}
-   */
-  peekLock = 1,
-
-  /**
-   * Remove the message from the service bus upon delivery.
-   * @type {Number}
-   */
-  receiveAndDelete = 2
 }
 
 /**

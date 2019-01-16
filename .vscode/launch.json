@@ -9,11 +9,12 @@
             "request": "launch",
             "name": "Debug sample",
             "program": "${workspaceFolder}/examples/simpleSend.ts",
-            "preLaunchTask": "tsc: build - tsconfig.json",
+            "preLaunchTask": "npm: build-samples",
             "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
+                "${workspaceFolder}/dist-esm/**/*.js"
             ],
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/examples/.env"
+            
         },
         {
             "type": "node",
@@ -23,15 +24,13 @@
             "args": [
                 "-u",
                 "tdd",
-                "-r",
-                "ts-node/register",
-                "-t",
+                "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/test/test-file-to-debug.spec.ts"
+                "${workspaceFolder}/test-dist/index.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "envFile": "${workspaceFolder}/.env" 
+            "preLaunchTask": "npm: build-test"
         }
     ]
 }

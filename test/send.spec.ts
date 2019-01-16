@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import "mocha";
-import * as chai from "chai";
+import chai from "chai";
 const should = chai.should();
-import * as chaiAsPromised from "chai-as-promised";
-import * as dotenv from "dotenv";
+import chaiAsPromised from "chai-as-promised";
+import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {

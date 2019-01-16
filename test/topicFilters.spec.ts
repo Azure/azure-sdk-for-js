@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import "mocha";
-import * as chai from "chai";
+import chai from "chai";
 const should = chai.should();
-import * as chaiAsPromised from "chai-as-promised";
-import * as dotenv from "dotenv";
+import chaiAsPromised from "chai-as-promised";
+import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import { Namespace, SubscriptionClient } from "../lib";
@@ -277,13 +276,13 @@ describe("Topic Filters: Get Rules", function(): void {
     should.equal(rules[0].name, "Correlationfilter");
     const matchexpr = {
       correlationId: "high",
-      messageId: null,
-      to: null,
-      replyTo: null,
+      messageId: undefined,
+      to: undefined,
+      replyTo: undefined,
       label: "red",
-      sessionId: null,
-      replyToSessionId: null,
-      contentType: null,
+      sessionId: undefined,
+      replyToSessionId: undefined,
+      contentType: undefined,
       userProperties: []
     };
     should.equal(rules.length, 1);
