@@ -843,6 +843,12 @@ export const Dataset: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      schema: {
+        serializedName: "schema",
+        type: {
+          name: "Object"
+        }
+      },
       linkedServiceName: {
         required: true,
         serializedName: "linkedServiceName",
@@ -2521,6 +2527,52 @@ export const SsisObjectMetadataStatusResponse: msRest.CompositeMapper = {
       },
       error: {
         serializedName: "error",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExposureControlRequest: msRest.CompositeMapper = {
+  serializedName: "ExposureControlRequest",
+  type: {
+    name: "Composite",
+    className: "ExposureControlRequest",
+    modelProperties: {
+      featureName: {
+        serializedName: "featureName",
+        type: {
+          name: "String"
+        }
+      },
+      featureType: {
+        serializedName: "featureType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExposureControlResponse: msRest.CompositeMapper = {
+  serializedName: "ExposureControlResponse",
+  type: {
+    name: "Composite",
+    className: "ExposureControlResponse",
+    modelProperties: {
+      featureName: {
+        readOnly: true,
+        serializedName: "featureName",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "value",
         type: {
           name: "String"
         }
@@ -12904,6 +12956,47 @@ export const FilterActivity: msRest.CompositeMapper = {
   }
 };
 
+export const ValidationActivity: msRest.CompositeMapper = {
+  serializedName: "Validation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "ValidationActivity",
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      timeout: {
+        serializedName: "typeProperties.timeout",
+        type: {
+          name: "Object"
+        }
+      },
+      sleep: {
+        serializedName: "typeProperties.sleep",
+        type: {
+          name: "Number"
+        }
+      },
+      minimumSize: {
+        serializedName: "typeProperties.minimumSize",
+        type: {
+          name: "Number"
+        }
+      },
+      dataset: {
+        required: true,
+        serializedName: "typeProperties.dataset",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "DatasetReference"
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
 export const UntilActivity: msRest.CompositeMapper = {
   serializedName: "Until",
   type: {
@@ -14890,6 +14983,7 @@ export const discriminators = {
   'Activity.AppendVariable' : AppendVariableActivity,
   'Activity.SetVariable' : SetVariableActivity,
   'Activity.Filter' : FilterActivity,
+  'Activity.Validation' : ValidationActivity,
   'Activity.Until' : UntilActivity,
   'Activity.Wait' : WaitActivity,
   'Activity.ForEach' : ForEachActivity,
