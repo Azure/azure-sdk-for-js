@@ -42,12 +42,19 @@ async function testPeekMsgsLength(
 }
 
 const maxDeliveryCount = 10;
+
 let namespace: Namespace;
-let queueClient: QueueClient;
-let topicClient: TopicClient;
-let subscriptionClient: SubscriptionClient;
-let deadletterQueueClient: QueueClient;
-let deadletterSubscriptionClient: SubscriptionClient;
+let partitionedQueueClient: QueueClient;
+let partitionedTopicClient: TopicClient;
+let partitionedSubscriptionClient: SubscriptionClient;
+let unpartitionedQueueClient: QueueClient;
+let unpartitionedTopicClient: TopicClient;
+let unpartitionedSubscriptionClient: SubscriptionClient;
+
+let partitionedDeadletterQueueClient: QueueClient;
+let partitionedDeadletterSubscriptionClient: SubscriptionClient;
+let unpartitionedDeadletterQueueClient: QueueClient;
+let unpartitionedDeadletterSubscriptionClient: SubscriptionClient;
 let errorWasThrown: boolean;
 
 async function beforeEachTest(): Promise<void> {
@@ -59,44 +66,76 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (!process.env.TOPIC_NAME) {
-    throw new Error("Define TOPIC_NAME in your environment before running integration tests.");
-  }
-  if (!process.env.QUEUE_NAME) {
-    throw new Error("Define QUEUE_NAME in your environment before running integration tests.");
-  }
-  if (!process.env.SUBSCRIPTION_NAME) {
+  if (!process.env.TOPIC_NAME || !process.env.TOPIC_NAME_NO_PARTITION) {
     throw new Error(
-      "Define SUBSCRIPTION_NAME in your environment before running integration tests."
+      "Define TOPIC_NAME & TOPIC_NAME_NO_PARTITIONin your environment before running integration tests."
+    );
+  }
+  if (!process.env.QUEUE_NAME || !process.env.QUEUE_NAME_NO_PARTITION) {
+    throw new Error(
+      "Define QUEUE_NAME & QUEUE_NAME_NO_PARTITION in your environment before running integration tests."
+    );
+  }
+  if (!process.env.SUBSCRIPTION_NAME || !process.env.SUBSCRIPTION_NAME_NO_PARTITION) {
+    throw new Error(
+      "Define SUBSCRIPTION_NAME & SUBSCRIPTION_NAME_NO_PARTITION in your environment before running integration tests."
     );
   }
 
   namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  queueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
-  topicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  subscriptionClient = namespace.createSubscriptionClient(
+  partitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
+  partitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
+  partitionedSubscriptionClient = namespace.createSubscriptionClient(
     process.env.TOPIC_NAME,
     process.env.SUBSCRIPTION_NAME
   );
-  deadletterQueueClient = namespace.createQueueClient(
-    Namespace.getDeadLetterQueuePathForQueue(queueClient.name)
+
+  unpartitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME_NO_PARTITION);
+  unpartitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME_NO_PARTITION);
+  unpartitionedSubscriptionClient = namespace.createSubscriptionClient(
+    process.env.TOPIC_NAME_NO_PARTITION,
+    process.env.SUBSCRIPTION_NAME_NO_PARTITION
   );
-  deadletterSubscriptionClient = namespace.createSubscriptionClient(
+  partitionedDeadletterQueueClient = namespace.createQueueClient(
+    Namespace.getDeadLetterQueuePathForQueue(partitionedQueueClient.name)
+  );
+  partitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
-      topicClient.name,
-      subscriptionClient.subscriptionName
+      partitionedTopicClient.name,
+      partitionedSubscriptionClient.subscriptionName
     ),
-    subscriptionClient.subscriptionName
+    partitionedSubscriptionClient.subscriptionName
   );
 
-  const peekedQueueMsg = await queueClient.peek();
-  if (peekedQueueMsg.length) {
-    throw new Error("Please use an empty queue for integration testing");
+  unpartitionedDeadletterQueueClient = namespace.createQueueClient(
+    Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueClient.name)
+  );
+  unpartitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
+    Namespace.getDeadLetterSubcriptionPathForSubcription(
+      unpartitionedTopicClient.name,
+      unpartitionedSubscriptionClient.subscriptionName
+    ),
+    unpartitionedSubscriptionClient.subscriptionName
+  );
+
+  const peekedPartitionedQueueMsg = await partitionedQueueClient.peek();
+  if (peekedPartitionedQueueMsg.length) {
+    throw new Error("Please use an empty partitioned queue for integration testing");
   }
 
-  const peekedSubscriptionMsg = await subscriptionClient.peek();
-  if (peekedSubscriptionMsg.length) {
-    throw new Error("Please use an empty Subscription for integration testing");
+  const peekedPartitionedSubscriptionMsg = await partitionedSubscriptionClient.peek();
+  if (peekedPartitionedSubscriptionMsg.length) {
+    throw new Error("Please use an empty partitioned Subscription for integration testing");
+  }
+
+  const peekedUnPartitionedQueueMsg = await unpartitionedQueueClient.peek();
+  if (peekedUnPartitionedQueueMsg.length) {
+    throw new Error("Please use an empty unpartitioned queue for integration testing");
+  }
+
+  const peekedUnPartitionedSubscriptionMsg = await unpartitionedSubscriptionClient.peek();
+  if (peekedUnPartitionedSubscriptionMsg.length) {
+    throw new Error("Please use an empty unpartitioned Subscription for integration testing");
   }
   errorWasThrown = false;
 }
@@ -155,12 +194,24 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Queue: complete() removes message", async function(): Promise<void> {
-    await testComplete(queueClient, queueClient);
+  it("Partitioned Queues: complete() removes message", async function(): Promise<void> {
+    await testComplete(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Subscription: complete() removes message", async function(): Promise<void> {
-    await testComplete(topicClient, subscriptionClient);
+  it("Partitioned Topics and Subscription: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(partitionedTopicClient, partitionedSubscriptionClient);
+  });
+
+  it("Unpartitioned Queues: complete() removes message", async function(): Promise<void> {
+    await testComplete(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("Unpartitioned Topics and Subscription: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(unpartitionedTopicClient, unpartitionedSubscriptionClient);
   });
 
   async function testAbandon(
@@ -175,16 +226,28 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await completeMessages(receiverClient, 1);
   }
 
-  it("Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
+  it("Partitioned Queues: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testAbandon(queueClient, queueClient);
+    await testAbandon(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
+  it("Partitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testAbandon(topicClient, subscriptionClient);
+    await testAbandon(partitionedTopicClient, partitionedSubscriptionClient);
+  });
+
+  it("Unpartitioned Queues: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testAbandon(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("Unpartitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testAbandon(unpartitionedTopicClient, unpartitionedSubscriptionClient);
   });
 
   async function testDefer(
@@ -212,13 +275,29 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Queue: defer() moves message to deferred queue", async function(): Promise<void> {
-    await testDefer(queueClient, queueClient);
+  it("Partitioned Queues: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await testDefer(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Subscription: defer() moves message to deferred queue", async function(): Promise<void> {
-    await testDefer(topicClient, subscriptionClient);
+  it("Partitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await testDefer(partitionedTopicClient, partitionedSubscriptionClient);
   });
+
+  // it("Unpartitioned Queues: defer() moves message to deferred queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedQueueClient, unpartitionedQueueClient);
+  // });
+
+  // it("Unpartitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedTopicClient, unpartitionedSubscriptionClient);
+  // });
 
   async function testDeadletter(
     senderClient: QueueClient | TopicClient,
@@ -233,14 +312,44 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await completeMessages(deadLetterClient, 0);
   }
 
-  it("Queue: deadLetter() moves message to deadletter queue", async function(): Promise<void> {
-    await testDeadletter(queueClient, queueClient, deadletterQueueClient);
-  });
-
-  it("Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+  it("Partitioned Queues: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
-    await testDeadletter(topicClient, subscriptionClient, deadletterSubscriptionClient);
+    await testDeadletter(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient
+    );
+  });
+
+  it("Partitioned Topics and Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient
+    );
+  });
+
+  it("Unpartitioned Queues: deadLetter() moves message to deadletter queue", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      unpartitionedDeadletterQueueClient
+    );
+  });
+
+  it("Unpartitioned Topics and Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      unpartitionedDeadletterSubscriptionClient
+    );
   });
 });
 
@@ -316,17 +425,29 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     await completeDeferredMessage(receiverClient, sequenceNumber, 2);
   }
 
-  it("Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+  it("Partitioned Queues: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testDefer(queueClient, queueClient);
+    await testDefer(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+  it("Partitioned Topics and Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testDefer(topicClient, subscriptionClient);
+    await testDefer(partitionedTopicClient, partitionedSubscriptionClient);
   });
+
+  // it("Unpartitioned Queues: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedQueueClient, unpartitionedQueueClient);
+  // });
+
+  // it("Unpartitioned Topics and Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedTopicClient, unpartitionedSubscriptionClient);
+  // });
 
   async function testDeadletter(
     senderClient: QueueClient | TopicClient,
@@ -351,17 +472,45 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     await testPeekMsgsLength(deadletterClient, 0);
   }
 
-  it("Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
+  it("Partitioned Queues: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await testDeadletter(queueClient, queueClient, deadletterQueueClient);
+    await testDeadletter(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient
+    );
   });
 
   it("Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await testDeadletter(topicClient, subscriptionClient, deadletterSubscriptionClient);
+    await testDeadletter(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient
+    );
   });
+
+  // it("Unpartitioned Queues: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
+  //   void
+  // > {
+  //   await testDeadletter(
+  //     unpartitionedQueueClient,
+  //     unpartitionedQueueClient,
+  //     unpartitionedDeadletterQueueClient
+  //   );
+  // });
+
+  // it("Unpartitioned Topics and Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
+  //   void
+  // > {
+  //   await testDeadletter(
+  //     unpartitionedTopicClient,
+  //     unpartitionedSubscriptionClient,
+  //     unpartitionedDeadletterSubscriptionClient
+  //   );
+  // });
 
   async function testAbandon(
     senderClient: QueueClient | TopicClient,
@@ -376,17 +525,29 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     await completeDeferredMessage(receiverClient, sequenceNumber, 2);
   }
 
-  it("Queue: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+  it("Partitioned Queues: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testAbandon(queueClient, queueClient);
+    await testAbandon(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+  it("Partitioned Topics and Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testAbandon(topicClient, subscriptionClient);
+    await testAbandon(partitionedTopicClient, partitionedSubscriptionClient);
   });
+
+  // it("Unpartitioned Queues: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+  //   void
+  // > {
+  //   await testAbandon(unpartitionedQueueClient, unpartitionedQueueClient);
+  // });
+
+  // it("Unpartitioned Topics and Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+  //   void
+  // > {
+  //   await testAbandon(unpartitionedTopicClient, unpartitionedSubscriptionClient);
+  // });
 });
 
 describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
@@ -457,16 +618,44 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
     await completeDeadLetteredMessage(deadletterClient, 0);
   }
 
-  it("Queue: Throws error when dead lettering a dead lettered message", async function(): Promise<
+  it("Partitioned Queues: Throws error when dead lettering a dead lettered message", async function(): Promise<
     void
   > {
-    await testDeadLetter(queueClient, queueClient, deadletterQueueClient);
+    await testDeadLetter(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient
+    );
   });
 
-  it("Subscription: Throws error when dead lettering a dead lettered message", async function(): Promise<
+  it("Partitioned Topics and Subscription: Throws error when dead lettering a dead lettered message", async function(): Promise<
     void
   > {
-    await testDeadLetter(topicClient, subscriptionClient, deadletterSubscriptionClient);
+    await testDeadLetter(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient
+    );
+  });
+
+  it("Unpartitioned Queues: Throws error when dead lettering a dead lettered message", async function(): Promise<
+    void
+  > {
+    await testDeadLetter(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      unpartitionedDeadletterQueueClient
+    );
+  });
+
+  it("Unpartitioned Topics and Subscription: Throws error when dead lettering a dead lettered message", async function(): Promise<
+    void
+  > {
+    await testDeadLetter(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      unpartitionedDeadletterSubscriptionClient
+    );
   });
 
   async function testAbandon(
@@ -481,14 +670,44 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
     await completeDeadLetteredMessage(deadletterClient, 0);
   }
 
-  it("Queue: Abandon a message received from dead letter queue", async function(): Promise<void> {
-    await testAbandon(queueClient, queueClient, deadletterQueueClient);
-  });
-
-  it("Subscription: Abandon a message received from dead letter queue", async function(): Promise<
+  it("Partitioned Queues: Abandon a message received from dead letter queue", async function(): Promise<
     void
   > {
-    await testAbandon(topicClient, subscriptionClient, deadletterSubscriptionClient);
+    await testAbandon(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient
+    );
+  });
+
+  it("Partitioned Topics and Subscription: Abandon a message received from dead letter queue", async function(): Promise<
+    void
+  > {
+    await testAbandon(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient
+    );
+  });
+
+  it("Unpartitioned Queues: Abandon a message received from dead letter queue", async function(): Promise<
+    void
+  > {
+    await testAbandon(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      unpartitionedDeadletterQueueClient
+    );
+  });
+
+  it("Unpartitioned Topics and Subscription: Abandon a message received from dead letter queue", async function(): Promise<
+    void
+  > {
+    await testAbandon(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      unpartitionedDeadletterSubscriptionClient
+    );
   });
 
   async function testDefer(
@@ -519,15 +738,45 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
     await testPeekMsgsLength(deadletterClient, 0);
   }
 
-  it("Queue: Defer a message received from dead letter queue", async function(): Promise<void> {
-    await testDefer(queueClient, queueClient, deadletterQueueClient);
-  });
-
-  it("Subscription: Defer a message received from dead letter queue", async function(): Promise<
+  it("Partitioned Queues: Defer a message received from dead letter queue", async function(): Promise<
     void
   > {
-    await testDefer(topicClient, subscriptionClient, deadletterSubscriptionClient);
+    await testDefer(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient
+    );
   });
+
+  it("Partitioned Topics and Subscription: Defer a message received from dead letter queue", async function(): Promise<
+    void
+  > {
+    await testDefer(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient
+    );
+  });
+
+  // it("Unpartitioned Queues: Defer a message received from dead letter queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(
+  //     unpartitionedQueueClient,
+  //     unpartitionedQueueClient,
+  //     unpartitionedDeadletterQueueClient
+  //   );
+  // });
+
+  // it("Unpartitioned Topics and Subscription: Defer a message received from dead letter queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(
+  //     unpartitionedTopicClient,
+  //     unpartitionedSubscriptionClient,
+  //     unpartitionedDeadletterSubscriptionClient
+  //   );
+  // });
 });
 
 describe("Multiple ReceiveBatch calls", function(): void {
@@ -553,16 +802,28 @@ describe("Multiple ReceiveBatch calls", function(): void {
     should.equal(errorWasThrown, true);
   }
 
-  it("Queue: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
+  it("Partitioned Queues: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
-    await testParallelReceiveBatchCalls(queueClient);
+    await testParallelReceiveBatchCalls(partitionedQueueClient);
   });
 
-  it("Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
+  it("Partitioned Topics and Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
-    await testParallelReceiveBatchCalls(subscriptionClient);
+    await testParallelReceiveBatchCalls(partitionedSubscriptionClient);
+  });
+
+  it("Unpartitioned Queues: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
+    void
+  > {
+    await testParallelReceiveBatchCalls(unpartitionedQueueClient);
+  });
+
+  it("Unpartitioned Topics and Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
+    void
+  > {
+    await testParallelReceiveBatchCalls(unpartitionedSubscriptionClient);
   });
 
   // We test for mutilple receiveBatch specifically to ensure that batchingRecevier on a client is reused
@@ -591,14 +852,31 @@ describe("Multiple ReceiveBatch calls", function(): void {
     await msgs2[0].complete();
   }
 
-  it("Queue: Multiple receiveBatch using Queues/Subscriptions", async function(): Promise<void> {
-    await testSequentialReceiveBatchCalls(queueClient, queueClient);
-  });
-
-  it("Subscription: Multiple receiveBatch using Queues/Subscriptions", async function(): Promise<
+  it("Partitioned Queues: Multiple receiveBatch using Queues/Subscriptions", async function(): Promise<
     void
   > {
-    await testSequentialReceiveBatchCalls(topicClient, subscriptionClient);
+    await testSequentialReceiveBatchCalls(partitionedQueueClient, partitionedQueueClient);
+  });
+
+  it("Partitioned Topics and Subscription: Multiple receiveBatch using Queues/Subscriptions", async function(): Promise<
+    void
+  > {
+    await testSequentialReceiveBatchCalls(partitionedTopicClient, partitionedSubscriptionClient);
+  });
+
+  it("Unpartitioned Queues: Multiple receiveBatch using Queues/Subscriptions", async function(): Promise<
+    void
+  > {
+    await testSequentialReceiveBatchCalls(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("Unpartitioned Topics and Subscription: Multiple receiveBatch using Queues/Subscriptions", async function(): Promise<
+    void
+  > {
+    await testSequentialReceiveBatchCalls(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient
+    );
   });
 });
 
@@ -644,19 +922,43 @@ describe("Batching Receiver Misc Tests", function(): void {
     await testPeekMsgsLength(deadLetterClient, 0);
   }
 
-  it("Queue: Message abandoned more than maxDeliveryCount goes to dead letter queue", async function(): Promise<
-    void
-  > {
-    await testAbandonMsgsTillMaxDeliveryCount(queueClient, queueClient, deadletterQueueClient);
-  });
-
-  it("Subscription: Message abandoned more than maxDeliveryCount goes to dead letter queue", async function(): Promise<
+  it("Partitioned Queues: Message abandoned more than maxDeliveryCount goes to dead letter queue", async function(): Promise<
     void
   > {
     await testAbandonMsgsTillMaxDeliveryCount(
-      topicClient,
-      subscriptionClient,
-      deadletterSubscriptionClient
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient
+    );
+  });
+
+  it("Partitioned Topics and Subscription: Message abandoned more than maxDeliveryCount goes to dead letter queue", async function(): Promise<
+    void
+  > {
+    await testAbandonMsgsTillMaxDeliveryCount(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient
+    );
+  });
+
+  it("Unpartitioned Queues: Message abandoned more than maxDeliveryCount goes to dead letter queue", async function(): Promise<
+    void
+  > {
+    await testAbandonMsgsTillMaxDeliveryCount(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      unpartitionedDeadletterQueueClient
+    );
+  });
+
+  it("Unpartitioned Topics and Subscription: Message abandoned more than maxDeliveryCount goes to dead letter queue", async function(): Promise<
+    void
+  > {
+    await testAbandonMsgsTillMaxDeliveryCount(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      unpartitionedDeadletterSubscriptionClient
     );
   });
 
@@ -683,16 +985,28 @@ describe("Batching Receiver Misc Tests", function(): void {
     await receivedMsgs[0].complete();
   }
 
-  it("Queue: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+  it("Partitioned Queues: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testNoSettlement(queueClient, queueClient);
+    await testNoSettlement(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Subscription: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+  it("Partitioned Topics and Subscription: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testNoSettlement(topicClient, subscriptionClient);
+    await testNoSettlement(partitionedTopicClient, partitionedSubscriptionClient);
+  });
+
+  it("Unpartitioned Queues: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testNoSettlement(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("Unpartitioned Topics and Subscription: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testNoSettlement(unpartitionedTopicClient, unpartitionedSubscriptionClient);
   });
 
   async function testAskForMore(
@@ -711,28 +1025,64 @@ describe("Batching Receiver Misc Tests", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Queue: Receive n messages but queue only has m messages, where m < n", async function(): Promise<
+  it("Partitioned Queues: Receive n messages but queue only has m messages, where m < n", async function(): Promise<
     void
   > {
-    await testAskForMore(queueClient, queueClient);
+    await testAskForMore(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Subscription: Receive n messages but subscription only has m messages, where m < n", async function(): Promise<
+  it("Partitioned Topics and Subscription: Receive n messages but subscription only has m messages, where m < n", async function(): Promise<
     void
   > {
-    await testAskForMore(topicClient, subscriptionClient);
+    await testAskForMore(partitionedTopicClient, partitionedSubscriptionClient);
   });
 
-  it("Throws error when call the second ReceiveBatch while the first one is not done", async function(): Promise<
+  it("Unpartitioned Queues: Receive n messages but queue only has m messages, where m < n", async function(): Promise<
     void
   > {
-    const firstBatchPromise = queueClient.receiveBatch(1, 10);
+    await testAskForMore(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("Unpartitioned Topics and Subscription: Receive n messages but subscription only has m messages, where m < n", async function(): Promise<
+    void
+  > {
+    await testAskForMore(unpartitionedTopicClient, unpartitionedSubscriptionClient);
+  });
+
+  async function simulatenousReceiveBatch(
+    receiverClient: QueueClient | SubscriptionClient
+  ): Promise<void> {
+    const firstBatchPromise = receiverClient.receiveBatch(1, 10);
     await delay(5000);
-    const secondBatchPromise = queueClient.receiveBatch(1, 10).catch((err) => {
+    const secondBatchPromise = receiverClient.receiveBatch(1, 10).catch((err) => {
       should.equal(err.name, "Error");
       errorWasThrown = true;
     });
     await Promise.all([firstBatchPromise, secondBatchPromise]);
     should.equal(errorWasThrown, true);
+  }
+
+  it("Partitioned Queues: Throws error when call the second ReceiveBatch while the first one is not done", async function(): Promise<
+    void
+  > {
+    await simulatenousReceiveBatch(partitionedQueueClient);
+  });
+
+  it("Partitioned Topics and Subscription: Throws error when call the second ReceiveBatch while the first one is not done", async function(): Promise<
+    void
+  > {
+    await simulatenousReceiveBatch(partitionedSubscriptionClient);
+  });
+
+  it("Unpartitioned Queues: Throws error when call the second ReceiveBatch while the first one is not done", async function(): Promise<
+    void
+  > {
+    await simulatenousReceiveBatch(unpartitionedQueueClient);
+  });
+
+  it("Unpartitioned Topics and Subscription: Throws error when call the second ReceiveBatch while the first one is not done", async function(): Promise<
+    void
+  > {
+    await simulatenousReceiveBatch(unpartitionedSubscriptionClient);
   });
 });
