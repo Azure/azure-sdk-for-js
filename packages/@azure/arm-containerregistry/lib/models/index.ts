@@ -2059,8 +2059,8 @@ export interface DockerBuildRequest {
    */
   dockerFilePath: string;
   /**
-   * @member {string} [target] Gets or sets the name of the target build stage
-   * for the docker build.
+   * @member {string} [target] The name of the target build stage for the
+   * docker build.
    */
   target?: string;
   /**
@@ -2314,8 +2314,8 @@ export interface DockerBuildStep {
    */
   dockerFilePath: string;
   /**
-   * @member {string} [target] Gets or sets the name of the target build stage
-   * for the docker build.
+   * @member {string} [target] The name of the target build stage for the
+   * docker build.
    */
   target?: string;
   /**
@@ -2462,8 +2462,8 @@ export interface DockerBuildStepUpdateParameters {
    */
   argumentsProperty?: Argument[];
   /**
-   * @member {string} [target] Gets or sets the name of the target build stage
-   * for the docker build.
+   * @member {string} [target] The name of the target build stage for the
+   * docker build.
    */
   target?: string;
 }
