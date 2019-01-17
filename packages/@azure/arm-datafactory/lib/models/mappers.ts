@@ -13198,61 +13198,6 @@ export const IfConditionActivity: msRest.CompositeMapper = {
   }
 };
 
-export const WebHookActivity: msRest.CompositeMapper = {
-  serializedName: "WebHook",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
-    uberParent: "Activity",
-    className: "WebHookActivity",
-    modelProperties: {
-      ...ControlActivity.type.modelProperties,
-      method: {
-        required: true,
-        isConstant: true,
-        serializedName: "typeProperties.method",
-        defaultValue: 'POST',
-        type: {
-          name: "String"
-        }
-      },
-      url: {
-        required: true,
-        serializedName: "typeProperties.url",
-        type: {
-          name: "Object"
-        }
-      },
-      timeout: {
-        serializedName: "typeProperties.timeout",
-        type: {
-          name: "Object"
-        }
-      },
-      headers: {
-        serializedName: "typeProperties.headers",
-        type: {
-          name: "Object"
-        }
-      },
-      body: {
-        serializedName: "typeProperties.body",
-        type: {
-          name: "Object"
-        }
-      },
-      authentication: {
-        serializedName: "typeProperties.authentication",
-        type: {
-          name: "Composite",
-          className: "WebActivityAuthentication"
-        }
-      }
-    },
-    additionalProperties: Activity.type.additionalProperties
-  }
-};
-
 export const ExecutePipelineActivity: msRest.CompositeMapper = {
   serializedName: "ExecutePipeline",
   type: {
@@ -14988,7 +14933,6 @@ export const discriminators = {
   'Activity.Wait' : WaitActivity,
   'Activity.ForEach' : ForEachActivity,
   'Activity.IfCondition' : IfConditionActivity,
-  'Activity.WebHook' : WebHookActivity,
   'Activity.ExecutePipeline' : ExecutePipelineActivity,
   'Activity.Container' : ControlActivity,
   'IntegrationRuntimeStatus.SelfHosted' : SelfHostedIntegrationRuntimeStatus,
