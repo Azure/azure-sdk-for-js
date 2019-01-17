@@ -11072,6 +11072,43 @@ export class WebApps {
   }
 
   /**
+   * Returns all Snapshots to the user from DRSecondary endpoint.
+   * @summary Returns all Snapshots to the user from DRSecondary endpoint.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Website Name.
+   * @param slot Website Slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotResponse>
+   */
+  listSnapshotsFromDRSecondarySlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Website Name.
+   * @param slot Website Slot.
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondarySlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Website Name.
+   * @param slot Website Slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondarySlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  listSnapshotsFromDRSecondarySlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      listSnapshotsFromDRSecondarySlotOperationSpec,
+      callback) as Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotResponse>;
+  }
+
+  /**
    * Gets the source control configuration of an app.
    * @summary Gets the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -12269,6 +12306,39 @@ export class WebApps {
       },
       listSnapshotsOperationSpec,
       callback) as Promise<Models.WebAppsListSnapshotsResponse>;
+  }
+
+  /**
+   * Returns all Snapshots to the user from DRSecondary endpoint.
+   * @summary Returns all Snapshots to the user from DRSecondary endpoint.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Website Name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsListSnapshotsFromDRSecondaryResponse>
+   */
+  listSnapshotsFromDRSecondary(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsListSnapshotsFromDRSecondaryResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Website Name.
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondary(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Website Name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondary(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  listSnapshotsFromDRSecondary(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsFromDRSecondaryResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      listSnapshotsFromDRSecondaryOperationSpec,
+      callback) as Promise<Models.WebAppsListSnapshotsFromDRSecondaryResponse>;
   }
 
   /**
@@ -15219,6 +15289,35 @@ export class WebApps {
   }
 
   /**
+   * Returns all Snapshots to the user from DRSecondary endpoint.
+   * @summary Returns all Snapshots to the user from DRSecondary endpoint.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotNextResponse>
+   */
+  listSnapshotsFromDRSecondarySlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondarySlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondarySlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  listSnapshotsFromDRSecondarySlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listSnapshotsFromDRSecondarySlotNextOperationSpec,
+      callback) as Promise<Models.WebAppsListSnapshotsFromDRSecondarySlotNextResponse>;
+  }
+
+  /**
    * List triggered web jobs for an app, or a deployment slot.
    * @summary List triggered web jobs for an app, or a deployment slot.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -15390,6 +15489,35 @@ export class WebApps {
       },
       listSnapshotsNextOperationSpec,
       callback) as Promise<Models.WebAppsListSnapshotsNextResponse>;
+  }
+
+  /**
+   * Returns all Snapshots to the user from DRSecondary endpoint.
+   * @summary Returns all Snapshots to the user from DRSecondary endpoint.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsListSnapshotsFromDRSecondaryNextResponse>
+   */
+  listSnapshotsFromDRSecondaryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsListSnapshotsFromDRSecondaryNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondaryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSnapshotsFromDRSecondaryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotCollection>): void;
+  listSnapshotsFromDRSecondaryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotCollection>, callback?: msRest.ServiceCallback<Models.SnapshotCollection>): Promise<Models.WebAppsListSnapshotsFromDRSecondaryNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listSnapshotsFromDRSecondaryNextOperationSpec,
+      callback) as Promise<Models.WebAppsListSnapshotsFromDRSecondaryNextResponse>;
   }
 
   /**
@@ -23091,6 +23219,32 @@ const listSnapshotsSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listSnapshotsFromDRSecondarySlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/snapshotsdr",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const getSourceControlSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sourcecontrols/web",
@@ -23844,6 +23998,31 @@ const listSlotDifferencesFromProductionOperationSpec: msRest.OperationSpec = {
 const listSnapshotsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/snapshots",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const listSnapshotsFromDRSecondaryOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/snapshotsdr",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -26579,6 +26758,27 @@ const listSnapshotsSlotNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listSnapshotsFromDRSecondarySlotNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listTriggeredWebJobsSlotNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -26686,6 +26886,27 @@ const listSlotDifferencesFromProductionNextOperationSpec: msRest.OperationSpec =
 };
 
 const listSnapshotsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const listSnapshotsFromDRSecondaryNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

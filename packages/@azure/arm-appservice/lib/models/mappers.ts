@@ -1280,6 +1280,13 @@ export const DeletedSite: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      geoRegionName: {
+        readOnly: true,
+        serializedName: "properties.geoRegionName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3110,48 +3117,6 @@ export const AppServicePlan: msRest.CompositeMapper = {
             "InProgress",
             "Deleting"
           ]
-        }
-      },
-      appServicePlanKind: {
-        readOnly: true,
-        serializedName: "properties.kind",
-        type: {
-          name: "String"
-        }
-      },
-      mdmId: {
-        readOnly: true,
-        serializedName: "properties.mdmId",
-        type: {
-          name: "String"
-        }
-      },
-      currentNumberOfWorkers: {
-        readOnly: true,
-        serializedName: "properties.currentNumberOfWorkers",
-        type: {
-          name: "Number"
-        }
-      },
-      currentWorkerSize: {
-        readOnly: true,
-        serializedName: "properties.currentWorkerSize",
-        type: {
-          name: "String"
-        }
-      },
-      numberOfWorkers: {
-        readOnly: true,
-        serializedName: "properties.numberOfWorkers",
-        type: {
-          name: "Number"
-        }
-      },
-      workerSize: {
-        readOnly: true,
-        serializedName: "properties.workerSize",
-        type: {
-          name: "String"
         }
       },
       sku: {
@@ -8317,6 +8282,12 @@ export const DeletedAppRestoreRequest: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -11217,6 +11188,12 @@ export const SnapshotRestoreRequest: msRest.CompositeMapper = {
       },
       ignoreConflictingHostNames: {
         serializedName: "properties.ignoreConflictingHostNames",
+        type: {
+          name: "Boolean"
+        }
+      },
+      useDRSecondary: {
+        serializedName: "properties.useDRSecondary",
         type: {
           name: "Boolean"
         }
