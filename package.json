@@ -14,12 +14,9 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "main": "./dist/lib/index.js",
-  "module": "dist-esm/src/index.js",
+  "main": "./dist/index.js",
+  "module": "dist-esm/lib/index.js",
   "types": "./typings/lib/index.d.ts",
-  "browser": {
-    "./dist/index.js": "./browser/index.js"
-  },
   "engine": {
     "node": ">=6.0.0"
   },
