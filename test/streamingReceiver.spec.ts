@@ -45,12 +45,19 @@ async function testPeekMsgsLength(
 }
 
 const maxDeliveryCount = 10;
+
 let namespace: Namespace;
-let queueClient: QueueClient;
-let topicClient: TopicClient;
-let subscriptionClient: SubscriptionClient;
-let deadletterQueueClient: QueueClient;
-let deadletterSubscriptionClient: SubscriptionClient;
+let partitionedQueueClient: QueueClient;
+let partitionedTopicClient: TopicClient;
+let partitionedSubscriptionClient: SubscriptionClient;
+let unpartitionedQueueClient: QueueClient;
+let unpartitionedTopicClient: TopicClient;
+let unpartitionedSubscriptionClient: SubscriptionClient;
+
+let partitionedDeadletterQueueClient: QueueClient;
+let partitionedDeadletterSubscriptionClient: SubscriptionClient;
+let unpartitionedDeadletterQueueClient: QueueClient;
+let unpartitionedDeadletterSubscriptionClient: SubscriptionClient;
 let errorWasThrown: boolean;
 
 async function beforeEachTest(): Promise<void> {
@@ -62,44 +69,76 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (!process.env.TOPIC_NAME) {
-    throw new Error("Define TOPIC_NAME in your environment before running integration tests.");
-  }
-  if (!process.env.QUEUE_NAME) {
-    throw new Error("Define QUEUE_NAME in your environment before running integration tests.");
-  }
-  if (!process.env.SUBSCRIPTION_NAME) {
+  if (!process.env.TOPIC_NAME || !process.env.TOPIC_NAME_NO_PARTITION) {
     throw new Error(
-      "Define SUBSCRIPTION_NAME in your environment before running integration tests."
+      "Define TOPIC_NAME & TOPIC_NAME_NO_PARTITIONin your environment before running integration tests."
+    );
+  }
+  if (!process.env.QUEUE_NAME || !process.env.QUEUE_NAME_NO_PARTITION) {
+    throw new Error(
+      "Define QUEUE_NAME & QUEUE_NAME_NO_PARTITION in your environment before running integration tests."
+    );
+  }
+  if (!process.env.SUBSCRIPTION_NAME || !process.env.SUBSCRIPTION_NAME_NO_PARTITION) {
+    throw new Error(
+      "Define SUBSCRIPTION_NAME & SUBSCRIPTION_NAME_NO_PARTITION in your environment before running integration tests."
     );
   }
 
   namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  queueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
-  topicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  subscriptionClient = namespace.createSubscriptionClient(
+  partitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
+  partitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
+  partitionedSubscriptionClient = namespace.createSubscriptionClient(
     process.env.TOPIC_NAME,
     process.env.SUBSCRIPTION_NAME
   );
-  deadletterQueueClient = namespace.createQueueClient(
-    Namespace.getDeadLetterQueuePathForQueue(queueClient.name)
+
+  unpartitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME_NO_PARTITION);
+  unpartitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME_NO_PARTITION);
+  unpartitionedSubscriptionClient = namespace.createSubscriptionClient(
+    process.env.TOPIC_NAME_NO_PARTITION,
+    process.env.SUBSCRIPTION_NAME_NO_PARTITION
   );
-  deadletterSubscriptionClient = namespace.createSubscriptionClient(
+  partitionedDeadletterQueueClient = namespace.createQueueClient(
+    Namespace.getDeadLetterQueuePathForQueue(partitionedQueueClient.name)
+  );
+  partitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
-      topicClient.name,
-      subscriptionClient.subscriptionName
+      partitionedTopicClient.name,
+      partitionedSubscriptionClient.subscriptionName
     ),
-    subscriptionClient.subscriptionName
+    partitionedSubscriptionClient.subscriptionName
   );
 
-  const peekedQueueMsg = await queueClient.peek();
-  if (peekedQueueMsg.length) {
-    throw new Error("Please use an empty queue for integration testing");
+  unpartitionedDeadletterQueueClient = namespace.createQueueClient(
+    Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueClient.name)
+  );
+  unpartitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
+    Namespace.getDeadLetterSubcriptionPathForSubcription(
+      unpartitionedTopicClient.name,
+      unpartitionedSubscriptionClient.subscriptionName
+    ),
+    unpartitionedSubscriptionClient.subscriptionName
+  );
+
+  const peekedPartitionedQueueMsg = await partitionedQueueClient.peek();
+  if (peekedPartitionedQueueMsg.length) {
+    throw new Error("Please use an empty partitioned queue for integration testing");
   }
 
-  const peekedSubscriptionMsg = await subscriptionClient.peek();
-  if (peekedSubscriptionMsg.length) {
-    throw new Error("Please use an empty Subscription for integration testing");
+  const peekedPartitionedSubscriptionMsg = await partitionedSubscriptionClient.peek();
+  if (peekedPartitionedSubscriptionMsg.length) {
+    throw new Error("Please use an empty partitioned Subscription for integration testing");
+  }
+
+  const peekedUnPartitionedQueueMsg = await unpartitionedQueueClient.peek();
+  if (peekedUnPartitionedQueueMsg.length) {
+    throw new Error("Please use an empty unpartitioned queue for integration testing");
+  }
+
+  const peekedUnPartitionedSubscriptionMsg = await unpartitionedSubscriptionClient.peek();
+  if (peekedUnPartitionedSubscriptionMsg.length) {
+    throw new Error("Please use an empty unpartitioned Subscription for integration testing");
   }
   errorWasThrown = false;
 }
@@ -150,12 +189,24 @@ describe("Streaming Receiver Misc Tests", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("AutoComplete removes the message from Queue", async function(): Promise<void> {
-    await testAutoComplete(queueClient, queueClient);
+  it("AutoComplete removes the message from Partitioned Queues", async function(): Promise<void> {
+    await testAutoComplete(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("AutoComplete removes the message from Subscription", async function(): Promise<void> {
-    await testAutoComplete(topicClient, subscriptionClient);
+  it("AutoComplete removes the message from Partitioned Topics and Subscription", async function(): Promise<
+    void
+  > {
+    await testAutoComplete(partitionedTopicClient, partitionedSubscriptionClient);
+  });
+
+  it("AutoComplete removes the message from UnPartitioned Queues", async function(): Promise<void> {
+    await testAutoComplete(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("AutoComplete removes the message from UnPartitioned Topics and Subscription", async function(): Promise<
+    void
+  > {
+    await testAutoComplete(unpartitionedTopicClient, unpartitionedSubscriptionClient);
   });
 
   async function testManualComplete(
@@ -194,16 +245,28 @@ describe("Streaming Receiver Misc Tests", function(): void {
     await receiveListener.stop();
   }
 
-  it("Disabled autoComplete, no manual complete retains the message in Queue", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in Partitioned Queues", async function(): Promise<
     void
   > {
-    await testManualComplete(queueClient, queueClient);
+    await testManualComplete(partitionedQueueClient, partitionedQueueClient);
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in Subscription", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in Partitioned Topics and Subscription", async function(): Promise<
     void
   > {
-    await testManualComplete(topicClient, subscriptionClient);
+    await testManualComplete(partitionedTopicClient, partitionedSubscriptionClient);
+  });
+
+  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Queues", async function(): Promise<
+    void
+  > {
+    await testManualComplete(unpartitionedQueueClient, unpartitionedQueueClient);
+  });
+
+  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Topics and Subscription", async function(): Promise<
+    void
+  > {
+    await testManualComplete(unpartitionedTopicClient, unpartitionedSubscriptionClient);
   });
 
   async function testMultipleAbandons(
@@ -256,16 +319,44 @@ describe("Streaming Receiver Misc Tests", function(): void {
     await testPeekMsgsLength(deadletterClient, 0);
   }
 
-  it("Abandoned message is retained in the Queue with incremented deliveryCount. After 10 times, you can only get it from the dead letter queue.", async function(): Promise<
+  it("Abandoned message is retained in the Partitioned Queue with incremented deliveryCount. After 10 times, you can only get it from the dead letter queue.", async function(): Promise<
     void
   > {
-    await testMultipleAbandons(queueClient, queueClient, deadletterQueueClient);
+    await testMultipleAbandons(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient
+    );
   });
 
-  it("Abandoned message is retained in the Subsrciption with incremented deliveryCount. After 10 times, you can only get it from the dead letter.", async function(): Promise<
+  it("Abandoned message is retained in the Partitioned Topics and Subscription with incremented deliveryCount. After 10 times, you can only get it from the dead letter.", async function(): Promise<
     void
   > {
-    await testMultipleAbandons(topicClient, subscriptionClient, deadletterSubscriptionClient);
+    await testMultipleAbandons(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient
+    );
+  });
+
+  it("Abandoned message is retained in the UnPartitioned Queue with incremented deliveryCount. After 10 times, you can only get it from the dead letter queue.", async function(): Promise<
+    void
+  > {
+    await testMultipleAbandons(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      unpartitionedDeadletterQueueClient
+    );
+  });
+
+  it("Abandoned message is retained in the UnPartitioned Topics and Subsrciption with incremented deliveryCount. After 10 times, you can only get it from the dead letter.", async function(): Promise<
+    void
+  > {
+    await testMultipleAbandons(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      unpartitionedDeadletterSubscriptionClient
+    );
   });
 });
 
@@ -312,20 +403,48 @@ describe("Complete message", function(): void {
 
     await receiveListener.stop();
   }
-  it("Queue: complete() removes message", async function(): Promise<void> {
-    await testComplete(queueClient, queueClient, false);
+  it("Partitioned Queues: complete() removes message", async function(): Promise<void> {
+    await testComplete(partitionedQueueClient, partitionedQueueClient, false);
   });
 
-  it("Subscription: complete() removes message", async function(): Promise<void> {
-    await testComplete(topicClient, subscriptionClient, false);
+  it("Partitioned Topics and Subscription: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(partitionedTopicClient, partitionedSubscriptionClient, false);
   });
 
-  it("Queue with autoComplete: complete() removes message", async function(): Promise<void> {
-    await testComplete(queueClient, queueClient, true);
+  it("UnPartitioned Queue: complete() removes message", async function(): Promise<void> {
+    await testComplete(unpartitionedQueueClient, unpartitionedQueueClient, false);
   });
 
-  it("Subscription with autoComplete: complete() removes message", async function(): Promise<void> {
-    await testComplete(topicClient, subscriptionClient, true);
+  it("UnPartitioned Topics and Subscription: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(unpartitionedTopicClient, unpartitionedSubscriptionClient, false);
+  });
+
+  it("Partitioned Queues with autoComplete: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(partitionedQueueClient, partitionedQueueClient, true);
+  });
+
+  it("Partitioned Topics and Subscription with autoComplete: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(partitionedTopicClient, partitionedSubscriptionClient, true);
+  });
+
+  it("UnPartitioned Queue with autoComplete: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(unpartitionedQueueClient, unpartitionedQueueClient, true);
+  });
+
+  it("UnPartitioned Topics and Subscription with autoComplete: complete() removes message", async function(): Promise<
+    void
+  > {
+    await testComplete(unpartitionedTopicClient, unpartitionedSubscriptionClient, true);
   });
 });
 
@@ -364,28 +483,52 @@ describe("Abandon message", function(): void {
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
+  it("Partitioned Queues: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testAbandon(queueClient, queueClient, false);
+    await testAbandon(partitionedQueueClient, partitionedQueueClient, false);
   });
 
-  it("Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
+  it("Partitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testAbandon(topicClient, subscriptionClient, false);
+    await testAbandon(partitionedTopicClient, partitionedSubscriptionClient, false);
   });
 
-  it("Queue with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+  it("UnPartitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testAbandon(queueClient, queueClient, true);
+    await testAbandon(unpartitionedQueueClient, unpartitionedQueueClient, false);
   });
 
-  it("Subscription with autoComplete:  abandon() retains message with incremented deliveryCount", async function(): Promise<
+  it("UnPartitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await testAbandon(topicClient, subscriptionClient, true);
+    await testAbandon(unpartitionedTopicClient, unpartitionedSubscriptionClient, false);
+  });
+
+  it("Partitioned Queues with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testAbandon(partitionedQueueClient, partitionedQueueClient, true);
+  });
+
+  it("Partitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testAbandon(partitionedTopicClient, partitionedSubscriptionClient, true);
+  });
+
+  it("UnPartitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testAbandon(unpartitionedQueueClient, unpartitionedQueueClient, true);
+  });
+
+  it("UnPartitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await testAbandon(unpartitionedTopicClient, unpartitionedSubscriptionClient, true);
   });
 });
 
@@ -443,25 +586,53 @@ describe("Defer message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Queue: defer() moves message to deferred queue", async function(): Promise<void> {
-    await testDefer(queueClient, queueClient, false);
-  });
-
-  it("Subscription: defer() moves message to deferred queue", async function(): Promise<void> {
-    await testDefer(topicClient, subscriptionClient, false);
-  });
-
-  it("Queue with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+  it("Partitioned Queues: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
-    await testDefer(queueClient, queueClient, true);
+    await testDefer(partitionedQueueClient, partitionedQueueClient, false);
   });
 
-  it("Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+  it("Partitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
-    await testDefer(topicClient, subscriptionClient, true);
+    await testDefer(partitionedTopicClient, partitionedSubscriptionClient, false);
   });
+
+  // it("UnPartitioned Queue: defer() moves message to deferred queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedQueueClient, unpartitionedQueueClient, false);
+  // });
+
+  // it("UnPartitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedTopicClient, unpartitionedSubscriptionClient, false);
+  // });
+
+  it("Partitioned Queues with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await testDefer(partitionedQueueClient, partitionedQueueClient, true);
+  });
+
+  it("Partitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await testDefer(partitionedTopicClient, partitionedSubscriptionClient, true);
+  });
+
+  // it("UnPartitioned Queue with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedQueueClient, unpartitionedQueueClient, true);
+  // });
+
+  // it("UnPartitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+  //   void
+  // > {
+  //   await testDefer(unpartitionedTopicClient, unpartitionedSubscriptionClient, true);
+  // });
 });
 
 describe("Deadletter message", function(): void {
@@ -508,26 +679,92 @@ describe("Deadletter message", function(): void {
     await testPeekMsgsLength(deadletterClient, 0);
   }
 
-  it("Queue: deadLetter() moves message to deadletter queue", async function(): Promise<void> {
-    await testDeadletter(queueClient, queueClient, deadletterQueueClient, false);
-  });
-
-  it("Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+  it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
-    await testDeadletter(topicClient, subscriptionClient, deadletterSubscriptionClient, false);
+    await testDeadletter(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient,
+      false
+    );
   });
 
-  it("Queue with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
+  it("Partitioned Topics and Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
-    await testDeadletter(queueClient, queueClient, deadletterQueueClient, false);
+    await testDeadletter(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient,
+      false
+    );
   });
 
-  it("Subscription with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
+  it("UnPartitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
-    await testDeadletter(topicClient, subscriptionClient, deadletterSubscriptionClient, false);
+    await testDeadletter(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      unpartitionedDeadletterQueueClient,
+      false
+    );
+  });
+
+  it("UnPartitioned Topics and Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      unpartitionedDeadletterSubscriptionClient,
+      false
+    );
+  });
+
+  it("Partitioned Queue with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      partitionedQueueClient,
+      partitionedQueueClient,
+      partitionedDeadletterQueueClient,
+      true
+    );
+  });
+
+  it("Partitioned Topics and Subscription with autoComplete: deadLetter() moves message to deadletter", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      partitionedDeadletterSubscriptionClient,
+      true
+    );
+  });
+
+  it("UnPartitioned Queue with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      unpartitionedDeadletterQueueClient,
+      true
+    );
+  });
+
+  it("UnPartitioned Topics and Subscription with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
+    void
+  > {
+    await testDeadletter(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      unpartitionedDeadletterSubscriptionClient,
+      true
+    );
   });
 });
 
@@ -571,102 +808,204 @@ describe("Multiple Streaming Receivers", function(): void {
     await receiveListener.stop();
   }
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Queues", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queues", async function(): Promise<
     void
   > {
-    await testMultipleReceiveCalls(queueClient);
+    await testMultipleReceiveCalls(partitionedQueueClient);
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Subscriptions", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Topics and Subscription", async function(): Promise<
     void
   > {
-    await testMultipleReceiveCalls(subscriptionClient);
+    await testMultipleReceiveCalls(partitionedSubscriptionClient);
   });
 
-  describe("Settle an already Settled message throws error", () => {
-    beforeEach(async () => {
-      await beforeEachTest();
-    });
+  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Queues", async function(): Promise<
+    void
+  > {
+    await testMultipleReceiveCalls(unpartitionedQueueClient);
+  });
 
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Topics and Subscription", async function(): Promise<
+    void
+  > {
+    await testMultipleReceiveCalls(unpartitionedSubscriptionClient);
+  });
+});
 
-    const testError = (err: Error) => {
-      should.equal(err.message, "This message has been already settled.");
-      errorWasThrown = true;
-    };
+describe("Settle an already Settled message throws error", () => {
+  beforeEach(async () => {
+    await beforeEachTest();
+  });
 
-    async function testSettlement(
-      senderClient: QueueClient | TopicClient,
-      receiverClient: QueueClient | SubscriptionClient,
-      operation: DispositionType
-    ): Promise<void> {
-      await senderClient.send(testMessages[0]);
-      const receivedMsgs: ServiceBusMessage[] = [];
-      const receiveListener = receiverClient.receive(
-        (msg: ServiceBusMessage) => {
-          receivedMsgs.push(msg);
-          return Promise.resolve();
-        },
-        (err: Error) => {
-          should.not.exist(err);
-        }
-      );
+  afterEach(async () => {
+    await afterEachTest();
+  });
 
-      await delay(2000);
+  const testError = (err: Error) => {
+    should.equal(err.message, "This message has been already settled.");
+    errorWasThrown = true;
+  };
 
-      should.equal(receivedMsgs.length, 1);
-      should.equal(receivedMsgs[0].body, testMessages[0].body);
-      should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
-
-      await testPeekMsgsLength(receiverClient, 0);
-
-      if (operation === DispositionType.complete) {
-        await receivedMsgs[0].complete().catch((err) => testError(err));
-      } else if (operation === DispositionType.abandon) {
-        await receivedMsgs[0].abandon().catch((err) => testError(err));
-      } else if (operation === DispositionType.deadletter) {
-        await receivedMsgs[0].deadLetter().catch((err) => testError(err));
-      } else if (operation === DispositionType.defer) {
-        await receivedMsgs[0].defer().catch((err) => testError(err));
+  async function testSettlement(
+    senderClient: QueueClient | TopicClient,
+    receiverClient: QueueClient | SubscriptionClient,
+    operation: DispositionType
+  ): Promise<void> {
+    await senderClient.send(testMessages[0]);
+    const receivedMsgs: ServiceBusMessage[] = [];
+    const receiveListener = receiverClient.receive(
+      (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
+        return Promise.resolve();
+      },
+      (err: Error) => {
+        should.not.exist(err);
       }
+    );
 
-      should.equal(errorWasThrown, true);
+    await delay(5000);
 
-      await receiveListener.stop();
+    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs[0].body, testMessages[0].body);
+    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+
+    await testPeekMsgsLength(receiverClient, 0);
+
+    if (operation === DispositionType.complete) {
+      await receivedMsgs[0].complete().catch((err) => testError(err));
+    } else if (operation === DispositionType.abandon) {
+      await receivedMsgs[0].abandon().catch((err) => testError(err));
+    } else if (operation === DispositionType.deadletter) {
+      await receivedMsgs[0].deadLetter().catch((err) => testError(err));
+    } else if (operation === DispositionType.defer) {
+      await receivedMsgs[0].defer().catch((err) => testError(err));
     }
 
-    it("Queue: complete() throws error", async function(): Promise<void> {
-      await testSettlement(queueClient, queueClient, DispositionType.complete);
-    });
+    should.equal(errorWasThrown, true);
 
-    it("Subscription: complete() throws error", async function(): Promise<void> {
-      await testSettlement(topicClient, subscriptionClient, DispositionType.complete);
-    });
+    await receiveListener.stop();
+  }
 
-    it("Queue: abandon() throws error", async function(): Promise<void> {
-      await testSettlement(queueClient, queueClient, DispositionType.abandon);
-    });
+  it("Partitioned Queues: complete() throws error", async function(): Promise<void> {
+    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.complete);
+  });
 
-    it("Subscription: abandon() throws error", async function(): Promise<void> {
-      await testSettlement(topicClient, subscriptionClient, DispositionType.abandon);
-    });
+  it("Partitioned Topics and Subscription: complete() throws error", async function(): Promise<
+    void
+  > {
+    await testSettlement(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      DispositionType.complete
+    );
+  });
 
-    it("Queue: defer() throws error", async function(): Promise<void> {
-      await testSettlement(queueClient, queueClient, DispositionType.defer);
-    });
+  it("UnPartitioned Queue: complete() throws error", async function(): Promise<void> {
+    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.complete);
+  });
 
-    it("Subscription: defer() throws error", async function(): Promise<void> {
-      await testSettlement(topicClient, subscriptionClient, DispositionType.defer);
-    });
+  it("UnPartitioned Topics and Subscription: complete() throws error", async function(): Promise<
+    void
+  > {
+    await testSettlement(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      DispositionType.complete
+    );
+  });
 
-    it("Queue: deadLetter() throws error", async function(): Promise<void> {
-      await testSettlement(queueClient, queueClient, DispositionType.deadletter);
-    });
+  it("Partitioned Queues: abandon() throws error", async function(): Promise<void> {
+    await testSettlement(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      DispositionType.abandon
+    );
+  });
 
-    it("Subscription: deadLetter()", async function(): Promise<void> {
-      await testSettlement(topicClient, subscriptionClient, DispositionType.deadletter);
-    });
+  it("Partitioned Topics and Subscription: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await testSettlement(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      DispositionType.abandon
+    );
+  });
+
+  it("UnPartitioned Queue: abandon() throws error", async function(): Promise<void> {
+    await testSettlement(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      DispositionType.abandon
+    );
+  });
+
+  it("UnPartitioned Topics and Subscription: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await testSettlement(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      DispositionType.abandon
+    );
+  });
+
+  it("Partitioned Queues: defer() throws error", async function(): Promise<void> {
+    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.defer);
+  });
+
+  it("Partitioned Topics and Subscription: defer() throws error", async function(): Promise<void> {
+    await testSettlement(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      DispositionType.defer
+    );
+  });
+
+  it("UnPartitioned Queue: defer() throws error", async function(): Promise<void> {
+    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.defer);
+  });
+
+  it("UnPartitioned Topics and Subscription: defer() throws error", async function(): Promise<
+    void
+  > {
+    await testSettlement(
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
+      DispositionType.defer
+    );
+  });
+
+  it("Partitioned Queues: deadLetter() throws error", async function(): Promise<void> {
+    await testSettlement(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      DispositionType.deadletter
+    );
+  });
+
+  it("Partitioned Topics and Subscription: deadLetter()", async function(): Promise<void> {
+    await testSettlement(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      DispositionType.deadletter
+    );
+  });
+
+  it("UnPartitioned Queue: deadLetter() throws error", async function(): Promise<void> {
+    await testSettlement(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      DispositionType.deadletter
+    );
+  });
+
+  it("UnPartitioned Topics and Subscription: deadLetter()", async function(): Promise<void> {
+    await testSettlement(
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
+      DispositionType.deadletter
+    );
   });
 });
