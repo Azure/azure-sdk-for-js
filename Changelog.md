@@ -1,16 +1,28 @@
 # Changelog
 
+## 1.5.0 - 2019-01-15
+
+- Add support to specify proxy setting in ServiceClientOptions.
+
+## 1.4.1 - 2019-01-15
+
+- Move browser-environment tests to Karma.
+
+## 1.4.0 - 2019-10-15
+
+- Allow ServiceClientOptions.requestPolicyFactories to be a function.
+
 ## 1.3.0 - 2019-01-15
 
 - Allow ServiceClientOptions.userAgent property to be a function.
 
 ## 1.1.1 - 2018-11-13
 
-- Improve debugging by adding rollup-plugin-sourcemaps
+- Improve debugging by adding rollup-plugin-sourcemaps.
 
 ## 1.1.0 - 2018-11-09
 
-- Renamed NPM package to @azure/ms-rest-js
+- Renamed NPM package to @azure/ms-rest-js.
 
 ## 1.0.0 - 2018-10-04
 
@@ -19,7 +31,7 @@
 
 ## 0.22.1 - 2018-09-27
 
-- Added Authenticator type
+- Added Authenticator type.
 
 ## 0.22.0 - 2018-09-05
 
