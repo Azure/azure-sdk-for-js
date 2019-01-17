@@ -21,13 +21,14 @@ export {
   RestoreFileSpecs,
   TargetAFSRestoreInfo,
   AzureWorkloadRestoreRequest,
-  AzureWorkloadSAPHanaRestoreRequest,
   TargetRestoreInfo,
+  AzureWorkloadSAPHanaRestoreRequest,
   AzureWorkloadSQLRestoreRequest,
   SQLDataDirectoryMapping,
   IaasVMRestoreRequest,
   EncryptionDetails,
   ValidateIaasVMRestoreOperationRequest,
+  AzureWorkloadPointInTimeRestoreRequest,
   AzureWorkloadSAPHanaPointInTimeRestoreRequest,
   AzureWorkloadSQLPointInTimeRestoreRequest
 } from "../models/mappers";

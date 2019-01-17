@@ -72,7 +72,7 @@ export interface AzureFileshareProtectedItemExtendedInfo {
 /**
  * Contains the possible cases for ProtectedItem.
  */
-export type ProtectedItemUnion = ProtectedItem | AzureFileshareProtectedItem | AzureIaaSVMProtectedItemUnion | AzureSqlProtectedItem | AzureVmWorkloadProtectedItemUnion | AzureVmWorkloadSQLDatabaseProtectedItem | DPMProtectedItem | GenericProtectedItem | MabFileFolderProtectedItem;
+export type ProtectedItemUnion = ProtectedItem | AzureFileshareProtectedItem | AzureIaaSVMProtectedItemUnion | AzureSqlProtectedItem | AzureVmWorkloadProtectedItemUnion | DPMProtectedItem | GenericProtectedItem | MabFileFolderProtectedItem;
 
 /**
  * @interface
@@ -97,7 +97,7 @@ export interface ProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -155,7 +155,7 @@ export interface AzureFileshareProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -307,7 +307,7 @@ export interface AzureFileShareProtectionPolicy {
    * management. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workLoadType?: WorkloadType;
   /**
@@ -370,7 +370,7 @@ export interface TargetAFSRestoreInfo {
 /**
  * Contains the possible cases for RestoreRequest.
  */
-export type RestoreRequestUnion = RestoreRequest | AzureFileShareRestoreRequest | AzureWorkloadRestoreRequestUnion | AzureWorkloadSAPHanaRestoreRequestUnion | IaasVMRestoreRequest;
+export type RestoreRequestUnion = RestoreRequest | AzureFileShareRestoreRequest | AzureWorkloadRestoreRequestUnion | IaasVMRestoreRequest;
 
 /**
  * @interface
@@ -458,7 +458,7 @@ export interface AzureIaaSVMProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -565,7 +565,7 @@ export interface AzureIaaSClassicComputeVMProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -673,7 +673,7 @@ export interface AzureIaaSComputeVMProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -847,7 +847,7 @@ export interface AzureIaaSVMJobTaskDetails {
   /**
    * @member {string} [taskExecutionDetails] Details about execution of the
    * task.
-   * eg: number of bytes transferred etc
+   * eg: number of bytes transfered etc
    */
   taskExecutionDetails?: string;
 }
@@ -1256,7 +1256,7 @@ export interface AzureSqlProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -1550,7 +1550,7 @@ export interface AzureVmWorkloadProtectedItemExtendedInfo {
 /**
  * Contains the possible cases for AzureVmWorkloadProtectedItem.
  */
-export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem;
+export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadProtectedItem | AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem;
 
 /**
  * @interface
@@ -1575,7 +1575,7 @@ export interface AzureVmWorkloadProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -1740,7 +1740,7 @@ export interface AzureVmWorkloadProtectionPolicy {
    * management. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workLoadType?: WorkloadType;
   /**
@@ -1756,8 +1756,127 @@ export interface AzureVmWorkloadProtectionPolicy {
 
 /**
  * @interface
+ * An interface representing AzureVmWorkloadSAPAseDatabaseProtectedItem.
+ * Azure VM workload-specific protected item representing SAP ASE Database.
+ *
+ */
+export interface AzureVmWorkloadSAPAseDatabaseProtectedItem {
+  /**
+   * @member {string} protectedItemType Polymorphic Discriminator
+   */
+  protectedItemType: "AzureVmWorkloadSAPAseDatabase";
+  /**
+   * @member {BackupManagementType} [backupManagementType] Type of backup
+   * management for the backed up item. Possible values include: 'Invalid',
+   * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
+   * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
+   */
+  backupManagementType?: BackupManagementType;
+  /**
+   * @member {DataSourceType} [workloadType] Type of workload this item
+   * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
+   * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
+   * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
+   */
+  workloadType?: DataSourceType;
+  /**
+   * @member {string} [containerName] Unique name of container
+   */
+  containerName?: string;
+  /**
+   * @member {string} [sourceResourceId] ARM ID of the resource to be backed
+   * up.
+   */
+  sourceResourceId?: string;
+  /**
+   * @member {string} [policyId] ID of the backup policy with which this item
+   * is backed up.
+   */
+  policyId?: string;
+  /**
+   * @member {Date} [lastRecoveryPoint] Timestamp when the last (latest) backup
+   * copy was created for this backup item.
+   */
+  lastRecoveryPoint?: Date;
+  /**
+   * @member {string} [backupSetName] Name of the backup set the backup item
+   * belongs to
+   */
+  backupSetName?: string;
+  /**
+   * @member {CreateMode} [createMode] Create mode to indicate recovery of
+   * existing soft deleted data source or creation of new data source. Possible
+   * values include: 'Invalid', 'Default', 'Recover'
+   */
+  createMode?: CreateMode;
+  /**
+   * @member {string} [friendlyName] Friendly name of the DB represented by
+   * this backup item.
+   */
+  friendlyName?: string;
+  /**
+   * @member {string} [serverName] Host/Cluster Name for instance or AG
+   */
+  serverName?: string;
+  /**
+   * @member {string} [parentName] Parent name of the DB such as Instance or
+   * Availability Group.
+   */
+  parentName?: string;
+  /**
+   * @member {string} [parentType] Parent type of protected item, example: for
+   * a DB, standalone server or distributed
+   */
+  parentType?: string;
+  /**
+   * @member {string} [protectionStatus] Backup status of this backup item.
+   */
+  protectionStatus?: string;
+  /**
+   * @member {ProtectionState} [protectionState] Backup state of this backup
+   * item. Possible values include: 'Invalid', 'IRPending', 'Protected',
+   * 'ProtectionError', 'ProtectionStopped', 'ProtectionPaused'
+   */
+  protectionState?: ProtectionState;
+  /**
+   * @member {LastBackupStatus} [lastBackupStatus] Last backup operation
+   * status. Possible values: Healthy, Unhealthy. Possible values include:
+   * 'Invalid', 'Healthy', 'Unhealthy', 'IRPending'
+   */
+  lastBackupStatus?: LastBackupStatus;
+  /**
+   * @member {Date} [lastBackupTime] Timestamp of the last backup operation on
+   * this backup item.
+   */
+  lastBackupTime?: Date;
+  /**
+   * @member {ErrorDetail} [lastBackupErrorDetail] Error details in last backup
+   */
+  lastBackupErrorDetail?: ErrorDetail;
+  /**
+   * @member {string} [protectedItemDataSourceId] Data ID of the protected
+   * item.
+   */
+  protectedItemDataSourceId?: string;
+  /**
+   * @member {ProtectedItemHealthStatus} [protectedItemHealthStatus] Health
+   * status of the backup item, evaluated based on last heartbeat received.
+   * Possible values include: 'Invalid', 'Healthy', 'Unhealthy',
+   * 'NotReachable', 'IRPending'
+   */
+  protectedItemHealthStatus?: ProtectedItemHealthStatus;
+  /**
+   * @member {AzureVmWorkloadProtectedItemExtendedInfo} [extendedInfo]
+   * Additional information for this backup item.
+   */
+  extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
+}
+
+/**
+ * @interface
  * An interface representing AzureVmWorkloadSAPHanaDatabaseProtectedItem.
- * Azure VM workload-specific protected item representing SAP Hana Database.
+ * Azure VM workload-specific protected item representing SAP HANA Database.
  *
  */
 export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem {
@@ -1777,7 +1896,7 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -1896,7 +2015,7 @@ export interface AzureVmWorkloadSQLDatabaseProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -1944,7 +2063,8 @@ export interface AzureVmWorkloadSQLDatabaseProtectedItem {
    */
   parentName?: string;
   /**
-   * @member {string} [parentType] Parent type of DB, SQLAG or StandAlone
+   * @member {string} [parentType] Parent type of protected item, example: for
+   * a DB, standalone server or distributed
    */
   parentType?: string;
   /**
@@ -2180,7 +2300,7 @@ export interface AzureWorkloadJob {
 /**
  * Contains the possible cases for AzureWorkloadRestoreRequest.
  */
-export type AzureWorkloadRestoreRequestUnion = AzureWorkloadRestoreRequest | AzureWorkloadSQLRestoreRequestUnion;
+export type AzureWorkloadRestoreRequestUnion = AzureWorkloadRestoreRequest | AzureWorkloadPointInTimeRestoreRequest | AzureWorkloadSAPHanaRestoreRequestUnion | AzureWorkloadSQLRestoreRequestUnion;
 
 /**
  * @interface
@@ -2209,62 +2329,24 @@ export interface AzureWorkloadRestoreRequest {
    * specific property bag.
    */
   propertyBag?: { [propertyName: string]: string };
-}
-
-/**
- * Contains the possible cases for AzureWorkloadSAPHanaRestoreRequest.
- */
-export type AzureWorkloadSAPHanaRestoreRequestUnion = AzureWorkloadSAPHanaRestoreRequest | AzureWorkloadSAPHanaPointInTimeRestoreRequest;
-
-/**
- * @interface
- * An interface representing AzureWorkloadSAPHanaRestoreRequest.
- * AzureWorkload SAP Hana-specific restore.
- *
- */
-export interface AzureWorkloadSAPHanaRestoreRequest {
-  /**
-   * @member {string} objectType Polymorphic Discriminator
-   */
-  objectType: "AzureWorkloadSAPHanaRestoreRequest";
   /**
    * @member {TargetRestoreInfo} [targetInfo] Details of target database
    */
   targetInfo?: TargetRestoreInfo;
-  /**
-   * @member {RecoveryType} [recoveryType] OLR/ALR, RestoreDisks is invalid
-   * option. Possible values include: 'Invalid', 'OriginalLocation',
-   * 'AlternateLocation', 'RestoreDisks'
-   */
-  recoveryType?: RecoveryType;
-  /**
-   * @member {string} [sourceResourceId] Fully qualified ARM ID of the VM on
-   * which workload that was running is being recovered.
-   */
-  sourceResourceId?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [propertyBag] Workload
-   * specific property bag.
-   */
-  propertyBag?: { [propertyName: string]: string };
 }
 
 /**
  * @interface
- * An interface representing AzureWorkloadSAPHanaPointInTimeRestoreRequest.
+ * An interface representing AzureWorkloadPointInTimeRestoreRequest.
  * AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log
  * restore
  *
  */
-export interface AzureWorkloadSAPHanaPointInTimeRestoreRequest {
+export interface AzureWorkloadPointInTimeRestoreRequest {
   /**
    * @member {string} objectType Polymorphic Discriminator
    */
-  objectType: "AzureWorkloadSAPHanaPointInTimeRestoreRequest";
-  /**
-   * @member {TargetRestoreInfo} [targetInfo] Details of target database
-   */
-  targetInfo?: TargetRestoreInfo;
+  objectType: "AzureWorkloadPointInTimeRestoreRequest";
   /**
    * @member {RecoveryType} [recoveryType] OLR/ALR, RestoreDisks is invalid
    * option. Possible values include: 'Invalid', 'OriginalLocation',
@@ -2281,6 +2363,10 @@ export interface AzureWorkloadSAPHanaPointInTimeRestoreRequest {
    * specific property bag.
    */
   propertyBag?: { [propertyName: string]: string };
+  /**
+   * @member {TargetRestoreInfo} [targetInfo] Details of target database
+   */
+  targetInfo?: TargetRestoreInfo;
   /**
    * @member {Date} [pointInTime] PointInTime value
    */
@@ -2310,6 +2396,82 @@ export interface TargetRestoreInfo {
    * for SQL or System/DbName for SAP Hana
    */
   databaseName?: string;
+}
+
+/**
+ * Contains the possible cases for AzureWorkloadSAPHanaRestoreRequest.
+ */
+export type AzureWorkloadSAPHanaRestoreRequestUnion = AzureWorkloadSAPHanaRestoreRequest | AzureWorkloadSAPHanaPointInTimeRestoreRequest;
+
+/**
+ * @interface
+ * An interface representing AzureWorkloadSAPHanaRestoreRequest.
+ * AzureWorkload SAP Hana-specific restore.
+ *
+ */
+export interface AzureWorkloadSAPHanaRestoreRequest {
+  /**
+   * @member {string} objectType Polymorphic Discriminator
+   */
+  objectType: "AzureWorkloadSAPHanaRestoreRequest";
+  /**
+   * @member {RecoveryType} [recoveryType] OLR/ALR, RestoreDisks is invalid
+   * option. Possible values include: 'Invalid', 'OriginalLocation',
+   * 'AlternateLocation', 'RestoreDisks'
+   */
+  recoveryType?: RecoveryType;
+  /**
+   * @member {string} [sourceResourceId] Fully qualified ARM ID of the VM on
+   * which workload that was running is being recovered.
+   */
+  sourceResourceId?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [propertyBag] Workload
+   * specific property bag.
+   */
+  propertyBag?: { [propertyName: string]: string };
+  /**
+   * @member {TargetRestoreInfo} [targetInfo] Details of target database
+   */
+  targetInfo?: TargetRestoreInfo;
+}
+
+/**
+ * @interface
+ * An interface representing AzureWorkloadSAPHanaPointInTimeRestoreRequest.
+ * AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log
+ * restore
+ *
+ */
+export interface AzureWorkloadSAPHanaPointInTimeRestoreRequest {
+  /**
+   * @member {string} objectType Polymorphic Discriminator
+   */
+  objectType: "AzureWorkloadSAPHanaPointInTimeRestoreRequest";
+  /**
+   * @member {RecoveryType} [recoveryType] OLR/ALR, RestoreDisks is invalid
+   * option. Possible values include: 'Invalid', 'OriginalLocation',
+   * 'AlternateLocation', 'RestoreDisks'
+   */
+  recoveryType?: RecoveryType;
+  /**
+   * @member {string} [sourceResourceId] Fully qualified ARM ID of the VM on
+   * which workload that was running is being recovered.
+   */
+  sourceResourceId?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [propertyBag] Workload
+   * specific property bag.
+   */
+  propertyBag?: { [propertyName: string]: string };
+  /**
+   * @member {TargetRestoreInfo} [targetInfo] Details of target database
+   */
+  targetInfo?: TargetRestoreInfo;
+  /**
+   * @member {Date} [pointInTime] PointInTime value
+   */
+  pointInTime?: Date;
 }
 
 /**
@@ -2354,7 +2516,8 @@ export interface AzureWorkloadSQLAutoProtectionIntent {
   /**
    * @member {WorkloadItemType} [workloadItemType] Workload item type of the
    * item for which intent is to be set. Possible values include: 'Invalid',
-   * 'SQLInstance', 'SQLDataBase', 'SAPHanaSystem', 'SAPHanaDatabase'
+   * 'SQLInstance', 'SQLDataBase', 'SAPHanaSystem', 'SAPHanaDatabase',
+   * 'SAPAseSystem', 'SAPAseDatabase'
    */
   workloadItemType?: WorkloadItemType;
 }
@@ -2392,6 +2555,10 @@ export interface AzureWorkloadSQLRestoreRequest {
    */
   propertyBag?: { [propertyName: string]: string };
   /**
+   * @member {TargetRestoreInfo} [targetInfo] Details of target database
+   */
+  targetInfo?: TargetRestoreInfo;
+  /**
    * @member {boolean} [shouldUseAlternateTargetLocation] Default option set to
    * true. If this is set to false, alternate data directory must be provided
    */
@@ -2401,10 +2568,6 @@ export interface AzureWorkloadSQLRestoreRequest {
    * chose to set no-recovery when restore operation is tried
    */
   isNonRecoverable?: boolean;
-  /**
-   * @member {TargetRestoreInfo} [targetInfo] Details of target database
-   */
-  targetInfo?: TargetRestoreInfo;
   /**
    * @member {SQLDataDirectoryMapping[]} [alternateDirectoryPaths] Data
    * directory details
@@ -2441,6 +2604,10 @@ export interface AzureWorkloadSQLPointInTimeRestoreRequest {
    */
   propertyBag?: { [propertyName: string]: string };
   /**
+   * @member {TargetRestoreInfo} [targetInfo] Details of target database
+   */
+  targetInfo?: TargetRestoreInfo;
+  /**
    * @member {boolean} [shouldUseAlternateTargetLocation] Default option set to
    * true. If this is set to false, alternate data directory must be provided
    */
@@ -2450,10 +2617,6 @@ export interface AzureWorkloadSQLPointInTimeRestoreRequest {
    * chose to set no-recovery when restore operation is tried
    */
   isNonRecoverable?: boolean;
-  /**
-   * @member {TargetRestoreInfo} [targetInfo] Details of target database
-   */
-  targetInfo?: TargetRestoreInfo;
   /**
    * @member {SQLDataDirectoryMapping[]} [alternateDirectoryPaths] Data
    * directory details
@@ -2554,7 +2717,7 @@ export interface BackupStatusRequest {
    * AzureFileShare. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   resourceType?: DataSourceType;
   /**
@@ -2948,7 +3111,7 @@ export interface DPMProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -2992,7 +3155,7 @@ export interface DPMProtectedItem {
   backupEngineName?: string;
   /**
    * @member {ProtectedItemState} [protectionState] Protection state of the
-   * backup engine. Possible values include: 'Invalid', 'IRPending',
+   * backupengine. Possible values include: 'Invalid', 'IRPending',
    * 'Protected', 'ProtectionError', 'ProtectionStopped', 'ProtectionPaused'
    */
   protectionState?: ProtectedItemState;
@@ -3103,7 +3266,7 @@ export interface GenericProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -3632,7 +3795,7 @@ export interface MabFileFolderProtectedItem {
    * represents. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: DataSourceType;
   /**
@@ -3821,7 +3984,8 @@ export interface MabJob {
    * @member {WorkloadType} [workloadType] Workload type of backup item.
    * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb',
    * 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM', 'SystemState', 'Client',
-   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase',
+   * 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
   /**
@@ -3942,7 +4106,7 @@ export interface PreValidateEnableBackupRequest {
    * SqlDataBase, AzureFileShare etc. Possible values include: 'Invalid', 'VM',
    * 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   resourceType?: DataSourceType;
   /**
@@ -4017,7 +4181,8 @@ export interface ProtectedItemQueryObject {
    * @member {DataSourceType} [itemType] Type of workload this item represents.
    * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb',
    * 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM', 'SystemState', 'Client',
-   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase',
+   * 'SAPAseDatabase'
    */
   itemType?: DataSourceType;
   /**
@@ -4128,7 +4293,8 @@ export interface ProtectionPolicyQueryObject {
    * @member {WorkloadType} [workloadType] Workload type for the backup policy.
    * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb',
    * 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM', 'SystemState', 'Client',
-   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase',
+   * 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
 }
@@ -4299,22 +4465,9 @@ export interface ValidateOperationsResponse {
 }
 
 /**
- * @interface
- * An interface representing DPMContainerExtendedInfo.
- * Additional information of the DPMContainer.
- *
- */
-export interface DPMContainerExtendedInfo {
-  /**
-   * @member {Date} [lastRefreshedAt] Last refresh time of the DPMContainer.
-   */
-  lastRefreshedAt?: Date;
-}
-
-/**
  * Contains the possible cases for ProtectionContainer.
  */
-export type ProtectionContainerUnion = ProtectionContainer | AzureBackupServerContainer | AzureSqlContainer | AzureStorageContainer | AzureWorkloadContainerUnion | DpmContainer | GenericContainer | IaaSVMContainerUnion | MabContainer;
+export type ProtectionContainerUnion = ProtectionContainer | AzureSqlContainer | AzureStorageContainer | AzureWorkloadContainerUnion | DpmContainerUnion | GenericContainer | IaaSVMContainerUnion | MabContainer;
 
 /**
  * @interface
@@ -4348,6 +4501,80 @@ export interface ProtectionContainer {
    * @member {string} [healthStatus] Status of health of the container.
    */
   healthStatus?: string;
+}
+
+/**
+ * Contains the possible cases for DpmContainer.
+ */
+export type DpmContainerUnion = DpmContainer | AzureBackupServerContainer;
+
+/**
+ * @interface
+ * An interface representing DpmContainer.
+ * DPM workload-specific protection container.
+ *
+ */
+export interface DpmContainer {
+  /**
+   * @member {string} containerType Polymorphic Discriminator
+   */
+  containerType: "DPMContainer";
+  /**
+   * @member {string} [friendlyName] Friendly name of the container.
+   */
+  friendlyName?: string;
+  /**
+   * @member {BackupManagementType} [backupManagementType] Type of backup
+   * management for the container. Possible values include: 'Invalid',
+   * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
+   * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
+   */
+  backupManagementType?: BackupManagementType;
+  /**
+   * @member {string} [registrationStatus] Status of registration of the
+   * container with the Recovery Services Vault.
+   */
+  registrationStatus?: string;
+  /**
+   * @member {string} [healthStatus] Status of health of the container.
+   */
+  healthStatus?: string;
+  /**
+   * @member {boolean} [canReRegister] Specifies whether the container is
+   * re-registrable.
+   */
+  canReRegister?: boolean;
+  /**
+   * @member {string} [containerId] ID of container.
+   */
+  containerId?: string;
+  /**
+   * @member {number} [protectedItemCount] Number of protected items in the
+   * BackupEngine
+   */
+  protectedItemCount?: number;
+  /**
+   * @member {string} [dpmAgentVersion] Backup engine Agent version
+   */
+  dpmAgentVersion?: string;
+  /**
+   * @member {string[]} [dpmServers] List of BackupEngines protecting the
+   * container
+   */
+  dpmServers?: string[];
+  /**
+   * @member {boolean} [upgradeAvailable] To check if upgrade available
+   */
+  upgradeAvailable?: boolean;
+  /**
+   * @member {string} [protectionStatus] Protection status of the container.
+   */
+  protectionStatus?: string;
+  /**
+   * @member {DPMContainerExtendedInfo} [extendedInfo] Extended Info of the
+   * container.
+   */
+  extendedInfo?: DPMContainerExtendedInfo;
 }
 
 /**
@@ -4490,7 +4717,7 @@ export interface BackupEngineBase {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backup engine
+   * backupengine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -4560,7 +4787,7 @@ export interface AzureBackupServerEngine {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backup engine
+   * backupengine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -4690,7 +4917,7 @@ export interface AzureFileShareProtectableItem {
 /**
  * Contains the possible cases for RecoveryPoint.
  */
-export type RecoveryPointUnion = RecoveryPoint | AzureFileShareRecoveryPoint | AzureWorkloadRecoveryPointUnion | AzureWorkloadSAPHanaRecoveryPointUnion | GenericRecoveryPoint | IaasVMRecoveryPoint;
+export type RecoveryPointUnion = RecoveryPoint | AzureFileShareRecoveryPoint | AzureWorkloadRecoveryPointUnion | GenericRecoveryPoint | IaasVMRecoveryPoint;
 
 /**
  * @interface
@@ -5017,7 +5244,7 @@ export interface AzureWorkloadContainer {
   /**
    * @member {string} containerType Polymorphic Discriminator
    */
-  containerType: "AzureWorkloadBackupRequest";
+  containerType: "AzureWorkloadContainer";
   /**
    * @member {string} [friendlyName] Friendly name of the container.
    */
@@ -5058,9 +5285,14 @@ export interface AzureWorkloadContainer {
    * was sent. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
+  /**
+   * @member {OperationType} [operationType] Re-Do Operation. Possible values
+   * include: 'Invalid', 'Register', 'Reregister'
+   */
+  operationType?: OperationType;
 }
 
 /**
@@ -5114,9 +5346,14 @@ export interface AzureSQLAGWorkloadContainerProtectionContainer {
    * was sent. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
+  /**
+   * @member {OperationType} [operationType] Re-Do Operation. Possible values
+   * include: 'Invalid', 'Register', 'Reregister'
+   */
+  operationType?: OperationType;
 }
 
 /**
@@ -5355,9 +5592,14 @@ export interface AzureVMAppContainerProtectionContainer {
    * was sent. Possible values include: 'Invalid', 'VM', 'FileFolder',
    * 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
+  /**
+   * @member {OperationType} [operationType] Re-Do Operation. Possible values
+   * include: 'Invalid', 'Register', 'Reregister'
+   */
+  operationType?: OperationType;
 }
 
 /**
@@ -5401,7 +5643,7 @@ export interface WorkloadItem {
 /**
  * Contains the possible cases for AzureVmWorkloadItem.
  */
-export type AzureVmWorkloadItemUnion = AzureVmWorkloadItem | AzureVmWorkloadSAPHanaDatabaseWorkloadItem | AzureVmWorkloadSAPHanaSystemWorkloadItem | AzureVmWorkloadSQLDatabaseWorkloadItem | AzureVmWorkloadSQLInstanceWorkloadItem;
+export type AzureVmWorkloadItemUnion = AzureVmWorkloadItem | AzureVmWorkloadSAPAseDatabaseWorkloadItem | AzureVmWorkloadSAPAseSystemWorkloadItem | AzureVmWorkloadSAPHanaDatabaseWorkloadItem | AzureVmWorkloadSAPHanaSystemWorkloadItem | AzureVmWorkloadSQLDatabaseWorkloadItem | AzureVmWorkloadSQLInstanceWorkloadItem;
 
 /**
  * @interface
@@ -5448,12 +5690,12 @@ export interface AzureVmWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5485,7 +5727,7 @@ export interface PreBackupValidation {
 /**
  * Contains the possible cases for AzureVmWorkloadProtectableItem.
  */
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseDatabaseProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 /**
  * @interface
@@ -5544,12 +5786,12 @@ export interface AzureVmWorkloadProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5561,8 +5803,262 @@ export interface AzureVmWorkloadProtectableItem {
 
 /**
  * @interface
+ * An interface representing AzureVmWorkloadSAPAseDatabaseProtectableItem.
+ * Azure VM workload-specific protectable item representing SAP ASE Database.
+ *
+ */
+export interface AzureVmWorkloadSAPAseDatabaseProtectableItem {
+  /**
+   * @member {string} protectableItemType Polymorphic Discriminator
+   */
+  protectableItemType: "SAPAseDatabase";
+  /**
+   * @member {string} [backupManagementType] Type of backup management to
+   * backup an item.
+   */
+  backupManagementType?: string;
+  /**
+   * @member {string} [workloadType] Type of workload for the backup management
+   */
+  workloadType?: string;
+  /**
+   * @member {string} [friendlyName] Friendly name of the backup item.
+   */
+  friendlyName?: string;
+  /**
+   * @member {ProtectionStatus} [protectionState] State of the back up item.
+   * Possible values include: 'Invalid', 'NotProtected', 'Protecting',
+   * 'Protected', 'ProtectionFailed'
+   */
+  protectionState?: ProtectionStatus;
+  /**
+   * @member {string} [parentName] Name for instance or AG
+   */
+  parentName?: string;
+  /**
+   * @member {string} [parentUniqueName] Parent Unique Name is added to provide
+   * the service formatted URI Name of the Parent
+   * Only Applicable for data bases where the parent would be either Instance
+   * or a SQL AG.
+   */
+  parentUniqueName?: string;
+  /**
+   * @member {string} [serverName] Host/Cluster Name for instance or AG
+   */
+  serverName?: string;
+  /**
+   * @member {boolean} [isAutoProtectable] Indicates if protectable item is
+   * auto-protectable
+   */
+  isAutoProtectable?: boolean;
+  /**
+   * @member {boolean} [isAutoProtected] Indicates if protectable item is
+   * auto-protected
+   */
+  isAutoProtected?: boolean;
+  /**
+   * @member {number} [subinquireditemcount] For instance or AG, indicates
+   * number of DB's present
+   */
+  subinquireditemcount?: number;
+  /**
+   * @member {number} [subprotectableitemcount] For instance or AG, indicates
+   * number of DB's to be protected
+   */
+  subprotectableitemcount?: number;
+  /**
+   * @member {PreBackupValidation} [prebackupvalidation] Pre-backup validation
+   * for protectable objects
+   */
+  prebackupvalidation?: PreBackupValidation;
+}
+
+/**
+ * @interface
+ * An interface representing AzureVmWorkloadSAPAseDatabaseWorkloadItem.
+ * Azure VM workload-specific workload item representing SAP ASE Database.
+ *
+ */
+export interface AzureVmWorkloadSAPAseDatabaseWorkloadItem {
+  /**
+   * @member {string} workloadItemType Polymorphic Discriminator
+   */
+  workloadItemType: "SAPAseDatabase";
+  /**
+   * @member {string} [backupManagementType] Type of backup management to
+   * backup an item.
+   */
+  backupManagementType?: string;
+  /**
+   * @member {string} [workloadType] Type of workload for the backup management
+   */
+  workloadType?: string;
+  /**
+   * @member {string} [friendlyName] Friendly name of the backup item.
+   */
+  friendlyName?: string;
+  /**
+   * @member {ProtectionStatus} [protectionState] State of the back up item.
+   * Possible values include: 'Invalid', 'NotProtected', 'Protecting',
+   * 'Protected', 'ProtectionFailed'
+   */
+  protectionState?: ProtectionStatus;
+  /**
+   * @member {string} [parentName] Name for instance or AG
+   */
+  parentName?: string;
+  /**
+   * @member {string} [serverName] Host/Cluster Name for instance or AG
+   */
+  serverName?: string;
+  /**
+   * @member {boolean} [isAutoProtectable] Indicates if workload item is
+   * auto-protectable
+   */
+  isAutoProtectable?: boolean;
+  /**
+   * @member {number} [subinquireditemcount] For instance or AG, indicates
+   * number of DB's present
+   */
+  subinquireditemcount?: number;
+  /**
+   * @member {number} [subWorkloadItemCount] For instance or AG, indicates
+   * number of DB's to be protected
+   */
+  subWorkloadItemCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing AzureVmWorkloadSAPAseSystemProtectableItem.
+ * Azure VM workload-specific protectable item representing SAP ASE System.
+ *
+ */
+export interface AzureVmWorkloadSAPAseSystemProtectableItem {
+  /**
+   * @member {string} protectableItemType Polymorphic Discriminator
+   */
+  protectableItemType: "SAPAseSystem";
+  /**
+   * @member {string} [backupManagementType] Type of backup management to
+   * backup an item.
+   */
+  backupManagementType?: string;
+  /**
+   * @member {string} [workloadType] Type of workload for the backup management
+   */
+  workloadType?: string;
+  /**
+   * @member {string} [friendlyName] Friendly name of the backup item.
+   */
+  friendlyName?: string;
+  /**
+   * @member {ProtectionStatus} [protectionState] State of the back up item.
+   * Possible values include: 'Invalid', 'NotProtected', 'Protecting',
+   * 'Protected', 'ProtectionFailed'
+   */
+  protectionState?: ProtectionStatus;
+  /**
+   * @member {string} [parentName] Name for instance or AG
+   */
+  parentName?: string;
+  /**
+   * @member {string} [parentUniqueName] Parent Unique Name is added to provide
+   * the service formatted URI Name of the Parent
+   * Only Applicable for data bases where the parent would be either Instance
+   * or a SQL AG.
+   */
+  parentUniqueName?: string;
+  /**
+   * @member {string} [serverName] Host/Cluster Name for instance or AG
+   */
+  serverName?: string;
+  /**
+   * @member {boolean} [isAutoProtectable] Indicates if protectable item is
+   * auto-protectable
+   */
+  isAutoProtectable?: boolean;
+  /**
+   * @member {boolean} [isAutoProtected] Indicates if protectable item is
+   * auto-protected
+   */
+  isAutoProtected?: boolean;
+  /**
+   * @member {number} [subinquireditemcount] For instance or AG, indicates
+   * number of DB's present
+   */
+  subinquireditemcount?: number;
+  /**
+   * @member {number} [subprotectableitemcount] For instance or AG, indicates
+   * number of DB's to be protected
+   */
+  subprotectableitemcount?: number;
+  /**
+   * @member {PreBackupValidation} [prebackupvalidation] Pre-backup validation
+   * for protectable objects
+   */
+  prebackupvalidation?: PreBackupValidation;
+}
+
+/**
+ * @interface
+ * An interface representing AzureVmWorkloadSAPAseSystemWorkloadItem.
+ * Azure VM workload-specific workload item representing SAP ASE System.
+ *
+ */
+export interface AzureVmWorkloadSAPAseSystemWorkloadItem {
+  /**
+   * @member {string} workloadItemType Polymorphic Discriminator
+   */
+  workloadItemType: "SAPAseSystem";
+  /**
+   * @member {string} [backupManagementType] Type of backup management to
+   * backup an item.
+   */
+  backupManagementType?: string;
+  /**
+   * @member {string} [workloadType] Type of workload for the backup management
+   */
+  workloadType?: string;
+  /**
+   * @member {string} [friendlyName] Friendly name of the backup item.
+   */
+  friendlyName?: string;
+  /**
+   * @member {ProtectionStatus} [protectionState] State of the back up item.
+   * Possible values include: 'Invalid', 'NotProtected', 'Protecting',
+   * 'Protected', 'ProtectionFailed'
+   */
+  protectionState?: ProtectionStatus;
+  /**
+   * @member {string} [parentName] Name for instance or AG
+   */
+  parentName?: string;
+  /**
+   * @member {string} [serverName] Host/Cluster Name for instance or AG
+   */
+  serverName?: string;
+  /**
+   * @member {boolean} [isAutoProtectable] Indicates if workload item is
+   * auto-protectable
+   */
+  isAutoProtectable?: boolean;
+  /**
+   * @member {number} [subinquireditemcount] For instance or AG, indicates
+   * number of DB's present
+   */
+  subinquireditemcount?: number;
+  /**
+   * @member {number} [subWorkloadItemCount] For instance or AG, indicates
+   * number of DB's to be protected
+   */
+  subWorkloadItemCount?: number;
+}
+
+/**
+ * @interface
  * An interface representing AzureVmWorkloadSAPHanaDatabaseProtectableItem.
- * Azure VM workload-specific protectable item representing SAP Hana Database.
+ * Azure VM workload-specific protectable item representing SAP HANA Database.
  *
  */
 export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem {
@@ -5616,12 +6112,12 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5634,7 +6130,7 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem {
 /**
  * @interface
  * An interface representing AzureVmWorkloadSAPHanaDatabaseWorkloadItem.
- * Azure VM workload-specific workload item representing SAP Hana Database.
+ * Azure VM workload-specific workload item representing SAP HANA Database.
  *
  */
 export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem {
@@ -5676,12 +6172,12 @@ export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5689,7 +6185,7 @@ export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem {
 /**
  * @interface
  * An interface representing AzureVmWorkloadSAPHanaSystemProtectableItem.
- * Azure VM workload-specific protectable item representing SAP Hana System.
+ * Azure VM workload-specific protectable item representing SAP HANA System.
  *
  */
 export interface AzureVmWorkloadSAPHanaSystemProtectableItem {
@@ -5743,12 +6239,12 @@ export interface AzureVmWorkloadSAPHanaSystemProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5761,7 +6257,7 @@ export interface AzureVmWorkloadSAPHanaSystemProtectableItem {
 /**
  * @interface
  * An interface representing AzureVmWorkloadSAPHanaSystemWorkloadItem.
- * Azure VM workload-specific workload item representing SAP Hana System.
+ * Azure VM workload-specific workload item representing SAP HANA System.
  *
  */
 export interface AzureVmWorkloadSAPHanaSystemWorkloadItem {
@@ -5803,12 +6299,12 @@ export interface AzureVmWorkloadSAPHanaSystemWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5871,12 +6367,12 @@ export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5943,12 +6439,12 @@ export interface AzureVmWorkloadSQLDatabaseProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6003,12 +6499,12 @@ export interface AzureVmWorkloadSQLDatabaseWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -6070,12 +6566,12 @@ export interface AzureVmWorkloadSQLInstanceProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6152,12 +6648,12 @@ export interface AzureVmWorkloadSQLInstanceWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DBs present
+   * number of DB's present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DBs to be protected
+   * number of DB's to be protected
    */
   subWorkloadItemCount?: number;
   /**
@@ -6309,35 +6805,6 @@ export interface AzureWorkloadContainerExtendedInfo {
 }
 
 /**
- * Contains the possible cases for AzureWorkloadRecoveryPoint.
- */
-export type AzureWorkloadRecoveryPointUnion = AzureWorkloadRecoveryPoint | AzureWorkloadSQLRecoveryPointUnion;
-
-/**
- * @interface
- * An interface representing AzureWorkloadRecoveryPoint.
- * Workload specific recovery point, specifically encapsulates full/diff
- * recovery point
- *
- */
-export interface AzureWorkloadRecoveryPoint {
-  /**
-   * @member {string} objectType Polymorphic Discriminator
-   */
-  objectType: "AzureWorkloadRecoveryPoint";
-  /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
-   * was created
-   */
-  recoveryPointTimeInUTC?: Date;
-  /**
-   * @member {RestorePointType} [type] Type of restore point. Possible values
-   * include: 'Invalid', 'Full', 'Log', 'Differential'
-   */
-  type?: RestorePointType;
-}
-
-/**
  * @interface
  * An interface representing PointInTimeRange.
  * Provides details for log ranges
@@ -6355,24 +6822,24 @@ export interface PointInTimeRange {
 }
 
 /**
- * Contains the possible cases for AzureWorkloadSAPHanaRecoveryPoint.
+ * Contains the possible cases for AzureWorkloadRecoveryPoint.
  */
-export type AzureWorkloadSAPHanaRecoveryPointUnion = AzureWorkloadSAPHanaRecoveryPoint | AzureWorkloadSAPHanaPointInTimeRecoveryPoint;
+export type AzureWorkloadRecoveryPointUnion = AzureWorkloadRecoveryPoint | AzureWorkloadPointInTimeRecoveryPointUnion | AzureWorkloadSAPHanaRecoveryPoint | AzureWorkloadSQLRecoveryPointUnion;
 
 /**
  * @interface
- * An interface representing AzureWorkloadSAPHanaRecoveryPoint.
- * SAPHana specific recovery point, specifically encapsulates full/diff
- * recovery points
+ * An interface representing AzureWorkloadRecoveryPoint.
+ * Workload specific recovery point, specifically encapsulates full/diff
+ * recovery point
  *
  */
-export interface AzureWorkloadSAPHanaRecoveryPoint {
+export interface AzureWorkloadRecoveryPoint {
   /**
    * @member {string} objectType Polymorphic Discriminator
    */
-  objectType: "AzureWorkloadSAPHanaRecoveryPoint";
+  objectType: "AzureWorkloadRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6384,18 +6851,23 @@ export interface AzureWorkloadSAPHanaRecoveryPoint {
 }
 
 /**
+ * Contains the possible cases for AzureWorkloadPointInTimeRecoveryPoint.
+ */
+export type AzureWorkloadPointInTimeRecoveryPointUnion = AzureWorkloadPointInTimeRecoveryPoint | AzureWorkloadSAPHanaPointInTimeRecoveryPoint;
+
+/**
  * @interface
- * An interface representing AzureWorkloadSAPHanaPointInTimeRecoveryPoint.
- * Recovery point specific to PointInTime in SAPHana
+ * An interface representing AzureWorkloadPointInTimeRecoveryPoint.
+ * Recovery point specific to PointInTime
  *
  */
-export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint {
+export interface AzureWorkloadPointInTimeRecoveryPoint {
   /**
    * @member {string} objectType Polymorphic Discriminator
    */
-  objectType: "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
+  objectType: "AzureWorkloadPointInTimeRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6411,6 +6883,57 @@ export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint {
 }
 
 /**
+ * @interface
+ * An interface representing AzureWorkloadSAPHanaPointInTimeRecoveryPoint.
+ * Recovery point specific to PointInTime in SAPHana
+ *
+ */
+export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint {
+  /**
+   * @member {string} objectType Polymorphic Discriminator
+   */
+  objectType: "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
+  /**
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * was created
+   */
+  recoveryPointTimeInUTC?: Date;
+  /**
+   * @member {RestorePointType} [type] Type of restore point. Possible values
+   * include: 'Invalid', 'Full', 'Log', 'Differential'
+   */
+  type?: RestorePointType;
+  /**
+   * @member {PointInTimeRange[]} [timeRanges] List of log ranges
+   */
+  timeRanges?: PointInTimeRange[];
+}
+
+/**
+ * @interface
+ * An interface representing AzureWorkloadSAPHanaRecoveryPoint.
+ * SAPHana specific recoverypoint, specifically encapsulates full/diff
+ * recoverypoints
+ *
+ */
+export interface AzureWorkloadSAPHanaRecoveryPoint {
+  /**
+   * @member {string} objectType Polymorphic Discriminator
+   */
+  objectType: "AzureWorkloadSAPHanaRecoveryPoint";
+  /**
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * was created
+   */
+  recoveryPointTimeInUTC?: Date;
+  /**
+   * @member {RestorePointType} [type] Type of restore point. Possible values
+   * include: 'Invalid', 'Full', 'Log', 'Differential'
+   */
+  type?: RestorePointType;
+}
+
+/**
  * Contains the possible cases for AzureWorkloadSQLRecoveryPoint.
  */
 export type AzureWorkloadSQLRecoveryPointUnion = AzureWorkloadSQLRecoveryPoint | AzureWorkloadSQLPointInTimeRecoveryPoint;
@@ -6418,8 +6941,8 @@ export type AzureWorkloadSQLRecoveryPointUnion = AzureWorkloadSQLRecoveryPoint |
 /**
  * @interface
  * An interface representing AzureWorkloadSQLRecoveryPoint.
- * SQL specific recovery point, specifically encapsulates full/diff recovery
- * point along with extended info
+ * SQL specific recoverypoint, specifically encapsulates full/diff
+ * recoverypoint alongwith extended info
  *
  */
 export interface AzureWorkloadSQLRecoveryPoint {
@@ -6428,7 +6951,7 @@ export interface AzureWorkloadSQLRecoveryPoint {
    */
   objectType: "AzureWorkloadSQLRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6460,7 +6983,7 @@ export interface AzureWorkloadSQLPointInTimeRecoveryPoint {
    */
   objectType: "AzureWorkloadSQLPointInTimeRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6529,12 +7052,12 @@ export interface BackupEngineExtendedInfo {
    */
   diskCount?: number;
   /**
-   * @member {number} [usedDiskSpace] Disk space used in the backup engine.
+   * @member {number} [usedDiskSpace] Diskspace used in the backup engine.
    */
   usedDiskSpace?: number;
   /**
-   * @member {number} [availableDiskSpace] Disk space currently available in
-   * the backup engine.
+   * @member {number} [availableDiskSpace] Diskspace currently available in the
+   * backup engine.
    */
   availableDiskSpace?: number;
   /**
@@ -6783,7 +7306,8 @@ export interface BMSContainersInquiryQueryObject {
    * @member {WorkloadType} [workloadType] Workload type for this container.
    * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb',
    * 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM', 'SystemState', 'Client',
-   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+   * 'GenericDataSource', 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase',
+   * 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
 }
@@ -6806,7 +7330,7 @@ export interface BMSPOQueryObject {
    * @member {WorkloadType} [workloadType] Workload type. Possible values
    * include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
    * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource',
-   * 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+   * 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
   /**
@@ -6885,14 +7409,14 @@ export interface BMSWorkloadItemQueryObject {
   /**
    * @member {WorkloadItemType} [workloadItemType] Workload Item type. Possible
    * values include: 'Invalid', 'SQLInstance', 'SQLDataBase', 'SAPHanaSystem',
-   * 'SAPHanaDatabase'
+   * 'SAPHanaDatabase', 'SAPAseSystem', 'SAPAseDatabase'
    */
   workloadItemType?: WorkloadItemType;
   /**
    * @member {WorkloadType} [workloadType] Workload type. Possible values
    * include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
    * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource',
-   * 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase'
+   * 'SQLDataBase', 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   workloadType?: WorkloadType;
   /**
@@ -6931,7 +7455,7 @@ export interface ClientScriptForConnect {
    */
   url?: string;
   /**
-   * @member {string} [scriptNameSuffix] Mandator suffix that should be added
+   * @member {string} [scriptNameSuffix] Mandatory suffix that should be added
    * to the name of script that is given for download to user.
    * If its null or empty then , ignore it.
    */
@@ -7029,78 +7553,22 @@ export interface DpmBackupEngine {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backup engine
+   * backupengine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
 
 /**
  * @interface
- * An interface representing DpmContainer.
- * DPM workload-specific protection container.
+ * An interface representing DPMContainerExtendedInfo.
+ * Additional information of the DPMContainer.
  *
  */
-export interface DpmContainer {
+export interface DPMContainerExtendedInfo {
   /**
-   * @member {string} containerType Polymorphic Discriminator
+   * @member {Date} [lastRefreshedAt] Last refresh time of the DPMContainer.
    */
-  containerType: "DPMContainer";
-  /**
-   * @member {string} [friendlyName] Friendly name of the container.
-   */
-  friendlyName?: string;
-  /**
-   * @member {BackupManagementType} [backupManagementType] Type of backup
-   * management for the container. Possible values include: 'Invalid',
-   * 'AzureIaasVM', 'MAB', 'DPM', 'AzureBackupServer', 'AzureSql',
-   * 'AzureStorage', 'AzureWorkload', 'DefaultBackup'
-   */
-  backupManagementType?: BackupManagementType;
-  /**
-   * @member {string} [registrationStatus] Status of registration of the
-   * container with the Recovery Services Vault.
-   */
-  registrationStatus?: string;
-  /**
-   * @member {string} [healthStatus] Status of health of the container.
-   */
-  healthStatus?: string;
-  /**
-   * @member {boolean} [canReRegister] Specifies whether the container is
-   * re-registrable.
-   */
-  canReRegister?: boolean;
-  /**
-   * @member {string} [containerId] ID of container.
-   */
-  containerId?: string;
-  /**
-   * @member {number} [protectedItemCount] Number of protected items in the
-   * BackupEngine
-   */
-  protectedItemCount?: number;
-  /**
-   * @member {string} [dpmAgentVersion] Backup engine Agent version
-   */
-  dpmAgentVersion?: string;
-  /**
-   * @member {string[]} [dpmServers] List of BackupEngines protecting the
-   * container
-   */
-  dpmServers?: string[];
-  /**
-   * @member {boolean} [upgradeAvailable] To check if upgrade available
-   */
-  upgradeAvailable?: boolean;
-  /**
-   * @member {string} [protectionStatus] Protection status of the container.
-   */
-  protectionStatus?: string;
-  /**
-   * @member {DPMContainerExtendedInfo} [extendedInfo] Extended Info of the
-   * container.
-   */
-  extendedInfo?: DPMContainerExtendedInfo;
+  lastRefreshedAt?: Date;
 }
 
 /**
@@ -7311,7 +7779,7 @@ export interface KEKDetails {
  * 1. Secret(BEK) - Url + Backup Data + vaultId.
  * 2. Key(KEK) - Url + Backup Data + vaultId.
  * 3. EncryptionMechanism
- * BEK and KEK can potentially have different vault ids.
+ * BEK and KEK can potentiallty have different vault ids.
  *
  */
 export interface KeyAndSecretDetails {
@@ -7464,7 +7932,7 @@ export interface MabContainerExtendedInfo {
    * with this container. Possible values include: 'Invalid', 'VM',
    * 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange', 'Sharepoint', 'VMwareVM',
    * 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
-   * 'AzureFileShare', 'SAPHanaDatabase'
+   * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
    */
   backupItemType?: BackupItemType;
   /**
@@ -8340,11 +8808,11 @@ export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'In
  * Defines values for WorkloadType.
  * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
  * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
- * 'AzureFileShare', 'SAPHanaDatabase'
+ * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
  * @readonly
  * @enum {string}
  */
-export type WorkloadType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase';
+export type WorkloadType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase' | 'SAPAseDatabase';
 
 /**
  * Defines values for RecoveryType.
@@ -8430,11 +8898,11 @@ export type OverwriteOptions = 'Invalid' | 'FailOnConflict' | 'Overwrite';
 /**
  * Defines values for WorkloadItemType.
  * Possible values include: 'Invalid', 'SQLInstance', 'SQLDataBase', 'SAPHanaSystem',
- * 'SAPHanaDatabase'
+ * 'SAPHanaDatabase', 'SAPAseSystem', 'SAPAseDatabase'
  * @readonly
  * @enum {string}
  */
-export type WorkloadItemType = 'Invalid' | 'SQLInstance' | 'SQLDataBase' | 'SAPHanaSystem' | 'SAPHanaDatabase';
+export type WorkloadItemType = 'Invalid' | 'SQLInstance' | 'SQLDataBase' | 'SAPHanaSystem' | 'SAPHanaDatabase' | 'SAPAseSystem' | 'SAPAseDatabase';
 
 /**
  * Defines values for SQLDataDirectoryType.
@@ -8457,11 +8925,11 @@ export type UsagesUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSe
  * Defines values for DataSourceType.
  * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
  * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
- * 'AzureFileShare', 'SAPHanaDatabase'
+ * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
  * @readonly
  * @enum {string}
  */
-export type DataSourceType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase';
+export type DataSourceType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase' | 'SAPAseDatabase';
 
 /**
  * Defines values for ProtectionStatus.
@@ -8651,6 +9119,14 @@ export type InquiryStatus = 'Invalid' | 'Success' | 'Failed';
 export type BackupType = 'Invalid' | 'Full' | 'Differential' | 'Log' | 'CopyOnlyFull';
 
 /**
+ * Defines values for OperationType.
+ * Possible values include: 'Invalid', 'Register', 'Reregister'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationType = 'Invalid' | 'Register' | 'Reregister';
+
+/**
  * Defines values for RestorePointType.
  * Possible values include: 'Invalid', 'Full', 'Log', 'Differential'
  * @readonly
@@ -8721,11 +9197,11 @@ export type RecoveryPointTierStatus = 'Invalid' | 'Valid' | 'Disabled' | 'Delete
  * Defines values for BackupItemType.
  * Possible values include: 'Invalid', 'VM', 'FileFolder', 'AzureSqlDb', 'SQLDB', 'Exchange',
  * 'Sharepoint', 'VMwareVM', 'SystemState', 'Client', 'GenericDataSource', 'SQLDataBase',
- * 'AzureFileShare', 'SAPHanaDatabase'
+ * 'AzureFileShare', 'SAPHanaDatabase', 'SAPAseDatabase'
  * @readonly
  * @enum {string}
  */
-export type BackupItemType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase';
+export type BackupItemType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase' | 'SAPAseDatabase';
 
 /**
  * Defines values for OperationStatusValues.
@@ -9613,6 +10089,25 @@ export type SecurityPINsGetResponse = TokenInformation & {
  * Contains response data for the get operation.
  */
 export type BackupResourceStorageConfigsGetResponse = BackupResourceConfigResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceConfigResource;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type BackupResourceStorageConfigsUpdateResponse = BackupResourceConfigResource & {
   /**
    * The underlying HTTP response.
    */

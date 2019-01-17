@@ -10,16 +10,16 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/protectableContainersMappers";
+import * as Mappers from "../models/scopedBackupPoliciesMappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClientContext } from "../recoveryServicesBackupClientContext";
 
-/** Class representing a ProtectableContainers. */
-export class ProtectableContainers {
+/** Class representing a ScopedBackupPolicies. */
+export class ScopedBackupPolicies {
   private readonly client: RecoveryServicesBackupClientContext;
 
   /**
-   * Create a ProtectableContainers.
+   * Create a ScopedBackupPolicies.
    * @param {RecoveryServicesBackupClientContext} client Reference to the service client.
    */
   constructor(client: RecoveryServicesBackupClientContext) {
@@ -27,15 +27,16 @@ export class ProtectableContainers {
   }
 
   /**
-   * Lists the containers that can be registered to Recovery Services Vault.
+   * Lists of backup policies associated with Recovery Services Vault.
+   * API provides pagination parameters to fetch scoped results.
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param fabricName
    * @param [options] The optional parameters
-   * @returns Promise<Models.ProtectableContainersListResponse>
+   * @returns Promise<Models.ScopedBackupPoliciesListResponse>
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ProtectableContainersListOptionalParams): Promise<Models.ProtectableContainersListResponse>;
+  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ScopedBackupPoliciesListOptionalParams): Promise<Models.ScopedBackupPoliciesListResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -43,7 +44,7 @@ export class ProtectableContainers {
    * @param fabricName
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, callback: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): void;
+  list(vaultName: string, resourceGroupName: string, fabricName: string, callback: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -52,8 +53,8 @@ export class ProtectableContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, options: Models.ProtectableContainersListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ProtectableContainersListOptionalParams | msRest.ServiceCallback<Models.ProtectableContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): Promise<Models.ProtectableContainersListResponse> {
+  list(vaultName: string, resourceGroupName: string, fabricName: string, options: Models.ScopedBackupPoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): void;
+  list(vaultName: string, resourceGroupName: string, fabricName: string, options?: Models.ScopedBackupPoliciesListOptionalParams | msRest.ServiceCallback<Models.ProtectionPolicyResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): Promise<Models.ScopedBackupPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -62,35 +63,36 @@ export class ProtectableContainers {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ProtectableContainersListResponse>;
+      callback) as Promise<Models.ScopedBackupPoliciesListResponse>;
   }
 
   /**
-   * Lists the containers that can be registered to Recovery Services Vault.
+   * Lists of backup policies associated with Recovery Services Vault.
+   * API provides pagination parameters to fetch scoped results.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ProtectableContainersListNextResponse>
+   * @returns Promise<Models.ScopedBackupPoliciesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProtectableContainersListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ScopedBackupPoliciesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectableContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): Promise<Models.ProtectableContainersListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResourceList>): Promise<Models.ScopedBackupPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ProtectableContainersListNextResponse>;
+      callback) as Promise<Models.ScopedBackupPoliciesListNextResponse>;
   }
 }
 
@@ -98,7 +100,7 @@ export class ProtectableContainers {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/policies",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -106,7 +108,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [
@@ -114,7 +116,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectableContainerResourceList
+      bodyMapper: Mappers.ProtectionPolicyResourceList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -135,7 +137,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectableContainerResourceList
+      bodyMapper: Mappers.ProtectionPolicyResourceList
     },
     default: {
       bodyMapper: Mappers.CloudError
