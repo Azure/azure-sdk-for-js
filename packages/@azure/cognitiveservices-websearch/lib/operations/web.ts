@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/webMappers";
 import * as Parameters from "../models/parameters";
-import { WebSearchAPIClientContext } from "../webSearchAPIClientContext";
+import { WebSearchClientContext } from "../webSearchClientContext";
 
 /** Class representing a Web. */
 export class Web {
-  private readonly client: WebSearchAPIClientContext;
+  private readonly client: WebSearchClientContext;
 
   /**
    * Create a Web.
-   * @param {WebSearchAPIClientContext} client Reference to the service client.
+   * @param {WebSearchClientContext} client Reference to the service client.
    */
-  constructor(client: WebSearchAPIClientContext) {
+  constructor(client: WebSearchClientContext) {
     this.client = client;
   }
 
