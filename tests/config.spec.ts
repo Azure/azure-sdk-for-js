@@ -29,6 +29,67 @@ describe("ConnectionConfig", function () {
       should.not.exist(config.entityPath);
       done();
     });
+
+    it("handles arbitrary whitespace around ; and = elements", done => {
+      const connectionString = `
+        Endpoint = sb://hostname.servicebus.windows.net/;
+        SharedAccessKeyName = sakName;
+        SharedAccessKey = sak;
+        EntityPath = ep;
+      `;
+      const config = ConnectionConfig.create(connectionString);
+      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
+      config.should.have.property("sharedAccessKeyName").that.equals("sakName");
+      config.should.have.property("sharedAccessKey").that.equals("sak");
+      config.should.have.property("entityPath").that.equals("ep");
+      done();
+    });
+
+    it("requires a value before an assignment", done => {
+      const connectionString = `
+        = something;
+      `;
+
+      should.throw(() => {
+        ConnectionConfig.create(connectionString);
+      }, /Connection string malformed/);
+
+      done();
+    });
+
+    it("allows an empty value after an assignment", done => {
+      const connectionString = `
+        Endpoint = sb://hostname.servicebus.windows.net/;
+        SharedAccessKey=;
+      `;
+      const config = ConnectionConfig.create(connectionString);
+      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
+      config.should.have.property("sharedAccessKey").that.equals("");
+      done();
+    });
+
+    it("requires an assignment for each part", done => {
+      const connectionString = `
+        EntityPath;
+      `;
+
+      should.throw(() => {
+        ConnectionConfig.create(connectionString);
+      }, /Connection string malformed/);
+      done();
+    });
+
+    it("requires that Endpoint be present in the connection string", done => {
+      const connectionString = `
+        EntityPath=ep;
+      `;
+
+      should.throw(() => {
+        ConnectionConfig.create(connectionString);
+      }, /missing Endpoint/);
+
+      done();
+    });
   });
 
   describe("EventHub", function () {

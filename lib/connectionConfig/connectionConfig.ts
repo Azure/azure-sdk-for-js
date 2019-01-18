@@ -68,6 +68,10 @@ export namespace ConnectionConfig {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
+    if (!parsedCS.Endpoint) {
+      throw new Error("Connection string is missing Endpoint.");
+    }
+
     if (!parsedCS.Endpoint.endsWith("/")) parsedCS.Endpoint += "/";
     const result: ConnectionConfig = {
       connectionString: connectionString,
