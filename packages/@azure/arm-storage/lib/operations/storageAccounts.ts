@@ -127,7 +127,7 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsGetPropertiesResponse>
    */
-  getProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsGetPropertiesResponse>;
+  getProperties(resourceGroupName: string, accountName: string, options?: Models.StorageAccountsGetPropertiesOptionalParams): Promise<Models.StorageAccountsGetPropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -146,8 +146,8 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
-  getProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccount>, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsGetPropertiesResponse> {
+  getProperties(resourceGroupName: string, accountName: string, options: Models.StorageAccountsGetPropertiesOptionalParams, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
+  getProperties(resourceGroupName: string, accountName: string, options?: Models.StorageAccountsGetPropertiesOptionalParams | msRest.ServiceCallback<Models.StorageAccount>, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -315,7 +315,7 @@ export class StorageAccounts {
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1,
+   * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
    * key2.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsRegenerateKeyResponse>
@@ -327,7 +327,7 @@ export class StorageAccounts {
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1,
+   * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
    * key2.
    * @param callback The callback
    */
@@ -338,7 +338,7 @@ export class StorageAccounts {
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1,
+   * @param keyName The name of storage keys that want to be regenerated, possible values are key1,
    * key2.
    * @param options The optional parameters
    * @param callback The callback
@@ -580,7 +580,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion0,
+    Parameters.expand
   ],
   headerParameters: [
     Parameters.acceptLanguage
