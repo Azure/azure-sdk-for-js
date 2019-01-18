@@ -67,6 +67,13 @@ let unpartitionedSubscriptionSessionClient: SubscriptionClient;
 let unpartitionedSubscriptionMessageSession: MessageSession;
 let unpartitionedDeadletterSubscriptionSessionClient: SubscriptionClient;
 
+let unexpectedError: Error | undefined;
+function unExpectedErrorHandler(err: Error): void {
+  if (err) {
+    unexpectedError = err;
+  }
+}
+
 async function beforeEachTest(): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
@@ -238,6 +245,8 @@ async function beforeEachTest(): Promise<void> {
   if (peekedUnPartitionedSubscriptionSessionMsg.length) {
     throw new Error("Please use an empty partitioned queue with sessions for integration testing");
   }
+
+  unexpectedError = undefined;
 }
 
 async function afterEachTest(): Promise<void> {
@@ -266,23 +275,22 @@ describe("Streaming Receiver: Message abandoned more than maxDeliveryCount goes 
     const receiveListener = await receiverClient.receive(
       (msg: ServiceBusMessage) => {
         if (msg.messageId === testSimpleMessages[0].messageId) {
-          should.equal(msg.deliveryCount, checkDeliveryCount0);
+          should.equal(msg.deliveryCount, checkDeliveryCount0, "Unexpected deliveryCount.");
           checkDeliveryCount0++;
         } else if (msg.messageId === testSimpleMessages[1].messageId) {
-          should.equal(msg.deliveryCount, checkDeliveryCount1);
+          should.equal(msg.deliveryCount, checkDeliveryCount1, "Unexpected deliveryCount.");
           checkDeliveryCount1++;
         }
         return msg.abandon();
       },
-      (err: Error) => {
-        should.not.exist(err);
-      },
+      unExpectedErrorHandler,
       { autoComplete: false }
     );
 
     await delay(4000);
 
     await receiveListener.stop();
+    chai.assert.fail(unexpectedError && unexpectedError.message);
 
     should.equal(checkDeliveryCount0, maxDeliveryCount);
     should.equal(checkDeliveryCount1, maxDeliveryCount);
