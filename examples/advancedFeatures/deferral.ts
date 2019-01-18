@@ -1,30 +1,30 @@
-import {
-  OnMessage,
-  OnError,
-  MessagingError,
-  delay,
-  ServiceBusMessage,
-  ReceiveMode,
-  generateUuid,
-  Namespace,
-  SendableMessageInfo
-} from "../../lib";
-import * as dotenv from "dotenv";
-dotenv.config();
+/*
+  This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
-const str = process.env.SERVICEBUS_CONNECTION_STRING || "";
-const path = process.env.QUEUE_NAME || "";
-console.log("str: ", str);
-console.log("path: ", path);
+  In this sample, we have an application that gets cooking instructions out of order. It uses
+  message deferral to defer the instruction that is out of order, and then processes it in order.
+
+  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-deferral to learn about
+  message deferral.
+*/
+
+import { Namespace, OnMessage, OnError, delay } from "../../lib";
+
+// Define connection string and related Service Bus entity names here
+const connectionString = "";
+const queueName = "";
 
 async function main(): Promise<void> {
-  await sendMessage();
+  await sendMessages();
   await receiveMessage();
 }
 
-async function sendMessage(): Promise<void> {
-  const nsSend = Namespace.createFromConnectionString(str);
-  const sendClient = nsSend.createQueueClient(path);
+// Shuffle and send messages
+async function sendMessages(): Promise<void> {
+  const nsSend = Namespace.createFromConnectionString(connectionString);
+  // If using Topics, use createTopicClient to send to a topic
+  const sendClient = nsSend.createQueueClient(queueName);
+
   const data = [
     { step: 1, title: "Shop" },
     { step: 2, title: "Unpack" },
@@ -32,39 +32,38 @@ async function sendMessage(): Promise<void> {
     { step: 4, title: "Cook" },
     { step: 5, title: "Eat" }
   ];
-  const promises = new Array();
-  for (let index = 0; index < data.length; index++) {
-    const message: SendableMessageInfo = {
-      body: data[index],
-      label: "RecipeStep",
-      contentType: "application/json",
-      timeToLive: 2 * 60 * 1000, // 2 minutes
-      messageId: generateUuid()
-    };
-    // the way we shuffle the message order is to introduce a tiny random delay before each of the messages is sent
-    promises.push(
-      delay(Math.random() * 30).then(async () => {
-        try {
-          await sendClient.send(message);
-          console.log("Sent message step:", data[index].step);
-        } catch (err) {
-          console.log("Error while sending message", err);
-        }
-      })
-    );
+  try {
+    // The way we shuffle the message order is by using the scheduledEnqueueTimeUtc property
+    // to schedule the queueing of the message at different times
+
+    const now = Date.now();
+    const promises: Promise<any>[] = [];
+    for (let index = 0; index < data.length; index++) {
+      const message = {
+        body: data[index],
+        label: "RecipeStep",
+        contentType: "application/json",
+        scheduledEnqueueTimeUtc: new Date(now + index * 30000)
+      };
+      promises.push(sendClient.send(message));
+    }
+
+    await Promise.all(promises);
+  } finally {
+    await nsSend.close();
   }
-  // wait until all the send tasks are complete
-  await Promise.all(promises);
-  await nsSend.close();
 }
 
 async function receiveMessage(): Promise<void> {
-  const nsRcv = Namespace.createFromConnectionString(str);
-  const receiveClient = nsRcv.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
+  const nsRcv = Namespace.createFromConnectionString(connectionString);
+
+  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  const receiveClient = nsRcv.createQueueClient(queueName);
+
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
+    const onMessage: OnMessage = async (brokeredMessage) => {
       if (
         brokeredMessage.label === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -91,15 +90,15 @@ async function receiveMessage(): Promise<void> {
         await brokeredMessage.deadLetter();
       }
     };
-    const onError: OnError = (err: MessagingError | Error) => {
+    const onError: OnError = (err) => {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    /*we are disabling autoComplete because we want to control the settling of the message i.e we want to control whether the message should be completed, deferred or deadlettered.*/
+    // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered.
     const rcvHandler = receiveClient.receive(onMessage, onError, { autoComplete: false });
     await delay(10000);
     console.log("Deferred Messages count:", deferredSteps.size);
-    // Now we process the deferrred messages
+    // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
       const sequenceNumber = deferredSteps.get(step);
@@ -114,16 +113,11 @@ async function receiveMessage(): Promise<void> {
       lastProcessedRecipeStep++;
     }
     await rcvHandler.stop();
-  } catch (err) {
-    console.log("Error while receiving: ", err);
+  } finally {
+    await nsRcv.close();
   }
-  await nsRcv.close();
 }
 
-main()
-  .then(() => {
-    console.log("\n>>>> sample Done!!!!");
-  })
-  .catch((err) => {
-    console.log("error: ", err);
-  });
+main().catch((err) => {
+  console.log("Error occurred: ", err);
+});
