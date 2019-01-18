@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - VisualSearchAPIClient
+## An isomorphic javascript sdk for - VisualSearchClient
 
-This package contains an isomorphic SDK for VisualSearchAPIClient.
+This package contains an isomorphic SDK for VisualSearchClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for VisualSearchAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-visualsearch
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-visualsearch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { VisualSearchAPIClient, VisualSearchAPIModels, VisualSearchAPIMappers } from "@azure/cognitiveservices-visualsearch";
+import { VisualSearchClient, VisualSearchModels, VisualSearchMappers } from "@azure/cognitiveservices-visualsearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new VisualSearchAPIClient(creds, subscriptionId);
+  const client = new VisualSearchClient(creds, subscriptionId);
   const acceptLanguage = "testacceptLanguage";
   const contentType = "testcontentType";
   const userAgent = "testuserAgent";
@@ -57,7 +57,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -85,7 +85,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesVisualsearch.VisualSearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesVisualsearch.VisualSearchClient(res.creds, subscriptionId);
         const acceptLanguage = "testacceptLanguage";
         const contentType = "testcontentType";
         const userAgent = "testuserAgent";
