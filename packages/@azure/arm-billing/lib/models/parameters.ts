@@ -40,16 +40,6 @@ export const billingPeriodName: msRest.OperationURLParameter = {
     }
   }
 };
-export const billingProfileId: msRest.OperationURLParameter = {
-  parameterPath: "billingProfileId",
-  mapper: {
-    required: true,
-    serializedName: "billingProfileId",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const expand: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

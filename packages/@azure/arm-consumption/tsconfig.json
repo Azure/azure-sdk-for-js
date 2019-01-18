@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "es6",
+    "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
-    "target": "es5",
+    "target": "es6",
     "sourceMap": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -11,8 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"],
     "declaration": true,
-    "outDir": "./esm",
-    "importHelpers": true
+    "outDir": "./cjs"
   },
   "include": ["./lib/**/*"],
   "exclude": ["node_modules"]

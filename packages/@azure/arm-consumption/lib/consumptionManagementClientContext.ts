@@ -46,7 +46,7 @@ export class ConsumptionManagementClientContext extends msRestAzure.AzureService
     }
     super(credentials, options);
 
-    this.apiVersion = '2018-08-31';
+    this.apiVersion = '2018-10-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

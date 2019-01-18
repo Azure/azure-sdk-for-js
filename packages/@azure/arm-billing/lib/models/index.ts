@@ -60,33 +60,6 @@ export interface EnrollmentAccount extends Resource {
 
 /**
  * @interface
- * An interface representing DiscoverTenant.
- * A Tenant properties Resource
- *
- */
-export interface DiscoverTenant {
-  /**
-   * @member {string} [billingProfileName] The Billing Profile name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billingProfileName?: string;
-  /**
-   * @member {string} [billingAccountId] The Billing AccountId.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billingAccountId?: string;
-  /**
-   * @member {string} [tenantId] The TenantId.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly tenantId?: string;
-}
-
-/**
- * @interface
  * An interface representing BillingPeriod.
  * A billing period resource.
  *
@@ -522,25 +495,6 @@ export type BillingPeriodsListNextResponse = BillingPeriodsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: BillingPeriodsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DiscoverTenantsGetResponse = DiscoverTenant & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiscoverTenant;
     };
 };
 

@@ -30,6 +30,7 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   operations: operations.Operations;
   aggregatedCost: operations.AggregatedCost;
   charges: operations.Charges;
+  discoverTenants: operations.DiscoverTenants;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
@@ -52,6 +53,7 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
     this.operations = new operations.Operations(this);
     this.aggregatedCost = new operations.AggregatedCost(this);
     this.charges = new operations.Charges(this);
+    this.discoverTenants = new operations.DiscoverTenants(this);
   }
 }
 

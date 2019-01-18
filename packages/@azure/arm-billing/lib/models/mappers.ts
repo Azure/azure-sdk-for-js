@@ -63,37 +63,6 @@ export const EnrollmentAccount: msRest.CompositeMapper = {
   }
 };
 
-export const DiscoverTenant: msRest.CompositeMapper = {
-  serializedName: "DiscoverTenant",
-  type: {
-    name: "Composite",
-    className: "DiscoverTenant",
-    modelProperties: {
-      billingProfileName: {
-        readOnly: true,
-        serializedName: "billingProfileName",
-        type: {
-          name: "String"
-        }
-      },
-      billingAccountId: {
-        readOnly: true,
-        serializedName: "billingAccountId",
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        readOnly: true,
-        serializedName: "tenantId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const BillingPeriod: msRest.CompositeMapper = {
   serializedName: "BillingPeriod",
   type: {

@@ -8,7 +8,9 @@
  * regenerated.
  */
 
-export * from "./enrollmentAccounts";
-export * from "./billingPeriods";
-export * from "./invoices";
-export * from "./operations";
+export {
+  DiscoverTenant,
+  ErrorResponse,
+  ErrorDetails
+} from "../models/mappers";
+
