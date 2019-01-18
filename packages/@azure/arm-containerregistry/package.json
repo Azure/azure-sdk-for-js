@@ -4,8 +4,8 @@
   "description": "ContainerRegistryManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "5.0.0",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.2.4",
-    "@azure/ms-rest-js": "^1.2.6",
+    "@azure/ms-rest-azure-js": "^1.2.0",
+    "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -44,7 +44,6 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "lib/**/*.ts",
-    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
