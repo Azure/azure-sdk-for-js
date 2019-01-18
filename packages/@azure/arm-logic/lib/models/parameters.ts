@@ -173,6 +173,16 @@ export const repetitionName: msRest.OperationURLParameter = {
     }
   }
 };
+export const requestHistoryName: msRest.OperationURLParameter = {
+  parameterPath: "requestHistoryName",
+  mapper: {
+    required: true,
+    serializedName: "requestHistoryName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
