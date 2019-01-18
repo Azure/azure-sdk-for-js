@@ -847,7 +847,7 @@ export interface AzureIaaSVMJobTaskDetails {
   /**
    * @member {string} [taskExecutionDetails] Details about execution of the
    * task.
-   * eg: number of bytes transfered etc
+   * eg: number of bytes transferred etc
    */
   taskExecutionDetails?: string;
 }
@@ -3155,7 +3155,7 @@ export interface DPMProtectedItem {
   backupEngineName?: string;
   /**
    * @member {ProtectedItemState} [protectionState] Protection state of the
-   * backupengine. Possible values include: 'Invalid', 'IRPending',
+   * backup engine. Possible values include: 'Invalid', 'IRPending',
    * 'Protected', 'ProtectionError', 'ProtectionStopped', 'ProtectionPaused'
    */
   protectionState?: ProtectedItemState;
@@ -4717,7 +4717,7 @@ export interface BackupEngineBase {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backupengine
+   * backup engine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -4787,7 +4787,7 @@ export interface AzureBackupServerEngine {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backupengine
+   * backup engine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -5690,12 +5690,12 @@ export interface AzureVmWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5786,12 +5786,12 @@ export interface AzureVmWorkloadProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5858,12 +5858,12 @@ export interface AzureVmWorkloadSAPAseDatabaseProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -5918,12 +5918,12 @@ export interface AzureVmWorkloadSAPAseDatabaseWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -5985,12 +5985,12 @@ export interface AzureVmWorkloadSAPAseSystemProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6045,12 +6045,12 @@ export interface AzureVmWorkloadSAPAseSystemWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -6112,12 +6112,12 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6172,12 +6172,12 @@ export interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -6239,12 +6239,12 @@ export interface AzureVmWorkloadSAPHanaSystemProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6299,12 +6299,12 @@ export interface AzureVmWorkloadSAPHanaSystemWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -6367,12 +6367,12 @@ export interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6439,12 +6439,12 @@ export interface AzureVmWorkloadSQLDatabaseProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6499,12 +6499,12 @@ export interface AzureVmWorkloadSQLDatabaseWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
 }
@@ -6566,12 +6566,12 @@ export interface AzureVmWorkloadSQLInstanceProtectableItem {
   isAutoProtected?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subprotectableitemcount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subprotectableitemcount?: number;
   /**
@@ -6648,12 +6648,12 @@ export interface AzureVmWorkloadSQLInstanceWorkloadItem {
   isAutoProtectable?: boolean;
   /**
    * @member {number} [subinquireditemcount] For instance or AG, indicates
-   * number of DB's present
+   * number of DBs present
    */
   subinquireditemcount?: number;
   /**
    * @member {number} [subWorkloadItemCount] For instance or AG, indicates
-   * number of DB's to be protected
+   * number of DBs to be protected
    */
   subWorkloadItemCount?: number;
   /**
@@ -6839,7 +6839,7 @@ export interface AzureWorkloadRecoveryPoint {
    */
   objectType: "AzureWorkloadRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6867,7 +6867,7 @@ export interface AzureWorkloadPointInTimeRecoveryPoint {
    */
   objectType: "AzureWorkloadPointInTimeRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6894,7 +6894,7 @@ export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint {
    */
   objectType: "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6912,8 +6912,8 @@ export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint {
 /**
  * @interface
  * An interface representing AzureWorkloadSAPHanaRecoveryPoint.
- * SAPHana specific recoverypoint, specifically encapsulates full/diff
- * recoverypoints
+ * SAPHana specific recovery point, specifically encapsulates full/diff
+ * recovery points
  *
  */
 export interface AzureWorkloadSAPHanaRecoveryPoint {
@@ -6922,7 +6922,7 @@ export interface AzureWorkloadSAPHanaRecoveryPoint {
    */
   objectType: "AzureWorkloadSAPHanaRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6941,8 +6941,8 @@ export type AzureWorkloadSQLRecoveryPointUnion = AzureWorkloadSQLRecoveryPoint |
 /**
  * @interface
  * An interface representing AzureWorkloadSQLRecoveryPoint.
- * SQL specific recoverypoint, specifically encapsulates full/diff
- * recoverypoint alongwith extended info
+ * SQL specific recovery point, specifically encapsulates full/diff recovery
+ * point along with extended info
  *
  */
 export interface AzureWorkloadSQLRecoveryPoint {
@@ -6951,7 +6951,7 @@ export interface AzureWorkloadSQLRecoveryPoint {
    */
   objectType: "AzureWorkloadSQLRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -6983,7 +6983,7 @@ export interface AzureWorkloadSQLPointInTimeRecoveryPoint {
    */
   objectType: "AzureWorkloadSQLPointInTimeRecoveryPoint";
   /**
-   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recoverypoint
+   * @member {Date} [recoveryPointTimeInUTC] UTC time at which recovery point
    * was created
    */
   recoveryPointTimeInUTC?: Date;
@@ -7052,12 +7052,12 @@ export interface BackupEngineExtendedInfo {
    */
   diskCount?: number;
   /**
-   * @member {number} [usedDiskSpace] Diskspace used in the backup engine.
+   * @member {number} [usedDiskSpace] Disk space used in the backup engine.
    */
   usedDiskSpace?: number;
   /**
-   * @member {number} [availableDiskSpace] Diskspace currently available in the
-   * backup engine.
+   * @member {number} [availableDiskSpace] Disk space currently available in
+   * the backup engine.
    */
   availableDiskSpace?: number;
   /**
@@ -7553,7 +7553,7 @@ export interface DpmBackupEngine {
   isDpmUpgradeAvailable?: boolean;
   /**
    * @member {BackupEngineExtendedInfo} [extendedInfo] Extended info of the
-   * backupengine
+   * backup engine
    */
   extendedInfo?: BackupEngineExtendedInfo;
 }
@@ -7779,7 +7779,7 @@ export interface KEKDetails {
  * 1. Secret(BEK) - Url + Backup Data + vaultId.
  * 2. Key(KEK) - Url + Backup Data + vaultId.
  * 3. EncryptionMechanism
- * BEK and KEK can potentiallty have different vault ids.
+ * BEK and KEK can potentially have different vault ids.
  *
  */
 export interface KeyAndSecretDetails {
