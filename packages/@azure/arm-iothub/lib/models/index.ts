@@ -492,11 +492,11 @@ export interface RoutingStorageContainerProperties {
    */
   maxChunkSizeInBytes?: number;
   /**
-   * @member {string} [encoding] Encoding that is used to serialize messages to
-   * blobs. Supported values are 'avro' and 'avrodeflate'. Default value is
-   * 'avro'.
+   * @member {Encoding} [encoding] Encoding that is used to serialize messages
+   * to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'. Default
+   * value is 'avro'. Possible values include: 'Avro', 'AvroDeflate', 'JSON'
    */
-  encoding?: string;
+  encoding?: Encoding;
 }
 
 /**
@@ -2126,6 +2126,22 @@ export enum TestResultStatus {
 export enum RouteErrorSeverity {
   Error = 'error',
   Warning = 'warning',
+}
+
+/**
+ * Defines values for Encoding.
+ * Possible values include: 'Avro', 'AvroDeflate', 'JSON'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: Encoding = <Encoding>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum Encoding {
+  Avro = 'Avro',
+  AvroDeflate = 'AvroDeflate',
+  JSON = 'JSON',
 }
 
 /**
