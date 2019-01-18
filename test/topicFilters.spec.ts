@@ -14,7 +14,8 @@ import {
   generateUuid,
   TopicClient,
   SendableMessageInfo,
-  delay
+  delay,
+  CorrelationFilter
 } from "../lib";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
@@ -76,10 +77,27 @@ async function beforeEachTest(): Promise<void> {
     process.env.TOPIC_NAME,
     process.env.DEFAULT_SUBSCRIPTION_NAME
   );
+
+  const peekedDefaultSubscriptionMsg = await defaultSubscriptionClient.peek();
+  if (peekedDefaultSubscriptionMsg.length) {
+    throw new Error("Please use an empty Default Subscription for integration testing");
+  }
+
+  const peekedSubscriptionMsg = await subscriptionClient.peek();
+  if (peekedSubscriptionMsg.length) {
+    throw new Error("Please use an empty Subscription for integration testing");
+  }
   await removeAllRules(subscriptionClient);
 }
 
 async function afterEachTest(): Promise<void> {
+  await removeAllRules(subscriptionClient);
+  await subscriptionClient.addRule("DefaultFilter", true);
+
+  const rules = await subscriptionClient.getRules();
+  should.equal(rules.length, 1);
+  should.equal(rules[0].name, "DefaultFilter");
+
   await namespace.close();
 }
 
@@ -108,7 +126,7 @@ async function sendOrders(): Promise<void> {
       label: `${element.Color}`,
       userProperties: {
         color: `${element.Color}`,
-        quantity: `${element.Quantity}`,
+        quantity: element.Quantity,
         priority: `${element.Priority}`
       }
     };
@@ -136,6 +154,26 @@ async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMess
   chai.assert.fail(errorFromErrorHandler && errorFromErrorHandler.message);
 
   return receivedMsgs;
+}
+
+async function addRules(
+  ruleName: string,
+  filter: boolean | string | CorrelationFilter,
+  sqlRuleActionExpression?: string
+): Promise<void> {
+  await subscriptionClient.addRule(ruleName, filter, sqlRuleActionExpression);
+
+  const rules = await subscriptionClient.getRules();
+  should.equal(rules.length, 1);
+  should.equal(rules[0].name, ruleName, "Expected Rule not found");
+
+  if (sqlRuleActionExpression) {
+    should.equal(
+      rules[0].action!.expression,
+      sqlRuleActionExpression,
+      "Action not set on the rule."
+    );
+  }
 }
 
 describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
@@ -431,6 +469,180 @@ describe("Send/Receive messages using boolean filters of subscription", function
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, 0);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+});
+
+describe("Send/Receive messages using sql filters of subscription", function(): void {
+  beforeEach(async () => {
+    await beforeEachTest();
+  });
+
+  afterEach(async () => {
+    await receiveOrders(defaultSubscriptionClient);
+    await testPeekMsgsLength(defaultSubscriptionClient, 0);
+
+    await afterEachTest();
+  });
+
+  it("SQL rule filter on the message properties", async function(): Promise<void> {
+    await addRules("SQLMsgPropertyRule", "sys.label = 'red'");
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "red").length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("SQL rule filter on the custom properties", async function(): Promise<void> {
+    await addRules("SQLCustomRule", "color = 'red'");
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "red").length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("SQL rule filter using AND operator ", async function(): Promise<void> {
+    await addRules("SqlRuleWithAND", "color = 'blue' and quantity = 10");
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "blue" && x.Quantity === 10).length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("SQL rule filter using OR operator ", async function(): Promise<void> {
+    await addRules("SqlRuleWithOR", "color = 'blue' OR quantity = 10");
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "blue" || x.Quantity === 10).length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("SQL rule filter with action with custom properties", async function(): Promise<void> {
+    await addRules("SqlRuleWithAction", "color='blue'", "SET priority = 'High'");
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "blue").length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+    if (receivedMsgs[0].userProperties) {
+      should.equal(receivedMsgs[0].userProperties.priority, "High");
+    } else {
+      chai.assert.fail("Received message doesnt have user properties");
+    }
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  // Standard subscription : Update message properties in random order.
+  // Premium subscription : Update message properties only first time when you create new subscription.
+
+  /* it("SQL rule filter with action with message properties", async function(): Promise<void> {
+    await addRules("SqlRuleWithAction", "color='blue'", "SET sys.label = 'color blue'");
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "blue").length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+    if (receivedMsgs[0].userProperties) {
+      should.equal(receivedMsgs[0].userProperties.priority, "High");
+    } else {
+      chai.assert.fail("Received message doesnt have user properties");
+    }
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });*/
+});
+
+describe("Send/Receive messages using correlation filters of subscription", function(): void {
+  beforeEach(async () => {
+    await beforeEachTest();
+  });
+
+  afterEach(async () => {
+    await receiveOrders(defaultSubscriptionClient);
+    await testPeekMsgsLength(defaultSubscriptionClient, 0);
+
+    await afterEachTest();
+  });
+
+  it("Correlation filter on the message properties", async function(): Promise<void> {
+    await addRules("CorrelationMsgPropertyRule", {
+      label: "red"
+    });
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "red").length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("Correlation filter on the custom properties", async function(): Promise<void> {
+    await addRules("CorrelationCustomRule", {
+      userProperties: {
+        color: "red"
+      }
+    });
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "red").length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+
+    await testPeekMsgsLength(subscriptionClient, 0);
+  });
+
+  it("Correlation filter with SQL action", async function(): Promise<void> {
+    await addRules(
+      "CorrelationRuleWithAction",
+      {
+        userProperties: {
+          color: "blue"
+        }
+      },
+      "SET priority = 'High'"
+    );
+
+    await sendOrders();
+    const receivedMsgs = await receiveOrders(subscriptionClient);
+    const dataLength = data.filter((x) => x.Color === "blue").length;
+
+    should.equal(Array.isArray(receivedMsgs), true);
+    should.equal(receivedMsgs.length, dataLength);
+
+    if (receivedMsgs[0].userProperties) {
+      should.equal(receivedMsgs[0].userProperties.priority, "High");
+    } else {
+      chai.assert.fail("Received message doesnt have user properties");
+    }
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
