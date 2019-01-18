@@ -23,31 +23,31 @@ export { BaseResource, CloudError };
  */
 export interface PresentationTimeRange {
   /**
-   * @member {number} startTimestamp The absolute start time boundary.
+   * @member {number} [startTimestamp] The absolute start time boundary.
    */
-  startTimestamp: number;
+  startTimestamp?: number;
   /**
-   * @member {number} endTimestamp The absolute end time boundary.
+   * @member {number} [endTimestamp] The absolute end time boundary.
    */
-  endTimestamp: number;
+  endTimestamp?: number;
   /**
-   * @member {number} presentationWindowDuration The relative to end sliding
+   * @member {number} [presentationWindowDuration] The relative to end sliding
    * window.
    */
-  presentationWindowDuration: number;
+  presentationWindowDuration?: number;
   /**
-   * @member {number} liveBackoffDuration The relative to end right edge.
+   * @member {number} [liveBackoffDuration] The relative to end right edge.
    */
-  liveBackoffDuration: number;
+  liveBackoffDuration?: number;
   /**
-   * @member {number} timescale The time scale of time stamps.
+   * @member {number} [timescale] The time scale of time stamps.
    */
-  timescale: number;
+  timescale?: number;
   /**
-   * @member {boolean} forceEndTimestamp The indicator of forcing exsiting of
+   * @member {boolean} [forceEndTimestamp] The indicator of forcing exsiting of
    * end time stamp.
    */
-  forceEndTimestamp: boolean;
+  forceEndTimestamp?: boolean;
 }
 
 /**
@@ -2579,7 +2579,7 @@ export interface VideoAnalyzerPreset {
   /**
    * @member {InsightsType} [insightsToExtract] The type of insights to be
    * extracted. If not set then based on the content the type will selected.
-   * If the content is audi only then only audio insights are extraced and if
+   * If the content is audio only then only audio insights are extracted and if
    * it is video only. Possible values include: 'AudioInsightsOnly',
    * 'VideoInsightsOnly', 'AllInsights'
    */
@@ -2810,7 +2810,7 @@ export interface JobInputClip {
 /**
  * @interface
  * An interface representing JobInputs.
- * Describes a list of of inputs to a Job.
+ * Describes a list of inputs to a Job.
  *
  */
 export interface JobInputs {
@@ -3389,7 +3389,7 @@ export interface EnvelopeEncryption {
   contentKeys?: StreamingPolicyContentKeys;
   /**
    * @member {string} [customKeyAcquisitionUrlTemplate]
-   * KeyAcquistionUrlTemplate is used to point to user specified service to
+   * KeyAcquisitionUrlTemplate is used to point to user specified service to
    * delivery content keys
    */
   customKeyAcquisitionUrlTemplate?: string;
@@ -3520,7 +3520,7 @@ export interface StreamingLocatorContentKey {
    */
   labelReferenceInStreamingPolicy?: string;
   /**
-   * @member {string} [value] Value of  of Content Key
+   * @member {string} [value] Value of Content Key
    */
   value?: string;
   /**
@@ -3898,7 +3898,7 @@ export interface LiveEventEncoding {
   /**
    * @member {LiveEventEncodingType} [encodingType] The encoding type for Live
    * Event.  This value is specified at creation time and cannot be updated.
-   * Possible values include: 'None', 'Basic'
+   * Possible values include: 'None', 'Basic', 'Standard'
    */
   encodingType?: LiveEventEncodingType;
   /**
@@ -4238,17 +4238,10 @@ export interface TransformsListOptionalParams extends msRest.RequestOptionsBase 
    */
   filter?: string;
   /**
-   * @member {number} [top] Specifies a non-negative integer n that limits the
-   * number of items returned from a collection. The service returns the number
-   * of available items up to but not greater than the specified value n.
+   * @member {string} [orderby] Specifies the the key by which the result
+   * collection should be ordered.
    */
-  top?: number;
-  /**
-   * @member {number} [skip] Specifies a non-negative integer n that excludes
-   * the first n items of the queried collection from the result. The service
-   * returns items starting at position n+1.
-   */
-  skip?: number;
+  orderby?: string;
 }
 
 /**
@@ -4264,17 +4257,10 @@ export interface JobsListOptionalParams extends msRest.RequestOptionsBase {
    */
   filter?: string;
   /**
-   * @member {number} [top] Specifies a non-negative integer n that limits the
-   * number of items returned from a collection. The service returns the number
-   * of available items up to but not greater than the specified value n.
+   * @member {string} [orderby] Specifies the the key by which the result
+   * collection should be ordered.
    */
-  top?: number;
-  /**
-   * @member {number} [skip] Specifies a non-negative integer n that excludes
-   * the first n items of the queried collection from the result. The service
-   * returns items starting at position n+1.
-   */
-  skip?: number;
+  orderby?: string;
 }
 
 /**
@@ -4296,7 +4282,7 @@ export interface StreamingPoliciesListOptionalParams extends msRest.RequestOptio
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4321,7 +4307,7 @@ export interface StreamingLocatorsListOptionalParams extends msRest.RequestOptio
    */
   top?: number;
   /**
-   * @member {string} [orderby] Specifies the the key by which the result
+   * @member {string} [orderby] Specifies the key by which the result
    * collection should be ordered.
    */
   orderby?: string;
@@ -4916,11 +4902,11 @@ export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
 
 /**
  * Defines values for LiveEventEncodingType.
- * Possible values include: 'None', 'Basic'
+ * Possible values include: 'None', 'Basic', 'Standard'
  * @readonly
  * @enum {string}
  */
-export type LiveEventEncodingType = 'None' | 'Basic';
+export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard';
 
 /**
  * Defines values for LiveEventResourceState.

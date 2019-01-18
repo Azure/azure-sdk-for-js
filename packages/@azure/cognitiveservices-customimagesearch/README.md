@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - CustomImageSearchAPIClient
+## An isomorphic javascript sdk for - CustomImageSearchClient
 
-This package contains an isomorphic SDK for CustomImageSearchAPIClient.
+This package contains an isomorphic SDK for CustomImageSearchClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for CustomImageSearchAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-customimagesearch
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-customimagesearch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { CustomImageSearchAPIClient, CustomImageSearchAPIModels, CustomImageSearchAPIMappers } from "@azure/cognitiveservices-customimagesearch";
+import { CustomImageSearchClient, CustomImageSearchModels, CustomImageSearchMappers } from "@azure/cognitiveservices-customimagesearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new CustomImageSearchAPIClient(creds, subscriptionId);
+  const client = new CustomImageSearchClient(creds, subscriptionId);
   const customConfig = "testcustomConfig";
   const query = "testquery";
   const acceptLanguage = "testacceptLanguage";
@@ -75,7 +75,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -103,7 +103,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesCustomimagesearch.CustomImageSearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesCustomimagesearch.CustomImageSearchClient(res.creds, subscriptionId);
         const customConfig = "testcustomConfig";
         const query = "testquery";
         const acceptLanguage = "testacceptLanguage";
