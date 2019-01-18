@@ -89,6 +89,7 @@ export {
   ServerAutomaticTuning,
   AutomaticTuningServerOptions,
   ServerSecurityAlertPolicy,
+  RestorableDroppedManagedDatabase,
   RestorePoint,
   ManagedDatabaseSecurityAlertPolicy,
   ManagedServerSecurityAlertPolicy,

@@ -87,6 +87,7 @@ export {
   ManagedDatabase,
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
+  RestorableDroppedManagedDatabase,
   RestorePoint,
   ManagedDatabaseSecurityAlertPolicy,
   ManagedServerSecurityAlertPolicy,
