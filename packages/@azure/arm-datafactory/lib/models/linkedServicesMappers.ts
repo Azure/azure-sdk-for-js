@@ -252,7 +252,6 @@ export {
   WaitActivity,
   ForEachActivity,
   IfConditionActivity,
-  WebHookActivity,
   ExecutePipelineActivity,
   LinkedIntegrationRuntimeRbacAuthorization,
   LinkedIntegrationRuntimeKeyAuthorization,

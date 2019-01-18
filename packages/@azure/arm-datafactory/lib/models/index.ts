@@ -14771,7 +14771,7 @@ export interface CopyActivity {
 /**
  * Contains the possible cases for ControlActivity.
  */
-export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | WebHookActivity | ExecutePipelineActivity;
+export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
 
 /**
  * @interface
@@ -15094,66 +15094,6 @@ export interface IfConditionActivity {
    * and if not provided, the activity will exit without any action.
    */
   ifFalseActivities?: ActivityUnion[];
-}
-
-/**
- * @interface
- * An interface representing WebHookActivity.
- * WebHook activity.
- *
- */
-export interface WebHookActivity {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "WebHook";
-  /**
-   * @member {string} name Activity name.
-   */
-  name: string;
-  /**
-   * @member {string} [description] Activity description.
-   */
-  description?: string;
-  /**
-   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
-   */
-  dependsOn?: ActivityDependency[];
-  /**
-   * @member {UserProperty[]} [userProperties] Activity user properties.
-   */
-  userProperties?: UserProperty[];
-  /**
-   * @member {any} url WebHook activity target endpoint and path. Type: string
-   * (or Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [timeout] Specifies the timeout within which the webhook
-   * should be called back. If there is no value specified, it takes the value
-   * of TimeSpan.FromMinutes(10) which is 10 minutes as default. Type: string
-   * (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  timeout?: any;
-  /**
-   * @member {any} [headers] Represents the headers that will be sent to the
-   * request. For example, to set the language and type on a request: "headers"
-   * : { "Accept-Language": "en-us", "Content-Type": "application/json" }.
-   * Type: string (or Expression with resultType string).
-   */
-  headers?: any;
-  /**
-   * @member {any} [body] Represents the payload that will be sent to the
-   * endpoint. Required for POST/PUT method, not allowed for GET method Type:
-   * string (or Expression with resultType string).
-   */
-  body?: any;
-  /**
-   * @member {WebActivityAuthentication} [authentication] Authentication method
-   * used for calling the endpoint.
-   */
-  authentication?: WebActivityAuthentication;
 }
 
 /**
@@ -16981,14 +16921,6 @@ export type PolybaseSettingsRejectType = 'value' | 'percentage';
  * @enum {string}
  */
 export type SapCloudForCustomerSinkWriteBehavior = 'Insert' | 'Update';
-
-/**
- * Defines values for WebHookActivityMethod.
- * Possible values include: 'POST'
- * @readonly
- * @enum {string}
- */
-export type WebHookActivityMethod = 'POST';
 
 /**
  * Defines values for IntegrationRuntimeType.
