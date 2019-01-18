@@ -1,18 +1,5 @@
-import { generateUuid, SendableMessageInfo, Namespace } from "../../lib";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "";
-const userEventsQueue = process.env.QUEUE_NAME || "";
-
-console.log("connection string: ", connectionString);
-console.log("path: ", userEventsQueue);
-
-let ns: Namespace;
-
 /*
   This sample demonstrates usage of SessionState.
-  Ref - https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
 
   We take for example the context of an online shopping app and see how we can use Session State
   to implement the maintaining of shopping cart information completely on server side i.e.,
@@ -22,14 +9,28 @@ let ns: Namespace;
   Alice adds 3 items to the shopping cart and checks out, whereas Bob adds 3 items and leaves without
   checking out to likely return later.
   The session state keeps track of the cart items accordingly.
+
+  Setup: To run this sample, you would need session enabled Queue/Subscription.
+
+  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state
+  to learn about session state.
 */
+
+import { Namespace } from "../../lib";
+
+// Define connection string and related Service Bus entity names here
+const connectionString = "";
+const userEventsQueueName = "";
+
+let ns: Namespace;
+
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(connectionString);
-
-  await runScenario();
-
-  await ns.close();
-  console.log("\n>>>> sample Done!!!!");
+  try {
+    await runScenario();
+  } finally {
+    await ns.close();
+  }
 }
 
 async function runScenario(): Promise<void> {
@@ -73,7 +74,9 @@ async function runScenario(): Promise<void> {
 }
 
 async function getSessionState(sessionId: string): Promise<void> {
-  const client = ns.createQueueClient(userEventsQueue);
+  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  const client = ns.createQueueClient(userEventsQueueName);
+
   const messageSession = await client.acceptSession({ sessionId: sessionId });
 
   const sessionState = await messageSession.getState();
@@ -89,15 +92,14 @@ async function getSessionState(sessionId: string): Promise<void> {
 }
 
 async function sendMessagesForSession(shoppingEvents: any[], sessionId: string): Promise<void> {
-  const client = ns.createQueueClient(userEventsQueue);
+  // If using Topics, use createTopicClient to send to a topic
+  const client = ns.createQueueClient(userEventsQueueName);
 
   for (let index = 0; index < shoppingEvents.length; index++) {
-    const message: SendableMessageInfo = {
+    const message = {
       sessionId: sessionId,
       body: shoppingEvents[index],
-      label: "Shopping Step",
-      timeToLive: 10 * 60 * 1000, // 2 minutes
-      messageId: generateUuid()
+      label: "Shopping Step"
     };
     await client.send(message);
   }
@@ -105,7 +107,9 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string):
 }
 
 async function processMessageFromSession(sessionId: string): Promise<void> {
-  const client = ns.createQueueClient(userEventsQueue);
+  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  const client = ns.createQueueClient(userEventsQueueName);
+
   const messageSession = await client.acceptSession({ sessionId: sessionId });
 
   const messages = await messageSession.receiveBatch(1, 10);
@@ -142,6 +146,5 @@ async function processMessageFromSession(sessionId: string): Promise<void> {
 }
 
 main().catch((err) => {
-  console.log(">>>>> Error occurred: ", err);
-  return ns.close();
+  console.log("Error occurred: ", err);
 });
