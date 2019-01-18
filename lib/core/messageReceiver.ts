@@ -16,7 +16,8 @@ import {
   EventContext,
   ReceiverOptions,
   AmqpError,
-  Dictionary
+  Dictionary,
+  isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
@@ -403,12 +404,18 @@ export class MessageReceiver extends LinkEntity {
         await this._onMessage(bMessage);
         this._clearMessageLockRenewTimer(bMessage.messageId as string);
       } catch (err) {
+        // This ensures we call users' error handler when users' message handler throws.
+        if (!isAmqpError(err)) {
+          this._onError!(err);
+        }
+
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
         this._clearMessageLockRenewTimer(bMessage.messageId as string);
         const error = translate(err);
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
+          !bMessage.delivery.remote_settled &&
           error.name !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
           this.receiveMode === ReceiveMode.peekLock &&
           this.isOpen() // only try to abandon the messages if the connection is still open

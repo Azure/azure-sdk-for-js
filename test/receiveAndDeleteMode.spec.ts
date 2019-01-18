@@ -136,7 +136,9 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
 });
 
 describe("Streaming Receiver from Queue/Subscription", function(): void {
+  let errorFromErrorHandler: Error | undefined;
   beforeEach(async () => {
+    errorFromErrorHandler = undefined;
     await beforeEachTest();
   });
 
@@ -157,7 +159,9 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
         return Promise.resolve();
       },
       (err: Error) => {
-        should.not.exist(err);
+        if (err) {
+          errorFromErrorHandler = err;
+        }
       },
       { autoComplete: autoCompleteFlag }
     );
@@ -171,6 +175,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
     await receiveListener.stop();
+    chai.assert.fail(errorFromErrorHandler && errorFromErrorHandler.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
