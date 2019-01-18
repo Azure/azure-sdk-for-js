@@ -44,8 +44,6 @@ async function testPeekMsgsLength(
   );
 }
 
-const maxDeliveryCount = 10;
-
 let namespace: Namespace;
 let partitionedQueueClient: QueueClient;
 let partitionedTopicClient: TopicClient;
@@ -267,96 +265,6 @@ describe("Streaming Receiver Misc Tests", function(): void {
     void
   > {
     await testManualComplete(unpartitionedTopicClient, unpartitionedSubscriptionClient);
-  });
-
-  async function testMultipleAbandons(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient,
-    deadletterClient: QueueClient | SubscriptionClient
-  ): Promise<void> {
-    await senderClient.sendBatch(testMessages);
-
-    let checkDeliveryCount0 = 0;
-    let checkDeliveryCount1 = 0;
-
-    const receiveListener = await receiverClient.receive(
-      (msg: ServiceBusMessage) => {
-        if (msg.messageId === testMessages[0].messageId) {
-          should.equal(msg.deliveryCount, checkDeliveryCount0);
-          checkDeliveryCount0++;
-        } else if (msg.messageId === testMessages[1].messageId) {
-          should.equal(msg.deliveryCount, checkDeliveryCount1);
-          checkDeliveryCount1++;
-        }
-        return msg.abandon();
-      },
-      (err: Error) => {
-        should.not.exist(err);
-      },
-      { autoComplete: false }
-    );
-
-    await delay(4000);
-
-    await receiveListener.stop();
-
-    should.equal(checkDeliveryCount0, maxDeliveryCount);
-    should.equal(checkDeliveryCount1, maxDeliveryCount);
-
-    await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
-
-    const deadLetterMsgs = await deadletterClient.receiveBatch(2);
-    should.equal(Array.isArray(deadLetterMsgs), true);
-    should.equal(deadLetterMsgs.length, testMessages.length);
-    should.equal(deadLetterMsgs[0].deliveryCount, maxDeliveryCount);
-    should.equal(deadLetterMsgs[1].deliveryCount, maxDeliveryCount);
-    should.equal(testMessages.some((x) => deadLetterMsgs[0].messageId === x.messageId), true);
-    should.equal(testMessages.some((x) => deadLetterMsgs[1].messageId === x.messageId), true);
-
-    await deadLetterMsgs[0].complete();
-    await deadLetterMsgs[1].complete();
-
-    await testPeekMsgsLength(deadletterClient, 0);
-  }
-
-  it("Abandoned message is retained in the Partitioned Queue with incremented deliveryCount. After 10 times, you can only get it from the dead letter queue.", async function(): Promise<
-    void
-  > {
-    await testMultipleAbandons(
-      partitionedQueueClient,
-      partitionedQueueClient,
-      partitionedDeadletterQueueClient
-    );
-  });
-
-  it("Abandoned message is retained in the Partitioned Topics and Subscription with incremented deliveryCount. After 10 times, you can only get it from the dead letter.", async function(): Promise<
-    void
-  > {
-    await testMultipleAbandons(
-      partitionedTopicClient,
-      partitionedSubscriptionClient,
-      partitionedDeadletterSubscriptionClient
-    );
-  });
-
-  it("Abandoned message is retained in the UnPartitioned Queue with incremented deliveryCount. After 10 times, you can only get it from the dead letter queue.", async function(): Promise<
-    void
-  > {
-    await testMultipleAbandons(
-      unpartitionedQueueClient,
-      unpartitionedQueueClient,
-      unpartitionedDeadletterQueueClient
-    );
-  });
-
-  it("Abandoned message is retained in the UnPartitioned Topics and Subsrciption with incremented deliveryCount. After 10 times, you can only get it from the dead letter.", async function(): Promise<
-    void
-  > {
-    await testMultipleAbandons(
-      unpartitionedTopicClient,
-      unpartitionedSubscriptionClient,
-      unpartitionedDeadletterSubscriptionClient
-    );
   });
 });
 
