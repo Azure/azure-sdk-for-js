@@ -25,6 +25,8 @@ class LogicManagementClient extends LogicManagementClientContext {
   workflowRuns: operations.WorkflowRuns;
   workflowRunActions: operations.WorkflowRunActions;
   workflowRunActionRepetitions: operations.WorkflowRunActionRepetitions;
+  workflowRunActionRepetitionsRequestHistories: operations.WorkflowRunActionRepetitionsRequestHistories;
+  workflowRunActionRequestHistories: operations.WorkflowRunActionRequestHistories;
   workflowRunActionScopeRepetitions: operations.WorkflowRunActionScopeRepetitions;
   workflowRunOperations: operations.WorkflowRunOperations;
   integrationAccounts: operations.IntegrationAccounts;
@@ -54,6 +56,8 @@ class LogicManagementClient extends LogicManagementClientContext {
     this.workflowRuns = new operations.WorkflowRuns(this);
     this.workflowRunActions = new operations.WorkflowRunActions(this);
     this.workflowRunActionRepetitions = new operations.WorkflowRunActionRepetitions(this);
+    this.workflowRunActionRepetitionsRequestHistories = new operations.WorkflowRunActionRepetitionsRequestHistories(this);
+    this.workflowRunActionRequestHistories = new operations.WorkflowRunActionRequestHistories(this);
     this.workflowRunActionScopeRepetitions = new operations.WorkflowRunActionScopeRepetitions(this);
     this.workflowRunOperations = new operations.WorkflowRunOperations(this);
     this.integrationAccounts = new operations.IntegrationAccounts(this);

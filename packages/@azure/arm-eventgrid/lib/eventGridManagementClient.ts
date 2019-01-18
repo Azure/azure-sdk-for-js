@@ -17,8 +17,6 @@ import { EventGridManagementClientContext } from "./eventGridManagementClientCon
 
 class EventGridManagementClient extends EventGridManagementClientContext {
   // Operation groups
-  domains: operations.Domains;
-  domainTopics: operations.DomainTopics;
   eventSubscriptions: operations.EventSubscriptions;
   operations: operations.Operations;
   topics: operations.Topics;
@@ -33,8 +31,6 @@ class EventGridManagementClient extends EventGridManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.EventGridManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.domains = new operations.Domains(this);
-    this.domainTopics = new operations.DomainTopics(this);
     this.eventSubscriptions = new operations.EventSubscriptions(this);
     this.operations = new operations.Operations(this);
     this.topics = new operations.Topics(this);

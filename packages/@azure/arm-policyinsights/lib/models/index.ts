@@ -190,7 +190,7 @@ export interface RemediationFilters {
 /**
  * @interface
  * An interface representing RemediationDeploymentSummary.
- * The deployment status summary for all deplyoments created by the
+ * The deployment status summary for all deployments created by the
  * remediation.
  *
  */
@@ -258,7 +258,7 @@ export interface Remediation extends BaseResource {
   filters?: RemediationFilters;
   /**
    * @member {RemediationDeploymentSummary} [deploymentStatus] The deployment
-   * status summary for all deplyoments created by the remediation.
+   * status summary for all deployments created by the remediation.
    */
   deploymentStatus?: RemediationDeploymentSummary;
   /**
@@ -531,7 +531,7 @@ export interface PolicyEvent {
    */
   policySetDefinitionParameters?: string;
   /**
-   * @member {string} [managementGroupIds] Comma seperated list of management
+   * @member {string} [managementGroupIds] Comma separated list of management
    * group IDs, which represent the hierarchy of the management groups the
    * resource is under.
    */
@@ -700,7 +700,7 @@ export interface PolicyState {
    */
   policySetDefinitionParameters?: string;
   /**
-   * @member {string} [managementGroupIds] Comma seperated list of management
+   * @member {string} [managementGroupIds] Comma separated list of management
    * group IDs, which represent the hierarchy of the management groups the
    * resource is under.
    */

@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - SpellCheckAPIClient
+## An isomorphic javascript sdk for - SpellCheckClient
 
-This package contains an isomorphic SDK for SpellCheckAPIClient.
+This package contains an isomorphic SDK for SpellCheckClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for SpellCheckAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-spellcheck
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-spellcheck
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { SpellCheckAPIClient, SpellCheckAPIModels, SpellCheckAPIMappers } from "@azure/cognitiveservices-spellcheck";
+import { SpellCheckClient, SpellCheckModels, SpellCheckMappers } from "@azure/cognitiveservices-spellcheck";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new SpellCheckAPIClient(creds, subscriptionId);
+  const client = new SpellCheckClient(creds, subscriptionId);
   const text = "testtext";
   const acceptLanguage = "testacceptLanguage";
   const pragma = "testpragma";
@@ -65,7 +65,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -93,7 +93,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesSpellcheck.SpellCheckAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesSpellcheck.SpellCheckClient(res.creds, subscriptionId);
         const text = "testtext";
         const acceptLanguage = "testacceptLanguage";
         const pragma = "testpragma";
