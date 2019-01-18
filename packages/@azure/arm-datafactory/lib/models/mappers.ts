@@ -3152,6 +3152,45 @@ export const ScheduleTrigger: msRest.CompositeMapper = {
   }
 };
 
+export const AzureFunctionLinkedService: msRest.CompositeMapper = {
+  serializedName: "AzureFunction",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "AzureFunctionLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      functionAppUrl: {
+        required: true,
+        serializedName: "typeProperties.functionAppUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      functionKey: {
+        serializedName: "typeProperties.functionKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
 export const ResponsysLinkedService: msRest.CompositeMapper = {
   serializedName: "Responsys",
   type: {
@@ -9570,6 +9609,46 @@ export const ExecutionActivity: msRest.CompositeMapper = {
   }
 };
 
+export const AzureFunctionActivity: msRest.CompositeMapper = {
+  serializedName: "AzureFunctionActivity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "AzureFunctionActivity",
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      method: {
+        required: true,
+        serializedName: "typeProperties.method",
+        type: {
+          name: "String"
+        }
+      },
+      functionName: {
+        required: true,
+        serializedName: "typeProperties.functionName",
+        type: {
+          name: "Object"
+        }
+      },
+      headers: {
+        serializedName: "typeProperties.headers",
+        type: {
+          name: "Object"
+        }
+      },
+      body: {
+        serializedName: "typeProperties.body",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
 export const DatabricksSparkPythonActivity: msRest.CompositeMapper = {
   serializedName: "DatabricksSparkPython",
   type: {
@@ -14697,6 +14776,7 @@ export const discriminators = {
   'Trigger.BlobTrigger' : BlobTrigger,
   'Trigger.ScheduleTrigger' : ScheduleTrigger,
   'Trigger.MultiplePipelineTrigger' : MultiplePipelineTrigger,
+  'LinkedService.AzureFunction' : AzureFunctionLinkedService,
   'LinkedService.Responsys' : ResponsysLinkedService,
   'LinkedService.AzureDatabricks' : AzureDatabricksLinkedService,
   'LinkedService.AzureDataLakeAnalytics' : AzureDataLakeAnalyticsLinkedService,
@@ -14837,6 +14917,7 @@ export const discriminators = {
   'Dataset.AzureTable' : AzureTableDataset,
   'Dataset.AzureBlob' : AzureBlobDataset,
   'Dataset.AmazonS3Object' : AmazonS3Dataset,
+  'Activity.AzureFunctionActivity' : AzureFunctionActivity,
   'Activity.DatabricksSparkPython' : DatabricksSparkPythonActivity,
   'Activity.DatabricksSparkJar' : DatabricksSparkJarActivity,
   'Activity.DatabricksNotebook' : DatabricksNotebookActivity,
