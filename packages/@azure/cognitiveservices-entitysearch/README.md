@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - EntitySearchAPIClient
+## An isomorphic javascript sdk for - EntitySearchClient
 
-This package contains an isomorphic SDK for EntitySearchAPIClient.
+This package contains an isomorphic SDK for EntitySearchClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for EntitySearchAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-entitysearch
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-entitysearch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { EntitySearchAPIClient, EntitySearchAPIModels, EntitySearchAPIMappers } from "@azure/cognitiveservices-entitysearch";
+import { EntitySearchClient, EntitySearchModels, EntitySearchMappers } from "@azure/cognitiveservices-entitysearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new EntitySearchAPIClient(creds, subscriptionId);
+  const client = new EntitySearchClient(creds, subscriptionId);
   const query = "testquery";
   const acceptLanguage = "testacceptLanguage";
   const pragma = "testpragma";
@@ -59,7 +59,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -87,7 +87,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesEntitysearch.EntitySearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesEntitysearch.EntitySearchClient(res.creds, subscriptionId);
         const query = "testquery";
         const acceptLanguage = "testacceptLanguage";
         const pragma = "testpragma";

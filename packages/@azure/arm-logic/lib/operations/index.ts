@@ -16,6 +16,8 @@ export * from "./workflowTriggerHistories";
 export * from "./workflowRuns";
 export * from "./workflowRunActions";
 export * from "./workflowRunActionRepetitions";
+export * from "./workflowRunActionRepetitionsRequestHistories";
+export * from "./workflowRunActionRequestHistories";
 export * from "./workflowRunActionScopeRepetitions";
 export * from "./workflowRunOperations";
 export * from "./integrationAccounts";

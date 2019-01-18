@@ -86,7 +86,7 @@ export interface TemplateLink {
 /**
  * @interface
  * An interface representing ParametersLink.
- * Entity representing the reference to the deployment paramaters.
+ * Entity representing the reference to the deployment parameters.
  *
  */
 export interface ParametersLink {
@@ -454,7 +454,7 @@ export interface DeploymentPropertiesExtended {
    */
   readonly timestamp?: Date;
   /**
-   * @member {any} [outputs] Key/value pairs that represent deploymentoutput.
+   * @member {any} [outputs] Key/value pairs that represent deployment output.
    */
   outputs?: any;
   /**
@@ -541,6 +541,12 @@ export interface DeploymentExtended extends BaseResource {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {string} [type] The type of the deployment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
   /**
    * @member {string} [location] the location of the deployment.
    */
@@ -773,6 +779,12 @@ export interface ResourceGroup extends BaseResource {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {string} [type] The type of the resource group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
   /**
    * @member {ResourceGroupProperties} [properties]
    */

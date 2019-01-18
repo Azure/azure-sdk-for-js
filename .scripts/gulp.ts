@@ -31,7 +31,7 @@ function containsPackageName(packageNames: string[], packageName: string): boole
     return result;
 }
 
-export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRepoRoot: string, packageName: string, use?: boolean, useDebugger?: boolean) {
+export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRepoRoot: string, packageName: string, use?: string, useDebugger?: boolean) {
     const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
     for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
