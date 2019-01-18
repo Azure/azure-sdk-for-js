@@ -21,11 +21,18 @@ steps:
     verbose: false
 
 - task: Npm@1
-  displayName: 'npm run build -- --logging-level=trace'
+  displayName: 'npm run check:everything'
   inputs:
     command: custom
     verbose: false
-    customCommand: 'run build -- --logging-level=trace'
+    customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run build -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --logging-level=trace'
 
 - task: PublishBuildArtifacts@1
   inputs:

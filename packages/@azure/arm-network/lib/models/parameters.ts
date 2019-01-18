@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-10-01',
+    defaultValue: '2018-11-01',
     type: {
       name: "String"
     }
@@ -129,6 +129,16 @@ export const crossConnectionName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "crossConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const ddosCustomPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "ddosCustomPolicyName",
+  mapper: {
+    required: true,
+    serializedName: "ddosCustomPolicyName",
     type: {
       name: "String"
     }

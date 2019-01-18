@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - WebSearchAPIClient
+## An isomorphic javascript sdk for - WebSearchClient
 
-This package contains an isomorphic SDK for WebSearchAPIClient.
+This package contains an isomorphic SDK for WebSearchClient.
 
 ### Currently supported environments
 
@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for WebSearchAPIClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-websearch
 ```
 
@@ -19,20 +19,20 @@ npm install @azure/cognitiveservices-websearch
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { WebSearchAPIClient, WebSearchAPIModels, WebSearchAPIMappers } from "@azure/cognitiveservices-websearch";
+import { WebSearchClient, WebSearchModels, WebSearchMappers } from "@azure/cognitiveservices-websearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new WebSearchAPIClient(creds, subscriptionId);
+  const client = new WebSearchClient(creds, subscriptionId);
   const query = "testquery";
   const acceptLanguage = "testacceptLanguage";
   const pragma = "testpragma";
@@ -65,7 +65,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -93,7 +93,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesWebsearch.WebSearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesWebsearch.WebSearchClient(res.creds, subscriptionId);
         const query = "testquery";
         const acceptLanguage = "testacceptLanguage";
         const pragma = "testpragma";
