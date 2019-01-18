@@ -4702,6 +4702,43 @@ export interface ServerSecurityAlertPolicy extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing RestorableDroppedManagedDatabase.
+ * A restorable dropped managed database resource.
+ *
+ * @extends TrackedResource
+ */
+export interface RestorableDroppedManagedDatabase extends TrackedResource {
+  /**
+   * @member {string} [databaseName] The name of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the database (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {Date} [deletionDate] The deletion date of the database (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletionDate?: Date;
+  /**
+   * @member {Date} [earliestRestoreDate] The earliest restore date of the
+   * database (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly earliestRestoreDate?: Date;
+}
+
+/**
+ * @interface
  * An interface representing RestorePoint.
  * Database restore points.
  *
@@ -7734,6 +7771,22 @@ export interface ManagedDatabaseListResult extends Array<ManagedDatabase> {
  * @extends Array<ServerDnsAlias>
  */
 export interface ServerDnsAliasListResult extends Array<ServerDnsAlias> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RestorableDroppedManagedDatabaseListResult.
+ * A list of restorable dropped managed databases.
+ *
+ * @extends Array<RestorableDroppedManagedDatabase>
+ */
+export interface RestorableDroppedManagedDatabaseListResult extends Array<RestorableDroppedManagedDatabase> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -13178,6 +13231,139 @@ export type ManagedDatabasesListByInstanceNextResponse = ManagedDatabaseListResu
 /**
  * Contains response data for the get operation.
  */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByRestorableDroppedDatabase operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesBeginUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByRestorableDroppedDatabaseNext operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type ServerAutomaticTuningGetResponse = ServerAutomaticTuning & {
   /**
    * The underlying HTTP response.
@@ -13362,6 +13548,63 @@ export type ServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ServerSecur
        * The response body as parsed JSON or XML
        */
       parsedBody: ServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type RestorableDroppedManagedDatabasesListByInstanceResponse = RestorableDroppedManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RestorableDroppedManagedDatabasesGetResponse = RestorableDroppedManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type RestorableDroppedManagedDatabasesListByInstanceNextResponse = RestorableDroppedManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabaseListResult;
     };
 };
 

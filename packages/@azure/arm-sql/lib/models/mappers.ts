@@ -5298,6 +5298,45 @@ export const ServerSecurityAlertPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const RestorableDroppedManagedDatabase: msRest.CompositeMapper = {
+  serializedName: "RestorableDroppedManagedDatabase",
+  type: {
+    name: "Composite",
+    className: "RestorableDroppedManagedDatabase",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      databaseName: {
+        readOnly: true,
+        serializedName: "properties.databaseName",
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        readOnly: true,
+        serializedName: "properties.creationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      deletionDate: {
+        readOnly: true,
+        serializedName: "properties.deletionDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      earliestRestoreDate: {
+        readOnly: true,
+        serializedName: "properties.earliestRestoreDate",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const RestorePoint: msRest.CompositeMapper = {
   serializedName: "RestorePoint",
   type: {
@@ -8999,6 +9038,36 @@ export const ServerDnsAliasListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ServerDnsAlias"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestorableDroppedManagedDatabaseListResult: msRest.CompositeMapper = {
+  serializedName: "RestorableDroppedManagedDatabaseListResult",
+  type: {
+    name: "Composite",
+    className: "RestorableDroppedManagedDatabaseListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RestorableDroppedManagedDatabase"
             }
           }
         }

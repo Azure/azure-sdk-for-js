@@ -9,14 +9,13 @@
  */
 
 export {
-  ManagedServerSecurityAlertPolicy,
-  ProxyResource,
+  RestorableDroppedManagedDatabaseListResult,
+  RestorableDroppedManagedDatabase,
+  TrackedResource,
   Resource,
   BaseResource,
   CloudError,
-  RecoverableDatabase,
-  RestorableDroppedDatabase,
-  TrackedResource,
+  ProxyResource,
   ServerConnectionPolicy,
   DatabaseSecurityAlertPolicy,
   DataMaskingPolicy,
@@ -88,9 +87,9 @@ export {
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
-  RestorableDroppedManagedDatabase,
   RestorePoint,
   ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,
@@ -110,6 +109,8 @@ export {
   ManagedInstanceEncryptionProtector,
   RecoverableManagedDatabase,
   ManagedInstanceVulnerabilityAssessment,
-  ServerVulnerabilityAssessment
+  ServerVulnerabilityAssessment,
+  RecoverableDatabase,
+  RestorableDroppedDatabase
 } from "../models/mappers";
 
