@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/failoverGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class FailoverGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, failoverGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FailoverGroup>): void;
-  get(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FailoverGroup>): Promise<Models.FailoverGroupsGetResponse> {
+  get(resourceGroupName: string, serverName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverGroup>, callback?: msRest.ServiceCallback<Models.FailoverGroup>): Promise<Models.FailoverGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class FailoverGroups {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FailoverGroupListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FailoverGroupListResult>): Promise<Models.FailoverGroupsListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverGroupListResult>, callback?: msRest.ServiceCallback<Models.FailoverGroupListResult>): Promise<Models.FailoverGroupsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -302,7 +302,7 @@ export class FailoverGroups {
    * @param callback The callback
    */
   listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FailoverGroupListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FailoverGroupListResult>): Promise<Models.FailoverGroupsListByServerNextResponse> {
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverGroupListResult>, callback?: msRest.ServiceCallback<Models.FailoverGroupListResult>): Promise<Models.FailoverGroupsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

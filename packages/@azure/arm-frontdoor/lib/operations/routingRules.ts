@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/routingRulesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class RoutingRules {
    * @param callback The callback
    */
   listByFrontDoor(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoutingRuleListResult>): void;
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoutingRuleListResult>): Promise<Models.RoutingRulesListByFrontDoorResponse> {
+  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoutingRuleListResult>, callback?: msRest.ServiceCallback<Models.RoutingRuleListResult>): Promise<Models.RoutingRulesListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class RoutingRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, frontDoorName: string, routingRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoutingRule>): void;
-  get(resourceGroupName: string, frontDoorName: string, routingRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoutingRule>): Promise<Models.RoutingRulesGetResponse> {
+  get(resourceGroupName: string, frontDoorName: string, routingRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoutingRule>, callback?: msRest.ServiceCallback<Models.RoutingRule>): Promise<Models.RoutingRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class RoutingRules {
    * @param callback The callback
    */
   listByFrontDoorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoutingRuleListResult>): void;
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoutingRuleListResult>): Promise<Models.RoutingRulesListByFrontDoorNextResponse> {
+  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoutingRuleListResult>, callback?: msRest.ServiceCallback<Models.RoutingRuleListResult>): Promise<Models.RoutingRulesListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/locationsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class Locations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationsResponse>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LocationsResponse>): Promise<Models.LocationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationsResponse>, callback?: msRest.ServiceCallback<Models.LocationsResponse>): Promise<Models.LocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class Locations {
    * @param callback The callback
    */
   get(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Location>): void;
-  get(locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Location>): Promise<Models.LocationsGetResponse> {
+  get(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Location>, callback?: msRest.ServiceCallback<Models.Location>): Promise<Models.LocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,

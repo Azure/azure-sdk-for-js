@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -66,7 +66,7 @@ export class ExpressRouteConnections {
    * @param callback The callback
    */
   get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteConnection>): void;
-  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteConnection>): Promise<Models.ExpressRouteConnectionsGetResponse> {
+  get(resourceGroupName: string, expressRouteGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteConnection>, callback?: msRest.ServiceCallback<Models.ExpressRouteConnection>): Promise<Models.ExpressRouteConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class ExpressRouteConnections {
    * @param callback The callback
    */
   list(resourceGroupName: string, expressRouteGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteConnectionList>): void;
-  list(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteConnectionList>): Promise<Models.ExpressRouteConnectionsListResponse> {
+  list(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteConnectionList>, callback?: msRest.ServiceCallback<Models.ExpressRouteConnectionList>): Promise<Models.ExpressRouteConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

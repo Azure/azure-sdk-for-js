@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/databaseUsagesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class DatabaseUsages {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseUsageListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DatabaseUsageListResult>): Promise<Models.DatabaseUsagesListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseUsageListResult>, callback?: msRest.ServiceCallback<Models.DatabaseUsageListResult>): Promise<Models.DatabaseUsagesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

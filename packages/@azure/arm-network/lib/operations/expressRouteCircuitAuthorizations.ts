@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/expressRouteCircuitAuthorizationsMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class ExpressRouteCircuitAuthorizations {
    * @param callback The callback
    */
   get(resourceGroupName: string, circuitName: string, authorizationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>): void;
-  get(resourceGroupName: string, circuitName: string, authorizationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>): Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse> {
+  get(resourceGroupName: string, circuitName: string, authorizationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>): Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +112,7 @@ export class ExpressRouteCircuitAuthorizations {
    * @param callback The callback
    */
   list(resourceGroupName: string, circuitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationListResult>): void;
-  list(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationListResult>): Promise<Models.ExpressRouteCircuitAuthorizationsListResponse> {
+  list(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationListResult>): Promise<Models.ExpressRouteCircuitAuthorizationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +184,7 @@ export class ExpressRouteCircuitAuthorizations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationListResult>): Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationListResult>): Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -2785,7 +2785,6 @@ export const ManagedInstance: msRest.CompositeMapper = {
         }
       },
       collation: {
-        readOnly: true,
         serializedName: "properties.collation",
         type: {
           name: "String"
@@ -2872,7 +2871,6 @@ export const ManagedInstanceUpdate: msRest.CompositeMapper = {
         }
       },
       collation: {
-        readOnly: true,
         serializedName: "properties.collation",
         type: {
           name: "String"
@@ -3838,6 +3836,12 @@ export const ExtendedDatabaseBlobAuditingPolicy: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3907,6 +3911,12 @@ export const ExtendedServerBlobAuditingPolicy: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3967,6 +3977,12 @@ export const ServerBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
         type: {
           name: "Boolean"
         }
@@ -4037,6 +4053,12 @@ export const DatabaseBlobAuditingPolicy: msRest.CompositeMapper = {
       },
       isStorageSecondaryKeyInUse: {
         serializedName: "properties.isStorageSecondaryKeyInUse",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAzureMonitorTargetEnabled: {
+        serializedName: "properties.isAzureMonitorTargetEnabled",
         type: {
           name: "Boolean"
         }
@@ -4133,7 +4155,6 @@ export const DatabaseVulnerabilityAssessment: msRest.CompositeMapper = {
     modelProperties: {
       ...ProxyResource.type.modelProperties,
       storageContainerPath: {
-        required: true,
         serializedName: "properties.storageContainerPath",
         type: {
           name: "String"
@@ -4818,6 +4839,23 @@ export const BackupLongTermRetentionPolicy: msRest.CompositeMapper = {
       },
       weekOfYear: {
         serializedName: "properties.weekOfYear",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedBackupShortTermRetentionPolicy: msRest.CompositeMapper = {
+  serializedName: "ManagedBackupShortTermRetentionPolicy",
+  type: {
+    name: "Composite",
+    className: "ManagedBackupShortTermRetentionPolicy",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      retentionDays: {
+        serializedName: "properties.retentionDays",
         type: {
           name: "Number"
         }
@@ -7400,6 +7438,80 @@ export const ManagedInstanceEncryptionProtector: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedInstanceVulnerabilityAssessment: msRest.CompositeMapper = {
+  serializedName: "ManagedInstanceVulnerabilityAssessment",
+  type: {
+    name: "Composite",
+    className: "ManagedInstanceVulnerabilityAssessment",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      storageContainerPath: {
+        required: true,
+        serializedName: "properties.storageContainerPath",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerSasKey: {
+        serializedName: "properties.storageContainerSasKey",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountAccessKey: {
+        serializedName: "properties.storageAccountAccessKey",
+        type: {
+          name: "String"
+        }
+      },
+      recurringScans: {
+        serializedName: "properties.recurringScans",
+        type: {
+          name: "Composite",
+          className: "VulnerabilityAssessmentRecurringScansProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ServerVulnerabilityAssessment: msRest.CompositeMapper = {
+  serializedName: "ServerVulnerabilityAssessment",
+  type: {
+    name: "Composite",
+    className: "ServerVulnerabilityAssessment",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      storageContainerPath: {
+        required: true,
+        serializedName: "properties.storageContainerPath",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerSasKey: {
+        serializedName: "properties.storageContainerSasKey",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountAccessKey: {
+        serializedName: "properties.storageAccountAccessKey",
+        type: {
+          name: "String"
+        }
+      },
+      recurringScans: {
+        serializedName: "properties.recurringScans",
+        type: {
+          name: "Composite",
+          className: "VulnerabilityAssessmentRecurringScansProperties"
+        }
+      }
+    }
+  }
+};
+
 export const RecoverableDatabaseListResult: msRest.CompositeMapper = {
   serializedName: "RecoverableDatabaseListResult",
   type: {
@@ -8341,6 +8453,36 @@ export const VirtualNetworkRuleListResult: msRest.CompositeMapper = {
   }
 };
 
+export const DatabaseVulnerabilityAssessmentListResult: msRest.CompositeMapper = {
+  serializedName: "DatabaseVulnerabilityAssessmentListResult",
+  type: {
+    name: "Composite",
+    className: "DatabaseVulnerabilityAssessmentListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseVulnerabilityAssessment"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const JobAgentListResult: msRest.CompositeMapper = {
   serializedName: "JobAgentListResult",
   type: {
@@ -8566,6 +8708,36 @@ export const LongTermRetentionBackupListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "LongTermRetentionBackup"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedBackupShortTermRetentionPolicyListResult: msRest.CompositeMapper = {
+  serializedName: "ManagedBackupShortTermRetentionPolicyListResult",
+  type: {
+    name: "Composite",
+    className: "ManagedBackupShortTermRetentionPolicyListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedBackupShortTermRetentionPolicy"
             }
           }
         }
@@ -8859,6 +9031,66 @@ export const ManagedInstanceEncryptionProtectorListResult: msRest.CompositeMappe
             type: {
               name: "Composite",
               className: "ManagedInstanceEncryptionProtector"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedInstanceVulnerabilityAssessmentListResult: msRest.CompositeMapper = {
+  serializedName: "ManagedInstanceVulnerabilityAssessmentListResult",
+  type: {
+    name: "Composite",
+    className: "ManagedInstanceVulnerabilityAssessmentListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedInstanceVulnerabilityAssessment"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServerVulnerabilityAssessmentListResult: msRest.CompositeMapper = {
+  serializedName: "ServerVulnerabilityAssessmentListResult",
+  type: {
+    name: "Composite",
+    className: "ServerVulnerabilityAssessmentListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServerVulnerabilityAssessment"
             }
           }
         }

@@ -24,8 +24,6 @@ export {
   ArmDisasterRecovery,
   MessagingRegions,
   MessagingRegionsProperties,
-  MessagingPlan,
-  IpFilterRule,
-  VirtualNetworkRule
+  MessagingPlan
 } from "../models/mappers";
 

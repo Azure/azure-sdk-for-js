@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/healthProbeSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class HealthProbeSettings {
    * @param callback The callback
    */
   listByFrontDoor(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HealthProbeSettingsListResult>): void;
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HealthProbeSettingsListResult>): Promise<Models.HealthProbeSettingsListByFrontDoorResponse> {
+  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HealthProbeSettingsListResult>, callback?: msRest.ServiceCallback<Models.HealthProbeSettingsListResult>): Promise<Models.HealthProbeSettingsListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class HealthProbeSettings {
    * @param callback The callback
    */
   get(resourceGroupName: string, frontDoorName: string, healthProbeSettingsName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HealthProbeSettingsModel>): void;
-  get(resourceGroupName: string, frontDoorName: string, healthProbeSettingsName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HealthProbeSettingsModel>): Promise<Models.HealthProbeSettingsGetResponse> {
+  get(resourceGroupName: string, frontDoorName: string, healthProbeSettingsName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HealthProbeSettingsModel>, callback?: msRest.ServiceCallback<Models.HealthProbeSettingsModel>): Promise<Models.HealthProbeSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +191,7 @@ export class HealthProbeSettings {
    * @param callback The callback
    */
   listByFrontDoorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HealthProbeSettingsListResult>): void;
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HealthProbeSettingsListResult>): Promise<Models.HealthProbeSettingsListByFrontDoorNextResponse> {
+  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HealthProbeSettingsListResult>, callback?: msRest.ServiceCallback<Models.HealthProbeSettingsListResult>): Promise<Models.HealthProbeSettingsListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

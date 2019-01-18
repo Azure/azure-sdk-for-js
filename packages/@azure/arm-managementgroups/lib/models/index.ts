@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1080,26 +1080,16 @@ export interface EntityListResult extends Array<EntityInfo> {
  * @readonly
  * @enum {string}
  */
-export enum Reason {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type Reason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for Status.
- * Possible values include: 'NotStarted', 'NotStartedButGroupsExist',
- * 'Started', 'Failed', 'Cancelled', 'Completed'
+ * Possible values include: 'NotStarted', 'NotStartedButGroupsExist', 'Started', 'Failed',
+ * 'Cancelled', 'Completed'
  * @readonly
  * @enum {string}
  */
-export enum Status {
-  NotStarted = 'NotStarted',
-  NotStartedButGroupsExist = 'NotStartedButGroupsExist',
-  Started = 'Started',
-  Failed = 'Failed',
-  Cancelled = 'Cancelled',
-  Completed = 'Completed',
-}
+export type Status = 'NotStarted' | 'NotStartedButGroupsExist' | 'Started' | 'Failed' | 'Cancelled' | 'Completed';
 
 /**
  * Defines values for Type.
@@ -1107,161 +1097,80 @@ export enum Status {
  * @readonly
  * @enum {string}
  */
-export enum Type {
-  ProvidersMicrosoftManagementmanagementGroups = '/providers/Microsoft.Management/managementGroups',
-}
+export type Type = '/providers/Microsoft.Management/managementGroups';
 
 /**
  * Defines values for Type1.
- * Possible values include: '/providers/Microsoft.Management/managementGroups',
- * '/subscriptions'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Type1 = <Type1>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: '/providers/Microsoft.Management/managementGroups', '/subscriptions'
  * @readonly
  * @enum {string}
  */
-export enum Type1 {
-  ProvidersMicrosoftManagementmanagementGroups = '/providers/Microsoft.Management/managementGroups',
-  Subscriptions = '/subscriptions',
-}
+export type Type1 = '/providers/Microsoft.Management/managementGroups' | '/subscriptions';
 
 /**
  * Defines values for ProvisioningState.
  * Possible values include: 'Updating'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Updating = 'Updating',
-}
+export type ProvisioningState = 'Updating';
 
 /**
  * Defines values for Permissions.
  * Possible values include: 'noaccess', 'view', 'edit', 'delete'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Permissions =
- * <Permissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Permissions {
-  Noaccess = 'noaccess',
-  View = 'view',
-  Edit = 'edit',
-  Delete = 'delete',
-}
+export type Permissions = 'noaccess' | 'view' | 'edit' | 'delete';
 
 /**
  * Defines values for InheritedPermissions.
  * Possible values include: 'noaccess', 'view', 'edit', 'delete'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: InheritedPermissions =
- * <InheritedPermissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum InheritedPermissions {
-  Noaccess = 'noaccess',
-  View = 'view',
-  Edit = 'edit',
-  Delete = 'delete',
-}
+export type InheritedPermissions = 'noaccess' | 'view' | 'edit' | 'delete';
 
 /**
  * Defines values for Permissions1.
  * Possible values include: 'noaccess', 'view', 'edit', 'delete'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Permissions1 =
- * <Permissions1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Permissions1 {
-  Noaccess = 'noaccess',
-  View = 'view',
-  Edit = 'edit',
-  Delete = 'delete',
-}
+export type Permissions1 = 'noaccess' | 'view' | 'edit' | 'delete';
 
 /**
  * Defines values for Type2.
- * Possible values include: '/providers/Microsoft.Management/managementGroups',
- * '/subscriptions'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Type2 = <Type2>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: '/providers/Microsoft.Management/managementGroups', '/subscriptions'
  * @readonly
  * @enum {string}
  */
-export enum Type2 {
-  ProvidersMicrosoftManagementmanagementGroups = '/providers/Microsoft.Management/managementGroups',
-  Subscriptions = '/subscriptions',
-}
+export type Type2 = '/providers/Microsoft.Management/managementGroups' | '/subscriptions';
 
 /**
  * Defines values for Expand.
  * Possible values include: 'children'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Expand = <Expand>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Expand {
-  Children = 'children',
-}
+export type Expand = 'children';
 
 /**
  * Defines values for Search.
- * Possible values include: 'AllowedParents', 'AllowedChildren',
- * 'ParentAndFirstLevelChildren', 'ParentOnly', 'ChildrenOnly'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Search = <Search>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'AllowedParents', 'AllowedChildren', 'ParentAndFirstLevelChildren',
+ * 'ParentOnly', 'ChildrenOnly'
  * @readonly
  * @enum {string}
  */
-export enum Search {
-  AllowedParents = 'AllowedParents',
-  AllowedChildren = 'AllowedChildren',
-  ParentAndFirstLevelChildren = 'ParentAndFirstLevelChildren',
-  ParentOnly = 'ParentOnly',
-  ChildrenOnly = 'ChildrenOnly',
-}
+export type Search = 'AllowedParents' | 'AllowedChildren' | 'ParentAndFirstLevelChildren' | 'ParentOnly' | 'ChildrenOnly';
 
 /**
  * Defines values for View.
- * Possible values include: 'FullHierarchy', 'GroupsOnly', 'SubscriptionsOnly',
- * 'Audit'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: View = <View>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'FullHierarchy', 'GroupsOnly', 'SubscriptionsOnly', 'Audit'
  * @readonly
  * @enum {string}
  */
-export enum View {
-  FullHierarchy = 'FullHierarchy',
-  GroupsOnly = 'GroupsOnly',
-  SubscriptionsOnly = 'SubscriptionsOnly',
-  Audit = 'Audit',
-}
+export type View = 'FullHierarchy' | 'GroupsOnly' | 'SubscriptionsOnly' | 'Audit';
 
 /**
  * Contains response data for the list operation.

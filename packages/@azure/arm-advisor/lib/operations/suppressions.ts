@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/suppressionsMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class Suppressions {
    * @param callback The callback
    */
   get(resourceUri: string, recommendationId: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuppressionContract>): void;
-  get(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SuppressionContract>): Promise<Models.SuppressionsGetResponse> {
+  get(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContract>, callback?: msRest.ServiceCallback<Models.SuppressionContract>): Promise<Models.SuppressionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -97,7 +97,7 @@ export class Suppressions {
    * @param callback The callback
    */
   create(resourceUri: string, recommendationId: string, name: string, suppressionContract: Models.SuppressionContract, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuppressionContract>): void;
-  create(resourceUri: string, recommendationId: string, name: string, suppressionContract: Models.SuppressionContract, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SuppressionContract>): Promise<Models.SuppressionsCreateResponse> {
+  create(resourceUri: string, recommendationId: string, name: string, suppressionContract: Models.SuppressionContract, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContract>, callback?: msRest.ServiceCallback<Models.SuppressionContract>): Promise<Models.SuppressionsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -138,7 +138,7 @@ export class Suppressions {
    * @param callback The callback
    */
   deleteMethod(resourceUri: string, recommendationId: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -166,7 +166,7 @@ export class Suppressions {
    * @param callback The callback
    */
   list(options: Models.SuppressionsListOptionalParams, callback: msRest.ServiceCallback<Models.SuppressionContractListResult>): void;
-  list(options?: Models.SuppressionsListOptionalParams, callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>): Promise<Models.SuppressionsListResponse> {
+  list(options?: Models.SuppressionsListOptionalParams | msRest.ServiceCallback<Models.SuppressionContractListResult>, callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>): Promise<Models.SuppressionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -194,7 +194,7 @@ export class Suppressions {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuppressionContractListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>): Promise<Models.SuppressionsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContractListResult>, callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>): Promise<Models.SuppressionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

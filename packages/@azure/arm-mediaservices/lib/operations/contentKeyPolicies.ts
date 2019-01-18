@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/contentKeyPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class ContentKeyPolicies {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: Models.ContentKeyPoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.ContentKeyPoliciesListOptionalParams, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): Promise<Models.ContentKeyPoliciesListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: Models.ContentKeyPoliciesListOptionalParams | msRest.ServiceCallback<Models.ContentKeyPolicyCollection>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): Promise<Models.ContentKeyPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +84,7 @@ export class ContentKeyPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
-  get(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesGetResponse> {
+  get(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +124,7 @@ export class ContentKeyPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class ContentKeyPolicies {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +202,7 @@ export class ContentKeyPolicies {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
-  update(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -240,7 +240,7 @@ export class ContentKeyPolicies {
    * @param callback The callback
    */
   getPolicyPropertiesWithSecrets(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>): void;
-  getPolicyPropertiesWithSecrets(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>): Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse> {
+  getPolicyPropertiesWithSecrets(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicyProperties>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>): Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -271,7 +271,7 @@ export class ContentKeyPolicies {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): Promise<Models.ContentKeyPoliciesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicyCollection>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): Promise<Models.ContentKeyPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

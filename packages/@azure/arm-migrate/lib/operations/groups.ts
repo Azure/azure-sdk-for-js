@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/groupsMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class Groups {
    * @param callback The callback
    */
   listByProject(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupResultList>): void;
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GroupResultList>): Promise<Models.GroupsListByProjectResponse> {
+  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupResultList>, callback?: msRest.ServiceCallback<Models.GroupResultList>): Promise<Models.GroupsListByProjectResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class Groups {
    * @param callback The callback
    */
   get(resourceGroupName: string, projectName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Group>): void;
-  get(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Group>): Promise<Models.GroupsGetResponse> {
+  get(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Group>, callback?: msRest.ServiceCallback<Models.Group>): Promise<Models.GroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +107,6 @@ export class Groups {
    * update.
    *
    * This operation is Idempotent.
-   *
    * @summary Create a new group with specified settings. If group with the name provided already
    * exists, then the existing group is updated.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
@@ -132,7 +131,7 @@ export class Groups {
    * @param callback The callback
    */
   create(resourceGroupName: string, projectName: string, groupName: string, options: Models.GroupsCreateOptionalParams, callback: msRest.ServiceCallback<Models.Group>): void;
-  create(resourceGroupName: string, projectName: string, groupName: string, options?: Models.GroupsCreateOptionalParams, callback?: msRest.ServiceCallback<Models.Group>): Promise<Models.GroupsCreateResponse> {
+  create(resourceGroupName: string, projectName: string, groupName: string, options?: Models.GroupsCreateOptionalParams | msRest.ServiceCallback<Models.Group>, callback?: msRest.ServiceCallback<Models.Group>): Promise<Models.GroupsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +149,6 @@ export class Groups {
    *
    * A group is an aggregation mechanism for machines in a project. Therefore, deleting group does
    * not delete machines in it.
-   *
    * @summary Delete the group
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -174,7 +172,7 @@ export class Groups {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, projectName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.GroupsDeleteResponse> {
+  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.GroupsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

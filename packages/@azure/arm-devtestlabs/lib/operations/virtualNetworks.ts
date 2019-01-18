@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/virtualNetworksMappers";
 import * as Parameters from "../models/parameters";
@@ -40,15 +40,15 @@ export class VirtualNetworks {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationVirtualNetwork>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.VirtualNetworksListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationVirtualNetwork>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.VirtualNetworksListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationVirtualNetwork>): Promise<Models.VirtualNetworksListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.VirtualNetworksListOptionalParams, callback: msRest.ServiceCallback<Models.VirtualNetworkList>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.VirtualNetworksListOptionalParams | msRest.ServiceCallback<Models.VirtualNetworkList>, callback?: msRest.ServiceCallback<Models.VirtualNetworkList>): Promise<Models.VirtualNetworksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.VirtualNetworksGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualNetwork>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.VirtualNetworksGetOptionalParams, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.VirtualNetworksGetOptionalParams | msRest.ServiceCallback<Models.VirtualNetwork>, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +149,7 @@ export class VirtualNetworks {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, name: string, virtualNetwork: Models.VirtualNetworkFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetwork>): void;
-  update(resourceGroupName: string, labName: string, name: string, virtualNetwork: Models.VirtualNetworkFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksUpdateResponse> {
+  update(resourceGroupName: string, labName: string, name: string, virtualNetwork: Models.VirtualNetworkFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetwork>, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,14 +215,14 @@ export class VirtualNetworks {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationVirtualNetwork>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationVirtualNetwork>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationVirtualNetwork>): Promise<Models.VirtualNetworksListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkList>, callback?: msRest.ServiceCallback<Models.VirtualNetworkList>): Promise<Models.VirtualNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -255,7 +255,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationVirtualNetwork
+      bodyMapper: Mappers.VirtualNetworkList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -376,6 +376,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     204: {},
     default: {
@@ -397,7 +398,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationVirtualNetwork
+      bodyMapper: Mappers.VirtualNetworkList
     },
     default: {
       bodyMapper: Mappers.CloudError

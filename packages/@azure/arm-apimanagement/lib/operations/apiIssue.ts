@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/apiIssueMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiIssueListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiIssueListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiIssueListByServiceOptionalParams | msRest.ServiceCallback<Models.IssueCollection>, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueGetResponse> {
+  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +172,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options: Models.ApiIssueCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IssueContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options?: Models.ApiIssueCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueContract, options?: Models.ApiIssueCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IssueContract>, callback?: msRest.ServiceCallback<Models.IssueContract>): Promise<Models.ApiIssueCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,6 +184,50 @@ export class ApiIssue {
       },
       createOrUpdateOperationSpec,
       callback) as Promise<Models.ApiIssueCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Updates an existing issue for an API.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param issueId Issue identifier. Must be unique in the current API Management service instance.
+   * @param parameters Update parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param issueId Issue identifier. Must be unique in the current API Management service instance.
+   * @param parameters Update parameters.
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param issueId Issue identifier. Must be unique in the current API Management service instance.
+   * @param parameters Update parameters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options: Models.ApiIssueUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, parameters: Models.IssueUpdateContract, options?: Models.ApiIssueUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        issueId,
+        parameters,
+        options
+      },
+      updateOperationSpec,
+      callback);
   }
 
   /**
@@ -219,7 +263,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -251,7 +295,7 @@ export class ApiIssue {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueCollection>, callback?: msRest.ServiceCallback<Models.IssueCollection>): Promise<Models.ApiIssueListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -379,6 +423,39 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.IssueContract
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.apiId1,
+    Parameters.issueId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch1,
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.IssueUpdateContract,
+      required: true
+    }
+  },
+  responses: {
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

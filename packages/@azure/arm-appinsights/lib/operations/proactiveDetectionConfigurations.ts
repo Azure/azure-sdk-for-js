@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/proactiveDetectionConfigurationsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class ProactiveDetectionConfigurations {
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration[]>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration[]>): Promise<Models.ProactiveDetectionConfigurationsListResponse> {
+  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration[]>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration[]>): Promise<Models.ProactiveDetectionConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class ProactiveDetectionConfigurations {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, configurationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): void;
-  get(resourceGroupName: string, resourceName: string, configurationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): Promise<Models.ProactiveDetectionConfigurationsGetResponse> {
+  get(resourceGroupName: string, resourceName: string, configurationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): Promise<Models.ProactiveDetectionConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +130,7 @@ export class ProactiveDetectionConfigurations {
    * @param callback The callback
    */
   update(resourceGroupName: string, resourceName: string, configurationId: string, proactiveDetectionProperties: Models.ApplicationInsightsComponentProactiveDetectionConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): void;
-  update(resourceGroupName: string, resourceName: string, configurationId: string, proactiveDetectionProperties: Models.ApplicationInsightsComponentProactiveDetectionConfiguration, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): Promise<Models.ProactiveDetectionConfigurationsUpdateResponse> {
+  update(resourceGroupName: string, resourceName: string, configurationId: string, proactiveDetectionProperties: Models.ApplicationInsightsComponentProactiveDetectionConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentProactiveDetectionConfiguration>): Promise<Models.ProactiveDetectionConfigurationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

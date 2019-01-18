@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dscConfigurationOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class DscConfigurationOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, configurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class DscConfigurationOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, configurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscConfiguration>): void;
-  get(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscConfiguration>): Promise<Models.DscConfigurationGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscConfiguration>, callback?: msRest.ServiceCallback<Models.DscConfiguration>): Promise<Models.DscConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +125,7 @@ export class DscConfigurationOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, configurationName: string, parameters: Models.DscConfigurationCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscConfiguration>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, configurationName: string, parameters: Models.DscConfigurationCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscConfiguration>): Promise<Models.DscConfigurationCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, automationAccountName: string, configurationName: string, parameters: Models.DscConfigurationCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscConfiguration>, callback?: msRest.ServiceCallback<Models.DscConfiguration>): Promise<Models.DscConfigurationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +162,7 @@ export class DscConfigurationOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, configurationName: string, options: Models.DscConfigurationUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DscConfiguration>): void;
-  update(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: Models.DscConfigurationUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.DscConfiguration>): Promise<Models.DscConfigurationUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: Models.DscConfigurationUpdateOptionalParams | msRest.ServiceCallback<Models.DscConfiguration>, callback?: msRest.ServiceCallback<Models.DscConfiguration>): Promise<Models.DscConfigurationUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +198,7 @@ export class DscConfigurationOperations {
    * @param callback The callback
    */
   getContent(resourceGroupName: string, automationAccountName: string, configurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getContent(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.DscConfigurationGetContentResponse> {
+  getContent(resourceGroupName: string, automationAccountName: string, configurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DscConfigurationGetContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +231,7 @@ export class DscConfigurationOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.DscConfigurationListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.DscConfigurationListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscConfigurationListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.DscConfigurationListResult>): Promise<Models.DscConfigurationListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscConfigurationListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.DscConfigurationListResult>, callback?: msRest.ServiceCallback<Models.DscConfigurationListResult>): Promise<Models.DscConfigurationListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -260,7 +260,7 @@ export class DscConfigurationOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscConfigurationListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DscConfigurationListResult>): Promise<Models.DscConfigurationListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscConfigurationListResult>, callback?: msRest.ServiceCallback<Models.DscConfigurationListResult>): Promise<Models.DscConfigurationListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

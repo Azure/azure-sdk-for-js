@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -303,30 +303,12 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Accepted', 'Running', 'Ready', 'Creating',
- * 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
- * 'Updating'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Accepted', 'Running', 'Ready', 'Creating', 'Created', 'Deleting',
+ * 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Accepted = 'Accepted',
-  Running = 'Running',
-  Ready = 'Ready',
-  Creating = 'Creating',
-  Created = 'Created',
-  Deleting = 'Deleting',
-  Deleted = 'Deleted',
-  Canceled = 'Canceled',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Updating = 'Updating',
-}
+export type ProvisioningState = 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Updating';
 
 /**
  * Contains response data for the get operation.

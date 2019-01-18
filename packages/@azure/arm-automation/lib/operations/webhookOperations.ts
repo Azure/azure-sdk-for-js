@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/webhookOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class WebhookOperations {
    * @param callback The callback
    */
   generateUri(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  generateUri(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<string>): Promise<Models.WebhookGenerateUriResponse> {
+  generateUri(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.WebhookGenerateUriResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class WebhookOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, automationAccountName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +118,7 @@ export class WebhookOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  get(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class WebhookOperations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -197,7 +197,7 @@ export class WebhookOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  update(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookUpdateResponse> {
+  update(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +231,7 @@ export class WebhookOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.WebhookListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WebhookListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhookListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WebhookListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhookListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -260,7 +260,7 @@ export class WebhookOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhookListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhookListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

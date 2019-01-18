@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/storageDomainsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class StorageDomains {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageDomainList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageDomainList>): Promise<Models.StorageDomainsListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageDomainList>, callback?: msRest.ServiceCallback<Models.StorageDomainList>): Promise<Models.StorageDomainsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class StorageDomains {
    * @param callback The callback
    */
   get(storageDomainName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageDomain>): void;
-  get(storageDomainName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageDomain>): Promise<Models.StorageDomainsGetResponse> {
+  get(storageDomainName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageDomain>, callback?: msRest.ServiceCallback<Models.StorageDomain>): Promise<Models.StorageDomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         storageDomainName,

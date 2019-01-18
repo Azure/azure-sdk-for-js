@@ -13,6 +13,8 @@ export {
   Application,
   DirectoryObject,
   AppRole,
+  RequiredResourceAccess,
+  ResourceAccess,
   GraphError,
   ApplicationListResult,
   ADGroup,

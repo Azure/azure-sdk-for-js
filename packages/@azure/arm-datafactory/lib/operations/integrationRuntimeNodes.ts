@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationRuntimeNodesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class IntegrationRuntimeNodes {
    * @param callback The callback
    */
   get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesGetResponse> {
+  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>, callback?: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +93,7 @@ export class IntegrationRuntimeNodes {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +139,7 @@ export class IntegrationRuntimeNodes {
    * @param callback The callback
    */
   update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
-  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesUpdateResponse> {
+  update(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>, callback?: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): Promise<Models.IntegrationRuntimeNodesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -180,7 +180,7 @@ export class IntegrationRuntimeNodes {
    * @param callback The callback
    */
   getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
-  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): Promise<Models.IntegrationRuntimeNodesGetIpAddressResponse> {
+  getIpAddress(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): Promise<Models.IntegrationRuntimeNodesGetIpAddressResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

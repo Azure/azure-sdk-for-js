@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -168,6 +168,16 @@ export const repetitionName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "repetitionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const requestHistoryName: msRest.OperationURLParameter = {
+  parameterPath: "requestHistoryName",
+  mapper: {
+    required: true,
+    serializedName: "requestHistoryName",
     type: {
       name: "String"
     }

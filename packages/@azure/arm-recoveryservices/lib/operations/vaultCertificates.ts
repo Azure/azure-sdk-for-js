@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/vaultCertificatesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class VaultCertificates {
    * @param callback The callback
    */
   create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: Models.CertificateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultCertificateResponse>): void;
-  create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: Models.CertificateRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VaultCertificateResponse>): Promise<Models.VaultCertificatesCreateResponse> {
+  create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: Models.CertificateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultCertificateResponse>, callback?: msRest.ServiceCallback<Models.VaultCertificateResponse>): Promise<Models.VaultCertificatesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

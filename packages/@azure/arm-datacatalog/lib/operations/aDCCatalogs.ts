@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/aDCCatalogsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ADCCatalogs {
    * @param callback The callback
    */
   listtByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalogsListResult>): void;
-  listtByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ADCCatalogsListResult>): Promise<Models.ADCCatalogsListtByResourceGroupResponse> {
+  listtByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalogsListResult>, callback?: msRest.ServiceCallback<Models.ADCCatalogsListResult>): Promise<Models.ADCCatalogsListtByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +87,7 @@ export class ADCCatalogs {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, properties: Models.ADCCatalog, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
-  createOrUpdate(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class ADCCatalogs {
    * @param callback The callback
    */
   get(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
-  get(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsGetResponse> {
+  get(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,7 +170,7 @@ export class ADCCatalogs {
    * @param callback The callback
    */
   update(resourceGroupName: string, properties: Models.ADCCatalog, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
-  update(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsUpdateResponse> {
+  update(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

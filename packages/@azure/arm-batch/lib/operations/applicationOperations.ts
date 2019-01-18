@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/applicationOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class ApplicationOperations {
    * @param callback The callback
    */
   create(resourceGroupName: string, accountName: string, applicationId: string, options: Models.ApplicationCreateOptionalParams, callback: msRest.ServiceCallback<Models.Application>): void;
-  create(resourceGroupName: string, accountName: string, applicationId: string, options?: Models.ApplicationCreateOptionalParams, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationCreateResponse> {
+  create(resourceGroupName: string, accountName: string, applicationId: string, options?: Models.ApplicationCreateOptionalParams | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class ApplicationOperations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class ApplicationOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, applicationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  get(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationGetResponse> {
+  get(resourceGroupName: string, accountName: string, applicationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -161,7 +161,7 @@ export class ApplicationOperations {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, applicationId: string, parameters: Models.ApplicationUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, accountName: string, applicationId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, accountName: string, applicationId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,7 +195,7 @@ export class ApplicationOperations {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: Models.ApplicationListOptionalParams, callback: msRest.ServiceCallback<Models.ListApplicationsResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.ApplicationListOptionalParams, callback?: msRest.ServiceCallback<Models.ListApplicationsResult>): Promise<Models.ApplicationListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: Models.ApplicationListOptionalParams | msRest.ServiceCallback<Models.ListApplicationsResult>, callback?: msRest.ServiceCallback<Models.ListApplicationsResult>): Promise<Models.ApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,7 +224,7 @@ export class ApplicationOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListApplicationsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListApplicationsResult>): Promise<Models.ApplicationListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListApplicationsResult>, callback?: msRest.ServiceCallback<Models.ListApplicationsResult>): Promise<Models.ApplicationListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

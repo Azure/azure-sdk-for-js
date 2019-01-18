@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/geoBackupPoliciesMappers";
 import * as Parameters from "../models/parameters";
@@ -56,7 +56,7 @@ export class GeoBackupPolicies {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.GeoBackupPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.GeoBackupPolicy, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>): Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.GeoBackupPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicy>, callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>): Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class GeoBackupPolicies {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>): Promise<Models.GeoBackupPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicy>, callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>): Promise<Models.GeoBackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class GeoBackupPolicies {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): Promise<Models.GeoBackupPoliciesListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicyListResult>, callback?: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): Promise<Models.GeoBackupPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

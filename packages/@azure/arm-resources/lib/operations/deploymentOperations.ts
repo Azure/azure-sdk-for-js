@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/deploymentOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class DeploymentOperations {
    * @param callback The callback
    */
   getAtSubscriptionScope(deploymentName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentOperation>): void;
-  getAtSubscriptionScope(deploymentName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentOperation>): Promise<Models.DeploymentOperationsGetAtSubscriptionScopeResponse> {
+  getAtSubscriptionScope(deploymentName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentOperation>, callback?: msRest.ServiceCallback<Models.DeploymentOperation>): Promise<Models.DeploymentOperationsGetAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       {
         deploymentName,
@@ -76,7 +76,7 @@ export class DeploymentOperations {
    * @param callback The callback
    */
   listAtSubscriptionScope(deploymentName: string, options: Models.DeploymentOperationsListAtSubscriptionScopeOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
-  listAtSubscriptionScope(deploymentName: string, options?: Models.DeploymentOperationsListAtSubscriptionScopeOptionalParams, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListAtSubscriptionScopeResponse> {
+  listAtSubscriptionScope(deploymentName: string, options?: Models.DeploymentOperationsListAtSubscriptionScopeOptionalParams | msRest.ServiceCallback<Models.DeploymentOperationsListResult>, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       {
         deploymentName,
@@ -110,7 +110,7 @@ export class DeploymentOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, deploymentName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentOperation>): void;
-  get(resourceGroupName: string, deploymentName: string, operationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentOperation>): Promise<Models.DeploymentOperationsGetResponse> {
+  get(resourceGroupName: string, deploymentName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentOperation>, callback?: msRest.ServiceCallback<Models.DeploymentOperation>): Promise<Models.DeploymentOperationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +143,7 @@ export class DeploymentOperations {
    * @param callback The callback
    */
   list(resourceGroupName: string, deploymentName: string, options: Models.DeploymentOperationsListOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
-  list(resourceGroupName: string, deploymentName: string, options?: Models.DeploymentOperationsListOptionalParams, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListResponse> {
+  list(resourceGroupName: string, deploymentName: string, options?: Models.DeploymentOperationsListOptionalParams | msRest.ServiceCallback<Models.DeploymentOperationsListResult>, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +172,7 @@ export class DeploymentOperations {
    * @param callback The callback
    */
   listAtSubscriptionScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
-  listAtSubscriptionScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListAtSubscriptionScopeNextResponse> {
+  listAtSubscriptionScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentOperationsListResult>, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListAtSubscriptionScopeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -200,7 +200,7 @@ export class DeploymentOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentOperationsListResult>, callback?: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): Promise<Models.DeploymentOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

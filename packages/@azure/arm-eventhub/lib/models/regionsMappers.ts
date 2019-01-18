@@ -24,8 +24,6 @@ export {
   Destination,
   ConsumerGroup,
   ArmDisasterRecovery,
-  MessagingPlan,
-  IpFilterRule,
-  VirtualNetworkRule
+  MessagingPlan
 } from "../models/mappers";
 

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/notificationChannelsMappers";
 import * as Parameters from "../models/parameters";
@@ -39,15 +39,15 @@ export class NotificationChannels {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.NotificationChannelsListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.NotificationChannelsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): Promise<Models.NotificationChannelsListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.NotificationChannelsListOptionalParams, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.NotificationChannelsListOptionalParams | msRest.ServiceCallback<Models.NotificationChannelList>, callback?: msRest.ServiceCallback<Models.NotificationChannelList>): Promise<Models.NotificationChannelsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class NotificationChannels {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.NotificationChannelsGetOptionalParams, callback: msRest.ServiceCallback<Models.NotificationChannel>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.NotificationChannelsGetOptionalParams, callback?: msRest.ServiceCallback<Models.NotificationChannel>): Promise<Models.NotificationChannelsGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.NotificationChannelsGetOptionalParams | msRest.ServiceCallback<Models.NotificationChannel>, callback?: msRest.ServiceCallback<Models.NotificationChannel>): Promise<Models.NotificationChannelsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class NotificationChannels {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, labName: string, name: string, notificationChannel: Models.NotificationChannel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationChannel>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, notificationChannel: Models.NotificationChannel, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationChannel>): Promise<Models.NotificationChannelsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, labName: string, name: string, notificationChannel: Models.NotificationChannel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationChannel>, callback?: msRest.ServiceCallback<Models.NotificationChannel>): Promise<Models.NotificationChannelsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class NotificationChannels {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -197,7 +197,7 @@ export class NotificationChannels {
    * @param callback The callback
    */
   update(resourceGroupName: string, labName: string, name: string, notificationChannel: Models.NotificationChannelFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationChannel>): void;
-  update(resourceGroupName: string, labName: string, name: string, notificationChannel: Models.NotificationChannelFragment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NotificationChannel>): Promise<Models.NotificationChannelsUpdateResponse> {
+  update(resourceGroupName: string, labName: string, name: string, notificationChannel: Models.NotificationChannelFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationChannel>, callback?: msRest.ServiceCallback<Models.NotificationChannel>): Promise<Models.NotificationChannelsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +237,7 @@ export class NotificationChannels {
    * @param callback The callback
    */
   notify(resourceGroupName: string, labName: string, name: string, notifyParameters: Models.NotifyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  notify(resourceGroupName: string, labName: string, name: string, notifyParameters: Models.NotifyParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  notify(resourceGroupName: string, labName: string, name: string, notifyParameters: Models.NotifyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -261,14 +261,14 @@ export class NotificationChannels {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationNotificationChannel>): Promise<Models.NotificationChannelsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationChannelList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationChannelList>, callback?: msRest.ServiceCallback<Models.NotificationChannelList>): Promise<Models.NotificationChannelsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -301,7 +301,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationNotificationChannel
+      bodyMapper: Mappers.NotificationChannelList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -474,7 +474,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationNotificationChannel
+      bodyMapper: Mappers.NotificationChannelList
     },
     default: {
       bodyMapper: Mappers.CloudError

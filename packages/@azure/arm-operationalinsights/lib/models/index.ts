@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -488,80 +488,33 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * Defines values for DataSourceKind.
- * Possible values include: 'AzureActivityLog', 'ChangeTrackingPath',
- * 'ChangeTrackingDefaultPath', 'ChangeTrackingDefaultRegistry',
- * 'ChangeTrackingCustomRegistry', 'CustomLog', 'CustomLogCollection',
- * 'GenericDataSource', 'IISLogs', 'LinuxPerformanceObject',
- * 'LinuxPerformanceCollection', 'LinuxSyslog', 'LinuxSyslogCollection',
- * 'WindowsEvent', 'WindowsPerformanceCounter'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DataSourceKind =
- * <DataSourceKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'AzureActivityLog', 'ChangeTrackingPath', 'ChangeTrackingDefaultPath',
+ * 'ChangeTrackingDefaultRegistry', 'ChangeTrackingCustomRegistry', 'CustomLog',
+ * 'CustomLogCollection', 'GenericDataSource', 'IISLogs', 'LinuxPerformanceObject',
+ * 'LinuxPerformanceCollection', 'LinuxSyslog', 'LinuxSyslogCollection', 'WindowsEvent',
+ * 'WindowsPerformanceCounter'
  * @readonly
  * @enum {string}
  */
-export enum DataSourceKind {
-  AzureActivityLog = 'AzureActivityLog',
-  ChangeTrackingPath = 'ChangeTrackingPath',
-  ChangeTrackingDefaultPath = 'ChangeTrackingDefaultPath',
-  ChangeTrackingDefaultRegistry = 'ChangeTrackingDefaultRegistry',
-  ChangeTrackingCustomRegistry = 'ChangeTrackingCustomRegistry',
-  CustomLog = 'CustomLog',
-  CustomLogCollection = 'CustomLogCollection',
-  GenericDataSource = 'GenericDataSource',
-  IISLogs = 'IISLogs',
-  LinuxPerformanceObject = 'LinuxPerformanceObject',
-  LinuxPerformanceCollection = 'LinuxPerformanceCollection',
-  LinuxSyslog = 'LinuxSyslog',
-  LinuxSyslogCollection = 'LinuxSyslogCollection',
-  WindowsEvent = 'WindowsEvent',
-  WindowsPerformanceCounter = 'WindowsPerformanceCounter',
-}
+export type DataSourceKind = 'AzureActivityLog' | 'ChangeTrackingPath' | 'ChangeTrackingDefaultPath' | 'ChangeTrackingDefaultRegistry' | 'ChangeTrackingCustomRegistry' | 'CustomLog' | 'CustomLogCollection' | 'GenericDataSource' | 'IISLogs' | 'LinuxPerformanceObject' | 'LinuxPerformanceCollection' | 'LinuxSyslog' | 'LinuxSyslogCollection' | 'WindowsEvent' | 'WindowsPerformanceCounter';
 
 /**
  * Defines values for SkuNameEnum.
- * Possible values include: 'Free', 'Standard', 'Premium', 'Unlimited',
- * 'PerNode', 'PerGB2018', 'Standalone'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuNameEnum =
- * <SkuNameEnum>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Free', 'Standard', 'Premium', 'Unlimited', 'PerNode', 'PerGB2018',
+ * 'Standalone'
  * @readonly
  * @enum {string}
  */
-export enum SkuNameEnum {
-  Free = 'Free',
-  Standard = 'Standard',
-  Premium = 'Premium',
-  Unlimited = 'Unlimited',
-  PerNode = 'PerNode',
-  PerGB2018 = 'PerGB2018',
-  Standalone = 'Standalone',
-}
+export type SkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'Unlimited' | 'PerNode' | 'PerGB2018' | 'Standalone';
 
 /**
  * Defines values for EntityStatus.
- * Possible values include: 'Creating', 'Succeeded', 'Failed', 'Canceled',
- * 'Deleting', 'ProvisioningAccount'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EntityStatus =
- * <EntityStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Creating', 'Succeeded', 'Failed', 'Canceled', 'Deleting',
+ * 'ProvisioningAccount'
  * @readonly
  * @enum {string}
  */
-export enum EntityStatus {
-  Creating = 'Creating',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Canceled = 'Canceled',
-  Deleting = 'Deleting',
-  ProvisioningAccount = 'ProvisioningAccount',
-}
+export type EntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleting' | 'ProvisioningAccount';
 
 /**
  * Contains response data for the createOrUpdate operation.

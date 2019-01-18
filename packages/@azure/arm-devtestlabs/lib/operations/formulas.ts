@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/formulasMappers";
 import * as Parameters from "../models/parameters";
@@ -40,15 +40,15 @@ export class Formulas {
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationFormula>): void;
+  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.FormulaList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.FormulasListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationFormula>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.FormulasListOptionalParams, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationFormula>): Promise<Models.FormulasListResponse> {
+  list(resourceGroupName: string, labName: string, options: Models.FormulasListOptionalParams, callback: msRest.ServiceCallback<Models.FormulaList>): void;
+  list(resourceGroupName: string, labName: string, options?: Models.FormulasListOptionalParams | msRest.ServiceCallback<Models.FormulaList>, callback?: msRest.ServiceCallback<Models.FormulaList>): Promise<Models.FormulasListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class Formulas {
    * @param callback The callback
    */
   get(resourceGroupName: string, labName: string, name: string, options: Models.FormulasGetOptionalParams, callback: msRest.ServiceCallback<Models.Formula>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.FormulasGetOptionalParams, callback?: msRest.ServiceCallback<Models.Formula>): Promise<Models.FormulasGetResponse> {
+  get(resourceGroupName: string, labName: string, name: string, options?: Models.FormulasGetOptionalParams | msRest.ServiceCallback<Models.Formula>, callback?: msRest.ServiceCallback<Models.Formula>): Promise<Models.FormulasGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +133,7 @@ export class Formulas {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,6 +143,46 @@ export class Formulas {
       },
       deleteMethodOperationSpec,
       callback);
+  }
+
+  /**
+   * Modify properties of formulas.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the formula.
+   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FormulasUpdateResponse>
+   */
+  update(resourceGroupName: string, labName: string, name: string, formula: Models.FormulaFragment, options?: msRest.RequestOptionsBase): Promise<Models.FormulasUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the formula.
+   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, labName: string, name: string, formula: Models.FormulaFragment, callback: msRest.ServiceCallback<Models.Formula>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the formula.
+   * @param formula A formula for creating a VM, specifying an image base and other parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, labName: string, name: string, formula: Models.FormulaFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Formula>): void;
+  update(resourceGroupName: string, labName: string, name: string, formula: Models.FormulaFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Formula>, callback?: msRest.ServiceCallback<Models.Formula>): Promise<Models.FormulasUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        labName,
+        name,
+        formula,
+        options
+      },
+      updateOperationSpec,
+      callback) as Promise<Models.FormulasUpdateResponse>;
   }
 
   /**
@@ -178,14 +218,14 @@ export class Formulas {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationFormula>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FormulaList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationFormula>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationFormula>): Promise<Models.FormulasListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FormulaList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FormulaList>, callback?: msRest.ServiceCallback<Models.FormulaList>): Promise<Models.FormulasListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -218,7 +258,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationFormula
+      bodyMapper: Mappers.FormulaList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -279,6 +319,39 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.name
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "formula",
+    mapper: {
+      ...Mappers.FormulaFragment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Formula
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{name}",
@@ -327,7 +400,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ResponseWithContinuationFormula
+      bodyMapper: Mappers.FormulaList
     },
     default: {
       bodyMapper: Mappers.CloudError

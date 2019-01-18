@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/streamingEndpointsMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class StreamingEndpoints {
    * @param callback The callback
    */
   list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>): Promise<Models.StreamingEndpointsListResponse> {
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingEndpointListResult>, callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>): Promise<Models.StreamingEndpointsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class StreamingEndpoints {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingEndpoint>): void;
-  get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingEndpoint>): Promise<Models.StreamingEndpointsGetResponse> {
+  get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingEndpoint>, callback?: msRest.ServiceCallback<Models.StreamingEndpoint>): Promise<Models.StreamingEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -335,7 +335,7 @@ export class StreamingEndpoints {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>): Promise<Models.StreamingEndpointsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingEndpointListResult>, callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>): Promise<Models.StreamingEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

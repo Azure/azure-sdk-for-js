@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/subscriptionsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Subscriptions {
    * @param callback The callback
    */
   listQuotas(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): void;
-  listQuotas(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): Promise<Models.SubscriptionsListQuotasResponse> {
+  listQuotas(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionQuotasListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): Promise<Models.SubscriptionsListQuotasResponse> {
     return this.client.sendOperationRequest(
       {
         location,

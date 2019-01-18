@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -40,7 +40,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getDomains(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain[]>): void;
-  getDomains(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Domain[]>): Promise<Models.GetDomainsResponse> {
+  getDomains(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain[]>, callback?: msRest.ServiceCallback<Models.Domain[]>): Promise<Models.GetDomainsResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -67,7 +67,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getDomain(domainId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  getDomain(domainId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.GetDomainResponse> {
+  getDomain(domainId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.GetDomainResponse> {
     return this.sendOperationRequest(
       {
         domainId,
@@ -98,7 +98,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getTaggedImageCount(projectId: string, options: Models.TrainingAPIClientGetTaggedImageCountOptionalParams, callback: msRest.ServiceCallback<number>): void;
-  getTaggedImageCount(projectId: string, options?: Models.TrainingAPIClientGetTaggedImageCountOptionalParams, callback?: msRest.ServiceCallback<number>): Promise<Models.GetTaggedImageCountResponse> {
+  getTaggedImageCount(projectId: string, options?: Models.TrainingAPIClientGetTaggedImageCountOptionalParams | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.GetTaggedImageCountResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -129,7 +129,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getUntaggedImageCount(projectId: string, options: Models.TrainingAPIClientGetUntaggedImageCountOptionalParams, callback: msRest.ServiceCallback<number>): void;
-  getUntaggedImageCount(projectId: string, options?: Models.TrainingAPIClientGetUntaggedImageCountOptionalParams, callback?: msRest.ServiceCallback<number>): Promise<Models.GetUntaggedImageCountResponse> {
+  getUntaggedImageCount(projectId: string, options?: Models.TrainingAPIClientGetUntaggedImageCountOptionalParams | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.GetUntaggedImageCountResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -160,7 +160,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createImageTags(projectId: string, batch: Models.ImageTagCreateBatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageTagCreateSummary>): void;
-  createImageTags(projectId: string, batch: Models.ImageTagCreateBatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageTagCreateSummary>): Promise<Models.CreateImageTagsResponse> {
+  createImageTags(projectId: string, batch: Models.ImageTagCreateBatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageTagCreateSummary>, callback?: msRest.ServiceCallback<Models.ImageTagCreateSummary>): Promise<Models.CreateImageTagsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -195,7 +195,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   deleteImageTags(projectId: string, imageIds: string[], tagIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteImageTags(projectId: string, imageIds: string[], tagIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteImageTags(projectId: string, imageIds: string[], tagIds: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -231,7 +231,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createImageRegions(projectId: string, batch: Models.ImageRegionCreateBatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageRegionCreateSummary>): void;
-  createImageRegions(projectId: string, batch: Models.ImageRegionCreateBatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageRegionCreateSummary>): Promise<Models.CreateImageRegionsResponse> {
+  createImageRegions(projectId: string, batch: Models.ImageRegionCreateBatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageRegionCreateSummary>, callback?: msRest.ServiceCallback<Models.ImageRegionCreateSummary>): Promise<Models.CreateImageRegionsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -263,7 +263,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   deleteImageRegions(projectId: string, regionIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteImageRegions(projectId: string, regionIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteImageRegions(projectId: string, regionIds: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -298,7 +298,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getTaggedImages(projectId: string, options: Models.TrainingAPIClientGetTaggedImagesOptionalParams, callback: msRest.ServiceCallback<Models.Image[]>): void;
-  getTaggedImages(projectId: string, options?: Models.TrainingAPIClientGetTaggedImagesOptionalParams, callback?: msRest.ServiceCallback<Models.Image[]>): Promise<Models.GetTaggedImagesResponse> {
+  getTaggedImages(projectId: string, options?: Models.TrainingAPIClientGetTaggedImagesOptionalParams | msRest.ServiceCallback<Models.Image[]>, callback?: msRest.ServiceCallback<Models.Image[]>): Promise<Models.GetTaggedImagesResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -329,7 +329,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getUntaggedImages(projectId: string, options: Models.TrainingAPIClientGetUntaggedImagesOptionalParams, callback: msRest.ServiceCallback<Models.Image[]>): void;
-  getUntaggedImages(projectId: string, options?: Models.TrainingAPIClientGetUntaggedImagesOptionalParams, callback?: msRest.ServiceCallback<Models.Image[]>): Promise<Models.GetUntaggedImagesResponse> {
+  getUntaggedImages(projectId: string, options?: Models.TrainingAPIClientGetUntaggedImagesOptionalParams | msRest.ServiceCallback<Models.Image[]>, callback?: msRest.ServiceCallback<Models.Image[]>): Promise<Models.GetUntaggedImagesResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -360,7 +360,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getImagesByIds(projectId: string, options: Models.TrainingAPIClientGetImagesByIdsOptionalParams, callback: msRest.ServiceCallback<Models.Image[]>): void;
-  getImagesByIds(projectId: string, options?: Models.TrainingAPIClientGetImagesByIdsOptionalParams, callback?: msRest.ServiceCallback<Models.Image[]>): Promise<Models.GetImagesByIdsResponse> {
+  getImagesByIds(projectId: string, options?: Models.TrainingAPIClientGetImagesByIdsOptionalParams | msRest.ServiceCallback<Models.Image[]>, callback?: msRest.ServiceCallback<Models.Image[]>): Promise<Models.GetImagesByIdsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -394,7 +394,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createImagesFromData(projectId: string, imageData: msRest.HttpRequestBody, options: Models.TrainingAPIClientCreateImagesFromDataOptionalParams, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
-  createImagesFromData(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.TrainingAPIClientCreateImagesFromDataOptionalParams, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromDataResponse> {
+  createImagesFromData(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.TrainingAPIClientCreateImagesFromDataOptionalParams | msRest.ServiceCallback<Models.ImageCreateSummary>, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromDataResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -426,7 +426,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   deleteImages(projectId: string, imageIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteImages(projectId: string, imageIds: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteImages(projectId: string, imageIds: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -460,7 +460,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createImagesFromFiles(projectId: string, batch: Models.ImageFileCreateBatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
-  createImagesFromFiles(projectId: string, batch: Models.ImageFileCreateBatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromFilesResponse> {
+  createImagesFromFiles(projectId: string, batch: Models.ImageFileCreateBatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageCreateSummary>, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromFilesResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -494,7 +494,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createImagesFromUrls(projectId: string, batch: Models.ImageUrlCreateBatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
-  createImagesFromUrls(projectId: string, batch: Models.ImageUrlCreateBatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromUrlsResponse> {
+  createImagesFromUrls(projectId: string, batch: Models.ImageUrlCreateBatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageCreateSummary>, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromUrlsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -528,7 +528,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
-  createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromPredictionsResponse> {
+  createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageCreateSummary>, callback?: msRest.ServiceCallback<Models.ImageCreateSummary>): Promise<Models.CreateImagesFromPredictionsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -562,7 +562,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getImageRegionProposals(projectId: string, imageId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageRegionProposal>): void;
-  getImageRegionProposals(projectId: string, imageId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImageRegionProposal>): Promise<Models.GetImageRegionProposalsResponse> {
+  getImageRegionProposals(projectId: string, imageId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageRegionProposal>, callback?: msRest.ServiceCallback<Models.ImageRegionProposal>): Promise<Models.GetImageRegionProposalsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -594,7 +594,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   deletePrediction(projectId: string, ids: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deletePrediction(projectId: string, ids: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deletePrediction(projectId: string, ids: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -629,7 +629,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   quickTestImageUrl(projectId: string, imageUrl: Models.ImageUrl, options: Models.TrainingAPIClientQuickTestImageUrlOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  quickTestImageUrl(projectId: string, imageUrl: Models.ImageUrl, options?: Models.TrainingAPIClientQuickTestImageUrlOptionalParams, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.QuickTestImageUrlResponse> {
+  quickTestImageUrl(projectId: string, imageUrl: Models.ImageUrl, options?: Models.TrainingAPIClientQuickTestImageUrlOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.QuickTestImageUrlResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -661,7 +661,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   quickTestImage(projectId: string, imageData: msRest.HttpRequestBody, options: Models.TrainingAPIClientQuickTestImageOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  quickTestImage(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.TrainingAPIClientQuickTestImageOptionalParams, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.QuickTestImageResponse> {
+  quickTestImage(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.TrainingAPIClientQuickTestImageOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.QuickTestImageResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -693,7 +693,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   queryPredictions(projectId: string, query: Models.PredictionQueryToken, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionQueryResult>): void;
-  queryPredictions(projectId: string, query: Models.PredictionQueryToken, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PredictionQueryResult>): Promise<Models.QueryPredictionsResponse> {
+  queryPredictions(projectId: string, query: Models.PredictionQueryToken, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionQueryResult>, callback?: msRest.ServiceCallback<Models.PredictionQueryResult>): Promise<Models.QueryPredictionsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -725,7 +725,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getIterationPerformance(projectId: string, iterationId: string, options: Models.TrainingAPIClientGetIterationPerformanceOptionalParams, callback: msRest.ServiceCallback<Models.IterationPerformance>): void;
-  getIterationPerformance(projectId: string, iterationId: string, options?: Models.TrainingAPIClientGetIterationPerformanceOptionalParams, callback?: msRest.ServiceCallback<Models.IterationPerformance>): Promise<Models.GetIterationPerformanceResponse> {
+  getIterationPerformance(projectId: string, iterationId: string, options?: Models.TrainingAPIClientGetIterationPerformanceOptionalParams | msRest.ServiceCallback<Models.IterationPerformance>, callback?: msRest.ServiceCallback<Models.IterationPerformance>): Promise<Models.GetIterationPerformanceResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -763,7 +763,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getImagePerformances(projectId: string, iterationId: string, options: Models.TrainingAPIClientGetImagePerformancesOptionalParams, callback: msRest.ServiceCallback<Models.ImagePerformance[]>): void;
-  getImagePerformances(projectId: string, iterationId: string, options?: Models.TrainingAPIClientGetImagePerformancesOptionalParams, callback?: msRest.ServiceCallback<Models.ImagePerformance[]>): Promise<Models.GetImagePerformancesResponse> {
+  getImagePerformances(projectId: string, iterationId: string, options?: Models.TrainingAPIClientGetImagePerformancesOptionalParams | msRest.ServiceCallback<Models.ImagePerformance[]>, callback?: msRest.ServiceCallback<Models.ImagePerformance[]>): Promise<Models.GetImagePerformancesResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -800,7 +800,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getImagePerformanceCount(projectId: string, iterationId: string, options: Models.TrainingAPIClientGetImagePerformanceCountOptionalParams, callback: msRest.ServiceCallback<number>): void;
-  getImagePerformanceCount(projectId: string, iterationId: string, options?: Models.TrainingAPIClientGetImagePerformanceCountOptionalParams, callback?: msRest.ServiceCallback<number>): Promise<Models.GetImagePerformanceCountResponse> {
+  getImagePerformanceCount(projectId: string, iterationId: string, options?: Models.TrainingAPIClientGetImagePerformanceCountOptionalParams | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.GetImagePerformanceCountResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -826,7 +826,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getProjects(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project[]>): void;
-  getProjects(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Project[]>): Promise<Models.GetProjectsResponse> {
+  getProjects(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project[]>, callback?: msRest.ServiceCallback<Models.Project[]>): Promise<Models.GetProjectsResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -853,7 +853,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createProject(name: string, options: Models.TrainingAPIClientCreateProjectOptionalParams, callback: msRest.ServiceCallback<Models.Project>): void;
-  createProject(name: string, options?: Models.TrainingAPIClientCreateProjectOptionalParams, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.CreateProjectResponse> {
+  createProject(name: string, options?: Models.TrainingAPIClientCreateProjectOptionalParams | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.CreateProjectResponse> {
     return this.sendOperationRequest(
       {
         name,
@@ -881,7 +881,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getProject(projectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  getProject(projectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.GetProjectResponse> {
+  getProject(projectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.GetProjectResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -909,7 +909,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   deleteProject(projectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteProject(projectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteProject(projectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -940,7 +940,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   updateProject(projectId: string, updatedProject: Models.Project, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  updateProject(projectId: string, updatedProject: Models.Project, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.UpdateProjectResponse> {
+  updateProject(projectId: string, updatedProject: Models.Project, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.UpdateProjectResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -969,7 +969,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getIterations(projectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Iteration[]>): void;
-  getIterations(projectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Iteration[]>): Promise<Models.GetIterationsResponse> {
+  getIterations(projectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Iteration[]>, callback?: msRest.ServiceCallback<Models.Iteration[]>): Promise<Models.GetIterationsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1000,7 +1000,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getIteration(projectId: string, iterationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Iteration>): void;
-  getIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.GetIterationResponse> {
+  getIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Iteration>, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.GetIterationResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1032,7 +1032,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   deleteIteration(projectId: string, iterationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1067,7 +1067,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   updateIteration(projectId: string, iterationId: string, updatedIteration: Models.Iteration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Iteration>): void;
-  updateIteration(projectId: string, iterationId: string, updatedIteration: Models.Iteration, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.UpdateIterationResponse> {
+  updateIteration(projectId: string, iterationId: string, updatedIteration: Models.Iteration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Iteration>, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.UpdateIterationResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1097,7 +1097,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   trainProject(projectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Iteration>): void;
-  trainProject(projectId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.TrainProjectResponse> {
+  trainProject(projectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Iteration>, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.TrainProjectResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1128,7 +1128,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getExports(projectId: string, iterationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExportModel[]>): void;
-  getExports(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExportModel[]>): Promise<Models.GetExportsResponse> {
+  getExports(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExportModel[]>, callback?: msRest.ServiceCallback<Models.ExportModel[]>): Promise<Models.GetExportsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1166,7 +1166,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   exportIteration(projectId: string, iterationId: string, platform: Models.Platform, options: Models.TrainingAPIClientExportIterationOptionalParams, callback: msRest.ServiceCallback<Models.ExportModel>): void;
-  exportIteration(projectId: string, iterationId: string, platform: Models.Platform, options?: Models.TrainingAPIClientExportIterationOptionalParams, callback?: msRest.ServiceCallback<Models.ExportModel>): Promise<Models.ExportIterationResponse> {
+  exportIteration(projectId: string, iterationId: string, platform: Models.Platform, options?: Models.TrainingAPIClientExportIterationOptionalParams | msRest.ServiceCallback<Models.ExportModel>, callback?: msRest.ServiceCallback<Models.ExportModel>): Promise<Models.ExportIterationResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1199,7 +1199,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getTag(projectId: string, tagId: string, options: Models.TrainingAPIClientGetTagOptionalParams, callback: msRest.ServiceCallback<Models.Tag>): void;
-  getTag(projectId: string, tagId: string, options?: Models.TrainingAPIClientGetTagOptionalParams, callback?: msRest.ServiceCallback<Models.Tag>): Promise<Models.GetTagResponse> {
+  getTag(projectId: string, tagId: string, options?: Models.TrainingAPIClientGetTagOptionalParams | msRest.ServiceCallback<Models.Tag>, callback?: msRest.ServiceCallback<Models.Tag>): Promise<Models.GetTagResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1231,7 +1231,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   deleteTag(projectId: string, tagId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteTag(projectId: string, tagId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteTag(projectId: string, tagId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1266,7 +1266,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   updateTag(projectId: string, tagId: string, updatedTag: Models.Tag, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Tag>): void;
-  updateTag(projectId: string, tagId: string, updatedTag: Models.Tag, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Tag>): Promise<Models.UpdateTagResponse> {
+  updateTag(projectId: string, tagId: string, updatedTag: Models.Tag, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Tag>, callback?: msRest.ServiceCallback<Models.Tag>): Promise<Models.UpdateTagResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1296,7 +1296,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   getTags(projectId: string, options: Models.TrainingAPIClientGetTagsOptionalParams, callback: msRest.ServiceCallback<Models.Tag[]>): void;
-  getTags(projectId: string, options?: Models.TrainingAPIClientGetTagsOptionalParams, callback?: msRest.ServiceCallback<Models.Tag[]>): Promise<Models.GetTagsResponse> {
+  getTags(projectId: string, options?: Models.TrainingAPIClientGetTagsOptionalParams | msRest.ServiceCallback<Models.Tag[]>, callback?: msRest.ServiceCallback<Models.Tag[]>): Promise<Models.GetTagsResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1327,7 +1327,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param callback The callback
    */
   createTag(projectId: string, name: string, options: Models.TrainingAPIClientCreateTagOptionalParams, callback: msRest.ServiceCallback<Models.Tag>): void;
-  createTag(projectId: string, name: string, options?: Models.TrainingAPIClientCreateTagOptionalParams, callback?: msRest.ServiceCallback<Models.Tag>): Promise<Models.CreateTagResponse> {
+  createTag(projectId: string, name: string, options?: Models.TrainingAPIClientCreateTagOptionalParams | msRest.ServiceCallback<Models.Tag>, callback?: msRest.ServiceCallback<Models.Tag>): Promise<Models.CreateTagResponse> {
     return this.sendOperationRequest(
       {
         projectId,

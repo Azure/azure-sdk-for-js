@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/packetCapturesMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class PacketCaptures {
    * @param callback The callback
    */
   get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PacketCaptureResult>): void;
-  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PacketCaptureResult>): Promise<Models.PacketCapturesGetResponse> {
+  get(resourceGroupName: string, networkWatcherName: string, packetCaptureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PacketCaptureResult>, callback?: msRest.ServiceCallback<Models.PacketCaptureResult>): Promise<Models.PacketCapturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +137,7 @@ export class PacketCaptures {
    * @param callback The callback
    */
   list(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PacketCaptureListResult>): void;
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PacketCaptureListResult>): Promise<Models.PacketCapturesListResponse> {
+  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PacketCaptureListResult>, callback?: msRest.ServiceCallback<Models.PacketCaptureListResult>): Promise<Models.PacketCapturesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

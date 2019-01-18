@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/syncGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listSyncDatabaseIds(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): void;
-  listSyncDatabaseIds(locationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): Promise<Models.SyncGroupsListSyncDatabaseIdsResponse> {
+  listSyncDatabaseIds(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncDatabaseIdListResult>, callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): Promise<Models.SyncGroupsListSyncDatabaseIdsResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -100,7 +100,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
-  listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncGroupsListHubSchemasResponse> {
+  listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncGroupsListHubSchemasResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +155,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, type: Models.Type, options: Models.SyncGroupsListLogsOptionalParams, callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>): void;
-  listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, type: Models.Type, options?: Models.SyncGroupsListLogsOptionalParams, callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>): Promise<Models.SyncGroupsListLogsResponse> {
+  listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, type: Models.Type, options?: Models.SyncGroupsListLogsOptionalParams | msRest.ServiceCallback<Models.SyncGroupLogListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>): Promise<Models.SyncGroupsListLogsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +201,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   cancelSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancelSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancelSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -244,7 +244,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -287,7 +287,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroup>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncGroup>): Promise<Models.SyncGroupsGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroup>, callback?: msRest.ServiceCallback<Models.SyncGroup>): Promise<Models.SyncGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -374,7 +374,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroupListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncGroupListResult>): Promise<Models.SyncGroupsListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupListResult>): Promise<Models.SyncGroupsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -500,7 +500,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listSyncDatabaseIdsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): void;
-  listSyncDatabaseIdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse> {
+  listSyncDatabaseIdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncDatabaseIdListResult>, callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -528,7 +528,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listHubSchemasNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
-  listHubSchemasNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncGroupsListHubSchemasNextResponse> {
+  listHubSchemasNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncGroupsListHubSchemasNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -556,7 +556,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listLogsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>): void;
-  listLogsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>): Promise<Models.SyncGroupsListLogsNextResponse> {
+  listLogsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupLogListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>): Promise<Models.SyncGroupsListLogsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -584,7 +584,7 @@ export class SyncGroups {
    * @param callback The callback
    */
   listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroupListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SyncGroupListResult>): Promise<Models.SyncGroupsListByDatabaseNextResponse> {
+  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupListResult>): Promise<Models.SyncGroupsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

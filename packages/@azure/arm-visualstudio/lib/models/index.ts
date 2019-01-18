@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -76,6 +76,20 @@ export interface AccountResourceListResult {
    * @member {AccountResource[]} [value] Array of resource details.
    */
   value?: AccountResource[];
+}
+
+/**
+ * @interface
+ * An interface representing AccountTagRequest.
+ * The body of a Patch request to add tags to a Visual Studio account resource.
+ *
+ */
+export interface AccountTagRequest {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] The custom tags of the
+   * resource.
+   */
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -462,6 +476,25 @@ export type AccountsCreateOrUpdateResponse = AccountResource & {
  * Contains response data for the get operation.
  */
 export type AccountsGetResponse = AccountResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccountResource;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type AccountsUpdateResponse = AccountResource & {
   /**
    * The underlying HTTP response.
    */

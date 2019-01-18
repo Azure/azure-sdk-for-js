@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dnsResourceReferenceOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class DnsResourceReferenceOperations {
    * @param callback The callback
    */
   getByTargetResources(parameters: Models.DnsResourceReferenceRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DnsResourceReferenceResult>): void;
-  getByTargetResources(parameters: Models.DnsResourceReferenceRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DnsResourceReferenceResult>): Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse> {
+  getByTargetResources(parameters: Models.DnsResourceReferenceRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsResourceReferenceResult>, callback?: msRest.ServiceCallback<Models.DnsResourceReferenceResult>): Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,

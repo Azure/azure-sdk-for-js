@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -622,129 +622,60 @@ export interface ProfileListResult extends Array<Profile> {
 /**
  * Defines values for EndpointStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EndpointStatus =
- * <EndpointStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum EndpointStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type EndpointStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for EndpointMonitorStatus.
- * Possible values include: 'CheckingEndpoint', 'Online', 'Degraded',
- * 'Disabled', 'Inactive', 'Stopped'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EndpointMonitorStatus =
- * <EndpointMonitorStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'CheckingEndpoint', 'Online', 'Degraded', 'Disabled', 'Inactive',
+ * 'Stopped'
  * @readonly
  * @enum {string}
  */
-export enum EndpointMonitorStatus {
-  CheckingEndpoint = 'CheckingEndpoint',
-  Online = 'Online',
-  Degraded = 'Degraded',
-  Disabled = 'Disabled',
-  Inactive = 'Inactive',
-  Stopped = 'Stopped',
-}
+export type EndpointMonitorStatus = 'CheckingEndpoint' | 'Online' | 'Degraded' | 'Disabled' | 'Inactive' | 'Stopped';
 
 /**
  * Defines values for ProfileMonitorStatus.
- * Possible values include: 'CheckingEndpoints', 'Online', 'Degraded',
- * 'Disabled', 'Inactive'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProfileMonitorStatus =
- * <ProfileMonitorStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'CheckingEndpoints', 'Online', 'Degraded', 'Disabled', 'Inactive'
  * @readonly
  * @enum {string}
  */
-export enum ProfileMonitorStatus {
-  CheckingEndpoints = 'CheckingEndpoints',
-  Online = 'Online',
-  Degraded = 'Degraded',
-  Disabled = 'Disabled',
-  Inactive = 'Inactive',
-}
+export type ProfileMonitorStatus = 'CheckingEndpoints' | 'Online' | 'Degraded' | 'Disabled' | 'Inactive';
 
 /**
  * Defines values for MonitorProtocol.
  * Possible values include: 'HTTP', 'HTTPS', 'TCP'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MonitorProtocol =
- * <MonitorProtocol>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MonitorProtocol {
-  HTTP = 'HTTP',
-  HTTPS = 'HTTPS',
-  TCP = 'TCP',
-}
+export type MonitorProtocol = 'HTTP' | 'HTTPS' | 'TCP';
 
 /**
  * Defines values for ProfileStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProfileStatus =
- * <ProfileStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProfileStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type ProfileStatus = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for TrafficRoutingMethod.
- * Possible values include: 'Performance', 'Priority', 'Weighted',
- * 'Geographic', 'MultiValue', 'Subnet'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TrafficRoutingMethod =
- * <TrafficRoutingMethod>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Performance', 'Priority', 'Weighted', 'Geographic', 'MultiValue',
+ * 'Subnet'
  * @readonly
  * @enum {string}
  */
-export enum TrafficRoutingMethod {
-  Performance = 'Performance',
-  Priority = 'Priority',
-  Weighted = 'Weighted',
-  Geographic = 'Geographic',
-  MultiValue = 'MultiValue',
-  Subnet = 'Subnet',
-}
+export type TrafficRoutingMethod = 'Performance' | 'Priority' | 'Weighted' | 'Geographic' | 'MultiValue' | 'Subnet';
 
 /**
  * Defines values for TrafficViewEnrollmentStatus.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TrafficViewEnrollmentStatus =
- * <TrafficViewEnrollmentStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TrafficViewEnrollmentStatus {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type TrafficViewEnrollmentStatus = 'Enabled' | 'Disabled';
 
 /**
  * Contains response data for the update operation.

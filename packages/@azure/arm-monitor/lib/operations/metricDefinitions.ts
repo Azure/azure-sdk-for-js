@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/metricDefinitionsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class MetricDefinitions {
    * @param callback The callback
    */
   list(resourceUri: string, options: Models.MetricDefinitionsListOptionalParams, callback: msRest.ServiceCallback<Models.MetricDefinitionCollection>): void;
-  list(resourceUri: string, options?: Models.MetricDefinitionsListOptionalParams, callback?: msRest.ServiceCallback<Models.MetricDefinitionCollection>): Promise<Models.MetricDefinitionsListResponse> {
+  list(resourceUri: string, options?: Models.MetricDefinitionsListOptionalParams | msRest.ServiceCallback<Models.MetricDefinitionCollection>, callback?: msRest.ServiceCallback<Models.MetricDefinitionCollection>): Promise<Models.MetricDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,

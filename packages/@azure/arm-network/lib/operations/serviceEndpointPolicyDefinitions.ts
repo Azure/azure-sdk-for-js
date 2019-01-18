@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceEndpointPolicyDefinitionsMappers";
 import * as Parameters from "../models/parameters";
@@ -67,7 +67,7 @@ export class ServiceEndpointPolicyDefinitions {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>): void;
-  get(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>): Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse> {
+  get(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>): Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +117,7 @@ export class ServiceEndpointPolicyDefinitions {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, serviceEndpointPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, serviceEndpointPolicyName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, serviceEndpointPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +191,7 @@ export class ServiceEndpointPolicyDefinitions {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

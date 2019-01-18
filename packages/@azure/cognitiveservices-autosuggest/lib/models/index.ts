@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "ms-rest-js";
-import * as msRest from "ms-rest-js";
+import { ServiceClientOptions } from "@azure/ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 /**
@@ -1047,9 +1047,13 @@ export interface ErrorResponse {
  */
 export interface AutoSuggestClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [baseUri]
+   * @member {string} [endpoint] Supported Cognitive Services endpoints
+   * (protocol and hostname, for example:
+   * "https://westus.api.cognitive.microsoft.com",
+   * "https://api.cognitive.microsoft.com"). Default value:
+   * 'https://api.cognitive.microsoft.com' .
    */
-  baseUri?: string;
+  endpoint?: string;
 }
 
 /**
@@ -1262,95 +1266,44 @@ export interface AutoSuggestClientAutoSuggestOptionalParams extends msRest.Reque
  * Defines values for ScenarioType.
  * Possible values include: 'Unknown', 'Web', 'StoreApps', 'SearchHistory',
  * 'PersonalSearchDocuments', 'PersonalSearchTags', 'Custom'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ScenarioType =
- * <ScenarioType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ScenarioType {
-  Unknown = 'Unknown',
-  Web = 'Web',
-  StoreApps = 'StoreApps',
-  SearchHistory = 'SearchHistory',
-  PersonalSearchDocuments = 'PersonalSearchDocuments',
-  PersonalSearchTags = 'PersonalSearchTags',
-  Custom = 'Custom',
-}
+export type ScenarioType = 'Unknown' | 'Web' | 'StoreApps' | 'SearchHistory' | 'PersonalSearchDocuments' | 'PersonalSearchTags' | 'Custom';
 
 /**
  * Defines values for SearchKind.
- * Possible values include: 'WebSearch', 'HistorySearch', 'DocumentSearch',
- * 'TagSearch', 'LocationSearch', 'CustomSearch'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SearchKind = <SearchKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'WebSearch', 'HistorySearch', 'DocumentSearch', 'TagSearch',
+ * 'LocationSearch', 'CustomSearch'
  * @readonly
  * @enum {string}
  */
-export enum SearchKind {
-  WebSearch = 'WebSearch',
-  HistorySearch = 'HistorySearch',
-  DocumentSearch = 'DocumentSearch',
-  TagSearch = 'TagSearch',
-  LocationSearch = 'LocationSearch',
-  CustomSearch = 'CustomSearch',
-}
+export type SearchKind = 'WebSearch' | 'HistorySearch' | 'DocumentSearch' | 'TagSearch' | 'LocationSearch' | 'CustomSearch';
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest',
- * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
+ * 'InvalidAuthorization', 'InsufficientAuthorization'
  * @readonly
  * @enum {string}
  */
-export enum ErrorCode {
-  None = 'None',
-  ServerError = 'ServerError',
-  InvalidRequest = 'InvalidRequest',
-  RateLimitExceeded = 'RateLimitExceeded',
-  InvalidAuthorization = 'InvalidAuthorization',
-  InsufficientAuthorization = 'InsufficientAuthorization',
-}
+export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
 
 /**
  * Defines values for SafeSearch.
  * Possible values include: 'Off', 'Moderate', 'Strict'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SafeSearch = <SafeSearch>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SafeSearch {
-  Off = 'Off',
-  Moderate = 'Moderate',
-  Strict = 'Strict',
-}
+export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
 
 /**
  * Defines values for ResponseFormat.
  * Possible values include: 'Json', 'JsonLd'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResponseFormat =
- * <ResponseFormat>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ResponseFormat {
-  Json = 'Json',
-  JsonLd = 'JsonLd',
-}
+export type ResponseFormat = 'Json' | 'JsonLd';
 
 /**
  * Contains response data for the autoSuggest operation.

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/diagnosticLoggerMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class DiagnosticLogger {
    * @param callback The callback
    */
   listByService(resourceGroupName: string, serviceName: string, diagnosticId: string, options: Models.DiagnosticLoggerListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, diagnosticId: string, options?: Models.DiagnosticLoggerListByServiceOptionalParams, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.DiagnosticLoggerListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, diagnosticId: string, options?: Models.DiagnosticLoggerListByServiceOptionalParams | msRest.ServiceCallback<Models.LoggerCollection>, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.DiagnosticLoggerListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class DiagnosticLogger {
    * @param callback The callback
    */
   checkEntityExists(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DiagnosticLoggerCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DiagnosticLoggerCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +139,7 @@ export class DiagnosticLogger {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoggerContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.DiagnosticLoggerCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoggerContract>, callback?: msRest.ServiceCallback<Models.LoggerContract>): Promise<Models.DiagnosticLoggerCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class DiagnosticLogger {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, diagnosticId: string, loggerid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -214,7 +214,7 @@ export class DiagnosticLogger {
    * @param callback The callback
    */
   listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LoggerCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.DiagnosticLoggerListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LoggerCollection>, callback?: msRest.ServiceCallback<Models.LoggerCollection>): Promise<Models.DiagnosticLoggerListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

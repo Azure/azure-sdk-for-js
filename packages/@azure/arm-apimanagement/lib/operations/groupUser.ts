@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/groupUserMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class GroupUser {
    * @param callback The callback
    */
   list(resourceGroupName: string, serviceName: string, groupId: string, options: Models.GroupUserListOptionalParams, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  list(resourceGroupName: string, serviceName: string, groupId: string, options?: Models.GroupUserListOptionalParams, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListResponse> {
+  list(resourceGroupName: string, serviceName: string, groupId: string, options?: Models.GroupUserListOptionalParams | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -89,7 +89,7 @@ export class GroupUser {
    * @param callback The callback
    */
   checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.GroupUserCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.GroupUserCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +129,7 @@ export class GroupUser {
    * @param callback The callback
    */
   create(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserContract>): void;
-  create(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.GroupUserCreateResponse> {
+  create(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.GroupUserCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +169,7 @@ export class GroupUser {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, groupId: string, uid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +200,7 @@ export class GroupUser {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.GroupUserListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

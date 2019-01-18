@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/galleryImageVersionsMappers";
 import * as Parameters from "../models/parameters";
@@ -76,7 +76,7 @@ export class GalleryImageVersions {
    * @param callback The callback
    */
   get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options: Models.GalleryImageVersionsGetOptionalParams, callback: msRest.ServiceCallback<Models.GalleryImageVersion>): void;
-  get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: Models.GalleryImageVersionsGetOptionalParams, callback?: msRest.ServiceCallback<Models.GalleryImageVersion>): Promise<Models.GalleryImageVersionsGetResponse> {
+  get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: Models.GalleryImageVersionsGetOptionalParams | msRest.ServiceCallback<Models.GalleryImageVersion>, callback?: msRest.ServiceCallback<Models.GalleryImageVersion>): Promise<Models.GalleryImageVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +131,7 @@ export class GalleryImageVersions {
    * @param callback The callback
    */
   listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImageVersionList>): void;
-  listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryImageVersionList>): Promise<Models.GalleryImageVersionsListByGalleryImageResponse> {
+  listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImageVersionList>, callback?: msRest.ServiceCallback<Models.GalleryImageVersionList>): Promise<Models.GalleryImageVersionsListByGalleryImageResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -212,7 +212,7 @@ export class GalleryImageVersions {
    * @param callback The callback
    */
   listByGalleryImageNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImageVersionList>): void;
-  listByGalleryImageNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GalleryImageVersionList>): Promise<Models.GalleryImageVersionsListByGalleryImageNextResponse> {
+  listByGalleryImageNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImageVersionList>, callback?: msRest.ServiceCallback<Models.GalleryImageVersionList>): Promise<Models.GalleryImageVersionsListByGalleryImageNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

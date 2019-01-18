@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/networkInterfaceLoadBalancersMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class NetworkInterfaceLoadBalancers {
    * @param callback The callback
    */
   list(resourceGroupName: string, networkInterfaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListResponse> {
+  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +76,7 @@ export class NetworkInterfaceLoadBalancers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceLoadBalancerListResult>): Promise<Models.NetworkInterfaceLoadBalancersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

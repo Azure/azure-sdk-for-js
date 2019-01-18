@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/reservationOrderMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class ReservationOrder {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationOrderList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationOrderList>): Promise<Models.ReservationOrderListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationOrderList>, callback?: msRest.ServiceCallback<Models.ReservationOrderList>): Promise<Models.ReservationOrderListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -55,25 +55,22 @@ export class ReservationOrder {
    * Get the details of the `ReservationOrder`.
    * @summary Get a specific `ReservationOrder`.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderGetResponse>
    */
   get(reservationOrderId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderGetResponse>;
   /**
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param callback The callback
    */
   get(reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationOrderResponse>): void;
   /**
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param options The optional parameters
    * @param callback The callback
    */
   get(reservationOrderId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationOrderResponse>): void;
-  get(reservationOrderId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationOrderResponse>): Promise<Models.ReservationOrderGetResponse> {
+  get(reservationOrderId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationOrderResponse>, callback?: msRest.ServiceCallback<Models.ReservationOrderResponse>): Promise<Models.ReservationOrderGetResponse> {
     return this.client.sendOperationRequest(
       {
         reservationOrderId,
@@ -102,7 +99,7 @@ export class ReservationOrder {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationOrderList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationOrderList>): Promise<Models.ReservationOrderListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationOrderList>, callback?: msRest.ServiceCallback<Models.ReservationOrderList>): Promise<Models.ReservationOrderListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

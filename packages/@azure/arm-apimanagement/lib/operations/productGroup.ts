@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/productGroupMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class ProductGroup {
    * @param callback The callback
    */
   listByProduct(resourceGroupName: string, serviceName: string, productId: string, options: Models.ProductGroupListByProductOptionalParams, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
-  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductGroupListByProductOptionalParams, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.ProductGroupListByProductResponse> {
+  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductGroupListByProductOptionalParams | msRest.ServiceCallback<Models.GroupCollection>, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.ProductGroupListByProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +95,7 @@ export class ProductGroup {
    * @param callback The callback
    */
   checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ProductGroupCheckEntityExistsResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ProductGroupCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -138,7 +138,7 @@ export class ProductGroup {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GroupContract>): Promise<Models.ProductGroupCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupContract>, callback?: msRest.ServiceCallback<Models.GroupContract>): Promise<Models.ProductGroupCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -181,7 +181,7 @@ export class ProductGroup {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, groupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -212,7 +212,7 @@ export class ProductGroup {
    * @param callback The callback
    */
   listByProductNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupCollection>): void;
-  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.ProductGroupListByProductNextResponse> {
+  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupCollection>, callback?: msRest.ServiceCallback<Models.GroupCollection>): Promise<Models.ProductGroupListByProductNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/routesMappers";
 import * as Parameters from "../models/parameters";
@@ -64,7 +64,7 @@ export class Routes {
    * @param callback The callback
    */
   get(resourceGroupName: string, routeTableName: string, routeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Route>): void;
-  get(resourceGroupName: string, routeTableName: string, routeName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Route>): Promise<Models.RoutesGetResponse> {
+  get(resourceGroupName: string, routeTableName: string, routeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Route>, callback?: msRest.ServiceCallback<Models.Route>): Promise<Models.RoutesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class Routes {
    * @param callback The callback
    */
   list(resourceGroupName: string, routeTableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteListResult>): void;
-  list(resourceGroupName: string, routeTableName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteListResult>): Promise<Models.RoutesListResponse> {
+  list(resourceGroupName: string, routeTableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteListResult>, callback?: msRest.ServiceCallback<Models.RouteListResult>): Promise<Models.RoutesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class Routes {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RouteListResult>): Promise<Models.RoutesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteListResult>, callback?: msRest.ServiceCallback<Models.RouteListResult>): Promise<Models.RoutesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

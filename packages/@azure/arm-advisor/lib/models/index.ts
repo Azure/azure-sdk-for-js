@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -394,53 +394,27 @@ export interface SuppressionContractListResult extends Array<SuppressionContract
 
 /**
  * Defines values for Category.
- * Possible values include: 'HighAvailability', 'Security', 'Performance',
- * 'Cost'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Category = <Category>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'HighAvailability', 'Security', 'Performance', 'Cost'
  * @readonly
  * @enum {string}
  */
-export enum Category {
-  HighAvailability = 'HighAvailability',
-  Security = 'Security',
-  Performance = 'Performance',
-  Cost = 'Cost',
-}
+export type Category = 'HighAvailability' | 'Security' | 'Performance' | 'Cost';
 
 /**
  * Defines values for Impact.
  * Possible values include: 'High', 'Medium', 'Low'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Impact = <Impact>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Impact {
-  High = 'High',
-  Medium = 'Medium',
-  Low = 'Low',
-}
+export type Impact = 'High' | 'Medium' | 'Low';
 
 /**
  * Defines values for Risk.
  * Possible values include: 'Error', 'Warning', 'None'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Risk = <Risk>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Risk {
-  Error = 'Error',
-  Warning = 'Warning',
-  None = 'None',
-}
+export type Risk = 'Error' | 'Warning' | 'None';
 
 /**
  * Contains response data for the listBySubscription operation.

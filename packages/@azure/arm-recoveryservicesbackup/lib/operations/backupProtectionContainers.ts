@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupProtectionContainersMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class BackupProtectionContainers {
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, options: Models.BackupProtectionContainersListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectionContainersListOptionalParams, callback?: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): Promise<Models.BackupProtectionContainersListResponse> {
+  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectionContainersListOptionalParams | msRest.ServiceCallback<Models.ProtectionContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): Promise<Models.BackupProtectionContainersListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -79,7 +79,7 @@ export class BackupProtectionContainers {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): Promise<Models.BackupProtectionContainersListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerResourceList>, callback?: msRest.ServiceCallback<Models.ProtectionContainerResourceList>): Promise<Models.BackupProtectionContainersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/personGroupOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -44,7 +44,7 @@ export class PersonGroupOperations {
    * @param callback The callback
    */
   create(personGroupId: string, options: Models.PersonGroupCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(personGroupId: string, options?: Models.PersonGroupCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(personGroupId: string, options?: Models.PersonGroupCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
@@ -73,7 +73,7 @@ export class PersonGroupOperations {
    * @param callback The callback
    */
   deleteMethod(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(personGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
@@ -101,7 +101,7 @@ export class PersonGroupOperations {
    * @param callback The callback
    */
   get(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersonGroup>): void;
-  get(personGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PersonGroup>): Promise<Models.PersonGroupGetResponse> {
+  get(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PersonGroup>, callback?: msRest.ServiceCallback<Models.PersonGroup>): Promise<Models.PersonGroupGetResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
@@ -130,7 +130,7 @@ export class PersonGroupOperations {
    * @param callback The callback
    */
   update(personGroupId: string, options: Models.PersonGroupUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(personGroupId: string, options?: Models.PersonGroupUpdateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(personGroupId: string, options?: Models.PersonGroupUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
@@ -158,7 +158,7 @@ export class PersonGroupOperations {
    * @param callback The callback
    */
   getTrainingStatus(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrainingStatus>): void;
-  getTrainingStatus(personGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.PersonGroupGetTrainingStatusResponse> {
+  getTrainingStatus(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainingStatus>, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.PersonGroupGetTrainingStatusResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
@@ -183,7 +183,7 @@ export class PersonGroupOperations {
    * @param callback The callback
    */
   list(options: Models.PersonGroupListOptionalParams, callback: msRest.ServiceCallback<Models.PersonGroup[]>): void;
-  list(options?: Models.PersonGroupListOptionalParams, callback?: msRest.ServiceCallback<Models.PersonGroup[]>): Promise<Models.PersonGroupListResponse> {
+  list(options?: Models.PersonGroupListOptionalParams | msRest.ServiceCallback<Models.PersonGroup[]>, callback?: msRest.ServiceCallback<Models.PersonGroup[]>): Promise<Models.PersonGroupListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -210,7 +210,7 @@ export class PersonGroupOperations {
    * @param callback The callback
    */
   train(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  train(personGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  train(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,

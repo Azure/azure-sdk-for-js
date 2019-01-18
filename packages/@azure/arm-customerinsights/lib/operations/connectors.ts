@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/connectorsMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class Connectors {
    * @param callback The callback
    */
   get(resourceGroupName: string, hubName: string, connectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectorResourceFormat>): Promise<Models.ConnectorsGetResponse> {
+  get(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorResourceFormat>, callback?: msRest.ServiceCallback<Models.ConnectorResourceFormat>): Promise<Models.ConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class Connectors {
    * @param callback The callback
    */
   listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectorListResult>): Promise<Models.ConnectorsListByHubResponse> {
+  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorListResult>, callback?: msRest.ServiceCallback<Models.ConnectorListResult>): Promise<Models.ConnectorsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -182,7 +182,7 @@ export class Connectors {
    * @param callback The callback
    */
   listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ConnectorListResult>): Promise<Models.ConnectorsListByHubNextResponse> {
+  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorListResult>, callback?: msRest.ServiceCallback<Models.ConnectorListResult>): Promise<Models.ConnectorsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

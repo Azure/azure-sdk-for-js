@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/resourceProviderCommonMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class ResourceProviderCommon {
    * @param callback The callback
    */
   getSubscriptionQuota(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): void;
-  getSubscriptionQuota(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse> {
+  getSubscriptionQuota(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>, callback?: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse> {
     return this.client.sendOperationRequest(
       {
         options

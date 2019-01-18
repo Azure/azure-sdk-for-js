@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/reviewsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Reviews {
    * @param callback The callback
    */
   getReview(teamName: string, reviewId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Review>): void;
-  getReview(teamName: string, reviewId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Review>): Promise<Models.ReviewsGetReviewResponse> {
+  getReview(teamName: string, reviewId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Review>, callback?: msRest.ServiceCallback<Models.Review>): Promise<Models.ReviewsGetReviewResponse> {
     return this.client.sendOperationRequest(
       {
         teamName,
@@ -79,7 +79,7 @@ export class Reviews {
    * @param callback The callback
    */
   getJobDetails(teamName: string, jobId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  getJobDetails(teamName: string, jobId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.ReviewsGetJobDetailsResponse> {
+  getJobDetails(teamName: string, jobId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.ReviewsGetJobDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         teamName,
@@ -138,7 +138,7 @@ export class Reviews {
    * @param callback The callback
    */
   createReviews(urlContentType: string, teamName: string, createReviewBody: Models.CreateReviewBodyItem[], options: Models.ReviewsCreateReviewsOptionalParams, callback: msRest.ServiceCallback<string[]>): void;
-  createReviews(urlContentType: string, teamName: string, createReviewBody: Models.CreateReviewBodyItem[], options?: Models.ReviewsCreateReviewsOptionalParams, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ReviewsCreateReviewsResponse> {
+  createReviews(urlContentType: string, teamName: string, createReviewBody: Models.CreateReviewBodyItem[], options?: Models.ReviewsCreateReviewsOptionalParams | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ReviewsCreateReviewsResponse> {
     return this.client.sendOperationRequest(
       {
         urlContentType,
@@ -234,7 +234,7 @@ export class Reviews {
    * @param callback The callback
    */
   createJob(teamName: string, contentType: Models.ContentType, contentId: string, workflowName: string, jobContentType: Models.JobContentType, content: Models.Content, options: Models.ReviewsCreateJobOptionalParams, callback: msRest.ServiceCallback<Models.JobId>): void;
-  createJob(teamName: string, contentType: Models.ContentType, contentId: string, workflowName: string, jobContentType: Models.JobContentType, content: Models.Content, options?: Models.ReviewsCreateJobOptionalParams, callback?: msRest.ServiceCallback<Models.JobId>): Promise<Models.ReviewsCreateJobResponse> {
+  createJob(teamName: string, contentType: Models.ContentType, contentId: string, workflowName: string, jobContentType: Models.JobContentType, content: Models.Content, options?: Models.ReviewsCreateJobOptionalParams | msRest.ServiceCallback<Models.JobId>, callback?: msRest.ServiceCallback<Models.JobId>): Promise<Models.ReviewsCreateJobResponse> {
     return this.client.sendOperationRequest(
       {
         teamName,
@@ -294,7 +294,7 @@ export class Reviews {
    * @param callback The callback
    */
   addVideoFrame(teamName: string, reviewId: string, options: Models.ReviewsAddVideoFrameOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  addVideoFrame(teamName: string, reviewId: string, options?: Models.ReviewsAddVideoFrameOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addVideoFrame(teamName: string, reviewId: string, options?: Models.ReviewsAddVideoFrameOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         teamName,
@@ -350,7 +350,7 @@ export class Reviews {
    * @param callback The callback
    */
   getVideoFrames(teamName: string, reviewId: string, options: Models.ReviewsGetVideoFramesOptionalParams, callback: msRest.ServiceCallback<Models.Frames>): void;
-  getVideoFrames(teamName: string, reviewId: string, options?: Models.ReviewsGetVideoFramesOptionalParams, callback?: msRest.ServiceCallback<Models.Frames>): Promise<Models.ReviewsGetVideoFramesResponse> {
+  getVideoFrames(teamName: string, reviewId: string, options?: Models.ReviewsGetVideoFramesOptionalParams | msRest.ServiceCallback<Models.Frames>, callback?: msRest.ServiceCallback<Models.Frames>): Promise<Models.ReviewsGetVideoFramesResponse> {
     return this.client.sendOperationRequest(
       {
         teamName,
@@ -382,7 +382,7 @@ export class Reviews {
    * @param callback The callback
    */
   publishVideoReview(teamName: string, reviewId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  publishVideoReview(teamName: string, reviewId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  publishVideoReview(teamName: string, reviewId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         teamName,
@@ -422,7 +422,7 @@ export class Reviews {
    * @param callback The callback
    */
   addVideoTranscriptModerationResult(contentType: string, teamName: string, reviewId: string, transcriptModerationBody: Models.TranscriptModerationBodyItem[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  addVideoTranscriptModerationResult(contentType: string, teamName: string, reviewId: string, transcriptModerationBody: Models.TranscriptModerationBodyItem[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addVideoTranscriptModerationResult(contentType: string, teamName: string, reviewId: string, transcriptModerationBody: Models.TranscriptModerationBodyItem[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,
@@ -460,7 +460,7 @@ export class Reviews {
    * @param callback The callback
    */
   addVideoTranscript(teamName: string, reviewId: string, vTTfile: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  addVideoTranscript(teamName: string, reviewId: string, vTTfile: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addVideoTranscript(teamName: string, reviewId: string, vTTfile: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         teamName,
@@ -520,7 +520,7 @@ export class Reviews {
    * @param callback The callback
    */
   createVideoReviews(contentType: string, teamName: string, createVideoReviewsBody: Models.CreateVideoReviewsBodyItem[], options: Models.ReviewsCreateVideoReviewsOptionalParams, callback: msRest.ServiceCallback<string[]>): void;
-  createVideoReviews(contentType: string, teamName: string, createVideoReviewsBody: Models.CreateVideoReviewsBodyItem[], options?: Models.ReviewsCreateVideoReviewsOptionalParams, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ReviewsCreateVideoReviewsResponse> {
+  createVideoReviews(contentType: string, teamName: string, createVideoReviewsBody: Models.CreateVideoReviewsBodyItem[], options?: Models.ReviewsCreateVideoReviewsOptionalParams | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ReviewsCreateVideoReviewsResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,
@@ -562,7 +562,7 @@ export class Reviews {
    * @param callback The callback
    */
   addVideoFrameUrl(contentType: string, teamName: string, reviewId: string, videoFrameBody: Models.VideoFrameBodyItem[], options: Models.ReviewsAddVideoFrameUrlOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  addVideoFrameUrl(contentType: string, teamName: string, reviewId: string, videoFrameBody: Models.VideoFrameBodyItem[], options?: Models.ReviewsAddVideoFrameUrlOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addVideoFrameUrl(contentType: string, teamName: string, reviewId: string, videoFrameBody: Models.VideoFrameBodyItem[], options?: Models.ReviewsAddVideoFrameUrlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,
@@ -608,7 +608,7 @@ export class Reviews {
    * @param callback The callback
    */
   addVideoFrameStream(contentType: string, teamName: string, reviewId: string, frameImageZip: msRest.HttpRequestBody, frameMetadata: string, options: Models.ReviewsAddVideoFrameStreamOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  addVideoFrameStream(contentType: string, teamName: string, reviewId: string, frameImageZip: msRest.HttpRequestBody, frameMetadata: string, options?: Models.ReviewsAddVideoFrameStreamOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addVideoFrameStream(contentType: string, teamName: string, reviewId: string, frameImageZip: msRest.HttpRequestBody, frameMetadata: string, options?: Models.ReviewsAddVideoFrameStreamOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,

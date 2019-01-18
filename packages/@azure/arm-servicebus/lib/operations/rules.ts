@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/rulesMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class Rules {
    * @param callback The callback
    */
   listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options: Models.RulesListBySubscriptionsOptionalParams, callback: msRest.ServiceCallback<Models.RuleListResult>): void;
-  listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: Models.RulesListBySubscriptionsOptionalParams, callback?: msRest.ServiceCallback<Models.RuleListResult>): Promise<Models.RulesListBySubscriptionsResponse> {
+  listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: Models.RulesListBySubscriptionsOptionalParams | msRest.ServiceCallback<Models.RuleListResult>, callback?: msRest.ServiceCallback<Models.RuleListResult>): Promise<Models.RulesListBySubscriptionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class Rules {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Models.Rule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rule>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Models.Rule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Rule>): Promise<Models.RulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Models.Rule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rule>, callback?: msRest.ServiceCallback<Models.Rule>): Promise<Models.RulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +144,7 @@ export class Rules {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class Rules {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rule>): void;
-  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Rule>): Promise<Models.RulesGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rule>, callback?: msRest.ServiceCallback<Models.Rule>): Promise<Models.RulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +220,7 @@ export class Rules {
    * @param callback The callback
    */
   listBySubscriptionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RuleListResult>): void;
-  listBySubscriptionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RuleListResult>): Promise<Models.RulesListBySubscriptionsNextResponse> {
+  listBySubscriptionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RuleListResult>, callback?: msRest.ServiceCallback<Models.RuleListResult>): Promise<Models.RulesListBySubscriptionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

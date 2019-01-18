@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/assessmentsMappers";
 import * as Parameters from "../models/parameters";
@@ -30,7 +30,6 @@ export class Assessments {
    * Get all assessments created for the specified group.
    *
    * Returns a json array of objects of type 'assessment' as specified in Models section.
-   *
    * @summary Get all assessments created for the specified group.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -54,7 +53,7 @@ export class Assessments {
    * @param callback The callback
    */
   listByGroup(resourceGroupName: string, projectName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessmentResultList>): void;
-  listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssessmentResultList>): Promise<Models.AssessmentsListByGroupResponse> {
+  listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentResultList>, callback?: msRest.ServiceCallback<Models.AssessmentResultList>): Promise<Models.AssessmentsListByGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,7 +69,6 @@ export class Assessments {
    * Get all assessments created in the project.
    *
    * Returns a json array of objects of type 'assessment' as specified in Models section.
-   *
    * @summary Get all assessments created in the project.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -91,7 +89,7 @@ export class Assessments {
    * @param callback The callback
    */
   listByProject(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessmentResultList>): void;
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AssessmentResultList>): Promise<Models.AssessmentsListByProjectResponse> {
+  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentResultList>, callback?: msRest.ServiceCallback<Models.AssessmentResultList>): Promise<Models.AssessmentsListByProjectResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +129,7 @@ export class Assessments {
    * @param callback The callback
    */
   get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Assessment>): void;
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Assessment>): Promise<Models.AssessmentsGetResponse> {
+  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Assessment>, callback?: msRest.ServiceCallback<Models.Assessment>): Promise<Models.AssessmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +155,6 @@ export class Assessments {
    * operations can happen on the assessment.
    *
    * When assessment is under computation, any PUT will lead to a 400 - Bad Request error.
-   *
    * @summary Create or Update assessment.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -184,7 +181,7 @@ export class Assessments {
    * @param callback The callback
    */
   create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: Models.AssessmentsCreateOptionalParams, callback: msRest.ServiceCallback<Models.Assessment>): void;
-  create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: Models.AssessmentsCreateOptionalParams, callback?: msRest.ServiceCallback<Models.Assessment>): Promise<Models.AssessmentsCreateResponse> {
+  create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: Models.AssessmentsCreateOptionalParams | msRest.ServiceCallback<Models.Assessment>, callback?: msRest.ServiceCallback<Models.Assessment>): Promise<Models.AssessmentsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +200,6 @@ export class Assessments {
    *
    * When an assessment is under computation, as indicated by the 'computationState' field, it cannot
    * be deleted. Any such attempt will return a 400 - Bad Request.
-   *
    * @summary Deletes an assessment from the project.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -230,7 +226,7 @@ export class Assessments {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.AssessmentsDeleteResponse> {
+  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AssessmentsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -271,7 +267,7 @@ export class Assessments {
    * @param callback The callback
    */
   getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DownloadUrl>): void;
-  getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DownloadUrl>): Promise<Models.AssessmentsGetReportDownloadUrlResponse> {
+  getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DownloadUrl>, callback?: msRest.ServiceCallback<Models.DownloadUrl>): Promise<Models.AssessmentsGetReportDownloadUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/reservationMappers";
 import * as Parameters from "../models/parameters";
@@ -29,10 +29,8 @@ export class Reservation {
 
   /**
    * Split a `Reservation` into two `Reservation`s with specified quantity distribution.
-   *
    * @summary Split the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param body Information needed to Split a reservation item
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationSplitResponse>
@@ -47,7 +45,6 @@ export class Reservation {
    * must have same properties.
    * @summary Merges two `Reservation`s.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param body Information needed for commercial request for a reservation
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationMergeResponse>
@@ -61,25 +58,22 @@ export class Reservation {
    * List `Reservation`s within a single `ReservationOrder`.
    * @summary Get `Reservation`s in a given reservation Order
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationListResponse>
    */
   list(reservationOrderId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationListResponse>;
   /**
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param callback The callback
    */
   list(reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationList>): void;
   /**
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param options The optional parameters
    * @param callback The callback
    */
   list(reservationOrderId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationList>): void;
-  list(reservationOrderId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListResponse> {
+  list(reservationOrderId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationList>, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListResponse> {
     return this.client.sendOperationRequest(
       {
         reservationOrderId,
@@ -94,7 +88,6 @@ export class Reservation {
    * @summary Get `Reservation` details.
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationGetResponse>
    */
@@ -102,19 +95,17 @@ export class Reservation {
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param callback The callback
    */
   get(reservationId: string, reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationResponse>): void;
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param options The optional parameters
    * @param callback The callback
    */
   get(reservationId: string, reservationOrderId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationResponse>): void;
-  get(reservationId: string, reservationOrderId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationResponse>): Promise<Models.ReservationGetResponse> {
+  get(reservationId: string, reservationOrderId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationResponse>, callback?: msRest.ServiceCallback<Models.ReservationResponse>): Promise<Models.ReservationGetResponse> {
     return this.client.sendOperationRequest(
       {
         reservationId,
@@ -129,7 +120,6 @@ export class Reservation {
    * Updates the applied scopes of the `Reservation`.
    * @summary Updates a `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param reservationId Id of the Reservation Item
    * @param parameters Information needed to patch a reservation item
    * @param [options] The optional parameters
@@ -142,11 +132,9 @@ export class Reservation {
 
   /**
    * List of all the revisions for the `Reservation`.
-   *
    * @summary Get `Reservation` revisions.
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationListRevisionsResponse>
    */
@@ -154,19 +142,17 @@ export class Reservation {
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param callback The callback
    */
   listRevisions(reservationId: string, reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationList>): void;
   /**
    * @param reservationId Id of the Reservation Item
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param options The optional parameters
    * @param callback The callback
    */
   listRevisions(reservationId: string, reservationOrderId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationList>): void;
-  listRevisions(reservationId: string, reservationOrderId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListRevisionsResponse> {
+  listRevisions(reservationId: string, reservationOrderId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationList>, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListRevisionsResponse> {
     return this.client.sendOperationRequest(
       {
         reservationId,
@@ -179,10 +165,8 @@ export class Reservation {
 
   /**
    * Split a `Reservation` into two `Reservation`s with specified quantity distribution.
-   *
    * @summary Split the `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param body Information needed to Split a reservation item
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -203,7 +187,6 @@ export class Reservation {
    * must have same properties.
    * @summary Merges two `Reservation`s.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param body Information needed for commercial request for a reservation
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -223,7 +206,6 @@ export class Reservation {
    * Updates the applied scopes of the `Reservation`.
    * @summary Updates a `Reservation`.
    * @param reservationOrderId Order Id of the reservation
-   *
    * @param reservationId Id of the Reservation Item
    * @param parameters Information needed to patch a reservation item
    * @param [options] The optional parameters
@@ -260,7 +242,7 @@ export class Reservation {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationList>, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -272,7 +254,6 @@ export class Reservation {
 
   /**
    * List of all the revisions for the `Reservation`.
-   *
    * @summary Get `Reservation` revisions.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -290,7 +271,7 @@ export class Reservation {
    * @param callback The callback
    */
   listRevisionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationList>): void;
-  listRevisionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListRevisionsNextResponse> {
+  listRevisionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationList>, callback?: msRest.ServiceCallback<Models.ReservationList>): Promise<Models.ReservationListRevisionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

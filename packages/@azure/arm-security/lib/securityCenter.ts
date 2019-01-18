@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -33,6 +33,7 @@ class SecurityCenter extends SecurityCenterContext {
   jitNetworkAccessPolicies: operations.JitNetworkAccessPolicies;
   externalSecuritySolutions: operations.ExternalSecuritySolutions;
   topology: operations.Topology;
+  allowedConnections: operations.AllowedConnections;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
@@ -60,6 +61,7 @@ class SecurityCenter extends SecurityCenterContext {
     this.jitNetworkAccessPolicies = new operations.JitNetworkAccessPolicies(this);
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
     this.topology = new operations.Topology(this);
+    this.allowedConnections = new operations.AllowedConnections(this);
   }
 }
 

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/delegationSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class DelegationSettings {
    * @param callback The callback
    */
   getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.DelegationSettingsGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DelegationSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +79,7 @@ export class DelegationSettings {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsGetResponse> {
+  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalDelegationSettings>, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +120,7 @@ export class DelegationSettings {
    * @param callback The callback
    */
   update(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +157,7 @@ export class DelegationSettings {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalDelegationSettings>, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/replicationJobsMappers";
 import * as Parameters from "../models/parameters";
@@ -43,7 +43,7 @@ export class ReplicationJobs {
    * @param callback The callback
    */
   list(options: Models.ReplicationJobsListOptionalParams, callback: msRest.ServiceCallback<Models.JobCollection>): void;
-  list(options?: Models.ReplicationJobsListOptionalParams, callback?: msRest.ServiceCallback<Models.JobCollection>): Promise<Models.ReplicationJobsListResponse> {
+  list(options?: Models.ReplicationJobsListOptionalParams | msRest.ServiceCallback<Models.JobCollection>, callback?: msRest.ServiceCallback<Models.JobCollection>): Promise<Models.ReplicationJobsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -71,7 +71,7 @@ export class ReplicationJobs {
    * @param callback The callback
    */
   get(jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(jobName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.ReplicationJobsGetResponse> {
+  get(jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.ReplicationJobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         jobName,
@@ -219,7 +219,7 @@ export class ReplicationJobs {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.JobCollection>): Promise<Models.ReplicationJobsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCollection>, callback?: msRest.ServiceCallback<Models.JobCollection>): Promise<Models.ReplicationJobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

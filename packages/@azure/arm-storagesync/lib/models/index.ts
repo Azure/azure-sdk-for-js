@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -1714,22 +1714,11 @@ export interface WorkflowArray extends Array<Workflow> {
 
 /**
  * Defines values for Reason.
- * Possible values include: 'Registered', 'Unregistered', 'Warned',
- * 'Suspended', 'Deleted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Reason = <Reason>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Registered', 'Unregistered', 'Warned', 'Suspended', 'Deleted'
  * @readonly
  * @enum {string}
  */
-export enum Reason {
-  Registered = 'Registered',
-  Unregistered = 'Unregistered',
-  Warned = 'Warned',
-  Suspended = 'Suspended',
-  Deleted = 'Deleted',
-}
+export type Reason = 'Registered' | 'Unregistered' | 'Warned' | 'Suspended' | 'Deleted';
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -1737,93 +1726,47 @@ export enum Reason {
  * @readonly
  * @enum {string}
  */
-export enum NameAvailabilityReason {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
-}
+export type NameAvailabilityReason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for CloudTiering.
  * Possible values include: 'on', 'off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CloudTiering =
- * <CloudTiering>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CloudTiering {
-  On = 'on',
-  Off = 'off',
-}
+export type CloudTiering = 'on' | 'off';
 
 /**
  * Defines values for CloudTiering1.
  * Possible values include: 'on', 'off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CloudTiering1 =
- * <CloudTiering1>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CloudTiering1 {
-  On = 'on',
-  Off = 'off',
-}
+export type CloudTiering1 = 'on' | 'off';
 
 /**
  * Defines values for CloudTiering2.
  * Possible values include: 'on', 'off'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CloudTiering2 =
- * <CloudTiering2>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CloudTiering2 {
-  On = 'on',
-  Off = 'off',
-}
+export type CloudTiering2 = 'on' | 'off';
 
 /**
  * Defines values for Status.
- * Possible values include: 'active', 'expired', 'succeeded', 'aborted',
- * 'failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Status = <Status>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'active', 'expired', 'succeeded', 'aborted', 'failed'
  * @readonly
  * @enum {string}
  */
-export enum Status {
-  Active = 'active',
-  Expired = 'expired',
-  Succeeded = 'succeeded',
-  Aborted = 'aborted',
-  Failed = 'failed',
-}
+export type Status = 'active' | 'expired' | 'succeeded' | 'aborted' | 'failed';
 
 /**
  * Defines values for Operation.
  * Possible values include: 'do', 'undo', 'cancel'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Operation = <Operation>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Operation {
-  Do = 'do',
-  Undo = 'undo',
-  Cancel = 'cancel',
-}
+export type Operation = 'do' | 'undo' | 'cancel';
 
 /**
  * Contains response data for the list operation.

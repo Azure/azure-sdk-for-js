@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/accountsMappers";
 import * as Parameters from "../models/parameters";
@@ -46,7 +46,7 @@ export class Accounts {
    * @param callback The callback
    */
   checkNameAvailability(body: Models.CheckNameAvailabilityParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(body: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.AccountsCheckNameAvailabilityResponse> {
+  checkNameAvailability(body: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.AccountsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -76,7 +76,7 @@ export class Accounts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountResourceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountResourceListResult>): Promise<Models.AccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountResourceListResult>, callback?: msRest.ServiceCallback<Models.AccountResourceListResult>): Promise<Models.AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,7 @@ export class Accounts {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, body: Models.AccountResourceRequest, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountResource>): void;
-  createOrUpdate(resourceGroupName: string, body: Models.AccountResourceRequest, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountResource>): Promise<Models.AccountsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, body: Models.AccountResourceRequest, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountResource>, callback?: msRest.ServiceCallback<Models.AccountResource>): Promise<Models.AccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -145,7 +145,7 @@ export class Accounts {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -178,7 +178,7 @@ export class Accounts {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountResource>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccountResource>): Promise<Models.AccountsGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountResource>, callback?: msRest.ServiceCallback<Models.AccountResource>): Promise<Models.AccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,6 +187,43 @@ export class Accounts {
       },
       getOperationSpec,
       callback) as Promise<Models.AccountsGetResponse>;
+  }
+
+  /**
+   * Updates tags for Visual Studio Team Services account resource.
+   * @summary Accounts_Update
+   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param body The request data.
+   * @param resourceName Name of the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AccountsUpdateResponse>
+   */
+  update(resourceGroupName: string, body: Models.AccountTagRequest, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsUpdateResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param body The request data.
+   * @param resourceName Name of the resource.
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, body: Models.AccountTagRequest, resourceName: string, callback: msRest.ServiceCallback<Models.AccountResource>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param body The request data.
+   * @param resourceName Name of the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, body: Models.AccountTagRequest, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountResource>): void;
+  update(resourceGroupName: string, body: Models.AccountTagRequest, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountResource>, callback?: msRest.ServiceCallback<Models.AccountResource>): Promise<Models.AccountsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        body,
+        resourceName,
+        options
+      },
+      updateOperationSpec,
+      callback) as Promise<Models.AccountsUpdateResponse>;
   }
 }
 
@@ -316,6 +353,39 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccountResource
+    },
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{resourceName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.AccountTagRequest,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.AccountResource
