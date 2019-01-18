@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/customInstanceMappers";
 import * as Parameters from "../models/parameters";
-import { CustomImageSearchAPIClientContext } from "../customImageSearchAPIClientContext";
+import { CustomImageSearchClientContext } from "../customImageSearchClientContext";
 
 /** Class representing a CustomInstance. */
 export class CustomInstance {
-  private readonly client: CustomImageSearchAPIClientContext;
+  private readonly client: CustomImageSearchClientContext;
 
   /**
    * Create a CustomInstance.
-   * @param {CustomImageSearchAPIClientContext} client Reference to the service client.
+   * @param {CustomImageSearchClientContext} client Reference to the service client.
    */
-  constructor(client: CustomImageSearchAPIClientContext) {
+  constructor(client: CustomImageSearchClientContext) {
     this.client = client;
   }
 

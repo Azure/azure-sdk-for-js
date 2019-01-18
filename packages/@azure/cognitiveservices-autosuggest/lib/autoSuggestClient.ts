@@ -25,7 +25,7 @@ class AutoSuggestClient extends AutoSuggestClientContext {
   }
 
   /**
-   * @summary The AutoSuggest API lets you send a search query to Bing and get back a list of
+   * @summary The AutoSuggest API lets you send a search query to Bing and get back a list of query
    * suggestions. This section provides technical details about the query parameters and headers that
    * you use to request suggestions and the JSON response objects that contain them.
    * @param query The user's search term.
