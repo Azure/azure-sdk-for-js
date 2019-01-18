@@ -6,6 +6,8 @@ import replace from "rollup-plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
 
+import path from "path";
+
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const input = "dist-esm/lib/index.js";
@@ -42,7 +44,26 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push("assert");
+    baseConfig.external.push("assert", "fs", "path");
+
+    baseConfig.onwarn = (warning) => {
+      if (warning.code === "THIS_IS_UNDEFINED") {
+        // This error happens frequently due to TypeScript emitting `this` at the
+        // top-level of a module. In this case its fine if it gets rewritten to
+        // undefined, so ignore this error.
+        return;
+      }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+      ) {
+        // Chai contains circular references, but they are not fatal and can be ignored.
+        return;
+      }
+
+      console.error(`(!) ${warning.message}`);
+    };
   } else if (production) {
     baseConfig.plugins.push(uglify());
   }
