@@ -16535,7 +16535,7 @@ const updateSlotConfigurationNamesOperationSpec: msRest.OperationSpec = {
 
 const getSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -16560,7 +16560,7 @@ const getSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -16592,7 +16592,7 @@ const createOrUpdateSwiftVirtualNetworkConnectionOperationSpec: msRest.Operation
 
 const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -16616,7 +16616,7 @@ const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
 
 const updateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -20219,7 +20219,7 @@ const listSitePushSettingsSlotOperationSpec: msRest.OperationSpec = {
 
 const getSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -20245,7 +20245,7 @@ const getSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = 
 
 const createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -20278,7 +20278,7 @@ const createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.Opera
 
 const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -20303,7 +20303,7 @@ const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
 
 const updateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/virtualNetwork",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
