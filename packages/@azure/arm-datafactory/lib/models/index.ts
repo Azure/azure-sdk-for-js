@@ -2411,9 +2411,10 @@ export interface AzureFunctionLinkedService {
    */
   functionAppUrl: any;
   /**
-   * @member {any} [functionKey] Function or Host key for Azure Function App.
+   * @member {SecretBaseUnion} [functionKey] Function or Host key for Azure
+   * Function App.
    */
-  functionKey?: any;
+  functionKey?: SecretBaseUnion;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -14880,7 +14881,7 @@ export interface CopyActivity {
 /**
  * Contains the possible cases for ControlActivity.
  */
-export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | ValidationActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | WebHookActivity | ExecutePipelineActivity;
+export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
 
 /**
  * @interface
@@ -15025,60 +15026,6 @@ export interface FilterActivity {
    * input.
    */
   condition: Expression;
-}
-
-/**
- * @interface
- * An interface representing ValidationActivity.
- * This activity blocks execution until a file has been validated to exist,
- * with an optional minimum size, or the timeout is reached, whichever is
- * earlier.
- *
- */
-export interface ValidationActivity {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "Validation";
-  /**
-   * @member {string} name Activity name.
-   */
-  name: string;
-  /**
-   * @member {string} [description] Activity description.
-   */
-  description?: string;
-  /**
-   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
-   */
-  dependsOn?: ActivityDependency[];
-  /**
-   * @member {UserProperty[]} [userProperties] Activity user properties.
-   */
-  userProperties?: UserProperty[];
-  /**
-   * @member {any} [timeout] Specifies the timeout for the activity to run. If
-   * there is no value specified, it takes the value of TimeSpan.FromDays(7)
-   * which is 1 week as default. Type: string (or Expression with resultType
-   * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   * Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  timeout?: any;
-  /**
-   * @member {number} [sleep] A delay in seconds between validation attempts.
-   * If no value is specified, 10 seconds will be used as the default.
-   */
-  sleep?: number;
-  /**
-   * @member {number} [minimumSize] Minimum size of a file in byte. If no value
-   * is specified, 0 byte will be used as the default.
-   */
-  minimumSize?: number;
-  /**
-   * @member {DatasetReference} dataset Validation activity dataset reference.
-   */
-  dataset: DatasetReference;
 }
 
 /**
@@ -15257,66 +15204,6 @@ export interface IfConditionActivity {
    * and if not provided, the activity will exit without any action.
    */
   ifFalseActivities?: ActivityUnion[];
-}
-
-/**
- * @interface
- * An interface representing WebHookActivity.
- * WebHook activity.
- *
- */
-export interface WebHookActivity {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "WebHook";
-  /**
-   * @member {string} name Activity name.
-   */
-  name: string;
-  /**
-   * @member {string} [description] Activity description.
-   */
-  description?: string;
-  /**
-   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
-   */
-  dependsOn?: ActivityDependency[];
-  /**
-   * @member {UserProperty[]} [userProperties] Activity user properties.
-   */
-  userProperties?: UserProperty[];
-  /**
-   * @member {any} url WebHook activity target endpoint and path. Type: string
-   * (or Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [timeout] Specifies the timeout within which the webhook
-   * should be called back. If there is no value specified, it takes the value
-   * of TimeSpan.FromMinutes(10) which is 10 minutes as default. Type: string
-   * (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  timeout?: any;
-  /**
-   * @member {any} [headers] Represents the headers that will be sent to the
-   * request. For example, to set the language and type on a request: "headers"
-   * : { "Accept-Language": "en-us", "Content-Type": "application/json" }.
-   * Type: string (or Expression with resultType string).
-   */
-  headers?: any;
-  /**
-   * @member {any} [body] Represents the payload that will be sent to the
-   * endpoint. Required for POST/PUT method, not allowed for GET method Type:
-   * string (or Expression with resultType string).
-   */
-  body?: any;
-  /**
-   * @member {WebActivityAuthentication} [authentication] Authentication method
-   * used for calling the endpoint.
-   */
-  authentication?: WebActivityAuthentication;
 }
 
 /**
@@ -17152,14 +17039,6 @@ export type PolybaseSettingsRejectType = 'value' | 'percentage';
  * @enum {string}
  */
 export type SapCloudForCustomerSinkWriteBehavior = 'Insert' | 'Update';
-
-/**
- * Defines values for WebHookActivityMethod.
- * Possible values include: 'POST'
- * @readonly
- * @enum {string}
- */
-export type WebHookActivityMethod = 'POST';
 
 /**
  * Defines values for IntegrationRuntimeType.

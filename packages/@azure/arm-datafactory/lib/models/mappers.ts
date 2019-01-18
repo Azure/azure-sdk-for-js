@@ -3171,7 +3171,13 @@ export const AzureFunctionLinkedService: msRest.CompositeMapper = {
       functionKey: {
         serializedName: "typeProperties.functionKey",
         type: {
-          name: "Object"
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
         }
       },
       encryptedCredential: {
@@ -13029,47 +13035,6 @@ export const FilterActivity: msRest.CompositeMapper = {
   }
 };
 
-export const ValidationActivity: msRest.CompositeMapper = {
-  serializedName: "Validation",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
-    uberParent: "Activity",
-    className: "ValidationActivity",
-    modelProperties: {
-      ...ControlActivity.type.modelProperties,
-      timeout: {
-        serializedName: "typeProperties.timeout",
-        type: {
-          name: "Object"
-        }
-      },
-      sleep: {
-        serializedName: "typeProperties.sleep",
-        type: {
-          name: "Number"
-        }
-      },
-      minimumSize: {
-        serializedName: "typeProperties.minimumSize",
-        type: {
-          name: "Number"
-        }
-      },
-      dataset: {
-        required: true,
-        serializedName: "typeProperties.dataset",
-        defaultValue: {},
-        type: {
-          name: "Composite",
-          className: "DatasetReference"
-        }
-      }
-    },
-    additionalProperties: Activity.type.additionalProperties
-  }
-};
-
 export const UntilActivity: msRest.CompositeMapper = {
   serializedName: "Until",
   type: {
@@ -13264,61 +13229,6 @@ export const IfConditionActivity: msRest.CompositeMapper = {
               }
             }
           }
-        }
-      }
-    },
-    additionalProperties: Activity.type.additionalProperties
-  }
-};
-
-export const WebHookActivity: msRest.CompositeMapper = {
-  serializedName: "WebHook",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
-    uberParent: "Activity",
-    className: "WebHookActivity",
-    modelProperties: {
-      ...ControlActivity.type.modelProperties,
-      method: {
-        required: true,
-        isConstant: true,
-        serializedName: "typeProperties.method",
-        defaultValue: 'POST',
-        type: {
-          name: "String"
-        }
-      },
-      url: {
-        required: true,
-        serializedName: "typeProperties.url",
-        type: {
-          name: "Object"
-        }
-      },
-      timeout: {
-        serializedName: "typeProperties.timeout",
-        type: {
-          name: "Object"
-        }
-      },
-      headers: {
-        serializedName: "typeProperties.headers",
-        type: {
-          name: "Object"
-        }
-      },
-      body: {
-        serializedName: "typeProperties.body",
-        type: {
-          name: "Object"
-        }
-      },
-      authentication: {
-        serializedName: "typeProperties.authentication",
-        type: {
-          name: "Composite",
-          className: "WebActivityAuthentication"
         }
       }
     },
@@ -15058,12 +14968,10 @@ export const discriminators = {
   'Activity.AppendVariable' : AppendVariableActivity,
   'Activity.SetVariable' : SetVariableActivity,
   'Activity.Filter' : FilterActivity,
-  'Activity.Validation' : ValidationActivity,
   'Activity.Until' : UntilActivity,
   'Activity.Wait' : WaitActivity,
   'Activity.ForEach' : ForEachActivity,
   'Activity.IfCondition' : IfConditionActivity,
-  'Activity.WebHook' : WebHookActivity,
   'Activity.ExecutePipeline' : ExecutePipelineActivity,
   'Activity.Container' : ControlActivity,
   'IntegrationRuntimeStatus.SelfHosted' : SelfHostedIntegrationRuntimeStatus,
