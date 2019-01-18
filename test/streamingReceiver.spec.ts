@@ -189,7 +189,7 @@ describe("Streaming Receiver Misc Tests", function(): void {
 
     await receiveListener.stop();
 
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError!.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -248,7 +248,7 @@ describe("Streaming Receiver Misc Tests", function(): void {
     await receivedMsgs[1].complete();
     await receiveListener.stop();
 
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError!.message);
   }
 
   it("Disabled autoComplete, no manual complete retains the message in Partitioned Queues", async function(): Promise<
@@ -315,7 +315,7 @@ describe("Complete message", function(): void {
     }
 
     await receiveListener.stop();
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError!.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -390,7 +390,7 @@ describe("Abandon message", function(): void {
     );
     await delay(4000);
 
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError!.message);
 
     const receivedMsgs = await receiverClient.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);
@@ -482,7 +482,7 @@ describe("Defer message", function(): void {
     await delay(4000);
 
     await receiveListener.stop();
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError!.message);
 
     const deferredMsg0 = await receiverClient.receiveDeferredMessage(seq0);
     const deferredMsg1 = await receiverClient.receiveDeferredMessage(seq1);
@@ -578,7 +578,7 @@ describe("Deadletter message", function(): void {
 
     await delay(4000);
     await receiveListener.stop();
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError!.message);
 
     await testPeekMsgsLength(receiverClient, 0);
 
@@ -773,7 +773,7 @@ describe("Settle an already Settled message throws error", () => {
     }, unExpectedErrorHandler);
 
     await delay(5000);
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError!.message);
 
     should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].body, testMessages[0].body);

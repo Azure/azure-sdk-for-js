@@ -290,7 +290,7 @@ describe("Streaming Receiver: Message abandoned more than maxDeliveryCount goes 
     await delay(4000);
 
     await receiveListener.stop();
-    chai.assert.fail(unexpectedError && unexpectedError.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(checkDeliveryCount0, maxDeliveryCount);
     should.equal(checkDeliveryCount1, maxDeliveryCount);

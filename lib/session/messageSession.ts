@@ -625,7 +625,7 @@ export class MessageSession extends LinkEntity {
    * 10% of the lockDuration value.
    * - **Default**: `2` seconds.
    */
-  receiveBatch(
+  async receiveBatch(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     maxMessageWaitTimeoutInSeconds?: number
