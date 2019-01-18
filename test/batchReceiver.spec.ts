@@ -226,17 +226,23 @@ async function beforeEachTest(): Promise<void> {
 
   const peekedPartitionedSubscriptionSessionMsg = await partitionedSubscriptionSessionClient.peek();
   if (peekedPartitionedSubscriptionSessionMsg.length) {
-    throw new Error("Please use an empty partitioned queue with sessions for integration testing");
+    throw new Error(
+      "Please use an empty partitioned Subscription with sessions for integration testing"
+    );
   }
 
   const peekedUnPartitionedQueueSessionMsg = await unpartitionedQueueSessionClient.peek();
   if (peekedUnPartitionedQueueSessionMsg.length) {
-    throw new Error("Please use an empty partitioned queue with sessions for integration testing");
+    throw new Error(
+      "Please use an empty unpartitioned queue with sessions for integration testing"
+    );
   }
 
   const peekedUnPartitionedSubscriptionSessionMsg = await unpartitionedSubscriptionSessionClient.peek();
   if (peekedUnPartitionedSubscriptionSessionMsg.length) {
-    throw new Error("Please use an empty partitioned queue with sessions for integration testing");
+    throw new Error(
+      "Please use an empty unpartitioned Subscription with sessions for integration testing"
+    );
   }
 }
 
