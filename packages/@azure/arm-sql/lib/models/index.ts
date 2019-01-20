@@ -4656,7 +4656,7 @@ export interface ServerSecurityAlertPolicy extends ProxyResource {
   /**
    * @member {SecurityAlertPolicyState} state Specifies the state of the
    * policy, whether it is enabled or disabled or a policy has not been applied
-   * yet on the specific resource. Possible values include: 'New', 'Enabled',
+   * yet on the specific database. Possible values include: 'New', 'Enabled',
    * 'Disabled'
    */
   state: SecurityAlertPolicyState;
@@ -4806,7 +4806,7 @@ export interface ManagedDatabaseSecurityAlertPolicy extends ProxyResource {
   /**
    * @member {SecurityAlertPolicyState} state Specifies the state of the
    * policy, whether it is enabled or disabled or a policy has not been applied
-   * yet on the specific resource. Possible values include: 'New', 'Enabled',
+   * yet on the specific database. Possible values include: 'New', 'Enabled',
    * 'Disabled'
    */
   state: SecurityAlertPolicyState;
@@ -4862,7 +4862,7 @@ export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
   /**
    * @member {SecurityAlertPolicyState} state Specifies the state of the
    * policy, whether it is enabled or disabled or a policy has not been applied
-   * yet on the specific resource. Possible values include: 'New', 'Enabled',
+   * yet on the specific database. Possible values include: 'New', 'Enabled',
    * 'Disabled'
    */
   state: SecurityAlertPolicyState;
