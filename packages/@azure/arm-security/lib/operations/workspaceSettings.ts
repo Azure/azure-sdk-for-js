@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workspaceSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -27,7 +27,8 @@ export class WorkspaceSettings {
   }
 
   /**
-   * Settings about where we should store your security data and logs
+   * Settings about where we should store your security data and logs. If the result is empty, it
+   * means that no custom-workspace configuration was set
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSettingsListResponse>
    */
@@ -51,7 +52,8 @@ export class WorkspaceSettings {
   }
 
   /**
-   * Settings about where we should store your security data and logs
+   * Settings about where we should store your security data and logs. If the result is empty, it
+   * means that no custom-workspace configuration was set
    * @param workspaceSettingName Name of the security setting
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSettingsGetResponse>
@@ -172,7 +174,8 @@ export class WorkspaceSettings {
   }
 
   /**
-   * Settings about where we should store your security data and logs
+   * Settings about where we should store your security data and logs. If the result is empty, it
+   * means that no custom-workspace configuration was set
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSettingsListNextResponse>
