@@ -9,12 +9,12 @@
  */
 
 export {
-  ServerAzureADAdministrator,
+  ManagedServerSecurityAlertPolicy,
   ProxyResource,
   Resource,
   BaseResource,
   CloudError,
-  ServerAdministratorListResult,
+  ManagedServerSecurityAlertPolicyListResult,
   RecoverableDatabase,
   RestorableDroppedDatabase,
   TrackedResource,
@@ -28,6 +28,7 @@ export {
   RecommendedElasticPool,
   RecommendedElasticPoolMetric,
   ReplicationLink,
+  ServerAzureADAdministrator,
   ServerCommunicationLink,
   ServiceObjective,
   ElasticPoolActivity,
@@ -91,7 +92,6 @@ export {
   RestorableDroppedManagedDatabase,
   RestorePoint,
   ManagedDatabaseSecurityAlertPolicy,
-  ManagedServerSecurityAlertPolicy,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,

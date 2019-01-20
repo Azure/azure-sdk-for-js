@@ -561,6 +561,16 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const restorableDroppedDatabaseId: msRest.OperationURLParameter = {
+  parameterPath: "restorableDroppedDatabaseId",
+  mapper: {
+    required: true,
+    serializedName: "restorableDroppedDatabaseId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const restorableDroppededDatabaseId: msRest.OperationURLParameter = {
   parameterPath: "restorableDroppededDatabaseId",
   mapper: {
