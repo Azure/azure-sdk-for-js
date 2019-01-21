@@ -2648,6 +2648,11 @@ export interface ApplicationGatewayAutoscaleConfiguration {
    * instances
    */
   minCapacity: number;
+  /**
+   * @member {number} [maxCapacity] Upper bound on number of Application
+   * Gateway capacity
+   */
+  maxCapacity?: number;
 }
 
 /**

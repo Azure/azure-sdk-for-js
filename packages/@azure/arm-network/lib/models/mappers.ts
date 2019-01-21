@@ -3498,6 +3498,15 @@ export const ApplicationGatewayAutoscaleConfiguration: msRest.CompositeMapper = 
         type: {
           name: "Number"
         }
+      },
+      maxCapacity: {
+        serializedName: "maxCapacity",
+        constraints: {
+          InclusiveMinimum: 2
+        },
+        type: {
+          name: "Number"
+        }
       }
     }
   }
