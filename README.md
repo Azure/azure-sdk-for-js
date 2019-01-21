@@ -4,6 +4,7 @@
 * @azure/storage-file [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-file.svg)](https://badge.fury.io/js/%40azure%2Fstorage-file)
 * @azure/storage-queue [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-queue.svg)](https://badge.fury.io/js/%40azure%2Fstorage-queue)
 * [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage/client?view=azure-node-preview)
+* [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 
 ## Introduction
 
@@ -280,6 +281,7 @@ main()
 
 ## More Samples
 
+* [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
 * [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
 * [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/tests/)
 * [File Storage Examples](https://github.com/azure/azure-storage-js/tree/master/file/samples)
