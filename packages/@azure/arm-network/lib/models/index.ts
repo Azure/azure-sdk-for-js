@@ -8412,6 +8412,60 @@ export interface VirtualNetworkUsage {
 
 /**
  * @interface
+ * An interface representing NetworkIntentPolicy.
+ * Network Intent Policy resource.
+ *
+ * @extends Resource
+ */
+export interface NetworkIntentPolicy extends Resource {
+  /**
+   * @member {string} [etag] Gets a unique read-only string that changes
+   * whenever the resource is updated.
+   */
+  etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkIntentPolicyConfiguration.
+ */
+export interface NetworkIntentPolicyConfiguration {
+  /**
+   * @member {string} [networkIntentPolicyName] The name of the Network Intent
+   * Policy for storing in target subscription.
+   */
+  networkIntentPolicyName?: string;
+  /**
+   * @member {NetworkIntentPolicy} [sourceNetworkIntentPolicy]
+   */
+  sourceNetworkIntentPolicy?: NetworkIntentPolicy;
+}
+
+/**
+ * @interface
+ * An interface representing PrepareNetworkPoliciesRequest.
+ */
+export interface PrepareNetworkPoliciesRequest {
+  /**
+   * @member {string} [serviceName] The name of the service for which subnet is
+   * being prepared for.
+   */
+  serviceName?: string;
+  /**
+   * @member {string} [resourceGroupName] The name of the resource group where
+   * the Network Intent Policy will be stored.
+   */
+  resourceGroupName?: string;
+  /**
+   * @member {NetworkIntentPolicyConfiguration[]}
+   * [networkIntentPolicyConfigurations] A list of
+   * NetworkIntentPolicyConfiguration.
+   */
+  networkIntentPolicyConfigurations?: NetworkIntentPolicyConfiguration[];
+}
+
+/**
+ * @interface
  * An interface representing VirtualNetworkGatewayIPConfiguration.
  * IP configuration for virtual network gateway
  *

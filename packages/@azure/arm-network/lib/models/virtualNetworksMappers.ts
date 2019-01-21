@@ -153,6 +153,7 @@ export {
   PatchRouteFilter,
   BgpServiceCommunity,
   BGPCommunity,
+  NetworkIntentPolicy,
   VirtualNetworkGatewayIPConfiguration,
   VpnClientRootCertificate,
   VpnClientRevokedCertificate,

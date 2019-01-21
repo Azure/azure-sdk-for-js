@@ -157,6 +157,7 @@ export {
   AddressSpace,
   VirtualNetwork,
   DhcpOptions,
+  NetworkIntentPolicy,
   VirtualNetworkGatewayIPConfiguration,
   VpnClientRootCertificate,
   VpnClientRevokedCertificate,

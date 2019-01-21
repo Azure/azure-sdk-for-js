@@ -153,6 +153,7 @@ export {
   VirtualNetworkPeering,
   VirtualNetwork,
   DhcpOptions,
+  NetworkIntentPolicy,
   VirtualNetworkGatewayIPConfiguration,
   VpnClientRootCertificate,
   VpnClientRevokedCertificate,

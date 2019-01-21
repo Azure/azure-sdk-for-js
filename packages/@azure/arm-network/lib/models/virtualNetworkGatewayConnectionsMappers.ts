@@ -162,6 +162,7 @@ export {
   VirtualNetworkPeering,
   VirtualNetwork,
   DhcpOptions,
+  NetworkIntentPolicy,
   VirtualNetworkGatewayConnectionListEntity,
   VirtualNetworkConnectionGatewayReference,
   P2SVpnServerConfigVpnClientRootCertificate,

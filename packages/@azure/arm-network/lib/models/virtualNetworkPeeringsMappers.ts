@@ -148,6 +148,7 @@ export {
   BGPCommunity,
   VirtualNetwork,
   DhcpOptions,
+  NetworkIntentPolicy,
   VirtualNetworkGatewayIPConfiguration,
   VpnClientRootCertificate,
   VpnClientRevokedCertificate,

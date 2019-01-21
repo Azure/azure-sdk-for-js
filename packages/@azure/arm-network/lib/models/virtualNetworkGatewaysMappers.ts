@@ -168,6 +168,7 @@ export {
   VirtualNetworkPeering,
   VirtualNetwork,
   DhcpOptions,
+  NetworkIntentPolicy,
   LocalNetworkGateway,
   VirtualNetworkGatewayConnection,
   ConnectionSharedKey,

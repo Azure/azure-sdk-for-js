@@ -11305,6 +11305,80 @@ export const VirtualNetworkUsage: msRest.CompositeMapper = {
   }
 };
 
+export const NetworkIntentPolicy: msRest.CompositeMapper = {
+  serializedName: "NetworkIntentPolicy",
+  type: {
+    name: "Composite",
+    className: "NetworkIntentPolicy",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkIntentPolicyConfiguration: msRest.CompositeMapper = {
+  serializedName: "NetworkIntentPolicyConfiguration",
+  type: {
+    name: "Composite",
+    className: "NetworkIntentPolicyConfiguration",
+    modelProperties: {
+      networkIntentPolicyName: {
+        serializedName: "networkIntentPolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      sourceNetworkIntentPolicy: {
+        serializedName: "sourceNetworkIntentPolicy",
+        type: {
+          name: "Composite",
+          className: "NetworkIntentPolicy"
+        }
+      }
+    }
+  }
+};
+
+export const PrepareNetworkPoliciesRequest: msRest.CompositeMapper = {
+  serializedName: "PrepareNetworkPoliciesRequest",
+  type: {
+    name: "Composite",
+    className: "PrepareNetworkPoliciesRequest",
+    modelProperties: {
+      serviceName: {
+        serializedName: "serviceName",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroupName: {
+        serializedName: "resourceGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      networkIntentPolicyConfigurations: {
+        serializedName: "networkIntentPolicyConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkIntentPolicyConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const VirtualNetworkGatewayIPConfiguration: msRest.CompositeMapper = {
   serializedName: "VirtualNetworkGatewayIPConfiguration",
   type: {
