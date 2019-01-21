@@ -82,6 +82,7 @@ export {
   ApplicationGatewayRequestRoutingRule,
   ApplicationGatewayRewriteRuleSet,
   ApplicationGatewayRewriteRule,
+  ApplicationGatewayRewriteRuleCondition,
   ApplicationGatewayRewriteRuleActionSet,
   ApplicationGatewayHeaderConfiguration,
   ApplicationGatewayRedirectConfiguration,

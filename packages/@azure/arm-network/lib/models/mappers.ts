@@ -3033,6 +3033,40 @@ export const ApplicationGatewayRequestRoutingRule: msRest.CompositeMapper = {
   }
 };
 
+export const ApplicationGatewayRewriteRuleCondition: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayRewriteRuleCondition",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayRewriteRuleCondition",
+    modelProperties: {
+      variable: {
+        serializedName: "variable",
+        type: {
+          name: "String"
+        }
+      },
+      pattern: {
+        serializedName: "pattern",
+        type: {
+          name: "String"
+        }
+      },
+      ignoreCase: {
+        serializedName: "ignoreCase",
+        type: {
+          name: "Boolean"
+        }
+      },
+      negate: {
+        serializedName: "negate",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationGatewayHeaderConfiguration: msRest.CompositeMapper = {
   serializedName: "ApplicationGatewayHeaderConfiguration",
   type: {
@@ -3099,6 +3133,24 @@ export const ApplicationGatewayRewriteRule: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String"
+        }
+      },
+      ruleSequence: {
+        serializedName: "ruleSequence",
+        type: {
+          name: "Number"
+        }
+      },
+      conditions: {
+        serializedName: "conditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayRewriteRuleCondition"
+            }
+          }
         }
       },
       actionSet: {
