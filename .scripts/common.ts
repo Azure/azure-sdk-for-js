@@ -102,7 +102,7 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
-export const packagesToIgnore: string[] = ["@azure/keyvault", "@azure/template"];
+export const packagesToIgnore: string[] = ["@azure/keyvault", "@azure/template", "@azure/service-bus"];
 export const folderNamesToIgnore: string[] = ["node_modules"];
 
 export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {
