@@ -49,9 +49,13 @@ module.exports = function (config: any) {
     concurrency: Infinity,
 
     customLaunchers: {
+      ChromeNoSecurity: {
+        base: "ChromeHeadless",
+        flags: ["--disable-web-security"]
+      },
       ChromeDebugging: {
         base: "Chrome",
-        flags: [`http://localhost:${defaults.port}/debug.html`, "--auto-open-devtools-for-tabs"]
+        flags: [`http://localhost:${defaults.port}/debug.html`, "--auto-open-devtools-for-tabs", "--disable-web-security"]
       }
     },
   });

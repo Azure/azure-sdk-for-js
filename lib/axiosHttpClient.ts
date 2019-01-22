@@ -12,9 +12,7 @@ import { RestError } from "./restError";
 import { WebResource, HttpRequestBody } from "./webResource";
 import { ProxySettings } from "./serviceClient";
 
-const axiosClient = axios.create();
-// Workaround for https://github.com/axios/axios/issues/1158
-axiosClient.interceptors.request.use(config => ({ ...config, method: config.method && config.method.toUpperCase() as any }));
+export const axiosClient = axios.create();
 
 /**
  * A HttpClient implementation that uses axios to send HTTP requests.

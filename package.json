@@ -5,7 +5,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/ms-rest-js"
   },
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -73,6 +73,7 @@
     "@types/xhr-mock": "^2.0.0",
     "@types/xml2js": "^0.4.3",
     "abortcontroller-polyfill": "^1.1.9",
+    "axios-mock-adapter": "^1.16.0",
     "chai": "^4.2.0",
     "express": "^4.16.3",
     "glob": "^7.1.2",
@@ -111,6 +112,7 @@
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.1.2",
+    "xhr-mock": "^2.4.1",
     "yarn": "^1.6.0"
   },
   "homepage": "https://github.com/Azure/ms-rest-js",
@@ -132,7 +134,7 @@
     "test": "run-p test:tslint test:unit test:karma",
     "test:tslint": "tslint -p . -c tslint.json --exclude \"./test/**/*.ts\"",
     "test:unit": "nyc mocha",
-    "test:karma": "npm run build:test-browser && node ./node_modules/karma/bin/karma start karma.conf.ts --single-run",
+    "test:karma": "npm run build:test-browser && node ./node_modules/karma/bin/karma start karma.conf.ts --browsers ChromeNoSecurity --single-run ",
     "test:karma:debug": "npm run build:test-browser && node ./node_modules/karma/bin/karma start karma.conf.ts  --log-level debug --browsers ChromeDebugging --debug --auto-watch",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
