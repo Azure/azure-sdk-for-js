@@ -10,6 +10,24 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
+export const applyScope: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "applyScope"
+  ],
+  mapper: {
+    serializedName: "applyScope",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
 export const endpoint: msRest.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -61,6 +79,16 @@ export const largePersonGroupId: msRest.OperationURLParameter = {
     },
     type: {
       name: "String"
+    }
+  }
+};
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "Uuid"
     }
   }
 };
@@ -158,6 +186,16 @@ export const returnFaceLandmarks: msRest.OperationQueryParameter = {
     }
   }
 };
+export const snapshotId: msRest.OperationURLParameter = {
+  parameterPath: "snapshotId",
+  mapper: {
+    required: true,
+    serializedName: "snapshotId",
+    type: {
+      name: "Uuid"
+    }
+  }
+};
 export const start0: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -233,6 +271,24 @@ export const top1: msRest.OperationQueryParameter = {
     },
     type: {
       name: "Number"
+    }
+  }
+};
+export const type: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "type"
+  ],
+  mapper: {
+    serializedName: "type",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "FaceList",
+        "LargeFaceList",
+        "LargePersonGroup",
+        "PersonGroup"
+      ]
     }
   }
 };
