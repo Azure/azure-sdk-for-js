@@ -3033,6 +3033,40 @@ export const ApplicationGatewayRequestRoutingRule: msRest.CompositeMapper = {
   }
 };
 
+export const ApplicationGatewayRewriteRuleCondition: msRest.CompositeMapper = {
+  serializedName: "ApplicationGatewayRewriteRuleCondition",
+  type: {
+    name: "Composite",
+    className: "ApplicationGatewayRewriteRuleCondition",
+    modelProperties: {
+      variable: {
+        serializedName: "variable",
+        type: {
+          name: "String"
+        }
+      },
+      pattern: {
+        serializedName: "pattern",
+        type: {
+          name: "String"
+        }
+      },
+      ignoreCase: {
+        serializedName: "ignoreCase",
+        type: {
+          name: "Boolean"
+        }
+      },
+      negate: {
+        serializedName: "negate",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ApplicationGatewayHeaderConfiguration: msRest.CompositeMapper = {
   serializedName: "ApplicationGatewayHeaderConfiguration",
   type: {
@@ -3099,6 +3133,24 @@ export const ApplicationGatewayRewriteRule: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String"
+        }
+      },
+      ruleSequence: {
+        serializedName: "ruleSequence",
+        type: {
+          name: "Number"
+        }
+      },
+      conditions: {
+        serializedName: "conditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApplicationGatewayRewriteRuleCondition"
+            }
+          }
         }
       },
       actionSet: {
@@ -3492,6 +3544,15 @@ export const ApplicationGatewayAutoscaleConfiguration: msRest.CompositeMapper = 
       minCapacity: {
         required: true,
         serializedName: "minCapacity",
+        constraints: {
+          InclusiveMinimum: 2
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      maxCapacity: {
+        serializedName: "maxCapacity",
         constraints: {
           InclusiveMinimum: 2
         },
@@ -11299,6 +11360,80 @@ export const VirtualNetworkUsage: msRest.CompositeMapper = {
         serializedName: "unit",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkIntentPolicy: msRest.CompositeMapper = {
+  serializedName: "NetworkIntentPolicy",
+  type: {
+    name: "Composite",
+    className: "NetworkIntentPolicy",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkIntentPolicyConfiguration: msRest.CompositeMapper = {
+  serializedName: "NetworkIntentPolicyConfiguration",
+  type: {
+    name: "Composite",
+    className: "NetworkIntentPolicyConfiguration",
+    modelProperties: {
+      networkIntentPolicyName: {
+        serializedName: "networkIntentPolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      sourceNetworkIntentPolicy: {
+        serializedName: "sourceNetworkIntentPolicy",
+        type: {
+          name: "Composite",
+          className: "NetworkIntentPolicy"
+        }
+      }
+    }
+  }
+};
+
+export const PrepareNetworkPoliciesRequest: msRest.CompositeMapper = {
+  serializedName: "PrepareNetworkPoliciesRequest",
+  type: {
+    name: "Composite",
+    className: "PrepareNetworkPoliciesRequest",
+    modelProperties: {
+      serviceName: {
+        serializedName: "serviceName",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroupName: {
+        serializedName: "resourceGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      networkIntentPolicyConfigurations: {
+        serializedName: "networkIntentPolicyConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkIntentPolicyConfiguration"
+            }
+          }
         }
       }
     }
