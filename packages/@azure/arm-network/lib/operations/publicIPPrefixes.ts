@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/publicIPPrefixesMappers";
 import * as Parameters from "../models/parameters";
@@ -42,20 +42,20 @@ export class PublicIPPrefixes {
   /**
    * Gets the specified public IP prefix in a specified resource group.
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpPrefixName The name of the PublicIPPrefx.
+   * @param publicIpPrefixName The name of the PublicIPPrefix.
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPPrefixesGetResponse>
    */
   get(resourceGroupName: string, publicIpPrefixName: string, options?: Models.PublicIPPrefixesGetOptionalParams): Promise<Models.PublicIPPrefixesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpPrefixName The name of the PublicIPPrefx.
+   * @param publicIpPrefixName The name of the PublicIPPrefix.
    * @param callback The callback
    */
   get(resourceGroupName: string, publicIpPrefixName: string, callback: msRest.ServiceCallback<Models.PublicIPPrefix>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpPrefixName The name of the PublicIPPrefx.
+   * @param publicIpPrefixName The name of the PublicIPPrefix.
    * @param options The optional parameters
    * @param callback The callback
    */
