@@ -443,6 +443,18 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      msiResourceId: {
+        serializedName: "msiResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
