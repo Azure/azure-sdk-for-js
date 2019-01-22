@@ -23,6 +23,7 @@ class FaceClient extends FaceClientContext {
   largePersonGroupPerson: operations.LargePersonGroupPerson;
   largePersonGroup: operations.LargePersonGroupOperations;
   largeFaceList: operations.LargeFaceListOperations;
+  snapshot: operations.SnapshotOperations;
 
   /**
    * Initializes a new instance of the FaceClient class.
@@ -40,6 +41,7 @@ class FaceClient extends FaceClientContext {
     this.largePersonGroupPerson = new operations.LargePersonGroupPerson(this);
     this.largePersonGroup = new operations.LargePersonGroupOperations(this);
     this.largeFaceList = new operations.LargeFaceListOperations(this);
+    this.snapshot = new operations.SnapshotOperations(this);
   }
 }
 

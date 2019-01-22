@@ -1462,6 +1462,243 @@ export const TrainingStatus: msRest.CompositeMapper = {
   }
 };
 
+export const ApplySnapshotRequest: msRest.CompositeMapper = {
+  serializedName: "ApplySnapshotRequest",
+  type: {
+    name: "Composite",
+    className: "ApplySnapshotRequest",
+    modelProperties: {
+      objectId: {
+        required: true,
+        serializedName: "objectId",
+        constraints: {
+          MaxLength: 64,
+          Pattern: /^[a-z0-9-_]+$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      mode: {
+        nullable: false,
+        serializedName: "mode",
+        defaultValue: 'CreateNew',
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "CreateNew"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const Snapshot: msRest.CompositeMapper = {
+  serializedName: "Snapshot",
+  type: {
+    name: "Composite",
+    className: "Snapshot",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      account: {
+        required: true,
+        serializedName: "account",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "FaceList",
+            "LargeFaceList",
+            "LargePersonGroup",
+            "PersonGroup"
+          ]
+        }
+      },
+      applyScope: {
+        required: true,
+        serializedName: "applyScope",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      userData: {
+        serializedName: "userData",
+        constraints: {
+          MaxLength: 16384
+        },
+        type: {
+          name: "String"
+        }
+      },
+      createdTime: {
+        required: true,
+        serializedName: "createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdateTime: {
+        required: true,
+        serializedName: "lastUpdateTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const TakeSnapshotRequest: msRest.CompositeMapper = {
+  serializedName: "TakeSnapshotRequest",
+  type: {
+    name: "Composite",
+    className: "TakeSnapshotRequest",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "FaceList",
+            "LargeFaceList",
+            "LargePersonGroup",
+            "PersonGroup"
+          ]
+        }
+      },
+      objectId: {
+        required: true,
+        serializedName: "objectId",
+        constraints: {
+          MaxLength: 64,
+          Pattern: /^[a-z0-9-_]+$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      applyScope: {
+        required: true,
+        serializedName: "applyScope",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      userData: {
+        serializedName: "userData",
+        constraints: {
+          MaxLength: 16384
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateSnapshotRequest: msRest.CompositeMapper = {
+  serializedName: "UpdateSnapshotRequest",
+  type: {
+    name: "Composite",
+    className: "UpdateSnapshotRequest",
+    modelProperties: {
+      applyScope: {
+        serializedName: "applyScope",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      userData: {
+        serializedName: "userData",
+        constraints: {
+          MaxLength: 16384
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatus: msRest.CompositeMapper = {
+  serializedName: "OperationStatus",
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      status: {
+        required: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "notstarted",
+            "running",
+            "succeeded",
+            "failed"
+          ]
+        }
+      },
+      createdTime: {
+        required: true,
+        serializedName: "createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastActionTime: {
+        serializedName: "lastActionTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      resourceLocation: {
+        serializedName: "resourceLocation",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ImageUrl: msRest.CompositeMapper = {
   serializedName: "ImageUrl",
   type: {
@@ -1471,6 +1708,38 @@ export const ImageUrl: msRest.CompositeMapper = {
       url: {
         required: true,
         serializedName: "url",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotTakeHeaders: msRest.CompositeMapper = {
+  serializedName: "snapshot-take-headers",
+  type: {
+    name: "Composite",
+    className: "SnapshotTakeHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotApplyHeaders: msRest.CompositeMapper = {
+  serializedName: "snapshot-apply-headers",
+  type: {
+    name: "Composite",
+    className: "SnapshotApplyHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
         type: {
           name: "String"
         }
