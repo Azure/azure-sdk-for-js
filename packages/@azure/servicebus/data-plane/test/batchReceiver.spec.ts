@@ -441,17 +441,17 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await testDefer(partitionedTopicClient, partitionedSubscriptionClient);
   });
 
-  // it("Partitioned Queues with Sessions: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  //   await testDefer(partitionedQueueSessionClient, partitionedQueueMessageSession, true);
-  // });
+  it("Partitioned Queues with Sessions: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await testDefer(partitionedQueueSessionClient, partitionedQueueMessageSession, true);
+  });
 
-  // it("Partitioned Topics and Subscription with Sessions: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  //   await testDefer(partitionedTopicSessionClient, partitionedSubscriptionMessageSession, true);
-  // });
+  it("Partitioned Topics and Subscription with Sessions: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await testDefer(partitionedTopicSessionClient, partitionedSubscriptionMessageSession, true);
+  });
 
   // it("Unpartitioned Queues: defer() moves message to deferred queue", async function(): Promise<
   //   void
