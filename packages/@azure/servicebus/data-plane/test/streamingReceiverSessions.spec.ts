@@ -19,7 +19,13 @@ import {
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
-import { testMessagesWithSessions, testSessionId } from "./testUtils";
+import {
+  testMessagesWithSessions, testSessionId,
+  getSenderClient,
+  getReceiverClient,
+  ClientType
+} from "./testUtils";
+
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient | MessageSession,
@@ -33,7 +39,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let namespace: Namespace;
+let ns: Namespace;
 
 let partitionedQueueSessionClient: QueueClient;
 let partitionedQueueMessageSession: MessageSession;
@@ -70,56 +76,32 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (
-    !process.env.TOPIC_NAME ||
-    !process.env.TOPIC_NAME_NO_PARTITION ||
-    !process.env.TOPIC_NAME_NO_PARTITION_SESSION ||
-    !process.env.TOPIC_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define TOPIC_NAME, TOPIC_NAME_NO_PARTITION, TOPIC_NAME_SESSION & TOPIC_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-  if (
-    !process.env.QUEUE_NAME ||
-    !process.env.QUEUE_NAME_NO_PARTITION ||
-    !process.env.QUEUE_NAME_NO_PARTITION_SESSION ||
-    !process.env.QUEUE_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define QUEUE_NAME, QUEUE_NAME_NO_PARTITION, QUEUE_NAME_SESSION & QUEUE_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-  if (
-    !process.env.SUBSCRIPTION_NAME ||
-    !process.env.SUBSCRIPTION_NAME_NO_PARTITION ||
-    !process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
-    !process.env.SUBSCRIPTION_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define SUBSCRIPTION_NAME, SUBSCRIPTION_NAME_NO_PARTITION, SUBSCRIPTION_NAME_SESSION & SUBSCRIPTION_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
 
-  namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   // Partitioned Queues and Subscriptions with Sessions
-  partitionedQueueSessionClient = namespace.createQueueClient(process.env.QUEUE_NAME_SESSION);
+  partitionedQueueSessionClient = getSenderClient(
+    ns,
+    ClientType.PartitionedQueueWithSessions
+  ) as QueueClient;
   partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
     sessionId: testSessionId
   });
-  partitionedDeadletterQueueSessionClient = namespace.createQueueClient(
+  partitionedDeadletterQueueSessionClient = ns.createQueueClient(
     Namespace.getDeadLetterQueuePathForQueue(partitionedQueueSessionClient.name)
   );
-  partitionedTopicSessionClient = namespace.createTopicClient(process.env.TOPIC_NAME_SESSION);
-  partitionedSubscriptionSessionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_SESSION,
-    process.env.SUBSCRIPTION_NAME_SESSION
-  );
+  partitionedTopicSessionClient = getSenderClient(
+    ns,
+    ClientType.PartitionedTopicWithSessions
+  ) as TopicClient;
+  partitionedSubscriptionSessionClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedSubscriptionWithSessions
+  ) as SubscriptionClient;
   partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.acceptSession({
     sessionId: testSessionId
   });
-  partitionedDeadletterSubscriptionSessionClient = namespace.createSubscriptionClient(
+  partitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       partitionedTopicSessionClient.name,
       partitionedSubscriptionSessionClient.subscriptionName
@@ -127,35 +109,36 @@ async function beforeEachTest(): Promise<void> {
     partitionedSubscriptionSessionClient.subscriptionName
   );
   // Unpartitioned Queues and Subscriptions with Sessions
-  unpartitionedQueueSessionClient = namespace.createQueueClient(
-    process.env.QUEUE_NAME_NO_PARTITION_SESSION
-  );
+  unpartitionedQueueSessionClient = getSenderClient(
+    ns,
+    ClientType.UnpartitionedQueueWithSessions
+  ) as QueueClient;
   unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.acceptSession({
     sessionId: testSessionId
   });
-  unpartitionedDeadletterQueueSessionClient = namespace.createQueueClient(
+  unpartitionedDeadletterQueueSessionClient = ns.createQueueClient(
     Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueSessionClient.name)
   );
-  unpartitionedTopicSessionClient = namespace.createTopicClient(
-    process.env.TOPIC_NAME_NO_PARTITION_SESSION
-  );
-  unpartitionedSubscriptionSessionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_NO_PARTITION_SESSION,
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION
-  );
+  unpartitionedTopicSessionClient = getSenderClient(
+    ns,
+    ClientType.UnpartitionedTopicWithSessions
+  ) as TopicClient;
+  unpartitionedSubscriptionSessionClient = getReceiverClient(
+    ns,
+    ClientType.UnpartitionedSubscriptionWithSessions
+  ) as SubscriptionClient;
   unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.acceptSession(
     {
       sessionId: testSessionId
     }
   );
-  unpartitionedDeadletterSubscriptionSessionClient = namespace.createSubscriptionClient(
+  unpartitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       unpartitionedTopicSessionClient.name,
       unpartitionedSubscriptionSessionClient.subscriptionName
     ),
     unpartitionedSubscriptionSessionClient.subscriptionName
   );
-
   const peekedPartitionedQueueSessionMsg = await partitionedQueueSessionClient.peek();
   if (peekedPartitionedQueueSessionMsg.length) {
     throw new Error("Please use an empty partitioned queue with sessions for integration testing");
@@ -186,7 +169,7 @@ async function beforeEachTest(): Promise<void> {
 }
 
 async function afterEachTest(): Promise<void> {
-  await namespace.close();
+  await ns.close();
 }
 
 describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
