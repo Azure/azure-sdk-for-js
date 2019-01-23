@@ -79,6 +79,10 @@ function getAuthorizationTokenUsingMasterKey(
   headers: IHeaders,
   masterKey: string
 ) {
+  // TODO This should live in cosmos-sign
+  if (resourceType === ResourceType.offer) {
+    resourceId = resourceId && resourceId.toLowerCase();
+  }
   headers = Object.assign(headers, generateHeaders(masterKey, verb, resourceType, resourceId));
 }
 
