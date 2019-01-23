@@ -52,9 +52,6 @@ async function receiveMessage(): Promise<void> {
       deadletterReason: "Incorrect Recipe type",
       deadLetterErrorDescription: "Recipe type does not  match preferences."
     });
-
-    // Mark message as complete/processed.
-    await message[0].complete();
   } else {
     console.log(">>>> Error: No messages were received from the main queue.");
   }
