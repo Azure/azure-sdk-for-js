@@ -76,7 +76,7 @@
     "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js",
     "build-samples": "cd examples && tsc -p .",
     "test": "npm run build",
-    "unit": "npm run build-test && mocha -t 50000 test-dist/index.js",
+    "unit": "npm run build-test && mocha -t 5000000 test-dist/index.js",
     "prepack": "npm i && npm run build"
   }
 }
