@@ -1,3 +1,4 @@
+export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
   ConnectionMode,
   ConsistencyLevel,
