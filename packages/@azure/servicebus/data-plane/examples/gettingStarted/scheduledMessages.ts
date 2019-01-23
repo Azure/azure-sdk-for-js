@@ -14,16 +14,16 @@ const connectionString = "";
 const queueName = "";
 
 const listOfScientists = [
-  { name: "Einstein", firstName: "Albert" },
-  { name: "Heisenberg", firstName: "Werner" },
-  { name: "Curie", firstName: "Marie" },
-  { name: "Hawking", firstName: "Steven" },
-  { name: "Newton", firstName: "Isaac" },
-  { name: "Bohr", firstName: "Niels" },
-  { name: "Faraday", firstName: "Michael" },
-  { name: "Galilei", firstName: "Galileo" },
-  { name: "Kepler", firstName: "Johannes" },
-  { name: "Kopernikus", firstName: "Nikolaus" }
+  { lastName: "Einstein", firstName: "Albert" },
+  { lastName: "Heisenberg", firstName: "Werner" },
+  { lastName: "Curie", firstName: "Marie" },
+  { lastName: "Hawking", firstName: "Steven" },
+  { lastName: "Newton", firstName: "Isaac" },
+  { lastName: "Bohr", firstName: "Niels" },
+  { lastName: "Faraday", firstName: "Michael" },
+  { lastName: "Galilei", firstName: "Galileo" },
+  { lastName: "Kepler", firstName: "Johannes" },
+  { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
 async function main(): Promise<void> {
@@ -43,19 +43,18 @@ async function sendScheduledMessages(ns: Namespace): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   const messages: SendableMessageInfo[] = listOfScientists.map((scientist) => ({
-    body: `${scientist.firstName} ${scientist.name}`,
+    body: `${scientist.firstName} ${scientist.lastName}`,
     label: "Scientist"
   }));
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
   console.log(`>>>> Time now in UTC: ${timeNowUtc}`);
-  console.log(`>>>> Messages will appear in Service Bus at UTC: ${scheduledEnqueueTimeUtc}`);
+  console.log(
+    `>>>> Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
+  );
 
   await client.scheduleMessages(scheduledEnqueueTimeUtc, messages);
-  for (let index = 0; index < messages.length; index++) {
-    console.log(`Sent: ${messages[index].body} - ${messages[index].label}`);
-  }
 }
 
 async function receiveMessages(ns: Namespace): Promise<void> {
@@ -73,21 +72,19 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   };
 
   let numOfMessagesReceived = 0;
+
   const receiveListenerFirst = client.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiveListenerFirst.stop();
-  console.log(
-    `\nStarted looking up immediately while having receive listener wait for 5 seconds. Found ${numOfMessagesReceived} messages.\n`
-  );
+  console.log(`\nStarted looking up immediately, received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
+
+  console.log(`\nStarted looking up after 10 seconds:`);
 
   const receiveListenerSecond = client.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiveListenerSecond.stop();
-  console.log(
-    `\nStarted looking up after 10 seconds while having receive listener wait, received ${numOfMessagesReceived} messages.`
-  );
 
   await client.close();
 }
