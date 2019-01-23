@@ -28,6 +28,8 @@ let partitionedQueueClient: QueueClient;
 
 let unpartitionedQueueClient: QueueClient;
 
+const lockDurationInMilliseconds = 30000;
+
 async function beforeEachTest(): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
@@ -71,7 +73,7 @@ async function beforeEachTest(): Promise<void> {
   namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   testMessage = {
-    body: "hello-world-1 : ",
+    body: `hello-world-1 : ${generateUuid()}`,
     messageId: generateUuid()
   };
 
@@ -86,8 +88,6 @@ async function afterEachTest(): Promise<void> {
   await namespace.close();
 }
 
-const lockDurationInMilliseconds = 30000;
-
 let uncaughtErrorFromHandlers: Error | undefined;
 
 const onError: OnError = (err: MessagingError | Error) => {
@@ -101,7 +101,7 @@ function assertTimestampsAreApproximatelyEqual(
 ): void {
   if (actualTimeInUTC) {
     should.equal(
-      Math.pow((actualTimeInUTC.valueOf() - expectedTimeInUTC.valueOf()) / 1000, 2) < 4,
+      Math.pow((actualTimeInUTC.valueOf() - expectedTimeInUTC.valueOf()) / 1000, 2) < 1,
       true,
       `${label}: Actual time ${actualTimeInUTC} must be approximately equal to ${expectedTimeInUTC}`
     );
@@ -444,11 +444,10 @@ async function testAutoLockRenewalConfigBehavior(
 
       // Compute expected initial lock duration
       const expectedLockExpiryTimeUtc = new Date();
-      console.log("Time now: ", expectedLockExpiryTimeUtc);
+
       expectedLockExpiryTimeUtc.setSeconds(
         expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
       );
-      console.log("Initial Expiry: ", expectedLockExpiryTimeUtc);
 
       // Verify actual lock duration is reset
       assertTimestampsAreApproximatelyEqual(
