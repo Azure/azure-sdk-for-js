@@ -239,31 +239,4 @@ export class Container {
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
   }
-
-  // TODO: The ParitionKey type is REALLY weird. Now that it's being exported, we should clean it up.
-  public extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[] {
-    // TODO: any
-    if (partitionKeyDefinition && partitionKeyDefinition.paths && partitionKeyDefinition.paths.length > 0) {
-      const partitionKey: PartitionKey[] = [];
-      partitionKeyDefinition.paths.forEach((path: string) => {
-        const pathParts = parsePath(path);
-
-        let obj = document;
-        for (const part of pathParts) {
-          if (!(typeof obj === "object" && part in obj)) {
-            obj = {};
-            break;
-          }
-
-          obj = obj[part];
-        }
-
-        partitionKey.push(obj);
-      });
-
-      return partitionKey;
-    }
-
-    return undefined;
-  }
 }

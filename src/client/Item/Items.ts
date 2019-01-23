@@ -2,6 +2,7 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { generateGuidId, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -205,7 +206,7 @@ export class Items {
   public async create<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
     if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
       const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
+      options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
     // Generate random document id if the id is missing in the payload and
@@ -262,7 +263,7 @@ export class Items {
   public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
     if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
       const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
+      options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
     // Generate random document id if the id is missing in the payload and
