@@ -80,7 +80,7 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   await subscription1Client.close();
 
   const messagesFromSecondSubscription = await subscription2Client.receiveBatch(100);
-  console.log("Messages from the first subscription:");
+  console.log("Messages from the second subscription:");
   for (let i = 0; i < messagesFromSecondSubscription.length; i++) {
     console.log(messagesFromSecondSubscription[i].body);
     messagesFromSecondSubscription[i].complete();
@@ -88,7 +88,7 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   await subscription2Client.close();
 
   const messagesFromThirdSubscription = await subscription3Client.receiveBatch(100);
-  console.log("Messages from the first subscription:");
+  console.log("Messages from the third subscription:");
   for (let i = 0; i < messagesFromThirdSubscription.length; i++) {
     console.log(messagesFromThirdSubscription[i].body);
     messagesFromThirdSubscription[i].complete();
