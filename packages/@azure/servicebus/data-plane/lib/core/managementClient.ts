@@ -172,8 +172,7 @@ interface DispositionStatusOptions {
    */
   deadLetterDescription?: string;
   /**
-   * This should only be provided if `session` is enabled for a Queue or
-   * Topic.
+   * This should only be provided if `session` is enabled for a Queue or Topic.
    */
   sessionId?: string;
 }
