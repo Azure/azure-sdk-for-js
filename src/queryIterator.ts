@@ -25,7 +25,7 @@ export class QueryIterator<T> {
   constructor(
     private clientContext: ClientContext,
     private query: SqlQuerySpec | string,
-    private options: FeedOptions, // TODO: any options
+    private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
     private resourceLink?: string | string[]
   ) {
@@ -147,7 +147,7 @@ export class QueryIterator<T> {
   /**
    * Retrieve the next batch of the feed and pass them as an array to a function
    */
-  public async executeNext(): Promise<Response<T>> {
+  public async executeNext(): Promise<Response<T[]>> {
     return this.queryExecutionContext.fetchMore();
   }
 
