@@ -17,6 +17,7 @@ import {
   delay,
   CorrelationFilter
 } from "../lib";
+import { getSenderClient, getReceiverClient, ClientType } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -39,7 +40,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let namespace: Namespace;
+let ns: Namespace;
 let subscriptionClient: SubscriptionClient;
 let defaultSubscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
@@ -53,30 +54,17 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (!process.env.TOPIC_NAME) {
-    throw new Error("Define TOPIC_NAME in your environment before running integration tests.");
-  }
-  if (!process.env.SUBSCRIPTION_NAME) {
-    throw new Error(
-      "Define SUBSCRIPTION_NAME in your environment before running integration tests."
-    );
-  }
-  if (!process.env.DEFAULT_SUBSCRIPTION_NAME) {
-    throw new Error(
-      "Define DEFAULT_SUBSCRIPTION_NAME in your environment before running integration tests."
-    );
-  }
 
-  namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  topicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  subscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME,
-    process.env.SUBSCRIPTION_NAME
-  );
-  defaultSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME,
-    process.env.DEFAULT_SUBSCRIPTION_NAME
-  );
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  topicClient = getSenderClient(ns, ClientType.TopicFilterTestTopic) as TopicClient;
+  subscriptionClient = getReceiverClient(
+    ns,
+    ClientType.TopicFilterTestSubscription
+  ) as SubscriptionClient;
+  defaultSubscriptionClient = getReceiverClient(
+    ns,
+    ClientType.TopicFilterTestDefaultSubscription
+  ) as SubscriptionClient;
 
   const peekedDefaultSubscriptionMsg = await defaultSubscriptionClient.peek();
   if (peekedDefaultSubscriptionMsg.length) {
@@ -98,7 +86,7 @@ async function afterEachTest(): Promise<void> {
   should.equal(rules.length, 1);
   should.equal(rules[0].name, "DefaultFilter");
 
-  await namespace.close();
+  await ns.close();
 }
 
 const data = [
@@ -176,7 +164,7 @@ async function addRules(
   }
 }
 
-describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
+describe.skip("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -232,7 +220,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   });
 });
 
-describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
+describe.skip("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -293,7 +281,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   });
 });
 
-describe("Topic Filters -  Remove Rule", function(): void {
+describe.skip("Topic Filters -  Remove Rule", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -330,7 +318,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
   });
 });
 
-describe("Topic Filters: Get Rules", function(): void {
+describe.skip("Topic Filters: Get Rules", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -405,7 +393,7 @@ describe("Topic Filters: Get Rules", function(): void {
   });
 });
 
-describe("Send/Receive messages using default filter of subscription", function(): void {
+describe.skip("Send/Receive messages using default filter of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -425,7 +413,7 @@ describe("Send/Receive messages using default filter of subscription", function(
   });
 });
 
-describe("Send/Receive messages using boolean filters of subscription", function(): void {
+describe.skip("Send/Receive messages using boolean filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -474,7 +462,7 @@ describe("Send/Receive messages using boolean filters of subscription", function
   });
 });
 
-describe("Send/Receive messages using sql filters of subscription", function(): void {
+describe.skip("Send/Receive messages using sql filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -576,7 +564,7 @@ describe("Send/Receive messages using sql filters of subscription", function(): 
   });*/
 });
 
-describe("Send/Receive messages using correlation filters of subscription", function(): void {
+describe.skip("Send/Receive messages using correlation filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
