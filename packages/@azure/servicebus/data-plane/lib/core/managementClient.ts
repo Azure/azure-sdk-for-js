@@ -154,7 +154,7 @@ export interface ScheduleMessage {
   scheduledEnqueueTimeUtc: Date;
 }
 
-export interface DispositionStatusOptions {
+interface DispositionStatusOptions {
   /**
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
    * to modify.
@@ -170,6 +170,11 @@ export interface DispositionStatusOptions {
    * is set to suspended.
    */
   deadLetterDescription?: string;
+  /**
+   * This should only be provided if messages are being fetched from a `session enabled` Queue or
+   * Topic.
+   */
+  sessionId?: string;
 }
 
 export interface ManagementClientOptions {
@@ -792,6 +797,9 @@ export class ManagementClient extends LinkEntity {
       }
       if (options.propertiesToModify != undefined) {
         messageBody[Constants.propertiesToModify] = options.propertiesToModify;
+      }
+      if (options.sessionId != undefined) {
+        messageBody[Constants.sessionIdMapKey] = options.sessionId;
       }
       const request: AmqpMessage = {
         body: messageBody,
