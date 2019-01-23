@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationRuntimesMappers";
 import * as Parameters from "../models/parameters";
@@ -583,7 +583,7 @@ export class IntegrationRuntimes {
   }
 
   /**
-   * Enable interactive query for an Auzre-VNet integration runtime.
+   * Enable interactive query for an Azure-VNet integration runtime.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
@@ -592,37 +592,9 @@ export class IntegrationRuntimes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enableIntegrationRuntimeInteractiveQuery(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryForIntegrationRuntimeRequest: Models.EnableInteractiveQueryForIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param integrationRuntimeName The integration runtime name.
-   * @param enableInteractiveQueryForIntegrationRuntimeRequest The request parameter for enabling
-   * interactive query of a integration runtime.
-   * @param callback The callback
-   */
-  enableIntegrationRuntimeInteractiveQuery(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryForIntegrationRuntimeRequest: Models.EnableInteractiveQueryForIntegrationRuntimeRequest, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param integrationRuntimeName The integration runtime name.
-   * @param enableInteractiveQueryForIntegrationRuntimeRequest The request parameter for enabling
-   * interactive query of a integration runtime.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  enableIntegrationRuntimeInteractiveQuery(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryForIntegrationRuntimeRequest: Models.EnableInteractiveQueryForIntegrationRuntimeRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enableIntegrationRuntimeInteractiveQuery(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryForIntegrationRuntimeRequest: Models.EnableInteractiveQueryForIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        factoryName,
-        integrationRuntimeName,
-        enableInteractiveQueryForIntegrationRuntimeRequest,
-        options
-      },
-      enableIntegrationRuntimeInteractiveQueryOperationSpec,
-      callback);
+  enableIntegrationRuntimeInteractiveQuery(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryForIntegrationRuntimeRequest: Models.EnableInteractiveQueryForIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginEnableIntegrationRuntimeInteractiveQuery(resourceGroupName,factoryName,integrationRuntimeName,enableInteractiveQueryForIntegrationRuntimeRequest,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -698,6 +670,29 @@ export class IntegrationRuntimes {
         options
       },
       beginStopOperationSpec,
+      options);
+  }
+
+  /**
+   * Enable interactive query for an Azure-VNet integration runtime.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param integrationRuntimeName The integration runtime name.
+   * @param enableInteractiveQueryForIntegrationRuntimeRequest The request parameter for enabling
+   * interactive query of a integration runtime.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginEnableIntegrationRuntimeInteractiveQuery(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, enableInteractiveQueryForIntegrationRuntimeRequest: Models.EnableInteractiveQueryForIntegrationRuntimeRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        factoryName,
+        integrationRuntimeName,
+        enableInteractiveQueryForIntegrationRuntimeRequest,
+        options
+      },
+      beginEnableIntegrationRuntimeInteractiveQueryOperationSpec,
       options);
   }
 
@@ -1126,37 +1121,6 @@ const createLinkedIntegrationRuntimeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const enableIntegrationRuntimeInteractiveQueryOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/enableInteractiveQuery",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName,
-    Parameters.integrationRuntimeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "enableInteractiveQueryForIntegrationRuntimeRequest",
-    mapper: {
-      ...Mappers.EnableInteractiveQueryForIntegrationRuntimeRequest,
-      required: true
-    }
-  },
-  responses: {
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const disableIntegrationRuntimeInteractiveQueryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/disableInteractiveQuery",
@@ -1225,6 +1189,37 @@ const beginStopOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginEnableIntegrationRuntimeInteractiveQueryOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/enableInteractiveQuery",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.integrationRuntimeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "enableInteractiveQueryForIntegrationRuntimeRequest",
+    mapper: {
+      ...Mappers.EnableInteractiveQueryForIntegrationRuntimeRequest,
+      required: true
+    }
+  },
+  responses: {
     202: {},
     default: {
       bodyMapper: Mappers.CloudError

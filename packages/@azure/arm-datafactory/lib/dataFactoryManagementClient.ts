@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -19,6 +19,7 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   factories: operations.Factories;
+  exposureControl: operations.ExposureControl;
   integrationRuntimes: operations.IntegrationRuntimes;
   integrationRuntimeObjectMetadata: operations.IntegrationRuntimeObjectMetadata;
   integrationRuntimeNodes: operations.IntegrationRuntimeNodes;
@@ -41,6 +42,7 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.factories = new operations.Factories(this);
+    this.exposureControl = new operations.ExposureControl(this);
     this.integrationRuntimes = new operations.IntegrationRuntimes(this);
     this.integrationRuntimeObjectMetadata = new operations.IntegrationRuntimeObjectMetadata(this);
     this.integrationRuntimeNodes = new operations.IntegrationRuntimeNodes(this);

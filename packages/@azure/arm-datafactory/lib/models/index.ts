@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -543,7 +543,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * @interface
@@ -639,6 +639,12 @@ export interface Dataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -1878,6 +1884,44 @@ export interface SsisObjectMetadataStatusResponse {
 }
 
 /**
+ * @interface
+ * An interface representing ExposureControlRequest.
+ * The exposure control request.
+ *
+ */
+export interface ExposureControlRequest {
+  /**
+   * @member {string} [featureName] The feature name.
+   */
+  featureName?: string;
+  /**
+   * @member {string} [featureType] The feature type.
+   */
+  featureType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExposureControlResponse.
+ * The exposure control response.
+ *
+ */
+export interface ExposureControlResponse {
+  /**
+   * @member {string} [featureName] The feature name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly featureName?: string;
+  /**
+   * @member {string} [value] The feature value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: string;
+}
+
+/**
  * Contains the possible cases for DependencyReference.
  */
 export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
@@ -2343,6 +2387,54 @@ export interface ScheduleTrigger {
    * configuration.
    */
   recurrence: ScheduleTriggerRecurrence;
+}
+
+/**
+ * @interface
+ * An interface representing AzureFunctionLinkedService.
+ * Azure Function linked service.
+ *
+ */
+export interface AzureFunctionLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureFunction";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} functionAppUrl The endpoint of the Azure Function App. URL
+   * will be in the format https://<accountName>.azurewebsites.net.
+   */
+  functionAppUrl: any;
+  /**
+   * @member {SecretBaseUnion} [functionKey] Function or Host key for Azure
+   * Function App.
+   */
+  functionKey?: SecretBaseUnion;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
 }
 
 /**
@@ -7442,6 +7534,12 @@ export interface ResponsysObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7489,6 +7587,12 @@ export interface SalesforceMarketingCloudObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7538,6 +7642,12 @@ export interface VerticaTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7585,6 +7695,12 @@ export interface NetezzaTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7634,6 +7750,12 @@ export interface ZohoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7681,6 +7803,12 @@ export interface XeroObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7730,6 +7858,12 @@ export interface SquareObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7777,6 +7911,12 @@ export interface SparkObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7826,6 +7966,12 @@ export interface ShopifyObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7873,6 +8019,12 @@ export interface ServiceNowObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7922,6 +8074,12 @@ export interface QuickBooksObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7969,6 +8127,12 @@ export interface PrestoObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8018,6 +8182,12 @@ export interface PhoenixObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8065,6 +8235,12 @@ export interface PaypalObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8114,6 +8290,12 @@ export interface MarketoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8161,6 +8343,12 @@ export interface MariaDBTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8210,6 +8398,12 @@ export interface MagentoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8257,6 +8451,12 @@ export interface JiraObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8306,6 +8506,12 @@ export interface ImpalaObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8353,6 +8559,12 @@ export interface HubspotObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8402,6 +8614,12 @@ export interface HiveObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8449,6 +8667,12 @@ export interface HBaseObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8498,6 +8722,12 @@ export interface GreenplumTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8545,6 +8775,12 @@ export interface GoogleBigQueryObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8594,6 +8830,12 @@ export interface EloquaObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8641,6 +8883,12 @@ export interface DrillTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8690,6 +8938,12 @@ export interface CouchbaseTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8737,6 +8991,12 @@ export interface ConcurObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8786,6 +9046,12 @@ export interface AzurePostgreSqlTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8833,6 +9099,12 @@ export interface AmazonMWSObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9210,6 +9482,12 @@ export interface HttpDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9286,6 +9564,12 @@ export interface AzureSearchIndexDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9333,6 +9617,12 @@ export interface WebTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9387,6 +9677,12 @@ export interface SqlServerTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9434,6 +9730,12 @@ export interface SapEccResourceDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9483,6 +9785,12 @@ export interface SapCloudForCustomerResourceDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9530,6 +9838,12 @@ export interface SalesforceObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9579,6 +9893,12 @@ export interface RelationalTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9626,6 +9946,12 @@ export interface AzureMySqlTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9675,6 +10001,12 @@ export interface OracleTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9722,6 +10054,12 @@ export interface ODataResourceDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9771,6 +10109,12 @@ export interface MongoDbCollectionDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9818,6 +10162,12 @@ export interface FileShareDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9887,6 +10237,12 @@ export interface AzureDataLakeStoreDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9950,6 +10306,12 @@ export interface DynamicsEntityDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9997,6 +10359,12 @@ export interface DocumentDbCollectionDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10046,6 +10414,12 @@ export interface CustomDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10092,6 +10466,12 @@ export interface CassandraTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10146,6 +10526,12 @@ export interface AzureSqlDWTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10193,6 +10579,12 @@ export interface AzureSqlTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10242,6 +10634,12 @@ export interface AzureTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10289,6 +10687,12 @@ export interface AzureBlobDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10357,6 +10761,12 @@ export interface AmazonS3Dataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10451,7 +10861,7 @@ export interface ActivityPolicy {
 /**
  * Contains the possible cases for ExecutionActivity.
  */
-export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
+export type ExecutionActivityUnion = ExecutionActivity | AzureFunctionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
 
 /**
  * @interface
@@ -10489,6 +10899,68 @@ export interface ExecutionActivity {
    * @member {ActivityPolicy} [policy] Activity policy.
    */
   policy?: ActivityPolicy;
+}
+
+/**
+ * @interface
+ * An interface representing AzureFunctionActivity.
+ * Azure Function activity.
+ *
+ */
+export interface AzureFunctionActivity {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureFunctionActivity";
+  /**
+   * @member {string} name Activity name.
+   */
+  name: string;
+  /**
+   * @member {string} [description] Activity description.
+   */
+  description?: string;
+  /**
+   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
+   */
+  dependsOn?: ActivityDependency[];
+  /**
+   * @member {UserProperty[]} [userProperties] Activity user properties.
+   */
+  userProperties?: UserProperty[];
+  /**
+   * @member {LinkedServiceReference} [linkedServiceName] Linked service
+   * reference.
+   */
+  linkedServiceName?: LinkedServiceReference;
+  /**
+   * @member {ActivityPolicy} [policy] Activity policy.
+   */
+  policy?: ActivityPolicy;
+  /**
+   * @member {AzureFunctionActivityMethod} method Rest API method for target
+   * endpoint. Possible values include: 'GET', 'POST', 'PUT', 'DELETE',
+   * 'OPTIONS', 'HEAD', 'TRACE'
+   */
+  method: AzureFunctionActivityMethod;
+  /**
+   * @member {any} functionName Name of the Function that the Azure Function
+   * Activity will call. Type: string (or Expression with resultType string)
+   */
+  functionName: any;
+  /**
+   * @member {any} [headers] Represents the headers that will be sent to the
+   * request. For example, to set the language and type on a request: "headers"
+   * : { "Accept-Language": "en-us", "Content-Type": "application/json" }.
+   * Type: string (or Expression with resultType string).
+   */
+  headers?: any;
+  /**
+   * @member {any} [body] Represents the payload that will be sent to the
+   * endpoint. Required for POST/PUT method, not allowed for GET method Type:
+   * string (or Expression with resultType string).
+   */
+  body?: any;
 }
 
 /**
@@ -13064,10 +13536,10 @@ export interface ExecuteSSISPackageActivity {
    */
   environmentPath?: any;
   /**
-   * @member {{ [propertyName: string]: SSISExecutionCredential }}
-   * [executionCredential] The package execution credential.
+   * @member {SSISExecutionCredential} [executionCredential] The package
+   * execution credential.
    */
-  executionCredential?: { [propertyName: string]: SSISExecutionCredential };
+  executionCredential?: SSISExecutionCredential;
   /**
    * @member {IntegrationRuntimeReference} connectVia The integration runtime
    * reference.
@@ -14423,7 +14895,7 @@ export interface CopyActivity {
 /**
  * Contains the possible cases for ControlActivity.
  */
-export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | WebHookActivity | ExecutePipelineActivity;
+export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
 
 /**
  * @interface
@@ -14746,66 +15218,6 @@ export interface IfConditionActivity {
    * and if not provided, the activity will exit without any action.
    */
   ifFalseActivities?: ActivityUnion[];
-}
-
-/**
- * @interface
- * An interface representing WebHookActivity.
- * WebHook activity.
- *
- */
-export interface WebHookActivity {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "WebHook";
-  /**
-   * @member {string} name Activity name.
-   */
-  name: string;
-  /**
-   * @member {string} [description] Activity description.
-   */
-  description?: string;
-  /**
-   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
-   */
-  dependsOn?: ActivityDependency[];
-  /**
-   * @member {UserProperty[]} [userProperties] Activity user properties.
-   */
-  userProperties?: UserProperty[];
-  /**
-   * @member {any} url WebHook activity target endpoint and path. Type: string
-   * (or Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [timeout] Specifies the timeout within which the webhook
-   * should be called back. If there is no value specified, it takes the value
-   * of TimeSpan.FromMinutes(10) which is 10 minutes as default. Type: string
-   * (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  timeout?: any;
-  /**
-   * @member {any} [headers] Represents the headers that will be sent to the
-   * request. For example, to set the language and type on a request: "headers"
-   * : { "Accept-Language": "en-us", "Content-Type": "application/json" }.
-   * Type: string (or Expression with resultType string).
-   */
-  headers?: any;
-  /**
-   * @member {any} [body] Represents the payload that will be sent to the
-   * endpoint. Required for POST/PUT method, not allowed for GET method Type:
-   * string (or Expression with resultType string).
-   */
-  body?: any;
-  /**
-   * @member {WebActivityAuthentication} [authentication] Authentication method
-   * used for calling the endpoint.
-   */
-  authentication?: WebActivityAuthentication;
 }
 
 /**
@@ -16578,6 +16990,14 @@ export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
 export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
 
 /**
+ * Defines values for AzureFunctionActivityMethod.
+ * Possible values include: 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureFunctionActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE';
+
+/**
  * Defines values for WebActivityMethod.
  * Possible values include: 'GET', 'POST', 'PUT', 'DELETE'
  * @readonly
@@ -16657,14 +17077,6 @@ export type PolybaseSettingsRejectType = 'value' | 'percentage';
  * @enum {string}
  */
 export type SapCloudForCustomerSinkWriteBehavior = 'Insert' | 'Update';
-
-/**
- * Defines values for WebHookActivityMethod.
- * Possible values include: 'POST'
- * @readonly
- * @enum {string}
- */
-export type WebHookActivityMethod = 'POST';
 
 /**
  * Defines values for IntegrationRuntimeType.
@@ -16972,6 +17384,25 @@ export type FactoriesListByResourceGroupNextResponse = FactoryListResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FactoryListResponse;
+    };
+};
+
+/**
+ * Contains response data for the getFeatureValue operation.
+ */
+export type ExposureControlGetFeatureValueResponse = ExposureControlResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlResponse;
     };
 };
 
