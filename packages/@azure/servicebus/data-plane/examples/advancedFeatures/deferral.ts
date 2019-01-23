@@ -32,26 +32,28 @@ async function sendMessages(): Promise<void> {
     { step: 4, title: "Cook" },
     { step: 5, title: "Eat" }
   ];
-  try {
-    // The way we shuffle the message order is by using the scheduledEnqueueTimeUtc property
-    // to schedule the queueing of the message at different times
-
-    const now = Date.now();
-    const promises: Promise<any>[] = [];
-    for (let index = 0; index < data.length; index++) {
-      const message = {
-        body: data[index],
-        label: "RecipeStep",
-        contentType: "application/json",
-        scheduledEnqueueTimeUtc: new Date(now + index * 30000)
-      };
-      promises.push(sendClient.send(message));
-    }
-
-    await Promise.all(promises);
-  } finally {
-    await nsSend.close();
+  const promises = new Array();
+  for (let index = 0; index < data.length; index++) {
+    const message = {
+      body: data[index],
+      label: "RecipeStep",
+      contentType: "application/json"
+    };
+    // the way we shuffle the message order is to introduce a tiny random delay before each of the messages is sent
+    promises.push(
+      delay(Math.random() * 30).then(async () => {
+        try {
+          await sendClient.send(message);
+          console.log("Sent message step:", data[index].step);
+        } catch (err) {
+          console.log("Error while sending message", err);
+        }
+      })
+    );
   }
+  // wait until all the send tasks are complete
+  await Promise.all(promises);
+  await nsSend.close();
 }
 
 async function receiveMessage(): Promise<void> {

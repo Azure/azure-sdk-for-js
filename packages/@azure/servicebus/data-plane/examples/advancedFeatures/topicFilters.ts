@@ -75,20 +75,23 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   console.log("Messages from the first subscription:");
   for (let i = 0; i < messagesFromFirstSubscription.length; i++) {
     console.log(messagesFromFirstSubscription[i].body);
+    messagesFromFirstSubscription[i].complete();
   }
   await subscription1Client.close();
 
-  const messagesFromSecondSubscription = await subscription1Client.receiveBatch(100);
+  const messagesFromSecondSubscription = await subscription2Client.receiveBatch(100);
   console.log("Messages from the first subscription:");
   for (let i = 0; i < messagesFromSecondSubscription.length; i++) {
     console.log(messagesFromSecondSubscription[i].body);
+    messagesFromSecondSubscription[i].complete();
   }
   await subscription2Client.close();
 
-  const messagesFromThirdSubscription = await subscription1Client.receiveBatch(100);
+  const messagesFromThirdSubscription = await subscription3Client.receiveBatch(100);
   console.log("Messages from the first subscription:");
   for (let i = 0; i < messagesFromThirdSubscription.length; i++) {
     console.log(messagesFromThirdSubscription[i].body);
+    messagesFromThirdSubscription[i].complete();
   }
   await subscription3Client.close();
 }
