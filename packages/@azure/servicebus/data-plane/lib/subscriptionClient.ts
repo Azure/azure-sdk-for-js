@@ -270,12 +270,12 @@ export class SubscriptionClient extends Client {
   /**
    * Receives a list of deferred messages identified by `sequenceNumbers`.
    * @param sequenceNumbers A list containing the sequence numbers to receive.
-   * @returns Promise<ReceivedSBMessage[]>
+   * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
    * - Throws an error if the messages have not been deferred.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageInfo[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     if (this.receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
