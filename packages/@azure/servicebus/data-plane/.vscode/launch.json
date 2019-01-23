@@ -12,8 +12,7 @@
             "preLaunchTask": "npm: build-samples",
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"
-            ],
-            "envFile": "${workspaceFolder}/examples/.env"
+            ]
             
         },
         {
