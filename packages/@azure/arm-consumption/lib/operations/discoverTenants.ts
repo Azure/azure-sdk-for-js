@@ -28,25 +28,29 @@ export class DiscoverTenants {
 
   /**
    * Gets a Tenant Properties.
+   * @param billingAccountId Billing Account Id.
    * @param billingProfileId Billing Profile Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiscoverTenantsGetResponse>
    */
-  get(billingProfileId: string, options?: msRest.RequestOptionsBase): Promise<Models.DiscoverTenantsGetResponse>;
+  get(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase): Promise<Models.DiscoverTenantsGetResponse>;
   /**
+   * @param billingAccountId Billing Account Id.
    * @param billingProfileId Billing Profile Id.
    * @param callback The callback
    */
-  get(billingProfileId: string, callback: msRest.ServiceCallback<Models.DiscoverTenant>): void;
+  get(billingAccountId: string, billingProfileId: string, callback: msRest.ServiceCallback<Models.DiscoverTenant>): void;
   /**
+   * @param billingAccountId Billing Account Id.
    * @param billingProfileId Billing Profile Id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(billingProfileId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiscoverTenant>): void;
-  get(billingProfileId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiscoverTenant>): Promise<Models.DiscoverTenantsGetResponse> {
+  get(billingAccountId: string, billingProfileId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiscoverTenant>): void;
+  get(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DiscoverTenant>): Promise<Models.DiscoverTenantsGetResponse> {
     return this.client.sendOperationRequest(
       {
+        billingAccountId,
         billingProfileId,
         options
       },
@@ -59,8 +63,9 @@ export class DiscoverTenants {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Consumption/billingProfiles/{billingProfileId}/discoverTenants",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/discoverTenants",
   urlParameters: [
+    Parameters.billingAccountId,
     Parameters.billingProfileId
   ],
   queryParameters: [
