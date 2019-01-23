@@ -35,31 +35,18 @@ async function testPeekMsgsLength(
 
 let namespace: Namespace;
 
-// let partitionedQueueClient: QueueClient;
-// let partitionedDeadletterQueueClient: QueueClient;
-
 let partitionedQueueSessionClient: QueueClient;
 let partitionedQueueMessageSession: MessageSession;
 let partitionedDeadletterQueueSessionClient: QueueClient;
-
-// let partitionedTopicClient: TopicClient;
-// let partitionedSubscriptionClient: SubscriptionClient;
-// let partitionedDeadletterSubscriptionClient: SubscriptionClient;
 
 let partitionedTopicSessionClient: TopicClient;
 let partitionedSubscriptionSessionClient: SubscriptionClient;
 let partitionedSubscriptionMessageSession: MessageSession;
 let partitionedDeadletterSubscriptionSessionClient: SubscriptionClient;
-// let unpartitionedQueueClient: QueueClient;
-// let unpartitionedDeadletterQueueClient: QueueClient;
 
 let unpartitionedQueueSessionClient: QueueClient;
 let unpartitionedQueueMessageSession: MessageSession;
 let unpartitionedDeadletterQueueSessionClient: QueueClient;
-
-// let unpartitionedTopicClient: TopicClient;
-// let unpartitionedSubscriptionClient: SubscriptionClient;
-// let unpartitionedDeadletterSubscriptionClient: SubscriptionClient;
 
 let unpartitionedTopicSessionClient: TopicClient;
 let unpartitionedSubscriptionSessionClient: SubscriptionClient;
@@ -116,43 +103,6 @@ async function beforeEachTest(): Promise<void> {
 
   namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  // Partitioned Queues and Subscriptions
-  // partitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
-  /*partitionedDeadletterQueueClient = namespace.createQueueClient(
-    Namespace.getDeadLetterQueuePathForQueue(partitionedQueueClient.name)
-  );*/
-
-  // partitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  /*partitionedSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME,
-    process.env.SUBSCRIPTION_NAME
-  );*/
-  /*partitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
-    Namespace.getDeadLetterSubcriptionPathForSubcription(
-      partitionedTopicClient.name,
-      partitionedSubscriptionClient.subscriptionName
-    ),
-    partitionedSubscriptionClient.subscriptionName
-  );*/
-
-  // Unpartitioned Queues and Subscriptions
-  // unpartitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME_NO_PARTITION);
-  /*unpartitionedDeadletterQueueClient = namespace.createQueueClient(
-    Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueClient.name)
-  );*/
-  // unpartitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME_NO_PARTITION);
-  /*unpartitionedSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_NO_PARTITION,
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION
-  );*/
-  /*unpartitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
-    Namespace.getDeadLetterSubcriptionPathForSubcription(
-      unpartitionedTopicClient.name,
-      unpartitionedSubscriptionClient.subscriptionName
-    ),
-    unpartitionedSubscriptionClient.subscriptionName
-  );*/
-
   // Partitioned Queues and Subscriptions with Sessions
   partitionedQueueSessionClient = namespace.createQueueClient(process.env.QUEUE_NAME_SESSION);
   partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
@@ -205,26 +155,6 @@ async function beforeEachTest(): Promise<void> {
     ),
     unpartitionedSubscriptionSessionClient.subscriptionName
   );
-
-  /*const peekedPartitionedQueueMsg = await partitionedQueueClient.peek();
-  if (peekedPartitionedQueueMsg.length) {
-    throw new Error("Please use an empty partitioned queue for integration testing");
-  }
-
-  const peekedPartitionedSubscriptionMsg = await partitionedSubscriptionClient.peek();
-  if (peekedPartitionedSubscriptionMsg.length) {
-    throw new Error("Please use an empty partitioned Subscription for integration testing");
-  }
-
-  const peekedUnPartitionedQueueMsg = await unpartitionedQueueClient.peek();
-  if (peekedUnPartitionedQueueMsg.length) {
-    throw new Error("Please use an empty unpartitioned queue for integration testing");
-  }
-
-  const peekedUnPartitionedSubscriptionMsg = await unpartitionedSubscriptionClient.peek();
-  if (peekedUnPartitionedSubscriptionMsg.length) {
-    throw new Error("Please use an empty unpartitioned Subscription for integration testing");
-  }*/
 
   const peekedPartitionedQueueSessionMsg = await partitionedQueueSessionClient.peek();
   if (peekedPartitionedQueueSessionMsg.length) {
