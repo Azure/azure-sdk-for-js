@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import chai from "chai";
 const should = chai.should();
@@ -189,7 +189,7 @@ describe("Streaming Receiver Misc Tests", function(): void {
 
     await receiveListener.stop();
 
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -248,7 +248,7 @@ describe("Streaming Receiver Misc Tests", function(): void {
     await receivedMsgs[1].complete();
     await receiveListener.stop();
 
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
   }
 
   it("Disabled autoComplete, no manual complete retains the message in Partitioned Queues", async function(): Promise<
@@ -315,7 +315,7 @@ describe("Complete message", function(): void {
     }
 
     await receiveListener.stop();
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -390,7 +390,7 @@ describe("Abandon message", function(): void {
     );
     await delay(4000);
 
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     const receivedMsgs = await receiverClient.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);
@@ -463,7 +463,6 @@ describe("Defer message", function(): void {
     autoComplete: boolean
   ): Promise<void> {
     await senderClient.sendBatch(testMessages);
-
     let seq0: any = 0;
     let seq1: any = 0;
     const receiveListener = await receiverClient.receive(
@@ -478,30 +477,26 @@ describe("Defer message", function(): void {
       unExpectedErrorHandler,
       { autoComplete }
     );
-
     await delay(4000);
-
     await receiveListener.stop();
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
-
-    const deferredMsg0 = await receiverClient.receiveDeferredMessage(seq0);
-    const deferredMsg1 = await receiverClient.receiveDeferredMessage(seq1);
-    if (!deferredMsg0) {
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    const deferredMsgs = await receiverClient.receiveDeferredMessages([seq0, seq1]);
+    if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
-    if (!deferredMsg1) {
-      throw "No message received for sequence number";
-    }
-    should.equal(deferredMsg0.body, testMessages[0].body);
-    should.equal(deferredMsg0.messageId, testMessages[0].messageId);
-
-    should.equal(deferredMsg1.body, testMessages[1].body);
-    should.equal(deferredMsg1.messageId, testMessages[1].messageId);
-    await deferredMsg0.complete();
-    await deferredMsg1.complete();
-
+    deferredMsgs.forEach(async (element) => {
+      should.equal(
+        testMessages.some((x) => element.body === x.body && element.messageId === x.messageId),
+        true,
+        "Received Message doesnt match any of the test messages"
+      );
+      should.equal(element.deliveryCount, 1);
+      await element.complete();
+    });
+    await delay(10000);
     await testPeekMsgsLength(receiverClient, 0);
   }
+
   it("Partitioned Queues: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
@@ -578,7 +573,7 @@ describe("Deadletter message", function(): void {
 
     await delay(4000);
     await receiveListener.stop();
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
 
@@ -773,7 +768,7 @@ describe("Settle an already Settled message throws error", () => {
     }, unExpectedErrorHandler);
 
     await delay(5000);
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].body, testMessages[0].body);
@@ -811,33 +806,33 @@ describe("Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Queue: complete() throws error", async function(): Promise<void> {
-    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.complete);
+    await testSettlement(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      DispositionType.complete
+    );
   });
 
   it("UnPartitioned Topics and Subscription: complete() throws error", async function(): Promise<
     void
   > {
     await testSettlement(
-      partitionedTopicClient,
-      partitionedSubscriptionClient,
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
       DispositionType.complete
     );
   });
 
   it("Partitioned Queues: abandon() throws error", async function(): Promise<void> {
-    await testSettlement(
-      unpartitionedQueueClient,
-      unpartitionedQueueClient,
-      DispositionType.abandon
-    );
+    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.abandon);
   });
 
   it("Partitioned Topics and Subscription: abandon() throws error", async function(): Promise<
     void
   > {
     await testSettlement(
-      unpartitionedTopicClient,
-      unpartitionedSubscriptionClient,
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
       DispositionType.abandon
     );
   });
@@ -873,31 +868,31 @@ describe("Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Queue: defer() throws error", async function(): Promise<void> {
-    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.defer);
+    await testSettlement(unpartitionedQueueClient, unpartitionedQueueClient, DispositionType.defer);
   });
 
   it("UnPartitioned Topics and Subscription: defer() throws error", async function(): Promise<
     void
   > {
     await testSettlement(
-      partitionedTopicClient,
-      partitionedSubscriptionClient,
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
       DispositionType.defer
     );
   });
 
   it("Partitioned Queues: deadLetter() throws error", async function(): Promise<void> {
     await testSettlement(
-      unpartitionedQueueClient,
-      unpartitionedQueueClient,
+      partitionedQueueClient,
+      partitionedQueueClient,
       DispositionType.deadletter
     );
   });
 
   it("Partitioned Topics and Subscription: deadLetter()", async function(): Promise<void> {
     await testSettlement(
-      unpartitionedTopicClient,
-      unpartitionedSubscriptionClient,
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
       DispositionType.deadletter
     );
   });
