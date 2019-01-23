@@ -175,7 +175,11 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
     await receiveListener.stop();
-    chai.assert.fail(errorFromErrorHandler && errorFromErrorHandler.message);
+    should.equal(
+      errorFromErrorHandler,
+      undefined,
+      errorFromErrorHandler && errorFromErrorHandler.message
+    );
 
     await testPeekMsgsLength(receiverClient, 0);
   }
