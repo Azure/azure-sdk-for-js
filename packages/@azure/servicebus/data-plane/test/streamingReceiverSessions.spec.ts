@@ -503,6 +503,7 @@ describe("Abandon message(with sessions)", function(): void {
 
   async function testAbandon(
     senderClient: QueueClient | TopicClient,
+    sessionClient: QueueClient | SubscriptionClient,
     receiverClient: MessageSession,
     autoComplete: boolean
   ): Promise<void> {
@@ -519,29 +520,30 @@ describe("Abandon message(with sessions)", function(): void {
     await delay(4000);
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    receiverClient = await sessionClient.acceptSession({sessionId: testSessionId});
     const receivedMsgs = await receiverClient.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].messageId, testMessagesWithSessions[0].messageId);
-    // should.equal(receivedMsgs[0].deliveryCount, 1);
+    should.equal(receivedMsgs[0].deliveryCount, 1);
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
   it("Partitioned Queues: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedQueueSessionClient, partitionedQueueMessageSession, false);
+    await testAbandon(partitionedQueueSessionClient, partitionedQueueSessionClient, partitionedQueueMessageSession, false);
   });
 
   it("Partitioned Topics and Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedTopicSessionClient, partitionedSubscriptionMessageSession, false);
+    await testAbandon(partitionedTopicSessionClient, partitionedSubscriptionSessionClient, partitionedSubscriptionMessageSession, false);
   });
 
   it("UnPartitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
-    await testAbandon(unpartitionedQueueSessionClient, unpartitionedQueueMessageSession, false);
+    await testAbandon(unpartitionedQueueSessionClient, unpartitionedQueueSessionClient, unpartitionedQueueMessageSession, false);
   });
 
   it("UnPartitioned Topics and Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
@@ -549,6 +551,7 @@ describe("Abandon message(with sessions)", function(): void {
   > {
     await testAbandon(
       unpartitionedTopicSessionClient,
+      unpartitionedSubscriptionSessionClient,
       unpartitionedSubscriptionMessageSession,
       false
     );
@@ -557,19 +560,19 @@ describe("Abandon message(with sessions)", function(): void {
   it("Partitioned Queues with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedQueueSessionClient, partitionedQueueMessageSession, true);
+    await testAbandon(partitionedQueueSessionClient, partitionedQueueSessionClient, partitionedQueueMessageSession, true);
   });
 
   it("Partitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedTopicSessionClient, partitionedSubscriptionMessageSession, true);
+    await testAbandon(partitionedTopicSessionClient, partitionedSubscriptionSessionClient, partitionedSubscriptionMessageSession, true);
   });
 
   it("UnPartitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
-    await testAbandon(unpartitionedQueueSessionClient, unpartitionedQueueMessageSession, true);
+    await testAbandon(unpartitionedQueueSessionClient, unpartitionedQueueSessionClient, unpartitionedQueueMessageSession, true);
   });
 
   it("UnPartitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
@@ -577,6 +580,7 @@ describe("Abandon message(with sessions)", function(): void {
   > {
     await testAbandon(
       unpartitionedTopicSessionClient,
+      unpartitionedSubscriptionSessionClient,
       unpartitionedSubscriptionMessageSession,
       true
     );
