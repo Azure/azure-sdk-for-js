@@ -15,13 +15,34 @@ import { OnSessionMessage, OnError, delay, Namespace } from "../../lib";
 const connectionString = "";
 const queueName = "";
 
+const listOfScientists = [
+  { lastName: "Einstein", firstName: "Albert" },
+  { lastName: "Heisenberg", firstName: "Werner" },
+  { lastName: "Curie", firstName: "Marie" },
+  { lastName: "Hawking", firstName: "Steven" },
+  { lastName: "Newton", firstName: "Isaac" },
+  { lastName: "Bohr", firstName: "Niels" },
+  { lastName: "Faraday", firstName: "Michael" },
+  { lastName: "Galilei", firstName: "Galileo" },
+  { lastName: "Kepler", firstName: "Johannes" },
+  { lastName: "Kopernikus", firstName: "Nikolaus" }
+];
+
 async function main(): Promise<void> {
   const ns = Namespace.createFromConnectionString(connectionString);
+
   try {
-    await sendMessages(ns, "session-1");
-    await sendMessages(ns, "session-2");
-    await sendMessages(ns, "session-3");
-    await sendMessages(ns, "session-4");
+    await sendMessage(ns, listOfScientists[0], "session-1");
+    await sendMessage(ns, listOfScientists[1], "session-1");
+    await sendMessage(ns, listOfScientists[2], "session-1");
+    await sendMessage(ns, listOfScientists[3], "session-1");
+    await sendMessage(ns, listOfScientists[4], "session-1");
+
+    await sendMessage(ns, listOfScientists[5], "session-2");
+    await sendMessage(ns, listOfScientists[6], "session-2");
+    await sendMessage(ns, listOfScientists[7], "session-2");
+    await sendMessage(ns, listOfScientists[8], "session-2");
+    await sendMessage(ns, listOfScientists[9], "session-2");
 
     await receiveMessages(ns);
   } finally {
@@ -29,28 +50,19 @@ async function main(): Promise<void> {
   }
 }
 
-async function sendMessages(ns: Namespace, sessionId: string): Promise<void> {
+async function sendMessage(ns: Namespace, scientist: any, sessionId: string): Promise<void> {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
-  const data = [
-    { step: 1, title: "Shop" },
-    { step: 2, title: "Unpack" },
-    { step: 3, title: "Prepare" },
-    { step: 4, title: "Cook" },
-    { step: 5, title: "Eat" }
-  ];
 
-  for (let index = 0; index < data.length; index++) {
-    const element = data[index];
-    const message = {
-      sessionId: sessionId,
-      body: `${element.step} ${element.title}`,
-      label: "RecipeStep"
-    };
+  const message = {
+    body: `${scientist.firstName} ${scientist.lastName}`,
+    label: "Scientist",
+    sessionId: sessionId
+  };
 
-    console.log(`Message sent: ${message.body} SessionId : ${sessionId}`);
-    await client.send(message);
-  }
+  console.log(`Sending message: "${message.body}" to "${sessionId}"`);
+  await client.send(message);
+
   await client.close();
 }
 
@@ -59,15 +71,13 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   const onMessage: OnSessionMessage = async (messageSession, brokeredMessage) => {
-    console.log(
-      `Message received: ${brokeredMessage.body} SessionId : ${brokeredMessage.sessionId}`
-    );
+    console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
   };
   const onError: OnError = (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
   await client.receiveMessagesFromSessions(onMessage, onError);
-  await delay(10000);
+  await delay(5000);
 
   await client.close();
 }

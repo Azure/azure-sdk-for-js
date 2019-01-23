@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import chai from "chai";
 const should = chai.should();
@@ -18,6 +18,7 @@ import {
   ServiceBusMessage,
   ReceiveMode
 } from "../lib";
+import { getSenderClient, getReceiverClient, ClientType } from "./testUtils";
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
@@ -44,7 +45,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let namespace: Namespace;
+let ns: Namespace;
 let queueClient: QueueClient;
 let topicClient: TopicClient;
 let subscriptionClient: SubscriptionClient;
@@ -60,30 +61,19 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (!process.env.TOPIC_NAME) {
-    throw new Error("Define TOPIC_NAME in your environment before running integration tests.");
-  }
-  if (!process.env.QUEUE_NAME) {
-    throw new Error("Define QUEUE_NAME in your environment before running integration tests.");
-  }
-  if (!process.env.SUBSCRIPTION_NAME) {
-    throw new Error(
-      "Define SUBSCRIPTION_NAME in your environment before running integration tests."
-    );
-  }
 
-  namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  queueClient = namespace.createQueueClient(process.env.QUEUE_NAME, {
-    receiveMode: ReceiveMode.receiveAndDelete
-  });
-  topicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  subscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME,
-    process.env.SUBSCRIPTION_NAME,
-    {
-      receiveMode: ReceiveMode.receiveAndDelete
-    }
-  );
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  queueClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedQueue,
+    ReceiveMode.receiveAndDelete
+  ) as QueueClient;
+  topicClient = getSenderClient(ns, ClientType.PartitionedTopic) as TopicClient;
+  subscriptionClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedSubscription,
+    ReceiveMode.receiveAndDelete
+  ) as SubscriptionClient;
 
   const peekedQueueMsg = await queueClient.peek();
   if (peekedQueueMsg.length) {
@@ -98,7 +88,7 @@ async function beforeEachTest(): Promise<void> {
 }
 
 async function afterEachTest(): Promise<void> {
-  await namespace.close();
+  await ns.close();
 }
 
 describe("ReceiveBatch from Queue/Subscription", function(): void {
