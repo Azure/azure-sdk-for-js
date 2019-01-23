@@ -62,24 +62,9 @@ export function createRequestObject(
       httpsRequest.abort();
     }
 
-    const isMedia = requestOptions.path.indexOf("//media") === 0;
-
     const httpsRequest: http.ClientRequest = https.request(requestOptions, (response: http.IncomingMessage) => {
-      // In case of media response, return the stream to the user and the user will need
-      // to handle reading the stream.
-      if (isMedia && connectionPolicy.MediaReadMode === MediaReadMode.Streamed) {
-        return resolve({
-          result: response,
-          headers: response.headers as IHeaders
-        });
-      }
-
       let data = "";
-
-      // if the requested data is text (not attachment/media) set the encoding to UTF-8
-      if (!isMedia) {
-        response.setEncoding("utf8");
-      }
+      response.setEncoding("utf8");
 
       response.on("data", (chunk: any) => {
         data += chunk;
@@ -91,7 +76,7 @@ export function createRequestObject(
 
         let result;
         try {
-          result = isMedia ? data : data.length > 0 ? JSON.parse(data) : undefined;
+          result = data.length > 0 ? JSON.parse(data) : undefined;
         } catch (exception) {
           return reject(exception);
         }
@@ -101,12 +86,7 @@ export function createRequestObject(
     });
 
     httpsRequest.once("socket", (socket: Socket) => {
-      if (isMedia) {
-        socket.setTimeout(connectionPolicy.MediaRequestTimeout);
-      } else {
-        socket.setTimeout(connectionPolicy.RequestTimeout);
-      }
-
+      socket.setTimeout(connectionPolicy.RequestTimeout);
       socket.once("timeout", onTimeout);
 
       httpsRequest.once("response", () => {
