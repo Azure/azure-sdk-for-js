@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import chai from "chai";
 const should = chai.should();
@@ -175,7 +175,11 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
     await receiveListener.stop();
-    chai.assert.fail(errorFromErrorHandler && errorFromErrorHandler.message);
+    should.equal(
+      errorFromErrorHandler,
+      undefined,
+      errorFromErrorHandler && errorFromErrorHandler.message
+    );
 
     await testPeekMsgsLength(receiverClient, 0);
   }

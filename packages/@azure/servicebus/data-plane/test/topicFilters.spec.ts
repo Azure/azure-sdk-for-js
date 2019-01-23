@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import chai from "chai";
 const should = chai.should();
@@ -151,7 +151,11 @@ async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMess
 
   await delay(5000);
   await receiveListener.stop();
-  chai.assert.fail(errorFromErrorHandler && errorFromErrorHandler.message);
+  should.equal(
+    errorFromErrorHandler,
+    undefined,
+    errorFromErrorHandler && errorFromErrorHandler.message
+  );
 
   return receivedMsgs;
 }
