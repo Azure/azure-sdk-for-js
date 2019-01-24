@@ -1,12 +1,14 @@
 import { ClientContext } from "../../ClientContext";
-import { isResourceValid, ResourceType, StatusCodes } from "../../common";
+import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import { IHeaders } from "../../queryExecutionContext/IHeaders";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Resource } from "../Resource";
 import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
+import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 
 /**
@@ -88,19 +90,26 @@ export class Databases {
    * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async create(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
+  public async create(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
     }
 
+    let initialHeaders: IHeaders;
+
+    if (body.throughput) {
+      initialHeaders = { [Constants.HttpHeaders.OfferThroughput]: body.throughput };
+      delete body.throughput;
+    }
+
     const path = "/dbs"; // TODO: constant
-    const response = await this.clientContext.create<DatabaseDefinition>(
+    const response = await this.clientContext.create<DatabaseRequest>(
       body,
       path,
       ResourceType.database,
       undefined,
-      undefined,
+      initialHeaders,
       options
     );
     const ref = new Database(this.client, body.id, this.clientContext);
@@ -127,7 +136,7 @@ export class Databases {
    * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options
    */
-  public async createIfNotExists(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
+  public async createIfNotExists(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
     }

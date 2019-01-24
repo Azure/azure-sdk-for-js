@@ -1,12 +1,13 @@
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
-import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import { Constants, getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
+import { IHeaders, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Resource } from "../Resource";
 import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
+import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 
 /**
@@ -89,20 +90,26 @@ export class Containers {
    * @param body Represents the body of the container.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async create(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
+  public async create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
+    let initialHeaders: IHeaders;
 
-    const response = await this.clientContext.create<ContainerDefinition>(
+    if (body.throughput) {
+      initialHeaders = { [Constants.HttpHeaders.OfferThroughput]: body.throughput };
+      delete body.throughput;
+    }
+
+    const response = await this.clientContext.create<ContainerRequest>(
       body,
       path,
       ResourceType.container,
       id,
-      undefined,
+      initialHeaders,
       options
     );
     const ref = new Container(this.database, response.result.id, this.clientContext);
@@ -133,7 +140,7 @@ export class Containers {
    * @param body Represents the body of the container.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async createIfNotExists(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
+  public async createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
     }

@@ -19,7 +19,7 @@ describe("NodeJS CRUD Tests", function() {
 
       // create a database
       const beforeCreateDatabasesCount = databases.length;
-      const databaseDefinition = { id: "database test database" };
+      const databaseDefinition = { id: "database test database", throughput: 400 };
       const { body: db } = await client.databases.create(databaseDefinition);
       assert.equal(db.id, databaseDefinition.id);
 
