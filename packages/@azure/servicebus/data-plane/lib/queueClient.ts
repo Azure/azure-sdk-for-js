@@ -192,7 +192,7 @@ export class QueueClient extends Client {
    * given max wait time in seconds, whichever happens first.
    * @param maxMessageCount      The maximum message count. Must be a value greater than 0.
    * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
+   * should wait to receive the said amount of messages. If not provided, it defaults to 60 seconds.
    * @param maxMessageWaitTimeoutInSeconds The maximum amount of idle time the Receiver
    * will wait after creating the link or after receiving a new message. If no messages are received
    * in that time frame then the batch receive operation ends. It is advised to keep this value at
