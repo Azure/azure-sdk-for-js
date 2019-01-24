@@ -527,11 +527,15 @@ export class MessageSession extends LinkEntity {
     const connectionId = this._context.namespace.connectionId;
 
     /**
-     * Resets the timer when a new message is received. It will close the receiver gracefully, if no
+     * Resets the timer when a new message is received for Session Manager.
+     * It will close the receiver gracefully, if no
      * messages were received for the configured maxMessageWaitTimeoutInSeconds
      * @ignore
      */
-    const _resetTimerOnNewMessageReceived = () => {
+    const resetTimerOnNewMessageReceived = () => {
+      if (this.callee !== Callee.sessionManager) {
+        return;
+      }
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
       if (this.maxMessageWaitTimeoutInSeconds) {
         this._newMessageReceivedTimer = setTimeout(async () => {
@@ -541,21 +545,20 @@ export class MessageSession extends LinkEntity {
               this.maxMessageWaitTimeoutInSeconds
             } seconds. Hence closing it.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
-          if (this.callee === Callee.sessionManager) {
-            await this.close();
-            const error = translate({
-              condition: "com.microsoft:message-wait-timeout",
-              description: msg
-            });
-            this._notifyError(translate(error));
-          }
+
+          const error = translate({
+            condition: "com.microsoft:message-wait-timeout",
+            description: msg
+          });
+          this._notifyError(translate(error));
+          await this.close();
         }, this.maxMessageWaitTimeoutInSeconds * 1000);
       }
     };
 
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
-        _resetTimerOnNewMessageReceived();
+        resetTimerOnNewMessageReceived();
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
@@ -732,7 +735,7 @@ export class MessageSession extends LinkEntity {
        * @ignore
        */
 
-      const _resetTimerOnNewMessageReceived = () => {
+      const resetTimerOnNewMessageReceived = () => {
         if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
         if (this.maxMessageWaitTimeoutInSeconds) {
           this._newMessageReceivedTimer = setTimeout(async () => {
@@ -763,7 +766,7 @@ export class MessageSession extends LinkEntity {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = async (context: EventContext) => {
-        _resetTimerOnNewMessageReceived();
+        resetTimerOnNewMessageReceived();
         const data: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
