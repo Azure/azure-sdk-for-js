@@ -48,6 +48,18 @@ export const testMessagesWithSessions: SendableMessageInfo[] = [
     sessionId: "my-session"
   }
 ];
+export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
+  {
+    body: "hello1",
+    messageId: `test message ${generateUuid()}`,
+    sessionId: "my-session"
+  },
+  {
+    body: "hello2",
+    messageId: `test message ${generateUuid()}`,
+    sessionId: "my-session2"
+  }
+];
 export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
   {
     body: "hello1",
