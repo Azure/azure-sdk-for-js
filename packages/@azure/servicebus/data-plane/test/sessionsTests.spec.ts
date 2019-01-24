@@ -345,7 +345,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
   });
 });
 
-describe("Accept a session without passing sessionId and receive messages - Queue/Subscription has different messages belonging to different sessionId", function(): void {
+describe("Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
