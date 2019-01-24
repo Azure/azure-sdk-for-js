@@ -18,6 +18,7 @@ export {
   UsageDetail,
   MeterDetails,
   Marketplace,
+  Tenant,
   Balance,
   BalancePropertiesNewPurchasesDetailsItem,
   BalancePropertiesAdjustmentDetailsItem,

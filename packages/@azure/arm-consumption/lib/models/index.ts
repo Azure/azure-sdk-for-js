@@ -471,11 +471,12 @@ export interface Marketplace extends Resource {
 
 /**
  * @interface
- * An interface representing DiscoverTenant.
- * A Tenant properties Resource
+ * An interface representing Tenant.
+ * An tenant detail resource.
  *
+ * @extends Resource
  */
-export interface DiscoverTenant {
+export interface Tenant extends Resource {
   /**
    * @member {string} [billingProfileName] The Billing Profile name.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -494,6 +495,33 @@ export interface DiscoverTenant {
    * the server.**
    */
   readonly tenantId?: string;
+  /**
+   * @member {string} [billingAccountName] The Billing Account Name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingAccountName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TenantListResult.
+ * A Tenant properties Resource
+ *
+ */
+export interface TenantListResult {
+  /**
+   * @member {Tenant[]} [value] The list of tenant details.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: Tenant[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -4144,7 +4172,7 @@ export type ChargesListForBillingPeriodByDepartmentResponse = ChargeSummary & {
 /**
  * Contains response data for the get operation.
  */
-export type DiscoverTenantsGetResponse = DiscoverTenant & {
+export type TenantsGetResponse = TenantListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -4156,6 +4184,6 @@ export type DiscoverTenantsGetResponse = DiscoverTenant & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: DiscoverTenant;
+      parsedBody: TenantListResult;
     };
 };

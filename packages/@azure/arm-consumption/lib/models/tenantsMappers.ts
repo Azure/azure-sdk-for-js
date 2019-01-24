@@ -9,23 +9,15 @@
  */
 
 export {
-  BudgetsListResult,
-  Budget,
-  ProxyResource,
+  TenantListResult,
+  Tenant,
+  Resource,
   BaseResource,
-  BudgetTimePeriod,
-  Filters,
-  CurrentSpend,
-  Notification,
   ErrorResponse,
   ErrorDetails,
-  TagsResult,
-  Tag,
-  Resource,
   UsageDetail,
   MeterDetails,
   Marketplace,
-  Tenant,
   Balance,
   BalancePropertiesNewPurchasesDetailsItem,
   BalancePropertiesAdjustmentDetailsItem,
@@ -36,6 +28,14 @@ export {
   Forecast,
   ForecastPropertiesConfidenceLevelsItem,
   ManagementGroupAggregatedCostResult,
-  ChargeSummary
+  ChargeSummary,
+  ProxyResource,
+  TagsResult,
+  Tag,
+  Budget,
+  BudgetTimePeriod,
+  Filters,
+  CurrentSpend,
+  Notification
 } from "../models/mappers";
 

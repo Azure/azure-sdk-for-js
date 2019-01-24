@@ -517,29 +517,67 @@ export const Marketplace: msRest.CompositeMapper = {
   }
 };
 
-export const DiscoverTenant: msRest.CompositeMapper = {
-  serializedName: "DiscoverTenant",
+export const Tenant: msRest.CompositeMapper = {
+  serializedName: "Tenant",
   type: {
     name: "Composite",
-    className: "DiscoverTenant",
+    className: "Tenant",
     modelProperties: {
+      ...Resource.type.modelProperties,
       billingProfileName: {
         readOnly: true,
-        serializedName: "billingProfileName",
+        serializedName: "properties.billingProfileName",
         type: {
           name: "String"
         }
       },
       billingAccountId: {
         readOnly: true,
-        serializedName: "billingAccountId",
+        serializedName: "properties.billingAccountId",
         type: {
           name: "String"
         }
       },
       tenantId: {
         readOnly: true,
-        serializedName: "tenantId",
+        serializedName: "properties.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      billingAccountName: {
+        readOnly: true,
+        serializedName: "properties.billingAccountName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TenantListResult: msRest.CompositeMapper = {
+  serializedName: "TenantListResult",
+  type: {
+    name: "Composite",
+    className: "TenantListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Tenant"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
         type: {
           name: "String"
         }

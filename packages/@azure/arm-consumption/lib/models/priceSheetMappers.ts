@@ -18,6 +18,7 @@ export {
   ErrorDetails,
   UsageDetail,
   Marketplace,
+  Tenant,
   Balance,
   BalancePropertiesNewPurchasesDetailsItem,
   BalancePropertiesAdjustmentDetailsItem,

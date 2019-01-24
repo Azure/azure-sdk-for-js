@@ -19,6 +19,7 @@ export {
   UsageDetail,
   MeterDetails,
   Marketplace,
+  Tenant,
   ReservationSummary,
   ReservationDetail,
   PriceSheetResult,

@@ -17,6 +17,7 @@ export {
   ErrorDetails,
   UsageDetail,
   MeterDetails,
+  Tenant,
   Balance,
   BalancePropertiesNewPurchasesDetailsItem,
   BalancePropertiesAdjustmentDetailsItem,

@@ -21,4 +21,4 @@ export * from "./forecasts";
 export * from "./operations";
 export * from "./aggregatedCost";
 export * from "./charges";
-export * from "./discoverTenants";
+export * from "./tenants";
