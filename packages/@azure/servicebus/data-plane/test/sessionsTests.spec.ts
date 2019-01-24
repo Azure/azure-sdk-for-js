@@ -370,7 +370,7 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     await delay(4000);
 
     let receiverClient = await sessionClient.acceptSession();
-    let msgs = await receiverClient.receiveBatch(1);
+    let msgs = await receiverClient.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
@@ -384,7 +384,7 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     
     receiverClient = await sessionClient.acceptSession();
     await testPeekMsgsLength(receiverClient, 1);
-    msgs = await receiverClient.receiveBatch(1);
+    msgs = await receiverClient.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
