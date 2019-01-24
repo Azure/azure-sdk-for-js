@@ -85,8 +85,8 @@ describe("Accept a session by passing non-existing sessionId receives no message
 
     await receiverClient.close();
     receiverClient = await sessionClient.acceptSession();
-    await testPeekMsgsLength(receiverClient, 1);
     msgs = await receiverClient.receiveBatch(1);
+    should.equal(msgs.length, 1);
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs[0].body, testMessagesWithSessions[0].body);
     should.equal(msgs[0].messageId, testMessagesWithSessions[0].messageId);
@@ -148,7 +148,6 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await receiverClient.close();
 
     receiverClient = await sessionClient.acceptSession();
-    await testPeekMsgsLength(receiverClient, 1);
     receivedMsgs = [];
     receiverClient.receive((messageSession: MessageSession, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
@@ -156,7 +155,9 @@ describe("Accept a session by passing non-existing sessionId receives no message
       should.equal(msg.messageId, testMessagesWithSessions[0].messageId);
       return Promise.resolve();
     }, unExpectedErrorHandler);
+
     await delay(2000);
+    should.equal(receivedMsgs.length, 1);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
@@ -233,7 +234,6 @@ describe("Accept a session without passing sessionId and receive messages from r
     await receiverClient.close();
 
     receiverClient = await sessionClient.acceptSession();
-    await testPeekMsgsLength(receiverClient, 1);
     msgs = await receiverClient.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true);
