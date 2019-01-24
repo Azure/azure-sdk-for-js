@@ -21,7 +21,7 @@ import {
   testMessagesWithSessions,
   testMessagesWithDifferentSessionIds,
   getSenderClient,
-  getSessionClient,
+  getReceiverClient,
   ClientType,
   testSessionId
 } from "./testUtils";
@@ -64,7 +64,7 @@ async function beforeEachTest(senderType: ClientType, sessionType: ClientType): 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   senderClient = getSenderClient(ns, senderType);
-  sessionClient = getSessionClient(ns, sessionType);
+  sessionClient = getReceiverClient(ns, sessionType);
 }
 
 async function afterEachTest(): Promise<void> {

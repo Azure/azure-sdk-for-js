@@ -135,37 +135,6 @@ export function getSenderClient(
   throw new Error("Cannot create sender client for give client type");
 }
 
-export function getSessionClient(
-  namespace: Namespace,
-  clientType: ClientType
-): QueueClient | SubscriptionClient {
-  switch (clientType) {
-    case ClientType.PartitionedQueueWithSessions:
-      return namespace.createQueueClient(
-        process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions"
-      );
-    case ClientType.PartitionedSubscriptionWithSessions:
-      return namespace.createSubscriptionClient(
-        process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions",
-        process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription"
-      );
-    case ClientType.UnpartitionedQueueWithSessions:
-      return namespace.createQueueClient(
-        process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions"
-      );
-    case ClientType.UnpartitionedSubscriptionWithSessions:
-      return namespace.createSubscriptionClient(
-        process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions",
-        process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
-          "unpartitioned-topic-sessions-subscription"
-      );
-    default:
-      break;
-  }
-
-  throw new Error("Cannot create session client for give client type");
-}
-
 export function getReceiverClient(
   namespace: Namespace,
   clientType: ClientType,
