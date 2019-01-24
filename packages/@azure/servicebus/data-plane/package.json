@@ -1,7 +1,7 @@
 {
   "name": "@azure/service-bus",
   "author": "Microsoft Corporation",
-  "version": "0.1.0",
+  "version": "1.0.0-preview.1",
   "license": "MIT",
   "description": "Azure ServiceBus SDK for JS",
   "homepage": "http://github.com/azure/azure-sdk-for-js",
