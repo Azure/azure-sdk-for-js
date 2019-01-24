@@ -972,6 +972,37 @@ export const OperationValue: msRest.CompositeMapper = {
   }
 };
 
+export const SubResource: msRest.CompositeMapper = {
+  serializedName: "SubResource",
+  type: {
+    name: "Composite",
+    className: "SubResource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterServicePrincipalProfile: msRest.CompositeMapper = {
   serializedName: "ManagedClusterServicePrincipalProfile",
   type: {
@@ -995,19 +1026,12 @@ export const ManagedClusterServicePrincipalProfile: msRest.CompositeMapper = {
   }
 };
 
-export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
-  serializedName: "ManagedClusterAgentPoolProfile",
+export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterAgentPoolProfileProperties",
   type: {
     name: "Composite",
-    className: "ManagedClusterAgentPoolProfile",
+    className: "ManagedClusterAgentPoolProfileProperties",
     modelProperties: {
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
       count: {
         required: true,
         serializedName: "count",
@@ -1072,6 +1096,116 @@ export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterAgentPoolProfile",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAgentPoolProfile",
+    modelProperties: {
+      ...ManagedClusterAgentPoolProfileProperties.type.modelProperties,
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPool: msRest.CompositeMapper = {
+  serializedName: "AgentPool",
+  type: {
+    name: "Composite",
+    className: "AgentPool",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      count: {
+        required: true,
+        serializedName: "properties.count",
+        defaultValue: 1,
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      vmSize: {
+        required: true,
+        serializedName: "properties.vmSize",
+        type: {
+          name: "String"
+        }
+      },
+      osDiskSizeGB: {
+        serializedName: "properties.osDiskSizeGB",
+        type: {
+          name: "Number"
+        }
+      },
+      vnetSubnetID: {
+        serializedName: "properties.vnetSubnetID",
+        type: {
+          name: "String"
+        }
+      },
+      maxPods: {
+        serializedName: "properties.maxPods",
+        type: {
+          name: "Number"
+        }
+      },
+      osType: {
+        serializedName: "properties.osType",
+        defaultValue: 'Linux',
+        type: {
+          name: "String"
+        }
+      },
+      maxCount: {
+        serializedName: "properties.maxCount",
+        type: {
+          name: "Number"
+        }
+      },
+      minCount: {
+        serializedName: "properties.minCount",
+        type: {
+          name: "Number"
+        }
+      },
+      enableAutoScaling: {
+        serializedName: "properties.enableAutoScaling",
+        type: {
+          name: "Boolean"
+        }
+      },
+      agentPoolType: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      kubernetesVersion: {
+        serializedName: "properties.kubernetesVersion",
         type: {
           name: "String"
         }
@@ -1674,6 +1808,35 @@ export const ManagedClusterListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ManagedCluster"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolListResult: msRest.CompositeMapper = {
+  serializedName: "AgentPoolListResult",
+  type: {
+    name: "Composite",
+    className: "AgentPoolListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AgentPool"
             }
           }
         }
