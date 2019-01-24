@@ -21,7 +21,7 @@ import {
   testMessagesWithSessions,
   testMessagesWithDifferentSessionIds,
   getSenderClient,
-  getReceiverClient,
+  getSessionClient,
   ClientType,
   testSessionId
 } from "./testUtils";
@@ -40,15 +40,9 @@ async function testPeekMsgsLength(
 
 let ns: Namespace;
 
-let partitionedQueueSessionClient: QueueClient;
+let senderClient: QueueClient | TopicClient;
+let sessionClient: QueueClient | SubscriptionClient;
 
-let partitionedTopicSessionClient: TopicClient;
-let partitionedSubscriptionSessionClient: SubscriptionClient;
-
-let unpartitionedQueueSessionClient: QueueClient;
-
-let unpartitionedTopicSessionClient: TopicClient;
-let unpartitionedSubscriptionSessionClient: SubscriptionClient;
 let unexpectedError: Error | undefined;
 
 function unExpectedErrorHandler(err: Error): void {
@@ -57,7 +51,7 @@ function unExpectedErrorHandler(err: Error): void {
   }
 }
 
-async function beforeEachTest(): Promise<void> {
+async function beforeEachTest(senderType: ClientType, sessionType: ClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -69,59 +63,8 @@ async function beforeEachTest(): Promise<void> {
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  // Partitioned Queues and Subscriptions with Sessions
-  partitionedQueueSessionClient = getSenderClient(
-    ns,
-    ClientType.PartitionedQueueWithSessions
-  ) as QueueClient;
-
-  partitionedTopicSessionClient = getSenderClient(
-    ns,
-    ClientType.PartitionedTopicWithSessions
-  ) as TopicClient;
-  partitionedSubscriptionSessionClient = getReceiverClient(
-    ns,
-    ClientType.PartitionedSubscriptionWithSessions
-  ) as SubscriptionClient;
-  // Unpartitioned Queues and Subscriptions with Sessions
-  unpartitionedQueueSessionClient = getSenderClient(
-    ns,
-    ClientType.UnpartitionedQueueWithSessions
-  ) as QueueClient;
-  unpartitionedTopicSessionClient = getSenderClient(
-    ns,
-    ClientType.UnpartitionedTopicWithSessions
-  ) as TopicClient;
-  unpartitionedSubscriptionSessionClient = getReceiverClient(
-    ns,
-    ClientType.UnpartitionedSubscriptionWithSessions
-  ) as SubscriptionClient;
-
-  const peekedPartitionedQueueSessionMsg = await partitionedQueueSessionClient.peek();
-  if (peekedPartitionedQueueSessionMsg.length) {
-    throw new Error("Please use an empty partitioned queue with sessions for integration testing");
-  }
-
-  const peekedPartitionedSubscriptionSessionMsg = await partitionedSubscriptionSessionClient.peek();
-  if (peekedPartitionedSubscriptionSessionMsg.length) {
-    throw new Error(
-      "Please use an empty partitioned Subscription with sessions for integration testing"
-    );
-  }
-
-  const peekedUnPartitionedQueueSessionMsg = await unpartitionedQueueSessionClient.peek();
-  if (peekedUnPartitionedQueueSessionMsg.length) {
-    throw new Error(
-      "Please use an empty unpartitioned queue with sessions for integration testing"
-    );
-  }
-
-  const peekedUnPartitionedSubscriptionSessionMsg = await unpartitionedSubscriptionSessionClient.peek();
-  if (peekedUnPartitionedSubscriptionSessionMsg.length) {
-    throw new Error(
-      "Please use an empty unpartitioned Subscription with sessions for integration testing"
-    );
-  }
+  senderClient = getSenderClient(ns, senderType);
+  sessionClient = getSessionClient(ns, sessionType);
 }
 
 async function afterEachTest(): Promise<void> {
@@ -129,18 +72,11 @@ async function afterEachTest(): Promise<void> {
 }
 
 describe("Accept a session by passing non-existing sessionId receives no messages", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest();
-  });
-
   afterEach(async () => {
     await afterEachTest();
   });
 
-  async function test_batching(
-    senderClient: QueueClient | TopicClient,
-    sessionClient: QueueClient | SubscriptionClient
-  ): Promise<void> {
+  async function test_batching(): Promise<void> {
     await senderClient.send(testMessagesWithSessions[0]);
 
     let receiverClient = await sessionClient.acceptSession({ sessionId: "non" + testSessionId });
@@ -161,31 +97,44 @@ describe("Accept a session by passing non-existing sessionId receives no message
   it("Partitioned Queues with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_batching(partitionedQueueSessionClient, partitionedQueueSessionClient);
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await test_batching();
   });
 
   it("Partitioned Topics and Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_batching(partitionedTopicSessionClient, partitionedSubscriptionSessionClient);
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await test_batching();
   });
 
   it("Unpartitioned Queues with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_batching(unpartitionedQueueSessionClient, unpartitionedQueueSessionClient);
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await test_batching();
   });
 
   it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_batching(unpartitionedTopicSessionClient, unpartitionedSubscriptionSessionClient);
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await test_batching();
   });
 
-  async function test_streaming(
-    senderClient: QueueClient | TopicClient,
-    sessionClient: QueueClient | SubscriptionClient
-  ): Promise<void> {
+  async function test_streaming(): Promise<void> {
     await senderClient.send(testMessagesWithSessions[0]);
 
     let receiverClient = await sessionClient.acceptSession({ sessionId: "non" + testSessionId });
@@ -216,41 +165,50 @@ describe("Accept a session by passing non-existing sessionId receives no message
   it("Partitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_streaming(partitionedQueueSessionClient, partitionedQueueSessionClient);
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await test_streaming();
   });
 
   it("Partitioned Topics and Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_streaming(partitionedTopicSessionClient, partitionedSubscriptionSessionClient);
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await test_streaming();
   });
 
   it("Unpartitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_streaming(unpartitionedQueueSessionClient, unpartitionedQueueSessionClient);
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await test_streaming();
   });
 
   it("Unpartitioned Topics and Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
-    await test_streaming(unpartitionedTopicSessionClient, unpartitionedSubscriptionSessionClient);
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await test_streaming();
   });
 });
 
 describe("Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest();
-  });
-
   afterEach(async () => {
     await afterEachTest();
   });
 
-  async function testComplete_batching(
-    senderClient: QueueClient | TopicClient,
-    sessionClient: QueueClient | SubscriptionClient
-  ): Promise<void> {
+  async function testComplete_batching(): Promise<void> {
     await senderClient.send(testMessagesWithDifferentSessionIds[0]);
     await senderClient.send(testMessagesWithDifferentSessionIds[1]);
     await delay(4000);
@@ -297,30 +255,40 @@ describe("Accept a session without passing sessionId and receive messages from r
   it("Partitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(partitionedQueueSessionClient, partitionedQueueSessionClient);
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testComplete_batching();
   });
 
   it("Partitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(
-      partitionedTopicSessionClient,
-      partitionedSubscriptionSessionClient
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
     );
+    await testComplete_batching();
   });
 
   it("Unpartitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(unpartitionedQueueSessionClient, unpartitionedQueueSessionClient);
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await testComplete_batching();
   });
 
   it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(
-      unpartitionedTopicSessionClient,
-      unpartitionedSubscriptionSessionClient
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
     );
+    await testComplete_batching();
   });
 });
