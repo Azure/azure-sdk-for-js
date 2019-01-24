@@ -302,6 +302,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
+    await delay(2000);
     should.equal(receivedMsgs.length, 0);
     await receiverClient.close();
 
@@ -320,7 +321,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it.only("Partitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await test_streaming(partitionedQueueSessionClient, partitionedQueueSessionClient);
