@@ -347,31 +347,23 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
   it("Partitioned Queues with Sessions: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
-<<<<<<< Updated upstream
-    await testDefer(partitionedQueueSessionClient, partitionedQueueMessageSession, true);
-=======
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions,
       true
     );
     await testDefer(senderClient, receiverClient, true);
->>>>>>> Stashed changes
   });
 
   it("Partitioned Topics and Subscription with Sessions: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
-<<<<<<< Updated upstream
-    await testDefer(partitionedTopicSessionClient, partitionedSubscriptionMessageSession, true);
-=======
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testDefer(senderClient, receiverClient, true);
->>>>>>> Stashed changes
   });
 
   // it("Unpartitioned Queues: defer() moves message to deferred queue", async function(): Promise<
