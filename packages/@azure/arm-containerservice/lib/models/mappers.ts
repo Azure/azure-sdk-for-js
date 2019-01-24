@@ -1099,6 +1099,19 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
         type: {
           name: "String"
         }
+      },
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1197,15 +1210,15 @@ export const AgentPool: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
+      kubernetesVersion: {
+        serializedName: "properties.kubernetesVersion",
         type: {
           name: "String"
         }
       },
-      kubernetesVersion: {
-        serializedName: "properties.kubernetesVersion",
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }

@@ -1035,6 +1035,18 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * 'AvailabilitySet'
    */
   type?: AgentPoolType;
+  /**
+   * @member {string} [kubernetesVersion] Version of Kubernetes specified when
+   * creating the managed cluster.
+   */
+  kubernetesVersion?: string;
+  /**
+   * @member {string} [provisioningState] The current deployment or
+   * provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
 }
 
 /**
@@ -1162,17 +1174,17 @@ export interface AgentPool extends SubResource {
    */
   agentPoolType?: AgentPoolType;
   /**
+   * @member {string} [kubernetesVersion] Version of Kubernetes specified when
+   * creating the managed cluster.
+   */
+  kubernetesVersion?: string;
+  /**
    * @member {string} [provisioningState] The current deployment or
    * provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly provisioningState?: string;
-  /**
-   * @member {string} [kubernetesVersion] Version of Kubernetes specified when
-   * creating the managed cluster.
-   */
-  kubernetesVersion?: string;
 }
 
 /**
