@@ -525,9 +525,40 @@ export class MessageSession extends LinkEntity {
     this._onMessage = onSessionMessage;
     this._onError = onError;
     const connectionId = this._context.namespace.connectionId;
+
+    /**
+     * Resets the timer when a new message is received for Session Manager.
+     * It will close the receiver gracefully, if no
+     * messages were received for the configured maxMessageWaitTimeoutInSeconds
+     * @ignore
+     */
+    const resetTimerOnNewMessageReceived = () => {
+      if (this.callee !== Callee.sessionManager) {
+        return;
+      }
+      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+      if (this.maxMessageWaitTimeoutInSeconds) {
+        this._newMessageReceivedTimer = setTimeout(async () => {
+          const msg =
+            `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
+            `any messages in the last ${
+              this.maxMessageWaitTimeoutInSeconds
+            } seconds. Hence closing it.`;
+          log.error("[%s] %s", this._context.namespace.connectionId, msg);
+
+          const error = translate({
+            condition: "com.microsoft:message-wait-timeout",
+            description: msg
+          });
+          this._notifyError(translate(error));
+          await this.close();
+        }, this.maxMessageWaitTimeoutInSeconds * 1000);
+      }
+    };
+
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
-        this._resetTimerOnNewMessageReceived();
+        resetTimerOnNewMessageReceived();
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
@@ -698,6 +729,30 @@ export class MessageSession extends LinkEntity {
         resolve(brokeredMessages);
       };
 
+      /**
+       * Resets the timer when a new message is received. It will close the receiver gracefully, if no
+       * messages were received for the configured maxMessageWaitTimeoutInSeconds
+       * @ignore
+       */
+
+      const resetTimerOnNewMessageReceived = () => {
+        if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+        if (this.maxMessageWaitTimeoutInSeconds) {
+          this._newMessageReceivedTimer = setTimeout(async () => {
+            const msg =
+              `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
+              `any messages in the last ${
+                this.maxMessageWaitTimeoutInSeconds
+              } seconds. Hence closing it.`;
+            log.error("[%s] %s", this._context.namespace.connectionId, msg);
+            finalAction();
+            if (this.callee === Callee.sessionManager) {
+              await this.close();
+            }
+          }, this.maxMessageWaitTimeoutInSeconds * 1000);
+        }
+      };
+
       // Action to be performed after the max wait time is over.
       actionAfterWaitTimeout = () => {
         log.batching(
@@ -711,7 +766,7 @@ export class MessageSession extends LinkEntity {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = async (context: EventContext) => {
-        this._resetTimerOnNewMessageReceived();
+        resetTimerOnNewMessageReceived();
         const data: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
@@ -1010,7 +1065,6 @@ export class MessageSession extends LinkEntity {
         this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
         await this._ensureTokenRenewal();
         await this._ensureSessionLockRenewal();
-        await this._resetTimerOnNewMessageReceived();
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
@@ -1127,33 +1181,6 @@ export class MessageSession extends LinkEntity {
         nextRenewalTimeout / 1000,
         new Date(Date.now() + nextRenewalTimeout).toString()
       );
-    }
-  }
-
-  /**
-   * Resets the timer when a new message is received. It will close the receiver gracefully, if no
-   * messages were received for the configured maxMessageWaitTimeoutInSeconds
-   * @ignore
-   */
-  private _resetTimerOnNewMessageReceived(): void {
-    if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-    if (this.maxMessageWaitTimeoutInSeconds) {
-      this._newMessageReceivedTimer = setTimeout(async () => {
-        const msg =
-          `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-          `any messages in the last ${
-            this.maxMessageWaitTimeoutInSeconds
-          } seconds. Hence closing it.`;
-        log.error("[%s] %s", this._context.namespace.connectionId, msg);
-        const error = translate({
-          condition: "com.microsoft:message-wait-timeout",
-          description: msg
-        });
-        this._notifyError(translate(error));
-        if (this.callee === Callee.sessionManager) {
-          await this.close();
-        }
-      }, this.maxMessageWaitTimeoutInSeconds * 1000);
     }
   }
 
