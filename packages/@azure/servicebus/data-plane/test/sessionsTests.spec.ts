@@ -13,6 +13,7 @@ import {
   TopicClient,
   SubscriptionClient,
   MessageSession,
+  delay,
   ServiceBusMessage
 } from "../lib";
 
@@ -24,7 +25,6 @@ import {
   ClientType,
   testSessionId
 } from "./testUtils";
-import { delay } from 'rhea-promise';
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient | MessageSession,
@@ -140,7 +140,6 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     senderClient: QueueClient | TopicClient,
     sessionClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-
     await senderClient.send(testMessagesWithSessions[0]);
 
     const receiverClient = await sessionClient.acceptSession();
@@ -155,7 +154,6 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-
   it("Partitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
@@ -165,7 +163,10 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Partitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(partitionedTopicSessionClient, partitionedSubscriptionSessionClient);
+    await testComplete_batching(
+      partitionedTopicSessionClient,
+      partitionedSubscriptionSessionClient
+    );
   });
 
   it("Unpartitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
@@ -177,14 +178,16 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(unpartitionedTopicSessionClient, unpartitionedSubscriptionSessionClient);
+    await testComplete_batching(
+      unpartitionedTopicSessionClient,
+      unpartitionedSubscriptionSessionClient
+    );
   });
 
   async function testComplete_streaming(
     senderClient: QueueClient | TopicClient,
     sessionClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-
     await senderClient.send(testMessagesWithSessions[0]);
 
     const receiverClient = await sessionClient.acceptSession();
@@ -196,17 +199,11 @@ describe("Accept a session without passing sessionId and receive messages - Queu
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === testMessagesWithSessions.length) {
-        break;
-      }
-    }
+    await delay(2000);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
-
 
   it("Partitioned Queues with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
     void
@@ -217,7 +214,10 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Partitioned Topics and Subscription with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_streaming(partitionedTopicSessionClient, partitionedSubscriptionSessionClient);
+    await testComplete_streaming(
+      partitionedTopicSessionClient,
+      partitionedSubscriptionSessionClient
+    );
   });
 
   it("Unpartitioned Queues with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
@@ -229,7 +229,10 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Unpartitioned Topics and Subscription with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_streaming(unpartitionedTopicSessionClient, unpartitionedSubscriptionSessionClient);
+    await testComplete_streaming(
+      unpartitionedTopicSessionClient,
+      unpartitionedSubscriptionSessionClient
+    );
   });
 });
 
@@ -246,14 +249,13 @@ describe("Accept a session by passing non-existing sessionId - Queue/Subscriptio
     senderClient: QueueClient | TopicClient,
     sessionClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-
     await senderClient.send(testMessagesWithSessions[0]);
 
-    let receiverClient = await sessionClient.acceptSession({sessionId:"non"+testSessionId});
-    let msgs = await receiverClient.receiveBatch(1,10);
+    let receiverClient = await sessionClient.acceptSession({ sessionId: "non" + testSessionId });
+    let msgs = await receiverClient.receiveBatch(1, 10);
     should.equal(msgs.length, 0);
 
-    receiverClient = await sessionClient.acceptSession({sessionId: testSessionId});
+    receiverClient = await sessionClient.acceptSession({ sessionId: testSessionId });
     await testPeekMsgsLength(receiverClient, 1);
     msgs = await receiverClient.receiveBatch(1);
     should.equal(Array.isArray(msgs), true);
@@ -262,7 +264,6 @@ describe("Accept a session by passing non-existing sessionId - Queue/Subscriptio
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
-
 
   it("Partitioned Queues with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
@@ -292,10 +293,9 @@ describe("Accept a session by passing non-existing sessionId - Queue/Subscriptio
     senderClient: QueueClient | TopicClient,
     sessionClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-
     await senderClient.send(testMessagesWithSessions[0]);
 
-    let receiverClient = await sessionClient.acceptSession({sessionId:"non"+testSessionId});
+    let receiverClient = await sessionClient.acceptSession({ sessionId: "non" + testSessionId });
     let receivedMsgs: ServiceBusMessage[] = [];
     receiverClient.receive((messageSession: MessageSession, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
@@ -303,8 +303,7 @@ describe("Accept a session by passing non-existing sessionId - Queue/Subscriptio
     }, unExpectedErrorHandler);
     should.equal(receivedMsgs.length, 0);
 
-
-    receiverClient = await sessionClient.acceptSession({sessionId: testSessionId});
+    receiverClient = await sessionClient.acceptSession({ sessionId: testSessionId });
     await testPeekMsgsLength(receiverClient, 1);
     receivedMsgs = [];
     receiverClient.receive((messageSession: MessageSession, msg: ServiceBusMessage) => {
@@ -313,18 +312,11 @@ describe("Accept a session by passing non-existing sessionId - Queue/Subscriptio
       should.equal(msg.messageId, testMessagesWithSessions[0].messageId);
       return Promise.resolve();
     }, unExpectedErrorHandler);
-    
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === testMessagesWithSessions.length) {
-        break;
-      }
-    }
+    await delay(2000);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
-
 
   it("Partitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
@@ -364,7 +356,6 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     senderClient: QueueClient | TopicClient,
     sessionClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-
     await senderClient.send(testMessagesWithDifferentSessionIds[0]);
     await senderClient.send(testMessagesWithDifferentSessionIds[1]);
     await delay(4000);
@@ -374,14 +365,19 @@ describe("Accept a session without passing sessionId and receive messages - Queu
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
-    
+
     should.equal(
-      testMessagesWithDifferentSessionIds.some((x) => msgs[0].body === x.body && msgs[0].messageId === x.messageId && msgs[0].sessionId === x.sessionId),
+      testMessagesWithDifferentSessionIds.some(
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
+      ),
       true,
       "Received Message doesnt match any of the test messages"
     );
     await msgs[0].complete();
-    
+
     receiverClient = await sessionClient.acceptSession();
     await testPeekMsgsLength(receiverClient, 1);
     msgs = await receiverClient.receiveBatch(2);
@@ -389,14 +385,18 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
     should.equal(
-      testMessagesWithDifferentSessionIds.some((x) => msgs[0].body === x.body && msgs[0].messageId === x.messageId && msgs[0].sessionId === x.sessionId),
+      testMessagesWithDifferentSessionIds.some(
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
+      ),
       true,
       "Received Message doesnt match any of the test messages"
     );
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
-
 
   it("Partitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
@@ -407,7 +407,10 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Partitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(partitionedTopicSessionClient, partitionedSubscriptionSessionClient);
+    await testComplete_batching(
+      partitionedTopicSessionClient,
+      partitionedSubscriptionSessionClient
+    );
   });
 
   it("Unpartitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
@@ -419,14 +422,16 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_batching(unpartitionedTopicSessionClient, unpartitionedSubscriptionSessionClient);
+    await testComplete_batching(
+      unpartitionedTopicSessionClient,
+      unpartitionedSubscriptionSessionClient
+    );
   });
 
   async function testComplete_streaming(
     senderClient: QueueClient | TopicClient,
     sessionClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-
     await senderClient.send(testMessagesWithDifferentSessionIds[0]);
     await senderClient.send(testMessagesWithDifferentSessionIds[1]);
     await delay(4000);
@@ -436,24 +441,29 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     receiverClient.receive((messageSession: MessageSession, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(
-        testMessagesWithDifferentSessionIds.some((x) => msg.body === x.body && msg.messageId === x.messageId && msg.sessionId === x.sessionId),
+        testMessagesWithDifferentSessionIds.some(
+          (x) =>
+            msg.body === x.body && msg.messageId === x.messageId && msg.sessionId === x.sessionId
+        ),
         true,
         "Received Message doesnt match any of the test messages"
       );
       return Promise.resolve();
     }, unExpectedErrorHandler);
-    
+
     await delay(4000);
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-
 
     receiverClient = await sessionClient.acceptSession();
     receivedMsgs = [];
     receiverClient.receive((messageSession: MessageSession, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(
-        testMessagesWithDifferentSessionIds.some((x) => msg.body === x.body && msg.messageId === x.messageId && msg.sessionId === x.sessionId),
+        testMessagesWithDifferentSessionIds.some(
+          (x) =>
+            msg.body === x.body && msg.messageId === x.messageId && msg.sessionId === x.sessionId
+        ),
         true,
         "Received Message doesnt match any of the test messages"
       );
@@ -467,7 +477,6 @@ describe("Accept a session without passing sessionId and receive messages - Queu
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-
   it("Partitioned Queues with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
     void
   > {
@@ -477,7 +486,10 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Partitioned Topics and Subscription with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_streaming(partitionedTopicSessionClient, partitionedSubscriptionSessionClient);
+    await testComplete_streaming(
+      partitionedTopicSessionClient,
+      partitionedSubscriptionSessionClient
+    );
   });
 
   it("Unpartitioned Queues with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
@@ -489,6 +501,9 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   it("Unpartitioned Topics and Subscription with Sessions - Streaming Receiver: complete() removes message", async function(): Promise<
     void
   > {
-    await testComplete_streaming(unpartitionedTopicSessionClient, unpartitionedSubscriptionSessionClient);
+    await testComplete_streaming(
+      unpartitionedTopicSessionClient,
+      unpartitionedSubscriptionSessionClient
+    );
   });
 });
