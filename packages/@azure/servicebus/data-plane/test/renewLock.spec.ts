@@ -726,8 +726,6 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   await senderClient.send(testMessage);
 
-  await delay(5000);
-
   const msgs = await receiverClient.receiveBatch(1);
 
   // Compute expected initial lock duration
