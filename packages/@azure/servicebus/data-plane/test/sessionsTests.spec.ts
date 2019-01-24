@@ -236,7 +236,7 @@ describe("Accept a session without passing sessionId and receive messages - Queu
   });
 });
 
-describe("Accept a session by passing non-existing sessionId - Queue/Subscription has messages belonging to same sessionId", function(): void {
+describe("Accept a session by passing non-existing sessionId receives no messages", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -255,6 +255,7 @@ describe("Accept a session by passing non-existing sessionId - Queue/Subscriptio
     let msgs = await receiverClient.receiveBatch(1, 10);
     should.equal(msgs.length, 0);
 
+    await receiverClient.close();
     receiverClient = await sessionClient.acceptSession({ sessionId: testSessionId });
     await testPeekMsgsLength(receiverClient, 1);
     msgs = await receiverClient.receiveBatch(1);
@@ -302,6 +303,7 @@ describe("Accept a session by passing non-existing sessionId - Queue/Subscriptio
       return Promise.resolve();
     }, unExpectedErrorHandler);
     should.equal(receivedMsgs.length, 0);
+    await receiverClient.close();
 
     receiverClient = await sessionClient.acceptSession({ sessionId: testSessionId });
     await testPeekMsgsLength(receiverClient, 1);
@@ -377,6 +379,7 @@ describe("Accept a session without passing sessionId and receive messages - Queu
       "Received Message doesnt match any of the test messages"
     );
     await msgs[0].complete();
+    await receiverClient.close();
 
     receiverClient = await sessionClient.acceptSession();
     await testPeekMsgsLength(receiverClient, 1);
@@ -453,6 +456,7 @@ describe("Accept a session without passing sessionId and receive messages - Queu
 
     await delay(4000);
 
+    await receiverClient.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     receiverClient = await sessionClient.acceptSession();
