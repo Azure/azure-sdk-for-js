@@ -12,8 +12,8 @@ import { RestError } from "./restError";
 import { WebResource, HttpRequestBody } from "./webResource";
 import * as tunnel from "tunnel";
 import { ProxySettings } from "./serviceClient";
-import http from "http";
-import https from "https";
+import * as http from "http";
+import * as https from "https";
 import { URLBuilder } from "./url";
 
 /**
