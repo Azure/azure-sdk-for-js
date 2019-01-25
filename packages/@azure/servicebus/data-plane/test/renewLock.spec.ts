@@ -116,7 +116,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -127,7 +126,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -138,7 +136,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -202,7 +199,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -213,7 +209,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -224,7 +219,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -295,7 +289,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -306,7 +299,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -317,7 +309,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -383,7 +374,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -394,7 +384,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -405,7 +394,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -472,7 +460,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -483,7 +470,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -494,7 +480,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -567,7 +552,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -578,7 +562,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -589,7 +572,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -660,7 +642,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -671,7 +652,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -682,7 +662,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -745,7 +724,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
       });
@@ -756,7 +734,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: undefined,
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
-          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: true
         });
       });
@@ -767,7 +744,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 15,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
       });
@@ -1012,7 +988,6 @@ async function testStreamingReceiverManualLockRenewalErrorOnLockExpiry(
 interface AutoLockRenewalTestOptions {
   maxAutoRenewDurationInSeconds: number | undefined;
   delayBeforeAttemptingToCompleteMessageInSeconds: number;
-  expectedTotalLockDurationInSeconds: number;
   willCompleteFail: boolean;
 }
 
@@ -1053,13 +1028,6 @@ async function testAutoLockRenewalConfigBehavior(
       // Compute expected lock duration after induced delay
       expectedLockExpiryTimeUtc.setSeconds(
         initialTimeUtc.getSeconds() + options.expectedTotalLockDurationInSeconds
-      );
-
-      // Verify actual lock duration is reset
-      assertTimestampsAreApproximatelyEqual(
-        brokeredMessage.lockedUntilUtc,
-        expectedLockExpiryTimeUtc,
-        "After induced delay"
       );
 
       let errorWasThrown: boolean = false;
