@@ -235,8 +235,8 @@ export interface ResourceSku {
   name: string;
   /**
    * @member {SignalRSkuTier} [tier] Optional tier of this particular SKU.
-   * `Basic` is deprecated, use `Standard` instead for Basic tier. Possible
-   * values include: 'Free', 'Basic', 'Standard', 'Premium'
+   * `Basic` is deprecated, use `Standard` instead. Possible values include:
+   * 'Free', 'Basic', 'Standard', 'Premium'
    */
   tier?: SignalRSkuTier;
   /**
@@ -350,14 +350,14 @@ export interface SignalRResource extends TrackedResource {
    */
   readonly hostName?: string;
   /**
-   * @member {number} [publicPort] The publicly accessibly port of the SignalR
+   * @member {number} [publicPort] The publicly accessible port of the SignalR
    * service which is designed for browser/client side usage.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly publicPort?: number;
   /**
-   * @member {number} [serverPort] The publicly accessibly port of the SignalR
+   * @member {number} [serverPort] The publicly accessible port of the SignalR
    * service which is designed for customer server side usage.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -473,6 +473,68 @@ export interface SignalRCreateParameters extends SignalRUpdateParameters {
 
 /**
  * @interface
+ * An interface representing SignalRFeature.
+ * Feature of a SignalR resource, which controls the SignalR runtime behavior.
+ *
+ */
+export interface SignalRFeature {
+  /**
+   * @member {string} value Value of the feature flag. See Azure SignalR
+   * service document https://docs.microsoft.com/en-us/azure/azure-signalr/ for
+   * allowed values.
+   */
+  value: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [properties] Optional
+   * properties related to this feature.
+   */
+  properties?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing SignalRFeaturesParameters.
+ * Parameters for SignalR service instance features management opreations.
+ *
+ */
+export interface SignalRFeaturesParameters {
+  /**
+   * @member {SignalRFeature[]} features List of features.
+   *
+   * If certain feature is not present, SignalR service will remain it
+   * unchanged or use the global default value.
+   * Note that, default value doesn't mean "false". It varies in terms of
+   * different FeatureFlags.
+   */
+  features: SignalRFeature[];
+}
+
+/**
+ * @interface
+ * An interface representing SignalRFeatureList.
+ * A class that represents a list of SignalRFeatures related to SignalR
+ * resource.
+ *
+ */
+export interface SignalRFeatureList {
+  /**
+   * @member {SignalRFeature[]} [value] List of features.
+   * Note that, if a feature is not included in the list, which only means user
+   * never set it explicitly rather than 'false'.
+   * In this case, SignalR service will use a globally default value which
+   * might be 'true' or 'false'.
+   */
+  value?: SignalRFeature[];
+  /**
+   * @member {string} [nextLink] The URL the client should use to fetch the
+   * next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing SignalRUsageName.
  * Localizable String object containing the name and a localized value.
  *
@@ -583,6 +645,21 @@ export interface SignalRUpdateOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * @interface
+ * An interface representing SignalRSwitchFeaturesOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SignalRSwitchFeaturesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {SignalRFeaturesParameters} [parameters] Parameters that describes
+   * the SignalR resource features opreation.
+   */
+  parameters?: SignalRFeaturesParameters;
+}
+
+/**
+ * @interface
  * An interface representing SignalRBeginRegenerateKeyOptionalParams.
  * Optional Parameters.
  *
@@ -624,6 +701,21 @@ export interface SignalRBeginUpdateOptionalParams extends msRest.RequestOptionsB
    * operation
    */
   parameters?: SignalRUpdateParameters;
+}
+
+/**
+ * @interface
+ * An interface representing SignalRBeginSwitchFeaturesOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SignalRBeginSwitchFeaturesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {SignalRFeaturesParameters} [parameters] Parameters that describes
+   * the SignalR resource features opreation.
+   */
+  parameters?: SignalRFeaturesParameters;
 }
 
 /**
@@ -802,6 +894,30 @@ export type ApiVersion9 = '2018-03-01-preview' | '2018-10-01';
  * @enum {string}
  */
 export type ApiVersion10 = '2018-03-01-preview' | '2018-10-01';
+
+/**
+ * Defines values for ApiVersion11.
+ * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiVersion11 = '2018-03-01-preview' | '2018-10-01';
+
+/**
+ * Defines values for ApiVersion12.
+ * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiVersion12 = '2018-03-01-preview' | '2018-10-01';
+
+/**
+ * Defines values for ApiVersion13.
+ * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiVersion13 = '2018-03-01-preview' | '2018-10-01';
 
 /**
  * Contains response data for the list operation.
@@ -994,6 +1110,44 @@ export type SignalRUpdateResponse = SignalRResource & {
 };
 
 /**
+ * Contains response data for the switchFeatures operation.
+ */
+export type SignalRSwitchFeaturesResponse = SignalRFeatureList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRFeatureList;
+    };
+};
+
+/**
+ * Contains response data for the listFeatures operation.
+ */
+export type SignalRListFeaturesResponse = SignalRFeatureList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRFeatureList;
+    };
+};
+
+/**
  * Contains response data for the beginRegenerateKey operation.
  */
 export type SignalRBeginRegenerateKeyResponse = SignalRKeys & {
@@ -1047,6 +1201,25 @@ export type SignalRBeginUpdateResponse = SignalRResource & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SignalRResource;
+    };
+};
+
+/**
+ * Contains response data for the beginSwitchFeatures operation.
+ */
+export type SignalRBeginSwitchFeaturesResponse = SignalRFeatureList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignalRFeatureList;
     };
 };
 

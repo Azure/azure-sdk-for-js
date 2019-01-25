@@ -234,6 +234,67 @@ export class SignalR {
   }
 
   /**
+   * Operation to restart a SignalR service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  restart(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName,resourceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Switch on/off SignalR resource features.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SignalRSwitchFeaturesResponse>
+   */
+  switchFeatures(resourceGroupName: string, resourceName: string, options?: Models.SignalRSwitchFeaturesOptionalParams): Promise<Models.SignalRSwitchFeaturesResponse> {
+    return this.beginSwitchFeatures(resourceGroupName,resourceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SignalRSwitchFeaturesResponse>;
+  }
+
+  /**
+   * List SignalR resource features.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SignalRListFeaturesResponse>
+   */
+  listFeatures(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListFeaturesResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param callback The callback
+   */
+  listFeatures(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.SignalRFeatureList>): void;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listFeatures(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRFeatureList>): void;
+  listFeatures(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRFeatureList>, callback?: msRest.ServiceCallback<Models.SignalRFeatureList>): Promise<Models.SignalRListFeaturesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      listFeaturesOperationSpec,
+      callback) as Promise<Models.SignalRListFeaturesResponse>;
+  }
+
+  /**
    * Regenerate SignalR service access key. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
@@ -307,6 +368,44 @@ export class SignalR {
         options
       },
       beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Operation to restart a SignalR service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRestart(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      beginRestartOperationSpec,
+      options);
+  }
+
+  /**
+   * Switch on/off SignalR resource features.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the SignalR resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginSwitchFeatures(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginSwitchFeaturesOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      beginSwitchFeaturesOperationSpec,
       options);
   }
 
@@ -497,6 +596,31 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/listFeatures",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SignalRFeatureList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/regenerateKey",
@@ -610,6 +734,62 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SignalRResource
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRestartOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/restart",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginSwitchFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/switchFeatures",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
+    mapper: Mappers.SignalRFeaturesParameters
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SignalRFeatureList
     },
     202: {},
     default: {

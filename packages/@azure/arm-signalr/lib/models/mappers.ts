@@ -557,6 +557,98 @@ export const SignalRCreateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const SignalRFeature: msRest.CompositeMapper = {
+  serializedName: "SignalRFeature",
+  type: {
+    name: "Composite",
+    className: "SignalRFeature",
+    modelProperties: {
+      flag: {
+        required: true,
+        isConstant: true,
+        serializedName: "flag",
+        defaultValue: 'ServiceMode',
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        constraints: {
+          MaxLength: 128,
+          MinLength: 1
+        },
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SignalRFeaturesParameters: msRest.CompositeMapper = {
+  serializedName: "SignalRFeaturesParameters",
+  type: {
+    name: "Composite",
+    className: "SignalRFeaturesParameters",
+    modelProperties: {
+      features: {
+        required: true,
+        serializedName: "features",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SignalRFeature"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SignalRFeatureList: msRest.CompositeMapper = {
+  serializedName: "SignalRFeatureList",
+  type: {
+    name: "Composite",
+    className: "SignalRFeatureList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SignalRFeature"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SignalRUsageName: msRest.CompositeMapper = {
   serializedName: "SignalRUsageName",
   type: {

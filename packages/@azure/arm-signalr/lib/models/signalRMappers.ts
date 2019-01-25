@@ -22,6 +22,9 @@ export {
   RegenerateKeyParameters,
   SignalRCreateParameters,
   SignalRUpdateParameters,
-  SignalRCreateOrUpdateProperties
+  SignalRCreateOrUpdateProperties,
+  SignalRFeaturesParameters,
+  SignalRFeature,
+  SignalRFeatureList
 } from "../models/mappers";
 
