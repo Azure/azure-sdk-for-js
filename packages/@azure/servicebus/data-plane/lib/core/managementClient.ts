@@ -704,7 +704,7 @@ export class ManagementClient extends LinkEntity {
         undefined
       );
       const receiverSettleMode: number = receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1;
-      messageBody[Constants.receiverSettleMode] = types.wrap_ubyte(receiverSettleMode);
+      messageBody[Constants.receiverSettleMode] = types.wrap_uint(receiverSettleMode);
       if (sessionId != undefined) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
