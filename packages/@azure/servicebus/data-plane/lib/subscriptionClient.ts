@@ -100,7 +100,7 @@ export class SubscriptionClient extends Client {
    *
    * @param onMessage - Callback for each incoming message.
    * @param onError - Callback for any error that occurs while receiving messages.
-   * @param options - Options to control whether messages should be automatically completed or
+   * @param options - Options to control whether messages should be automatically completed and/or
    * automatically have their locks renewed.
    *
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
@@ -336,11 +336,11 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Creates a session client with given sessionId in the ServiceBus Queue.
+   * Creates a session client with given sessionId in the ServiceBus Subscription.
    * When no sessionId is given, a random session among the available sessions is used.
    *
-   * @param options Options to control whether messages should be automatically completed or
-   * if the session should get its lock automatically renewed.
+   * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
+   * session enabled Servicebus Subscription.
    *
    * @returns SessionClient An instance of a SessionClient to receive messages from the session.
    */

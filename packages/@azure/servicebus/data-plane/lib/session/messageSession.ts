@@ -479,11 +479,14 @@ export class SessionClient extends LinkEntity {
   }
 
   /**
-   * Receives messages from a session enabled entity.
-   * @param onMessage The message handler to receive service bus messages from a session
-   * enabled entity.
-   * @param onError The error handler to receive an error that occurs while receiving messages
-   * from a session enabled entity.
+   * Starts the receiver in streaming mode by establishing an AMQP session and an AMQP receiver
+   * link on the session.
+   * To stop receiving messages, call `close()` on the SessionClient.
+   *
+   * @param onSessionMessage Callback for each incoming message.
+   * @param onError Callback for any error that occurs while receiving messages.
+   * @param options - Options to control whether messages should be automatically completed and/or
+   * automatically have the session lock renewed.
    */
   receive(
     onSessionMessage: OnSessionMessage,

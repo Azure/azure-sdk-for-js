@@ -117,11 +117,8 @@ export class QueueClient extends Client {
 
   /**
    * Sends the given message to a ServiceBus Queue.
-   * - For sending a message to a `session` enabled Queue, please set the `sessionId` property of
-   * the message.
-   * - For sending a message to a `partition` enabled Queue, please set the `partitionKey` property
-   * of the message.
-   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
+   * To send a message to a `session` or `partition` enabled Queue, please set the
+   * `sessionId` property and `partitionKey` properties respectively.
    *
    * @param data - Message to send.
    * @returns Promise<void>
@@ -133,11 +130,11 @@ export class QueueClient extends Client {
 
   /**
    * Sends a batch of SendableMessageInfo to the ServiceBus Queue in a single AMQP message.
-   * - For sending a message to a `session` enabled Queue, please set the `sessionId` property of
-   * the message.
-   * - For sending a message to a `partition` enabled Queue, please set the `partitionKey` property
-   * of the message.
-   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
+   * To send messages to a `session` or `partition` enabled Queue, please set the
+   * `sessionId` property and `partitionKey` properties respectively.
+   *
+   * All messages in the batch should have the same `sessionId` and `partitionKey` properties.
+   * If sending to a `partition` enabled Queue, `partitionKey` is mandatory.
    *
    * @param datas - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
@@ -153,7 +150,7 @@ export class QueueClient extends Client {
    *
    * @param onMessage - Callback for each incoming message.
    * @param onError - Callback for any error that occurs while receiving messages.
-   * @param options - Options to control whether messages should be automatically completed or
+   * @param options - Options to control whether messages should be automatically completed and/or
    * automatically have their locks renewed.
    *
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
@@ -414,8 +411,8 @@ export class QueueClient extends Client {
    * Creates a session client with given sessionId in the ServiceBus Queue.
    * When no sessionId is given, a random session among the available sessions is used.
    *
-   * @param options Options to control whether messages should be automatically completed or
-   * if the session should get its lock automatically renewed.
+   * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
+   * session enabled Servicebus Queue.
    *
    * @returns SessionClient An instance of a SessionClient to receive messages from the session.
    */
