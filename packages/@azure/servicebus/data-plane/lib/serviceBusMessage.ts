@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
 
 import Long from "long";
 import {
@@ -893,7 +893,10 @@ export class ServiceBusMessage implements ReceivedMessage {
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
         [this.lockToken!],
-        DispositionStatus.completed
+        DispositionStatus.completed,
+        {
+          sessionId: this.sessionId
+        }
       );
 
       // Remove the message from the internal map of deferred messages
@@ -931,7 +934,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         [this.lockToken!],
         DispositionStatus.abandoned,
-        { propertiesToModify: propertiesToModify }
+        { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
       // Remove the message from the internal map of deferred messages
@@ -973,7 +976,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       await this._context.managementClient!.updateDispositionStatus(
         [this.lockToken!],
         DispositionStatus.defered,
-        { propertiesToModify: propertiesToModify }
+        { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
       );
 
       // Remove the message from the internal map of deferred messages
@@ -1023,7 +1026,8 @@ export class ServiceBusMessage implements ReceivedMessage {
         DispositionStatus.suspended,
         {
           deadLetterReason: error.condition,
-          deadLetterDescription: error.description
+          deadLetterDescription: error.description,
+          sessionId: this.sessionId
         }
       );
 

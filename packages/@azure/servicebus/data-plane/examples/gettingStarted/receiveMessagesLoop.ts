@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   try {
     for (let i = 0; i < 10; i++) {
       const messages = await client.receiveBatch(1);
-      console.log(`Received message #${i}: ${messages[i].body}`);
+      console.log(`Received message #${i}: ${messages[0].body}`);
       await messages[0].complete();
     }
     await client.close();

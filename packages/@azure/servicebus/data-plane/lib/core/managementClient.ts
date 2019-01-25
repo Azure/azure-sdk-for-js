@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License.
+
 import Long from "long";
 import {
   EventContext,
@@ -154,7 +155,7 @@ export interface ScheduleMessage {
   scheduledEnqueueTimeUtc: Date;
 }
 
-export interface DispositionStatusOptions {
+interface DispositionStatusOptions {
   /**
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
    * to modify.
@@ -170,6 +171,10 @@ export interface DispositionStatusOptions {
    * is set to suspended.
    */
   deadLetterDescription?: string;
+  /**
+   * This should only be provided if `session` is enabled for a Queue or Topic.
+   */
+  sessionId?: string;
 }
 
 export interface ManagementClientOptions {
@@ -792,6 +797,9 @@ export class ManagementClient extends LinkEntity {
       }
       if (options.propertiesToModify != undefined) {
         messageBody[Constants.propertiesToModify] = options.propertiesToModify;
+      }
+      if (options.sessionId != undefined) {
+        messageBody[Constants.sessionIdMapKey] = options.sessionId;
       }
       const request: AmqpMessage = {
         body: messageBody,
