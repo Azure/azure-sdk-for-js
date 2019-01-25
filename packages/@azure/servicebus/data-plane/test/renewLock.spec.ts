@@ -98,21 +98,6 @@ describe("Premium", function(): void {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
-      });
-
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
         void
       > {
@@ -189,21 +174,6 @@ describe("Premium", function(): void {
         void
       > {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
-
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
       });
 
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
@@ -291,21 +261,6 @@ describe("Standard", function(): void {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
-      });
-
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
         void
       > {
@@ -384,21 +339,6 @@ describe("Standard", function(): void {
         void
       > {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
-
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
       });
 
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
@@ -480,21 +420,6 @@ describe("Standard", function(): void {
         void
       > {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
-
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
       });
 
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
@@ -584,21 +509,6 @@ describe("Standard", function(): void {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
-      });
-
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
         void
       > {
@@ -684,21 +594,6 @@ describe("Basic", function(): void {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
-      });
-
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
         void
       > {
@@ -774,21 +669,6 @@ describe("Basic", function(): void {
         void
       > {
         await testStreamingReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
-
-      it("Receive a msg using Streaming Receiver, whitebox test on 20 second increment", async function(): Promise<
-        void
-      > {
-        /*
-            maxAutoRenewDurationInSeconds: number,
-            receiveClientTimeoutInSeconds: number
-            */
-        await testAutoLockRenewalConfigWhiteBox20SecondIncrement(
-          senderClient,
-          receiverClient,
-          60,
-          80
-        );
       });
 
       it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
