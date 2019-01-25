@@ -104,7 +104,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -187,7 +186,6 @@ describe("Premium", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -277,7 +275,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -362,7 +359,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -448,7 +444,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -540,7 +535,6 @@ describe("Standard", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -630,7 +624,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -712,7 +705,6 @@ describe("Basic", function(): void {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxAutoRenewDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -1024,11 +1016,6 @@ async function testAutoLockRenewalConfigBehavior(
 
       // Sleeping...
       await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
-
-      // Compute expected lock duration after induced delay
-      expectedLockExpiryTimeUtc.setSeconds(
-        initialTimeUtc.getSeconds() + options.expectedTotalLockDurationInSeconds
-      );
 
       let errorWasThrown: boolean = false;
       await brokeredMessage.complete().catch((err) => {
