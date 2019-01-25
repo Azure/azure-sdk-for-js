@@ -361,41 +361,41 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await testDefer(true);
   });
 
-  // it("Unpartitioned Queues: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  // await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-  //   await testDefer();
-  // });
+  it("Unpartitioned Queues: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testDefer();
+  });
 
-  // it("Unpartitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  // await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-  //   await testDefer();
-  // });
+  it("Unpartitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testDefer();
+  });
 
-  // it("Unpartitioned Queues with Sessions: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  // await beforeEachTest(
-  //   ClientType.UnpartitionedQueueWithSessions,
-  //   ClientType.UnpartitionedQueueWithSessions,
-  //   true
-  // );
-  //   await testDefer(true);
-  // });
+  it("Unpartitioned Queues with Sessions: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testDefer(true);
+  });
 
-  // it("Unpartitioned Topics and Subscription with Sessions: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  // await beforeEachTest(
-  //   ClientType.UnpartitionedTopicWithSessions,
-  //   ClientType.UnpartitionedSubscriptionWithSessions,
-  //   true
-  // );
-  //   await testDefer(true);
-  // });
+  it("Unpartitioned Topics and Subscription with Sessions: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testDefer(true);
+  });
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -639,19 +639,19 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
     await testDefer();
   });
 
-  // it("Unpartitioned Queues: Defer a message received from dead letter queue", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-  //   await testDefer();
-  // });
+  it("Unpartitioned Queues: Defer a message received from dead letter queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testDefer();
+  });
 
-  // it("Unpartitioned Topics and Subscription: Defer a message received from dead letter queue", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-  //   await testDefer();
-  // });
+  it("Unpartitioned Topics and Subscription: Defer a message received from dead letter queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testDefer();
+  });
 });
 
 describe("Multiple ReceiveBatch calls", function(): void {
