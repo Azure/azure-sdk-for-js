@@ -71,6 +71,12 @@ export interface SessionMessageHandlerOptions {
    * - **Default**: `true`.
    */
   autoComplete?: boolean;
+  /**
+   * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the session
+   * receiver will wait after a message has been received. If no messages are received in that
+   * time frame then the session will be closed.
+   */
+  maxMessageWaitTimeoutInSeconds?: number;
 }
 /**
  * Describes the options for creating a SessionClient.
@@ -96,12 +102,6 @@ export interface SessionManagerOptions extends SessionMessageHandlerOptions {
    * - **Default**: `2000`.
    */
   maxConcurrentSessions?: number;
-  /**
-   * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the session
-   * receiver will wait after a message has been received. If no messages are received in that
-   * time frame then the session will be closed.
-   */
-  maxMessageWaitTimeoutInSeconds?: number;
 }
 
 /**
@@ -508,6 +508,7 @@ export class SessionClient extends LinkEntity {
     if (!options) options = {};
     this._isReceivingMessages = true;
     this.maxConcurrentCallsPerSession = 1;
+    this.maxMessageWaitTimeoutInSeconds = options.maxMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
@@ -1183,9 +1184,6 @@ export class SessionClient extends LinkEntity {
     options?: MessageSessionOptions
   ): Promise<SessionClient> {
     const messageSession = new SessionClient(context, options);
-    if (options && options.maxMessageWaitTimeoutInSeconds) {
-      messageSession.maxMessageWaitTimeoutInSeconds = options.maxMessageWaitTimeoutInSeconds;
-    }
     await messageSession._init();
     return messageSession;
   }
