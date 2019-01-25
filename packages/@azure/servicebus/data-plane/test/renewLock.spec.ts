@@ -30,6 +30,8 @@ import { delay } from "rhea-promise";
   PREMIUM_QUEUE_SESSION=unpartitioned-sessions-queue
   PREMIUM_TOPIC=unpartitioned-topic
   PREMIUM_TOPIC_SESSION=unpartitioned-sessions-topic
+  PREMIUM_SUBSCRIPTION=unpartitioned-subscription
+  PREMIUM_SUBSCRIPTION_SESSION=unpartitioned-sessions-subscription
 
   STANDARD_SERVICEBUS_CONNECTION_STRING=
   STANDARD_QUEUE_PARTITION=partitioned-queue
@@ -118,7 +120,7 @@ describe("Premium", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -131,12 +133,21 @@ describe("Premium", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
@@ -202,7 +213,7 @@ describe("Premium", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -215,12 +226,21 @@ describe("Premium", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
@@ -293,7 +313,7 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -306,12 +326,21 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
@@ -379,7 +408,7 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -392,12 +421,21 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
@@ -466,7 +504,7 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -479,12 +517,21 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
@@ -559,7 +606,7 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -572,12 +619,21 @@ describe("Standard", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
@@ -650,7 +706,7 @@ describe("Basic", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -663,12 +719,21 @@ describe("Basic", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
@@ -733,7 +798,7 @@ describe("Basic", function(): void {
           maxAutoRenewDurationInSeconds: 0,
           receiveClientTimeoutInSeconds: 40,
           delayBeforeAttemptingToReceiveInSeconds: 31,
-          expectedTotalLockDurationInSeconds: 0,
+          expectedTotalLockDurationInSeconds: 30,
           willCompleteFail: true
         });
         // Complete fails as expected
@@ -746,12 +811,21 @@ describe("Basic", function(): void {
           maxAutoRenewDurationInSeconds: undefined,
           receiveClientTimeoutInSeconds: 330,
           delayBeforeAttemptingToReceiveInSeconds: 299,
-          expectedTotalLockDurationInSeconds: 300,
+          expectedTotalLockDurationInSeconds: 330,
           willCompleteFail: false
         });
-        // ERROR:
-        // Lock expiry time increases by 300 seconds
-        // Complete does not fail after 300 seconds
+      });
+
+      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
+        void
+      > {
+        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
+          maxAutoRenewDurationInSeconds: 15,
+          receiveClientTimeoutInSeconds: 40,
+          delayBeforeAttemptingToReceiveInSeconds: 31,
+          expectedTotalLockDurationInSeconds: 30,
+          willCompleteFail: true
+        });
       });
     });
   });
