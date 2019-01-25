@@ -30,15 +30,22 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   operations: operations.Operations;
   aggregatedCost: operations.AggregatedCost;
   charges: operations.Charges;
+  reservationsUsageDetails: operations.ReservationsUsageDetails;
+  reservationsUsageSummaries: operations.ReservationsUsageSummaries;
+  reservationRecommendationsShared: operations.ReservationRecommendationsSharedOperations;
+  reservationRecommendationsSingle: operations.ReservationRecommendationsSingleOperations;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
+   * @param startDate The start of the date time range.
+   * @param endDate The start of the date time range.
+   * @param lookBackPeriod The number of days of usage data to look back into.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ConsumptionManagementClientOptions) {
-    super(credentials, subscriptionId, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, startDate: Date, endDate: Date, lookBackPeriod: string, options?: Models.ConsumptionManagementClientOptions) {
+    super(credentials, subscriptionId, startDate, endDate, lookBackPeriod, options);
     this.usageDetails = new operations.UsageDetails(this);
     this.marketplaces = new operations.Marketplaces(this);
     this.balances = new operations.Balances(this);
@@ -52,6 +59,10 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
     this.operations = new operations.Operations(this);
     this.aggregatedCost = new operations.AggregatedCost(this);
     this.charges = new operations.Charges(this);
+    this.reservationsUsageDetails = new operations.ReservationsUsageDetails(this);
+    this.reservationsUsageSummaries = new operations.ReservationsUsageSummaries(this);
+    this.reservationRecommendationsShared = new operations.ReservationRecommendationsSharedOperations(this);
+    this.reservationRecommendationsSingle = new operations.ReservationRecommendationsSingleOperations(this);
   }
 }
 

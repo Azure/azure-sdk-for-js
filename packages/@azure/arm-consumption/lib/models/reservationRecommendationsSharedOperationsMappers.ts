@@ -9,11 +9,10 @@
  */
 
 export {
-  ForecastsListResult,
-  Forecast,
+  ReservationRecommendationsSharedListResult,
+  ReservationRecommendationsShared,
   Resource,
   BaseResource,
-  ForecastPropertiesConfidenceLevelsItem,
   ErrorResponse,
   ErrorDetails,
   UsageDetail,
@@ -26,10 +25,11 @@ export {
   ReservationDetail,
   PriceSheetResult,
   PriceSheetProperties,
+  Forecast,
+  ForecastPropertiesConfidenceLevelsItem,
   ManagementGroupAggregatedCostResult,
   ChargeSummary,
   ProxyResource,
-  ReservationRecommendationsShared,
   ReservationRecommendationsSingle,
   TagsResult,
   Tag,

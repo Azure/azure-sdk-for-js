@@ -28,6 +28,8 @@ export {
   ForecastPropertiesConfidenceLevelsItem,
   ChargeSummary,
   ProxyResource,
+  ReservationRecommendationsShared,
+  ReservationRecommendationsSingle,
   TagsResult,
   Tag,
   Budget,

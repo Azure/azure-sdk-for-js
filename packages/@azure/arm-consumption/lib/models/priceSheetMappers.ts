@@ -28,6 +28,8 @@ export {
   ManagementGroupAggregatedCostResult,
   ChargeSummary,
   ProxyResource,
+  ReservationRecommendationsShared,
+  ReservationRecommendationsSingle,
   TagsResult,
   Tag,
   Budget,

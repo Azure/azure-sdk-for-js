@@ -29,6 +29,8 @@ export {
   ForecastPropertiesConfidenceLevelsItem,
   ManagementGroupAggregatedCostResult,
   ProxyResource,
+  ReservationRecommendationsShared,
+  ReservationRecommendationsSingle,
   TagsResult,
   Tag,
   Budget,

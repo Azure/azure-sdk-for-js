@@ -1493,6 +1493,304 @@ export interface ResourceAttributes {
 
 /**
  * @interface
+ * An interface representing Amount.
+ * Denotes an instance of product charges.
+ *
+ */
+export interface Amount {
+  /**
+   * @member {string} [currency] The currency for the amount value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {number} [value] Tha actual amount value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ReservationRecommendationPropertiesWithAmount.
+ * The properties of the reservation recommendation.
+ *
+ */
+export interface ReservationRecommendationPropertiesWithAmount {
+  /**
+   * @member {string} [lookBackPeriod] The number of days of usage to look back
+   * for recommendation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lookBackPeriod?: string;
+  /**
+   * @member {string} [meterId] The meter id (GUID)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly meterId?: string;
+  /**
+   * @member {string} [skuName] Sku name of the reserved instance resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuName?: string;
+  /**
+   * @member {string} [region] Region of the reserved instance resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly region?: string;
+  /**
+   * @member {string} [term] RI recommendations in one or three year terms.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly term?: string;
+  /**
+   * @member {number} [costWithNoRI] The total amount of cost without reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costWithNoRI?: number;
+  /**
+   * @member {number} [recommendedQuantity] Recommended quality for reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * @member {number} [totalCostWithRI] The total amount of cost with reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalCostWithRI?: number;
+  /**
+   * @member {number} [netSavings] Total estimated savings with reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly netSavings?: number;
+  /**
+   * @member {Date} [firstUsageDate] The usage date for looking back.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly firstUsageDate?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ReservationRecommendationsShared.
+ * Reservation Recommendation for shared scope.
+ *
+ * @extends Resource
+ */
+export interface ReservationRecommendationsShared extends Resource {
+  /**
+   * @member {string} [lookBackPeriod] The number of days of usage to look back
+   * for recommendation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lookBackPeriod?: string;
+  /**
+   * @member {string} [meterId] The meter id (GUID)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly meterId?: string;
+  /**
+   * @member {string} [skuName] Sku name of the reserved instance resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuName?: string;
+  /**
+   * @member {string} [region] Region of the reserved instance resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly region?: string;
+  /**
+   * @member {string} [term] RI recommendations in one or three year terms.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly term?: string;
+  /**
+   * @member {number} [costWithNoRI] The total amount of cost without reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costWithNoRI?: number;
+  /**
+   * @member {number} [recommendedQuantity] Recommended quality for reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * @member {number} [totalCostWithRI] The total amount of cost with reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalCostWithRI?: number;
+  /**
+   * @member {number} [netSavings] Total estimated savings with reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly netSavings?: number;
+  /**
+   * @member {Date} [firstUsageDate] The usage date for looking back.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly firstUsageDate?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ReservationRecommendationsSharedListResult.
+ * Result of reservation recommendations listing by billing account and billing
+ * profile.
+ *
+ */
+export interface ReservationRecommendationsSharedListResult {
+  /**
+   * @member {ReservationRecommendationsShared[]} [value] The list of
+   * reservation recommendations by billing account and billing profile.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: ReservationRecommendationsShared[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ReservationRecommendationsSingle.
+ * Reservation Recommendation for single subscription scope.
+ *
+ * @extends Resource
+ */
+export interface ReservationRecommendationsSingle extends Resource {
+  /**
+   * @member {string} [lookBackPeriod] The number of days of usage to look back
+   * for recommendation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lookBackPeriod?: string;
+  /**
+   * @member {string} [meterId] The meter id (GUID)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly meterId?: string;
+  /**
+   * @member {string} [skuName] Sku name of the reserved instance resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuName?: string;
+  /**
+   * @member {string} [region] Region of the reserved instance resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly region?: string;
+  /**
+   * @member {string} [term] RI recommendations in one or three year terms.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly term?: string;
+  /**
+   * @member {number} [costWithNoRI] The total amount of cost without reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costWithNoRI?: number;
+  /**
+   * @member {number} [recommendedQuantity] Recommended quality for reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * @member {number} [totalCostWithRI] The total amount of cost with reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalCostWithRI?: number;
+  /**
+   * @member {number} [netSavings] Total estimated savings with reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly netSavings?: number;
+  /**
+   * @member {Date} [firstUsageDate] The usage date for looking back.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly firstUsageDate?: Date;
+  /**
+   * @member {string} [subscriptionId] Subscription Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ReservationRecommendationsSingleListResult.
+ * Result of reservation recommendations listing by billing account and billing
+ * profile for each subscription.
+ *
+ */
+export interface ReservationRecommendationsSingleListResult {
+  /**
+   * @member {ReservationRecommendationsSingle[]} [value] The list of
+   * reservation recommendations by billing account and billing profile and
+   * subscription.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: ReservationRecommendationsSingle[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing QueryOptions.
  * Additional parameters for a set of operations.
  *
@@ -4041,5 +4339,119 @@ export type ChargesListForBillingPeriodByDepartmentResponse = ChargeSummary & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ChargeSummary;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfile operation.
+ */
+export type ReservationsUsageDetailsListByBillingProfileResponse = ReservationDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfileNext operation.
+ */
+export type ReservationsUsageDetailsListByBillingProfileNextResponse = ReservationDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfile operation.
+ */
+export type ReservationsUsageSummariesListByBillingProfileResponse = ReservationSummariesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationSummariesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfileNext operation.
+ */
+export type ReservationsUsageSummariesListByBillingProfileNextResponse = ReservationSummariesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationSummariesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfile operation.
+ */
+export type ReservationRecommendationsSharedListByBillingProfileResponse = ReservationRecommendationsSharedListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationRecommendationsSharedListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfile operation.
+ */
+export type ReservationRecommendationsSingleListByBillingProfileResponse = ReservationRecommendationsSingleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationRecommendationsSingleListResult;
     };
 };

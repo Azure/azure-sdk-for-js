@@ -21,3 +21,7 @@ export * from "./forecasts";
 export * from "./operations";
 export * from "./aggregatedCost";
 export * from "./charges";
+export * from "./reservationsUsageDetails";
+export * from "./reservationsUsageSummaries";
+export * from "./reservationRecommendationsSharedOperations";
+export * from "./reservationRecommendationsSingleOperations";

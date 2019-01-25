@@ -63,6 +63,16 @@ export const billingPeriodName: msRest.OperationURLParameter = {
     }
   }
 };
+export const billingProfileId: msRest.OperationURLParameter = {
+  parameterPath: "billingProfileId",
+  mapper: {
+    required: true,
+    serializedName: "billingProfileId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const budgetName: msRest.OperationURLParameter = {
   parameterPath: "budgetName",
   mapper: {
@@ -80,6 +90,16 @@ export const departmentId: msRest.OperationURLParameter = {
     serializedName: "departmentId",
     type: {
       name: "String"
+    }
+  }
+};
+export const endDate: msRest.OperationQueryParameter = {
+  parameterPath: "endDate",
+  mapper: {
+    required: true,
+    serializedName: "endDate",
+    type: {
+      name: "DateTime"
     }
   }
 };
@@ -132,6 +152,16 @@ export const grain: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "grain",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const lookBackPeriod: msRest.OperationQueryParameter = {
+  parameterPath: "lookBackPeriod",
+  mapper: {
+    required: true,
+    serializedName: "lookBackPeriod",
     type: {
       name: "String"
     }
@@ -197,6 +227,16 @@ export const skiptoken: msRest.OperationQueryParameter = {
     serializedName: "$skiptoken",
     type: {
       name: "String"
+    }
+  }
+};
+export const startDate: msRest.OperationQueryParameter = {
+  parameterPath: "startDate",
+  mapper: {
+    required: true,
+    serializedName: "startDate",
+    type: {
+      name: "DateTime"
     }
   }
 };

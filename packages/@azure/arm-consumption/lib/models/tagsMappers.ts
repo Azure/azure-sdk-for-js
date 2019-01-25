@@ -21,6 +21,8 @@ export {
   CurrentSpend,
   Notification,
   Resource,
+  ReservationRecommendationsShared,
+  ReservationRecommendationsSingle,
   UsageDetail,
   MeterDetails,
   Marketplace,

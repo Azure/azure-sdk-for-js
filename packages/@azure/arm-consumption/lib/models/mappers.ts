@@ -1776,6 +1776,339 @@ export const ResourceAttributes: msRest.CompositeMapper = {
   }
 };
 
+export const Amount: msRest.CompositeMapper = {
+  serializedName: "Amount",
+  type: {
+    name: "Composite",
+    className: "Amount",
+    modelProperties: {
+      currency: {
+        readOnly: true,
+        serializedName: "currency",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationRecommendationPropertiesWithAmount: msRest.CompositeMapper = {
+  serializedName: "ReservationRecommendationPropertiesWithAmount",
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationPropertiesWithAmount",
+    modelProperties: {
+      lookBackPeriod: {
+        readOnly: true,
+        serializedName: "lookBackPeriod",
+        type: {
+          name: "String"
+        }
+      },
+      meterId: {
+        readOnly: true,
+        serializedName: "meterId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      skuName: {
+        readOnly: true,
+        serializedName: "skuName",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        readOnly: true,
+        serializedName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      term: {
+        readOnly: true,
+        serializedName: "term",
+        type: {
+          name: "String"
+        }
+      },
+      costWithNoRI: {
+        readOnly: true,
+        serializedName: "costWithNoRI",
+        type: {
+          name: "Number"
+        }
+      },
+      recommendedQuantity: {
+        readOnly: true,
+        serializedName: "recommendedQuantity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalCostWithRI: {
+        readOnly: true,
+        serializedName: "totalCostWithRI",
+        type: {
+          name: "Number"
+        }
+      },
+      netSavings: {
+        readOnly: true,
+        serializedName: "netSavings",
+        type: {
+          name: "Number"
+        }
+      },
+      firstUsageDate: {
+        readOnly: true,
+        serializedName: "firstUsageDate",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationRecommendationsShared: msRest.CompositeMapper = {
+  serializedName: "ReservationRecommendationsShared",
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationsShared",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      lookBackPeriod: {
+        readOnly: true,
+        serializedName: "properties.lookBackPeriod",
+        type: {
+          name: "String"
+        }
+      },
+      meterId: {
+        readOnly: true,
+        serializedName: "properties.meterId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      skuName: {
+        readOnly: true,
+        serializedName: "properties.skuName",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        readOnly: true,
+        serializedName: "properties.region",
+        type: {
+          name: "String"
+        }
+      },
+      term: {
+        readOnly: true,
+        serializedName: "properties.term",
+        type: {
+          name: "String"
+        }
+      },
+      costWithNoRI: {
+        readOnly: true,
+        serializedName: "properties.costWithNoRI",
+        type: {
+          name: "Number"
+        }
+      },
+      recommendedQuantity: {
+        readOnly: true,
+        serializedName: "properties.recommendedQuantity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalCostWithRI: {
+        readOnly: true,
+        serializedName: "properties.totalCostWithRI",
+        type: {
+          name: "Number"
+        }
+      },
+      netSavings: {
+        readOnly: true,
+        serializedName: "properties.netSavings",
+        type: {
+          name: "Number"
+        }
+      },
+      firstUsageDate: {
+        readOnly: true,
+        serializedName: "properties.firstUsageDate",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationRecommendationsSharedListResult: msRest.CompositeMapper = {
+  serializedName: "ReservationRecommendationsSharedListResult",
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationsSharedListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReservationRecommendationsShared"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationRecommendationsSingle: msRest.CompositeMapper = {
+  serializedName: "ReservationRecommendationsSingle",
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationsSingle",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      lookBackPeriod: {
+        readOnly: true,
+        serializedName: "properties.lookBackPeriod",
+        type: {
+          name: "String"
+        }
+      },
+      meterId: {
+        readOnly: true,
+        serializedName: "properties.meterId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      skuName: {
+        readOnly: true,
+        serializedName: "properties.skuName",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        readOnly: true,
+        serializedName: "properties.region",
+        type: {
+          name: "String"
+        }
+      },
+      term: {
+        readOnly: true,
+        serializedName: "properties.term",
+        type: {
+          name: "String"
+        }
+      },
+      costWithNoRI: {
+        readOnly: true,
+        serializedName: "properties.costWithNoRI",
+        type: {
+          name: "Number"
+        }
+      },
+      recommendedQuantity: {
+        readOnly: true,
+        serializedName: "properties.recommendedQuantity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalCostWithRI: {
+        readOnly: true,
+        serializedName: "properties.totalCostWithRI",
+        type: {
+          name: "Number"
+        }
+      },
+      netSavings: {
+        readOnly: true,
+        serializedName: "properties.netSavings",
+        type: {
+          name: "Number"
+        }
+      },
+      firstUsageDate: {
+        readOnly: true,
+        serializedName: "properties.firstUsageDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      subscriptionId: {
+        readOnly: true,
+        serializedName: "properties.subscriptionId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationRecommendationsSingleListResult: msRest.CompositeMapper = {
+  serializedName: "ReservationRecommendationsSingleListResult",
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationsSingleListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReservationRecommendationsSingle"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const QueryOptions: msRest.CompositeMapper = {
   type: {
     name: "Composite",

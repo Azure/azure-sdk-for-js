@@ -22,6 +22,8 @@ export {
   TagsResult,
   Tag,
   Resource,
+  ReservationRecommendationsShared,
+  ReservationRecommendationsSingle,
   UsageDetail,
   MeterDetails,
   Marketplace,
