@@ -542,25 +542,25 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(false);
   });
 
-  // it("UnPartitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<
-  //   void
-  // > {
-  //  await beforeEachTest(
-  //    ClientType.UnpartitionedQueueWithSessions,
-  //    ClientType.UnpartitionedQueueWithSessions
-  //  );
-  //  await testDefer(false);
-  // });
+  it("UnPartitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await testDefer(false);
+  });
 
-  // it("UnPartitioned Topics and Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //    ClientType.UnpartitionedTopicWithSessions,
-  //    ClientType.UnpartitionedSubscriptionWithSessions
-  //  );
-  //  await testDefer(false);
-  // });
+  it("UnPartitioned Topics and Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await testDefer(false);
+  });
 
   it("Partitioned Queues with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
@@ -582,26 +582,25 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(true);
   });
 
-  // it("UnPartitioned Queue with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //    ClientType.UnpartitionedQueueWithSessions,
-  //    ClientType.UnpartitionedQueueWithSessions
-  //  );
-  //  await testDefer(  true);
-  // });
+  it("UnPartitioned Queue with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await testDefer(true);
+  });
 
-  // it("UnPartitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
-  //   void
-  // > {
-  //
-  //  await beforeEachTest(
-  //    ClientType.UnpartitionedTopicWithSessions,
-  //    ClientType.UnpartitionedSubscriptionWithSessions
-  //  );
-  //  await testDefer(  true);
-  // });
+  it("UnPartitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await testDefer(true);
+  });
 });
 
 describe("Deadletter message(with sessions)", function(): void {
