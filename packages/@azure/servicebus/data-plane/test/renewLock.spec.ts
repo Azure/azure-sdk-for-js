@@ -117,7 +117,7 @@ describe("Premium", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -127,7 +127,7 @@ describe("Premium", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -199,7 +199,7 @@ describe("Premium", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -209,7 +209,7 @@ describe("Premium", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -288,7 +288,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -298,7 +298,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -372,7 +372,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -382,7 +382,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -457,7 +457,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -467,7 +467,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -548,7 +548,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -558,7 +558,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -637,7 +637,7 @@ describe("Basic", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -647,7 +647,7 @@ describe("Basic", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -718,7 +718,7 @@ describe("Basic", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 299,
           willCompleteFail: false
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
         void
@@ -728,7 +728,7 @@ describe("Basic", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 400,
           willCompleteFail: true
         });
-      });
+      }).timeout(450000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
