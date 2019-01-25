@@ -441,19 +441,19 @@ describe("Defer message", function(): void {
     await testDefer(false);
   });
 
-  // it("UnPartitioned Queue: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-  //   await testDefer(false);
-  // });
+  it("UnPartitioned Queue: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testDefer(false);
+  });
 
-  // it("UnPartitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-  //   await testDefer(false);
-  // });
+  it("UnPartitioned Topics and Subscription: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testDefer(false);
+  });
 
   it("Partitioned Queues with autoComplete: defer() moves message to deferred queue", async function(): Promise<
     void
@@ -469,19 +469,19 @@ describe("Defer message", function(): void {
     await testDefer(true);
   });
 
-  // it("UnPartitioned Queue with autoComplete: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-  //   await testDefer(true);
-  // });
+  it("UnPartitioned Queue with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testDefer(true);
+  });
 
-  // it("UnPartitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-  //   await testDefer(true);
-  // });
+  it("UnPartitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testDefer(true);
+  });
 });
 
 describe("Deadletter message", function(): void {
