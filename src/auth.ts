@@ -83,6 +83,9 @@ export class AuthHandler {
     headers: IHeaders,
     masterKey: string
   ) {
+    if (resourceType === "offers") {
+      resourceId = resourceId && resourceId.toLowerCase();
+    }
     const key = Buffer.from(masterKey, "base64");
 
     const text =
