@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import chai from "chai";
 const should = chai.should();
@@ -17,7 +17,14 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import { testSimpleMessages, testMessagesWithSessions, testSessionId } from "./testUtils";
+import {
+  testSimpleMessages,
+  testMessagesWithSessions,
+  testSessionId,
+  getSenderClient,
+  getReceiverClient,
+  ClientType
+} from "./testUtils";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient | MessageSession,
@@ -31,7 +38,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let namespace: Namespace;
+let ns: Namespace;
 
 let partitionedQueueClient: QueueClient;
 let partitionedDeadletterQueueClient: QueueClient;
@@ -74,51 +81,20 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (
-    !process.env.TOPIC_NAME ||
-    !process.env.TOPIC_NAME_NO_PARTITION ||
-    !process.env.TOPIC_NAME_NO_PARTITION_SESSION ||
-    !process.env.TOPIC_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define TOPIC_NAME, TOPIC_NAME_NO_PARTITION, TOPIC_NAME_SESSION & TOPIC_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-  if (
-    !process.env.QUEUE_NAME ||
-    !process.env.QUEUE_NAME_NO_PARTITION ||
-    !process.env.QUEUE_NAME_NO_PARTITION_SESSION ||
-    !process.env.QUEUE_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define QUEUE_NAME, QUEUE_NAME_NO_PARTITION, QUEUE_NAME_SESSION & QUEUE_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-  if (
-    !process.env.SUBSCRIPTION_NAME ||
-    !process.env.SUBSCRIPTION_NAME_NO_PARTITION ||
-    !process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
-    !process.env.SUBSCRIPTION_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define SUBSCRIPTION_NAME, SUBSCRIPTION_NAME_NO_PARTITION, SUBSCRIPTION_NAME_SESSION & SUBSCRIPTION_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-
-  namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   // Partitioned Queues and Subscriptions
-  partitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
-  partitionedDeadletterQueueClient = namespace.createQueueClient(
+  partitionedQueueClient = getSenderClient(ns, ClientType.PartitionedQueue) as QueueClient;
+  partitionedDeadletterQueueClient = ns.createQueueClient(
     Namespace.getDeadLetterQueuePathForQueue(partitionedQueueClient.name)
   );
 
-  partitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  partitionedSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME,
-    process.env.SUBSCRIPTION_NAME
-  );
-  partitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
+  partitionedTopicClient = getSenderClient(ns, ClientType.PartitionedTopic) as TopicClient;
+  partitionedSubscriptionClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedSubscription
+  ) as SubscriptionClient;
+  partitionedDeadletterSubscriptionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       partitionedTopicClient.name,
       partitionedSubscriptionClient.subscriptionName
@@ -127,16 +103,16 @@ async function beforeEachTest(): Promise<void> {
   );
 
   // Unpartitioned Queues and Subscriptions
-  // unpartitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME_NO_PARTITION);
-  // unpartitionedDeadletterQueueClient = namespace.createQueueClient(
+  // unpartitionedQueueClient = getSenderClient(ns, ClientType.UnpartitionedQueue) as QueueClient;
+  // unpartitionedDeadletterQueueClient = ns.createQueueClient(
   //   Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueClient.name)
   // );
-  // unpartitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME_NO_PARTITION);
-  // unpartitionedSubscriptionClient = namespace.createSubscriptionClient(
-  //   process.env.TOPIC_NAME_NO_PARTITION,
-  //   process.env.SUBSCRIPTION_NAME_NO_PARTITION
-  // );
-  // unpartitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
+  // unpartitionedTopicClient = getSenderClient(ns, ClientType.UnpartitionedTopic) as TopicClient;
+  // unpartitionedSubscriptionClient = getReceiverClient(
+  //   ns,
+  //   ClientType.UnpartitionedSubscription
+  // ) as SubscriptionClient;
+  // unpartitionedDeadletterSubscriptionClient = ns.createSubscriptionClient(
   //   Namespace.getDeadLetterSubcriptionPathForSubcription(
   //     unpartitionedTopicClient.name,
   //     unpartitionedSubscriptionClient.subscriptionName
@@ -145,52 +121,59 @@ async function beforeEachTest(): Promise<void> {
   // );
 
   // Partitioned Queues and Subscriptions with Sessions
-  partitionedQueueSessionClient = namespace.createQueueClient(process.env.QUEUE_NAME_SESSION);
+  partitionedQueueSessionClient = getSenderClient(
+    ns,
+    ClientType.PartitionedQueueWithSessions
+  ) as QueueClient;
   partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
     sessionId: testSessionId
   });
-  partitionedDeadletterQueueSessionClient = namespace.createQueueClient(
+  partitionedDeadletterQueueSessionClient = ns.createQueueClient(
     Namespace.getDeadLetterQueuePathForQueue(partitionedQueueSessionClient.name)
   );
-  partitionedTopicSessionClient = namespace.createTopicClient(process.env.TOPIC_NAME_SESSION);
-  partitionedSubscriptionSessionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_SESSION,
-    process.env.SUBSCRIPTION_NAME_SESSION
-  );
+  partitionedTopicSessionClient = getSenderClient(
+    ns,
+    ClientType.PartitionedTopicWithSessions
+  ) as TopicClient;
+  partitionedSubscriptionSessionClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedSubscriptionWithSessions
+  ) as SubscriptionClient;
   partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.acceptSession({
     sessionId: testSessionId
   });
-  partitionedDeadletterSubscriptionSessionClient = namespace.createSubscriptionClient(
+  partitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       partitionedTopicSessionClient.name,
       partitionedSubscriptionSessionClient.subscriptionName
     ),
     partitionedSubscriptionSessionClient.subscriptionName
   );
-
   // Unpartitioned Queues and Subscriptions with Sessions
-  // unpartitionedQueueSessionClient = namespace.createQueueClient(
-  //   process.env.QUEUE_NAME_NO_PARTITION_SESSION
-  // );
+  // unpartitionedQueueSessionClient = getSenderClient(
+  //   ns,
+  //   ClientType.UnpartitionedQueueWithSessions
+  // ) as QueueClient;
   // unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.acceptSession({
   //   sessionId: testSessionId
   // });
-  // unpartitionedDeadletterQueueSessionClient = namespace.createQueueClient(
+  // unpartitionedDeadletterQueueSessionClient = ns.createQueueClient(
   //   Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueSessionClient.name)
   // );
-  // unpartitionedTopicSessionClient = namespace.createTopicClient(
-  //   process.env.TOPIC_NAME_NO_PARTITION_SESSION
-  // );
-  // unpartitionedSubscriptionSessionClient = namespace.createSubscriptionClient(
-  //   process.env.TOPIC_NAME_NO_PARTITION_SESSION,
-  //   process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION
-  // );
+  // unpartitionedTopicSessionClient = getSenderClient(
+  //   ns,
+  //   ClientType.UnpartitionedTopicWithSessions
+  // ) as TopicClient;
+  // unpartitionedSubscriptionSessionClient = getReceiverClient(
+  //   ns,
+  //   ClientType.UnpartitionedSubscriptionWithSessions
+  // ) as SubscriptionClient;
   // unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.acceptSession(
   //   {
   //     sessionId: testSessionId
   //   }
   // );
-  // unpartitionedDeadletterSubscriptionSessionClient = namespace.createSubscriptionClient(
+  // unpartitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
   //   Namespace.getDeadLetterSubcriptionPathForSubcription(
   //     unpartitionedTopicSessionClient.name,
   //     unpartitionedSubscriptionSessionClient.subscriptionName
@@ -240,7 +223,7 @@ async function beforeEachTest(): Promise<void> {
 }
 
 async function afterEachTest(): Promise<void> {
-  await namespace.close();
+  await ns.close();
 }
 
 async function deferMessage(

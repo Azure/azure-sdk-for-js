@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import chai from "chai";
 const should = chai.should();
@@ -21,7 +21,10 @@ import {
   testMessagesToSamePartitions,
   testMessagesWithSessions,
   testSessionId,
-  testMessagesToSamePartitionsWithSessions
+  testMessagesToSamePartitionsWithSessions,
+  getSenderClient,
+  getReceiverClient,
+  ClientType
 } from "./testUtils";
 
 async function testPeekMsgsLength(
@@ -36,7 +39,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let namespace: Namespace;
+let ns: Namespace;
 
 let partitionedQueueClient: QueueClient;
 let partitionedTopicClient: TopicClient;
@@ -67,83 +70,59 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (
-    !process.env.TOPIC_NAME ||
-    !process.env.TOPIC_NAME_NO_PARTITION ||
-    !process.env.TOPIC_NAME_NO_PARTITION_SESSION ||
-    !process.env.TOPIC_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define TOPIC_NAME, TOPIC_NAME_NO_PARTITION, TOPIC_NAME_SESSION & TOPIC_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-  if (
-    !process.env.QUEUE_NAME ||
-    !process.env.QUEUE_NAME_NO_PARTITION ||
-    !process.env.QUEUE_NAME_NO_PARTITION_SESSION ||
-    !process.env.QUEUE_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define QUEUE_NAME, QUEUE_NAME_NO_PARTITION, QUEUE_NAME_SESSION & QUEUE_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-  if (
-    !process.env.SUBSCRIPTION_NAME ||
-    !process.env.SUBSCRIPTION_NAME_NO_PARTITION ||
-    !process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
-    !process.env.SUBSCRIPTION_NAME_SESSION
-  ) {
-    throw new Error(
-      "Define SUBSCRIPTION_NAME, SUBSCRIPTION_NAME_NO_PARTITION, SUBSCRIPTION_NAME_SESSION & SUBSCRIPTION_NAME_NO_PARTITION_SESSION in your environment before running integration tests."
-    );
-  }
-
-  namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   // Partitioned Queues and Subscriptions
-  partitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
-  partitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  partitionedSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME,
-    process.env.SUBSCRIPTION_NAME
-  );
+  partitionedQueueClient = getSenderClient(ns, ClientType.PartitionedQueue) as QueueClient;
+  partitionedTopicClient = getSenderClient(ns, ClientType.PartitionedTopic) as TopicClient;
+  partitionedSubscriptionClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedSubscription
+  ) as SubscriptionClient;
 
   // Unpartitioned Queues and Subscriptions
-  unpartitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME_NO_PARTITION);
-  unpartitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME_NO_PARTITION);
-  unpartitionedSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_NO_PARTITION,
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION
-  );
+  unpartitionedQueueClient = getSenderClient(ns, ClientType.UnpartitionedQueue) as QueueClient;
+  unpartitionedTopicClient = getSenderClient(ns, ClientType.UnpartitionedTopic) as TopicClient;
+  unpartitionedSubscriptionClient = getReceiverClient(
+    ns,
+    ClientType.UnpartitionedSubscription
+  ) as SubscriptionClient;
 
   // Partitioned Queues and Subscriptions with Sessions
-  partitionedQueueSessionClient = namespace.createQueueClient(process.env.QUEUE_NAME_SESSION);
+  partitionedQueueSessionClient = getSenderClient(
+    ns,
+    ClientType.PartitionedQueueWithSessions
+  ) as QueueClient;
   partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
     sessionId: testSessionId
   });
-  partitionedTopicSessionClient = namespace.createTopicClient(process.env.TOPIC_NAME_SESSION);
-  partitionedSubscriptionSessionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_SESSION,
-    process.env.SUBSCRIPTION_NAME_SESSION
-  );
+  partitionedTopicSessionClient = getSenderClient(
+    ns,
+    ClientType.PartitionedTopicWithSessions
+  ) as TopicClient;
+  partitionedSubscriptionSessionClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedSubscriptionWithSessions
+  ) as SubscriptionClient;
   partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.acceptSession({
     sessionId: testSessionId
   });
-
   // Unpartitioned Queues and Subscriptions with Sessions
-  unpartitionedQueueSessionClient = namespace.createQueueClient(
-    process.env.QUEUE_NAME_NO_PARTITION_SESSION
-  );
+  unpartitionedQueueSessionClient = getSenderClient(
+    ns,
+    ClientType.UnpartitionedQueueWithSessions
+  ) as QueueClient;
   unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.acceptSession({
     sessionId: testSessionId
   });
-  unpartitionedTopicSessionClient = namespace.createTopicClient(
-    process.env.TOPIC_NAME_NO_PARTITION_SESSION
-  );
-  unpartitionedSubscriptionSessionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_NO_PARTITION_SESSION,
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION
-  );
+  unpartitionedTopicSessionClient = getSenderClient(
+    ns,
+    ClientType.UnpartitionedTopicWithSessions
+  ) as TopicClient;
+  unpartitionedSubscriptionSessionClient = getReceiverClient(
+    ns,
+    ClientType.UnpartitionedSubscriptionWithSessions
+  ) as SubscriptionClient;
   unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.acceptSession(
     {
       sessionId: testSessionId
@@ -192,7 +171,7 @@ async function beforeEachTest(): Promise<void> {
 }
 
 async function afterEachTest(): Promise<void> {
-  await namespace.close();
+  await ns.close();
 }
 
 describe("Send to Queue/Subscription", function(): void {

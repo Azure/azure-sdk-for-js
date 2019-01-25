@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import chai from "chai";
 const should = chai.should();
@@ -10,8 +10,6 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  SendableMessageInfo,
-  generateUuid,
   ServiceBusMessage,
   TopicClient,
   SubscriptionClient,
@@ -21,16 +19,12 @@ import {
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
-const testMessages: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${generateUuid()}`
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${generateUuid()}`
-  }
-];
+import {
+  testSimpleMessages,
+  getSenderClient,
+  getReceiverClient,
+  ClientType
+} from "./testUtils";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -44,7 +38,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let namespace: Namespace;
+let ns: Namespace;
 let partitionedQueueClient: QueueClient;
 let partitionedTopicClient: TopicClient;
 let partitionedSubscriptionClient: SubscriptionClient;
@@ -74,40 +68,21 @@ async function beforeEachTest(): Promise<void> {
       "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
-  if (!process.env.TOPIC_NAME || !process.env.TOPIC_NAME_NO_PARTITION) {
-    throw new Error(
-      "Define TOPIC_NAME & TOPIC_NAME_NO_PARTITIONin your environment before running integration tests."
-    );
-  }
-  if (!process.env.QUEUE_NAME || !process.env.QUEUE_NAME_NO_PARTITION) {
-    throw new Error(
-      "Define QUEUE_NAME & QUEUE_NAME_NO_PARTITION in your environment before running integration tests."
-    );
-  }
-  if (!process.env.SUBSCRIPTION_NAME || !process.env.SUBSCRIPTION_NAME_NO_PARTITION) {
-    throw new Error(
-      "Define SUBSCRIPTION_NAME & SUBSCRIPTION_NAME_NO_PARTITION in your environment before running integration tests."
-    );
-  }
 
-  namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  partitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME);
-  partitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME);
-  partitionedSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME,
-    process.env.SUBSCRIPTION_NAME
-  );
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  unpartitionedQueueClient = namespace.createQueueClient(process.env.QUEUE_NAME_NO_PARTITION);
-  unpartitionedTopicClient = namespace.createTopicClient(process.env.TOPIC_NAME_NO_PARTITION);
-  unpartitionedSubscriptionClient = namespace.createSubscriptionClient(
-    process.env.TOPIC_NAME_NO_PARTITION,
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION
-  );
-  partitionedDeadletterQueueClient = namespace.createQueueClient(
+  // Partitioned Queues and Subscriptions
+  partitionedQueueClient = getSenderClient(ns, ClientType.PartitionedQueue) as QueueClient;
+  partitionedDeadletterQueueClient = ns.createQueueClient(
     Namespace.getDeadLetterQueuePathForQueue(partitionedQueueClient.name)
   );
-  partitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
+
+  partitionedTopicClient = getSenderClient(ns, ClientType.PartitionedTopic) as TopicClient;
+  partitionedSubscriptionClient = getReceiverClient(
+    ns,
+    ClientType.PartitionedSubscription
+  ) as SubscriptionClient;
+  partitionedDeadletterSubscriptionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       partitionedTopicClient.name,
       partitionedSubscriptionClient.subscriptionName
@@ -115,10 +90,17 @@ async function beforeEachTest(): Promise<void> {
     partitionedSubscriptionClient.subscriptionName
   );
 
-  unpartitionedDeadletterQueueClient = namespace.createQueueClient(
+  // Unpartitioned Queues and Subscriptions
+  unpartitionedQueueClient = getSenderClient(ns, ClientType.UnpartitionedQueue) as QueueClient;
+  unpartitionedDeadletterQueueClient = ns.createQueueClient(
     Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueClient.name)
   );
-  unpartitionedDeadletterSubscriptionClient = namespace.createSubscriptionClient(
+  unpartitionedTopicClient = getSenderClient(ns, ClientType.UnpartitionedTopic) as TopicClient;
+  unpartitionedSubscriptionClient = getReceiverClient(
+    ns,
+    ClientType.UnpartitionedSubscription
+  ) as SubscriptionClient;
+  unpartitionedDeadletterSubscriptionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       unpartitionedTopicClient.name,
       unpartitionedSubscriptionClient.subscriptionName
@@ -150,7 +132,7 @@ async function beforeEachTest(): Promise<void> {
 }
 
 async function afterEachTest(): Promise<void> {
-  await namespace.close();
+  await ns.close();
 }
 
 describe("Streaming Receiver Misc Tests", function(): void {
@@ -166,14 +148,14 @@ describe("Streaming Receiver Misc Tests", function(): void {
     senderClient: QueueClient | TopicClient,
     receiverClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-    await senderClient.sendBatch(testMessages);
-    await testPeekMsgsLength(receiverClient, testMessages.length);
+    await senderClient.sendBatch(testSimpleMessages);
+    await testPeekMsgsLength(receiverClient, testSimpleMessages.length);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     const receiveListener = receiverClient.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(
-        testMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
+        testSimpleMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
         true,
         "Received Message doesnt match any of the test messages"
       );
@@ -182,14 +164,14 @@ describe("Streaming Receiver Misc Tests", function(): void {
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testMessages.length) {
+      if (receivedMsgs.length === testSimpleMessages.length) {
         break;
       }
     }
 
     await receiveListener.stop();
 
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -218,14 +200,14 @@ describe("Streaming Receiver Misc Tests", function(): void {
     senderClient: QueueClient | TopicClient,
     receiverClient: QueueClient | SubscriptionClient
   ): Promise<void> {
-    await senderClient.sendBatch(testMessages);
+    await senderClient.sendBatch(testSimpleMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     const receiveListener = receiverClient.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(
-          testMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
+          testSimpleMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
           true,
           "Received Message doesnt match any of the test messages"
         );
@@ -237,7 +219,7 @@ describe("Streaming Receiver Misc Tests", function(): void {
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testMessages.length) {
+      if (receivedMsgs.length === testSimpleMessages.length) {
         break;
       }
     }
@@ -248,7 +230,7 @@ describe("Streaming Receiver Misc Tests", function(): void {
     await receivedMsgs[1].complete();
     await receiveListener.stop();
 
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
   }
 
   it("Disabled autoComplete, no manual complete retains the message in Partitioned Queues", async function(): Promise<
@@ -290,14 +272,14 @@ describe("Complete message", function(): void {
     receiverClient: QueueClient | SubscriptionClient,
     autoComplete: boolean
   ): Promise<void> {
-    await senderClient.sendBatch(testMessages);
+    await senderClient.sendBatch(testSimpleMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     const receiveListener = receiverClient.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(
-          testMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
+          testSimpleMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
           true,
           "Received Message doesnt match any of the test messages"
         );
@@ -309,13 +291,13 @@ describe("Complete message", function(): void {
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testMessages.length) {
+      if (receivedMsgs.length === testSimpleMessages.length) {
         break;
       }
     }
 
     await receiveListener.stop();
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -378,7 +360,7 @@ describe("Abandon message", function(): void {
     receiverClient: QueueClient | SubscriptionClient,
     autoComplete: boolean
   ): Promise<void> {
-    await senderClient.send(testMessages[0]);
+    await senderClient.send(testSimpleMessages[0]);
     const receiveListener: ReceiveHandler = await receiverClient.receive(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
@@ -390,11 +372,11 @@ describe("Abandon message", function(): void {
     );
     await delay(4000);
 
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     const receivedMsgs = await receiverClient.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+    should.equal(receivedMsgs[0].messageId, testSimpleMessages[0].messageId);
     // should.equal(receivedMsgs[0].deliveryCount, 1);
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
@@ -462,15 +444,14 @@ describe("Defer message", function(): void {
     receiverClient: QueueClient | SubscriptionClient,
     autoComplete: boolean
   ): Promise<void> {
-    await senderClient.sendBatch(testMessages);
-
+    await senderClient.sendBatch(testSimpleMessages);
     let seq0: any = 0;
     let seq1: any = 0;
     const receiveListener = await receiverClient.receive(
       (msg: ServiceBusMessage) => {
-        if (msg.messageId === testMessages[0].messageId) {
+        if (msg.messageId === testSimpleMessages[0].messageId) {
           seq0 = msg.sequenceNumber;
-        } else if (msg.messageId === testMessages[1].messageId) {
+        } else if (msg.messageId === testSimpleMessages[1].messageId) {
           seq1 = msg.sequenceNumber;
         }
         return msg.defer();
@@ -478,30 +459,26 @@ describe("Defer message", function(): void {
       unExpectedErrorHandler,
       { autoComplete }
     );
-
     await delay(4000);
-
     await receiveListener.stop();
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
-
-    const deferredMsg0 = await receiverClient.receiveDeferredMessage(seq0);
-    const deferredMsg1 = await receiverClient.receiveDeferredMessage(seq1);
-    if (!deferredMsg0) {
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    const deferredMsgs = await receiverClient.receiveDeferredMessages([seq0, seq1]);
+    if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
-    if (!deferredMsg1) {
-      throw "No message received for sequence number";
-    }
-    should.equal(deferredMsg0.body, testMessages[0].body);
-    should.equal(deferredMsg0.messageId, testMessages[0].messageId);
-
-    should.equal(deferredMsg1.body, testMessages[1].body);
-    should.equal(deferredMsg1.messageId, testMessages[1].messageId);
-    await deferredMsg0.complete();
-    await deferredMsg1.complete();
-
+    deferredMsgs.forEach(async (element) => {
+      should.equal(
+        testSimpleMessages.some((x) => element.body === x.body && element.messageId === x.messageId),
+        true,
+        "Received Message doesnt match any of the test messages"
+      );
+      should.equal(element.deliveryCount, 1);
+      await element.complete();
+    });
+    await delay(10000);
     await testPeekMsgsLength(receiverClient, 0);
   }
+
   it("Partitioned Queues: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
@@ -566,7 +543,7 @@ describe("Deadletter message", function(): void {
     deadletterClient: QueueClient | SubscriptionClient,
     autoComplete: boolean
   ): Promise<void> {
-    await senderClient.sendBatch(testMessages);
+    await senderClient.sendBatch(testSimpleMessages);
     await testPeekMsgsLength(receiverClient, 2);
     const receiveListener = await receiverClient.receive(
       (msg: ServiceBusMessage) => {
@@ -578,15 +555,15 @@ describe("Deadletter message", function(): void {
 
     await delay(4000);
     await receiveListener.stop();
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterMsgs = await deadletterClient.receiveBatch(2);
     should.equal(Array.isArray(deadLetterMsgs), true);
-    should.equal(deadLetterMsgs.length, testMessages.length);
-    should.equal(testMessages.some((x) => deadLetterMsgs[0].messageId === x.messageId), true);
-    should.equal(testMessages.some((x) => deadLetterMsgs[1].messageId === x.messageId), true);
+    should.equal(deadLetterMsgs.length, testSimpleMessages.length);
+    should.equal(testSimpleMessages.some((x) => deadLetterMsgs[0].messageId === x.messageId), true);
+    should.equal(testSimpleMessages.some((x) => deadLetterMsgs[1].messageId === x.messageId), true);
 
     await deadLetterMsgs[0].complete();
     await deadLetterMsgs[1].complete();
@@ -765,7 +742,7 @@ describe("Settle an already Settled message throws error", () => {
     receiverClient: QueueClient | SubscriptionClient,
     operation: DispositionType
   ): Promise<void> {
-    await senderClient.send(testMessages[0]);
+    await senderClient.send(testSimpleMessages[0]);
     const receivedMsgs: ServiceBusMessage[] = [];
     const receiveListener = receiverClient.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
@@ -773,11 +750,11 @@ describe("Settle an already Settled message throws error", () => {
     }, unExpectedErrorHandler);
 
     await delay(5000);
-    should.equal(unexpectedError, undefined, unexpectedError!.message);
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessages[0].body);
-    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+    should.equal(receivedMsgs[0].body, testSimpleMessages[0].body);
+    should.equal(receivedMsgs[0].messageId, testSimpleMessages[0].messageId);
 
     await testPeekMsgsLength(receiverClient, 0);
 
@@ -811,33 +788,33 @@ describe("Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Queue: complete() throws error", async function(): Promise<void> {
-    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.complete);
+    await testSettlement(
+      unpartitionedQueueClient,
+      unpartitionedQueueClient,
+      DispositionType.complete
+    );
   });
 
   it("UnPartitioned Topics and Subscription: complete() throws error", async function(): Promise<
     void
   > {
     await testSettlement(
-      partitionedTopicClient,
-      partitionedSubscriptionClient,
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
       DispositionType.complete
     );
   });
 
   it("Partitioned Queues: abandon() throws error", async function(): Promise<void> {
-    await testSettlement(
-      unpartitionedQueueClient,
-      unpartitionedQueueClient,
-      DispositionType.abandon
-    );
+    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.abandon);
   });
 
   it("Partitioned Topics and Subscription: abandon() throws error", async function(): Promise<
     void
   > {
     await testSettlement(
-      unpartitionedTopicClient,
-      unpartitionedSubscriptionClient,
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
       DispositionType.abandon
     );
   });
@@ -873,31 +850,31 @@ describe("Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Queue: defer() throws error", async function(): Promise<void> {
-    await testSettlement(partitionedQueueClient, partitionedQueueClient, DispositionType.defer);
+    await testSettlement(unpartitionedQueueClient, unpartitionedQueueClient, DispositionType.defer);
   });
 
   it("UnPartitioned Topics and Subscription: defer() throws error", async function(): Promise<
     void
   > {
     await testSettlement(
-      partitionedTopicClient,
-      partitionedSubscriptionClient,
+      unpartitionedTopicClient,
+      unpartitionedSubscriptionClient,
       DispositionType.defer
     );
   });
 
   it("Partitioned Queues: deadLetter() throws error", async function(): Promise<void> {
     await testSettlement(
-      unpartitionedQueueClient,
-      unpartitionedQueueClient,
+      partitionedQueueClient,
+      partitionedQueueClient,
       DispositionType.deadletter
     );
   });
 
   it("Partitioned Topics and Subscription: deadLetter()", async function(): Promise<void> {
     await testSettlement(
-      unpartitionedTopicClient,
-      unpartitionedSubscriptionClient,
+      partitionedTopicClient,
+      partitionedSubscriptionClient,
       DispositionType.deadletter
     );
   });
