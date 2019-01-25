@@ -81,10 +81,12 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    */
   receiveMode?: ReceiveMode;
   /**
-   * @property {string} [name] The name of the receiver. If not provided then we will be a
-   * GUID by default.
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * processed concurrently while in peek lock mode. Once this limit has been reached, more
+   * messages will not be received until messages currently being processed have been settled.
+   * - **Default**: `1` (message at a time).
    */
-  name?: string;
+  maxConcurrentCalls?: number;
 }
 
 /**

@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  MessageSession,
+  SessionClient,
   ServiceBusMessage,
   SendableMessageInfo
 } from "../lib";
@@ -27,7 +27,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -44,7 +44,7 @@ let partitionedQueueClient: QueueClient;
 let partitionedDeadletterQueueClient: QueueClient;
 
 let partitionedQueueSessionClient: QueueClient;
-let partitionedQueueMessageSession: MessageSession;
+let partitionedQueueMessageSession: SessionClient;
 let partitionedDeadletterQueueSessionClient: QueueClient;
 
 let partitionedTopicClient: TopicClient;
@@ -53,7 +53,7 @@ let partitionedDeadletterSubscriptionClient: SubscriptionClient;
 
 let partitionedTopicSessionClient: TopicClient;
 let partitionedSubscriptionSessionClient: SubscriptionClient;
-let partitionedSubscriptionMessageSession: MessageSession;
+let partitionedSubscriptionMessageSession: SessionClient;
 let partitionedDeadletterSubscriptionSessionClient: SubscriptionClient;
 
 // let unpartitionedQueueClient: QueueClient;
@@ -125,7 +125,7 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.PartitionedQueueWithSessions
   ) as QueueClient;
-  partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
+  partitionedQueueMessageSession = await partitionedQueueSessionClient.createSessionClient({
     sessionId: testSessionId
   });
   partitionedDeadletterQueueSessionClient = ns.createQueueClient(
@@ -139,9 +139,11 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.PartitionedSubscriptionWithSessions
   ) as SubscriptionClient;
-  partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.acceptSession({
-    sessionId: testSessionId
-  });
+  partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.createSessionClient(
+    {
+      sessionId: testSessionId
+    }
+  );
   partitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       partitionedTopicSessionClient.name,
@@ -228,7 +230,7 @@ async function afterEachTest(): Promise<void> {
 
 async function deferMessage(
   senderClient: QueueClient | TopicClient,
-  receiverClient: QueueClient | SubscriptionClient | MessageSession,
+  receiverClient: QueueClient | SubscriptionClient | SessionClient,
   testMessages: SendableMessageInfo[]
 ): Promise<ServiceBusMessage> {
   await senderClient.send(testMessages[0]);
@@ -257,7 +259,7 @@ async function deferMessage(
 }
 
 async function completeDeferredMessage(
-  receiverClient: QueueClient | SubscriptionClient | MessageSession,
+  receiverClient: QueueClient | SubscriptionClient | SessionClient,
   sequenceNumber: Long,
   expectedDeliverCount: number,
   testMessages: SendableMessageInfo[]
@@ -289,7 +291,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
 
   async function testAbandon(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     useSessions?: boolean
   ): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -362,7 +364,7 @@ describe("Deferring a deferred message puts it back to the deferred queue.", fun
 
   async function testDefer(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     useSessions?: boolean
   ): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -435,7 +437,7 @@ describe("Deadlettering a deferred message moves it to dead letter queue.", func
 
   async function testDeadletter(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     deadLetterClient: QueueClient | SubscriptionClient,
     useSessions?: boolean
   ): Promise<void> {

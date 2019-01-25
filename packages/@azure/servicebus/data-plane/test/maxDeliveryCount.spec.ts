@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  MessageSession,
+  SessionClient,
   ServiceBusMessage,
   delay
 } from "../lib";
@@ -27,7 +27,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -46,7 +46,7 @@ let partitionedQueueClient: QueueClient;
 let partitionedDeadletterQueueClient: QueueClient;
 
 let partitionedQueueSessionClient: QueueClient;
-let partitionedQueueMessageSession: MessageSession;
+let partitionedQueueMessageSession: SessionClient;
 let partitionedDeadletterQueueSessionClient: QueueClient;
 
 let partitionedTopicClient: TopicClient;
@@ -55,14 +55,14 @@ let partitionedDeadletterSubscriptionClient: SubscriptionClient;
 
 let partitionedTopicSessionClient: TopicClient;
 let partitionedSubscriptionSessionClient: SubscriptionClient;
-let partitionedSubscriptionMessageSession: MessageSession;
+let partitionedSubscriptionMessageSession: SessionClient;
 let partitionedDeadletterSubscriptionSessionClient: SubscriptionClient;
 
 let unpartitionedQueueClient: QueueClient;
 let unpartitionedDeadletterQueueClient: QueueClient;
 
 let unpartitionedQueueSessionClient: QueueClient;
-let unpartitionedQueueMessageSession: MessageSession;
+let unpartitionedQueueMessageSession: SessionClient;
 let unpartitionedDeadletterQueueSessionClient: QueueClient;
 
 let unpartitionedTopicClient: TopicClient;
@@ -71,7 +71,7 @@ let unpartitionedDeadletterSubscriptionClient: SubscriptionClient;
 
 let unpartitionedTopicSessionClient: TopicClient;
 let unpartitionedSubscriptionSessionClient: SubscriptionClient;
-let unpartitionedSubscriptionMessageSession: MessageSession;
+let unpartitionedSubscriptionMessageSession: SessionClient;
 let unpartitionedDeadletterSubscriptionSessionClient: SubscriptionClient;
 
 let unexpectedError: Error | undefined;
@@ -135,7 +135,7 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.PartitionedQueueWithSessions
   ) as QueueClient;
-  partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
+  partitionedQueueMessageSession = await partitionedQueueSessionClient.createSessionClient({
     sessionId: testSessionId
   });
   partitionedDeadletterQueueSessionClient = ns.createQueueClient(
@@ -149,9 +149,11 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.PartitionedSubscriptionWithSessions
   ) as SubscriptionClient;
-  partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.acceptSession({
-    sessionId: testSessionId
-  });
+  partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.createSessionClient(
+    {
+      sessionId: testSessionId
+    }
+  );
   partitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
     Namespace.getDeadLetterSubcriptionPathForSubcription(
       partitionedTopicSessionClient.name,
@@ -164,7 +166,7 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.UnpartitionedQueueWithSessions
   ) as QueueClient;
-  unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.acceptSession({
+  unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.createSessionClient({
     sessionId: testSessionId
   });
   unpartitionedDeadletterQueueSessionClient = ns.createQueueClient(
@@ -178,7 +180,7 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.UnpartitionedSubscriptionWithSessions
   ) as SubscriptionClient;
-  unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.acceptSession(
+  unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.createSessionClient(
     {
       sessionId: testSessionId
     }
@@ -348,7 +350,7 @@ describe("Batching Receiver: Message abandoned more than maxDeliveryCount goes t
 
   async function testAbandonMsgsTillMaxDeliveryCount(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     deadLetterClient: QueueClient | SubscriptionClient,
     useSessions?: boolean
   ): Promise<void> {

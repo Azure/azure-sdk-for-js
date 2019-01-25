@@ -3,7 +3,6 @@
 
 import * as Long from "long";
 import * as log from "./log";
-import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
@@ -17,6 +16,8 @@ import { ScheduleMessage } from "./core/managementClient";
 export class TopicClient extends Client {
   /**
    * Instantiates a client pointing to the ServiceBus Topic given by this configuration.
+   * This is not meant for the user to call directly.
+   * The user should use the `createTopicClient` on the Namespace instead.
    *
    * @constructor
    * @param name - The topic name.
@@ -28,11 +29,11 @@ export class TopicClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Topic for this client,
-   * returning a promise that will be resolved when disconnection is completed.
-   * @returns {Promise<any>}
+   * Closes the AMQP connection to the ServiceBus Topic for this client.
+   *
+   * @returns {Promise<void>}
    */
-  async close(): Promise<any> {
+  async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         // Close the sender.
@@ -58,18 +59,16 @@ export class TopicClient extends Client {
    * of the message.
    * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
    *
-   * @param data - Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @returns Promise<Delivery>
+   * @param data - Message to send.
+   * @returns Promise<void>
    */
-  async send(data: SendableMessageInfo): Promise<Delivery> {
+  async send(data: SendableMessageInfo): Promise<void> {
     const sender = MessageSender.create(this._context);
     return sender.send(data);
   }
 
   /**
-   * Sends a batch of SendableMessageInfo to the ServiceBus Topic. The "message_annotations",
-   * "application_properties" and "properties" of the first message will be set as that of
-   * the envelope (batch message).
+   * Sends a batch of SendableMessageInfo to the ServiceBus Topic in a single AMQP message.
    * - For sending a message to a `session` enabled Topic, please set the `sessionId` property of
    * the message.
    * - For sending a message to a `partition` enabled Topic, please set the `partitionKey` property
@@ -78,9 +77,9 @@ export class TopicClient extends Client {
    *
    * @param datas  An array of SendableMessageInfo objects to be sent in a Batch message.
    *
-   * @return Promise<Delivery>
+   * @return Promise<void>
    */
-  async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
+  async sendBatch(datas: SendableMessageInfo[]): Promise<void> {
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(datas);
   }

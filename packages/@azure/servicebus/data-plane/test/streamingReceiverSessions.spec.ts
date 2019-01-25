@@ -10,7 +10,7 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  MessageSession,
+  SessionClient,
   ServiceBusMessage,
   TopicClient,
   SubscriptionClient,
@@ -28,7 +28,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -44,7 +44,7 @@ let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
-let messageSession: MessageSession;
+let messageSession: SessionClient;
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
 
@@ -84,7 +84,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
       receiverClient.subscriptionName
     );
   }
-  messageSession = await receiverClient.acceptSession({
+  messageSession = await receiverClient.createSessionClient({
     sessionId: testSessionId
   });
   const peekedMsgs = await receiverClient.peek();
@@ -110,7 +110,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testPeekMsgsLength(messageSession, testMessagesWithSessions.length);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    messageSession.receive((msgSession: MessageSession, msg: ServiceBusMessage) => {
+    messageSession.receive((msgSession: SessionClient, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(
         testMessagesWithSessions.some((x) => msg.body === x.body && msg.messageId === x.messageId),
@@ -176,7 +176,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     messageSession.receive(
-      (msgSession: MessageSession, msg: ServiceBusMessage) => {
+      (msgSession: SessionClient, msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(
           testMessagesWithSessions.some(
@@ -257,7 +257,7 @@ describe("Complete message(with sessions)", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     messageSession.receive(
-      (msgSession: MessageSession, msg: ServiceBusMessage) => {
+      (msgSession: SessionClient, msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(
           testMessagesWithSessions.some(
@@ -372,7 +372,7 @@ describe("Abandon message(with sessions)", function(): void {
   async function testAbandon(autoComplete: boolean): Promise<void> {
     await senderClient.send(testMessagesWithSessions[0]);
     await messageSession.receive(
-      (msgSession: MessageSession, msg: ServiceBusMessage) => {
+      (msgSession: SessionClient, msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
           return messageSession.close();
         });
@@ -383,7 +383,7 @@ describe("Abandon message(with sessions)", function(): void {
     await delay(4000);
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    messageSession = await receiverClient.acceptSession({
+    messageSession = await receiverClient.createSessionClient({
       sessionId: testSessionId
     });
     const receivedMsgs = await messageSession.receiveBatch(1);
@@ -485,7 +485,7 @@ describe("Defer message(with sessions)", function(): void {
     let seq0: any = 0;
     let seq1: any = 0;
     await messageSession.receive(
-      (msgSession: MessageSession, msg: ServiceBusMessage) => {
+      (msgSession: SessionClient, msg: ServiceBusMessage) => {
         if (msg.messageId === testMessagesWithSessions[0].messageId) {
           seq0 = msg.sequenceNumber;
         } else if (msg.messageId === testMessagesWithSessions[1].messageId) {
@@ -613,7 +613,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await senderClient.sendBatch(testMessagesWithSessions);
     await testPeekMsgsLength(messageSession, 2);
     await messageSession.receive(
-      (msgSession: MessageSession, msg: ServiceBusMessage) => {
+      (msgSession: SessionClient, msg: ServiceBusMessage) => {
         return msg.deadLetter();
       },
       unExpectedErrorHandler,
@@ -730,13 +730,13 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
   });
 
   async function testMultipleReceiveCalls(): Promise<void> {
-    await messageSession.receive((msgSession: MessageSession, msg: ServiceBusMessage) => {
+    await messageSession.receive((msgSession: SessionClient, msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
     await delay(5000);
     try {
       await messageSession.receive(
-        (msgSession: MessageSession, msg: ServiceBusMessage) => {
+        (msgSession: SessionClient, msg: ServiceBusMessage) => {
           return Promise.resolve();
         },
         (err: Error) => {
@@ -804,7 +804,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
   async function testSettlement(operation: DispositionType): Promise<void> {
     await senderClient.send(testMessagesWithSessions[0]);
     const receivedMsgs: ServiceBusMessage[] = [];
-    messageSession.receive((msgSession: MessageSession, msg: ServiceBusMessage) => {
+    messageSession.receive((msgSession: SessionClient, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
