@@ -327,7 +327,10 @@ export class MessageReceiver extends LinkEntity {
           new Date(totalAutoLockRenewDuration).toString()
         );
         const autoRenewLockTask = (): void => {
-          if (Date.now() < totalAutoLockRenewDuration) {
+          if (
+            new Date(totalAutoLockRenewDuration) > bMessage.lockedUntilUtc! &&
+            Date.now() < totalAutoLockRenewDuration
+          ) {
             if (this._messageRenewLockTimers.has(bMessage.messageId as string)) {
               // TODO: We can run into problems with clock skew between the client and the server.
               // It would be better to calculate the duration based on the "lockDuration" property

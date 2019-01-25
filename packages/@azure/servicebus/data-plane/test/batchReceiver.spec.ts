@@ -47,6 +47,7 @@ let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
 let messageSession: SessionClient;
+const maxDeliveryCount = 10;
 
 async function beforeEachTest(
   senderType: ClientType,
@@ -299,6 +300,92 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
       true
     );
     await testAbandon(true);
+  });
+
+  async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    await senderClient.send(testMessages[0]);
+    let abandonMsgCount = 0;
+
+    while (abandonMsgCount < maxDeliveryCount) {
+      const receivedMsgs = await receiverClient.receiveBatch(1);
+
+      should.equal(receivedMsgs.length, 1);
+      should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+      should.equal(receivedMsgs[0].deliveryCount, abandonMsgCount);
+      abandonMsgCount++;
+
+      await receivedMsgs[0].abandon();
+    }
+
+    await testPeekMsgsLength(receiverClient, 0);
+
+    const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
+
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].body, testMessages[0].body);
+    should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
+
+    await deadLetterMsgs[0].complete();
+
+    await testPeekMsgsLength(deadLetterClient, 0);
+  }
+
+  it("Partitioned Queues: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testAbandonMsgsTillMaxDeliveryCount();
+  });
+
+  it("Partitioned Topics and Subscription: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testAbandonMsgsTillMaxDeliveryCount();
+  });
+
+  it("Unpartitioned Queues: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testAbandonMsgsTillMaxDeliveryCount();
+  });
+
+  it("Unpartitioned Topics and Subscription: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testAbandonMsgsTillMaxDeliveryCount();
+  });
+
+  it("Partitioned Queues with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testAbandonMsgsTillMaxDeliveryCount(true);
+  });
+
+  it("Partitioned Topics and Subscription with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testAbandonMsgsTillMaxDeliveryCount(true);
+  });
+
+  it("Unpartitioned Queues with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testAbandonMsgsTillMaxDeliveryCount(true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testAbandonMsgsTillMaxDeliveryCount(true);
   });
 
   async function testDefer(useSessions?: boolean): Promise<void> {
