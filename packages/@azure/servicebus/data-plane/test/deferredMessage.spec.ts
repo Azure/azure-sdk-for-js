@@ -40,39 +40,16 @@ async function testPeekMsgsLength(
 
 let ns: Namespace;
 
-let partitionedQueueClient: QueueClient;
-let partitionedDeadletterQueueClient: QueueClient;
+let senderClient: QueueClient | TopicClient;
+let receiverClient: QueueClient | SubscriptionClient;
+let deadLetterClient: QueueClient | SubscriptionClient;
+let messageSession: MessageSession;
 
-let partitionedQueueSessionClient: QueueClient;
-let partitionedQueueMessageSession: MessageSession;
-let partitionedDeadletterQueueSessionClient: QueueClient;
-
-let partitionedTopicClient: TopicClient;
-let partitionedSubscriptionClient: SubscriptionClient;
-let partitionedDeadletterSubscriptionClient: SubscriptionClient;
-
-let partitionedTopicSessionClient: TopicClient;
-let partitionedSubscriptionSessionClient: SubscriptionClient;
-let partitionedSubscriptionMessageSession: MessageSession;
-let partitionedDeadletterSubscriptionSessionClient: SubscriptionClient;
-
-// let unpartitionedQueueClient: QueueClient;
-// let unpartitionedDeadletterQueueClient: QueueClient;
-
-// let unpartitionedQueueSessionClient: QueueClient;
-// let unpartitionedQueueMessageSession: MessageSession;
-// let unpartitionedDeadletterQueueSessionClient: QueueClient;
-
-// let unpartitionedTopicClient: TopicClient;
-// let unpartitionedSubscriptionClient: SubscriptionClient;
-// let unpartitionedDeadletterSubscriptionClient: SubscriptionClient;
-
-// let unpartitionedTopicSessionClient: TopicClient;
-// let unpartitionedSubscriptionSessionClient: SubscriptionClient;
-// let unpartitionedSubscriptionMessageSession: MessageSession;
-// let unpartitionedDeadletterSubscriptionSessionClient: SubscriptionClient;
-
-async function beforeEachTest(): Promise<void> {
+async function beforeEachTest(
+  senderType: ClientType,
+  receiverType: ClientType,
+  useSessions?: boolean
+): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -83,143 +60,36 @@ async function beforeEachTest(): Promise<void> {
   }
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  // Partitioned Queues and Subscriptions
-  partitionedQueueClient = getSenderClient(ns, ClientType.PartitionedQueue) as QueueClient;
-  partitionedDeadletterQueueClient = ns.createQueueClient(
-    Namespace.getDeadLetterQueuePathForQueue(partitionedQueueClient.name)
-  );
+  senderClient = getSenderClient(ns, senderType);
+  receiverClient = getReceiverClient(ns, receiverType);
 
-  partitionedTopicClient = getSenderClient(ns, ClientType.PartitionedTopic) as TopicClient;
-  partitionedSubscriptionClient = getReceiverClient(
-    ns,
-    ClientType.PartitionedSubscription
-  ) as SubscriptionClient;
-  partitionedDeadletterSubscriptionClient = ns.createSubscriptionClient(
-    Namespace.getDeadLetterSubcriptionPathForSubcription(
-      partitionedTopicClient.name,
-      partitionedSubscriptionClient.subscriptionName
-    ),
-    partitionedSubscriptionClient.subscriptionName
-  );
-
-  // Unpartitioned Queues and Subscriptions
-  // unpartitionedQueueClient = getSenderClient(ns, ClientType.UnpartitionedQueue) as QueueClient;
-  // unpartitionedDeadletterQueueClient = ns.createQueueClient(
-  //   Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueClient.name)
-  // );
-  // unpartitionedTopicClient = getSenderClient(ns, ClientType.UnpartitionedTopic) as TopicClient;
-  // unpartitionedSubscriptionClient = getReceiverClient(
-  //   ns,
-  //   ClientType.UnpartitionedSubscription
-  // ) as SubscriptionClient;
-  // unpartitionedDeadletterSubscriptionClient = ns.createSubscriptionClient(
-  //   Namespace.getDeadLetterSubcriptionPathForSubcription(
-  //     unpartitionedTopicClient.name,
-  //     unpartitionedSubscriptionClient.subscriptionName
-  //   ),
-  //   unpartitionedSubscriptionClient.subscriptionName
-  // );
-
-  // Partitioned Queues and Subscriptions with Sessions
-  partitionedQueueSessionClient = getSenderClient(
-    ns,
-    ClientType.PartitionedQueueWithSessions
-  ) as QueueClient;
-  partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
-    sessionId: testSessionId
-  });
-  partitionedDeadletterQueueSessionClient = ns.createQueueClient(
-    Namespace.getDeadLetterQueuePathForQueue(partitionedQueueSessionClient.name)
-  );
-  partitionedTopicSessionClient = getSenderClient(
-    ns,
-    ClientType.PartitionedTopicWithSessions
-  ) as TopicClient;
-  partitionedSubscriptionSessionClient = getReceiverClient(
-    ns,
-    ClientType.PartitionedSubscriptionWithSessions
-  ) as SubscriptionClient;
-  partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.acceptSession({
-    sessionId: testSessionId
-  });
-  partitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
-    Namespace.getDeadLetterSubcriptionPathForSubcription(
-      partitionedTopicSessionClient.name,
-      partitionedSubscriptionSessionClient.subscriptionName
-    ),
-    partitionedSubscriptionSessionClient.subscriptionName
-  );
-  // Unpartitioned Queues and Subscriptions with Sessions
-  // unpartitionedQueueSessionClient = getSenderClient(
-  //   ns,
-  //   ClientType.UnpartitionedQueueWithSessions
-  // ) as QueueClient;
-  // unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.acceptSession({
-  //   sessionId: testSessionId
-  // });
-  // unpartitionedDeadletterQueueSessionClient = ns.createQueueClient(
-  //   Namespace.getDeadLetterQueuePathForQueue(unpartitionedQueueSessionClient.name)
-  // );
-  // unpartitionedTopicSessionClient = getSenderClient(
-  //   ns,
-  //   ClientType.UnpartitionedTopicWithSessions
-  // ) as TopicClient;
-  // unpartitionedSubscriptionSessionClient = getReceiverClient(
-  //   ns,
-  //   ClientType.UnpartitionedSubscriptionWithSessions
-  // ) as SubscriptionClient;
-  // unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.acceptSession(
-  //   {
-  //     sessionId: testSessionId
-  //   }
-  // );
-  // unpartitionedDeadletterSubscriptionSessionClient = ns.createSubscriptionClient(
-  //   Namespace.getDeadLetterSubcriptionPathForSubcription(
-  //     unpartitionedTopicSessionClient.name,
-  //     unpartitionedSubscriptionSessionClient.subscriptionName
-  //   ),
-  //   unpartitionedSubscriptionSessionClient.subscriptionName
-  // );
-
-  const peekedPartitionedQueueMsg = await partitionedQueueClient.peek();
-  if (peekedPartitionedQueueMsg.length) {
-    throw new Error("Please use an empty partitioned queue for integration testing");
+  if (receiverClient instanceof QueueClient) {
+    deadLetterClient = ns.createQueueClient(
+      Namespace.getDeadLetterQueuePathForQueue(receiverClient.name)
+    );
   }
 
-  const peekedPartitionedSubscriptionMsg = await partitionedSubscriptionClient.peek();
-  if (peekedPartitionedSubscriptionMsg.length) {
-    throw new Error("Please use an empty partitioned Subscription for integration testing");
+  if (receiverClient instanceof SubscriptionClient) {
+    deadLetterClient = ns.createSubscriptionClient(
+      Namespace.getDeadLetterSubcriptionPathForSubcription(
+        senderClient.name,
+        receiverClient.subscriptionName
+      ),
+      receiverClient.subscriptionName
+    );
   }
 
-  // const peekedUnPartitionedQueueMsg = await unpartitionedQueueClient.peek();
-  // if (peekedUnPartitionedQueueMsg.length) {
-  //   throw new Error("Please use an empty unpartitioned queue for integration testing");
-  // }
-
-  // const peekedUnPartitionedSubscriptionMsg = await unpartitionedSubscriptionClient.peek();
-  // if (peekedUnPartitionedSubscriptionMsg.length) {
-  //   throw new Error("Please use an empty unpartitioned Subscription for integration testing");
-  // }
-
-  const peekedPartitionedQueueSessionMsg = await partitionedQueueSessionClient.peek();
-  if (peekedPartitionedQueueSessionMsg.length) {
-    throw new Error("Please use an empty partitioned queue with sessions for integration testing");
+  if (useSessions) {
+    messageSession = await receiverClient.acceptSession({
+      sessionId: testSessionId
+    });
   }
 
-  const peekedPartitionedSubscriptionSessionMsg = await partitionedSubscriptionSessionClient.peek();
-  if (peekedPartitionedSubscriptionSessionMsg.length) {
-    throw new Error("Please use an empty partitioned queue with sessions for integration testing");
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
   }
-
-  // const peekedUnPartitionedQueueSessionMsg = await unpartitionedQueueSessionClient.peek();
-  // if (peekedUnPartitionedQueueSessionMsg.length) {
-  //   throw new Error("Please use an empty partitioned queue with sessions for integration testing");
-  // }
-
-  // const peekedUnPartitionedSubscriptionSessionMsg = await unpartitionedSubscriptionSessionClient.peek();
-  // if (peekedUnPartitionedSubscriptionSessionMsg.length) {
-  //   throw new Error("Please use an empty partitioned queue with sessions for integration testing");
-  // }
 }
 
 async function afterEachTest(): Promise<void> {
@@ -279,172 +149,198 @@ async function completeDeferredMessage(
 }
 
 describe("Abandon/Defer/Deadletter deferred message", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest();
-  });
-
   afterEach(async () => {
     await afterEachTest();
   });
 
-  async function testAbandon(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
-    useSessions?: boolean
-  ): Promise<void> {
+  async function testAbandon(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const deferredMsg = await deferMessage(senderClient, receiverClient, testMessages);
+    const currentReceiverClient = useSessions ? messageSession : receiverClient;
+    const deferredMsg = await deferMessage(senderClient, currentReceiverClient, testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
       throw "Sequence Number can not be null";
     }
     await deferredMsg.abandon();
-    await completeDeferredMessage(receiverClient, sequenceNumber, 2, testMessages);
+    await completeDeferredMessage(currentReceiverClient, sequenceNumber, 2, testMessages);
   }
 
   it("Partitioned Queues: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedQueueClient, partitionedQueueClient);
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testAbandon();
   });
 
   it("Partitioned Topics and Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedTopicClient, partitionedSubscriptionClient);
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testAbandon();
   });
 
   it("Partitioned Queues with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedQueueSessionClient, partitionedQueueMessageSession, true);
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      true
+    );
+    await testAbandon(true);
   });
 
   it("Partitioned Topics and Subscription with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testAbandon(partitionedTopicSessionClient, partitionedSubscriptionMessageSession, true);
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+    await testAbandon(true);
   });
 
-  // it("Unpartitioned Queues: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testAbandon(unpartitionedQueueClient, unpartitionedQueueClient);
-  // });
+  it("Unpartitioned Queues: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testAbandon();
+  });
 
-  // it("Unpartitioned Topics and Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testAbandon(unpartitionedTopicClient, unpartitionedSubscriptionClient);
-  // });
+  it("Unpartitioned Topics and Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testAbandon();
+  });
 
-  // it("Unpartitioned Queues with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testAbandon(unpartitionedQueueSessionClient, unpartitionedQueueMessageSession, true);
-  // });
+  it("Unpartitioned Queues with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testAbandon(true);
+  });
 
-  // it("Unpartitioned Topics and Subscription with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testAbandon(unpartitionedTopicSessionClient, unpartitionedSubscriptionMessageSession, true);
-  // });
+  it("Unpartitioned Topics and Subscription with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testAbandon(true);
+  });
 });
 
 describe("Deferring a deferred message puts it back to the deferred queue.", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest();
-  });
-
   afterEach(async () => {
     await afterEachTest();
   });
 
-  async function testDefer(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
-    useSessions?: boolean
-  ): Promise<void> {
+  async function testDefer(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const deferredMsg = await deferMessage(senderClient, receiverClient, testMessages);
+    const currentReceiverClient = useSessions ? messageSession : receiverClient;
+    const deferredMsg = await deferMessage(senderClient, currentReceiverClient, testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
       throw "Sequence Number can not be null";
     }
     await deferredMsg.defer();
-    await completeDeferredMessage(receiverClient, sequenceNumber, 2, testMessages);
+    await completeDeferredMessage(currentReceiverClient, sequenceNumber, 2, testMessages);
   }
 
   it("Partitioned Queues: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testDefer(partitionedQueueClient, partitionedQueueClient);
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testDefer();
   });
 
   it("Partitioned Topics and Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testDefer(partitionedTopicClient, partitionedSubscriptionClient);
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testDefer();
   });
 
   it("Partitioned Queues with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testDefer(partitionedQueueSessionClient, partitionedQueueMessageSession, true);
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      true
+    );
+    await testDefer(true);
   });
 
   it("Partitioned Topics and Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await testDefer(partitionedTopicSessionClient, partitionedSubscriptionMessageSession, true);
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+    await testDefer(true);
   });
 
-  // it("Unpartitioned Queues: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDefer(unpartitionedQueueClient, unpartitionedQueueClient);
-  // });
+  it("Unpartitioned Queues: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testDefer();
+  });
 
-  // it("Unpartitioned Topics and Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDefer(unpartitionedTopicClient, unpartitionedSubscriptionClient);
-  // });
+  it("Unpartitioned Topics and Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testDefer();
+  });
 
-  // it("Unpartitioned Queues with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDefer(unpartitionedQueueSessionClient, unpartitionedQueueMessageSession, true);
-  // });
+  it("Unpartitioned Queues with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testDefer(true);
+  });
 
-  // it("Unpartitioned Topics and Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDefer(unpartitionedTopicSessionClient, unpartitionedSubscriptionMessageSession, true);
-  // });
+  it("Unpartitioned Topics and Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testDefer(true);
+  });
 });
 
 describe("Deadlettering a deferred message moves it to dead letter queue.", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest();
-  });
-
   afterEach(async () => {
     await afterEachTest();
   });
 
-  async function testDeadletter(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
-    deadLetterClient: QueueClient | SubscriptionClient,
-    useSessions?: boolean
-  ): Promise<void> {
+  async function testDeadletter(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const deferredMsg = await deferMessage(senderClient, receiverClient, testMessages);
+    const currentReceiverClient = useSessions ? messageSession : receiverClient;
+    const deferredMsg = await deferMessage(senderClient, currentReceiverClient, testMessages);
 
     await deferredMsg.deadLetter();
 
-    await testPeekMsgsLength(receiverClient, 0);
+    await testPeekMsgsLength(currentReceiverClient, 0);
 
     const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
 
@@ -461,84 +357,72 @@ describe("Deadlettering a deferred message moves it to dead letter queue.", func
   it("Partitioned Queues: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await testDeadletter(
-      partitionedQueueClient,
-      partitionedQueueClient,
-      partitionedDeadletterQueueClient
-    );
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testDeadletter();
   });
 
   it("Partitioned Topics and Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await testDeadletter(
-      partitionedTopicClient,
-      partitionedSubscriptionClient,
-      partitionedDeadletterSubscriptionClient
-    );
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testDeadletter();
   });
 
   it("Partitioned Queues with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await testDeadletter(
-      partitionedQueueSessionClient,
-      partitionedQueueMessageSession,
-      partitionedDeadletterQueueSessionClient,
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
       true
     );
+    await testDeadletter(true);
   });
 
   it("Partitioned Topics and Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await testDeadletter(
-      partitionedTopicSessionClient,
-      partitionedSubscriptionMessageSession,
-      partitionedDeadletterSubscriptionSessionClient,
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
       true
     );
+    await testDeadletter(true);
   });
 
-  // it("Unpartitioned Queues: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDeadletter(
-  //     unpartitionedQueueClient,
-  //     unpartitionedQueueClient,
-  //     unpartitionedDeadletterQueueClient
-  //   );
-  // });
+  it("Unpartitioned Queues: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testDeadletter();
+  });
 
-  // it("Unpartitioned Topics and Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDeadletter(
-  //     unpartitionedTopicClient,
-  //     unpartitionedSubscriptionClient,
-  //     unpartitionedDeadletterSubscriptionClient
-  //   );
-  // });
+  it("Unpartitioned Topics and Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testDeadletter();
+  });
 
-  // it("Unpartitioned Queues with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDeadletter(
-  //     unpartitionedQueueSessionClient,
-  //     unpartitionedQueueMessageSession,
-  //     unpartitionedDeadletterQueueSessionClient,
-  //     true
-  //   );
-  // });
+  it("Unpartitioned Queues with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testDeadletter(true);
+  });
 
-  // it("Unpartitioned Topics and Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-  //   void
-  // > {
-  //   await testDeadletter(
-  //     unpartitionedTopicSessionClient,
-  //     unpartitionedSubscriptionMessageSession,
-  //     unpartitionedDeadletterSubscriptionSessionClient,
-  //     true
-  //   );
-  // });
+  it("Unpartitioned Topics and Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testDeadletter(true);
+  });
 });
