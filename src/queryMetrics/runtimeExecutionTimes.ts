@@ -13,10 +13,6 @@ export class RuntimeExecutionTimes {
    * returns a new RuntimeExecutionTimes instance that is the addition of this and the arguments.
    */
   public add(...runtimeExecutionTimesArray: RuntimeExecutionTimes[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let queryEngineExecutionTime = this.queryEngineExecutionTime;
     let systemFunctionExecutionTime = this.systemFunctionExecutionTime;
     let userDefinedFunctionExecutionTime = this.userDefinedFunctionExecutionTime;

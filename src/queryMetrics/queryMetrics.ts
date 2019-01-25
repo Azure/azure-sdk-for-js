@@ -36,10 +36,6 @@ export class QueryMetrics {
    * returns a new QueryMetrics instance that is the addition of this and the arguments.
    */
   public add(queryMetricsArray: QueryMetrics[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let retrievedDocumentCount = 0;
     let retrievedDocumentSize = 0;
     let outputDocumentCount = 0;

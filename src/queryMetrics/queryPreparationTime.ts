@@ -14,10 +14,6 @@ export class QueryPreparationTimes {
    * returns a new QueryPreparationTimes instance that is the addition of this and the arguments.
    */
   public add(...queryPreparationTimesArray: QueryPreparationTimes[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let queryCompilationTime = this.queryCompilationTime;
     let logicalPlanBuildTime = this.logicalPlanBuildTime;
     let physicalPlanBuildTime = this.physicalPlanBuildTime;
