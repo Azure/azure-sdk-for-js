@@ -97,13 +97,6 @@ export interface SessionManagerOptions extends SessionMessageHandlerOptions {
    */
   maxConcurrentSessions?: number;
   /**
-   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that should be
-   * processed concurrently in a session while in peek lock mode. Once this limit has been reached,
-   * more messages will not be received until messages currently being processed have been settled.
-   * - **Default**: `1` (message in a session at a time).
-   */
-  maxConcurrentCallsPerSession?: number;
-  /**
    * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the session
    * receiver will wait after a message has been received. If no messages are received in that
    * time frame then the session will be closed.
@@ -1189,9 +1182,6 @@ export class SessionClient extends LinkEntity {
     const messageSession = new SessionClient(context, options);
     if (options && options.maxMessageWaitTimeoutInSeconds) {
       messageSession.maxMessageWaitTimeoutInSeconds = options.maxMessageWaitTimeoutInSeconds;
-    }
-    if (options && options.maxConcurrentCallsPerSession) {
-      messageSession.maxConcurrentCallsPerSession = options.maxConcurrentCallsPerSession;
     }
     await messageSession._init();
     return messageSession;
