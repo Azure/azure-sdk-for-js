@@ -12,7 +12,7 @@ const Serializer = new msRest.Serializer({});
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 
 function stringToByteArray(str: string): Uint8Array {
-  if (typeof Buffer === "function") {
+  if (typeof Buffer === "function" && msRest.isNode) {
     return Buffer.from(str, "utf-8");
   } else {
     return new TextEncoder().encode(str);

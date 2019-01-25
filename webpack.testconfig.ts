@@ -3,7 +3,7 @@ import * as glob from "glob";
 import * as path from "path";
 
 const config: webpack.Configuration = {
-  entry: glob.sync(path.join(__dirname, "test/**/*.ts")),
+  entry: glob.sync(path.join(__dirname, "test/**/*[^node\.].ts")),
   mode: "development",
   devtool: "source-map",
   stats: {
@@ -46,16 +46,17 @@ const config: webpack.Configuration = {
     extensions: [".tsx", ".ts", ".js"]
   },
   node: {
+    Buffer: "mock",
+    dns: false,
     fs: "empty",
     net: "empty",
     path: "empty",
-    dns: false,
-    tls: false,
+    process: "mock",
+    stream: "empty",
+    tls: "empty",
     tty: false,
+    tunnel: "empty",
     v8: false,
-    Buffer: false,
-    process: false,
-    stream: "empty"
   }
 };
 

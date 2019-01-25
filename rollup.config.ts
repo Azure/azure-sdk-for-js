@@ -24,13 +24,14 @@
    input: "./es/lib/msRest.js",
    external: [
      "axios",
-     "xml2js",
-     "tough-cookie",
-     "uuid/v4",
-     "tslib",
      "form-data",
+     "os",
      "stream",
-     "os"
+     "tough-cookie",
+     "tslib",
+     "tunnel",
+     "uuid/v4",
+     "xml2js",
    ],
    output: {
      file: "./dist/msRest.node.js",

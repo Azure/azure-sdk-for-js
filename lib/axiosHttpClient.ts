@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, AxiosProxyConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Transform, Readable } from "stream";
 import FormData from "form-data";
 import * as tough from "tough-cookie";
@@ -10,9 +10,11 @@ import { HttpHeaders } from "./httpHeaders";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
 import { WebResource, HttpRequestBody } from "./webResource";
+import * as tunnel from "tunnel";
 import { ProxySettings } from "./serviceClient";
-
-export const axiosClient = axios.create();
+import http from "http";
+import https from "https";
+import { URLBuilder } from "./url";
 
 /**
  * A HttpClient implementation that uses axios to send HTTP requests.
@@ -130,9 +132,19 @@ export class AxiosHttpClient implements HttpClient {
         responseType: httpRequest.streamResponseBody ? "stream" : "text",
         cancelToken,
         timeout: httpRequest.timeout,
-        proxy: convertToAxiosProxyConfig(httpRequest.proxySettings)
+        proxy: false
       };
-      res = await axiosClient(config);
+
+      if (httpRequest.proxySettings) {
+        const agent = createProxyAgent(httpRequest.url, httpRequest.proxySettings, httpRequest.headers);
+        if (agent.isHttps) {
+          config.httpsAgent = agent.agent;
+        } else {
+          config.httpAgent = agent.agent;
+        }
+      }
+
+      res = await axios.request(config);
     } catch (err) {
       if (err instanceof axios.Cancel) {
         throw new RestError(err.message, RestError.REQUEST_SEND_ERROR, undefined, httpRequest);
@@ -198,25 +210,45 @@ export class AxiosHttpClient implements HttpClient {
   }
 }
 
-function convertToAxiosProxyConfig(proxySettings: ProxySettings | undefined): AxiosProxyConfig | undefined {
-  if (!proxySettings) {
-    return undefined;
-  }
-
-  const axiosAuthConfig = (proxySettings.username && proxySettings.password) ? {
-    username: proxySettings.username,
-    password: proxySettings.password
-  } : undefined;
-
-  const axiosProxyConfig: AxiosProxyConfig = {
-    host: proxySettings.host,
-    port: proxySettings.port,
-    auth: axiosAuthConfig
-  };
-
-  return axiosProxyConfig;
-}
-
 function isReadableStream(body: any): body is Readable {
   return typeof body.pipe === "function";
+}
+
+declare type ProxyAgent = { isHttps: boolean; agent: http.Agent | https.Agent };
+export function createProxyAgent(requestUrl: string, proxySettings: ProxySettings, headers?: HttpHeaders): ProxyAgent {
+  const tunnelOptions: tunnel.HttpsOverHttpsOptions = {
+    proxy: {
+      host: proxySettings.host,
+      port: proxySettings.port,
+      headers: (headers && headers.rawHeaders()) || {}
+    }
+  };
+
+  if ((proxySettings.username && proxySettings.password)) {
+    tunnelOptions.proxy!.proxyAuth = `${proxySettings.username}:${proxySettings.password}`;
+  }
+
+  const requestScheme = URLBuilder.parse(requestUrl).getScheme() || "";
+  const isRequestHttps = requestScheme.toLowerCase() === "https";
+  const proxyScheme = URLBuilder.parse(proxySettings.host).getScheme() || "";
+  const isProxyHttps = proxyScheme.toLowerCase() === "https";
+
+  const proxyAgent = {
+    isHttps: isRequestHttps,
+    agent: createTunnel(isRequestHttps, isProxyHttps, tunnelOptions)
+  };
+
+  return proxyAgent;
+}
+
+export function createTunnel(isRequestHttps: boolean, isProxyHttps: boolean, tunnelOptions: tunnel.HttpsOverHttpsOptions): http.Agent | https.Agent {
+  if (isRequestHttps && isProxyHttps) {
+    return tunnel.httpsOverHttps(tunnelOptions);
+  } else if (isRequestHttps && !isProxyHttps) {
+    return tunnel.httpsOverHttp(tunnelOptions);
+  } else if (!isRequestHttps && isProxyHttps) {
+    return tunnel.httpOverHttps(tunnelOptions);
+  } else {
+    return tunnel.httpOverHttp(tunnelOptions);
+  }
 }

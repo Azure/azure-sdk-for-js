@@ -4,15 +4,16 @@
 import { assert, AssertionError } from "chai";
 import "chai/register-should";
 import { createReadStream } from "fs";
+import axios from "axios";
 
 import { DefaultHttpClient } from "../lib/defaultHttpClient";
 import { RestError } from "../lib/restError";
 import { isNode } from "../lib/util/utils";
 import { WebResource, HttpRequestBody, TransferProgressEvent } from "../lib/webResource";
-import { getHttpMock } from "./mockHttp";
+import { getHttpMock, HttpMockFacade } from "./mockHttp";
+import { TestFunction } from "mocha";
 
-const nodeIt = isNode ? it : it.skip;
-const httpMock = getHttpMock();
+const nodeIt = (isNode ? it : it.skip) as TestFunction;
 
 function getAbortController(): AbortController {
   let controller: AbortController;
@@ -30,8 +31,13 @@ describe("defaultHttpClient", function () {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  beforeEach(() => httpMock.setup());
+  let httpMock: HttpMockFacade;
+  beforeEach(() => {
+    httpMock = getHttpMock(axios);
+    httpMock.setup();
+  });
   afterEach(() => httpMock.teardown());
+  after(() => httpMock.teardown());
 
   it("should return a response instead of throwing for awaited 404", async function () {
     const resourceUrl = "/nonexistent/";
@@ -138,7 +144,7 @@ describe("defaultHttpClient", function () {
 
     it("for simple bodies", async function () {
       httpMock.post("/fileupload", async (_url, _method, body) => {
-        return { status: 201, body: body, headers: { "Content-Length": "200" } };
+        return { status: 251, body: body, headers: { "Content-Length": "200" } };
       });
 
       const upload: Notified = { notified: false };
@@ -152,6 +158,7 @@ describe("defaultHttpClient", function () {
       const client = new DefaultHttpClient();
       const response = await client.sendRequest(request);
       response.should.exist;
+      response.status.should.equal(251);
       upload.notified.should.be.true;
       download.notified.should.be.true;
     });
@@ -167,7 +174,7 @@ describe("defaultHttpClient", function () {
       const size = isNode ? payload.toString().length : undefined;
 
       httpMock.post("/fileupload", async (_url, _method, _body) => {
-        return { status: 201, body: payload, headers: { "Content-Type": "text/javascript", "Content-length": size } };
+        return { status: 250, body: payload, headers: { "Content-Type": "text/javascript", "Content-length": size } };
       });
 
       const upload: Notified = { notified: false };
@@ -179,6 +186,7 @@ describe("defaultHttpClient", function () {
 
       const client = new DefaultHttpClient();
       const response = await client.sendRequest(request);
+      response.status.should.equal(250);
       if (response.blobBody) {
         await response.blobBody;
       } else if ((typeof response.readableStreamBody === "function")) {
@@ -209,9 +217,9 @@ describe("defaultHttpClient", function () {
   });
 
   it("should give a graceful error for nonexistent hosts", async function () {
-    const requestUrl = "http://foo.notawebsite/";
-    httpMock.passThrough(requestUrl);
-    const request = new WebResource(requestUrl);
+    const requestUrl = "http://fake.domain";
+    httpMock.passThrough();
+    const request = new WebResource(requestUrl, "GET");
     const client = new DefaultHttpClient();
     try {
       await client.sendRequest(request);
@@ -312,5 +320,6 @@ describe("defaultHttpClient", function () {
     assert.strictEqual(
       responseBody && responseBody.replace(/\s/g, ""),
       expectedResponseBody.replace(/\s/g, ""));
+    httpMock.teardown();
   });
 });

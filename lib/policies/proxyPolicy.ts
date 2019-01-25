@@ -5,11 +5,47 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOp
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { ProxySettings } from "../serviceClient";
 import { WebResource } from "../webResource";
+import { Constants } from "../util/constants";
+import { URLBuilder } from "../url";
 
-export function proxyPolicy(proxySettings: ProxySettings): RequestPolicyFactory {
+function loadEnvironmentProxyValue(): string | undefined {
+  if (!process) {
+    return undefined;
+  }
+
+  if (process.env[Constants.HTTPS_PROXY]) {
+    return process.env[Constants.HTTPS_PROXY];
+  } else if (process.env[Constants.HTTPS_PROXY.toLowerCase()]) {
+    return process.env[Constants.HTTPS_PROXY.toLowerCase()];
+  } else if (process.env[Constants.HTTP_PROXY]) {
+    return process.env[Constants.HTTP_PROXY];
+  } else if (process.env[Constants.HTTP_PROXY.toLowerCase()]) {
+    return process.env[Constants.HTTP_PROXY.toLowerCase()];
+  }
+
+  return undefined;
+}
+
+export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
+  if (!proxyUrl) {
+    proxyUrl = loadEnvironmentProxyValue();
+    if (!proxyUrl) {
+      return undefined;
+    }
+  }
+
+  const parsedUrl = URLBuilder.parse(proxyUrl);
+  return {
+    host: parsedUrl.getScheme() + "://" + parsedUrl.getHost(),
+    port: Number.parseInt(parsedUrl.getPort() || "80")
+  };
+}
+
+
+export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ProxyPolicy(nextPolicy, options, proxySettings);
+      return new ProxyPolicy(nextPolicy, options, proxySettings!);
     }
   };
 }

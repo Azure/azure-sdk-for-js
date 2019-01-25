@@ -4,7 +4,7 @@
 import xhrMock, { proxy } from "xhr-mock";
 import MockAdapter from "axios-mock-adapter";
 import { isNode, HttpMethods } from "../lib/msRest";
-import { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig, AxiosInstance } from "axios";
 
 export type UrlFilter = string | RegExp;
 
@@ -18,7 +18,7 @@ export type MockResponseFunction = (url?: string, method?: string, body?: any, h
 
 export type MockResponse = MockResponseData | MockResponseFunction;
 
-interface HttpMockFacade {
+export interface HttpMockFacade {
     setup(): void;
     teardown(): void;
     passThrough(url?: UrlFilter): void;
@@ -29,22 +29,26 @@ interface HttpMockFacade {
     put(url: UrlFilter, response: MockResponse): void;
 }
 
-export function getHttpMock(): HttpMockFacade {
-    return (isNode ? new NodeHttpMock() : new BrowserHttpMock());
+export function getHttpMock(axiosInstance?: AxiosInstance): HttpMockFacade {
+    return (isNode ? new NodeHttpMock(axiosInstance) : new BrowserHttpMock());
 }
 
 class NodeHttpMock implements HttpMockFacade {
     private _mockAdapter: MockAdapter;
 
-    constructor() {
-        const axiosClient = require("../lib/axiosHttpClient").axiosClient;
-        this._mockAdapter = new MockAdapter(axiosClient);
+    constructor(axiosInstance?: AxiosInstance) {
+        if (!axiosInstance) {
+            throw new Error("Axios instance cannot be undefined");
+        }
+        this._mockAdapter = new MockAdapter(axiosInstance);
     }
 
     setup(): void {
+        this._mockAdapter.reset();
     }
 
     teardown(): void {
+        this._mockAdapter.restore();
     }
 
     mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse): void {
