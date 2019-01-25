@@ -5,10 +5,6 @@ export class ClientSideMetrics {
    * Adds one or more ClientSideMetrics to a copy of this instance and returns the result.
    */
   public add(...clientSideMetricsArray: ClientSideMetrics[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let requestCharge = this.requestCharge;
     for (const clientSideMetrics of clientSideMetricsArray) {
       if (clientSideMetrics == null) {

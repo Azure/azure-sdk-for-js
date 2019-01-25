@@ -136,9 +136,6 @@ export class QueryIterator<T> {
    * Retrieve all the elements of the feed and pass them as an array to a function
    */
   public async toArray(): Promise<Response<T[]>> {
-    if (arguments.length !== 0) {
-      throw new Error("toArray takes no arguments");
-    }
     this.reset();
     this.toArrayTempResources = [];
     return this._toArrayImplementation();
