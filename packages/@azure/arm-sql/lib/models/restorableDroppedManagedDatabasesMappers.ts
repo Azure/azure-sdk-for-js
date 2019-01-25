@@ -9,19 +9,13 @@
  */
 
 export {
-  InstanceFailoverGroup,
-  ProxyResource,
+  RestorableDroppedManagedDatabaseListResult,
+  RestorableDroppedManagedDatabase,
+  TrackedResource,
   Resource,
   BaseResource,
-  InstanceFailoverGroupReadWriteEndpoint,
-  InstanceFailoverGroupReadOnlyEndpoint,
-  PartnerRegionInfo,
-  ManagedInstancePairInfo,
   CloudError,
-  InstanceFailoverGroupListResult,
-  RecoverableDatabase,
-  RestorableDroppedDatabase,
-  TrackedResource,
+  ProxyResource,
   ServerConnectionPolicy,
   DatabaseSecurityAlertPolicy,
   DataMaskingPolicy,
@@ -93,7 +87,6 @@ export {
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
-  RestorableDroppedManagedDatabase,
   RestorePoint,
   ManagedDatabaseSecurityAlertPolicy,
   ManagedServerSecurityAlertPolicy,
@@ -105,12 +98,19 @@ export {
   VulnerabilityAssessmentScanRecord,
   VulnerabilityAssessmentScanError,
   DatabaseVulnerabilityAssessmentScansExport,
+  InstanceFailoverGroup,
+  InstanceFailoverGroupReadWriteEndpoint,
+  InstanceFailoverGroupReadOnlyEndpoint,
+  PartnerRegionInfo,
+  ManagedInstancePairInfo,
   BackupShortTermRetentionPolicy,
   TdeCertificate,
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
   RecoverableManagedDatabase,
   ManagedInstanceVulnerabilityAssessment,
-  ServerVulnerabilityAssessment
+  ServerVulnerabilityAssessment,
+  RecoverableDatabase,
+  RestorableDroppedDatabase
 } from "../models/mappers";
 

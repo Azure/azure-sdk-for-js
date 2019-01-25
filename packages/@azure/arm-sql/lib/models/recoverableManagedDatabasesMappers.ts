@@ -9,16 +9,12 @@
  */
 
 export {
-  InstanceFailoverGroup,
+  RecoverableManagedDatabaseListResult,
+  RecoverableManagedDatabase,
   ProxyResource,
   Resource,
   BaseResource,
-  InstanceFailoverGroupReadWriteEndpoint,
-  InstanceFailoverGroupReadOnlyEndpoint,
-  PartnerRegionInfo,
-  ManagedInstancePairInfo,
   CloudError,
-  InstanceFailoverGroupListResult,
   RecoverableDatabase,
   RestorableDroppedDatabase,
   TrackedResource,
@@ -105,11 +101,15 @@ export {
   VulnerabilityAssessmentScanRecord,
   VulnerabilityAssessmentScanError,
   DatabaseVulnerabilityAssessmentScansExport,
+  InstanceFailoverGroup,
+  InstanceFailoverGroupReadWriteEndpoint,
+  InstanceFailoverGroupReadOnlyEndpoint,
+  PartnerRegionInfo,
+  ManagedInstancePairInfo,
   BackupShortTermRetentionPolicy,
   TdeCertificate,
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
-  RecoverableManagedDatabase,
   ManagedInstanceVulnerabilityAssessment,
   ServerVulnerabilityAssessment
 } from "../models/mappers";
