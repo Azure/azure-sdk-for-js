@@ -119,23 +119,23 @@ export interface ScheduledAlertRule extends Resource {
    */
   query: string;
   /**
-   * @member {string} queryFrequency TimeSpan format represents the frequncy
-   * for this alert rule to run.
+   * @member {string} queryFrequency The frequency (in ISO 8601 duration
+   * format) for this alert rule to run.
    */
   queryFrequency: string;
   /**
-   * @member {string} queryPeriod TimeSpan format represents the period that
+   * @member {string} queryPeriod The period (in ISO 8601 duration format) that
    * this alert rule looks at.
    */
   queryPeriod: string;
   /**
    * @member {AlertTriggerOperator} alertTriggerOperator The operation against
-   * the threahold that triggers alert rule. Possible values include: 'gt',
-   * 'lt', 'ne', 'eq'
+   * the threshold that triggers alert rule. Possible values include:
+   * 'GreaterThan', 'LessThan', 'Equal', 'NotEqual'
    */
   alertTriggerOperator: AlertTriggerOperator;
   /**
-   * @member {number} alertTriggerThreshold The threahold triggers this alert
+   * @member {number} alertTriggerThreshold The threshold triggers this alert
    * rule.
    */
   alertTriggerThreshold: number;
@@ -145,8 +145,8 @@ export interface ScheduledAlertRule extends Resource {
    */
   suppressionEnabled: boolean;
   /**
-   * @member {string} suppressionDuration TimeSpan format represents the
-   * suppression to wait since last time this alert rule been triggered.
+   * @member {string} suppressionDuration The suppression (in ISO 8601 duration
+   * format) to wait since last time this alert rule been triggered.
    */
   suppressionDuration: string;
   /**
@@ -212,11 +212,11 @@ export type Severity = 'Low' | 'Medium' | 'High' | 'Informational';
 
 /**
  * Defines values for AlertTriggerOperator.
- * Possible values include: 'gt', 'lt', 'ne', 'eq'
+ * Possible values include: 'GreaterThan', 'LessThan', 'Equal', 'NotEqual'
  * @readonly
  * @enum {string}
  */
-export type AlertTriggerOperator = 'gt' | 'lt' | 'ne' | 'eq';
+export type AlertTriggerOperator = 'GreaterThan' | 'LessThan' | 'Equal' | 'NotEqual';
 
 /**
  * Contains response data for the list operation.

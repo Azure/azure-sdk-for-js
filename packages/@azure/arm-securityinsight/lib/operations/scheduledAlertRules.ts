@@ -122,11 +122,11 @@ export class ScheduledAlertRules {
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param ruleId Alert rule ID
-   * @param alertScheduledtRule The alert rule
+   * @param scheduledAlertRule The alert rule
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduledAlertRulesCreateResponse>
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertScheduledtRule: Models.ScheduledAlertRule, options?: msRest.RequestOptionsBase): Promise<Models.ScheduledAlertRulesCreateResponse>;
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, scheduledAlertRule: Models.ScheduledAlertRule, options?: msRest.RequestOptionsBase): Promise<Models.ScheduledAlertRulesCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -134,10 +134,10 @@ export class ScheduledAlertRules {
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param ruleId Alert rule ID
-   * @param alertScheduledtRule The alert rule
+   * @param scheduledAlertRule The alert rule
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertScheduledtRule: Models.ScheduledAlertRule, callback: msRest.ServiceCallback<Models.ScheduledAlertRule>): void;
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, scheduledAlertRule: Models.ScheduledAlertRule, callback: msRest.ServiceCallback<Models.ScheduledAlertRule>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -145,19 +145,19 @@ export class ScheduledAlertRules {
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param ruleId Alert rule ID
-   * @param alertScheduledtRule The alert rule
+   * @param scheduledAlertRule The alert rule
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertScheduledtRule: Models.ScheduledAlertRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduledAlertRule>): void;
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertScheduledtRule: Models.ScheduledAlertRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduledAlertRule>, callback?: msRest.ServiceCallback<Models.ScheduledAlertRule>): Promise<Models.ScheduledAlertRulesCreateResponse> {
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, scheduledAlertRule: Models.ScheduledAlertRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduledAlertRule>): void;
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, scheduledAlertRule: Models.ScheduledAlertRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduledAlertRule>, callback?: msRest.ServiceCallback<Models.ScheduledAlertRule>): Promise<Models.ScheduledAlertRulesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         operationalInsightsResourceProvider,
         workspaceName,
         ruleId,
-        alertScheduledtRule,
+        scheduledAlertRule,
         options
       },
       createOperationSpec,
@@ -311,7 +311,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "alertScheduledtRule",
+    parameterPath: "scheduledAlertRule",
     mapper: {
       ...Mappers.ScheduledAlertRule,
       required: true
@@ -348,6 +348,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError

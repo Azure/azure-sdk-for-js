@@ -159,21 +159,15 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
       queryFrequency: {
         required: true,
         serializedName: "properties.queryFrequency",
-        constraints: {
-          Pattern: /^(\d+\.)?\d{2}\:\d{2}\:\d{2}$/
-        },
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       },
       queryPeriod: {
         required: true,
         serializedName: "properties.queryPeriod",
-        constraints: {
-          Pattern: /^(\d+\.)?\d{2}\:\d{2}\:\d{2}$/
-        },
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       },
       alertTriggerOperator: {
@@ -182,10 +176,10 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "gt",
-            "lt",
-            "ne",
-            "eq"
+            "GreaterThan",
+            "LessThan",
+            "Equal",
+            "NotEqual"
           ]
         }
       },
@@ -206,11 +200,8 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
       suppressionDuration: {
         required: true,
         serializedName: "properties.suppressionDuration",
-        constraints: {
-          Pattern: /^(\d+\.)?\d{2}\:\d{2}\:\d{2}$/
-        },
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       },
       lastModifiedUtc: {
