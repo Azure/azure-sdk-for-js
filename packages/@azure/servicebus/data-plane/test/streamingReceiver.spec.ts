@@ -300,89 +300,89 @@ describe("Complete message", function(): void {
   });
 });
 
-describe("Abandon message", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
+// describe("Abandon message", function(): void {
+//   afterEach(async () => {
+//     await afterEachTest();
+//   });
 
-  async function testAbandon(autoComplete: boolean): Promise<void> {
-    await senderClient.send(testSimpleMessages[0]);
-    const receiveListener: ReceiveHandler = await receiverClient.receive(
-      (msg: ServiceBusMessage) => {
-        return msg.abandon().then(() => {
-          return receiveListener.stop();
-        });
-      },
-      unExpectedErrorHandler,
-      { maxAutoRenewDurationInSeconds: 0, autoComplete }
-    );
-    await delay(4000);
+//   async function testAbandon(autoComplete: boolean): Promise<void> {
+//     await senderClient.send(testSimpleMessages[0]);
+//     const receiveListener: ReceiveHandler = await receiverClient.receive(
+//       (msg: ServiceBusMessage) => {
+//         return msg.abandon().then(() => {
+//           return receiveListener.stop();
+//         });
+//       },
+//       unExpectedErrorHandler,
+//       { maxAutoRenewDurationInSeconds: 0, autoComplete }
+//     );
+//     await delay(4000);
 
-    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+//     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    const receivedMsgs = await receiverClient.receiveBatch(1);
-    should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].messageId, testSimpleMessages[0].messageId);
-    // should.equal(receivedMsgs[0].deliveryCount, 1);
-    await receivedMsgs[0].complete();
-    await testPeekMsgsLength(receiverClient, 0);
-  }
-  it("Partitioned Queues: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testAbandon(false);
-  });
+//     const receivedMsgs = await receiverClient.receiveBatch(1);
+//     should.equal(receivedMsgs.length, 1);
+//     should.equal(receivedMsgs[0].messageId, testSimpleMessages[0].messageId);
+//     // should.equal(receivedMsgs[0].deliveryCount, 1);
+//     await receivedMsgs[0].complete();
+//     await testPeekMsgsLength(receiverClient, 0);
+//   }
+//   it("Partitioned Queues: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+//     await testAbandon(false);
+//   });
 
-  it("Partitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testAbandon(false);
-  });
+//   it("Partitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+//     await testAbandon(false);
+//   });
 
-  it("UnPartitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testAbandon(false);
-  });
+//   it("UnPartitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+//     await testAbandon(false);
+//   });
 
-  it("UnPartitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testAbandon(false);
-  });
+//   it("UnPartitioned Topics and Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+//     await testAbandon(false);
+//   });
 
-  it("Partitioned Queues with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testAbandon(true);
-  });
+//   it("Partitioned Queues with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+//     await testAbandon(true);
+//   });
 
-  it("Partitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testAbandon(true);
-  });
+//   it("Partitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+//     await testAbandon(true);
+//   });
 
-  it("UnPartitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testAbandon(true);
-  });
+//   it("UnPartitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+//     await testAbandon(true);
+//   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testAbandon(true);
-  });
-});
+//   it("UnPartitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+//     await testAbandon(true);
+//   });
+// });
 
 describe("Defer message", function(): void {
   afterEach(async () => {
