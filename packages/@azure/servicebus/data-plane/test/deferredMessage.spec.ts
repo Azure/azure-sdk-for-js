@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  MessageSession,
+  SessionClient,
   ServiceBusMessage,
   SendableMessageInfo
 } from "../lib";
@@ -27,7 +27,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -43,7 +43,7 @@ let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
-let messageSession: MessageSession;
+let messageSession: SessionClient;
 
 async function beforeEachTest(
   senderType: ClientType,
@@ -80,7 +80,7 @@ async function beforeEachTest(
   }
 
   if (useSessions) {
-    messageSession = await receiverClient.acceptSession({
+    messageSession = await receiverClient.createSessionClient({
       sessionId: testSessionId
     });
   }
@@ -98,7 +98,7 @@ async function afterEachTest(): Promise<void> {
 
 async function deferMessage(
   senderClient: QueueClient | TopicClient,
-  receiverClient: QueueClient | SubscriptionClient | MessageSession,
+  receiverClient: QueueClient | SubscriptionClient | SessionClient,
   testMessages: SendableMessageInfo[]
 ): Promise<ServiceBusMessage> {
   await senderClient.send(testMessages[0]);
@@ -127,7 +127,7 @@ async function deferMessage(
 }
 
 async function completeDeferredMessage(
-  receiverClient: QueueClient | SubscriptionClient | MessageSession,
+  receiverClient: QueueClient | SubscriptionClient | SessionClient,
   sequenceNumber: Long,
   expectedDeliverCount: number,
   testMessages: SendableMessageInfo[]

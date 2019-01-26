@@ -20,7 +20,7 @@ import {
 import { SubscriptionClient, SubscriptionClientOptions } from "./subscriptionClient";
 
 /**
- * Describes the base namesapce options.
+ * Describes the base namespace options.
  * @interface NamespaceOptionsBase
  */
 export interface NamespaceOptionsBase {
