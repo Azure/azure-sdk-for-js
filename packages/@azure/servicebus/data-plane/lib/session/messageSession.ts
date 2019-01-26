@@ -37,7 +37,7 @@ export enum Callee {
  * messages in a session.
  */
 export type OnSessionMessage = (
-  messageSession: MessageSession,
+  messageSession: SessionClient,
   message: ServiceBusMessage
 ) => Promise<void>;
 /**
@@ -54,56 +54,17 @@ export interface CreateMessageSessionReceiverLinkOptions {
 }
 
 /**
- * Describes the common message session options.
+ * Describes the options for the streaming receiver.
  */
-export interface MessageSessionOptionsBase {
+export interface SessionMessageHandlerOptions {
   /**
-   * @property {number} [maxAutoRenewDurationInSeconds] The maximum duration within which the
-   * lock will be renewed automatically. This value should be greater than the longest message
-   * lock duration; for example, the `lockDuration` property on the received message.
+   * @property {number} [maxAutoRenewDurationInSeconds] The maximum duration until which the
+   * lock on the session will be renewed automatically.
    * - **Default**: `300` seconds (5 minutes).
-   * - **For disabling autolock renewal**, please set `maxAutoRenewDurationInSeconds` to `0`.
+   * - **For disabling autolock renewal**, set `maxAutoRenewDurationInSeconds` to `0`.
    */
   maxAutoRenewDurationInSeconds?: number;
-  /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
-   * Default: ReceiveMode.peekLock
-   */
-  receiveMode?: ReceiveMode;
-}
 
-/**
- * Describes the options that can be provided while accepting a message session (user creating it).
- */
-export interface AcceptSessionOptions extends MessageSessionOptionsBase {
-  /**
-   * @property {string} [sessionId] The sessionId for the message session.
-   */
-  sessionId?: string;
-  /**
-   * @property {string} [name] The name of the receiver. If not provided then a unique name will be
-   * created in the following format: `${name of the entity}-${guid}`.
-   */
-  name?: string;
-}
-
-/**
- * Describes the options that can be provided to a SessionHandler.
- */
-export interface SessionHandlerOptions extends MessageSessionOptionsBase {
-  /**
-   * @property {number} [maxConcurrentSessions] The maximum number of sessions that the user wants to
-   * handle concurrently.
-   * - **Default**: `2000`.
-   */
-  maxConcurrentSessions?: number;
-  /**
-   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that should be
-   * processed concurrently in a session while in peek lock mode. Once this limit has been reached,
-   * more messages will not be received until messages currently being processed have been settled.
-   * - **Default**: `1` (message in a session at a time).
-   */
-  maxConcurrentCallsPerSession?: number;
   /**
    * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
@@ -117,19 +78,44 @@ export interface SessionHandlerOptions extends MessageSessionOptionsBase {
    */
   maxMessageWaitTimeoutInSeconds?: number;
 }
+/**
+ * Describes the options for creating a SessionClient.
+ */
+export interface SessionClientOptions {
+  /**
+   * @property {string} [sessionId] The sessionId for the message session.
+   */
+  sessionId?: string;
+  /**
+   * @property {number} [receiveMode] The mode in which messages should be received.
+   * Possible values are `ReceiveMode.peekLock` (default) and `ReceiveMode.receiveAndDelete`
+   */
+  receiveMode?: ReceiveMode;
+}
+/**
+ * Describes the options for creating a Session Manager.
+ */
+export interface SessionManagerOptions extends SessionMessageHandlerOptions {
+  /**
+   * @property {number} [maxConcurrentSessions] The maximum number of sessions that the user wants to
+   * handle concurrently.
+   * - **Default**: `2000`.
+   */
+  maxConcurrentSessions?: number;
+}
 
 /**
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
-export type MessageSessionOptions = SessionHandlerOptions &
-  AcceptSessionOptions & {
+export type MessageSessionOptions = SessionManagerOptions &
+  SessionClientOptions & {
     callee?: Callee;
   };
 
 /**
  * Describes the receiver for a Message Session.
  */
-export class MessageSession extends LinkEntity {
+export class SessionClient extends LinkEntity {
   /**
    * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
    */
@@ -493,16 +479,19 @@ export class MessageSession extends LinkEntity {
   }
 
   /**
-   * Receives messages from a session enabled entity.
-   * @param onMessage The message handler to receive service bus messages from a session
-   * enabled entity.
-   * @param onError The error handler to receive an error that occurs while receiving messages
-   * from a session enabled entity.
+   * Starts the receiver in streaming mode by establishing an AMQP session and an AMQP receiver
+   * link on the session.
+   * To stop receiving messages, call `close()` on the SessionClient.
+   *
+   * @param onSessionMessage Callback for each incoming message.
+   * @param onError Callback for any error that occurs while receiving messages.
+   * @param options - Options to control whether messages should be automatically completed and/or
+   * automatically have the session lock renewed.
    */
   receive(
     onSessionMessage: OnSessionMessage,
     onError: OnError,
-    options?: SessionHandlerOptions
+    options?: SessionMessageHandlerOptions
   ): void {
     if (this._isReceivingMessages) {
       throw new Error(
@@ -518,8 +507,9 @@ export class MessageSession extends LinkEntity {
     }
     if (!options) options = {};
     this._isReceivingMessages = true;
-    this.maxConcurrentCallsPerSession = options.maxConcurrentCallsPerSession || 1;
+    this.maxConcurrentCallsPerSession = 1;
     this.maxMessageWaitTimeoutInSeconds = options.maxMessageWaitTimeoutInSeconds;
+
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this._onMessage = onSessionMessage;
@@ -1192,8 +1182,8 @@ export class MessageSession extends LinkEntity {
   static async create(
     context: ClientEntityContext,
     options?: MessageSessionOptions
-  ): Promise<MessageSession> {
-    const messageSession = new MessageSession(context, options);
+  ): Promise<SessionClient> {
+    const messageSession = new SessionClient(context, options);
     await messageSession._init();
     return messageSession;
   }

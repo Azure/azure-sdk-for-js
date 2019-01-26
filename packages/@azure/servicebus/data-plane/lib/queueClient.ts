@@ -3,7 +3,6 @@
 
 import * as Long from "long";
 import * as log from "./log";
-import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./core/messageSender";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./core/streamingReceiver";
@@ -17,13 +16,7 @@ import {
 import { Client } from "./client";
 import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ScheduleMessage, ListSessionsResponse } from "./core/managementClient";
-import {
-  MessageSession,
-  AcceptSessionOptions,
-  SessionHandlerOptions,
-  OnSessionMessage
-} from "./session/messageSession";
-import { EntityType } from "./session/sessionManager";
+import { SessionClient, SessionClientOptions } from "./session/messageSession";
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -40,12 +33,14 @@ export interface QueueClientOptions {
 export class QueueClient extends Client {
   /**
    * @property {number} receiveMode The mode in which messages should be received.
-   * Default: ReceiveMode.peekLock
+   * Possible values are `ReceiveMode.peekLock` (default) and `ReceiveMode.receiveAndDelete`
    */
   receiveMode: ReceiveMode;
 
   /**
    * Instantiates a client pointing to the ServiceBus Queue given by this configuration.
+   * This is not meant for the user to call directly.
+   * The user should use the `createQueueClient` on the Namespace instead.
    *
    * @constructor
    * @param name The Queue name.
@@ -59,11 +54,11 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Queue for this client,
-   * returning a promise that will be resolved when disconnection is completed.
-   * @returns {Promise<any>}
+   * Closes the AMQP connection to the ServiceBus Queue for this client.
+   *
+   * @returns {Promise<void>}
    */
-  async close(): Promise<any> {
+  async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         const connectionId = this._context.namespace.connectionId;
@@ -122,47 +117,42 @@ export class QueueClient extends Client {
 
   /**
    * Sends the given message to a ServiceBus Queue.
-   * - For sending a message to a `session` enabled Queue, please set the `sessionId` property of
-   * the message.
-   * - For sending a message to a `partition` enabled Queue, please set the `partitionKey` property
-   * of the message.
-   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
+   * To send a message to a `session` or `partition` enabled Queue, please set the
+   * `sessionId` property and `partitionKey` properties respectively.
    *
-   * @param data - Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @returns Promise<Delivery>
+   * @param message - Message to send.
+   * @returns Promise<void>
    */
-  async send(data: SendableMessageInfo): Promise<Delivery> {
+  async send(message: SendableMessageInfo): Promise<void> {
     const sender = MessageSender.create(this._context);
-    return sender.send(data);
+    return sender.send(message);
   }
 
   /**
-   * Sends a batch of SendableMessageInfo to the ServiceBus Queue. The "message_annotations",
-   * "application_properties" and "properties" of the first message will be set as that of
-   * the envelope (batch message).
-   * - For sending a message to a `session` enabled Queue, please set the `sessionId` property of
-   * the message.
-   * - For sending a message to a `partition` enabled Queue, please set the `partitionKey` property
-   * of the message.
-   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
+   * Sends a batch of SendableMessageInfo to the ServiceBus Queue in a single AMQP message.
+   * To send messages to a `session` or `partition` enabled Queue, set the
+   * `sessionId` property and `partitionKey` properties respectively. When doing so, all
+   * messages in the batch should have the same `sessionId` (if using sessions) and the same
+   * `parititionKey` (if using paritions) properties.
    *
-   * @param datas - An array of SendableMessageInfo objects to be sent in a Batch message.
-   * @return Promise<Delivery>
+   * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
+   * @return Promise<void>
    */
-  async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
+  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     const sender = MessageSender.create(this._context);
-    return sender.sendBatch(datas);
+    return sender.sendBatch(messages);
   }
 
   /**
-   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
-   * Messages will be passed to the provided onMessage handler and error will be passed to the
-   * provided onError handler.
+   * Starts the receiver in streaming mode by establishing an AMQP session and an AMQP receiver
+   * link on the session.
    *
-   * @param onMessage - The message handler to receive Message objects.
-   * @param onError - The error handler to receive an error that occurs while receiving messages.
-   * @returns ReceiveHandler - An object that provides a mechanism to stop
-   * receiving more messages.
+   * @param onMessage - Callback for processing each incoming message.
+   * @param onError - Callback for any error that occurs while receiving or processing messages.
+   * @param options - Options to control whether messages should be automatically completed and/or
+   * automatically have their locks renewed.
+   *
+   * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): ReceiveHandler {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
@@ -177,7 +167,7 @@ export class QueueClient extends Client {
 
     if (!options) options = {};
     const rcvOptions: ReceiveOptions = {
-      maxConcurrentCalls: options.maxConcurrentCalls || 1,
+      maxConcurrentCalls: 1,
       receiveMode: this.receiveMode,
       autoComplete: options.autoComplete,
       maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
@@ -405,46 +395,33 @@ export class QueueClient extends Client {
 
   /**
    * Lists the sessions on the ServiceBus Queue.
-   * @param skip The number of sessions to skip
-   * @param top Maximum numer of sessions.
+   * @param maxNumberOfSessions Maximum number of sessions.
    * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
    * value: 3 days ago from the current time.
    */
   async listMessageSessions(
-    skip: number,
-    top: number,
+    maxNumberOfSessions: number,
     lastUpdatedTime?: Date
   ): Promise<ListSessionsResponse> {
-    return this._context.managementClient!.listMessageSessions(skip, top, lastUpdatedTime);
+    return this._context.managementClient!.listMessageSessions(
+      0,
+      maxNumberOfSessions,
+      lastUpdatedTime
+    );
   }
 
   /**
-   * Accept a new session on the ServiceBus Queue.
-   * @param options Optional parameters that can be provided while accepting sessions.
+   * Creates a session client with given sessionId in the ServiceBus Queue.
+   * When no sessionId is given, a random session among the available sessions is used.
+   *
+   * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
+   * session enabled Servicebus Queue.
+   *
+   * @returns SessionClient An instance of a SessionClient to receive messages from the session.
    */
-  async acceptSession(options?: AcceptSessionOptions): Promise<MessageSession> {
+  async createSessionClient(options?: SessionClientOptions): Promise<SessionClient> {
     if (!options) options = {};
     this._context.isSessionEnabled = true;
-    return MessageSession.create(this._context, options);
-  }
-
-  /**
-   * Receives messages from a session enabled Queue.
-   * @param onSessionMessage The message handler to receive service bus messages from a session
-   * enabled Queue.
-   * @param onError The error handler to receive an error that occurs while receiving messages
-   * from a session enabled Queue.
-   */
-  receiveMessagesFromSessions(
-    onSessionMessage: OnSessionMessage,
-    onError: OnError,
-    options?: SessionHandlerOptions
-  ): Promise<void> {
-    return this._context.sessionManager!.manageMessageSessions(
-      EntityType.queue,
-      onSessionMessage,
-      onError,
-      options
-    );
+    return SessionClient.create(this._context, options);
   }
 }
