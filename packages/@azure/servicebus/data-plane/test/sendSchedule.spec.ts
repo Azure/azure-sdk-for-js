@@ -13,7 +13,7 @@ import {
   TopicClient,
   SubscriptionClient,
   delay,
-  MessageSession
+  SessionClient
 } from "../lib";
 
 import {
@@ -28,7 +28,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -50,16 +50,16 @@ let unpartitionedTopicClient: TopicClient;
 let unpartitionedSubscriptionClient: SubscriptionClient;
 
 let partitionedQueueSessionClient: QueueClient;
-let partitionedQueueMessageSession: MessageSession;
+let partitionedQueueMessageSession: SessionClient;
 let partitionedTopicSessionClient: TopicClient;
 let partitionedSubscriptionSessionClient: SubscriptionClient;
-let partitionedSubscriptionMessageSession: MessageSession;
+let partitionedSubscriptionMessageSession: SessionClient;
 
 let unpartitionedQueueSessionClient: QueueClient;
-let unpartitionedQueueMessageSession: MessageSession;
+let unpartitionedQueueMessageSession: SessionClient;
 let unpartitionedTopicSessionClient: TopicClient;
 let unpartitionedSubscriptionSessionClient: SubscriptionClient;
-let unpartitionedSubscriptionMessageSession: MessageSession;
+let unpartitionedSubscriptionMessageSession: SessionClient;
 
 async function beforeEachTest(): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
@@ -93,7 +93,7 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.PartitionedQueueWithSessions
   ) as QueueClient;
-  partitionedQueueMessageSession = await partitionedQueueSessionClient.acceptSession({
+  partitionedQueueMessageSession = await partitionedQueueSessionClient.createSessionClient({
     sessionId: testSessionId
   });
   partitionedTopicSessionClient = getSenderClient(
@@ -104,15 +104,17 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.PartitionedSubscriptionWithSessions
   ) as SubscriptionClient;
-  partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.acceptSession({
-    sessionId: testSessionId
-  });
+  partitionedSubscriptionMessageSession = await partitionedSubscriptionSessionClient.createSessionClient(
+    {
+      sessionId: testSessionId
+    }
+  );
   // Unpartitioned Queues and Subscriptions with Sessions
   unpartitionedQueueSessionClient = getSenderClient(
     ns,
     ClientType.UnpartitionedQueueWithSessions
   ) as QueueClient;
-  unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.acceptSession({
+  unpartitionedQueueMessageSession = await unpartitionedQueueSessionClient.createSessionClient({
     sessionId: testSessionId
   });
   unpartitionedTopicSessionClient = getSenderClient(
@@ -123,7 +125,7 @@ async function beforeEachTest(): Promise<void> {
     ns,
     ClientType.UnpartitionedSubscriptionWithSessions
   ) as SubscriptionClient;
-  unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.acceptSession(
+  unpartitionedSubscriptionMessageSession = await unpartitionedSubscriptionSessionClient.createSessionClient(
     {
       sessionId: testSessionId
     }
@@ -185,7 +187,7 @@ describe("Send to Queue/Subscription", function(): void {
 
   async function testSimpleSend(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     useSessions?: boolean
   ): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -259,7 +261,7 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
 
   async function testScheduleMessage(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     useSessions?: boolean
   ): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -348,7 +350,7 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
 
   async function testScheduleMessages(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     useSessions?: boolean
   ): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -436,7 +438,7 @@ describe("Cancel a single Scheduled message for sending to Queue/Subscription", 
 
   async function testCancelScheduleMessage(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     useSessions?: boolean
   ): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -526,7 +528,7 @@ describe("Cancel multiple Scheduled messages for sending to Queue/Subscription",
 
   async function testCancelScheduleMessages(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     usePartitions?: boolean,
     useSessions?: boolean
   ): Promise<void> {
