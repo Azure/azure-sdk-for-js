@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  MessageSession,
+  SessionClient,
   ServiceBusMessage,
   delay,
   SendableMessageInfo,
@@ -31,7 +31,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -48,7 +48,7 @@ let errorWasThrown: boolean;
 
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
-let messageSession: MessageSession;
+let messageSession: SessionClient;
 
 async function beforeEachTest(
   senderType: ClientType,
@@ -70,7 +70,7 @@ async function beforeEachTest(
   receiverClient = getReceiverClient(ns, receiverType, ReceiveMode.receiveAndDelete);
 
   if (useSessions) {
-    messageSession = await receiverClient.acceptSession({
+    messageSession = await receiverClient.createSessionClient({
       sessionId: testSessionId,
       receiveMode: ReceiveMode.receiveAndDelete
     });
@@ -95,7 +95,7 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
 
   async function sendReceiveMsg(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     testMessages: SendableMessageInfo[]
   ): Promise<void> {
     await senderClient.send(testMessages[0]);
@@ -197,16 +197,16 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
 
   async function sendReceiveMsg(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     testMessages: SendableMessageInfo[],
     autoCompleteFlag: boolean
   ): Promise<void> {
     await senderClient.send(testMessages[0]);
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    if (receiverClient instanceof MessageSession) {
+    if (receiverClient instanceof SessionClient) {
       receiverClient.receive(
-        (messageSession: MessageSession, msg: ServiceBusMessage) => {
+        (messageSession: SessionClient, msg: ServiceBusMessage) => {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -414,7 +414,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   });
   async function sendReceiveMsg(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     testMessages: SendableMessageInfo[]
   ): Promise<ServiceBusMessage> {
     await senderClient.send(testMessages[0]);
