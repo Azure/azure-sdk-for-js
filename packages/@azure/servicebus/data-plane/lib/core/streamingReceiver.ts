@@ -100,23 +100,15 @@ export class ReceiveHandler {
 export interface MessageHandlerOptions {
   /**
    * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete while receiving messages with handlers.
+   * automatically after the message processing is complete.
    * - **Default**: `true`.
    */
   autoComplete?: boolean;
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   * - **Default**: `1` (message at a time).
-   */
-  maxConcurrentCalls?: number;
-  /**
-   * @property {number} [maxAutoRenewDurationInSeconds] The maximum duration within which the
-   * lock will be renewed automatically. This value should be greater than the longest message
-   * lock duration; for example, the `lockDuration` property on the received message.
+   * @property {number} [maxAutoRenewDurationInSeconds] The maximum duration in seconds until which
+   * the lock on the message will be renewed automatically before the message is settled.
    * - **Default**: `300` seconds (5 minutes).
-   * - **For disabling autolock renewal**, please set `maxAutoRenewDurationInSeconds` to `0`.
+   * - **To disable autolock renewal**, set `maxAutoRenewDurationInSeconds` to `0`.
    */
   maxAutoRenewDurationInSeconds?: number;
 }

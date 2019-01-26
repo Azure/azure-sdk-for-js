@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  MessageSession,
+  SessionClient,
   delay,
   ServiceBusMessage
 } from "../lib";
@@ -27,7 +27,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -79,12 +79,14 @@ describe("Accept a session by passing non-existing sessionId receives no message
   async function test_batching(): Promise<void> {
     await senderClient.send(testMessagesWithSessions[0]);
 
-    let receiverClient = await sessionClient.acceptSession({ sessionId: "non" + testSessionId });
+    let receiverClient = await sessionClient.createSessionClient({
+      sessionId: "non" + testSessionId
+    });
     let msgs = await receiverClient.receiveBatch(1, 10);
     should.equal(msgs.length, 0);
 
     await receiverClient.close();
-    receiverClient = await sessionClient.acceptSession();
+    receiverClient = await sessionClient.createSessionClient();
     msgs = await receiverClient.receiveBatch(1);
     should.equal(msgs.length, 1);
     should.equal(Array.isArray(msgs), true);
@@ -137,9 +139,11 @@ describe("Accept a session by passing non-existing sessionId receives no message
   async function test_streaming(): Promise<void> {
     await senderClient.send(testMessagesWithSessions[0]);
 
-    let receiverClient = await sessionClient.acceptSession({ sessionId: "non" + testSessionId });
+    let receiverClient = await sessionClient.createSessionClient({
+      sessionId: "non" + testSessionId
+    });
     let receivedMsgs: ServiceBusMessage[] = [];
-    receiverClient.receive((messageSession: MessageSession, msg: ServiceBusMessage) => {
+    receiverClient.receive((messageSession: SessionClient, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -147,9 +151,9 @@ describe("Accept a session by passing non-existing sessionId receives no message
     should.equal(receivedMsgs.length, 0);
     await receiverClient.close();
 
-    receiverClient = await sessionClient.acceptSession();
+    receiverClient = await sessionClient.createSessionClient();
     receivedMsgs = [];
-    receiverClient.receive((messageSession: MessageSession, msg: ServiceBusMessage) => {
+    receiverClient.receive((messageSession: SessionClient, msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(msg.body, testMessagesWithSessions[0].body);
       should.equal(msg.messageId, testMessagesWithSessions[0].messageId);
@@ -214,7 +218,7 @@ describe("Accept a session without passing sessionId and receive messages from r
     await senderClient.send(testMessagesWithDifferentSessionIds[1]);
     await delay(4000);
 
-    let receiverClient = await sessionClient.acceptSession();
+    let receiverClient = await sessionClient.createSessionClient();
     let msgs = await receiverClient.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true);
@@ -233,7 +237,7 @@ describe("Accept a session without passing sessionId and receive messages from r
     await msgs[0].complete();
     await receiverClient.close();
 
-    receiverClient = await sessionClient.acceptSession();
+    receiverClient = await sessionClient.createSessionClient();
     msgs = await receiverClient.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true);

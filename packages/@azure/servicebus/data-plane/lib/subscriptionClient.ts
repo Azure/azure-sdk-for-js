@@ -9,13 +9,7 @@ import { BatchingReceiver } from "./core/batchingReceiver";
 import { ServiceBusMessage, ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
 import { Client } from "./client";
 import { CorrelationFilter, RuleDescription, ListSessionsResponse } from "./core/managementClient";
-import {
-  MessageSession,
-  AcceptSessionOptions,
-  SessionHandlerOptions,
-  OnSessionMessage
-} from "./session/messageSession";
-import { EntityType } from "./session/sessionManager";
+import { SessionClient, SessionClientOptions } from "./session/messageSession";
 
 /**
  * Describes the options that can be provided while creating the SubscriptionClient.
@@ -24,7 +18,7 @@ import { EntityType } from "./session/sessionManager";
 export interface SubscriptionClientOptions {
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
-   * Default: ReceiveMode.peekLock
+   * Possible values are `ReceiveMode.peekLock` (default) and `ReceiveMode.receiveAndDelete`
    */
   receiveMode?: ReceiveMode;
 }
@@ -51,6 +45,8 @@ export class SubscriptionClient extends Client {
 
   /**
    * Instantiates a client pointing to the ServiceBus Subscription given by this configuration.
+   * This is not meant for the user to call directly.
+   * The user should use the `createSubscriptionClient` on the Namespace instead.
    *
    * @constructor
    * @param topicPath - The Topic path.
@@ -72,9 +68,9 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Subscription for this client,
-   * returning a promise that will be resolved when disconnection is completed.
-   * @returns Promise<void>
+   * Closes the AMQP connection to the ServiceBus Subscription for this client.
+   *
+   * @returns {Promise<void>}
    */
   async close(): Promise<void> {
     try {
@@ -99,13 +95,13 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
-   * Messages will be passed to the provided onMessage handler and error will be passed to the
-   * provided onError handler.
+   * Starts the receiver in a streaming mode by establishing an AMQP session and an AMQP receiver
+   * link on the session.
    *
-   * @param onMessage - The message handler to receive Message objects.
-   * @param onError - The error handler to receive an error that occurs while receiving messages.
-   * @param [options] - Options for how you'd like to connect.
+   * @param onMessage - Callback for processing each incoming message.
+   * @param onError - Callback for any error that occurs while receiving or processing messages.
+   * @param options - Options to control whether messages should be automatically completed and/or
+   * automatically have their locks renewed.
    *
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
@@ -116,7 +112,7 @@ export class SubscriptionClient extends Client {
     ) {
       if (!options) options = {};
       const rcvOptions: ReceiveOptions = {
-        maxConcurrentCalls: options.maxConcurrentCalls || 1,
+        maxConcurrentCalls: 1,
         receiveMode: this.receiveMode,
         autoComplete: options.autoComplete,
         maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
@@ -328,47 +324,35 @@ export class SubscriptionClient extends Client {
 
   /**
    * Lists the sessions on the ServiceBus Subscription.
-   * @param skip The number of sessions to skip
-   * @param top Maximum numer of sessions.
+   * @param maxNumberOfSessions Maximum number of sessions.
    * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
    * value: 3 days ago from the current time.
    */
   async listMessageSessions(
-    skip: number,
-    top: number,
+    maxNumberOfSessions: number,
     lastUpdatedTime?: Date
   ): Promise<ListSessionsResponse> {
-    return this._context.managementClient!.listMessageSessions(skip, top, lastUpdatedTime);
-  }
-
-  /**
-   * Accept a new session on the ServiceBus Subscription.
-   * @param options Optional parameters that can be provided while accepting sessions.
-   */
-  async acceptSession(options?: AcceptSessionOptions): Promise<MessageSession> {
-    if (!options) options = {};
-    this._context.isSessionEnabled = true;
-    return MessageSession.create(this._context, options);
-  }
-
-  /**
-   * Receives messages from a session enabled Subscription.
-   * @param onSessionMessage The message handler to receive service bus messages from a session
-   * enabled Subscription.
-   * @param onError The error handler to receive an error that occurs while receiving messages
-   * from a session enabled Subscription.
-   */
-  receiveMessagesFromSessions(
-    onSessionMessage: OnSessionMessage,
-    onError: OnError,
-    options?: SessionHandlerOptions
-  ): Promise<void> {
-    return this._context.sessionManager!.manageMessageSessions(
-      EntityType.subscription,
-      onSessionMessage,
-      onError,
-      options
+    return this._context.managementClient!.listMessageSessions(
+      0,
+      maxNumberOfSessions,
+      lastUpdatedTime
     );
   }
+
+  /**
+   * Creates a session client with given sessionId in the ServiceBus Subscription.
+   * When no sessionId is given, a random session among the available sessions is used.
+   *
+   * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
+   * session enabled Servicebus Subscription.
+   *
+   * @returns SessionClient An instance of a SessionClient to receive messages from the session.
+   */
+  async createSessionClient(options?: SessionClientOptions): Promise<SessionClient> {
+    if (!options) options = {};
+    this._context.isSessionEnabled = true;
+    return SessionClient.create(this._context, options);
+  }
+
   //#endregion
 }

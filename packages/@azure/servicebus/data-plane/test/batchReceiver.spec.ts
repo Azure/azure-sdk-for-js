@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  MessageSession,
+  SessionClient,
   ServiceBusMessage,
   delay,
   SendableMessageInfo
@@ -28,7 +28,7 @@ import {
 } from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | MessageSession,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -46,7 +46,7 @@ let errorWasThrown: boolean;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
-let messageSession: MessageSession;
+let messageSession: SessionClient;
 const maxDeliveryCount = 10;
 
 async function beforeEachTest(
@@ -85,7 +85,7 @@ async function beforeEachTest(
   }
 
   if (useSessions) {
-    messageSession = await receiverClient.acceptSession({
+    messageSession = await receiverClient.createSessionClient({
       sessionId: testSessionId
     });
   }
@@ -107,7 +107,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
 
   async function sendReceiveMsg(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     testMessages: SendableMessageInfo[]
   ): Promise<ServiceBusMessage> {
     await senderClient.send(testMessages[0]);
@@ -123,7 +123,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
   }
 
   async function completeMessages(
-    receiverClient: QueueClient | SubscriptionClient | MessageSession,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     expectedDeliverCount: number,
     testMessages: SendableMessageInfo[]
   ): Promise<void> {
@@ -748,7 +748,7 @@ describe("Multiple ReceiveBatch calls", function(): void {
 
   // We use an empty queue/topic here so that the first receiveBatch call takes time to return
   async function testParallelReceiveBatchCalls(
-    receiverClient: QueueClient | SubscriptionClient | MessageSession
+    receiverClient: QueueClient | SubscriptionClient | SessionClient
   ): Promise<void> {
     const firstBatchPromise = receiverClient.receiveBatch(1, 10);
     await delay(5000);
