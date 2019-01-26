@@ -10,31 +10,28 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  SendableMessageInfo,
-  generateUuid,
   TopicClient,
   SubscriptionClient,
-  delay,
+  SessionClient,
   ServiceBusMessage,
+  delay,
+  SendableMessageInfo,
   ReceiveMode
 } from "../lib";
-import { getSenderClient, getReceiverClient, ClientType } from "./testUtils";
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
-const testMessages: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${generateUuid()}`
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${generateUuid()}`
-  }
-];
+import {
+  testSimpleMessages,
+  testMessagesWithSessions,
+  testSessionId,
+  getSenderClient,
+  getReceiverClient,
+  ClientType
+} from "./testUtils";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient,
+  client: QueueClient | SubscriptionClient | SessionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -46,13 +43,18 @@ async function testPeekMsgsLength(
 }
 
 let ns: Namespace;
-let queueClient: QueueClient;
-let topicClient: TopicClient;
-let subscriptionClient: SubscriptionClient;
 
 let errorWasThrown: boolean;
 
-async function beforeEachTest(): Promise<void> {
+let senderClient: QueueClient | TopicClient;
+let receiverClient: QueueClient | SubscriptionClient;
+let messageSession: SessionClient;
+
+async function beforeEachTest(
+  senderType: ClientType,
+  receiverType: ClientType,
+  useSessions?: boolean
+): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -63,26 +65,21 @@ async function beforeEachTest(): Promise<void> {
   }
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  queueClient = getReceiverClient(
-    ns,
-    ClientType.PartitionedQueue,
-    ReceiveMode.receiveAndDelete
-  ) as QueueClient;
-  topicClient = getSenderClient(ns, ClientType.PartitionedTopic) as TopicClient;
-  subscriptionClient = getReceiverClient(
-    ns,
-    ClientType.PartitionedSubscription,
-    ReceiveMode.receiveAndDelete
-  ) as SubscriptionClient;
 
-  const peekedQueueMsg = await queueClient.peek();
-  if (peekedQueueMsg.length) {
-    throw new Error("Please use an empty queue for integration testing");
+  senderClient = getSenderClient(ns, senderType);
+  receiverClient = getReceiverClient(ns, receiverType, ReceiveMode.receiveAndDelete);
+
+  if (useSessions) {
+    messageSession = await receiverClient.createSessionClient({
+      sessionId: testSessionId,
+      receiveMode: ReceiveMode.receiveAndDelete
+    });
   }
 
-  const peekedSubscriptionMsg = await subscriptionClient.peek();
-  if (peekedSubscriptionMsg.length) {
-    throw new Error("Please use an empty Subscription for integration testing");
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
   }
   errorWasThrown = false;
 }
@@ -92,17 +89,14 @@ async function afterEachTest(): Promise<void> {
 }
 
 describe("ReceiveBatch from Queue/Subscription", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest();
-  });
-
   afterEach(async () => {
     await afterEachTest();
   });
 
-  async function testNosettlment(
+  async function sendReceiveMsg(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
+    testMessages: SendableMessageInfo[]
   ): Promise<void> {
     await senderClient.send(testMessages[0]);
     const msgs = await receiverClient.receiveBatch(1);
@@ -112,49 +106,133 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     should.equal(msgs[0].body, testMessages[0].body);
     should.equal(msgs[0].messageId, testMessages[0].messageId);
     should.equal(msgs[0].deliveryCount, 0);
+  }
+
+  async function testNoSettlement(useSessions?: boolean): Promise<void> {
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    await sendReceiveMsg(senderClient, useSessions ? messageSession : receiverClient, testMessages);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Queue: No settlement of the message removes message", async function(): Promise<void> {
-    await testNosettlment(queueClient, queueClient);
+  it("Partitioned Queues: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testNoSettlement();
   });
 
-  it("Subscription: No settlement of the message removes message", async function(): Promise<void> {
-    await testNosettlment(topicClient, subscriptionClient);
+  it("Partitioned Topics and Subscription: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testNoSettlement();
   });
+
+  /*it("Unpartitioned Queues: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testNoSettlement();
+  });
+
+  it("Unpartitioned Topics and Subscription: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testNoSettlement();
+  });*/
+
+  /* it("Partitioned Queues with Sessions: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });
+
+  it("Partitioned Topics and Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });*/
+
+  /*it("Unpartitioned Queues with Sessions: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });*/
 });
 
 describe("Streaming Receiver from Queue/Subscription", function(): void {
   let errorFromErrorHandler: Error | undefined;
-  beforeEach(async () => {
-    errorFromErrorHandler = undefined;
-    await beforeEachTest();
-  });
 
   afterEach(async () => {
     await afterEachTest();
   });
 
-  async function testNoSettlement(
+  async function sendReceiveMsg(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient,
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
+    testMessages: SendableMessageInfo[],
     autoCompleteFlag: boolean
   ): Promise<void> {
     await senderClient.send(testMessages[0]);
     const receivedMsgs: ServiceBusMessage[] = [];
-    const receiveListener = receiverClient.receive(
-      (msg: ServiceBusMessage) => {
-        receivedMsgs.push(msg);
-        return Promise.resolve();
-      },
-      (err: Error) => {
-        if (err) {
-          errorFromErrorHandler = err;
-        }
-      },
-      { autoComplete: autoCompleteFlag }
-    );
+
+    if (receiverClient instanceof SessionClient) {
+      receiverClient.receive(
+        (messageSession: SessionClient, msg: ServiceBusMessage) => {
+          receivedMsgs.push(msg);
+          return Promise.resolve();
+        },
+        (err: Error) => {
+          if (err) {
+            errorFromErrorHandler = err;
+          }
+        },
+        { autoComplete: autoCompleteFlag }
+      );
+    } else {
+      const receiveListener = receiverClient.receive(
+        (msg: ServiceBusMessage) => {
+          receivedMsgs.push(msg);
+          return Promise.resolve();
+        },
+        (err: Error) => {
+          if (err) {
+            errorFromErrorHandler = err;
+          }
+        },
+        { autoComplete: autoCompleteFlag }
+      );
+      await delay(2000);
+      await receiveListener.stop();
+    }
 
     await delay(2000);
 
@@ -164,7 +242,6 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     should.equal(receivedMsgs[0].body, testMessages[0].body);
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
-    await receiveListener.stop();
     should.equal(
       errorFromErrorHandler,
       undefined,
@@ -174,43 +251,171 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Queue: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
+  async function testNoSettlement(autoCompleteFlag: boolean, useSessions?: boolean): Promise<void> {
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    await sendReceiveMsg(
+      senderClient,
+      useSessions ? messageSession : receiverClient,
+      testMessages,
+      autoCompleteFlag
+    );
+
+    await testPeekMsgsLength(receiverClient, 0);
+  }
+
+  it("Partitioned Queues: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await testNoSettlement(queueClient, queueClient, true);
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testNoSettlement(true);
   });
 
-  it("Subscription: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
+  it("Partitioned Topics and Subscription: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await testNoSettlement(topicClient, subscriptionClient, true);
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testNoSettlement(true);
   });
 
-  it("Queue: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+  /* it("Unpartitioned Queues: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await testNoSettlement(queueClient, queueClient, false);
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testNoSettlement(true);
   });
 
-  it("Subscription: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+  it("Unpartitioned Topics and Subscription: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await testNoSettlement(topicClient, subscriptionClient, false);
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testNoSettlement(true);
+  });*/
+
+  /*it("Partitioned Queues with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(true, true);
   });
+
+  it("Partitioned Topics and Subscription with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(true, true);
+  });*/
+
+  /* it("Unpartitioned Queues with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(true, true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(true, true);
+  });*/
+
+  it("Partitioned Queues: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testNoSettlement(false);
+  });
+
+  it("Partitioned Topics and Subscription: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testNoSettlement(false);
+  });
+
+  /* it("Unpartitioned Queues: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testNoSettlement(false);
+  });
+
+  it("Unpartitioned Topics and Subscription: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testNoSettlement(false);
+  });*/
+
+  /*it("Partitioned Queues with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(false, true);
+  });
+
+  it("Partitioned Topics and Subscription with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(false, true);
+  });*/
+
+  /* it("Unpartitioned Queues with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(false, true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(false, true);
+  });*/
 });
 
 describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of message", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest();
-  });
-
   afterEach(async () => {
     await afterEachTest();
   });
-
   async function sendReceiveMsg(
     senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient
+    receiverClient: QueueClient | SubscriptionClient | SessionClient,
+    testMessages: SendableMessageInfo[]
   ): Promise<ServiceBusMessage> {
     await senderClient.send(testMessages[0]);
     const msgs = await receiverClient.receiveBatch(1);
@@ -229,12 +434,13 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
     errorWasThrown = true;
   };
 
-  async function testSettlement(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient,
-    operation: DispositionType
-  ): Promise<void> {
-    const msg = await sendReceiveMsg(senderClient, receiverClient);
+  async function testSettlement(operation: DispositionType, useSessions?: boolean): Promise<void> {
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const msg = await sendReceiveMsg(
+      senderClient,
+      useSessions ? messageSession : receiverClient,
+      testMessages
+    );
 
     if (operation === DispositionType.complete) {
       await msg.complete().catch((err) => testError(err));
@@ -251,54 +457,342 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Queue: complete() throws error", async function(): Promise<void> {
-    await testSettlement(queueClient, queueClient, DispositionType.complete);
+  it("Partitioned Queues: complete() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testSettlement(DispositionType.complete);
   });
 
-  it("Subscription: complete() throws error", async function(): Promise<void> {
-    await testSettlement(topicClient, subscriptionClient, DispositionType.complete);
+  it("Partitioned Topics and Subscription: complete() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testSettlement(DispositionType.complete);
   });
 
-  it("Queue: abandon() throws error", async function(): Promise<void> {
-    await testSettlement(queueClient, queueClient, DispositionType.abandon);
+  /* it("Unpartitioned Queues: complete() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testSettlement(DispositionType.complete);
   });
 
-  it("Subscription: abandon() throws error", async function(): Promise<void> {
-    await testSettlement(topicClient, subscriptionClient, DispositionType.abandon);
+  it("Unpartitioned Topics and Subscription: complete() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testSettlement(DispositionType.complete);
+  });*/
+
+  /* it("Partitioned Queues with Sessions: complete() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testSettlement(DispositionType.complete, true);
   });
 
-  it("Queue: defer() throws error", async function(): Promise<void> {
-    await testSettlement(queueClient, queueClient, DispositionType.defer);
+  it("Partitioned Topics and Subscription with Sessions: complete() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testSettlement(DispositionType.complete, true);
+  });*/
+
+  /* it("Unpartitioned Queues with Sessions: complete() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.complete, true);
   });
 
-  it("Subscription: defer() throws error", async function(): Promise<void> {
-    await testSettlement(topicClient, subscriptionClient, DispositionType.defer);
+  it("Unpartitioned Topics and Subscription with Sessions: complete() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.complete, true);
+  });*/
+
+  it("Partitioned Queues: abandon() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testSettlement(DispositionType.abandon);
   });
 
-  it("Queue: deadLetter() throws error", async function(): Promise<void> {
-    await testSettlement(queueClient, queueClient, DispositionType.deadletter);
+  it("Partitioned Topics and Subscription: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testSettlement(DispositionType.abandon);
   });
 
-  it("Subscription: deadLetter()", async function(): Promise<void> {
-    await testSettlement(topicClient, subscriptionClient, DispositionType.deadletter);
+  /* it("Unpartitioned Queues: abandon() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testSettlement(DispositionType.abandon);
   });
 
-  async function testRenewLock(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient
-  ): Promise<void> {
-    const msg = await sendReceiveMsg(senderClient, receiverClient);
+  it("Unpartitioned Topics and Subscription: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testSettlement(DispositionType.abandon);
+  });*/
+
+  /* it("Partitioned Queues with Sessions: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testSettlement(DispositionType.abandon, true);
+  });
+
+  it("Partitioned Topics and Subscription with Sessions: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testSettlement(DispositionType.abandon, true);
+  });*/
+
+  /* it("Unpartitioned Queues with Sessions: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.abandon, true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: abandon() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.abandon, true);
+  });*/
+
+  it("Partitioned Queues: defer() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testSettlement(DispositionType.defer);
+  });
+
+  it("Partitioned Topics and Subscription: defer() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testSettlement(DispositionType.defer);
+  });
+
+  /* it("Unpartitioned Queues: defer() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testSettlement(DispositionType.defer);
+  });
+
+  it("Unpartitioned Topics and Subscription: defer() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testSettlement(DispositionType.defer);
+  });*/
+
+  /* it("Partitioned Queues with Sessions: defer() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testSettlement(DispositionType.defer, true);
+  });
+
+  it("Partitioned Topics and Subscription with Sessions: defer() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testSettlement(DispositionType.defer, true);
+  });*/
+
+  /* it("Unpartitioned Queues with Sessions: defer() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.defer, true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: defer() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.defer, true);
+  });*/
+
+  it("Partitioned Queues: deadLetter() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testSettlement(DispositionType.deadletter);
+  });
+
+  it("Partitioned Topics and Subscription: deadLetter() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testSettlement(DispositionType.deadletter);
+  });
+
+  /* it("Unpartitioned Queues: deadLetter() throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testSettlement(DispositionType.deadletter);
+  });
+
+  it("Unpartitioned Topics and Subscription: deadLetter() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testSettlement(DispositionType.deadletter);
+  });*/
+
+  /* it("Partitioned Queues with Sessions: deadLetter() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testSettlement(DispositionType.deadletter, true);
+  });
+
+  it("Partitioned Topics and Subscription with Sessions: deadLetter() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testSettlement(DispositionType.deadletter, true);
+  });*/
+
+  /* it("Unpartitioned Queues with Sessions: deadLetter() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.deadletter, true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: deadLetter() throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testSettlement(DispositionType.deadletter, true);
+  });*/
+
+  async function testRenewLock(useSessions?: boolean): Promise<void> {
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const msg = await sendReceiveMsg(
+      senderClient,
+      useSessions ? messageSession : receiverClient,
+      testMessages
+    );
 
     await receiverClient.renewLock(msg).catch((err) => testError(err));
 
     should.equal(errorWasThrown, true);
   }
 
-  it("Queue: Renew message lock throws error", async function(): Promise<void> {
-    await testRenewLock(queueClient, queueClient);
+  it("Partitioned Queue: Renew message lock throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testRenewLock();
   });
 
-  it("Subscription: Renew message lock throws error", async function(): Promise<void> {
-    await testRenewLock(topicClient, subscriptionClient);
+  it("Partitioned Subscription: Renew message lock throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testRenewLock();
   });
+
+  /* it("Unpartitioned Queues: Renew message lock throws error", async function(): Promise<void> {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testRenewLock();
+  });
+
+  it("Unpartitioned Topics and Subscription: Renew message lock throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testRenewLock();
+  });*/
+
+  /* it("Partitioned Queues with Sessions: Renew message lock throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testRenewLock(true);
+  });
+
+  it("Partitioned Topics and Subscription with Sessions: Renew message lock throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testRenewLock(true);
+  });*/
+
+  /* it("Unpartitioned Queues with Sessions: Renew message lock throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testRenewLock(true);
+  });
+
+  it("Unpartitioned Topics and Subscription with Sessions: Renew message lock throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testRenewLock(true);
+  });*/
 });
