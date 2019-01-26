@@ -409,17 +409,29 @@ describe("Defer message", function(): void {
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
-    deferredMsgs.forEach(async (element) => {
-      should.equal(
-        testSimpleMessages.some(
-          (x) => element.body === x.body && element.messageId === x.messageId
-        ),
-        true,
-        "Received Message doesnt match any of the test messages"
-      );
-      should.equal(element.deliveryCount, 1);
-      await element.complete();
-    });
+
+    should.equal(
+      testSimpleMessages.some(
+        (x) =>
+          deferredMsgs[0].body === x.body &&
+          deferredMsgs[0].messageId === x.messageId &&
+          deferredMsgs[0].deliveryCount === 1
+      ),
+      true,
+      "Received Message doesnt match any of the test messages or the deliveryCount is not equal to 1"
+    );
+    await deferredMsgs[0].complete();
+    should.equal(
+      testSimpleMessages.some(
+        (x) =>
+          deferredMsgs[1].body === x.body &&
+          deferredMsgs[1].messageId === x.messageId &&
+          deferredMsgs[1].deliveryCount === 1
+      ),
+      true,
+      "Received Message doesnt match any of the test messages or the deliveryCount is not equal to 1"
+    );
+    await deferredMsgs[1].complete();
     await delay(10000);
     await testPeekMsgsLength(receiverClient, 0);
   }
