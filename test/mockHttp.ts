@@ -41,6 +41,7 @@ class NodeHttpMock implements HttpMockFacade {
             throw new Error("Axios instance cannot be undefined");
         }
         this._mockAdapter = new MockAdapter(axiosInstance);
+        axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => ({ ...config, method: config.method && config.method.toLowerCase() }));
     }
 
     setup(): void {

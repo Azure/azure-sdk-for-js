@@ -121,7 +121,7 @@ export class AxiosHttpClient implements HttpClient {
     let res: AxiosResponse;
     try {
       const config: AxiosRequestConfig = {
-        method: httpRequest.method as any,
+        method: httpRequest.method as string,
         url: httpRequest.url,
         headers: rawHeaders,
         data: axiosBody,
@@ -143,6 +143,9 @@ export class AxiosHttpClient implements HttpClient {
           config.httpAgent = agent.agent;
         }
       }
+
+      // Workaround for https://github.com/axios/axios/issues/1158
+      axios.interceptors.request.use((config: AxiosRequestConfig) => ({ ...config, method: config.method && config.method.toUpperCase() }));
 
       res = await axios.request(config);
     } catch (err) {
