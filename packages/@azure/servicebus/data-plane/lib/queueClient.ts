@@ -120,36 +120,35 @@ export class QueueClient extends Client {
    * To send a message to a `session` or `partition` enabled Queue, please set the
    * `sessionId` property and `partitionKey` properties respectively.
    *
-   * @param data - Message to send.
+   * @param message - Message to send.
    * @returns Promise<void>
    */
-  async send(data: SendableMessageInfo): Promise<void> {
+  async send(message: SendableMessageInfo): Promise<void> {
     const sender = MessageSender.create(this._context);
-    return sender.send(data);
+    return sender.send(message);
   }
 
   /**
    * Sends a batch of SendableMessageInfo to the ServiceBus Queue in a single AMQP message.
-   * To send messages to a `session` or `partition` enabled Queue, please set the
-   * `sessionId` property and `partitionKey` properties respectively.
+   * To send messages to a `session` or `partition` enabled Queue, set the
+   * `sessionId` property and `partitionKey` properties respectively. When doing so, all
+   * messages in the batch should have the same `sessionId` (if using sessions) and the same
+   * `parititionKey` (if using paritions) properties.
    *
-   * All messages in the batch should have the same `sessionId` and `partitionKey` properties.
-   * If sending to a `partition` enabled Queue, `partitionKey` is mandatory.
-   *
-   * @param datas - An array of SendableMessageInfo objects to be sent in a Batch message.
+   * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
    */
-  async sendBatch(datas: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     const sender = MessageSender.create(this._context);
-    return sender.sendBatch(datas);
+    return sender.sendBatch(messages);
   }
 
   /**
    * Starts the receiver in streaming mode by establishing an AMQP session and an AMQP receiver
    * link on the session.
    *
-   * @param onMessage - Callback for each incoming message.
-   * @param onError - Callback for any error that occurs while receiving messages.
+   * @param onMessage - Callback for processing each incoming message.
+   * @param onError - Callback for any error that occurs while receiving or processing messages.
    * @param options - Options to control whether messages should be automatically completed and/or
    * automatically have their locks renewed.
    *
@@ -396,15 +395,19 @@ export class QueueClient extends Client {
 
   /**
    * Lists the sessions on the ServiceBus Queue.
-   * @param maxSessionCount Maximum number of sessions.
+   * @param maxNumberOfSessions Maximum number of sessions.
    * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
    * value: 3 days ago from the current time.
    */
   async listMessageSessions(
-    maxSessionCount: number,
+    maxNumberOfSessions: number,
     lastUpdatedTime?: Date
   ): Promise<ListSessionsResponse> {
-    return this._context.managementClient!.listMessageSessions(0, maxSessionCount, lastUpdatedTime);
+    return this._context.managementClient!.listMessageSessions(
+      0,
+      maxNumberOfSessions,
+      lastUpdatedTime
+    );
   }
 
   /**

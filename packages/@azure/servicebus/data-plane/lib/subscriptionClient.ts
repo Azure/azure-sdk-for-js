@@ -98,8 +98,8 @@ export class SubscriptionClient extends Client {
    * Starts the receiver in a streaming mode by establishing an AMQP session and an AMQP receiver
    * link on the session.
    *
-   * @param onMessage - Callback for each incoming message.
-   * @param onError - Callback for any error that occurs while receiving messages.
+   * @param onMessage - Callback for processing each incoming message.
+   * @param onError - Callback for any error that occurs while receiving or processing messages.
    * @param options - Options to control whether messages should be automatically completed and/or
    * automatically have their locks renewed.
    *
@@ -324,15 +324,19 @@ export class SubscriptionClient extends Client {
 
   /**
    * Lists the sessions on the ServiceBus Subscription.
-   * @param maxSessionCount Maximum number of sessions.
+   * @param maxNumberOfSessions Maximum number of sessions.
    * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
    * value: 3 days ago from the current time.
    */
   async listMessageSessions(
-    maxSessionCount: number,
+    maxNumberOfSessions: number,
     lastUpdatedTime?: Date
   ): Promise<ListSessionsResponse> {
-    return this._context.managementClient!.listMessageSessions(0, maxSessionCount, lastUpdatedTime);
+    return this._context.managementClient!.listMessageSessions(
+      0,
+      maxNumberOfSessions,
+      lastUpdatedTime
+    );
   }
 
   /**

@@ -52,36 +52,32 @@ export class TopicClient extends Client {
   }
 
   /**
-   * Sends the given message to the ServiceBus Topic.
-   * - For sending a message to a `session` enabled Topic, please set the `sessionId` property of
-   * the message.
-   * - For sending a message to a `partition` enabled Topic, please set the `partitionKey` property
-   * of the message.
-   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
+   * Sends the given message to a ServiceBus Queue.
+   * To send a message to a `session` or `partition` enabled Queue, please set the
+   * `sessionId` property and `partitionKey` properties respectively.
    *
-   * @param data - Message to send.
+   * @param message - Message to send.
    * @returns Promise<void>
    */
-  async send(data: SendableMessageInfo): Promise<void> {
+  async send(message: SendableMessageInfo): Promise<void> {
     const sender = MessageSender.create(this._context);
-    return sender.send(data);
+    return sender.send(message);
   }
 
   /**
-   * Sends a batch of SendableMessageInfo to the ServiceBus Topic in a single AMQP message.
-   * - For sending a message to a `session` enabled Topic, please set the `sessionId` property of
-   * the message.
-   * - For sending a message to a `partition` enabled Topic, please set the `partitionKey` property
-   * of the message.
-   * For more information please see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-partitioning#use-of-partition-keys Use of partition keys}
+   * Sends a batch of SendableMessageInfo to the ServiceBus Queue in a single AMQP message.
+   * To send messages to a `session` or `partition` enabled Queue, set the
+   * `sessionId` property and `partitionKey` properties respectively. When doing so, all
+   * messages in the batch should have the same `sessionId` (if using sessions) and the same
+   * `parititionKey` (if using paritions) properties.
    *
-   * @param datas  An array of SendableMessageInfo objects to be sent in a Batch message.
+   * @param messages  An array of SendableMessageInfo objects to be sent in a Batch message.
    *
    * @return Promise<void>
    */
-  async sendBatch(datas: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     const sender = MessageSender.create(this._context);
-    return sender.sendBatch(datas);
+    return sender.sendBatch(messages);
   }
 
   /**
