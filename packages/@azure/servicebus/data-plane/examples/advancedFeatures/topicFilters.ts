@@ -61,7 +61,7 @@ async function sendMessages(ns: Namespace): Promise<void> {
     };
 
     console.log(` Sending message ${index} - ${message.body}`);
-    await topicClient.send(message);
+    await topicClient.getSender().send(message);
   }
 }
 
@@ -71,7 +71,7 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   const subscription2Client = ns.createSubscriptionClient(topicName, subscriptionName2);
   const subscription3Client = ns.createSubscriptionClient(topicName, subscriptionName3);
 
-  const messagesFromFirstSubscription = await subscription1Client.receiveBatch(100);
+  const messagesFromFirstSubscription = await subscription1Client.getReceiver().receiveBatch(100);
   console.log("Messages from the first subscription:");
   for (let i = 0; i < messagesFromFirstSubscription.length; i++) {
     console.log(messagesFromFirstSubscription[i].body);
@@ -79,7 +79,7 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   }
   await subscription1Client.close();
 
-  const messagesFromSecondSubscription = await subscription2Client.receiveBatch(100);
+  const messagesFromSecondSubscription = await subscription2Client.getReceiver().receiveBatch(100);
   console.log("Messages from the second subscription:");
   for (let i = 0; i < messagesFromSecondSubscription.length; i++) {
     console.log(messagesFromSecondSubscription[i].body);
@@ -87,7 +87,7 @@ async function receiveMessages(ns: Namespace): Promise<void> {
   }
   await subscription2Client.close();
 
-  const messagesFromThirdSubscription = await subscription3Client.receiveBatch(100);
+  const messagesFromThirdSubscription = await subscription3Client.getReceiver().receiveBatch(100);
   console.log("Messages from the third subscription:");
   for (let i = 0; i < messagesFromThirdSubscription.length; i++) {
     console.log(messagesFromThirdSubscription[i].body);

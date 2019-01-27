@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Constants } from "@azure/amqp-common";
-import { ReceiverEvents } from "rhea-promise";
 import {
   MessageReceiver,
   ReceiveOptions,
@@ -10,92 +8,10 @@ import {
   OnError,
   ReceiverType
 } from "./messageReceiver";
-import { ReceiveMode } from "../serviceBusMessage";
+
 import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
-
-/**
- * Describes the receive handler object that is returned from the receive() method with handlers is
- * called. The ReceiveHandler is used to stop receiving more messages.
- * @class ReceiveHandler
- */
-export class ReceiveHandler {
-  /**
-   * @property {string} name The Receiver handler name.
-   * @readonly
-   */
-  readonly name: string;
-
-  /**
-   * @property {MessageReceiver} _receiver  The underlying Message Receiver.
-   * @private
-   */
-  private _receiver: MessageReceiver;
-
-  /**
-   * Creates an instance of the ReceiveHandler.
-   * @constructor
-   * @param {MessageReceiver} receiver The underlying Message Receiver.
-   */
-  constructor(receiver: MessageReceiver) {
-    this._receiver = receiver;
-    this.name = receiver ? receiver.name : "ReceiveHandler";
-  }
-
-  /**
-   * @property {string} [address] The address of the underlying receiver.
-   * @readonly
-   */
-  get address(): string | undefined {
-    return this._receiver ? this._receiver.address : undefined;
-  }
-
-  /**
-   * @property {boolean} isReceiverOpen Indicates whether the receiver is connected/open.
-   * `true` - is open; `false` otherwise.
-   * @readonly
-   */
-  get isReceiverOpen(): boolean {
-    return this._receiver ? this._receiver.isOpen() : false;
-  }
-
-  /**
-   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete while receiving messages with handlers
-   * or while messages are received using receiveBatch(). Default: false.
-   */
-  get autoComplete(): boolean {
-    return this._receiver.autoComplete;
-  }
-
-  /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
-   * Default: ReceiveMode.peekLock
-   */
-  get receiveMode(): ReceiveMode {
-    return this._receiver.receiveMode;
-  }
-
-  /**
-   * Stops the underlying MessageReceiver from receiving more messages.
-   * @return {Promise<void>} Promise<void>
-   */
-  async stop(): Promise<void> {
-    if (this._receiver) {
-      try {
-        await this._receiver.close();
-      } catch (err) {
-        log.error(
-          "An error occurred while stopping the receiver '%s' with address '%s': %O",
-          this._receiver.name,
-          this._receiver.address,
-          err
-        );
-      }
-    }
-  }
-}
 
 export interface MessageHandlerOptions {
   /**
@@ -111,6 +27,12 @@ export interface MessageHandlerOptions {
    * - **To disable autolock renewal**, set `maxAutoRenewDurationInSeconds` to `0`.
    */
   maxAutoRenewDurationInSeconds?: number;
+  /**
+   * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the
+   * receiver will wait after a message has been received. If no messages are received in that
+   * time frame then the receiver will be closed.
+   */
+  maxMessageWaitTimeoutInSeconds?: number;
 }
 
 /**
@@ -121,11 +43,6 @@ export interface MessageHandlerOptions {
  */
 export class StreamingReceiver extends MessageReceiver {
   /**
-   * @property {ReceiveHandler} receiveHandler The receive handler associated with this receivever
-   * that provides a mechanism to stop receiving messages.
-   */
-  receiveHandler: ReceiveHandler;
-  /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
    * @constructor
@@ -134,7 +51,28 @@ export class StreamingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.streaming, options);
-    this.receiveHandler = new ReceiveHandler(this);
+
+    this.resetTimerOnNewMessageReceived = () => {
+      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+      if (this.maxMessageWaitTimeoutInSeconds) {
+        this._newMessageReceivedTimer = setTimeout(async () => {
+          const msg =
+            `StreamingReceiver '${this.name}' did not receive any messages in ` +
+            `the last ${this.maxMessageWaitTimeoutInSeconds} seconds. ` +
+            `Hence ending this receive operation.`;
+          log.error("[%s] %s", this._context.namespace.connectionId, msg);
+
+          // To stop receiving any more messages, drain the credit
+          // We do this instead of close() as the receiver link should be open to enable users to
+          // settle their messages.
+          if (this._receiver) {
+            // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
+            this._receiver.drain = true;
+            this._receiver.addCredit(1);
+          }
+        }, this.maxMessageWaitTimeoutInSeconds * 1000);
+      }
+    };
   }
 
   /**
@@ -143,7 +81,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {OnMessage} onMessage The message handler to receive servicebus messages.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
-  receive(onMessage: OnMessage, onError: OnError): ReceiveHandler {
+  receive(onMessage: OnMessage, onError: OnError): void {
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -152,32 +90,16 @@ export class StreamingReceiver extends MessageReceiver {
     }
     this._onMessage = onMessage;
     this._onError = onError;
-    if (!this.isOpen()) {
-      this._init().catch((err) => {
-        this._onError!(err);
-      });
-    } else {
-      // It is possible that the receiver link has been established due to a previous receive() call. If that
-      // is the case then add message and error event handlers to the receiver. When the receiver will be closed
-      // these handlers will be automatically removed.
-      log.streaming(
-        "[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
-          "Hence reusing it and attaching message and error handlers.",
-        this._context.namespace.connectionId,
-        this.name
-      );
-      this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
-      this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
-      this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
-      this._receiver!.addCredit(Constants.defaultPrefetchCount);
-      log.streaming(
-        "[%s] Receiver '%s', set the prefetch count to 1000 and " +
-          "providing a credit of the same amount.",
-        this._context.namespace.connectionId,
-        this.name
-      );
+    if (this.isOpen()) {
+      const msg =
+        `A streaming receiver with id "${this.name}" is active for ` +
+        `"${this._context.entityPath}". A new receive() call cannot be made at this time. ` +
+        `Either wait for current receiver to complete or create a new receiver.`;
+      throw new Error(msg);
     }
-    return this.receiveHandler;
+    this._init().catch((err) => {
+      this._onError!(err);
+    });
   }
 
   /**

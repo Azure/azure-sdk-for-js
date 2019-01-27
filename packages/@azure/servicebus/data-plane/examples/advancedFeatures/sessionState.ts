@@ -77,9 +77,9 @@ async function getSessionState(sessionId: string): Promise<void> {
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(userEventsQueueName);
 
-  const messageSession = await client.acceptSession({ sessionId: sessionId });
+  const sessionReceiver = await client.getSessionReceiver({ sessionId: sessionId });
 
-  const sessionState = await messageSession.getState();
+  const sessionState = await sessionReceiver.getState();
   if (sessionState) {
     // Get list of items
     console.log(`\nItems in cart for ${sessionId}: ${sessionState}\n`);
@@ -87,13 +87,14 @@ async function getSessionState(sessionId: string): Promise<void> {
     console.log(`\nNo Items were added to cart for ${sessionId}\n`);
   }
 
-  await messageSession.close();
+  await sessionReceiver.close();
   await client.close();
 }
 
 async function sendMessagesForSession(shoppingEvents: any[], sessionId: string): Promise<void> {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(userEventsQueueName);
+  const sender = client.getSender();
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
@@ -101,7 +102,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string):
       body: shoppingEvents[index],
       label: "Shopping Step"
     };
-    await client.send(message);
+    await sender.send(message);
   }
   await client.close();
 }
@@ -110,29 +111,29 @@ async function processMessageFromSession(sessionId: string): Promise<void> {
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(userEventsQueueName);
 
-  const messageSession = await client.acceptSession({ sessionId: sessionId });
+  const sessionReceiver = await client.getSessionReceiver({ sessionId: sessionId });
 
-  const messages = await messageSession.receiveBatch(1, 10);
+  const messages = await sessionReceiver.receiveBatch(1, 10);
 
   // Custom logic for processing the messages
   if (messages.length > 0) {
     // Update sessionState
     if (messages[0].body.event_name === "Checkout") {
       // Clear cart if customer exits, else retain items.
-      await messageSession.setState(JSON.stringify([]));
+      await sessionReceiver.setState(JSON.stringify([]));
     } else if (messages[0].body.event_name === "Add Item") {
       // Update cart if customer adds items and store it in session state.
-      const currentSessionState = await messageSession.getState();
+      const currentSessionState = await sessionReceiver.getState();
       let newSessionState: string[] = [];
       if (currentSessionState) {
         newSessionState = JSON.parse(currentSessionState);
       }
       newSessionState.push(messages[0].body.event_details);
-      await messageSession.setState(JSON.stringify(newSessionState));
+      await sessionReceiver.setState(JSON.stringify(newSessionState));
     }
 
     console.log(
-      `Received message: Customer '${messageSession.sessionId}' did '${
+      `Received message: Customer '${sessionReceiver.sessionId}' did '${
         messages[0].body.event_name
       } ${messages[0].body.event_details}'`
     );
@@ -141,7 +142,7 @@ async function processMessageFromSession(sessionId: string): Promise<void> {
     console.log(`No events were received for Customer: ${sessionId}\n`);
   }
 
-  await messageSession.close();
+  await sessionReceiver.close();
   await client.close();
 }
 

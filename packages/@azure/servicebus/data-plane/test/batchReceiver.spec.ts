@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  SessionClient,
+  SessionReceiver,
   ServiceBusMessage,
   delay,
   SendableMessageInfo
@@ -26,9 +26,11 @@ import {
   getReceiverClient,
   ClientType
 } from "./testUtils";
+import { Receiver } from "../lib/receiver";
+import { Sender } from "../lib/sender";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | SessionClient,
+  client: QueueClient | SubscriptionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -46,7 +48,8 @@ let errorWasThrown: boolean;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
-let messageSession: SessionClient;
+let sender: Sender;
+let receiver: Receiver | SessionReceiver;
 const maxDeliveryCount = 10;
 
 async function beforeEachTest(
@@ -84,11 +87,12 @@ async function beforeEachTest(
     );
   }
 
-  if (useSessions) {
-    messageSession = await receiverClient.createSessionClient({
-      sessionId: testSessionId
-    });
-  }
+  sender = senderClient.getSender();
+  receiver = useSessions
+    ? await receiverClient.getSessionReceiver({
+        sessionId: testSessionId
+      })
+    : receiverClient.getReceiver();
 
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -105,13 +109,9 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await afterEachTest();
   });
 
-  async function sendReceiveMsg(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | SessionClient,
-    testMessages: SendableMessageInfo[]
-  ): Promise<ServiceBusMessage> {
-    await senderClient.send(testMessages[0]);
-    const msgs = await receiverClient.receiveBatch(1);
+  async function sendReceiveMsg(testMessages: SendableMessageInfo[]): Promise<ServiceBusMessage> {
+    await sender.send(testMessages[0]);
+    const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
@@ -122,29 +122,9 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     return msgs[0];
   }
 
-  async function completeMessages(
-    receiverClient: QueueClient | SubscriptionClient | SessionClient,
-    expectedDeliverCount: number,
-    testMessages: SendableMessageInfo[]
-  ): Promise<void> {
-    const receivedMsgs = await receiverClient.receiveBatch(1);
-
-    should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].deliveryCount, expectedDeliverCount);
-    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
-
-    await receivedMsgs[0].complete();
-
-    await testPeekMsgsLength(receiverClient, 0);
-  }
-
   async function testComplete(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const msg = await sendReceiveMsg(
-      senderClient,
-      useSessions ? messageSession : receiverClient,
-      testMessages
-    );
+    const msg = await sendReceiveMsg(testMessages);
 
     await msg.complete();
 
@@ -221,13 +201,20 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
 
   async function testAbandon(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const currentReceiverClient = useSessions ? messageSession : receiverClient;
-    const msg = await sendReceiveMsg(senderClient, currentReceiverClient, testMessages);
+    const msg = await sendReceiveMsg(testMessages);
     await msg.abandon();
 
-    await testPeekMsgsLength(currentReceiverClient, 1);
+    await testPeekMsgsLength(receiverClient, 1);
 
-    await completeMessages(currentReceiverClient, 1, testMessages);
+    const receivedMsgs = await receiver.receiveBatch(1);
+
+    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs[0].deliveryCount, 1);
+    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+
+    await receivedMsgs[0].complete();
+
+    await testPeekMsgsLength(receiverClient, 0);
   }
 
   it("Partitioned Queues: abandon() retains message with incremented deliveryCount", async function(): Promise<
@@ -304,11 +291,11 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
 
   async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    await senderClient.send(testMessages[0]);
+    await sender.send(testMessages[0]);
     let abandonMsgCount = 0;
 
     while (abandonMsgCount < maxDeliveryCount) {
-      const receivedMsgs = await receiverClient.receiveBatch(1);
+      const receivedMsgs = await receiver.receiveBatch(1);
 
       should.equal(receivedMsgs.length, 1);
       should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
@@ -320,7 +307,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
 
     should.equal(Array.isArray(deadLetterMsgs), true);
     should.equal(deadLetterMsgs.length, 1);
@@ -390,8 +377,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
 
   async function testDefer(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const currentReceiverClient = useSessions ? messageSession : receiverClient;
-    const msg = await sendReceiveMsg(senderClient, currentReceiverClient, testMessages);
+    const msg = await sendReceiveMsg(testMessages);
 
     if (!msg.sequenceNumber) {
       throw "Sequence Number can not be null";
@@ -399,7 +385,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     const sequenceNumber = msg.sequenceNumber;
     await msg.defer();
 
-    const deferredMsgs = await currentReceiverClient.receiveDeferredMessage(sequenceNumber);
+    const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
@@ -409,7 +395,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
 
     await deferredMsgs.complete();
 
-    await testPeekMsgsLength(currentReceiverClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
   }
 
   it("Partitioned Queues: defer() moves message to deferred queue", async function(): Promise<
@@ -486,13 +472,21 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const currentReceiverClient = useSessions ? messageSession : receiverClient;
-    const msg = await sendReceiveMsg(senderClient, currentReceiverClient, testMessages);
+    const msg = await sendReceiveMsg(testMessages);
     await msg.deadLetter();
 
-    await testPeekMsgsLength(currentReceiverClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
 
-    await completeMessages(deadLetterClient, 0, testMessages);
+    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].body, testMessages[0].body);
+    should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
+
+    await deadLetterMsgs[0].complete();
+
+    await testPeekMsgsLength(deadLetterClient, 0);
   }
 
   it("Partitioned Queues: deadLetter() moves message to deadletter queue", async function(): Promise<
@@ -574,8 +568,8 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
   });
 
   async function deadLetterMessage(): Promise<ServiceBusMessage> {
-    await senderClient.send(testSimpleMessages[0]);
-    const receivedMsgs = await receiverClient.receiveBatch(1);
+    await sender.send(testSimpleMessages[0]);
+    const receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].body, testSimpleMessages[0].body);
@@ -586,7 +580,7 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1);
     should.equal(deadLetterMsgs[0].body, testSimpleMessages[0].body);
@@ -600,7 +594,7 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
     deadletterClient: QueueClient | SubscriptionClient,
     expectedDeliverCount: number
   ): Promise<void> {
-    const deadLetterMsgs = await deadletterClient.receiveBatch(1);
+    const deadLetterMsgs = await deadletterClient.getReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1);
     should.equal(deadLetterMsgs[0].body, testSimpleMessages[0].body);
@@ -698,7 +692,9 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
     const sequenceNumber = deadLetterMsg.sequenceNumber;
     await deadLetterMsg.defer();
 
-    const deferredMsgs = await deadLetterClient.receiveDeferredMessage(sequenceNumber);
+    const deferredMsgs = await deadLetterClient
+      .getReceiver()
+      .receiveDeferredMessage(sequenceNumber);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
@@ -747,12 +743,10 @@ describe("Multiple ReceiveBatch calls", function(): void {
   });
 
   // We use an empty queue/topic here so that the first receiveBatch call takes time to return
-  async function testParallelReceiveBatchCalls(
-    receiverClient: QueueClient | SubscriptionClient | SessionClient
-  ): Promise<void> {
-    const firstBatchPromise = receiverClient.receiveBatch(1, 10);
+  async function testParallelReceiveBatchCalls(): Promise<void> {
+    const firstBatchPromise = receiver.receiveBatch(1, 10);
     await delay(5000);
-    const secondBatchPromise = receiverClient.receiveBatch(1, 10).catch((err) => {
+    const secondBatchPromise = receiver.receiveBatch(1, 10).catch((err) => {
       should.equal(err.name, "Error");
       errorWasThrown = true;
     });
@@ -764,28 +758,28 @@ describe("Multiple ReceiveBatch calls", function(): void {
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testParallelReceiveBatchCalls(receiverClient);
+    await testParallelReceiveBatchCalls();
   });
 
   it("Partitioned Topics and Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testParallelReceiveBatchCalls(receiverClient);
+    await testParallelReceiveBatchCalls();
   });
 
   it("Unpartitioned Queues: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testParallelReceiveBatchCalls(receiverClient);
+    await testParallelReceiveBatchCalls();
   });
 
   it("Unpartitioned Topics and Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testParallelReceiveBatchCalls(receiverClient);
+    await testParallelReceiveBatchCalls();
   });
 
   it("Partitioned Queues with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
@@ -796,7 +790,7 @@ describe("Multiple ReceiveBatch calls", function(): void {
       ClientType.PartitionedQueueWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls(messageSession);
+    await testParallelReceiveBatchCalls();
   });
 
   it("Partitioned Topics and Subscription with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
@@ -807,7 +801,7 @@ describe("Multiple ReceiveBatch calls", function(): void {
       ClientType.PartitionedSubscriptionWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls(messageSession);
+    await testParallelReceiveBatchCalls();
   });
 
   it("Unpartitioned Queues with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
@@ -818,7 +812,7 @@ describe("Multiple ReceiveBatch calls", function(): void {
       ClientType.UnpartitionedQueueWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls(messageSession);
+    await testParallelReceiveBatchCalls();
   });
 
   it("Unpartitioned Topics and Subscription with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
@@ -829,17 +823,16 @@ describe("Multiple ReceiveBatch calls", function(): void {
       ClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls(messageSession);
+    await testParallelReceiveBatchCalls();
   });
 
   // We test for mutilple receiveBatch specifically to ensure that batchingRecevier on a client is reused
   // See https://github.com/Azure/azure-service-bus-node/issues/31
   async function testSequentialReceiveBatchCalls(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const currentReceiverClient = useSessions ? messageSession : receiverClient;
-    await senderClient.sendBatch(testMessages);
-    const msgs1 = await currentReceiverClient.receiveBatch(1);
-    const msgs2 = await currentReceiverClient.receiveBatch(1);
+    await sender.sendBatch(testMessages);
+    const msgs1 = await receiver.receiveBatch(1);
+    const msgs2 = await receiver.receiveBatch(1);
 
     // Results are checked after both receiveBatches are done to ensure that the second call doesnt
     // affect the result from the first one.
@@ -937,18 +930,17 @@ describe("Batching Receiver Misc Tests", function(): void {
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const currentReceiverClient = useSessions ? messageSession : receiverClient;
-    await senderClient.send(testMessages[0]);
+    await sender.send(testMessages[0]);
 
-    let receivedMsgs = await currentReceiverClient.receiveBatch(1);
+    let receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].deliveryCount, 0);
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
-    await testPeekMsgsLength(currentReceiverClient, 1);
+    await testPeekMsgsLength(receiverClient, 1);
 
-    receivedMsgs = await currentReceiverClient.receiveBatch(1);
+    receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].deliveryCount, 1);
@@ -1031,9 +1023,8 @@ describe("Batching Receiver Misc Tests", function(): void {
 
   async function testAskForMore(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const currentReceiverClient = useSessions ? messageSession : receiverClient;
-    await senderClient.send(testMessages[0]);
-    const receivedMsgs = await currentReceiverClient.receiveBatch(2);
+    await sender.send(testMessages[0]);
+    const receivedMsgs = await receiver.receiveBatch(2);
 
     should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].body, testMessages[0].body);
@@ -1041,7 +1032,7 @@ describe("Batching Receiver Misc Tests", function(): void {
 
     await receivedMsgs[0].complete();
 
-    await testPeekMsgsLength(currentReceiverClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
   }
 
   it("Partitioned Queues: Receive n messages but queue only has m messages, where m < n", async function(): Promise<
