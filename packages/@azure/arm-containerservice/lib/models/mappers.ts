@@ -1304,6 +1304,17 @@ export const ManagedCluster: msRest.CompositeMapper = {
           name: "Composite",
           className: "ManagedClusterAADProfile"
         }
+      },
+      apiServerAuthorizedIPRanges: {
+        serializedName: "properties.apiServerAuthorizedIPRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
