@@ -766,17 +766,26 @@ export class MessageSession extends LinkEntity {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = async (context: EventContext) => {
-        resetTimerOnNewMessageReceived();
-        const data: ServiceBusMessage = new ServiceBusMessage(
-          this._context,
-          context.message!,
-          context.delivery!
-        );
-        if (brokeredMessages.length < maxMessageCount) {
-          brokeredMessages.push(data);
-        }
-        if (brokeredMessages.length === maxMessageCount) {
-          finalAction();
+        try {
+          resetTimerOnNewMessageReceived();
+          const data: ServiceBusMessage = new ServiceBusMessage(
+            this._context,
+            context.message!,
+            context.delivery!
+          );
+          if (brokeredMessages.length < maxMessageCount) {
+            brokeredMessages.push(data);
+          }
+          if (brokeredMessages.length === maxMessageCount) {
+            finalAction();
+          }
+        } catch (err) {
+          log.error(
+            "[%s] Receiver '%s' error in onMessage handler:\n%O",
+            this._context.namespace.connectionId,
+            this.name,
+            translate(err)
+          );
         }
       };
 
