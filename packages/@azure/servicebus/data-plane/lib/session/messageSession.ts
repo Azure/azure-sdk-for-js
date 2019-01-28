@@ -457,13 +457,14 @@ export class SessionReceiver extends LinkEntity {
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the SessionReceiver.
+   * To stop receiving messages, call `close()` on the SessionReceiver or set the property
+   * `maxMessageWaitTimeoutInSeconds` in the options.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control whether messages should be automatically completed and/or
    * automatically have the session lock renewed. You can also provide a timeout in seconds to denote
-   * the amount of time to wait for a new message before stopping the receiving of any more messages.
+   * the amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
    */
@@ -516,20 +517,8 @@ export class SessionReceiver extends LinkEntity {
               description: msg
             });
             this._notifyError(translate(error));
-
-            // TODO: Session Manager needs to close the link so that it can open new ones
-            // But this stops user from settling the messages from current session, after this point!
-            await this.close();
-          } else {
-            // To stop receiving any more messages, drain the credit
-            // We do this instead of close() as the receiver link should be open to enable users to
-            // settle their messages.
-            if (this._receiver) {
-              // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
-              this._receiver.drain = true;
-              this._receiver.addCredit(1);
-            }
           }
+          await this.close();
         }, this.maxMessageWaitTimeoutInSeconds * 1000);
       }
     };

@@ -34,7 +34,11 @@ export interface MessageHandlerOptions {
   /**
    * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the
    * receiver will wait to receive a new message. If no messages are received in this
-   * time, then the receiver will stop receiving any more messages.
+   * time, then the receiver will close.
+   * Account for the time take to process messages, as once the receiver is closed, you cant
+   * complete/abandon/defer/deadletter a message.
+   *
+   * If this options is not provided, then receiver link will stay open until manually closed.
    */
   maxMessageWaitTimeoutInSeconds?: number;
 }
@@ -66,14 +70,7 @@ export class StreamingReceiver extends MessageReceiver {
             `Hence ending this receive operation.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
-          // To stop receiving any more messages, drain the credit
-          // We do this instead of close() as the receiver link should be open to enable users to
-          // settle their messages.
-          if (this._receiver) {
-            // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
-            this._receiver.drain = true;
-            this._receiver.addCredit(1);
-          }
+          await this.close();
         }, this.maxMessageWaitTimeoutInSeconds * 1000);
       }
     };

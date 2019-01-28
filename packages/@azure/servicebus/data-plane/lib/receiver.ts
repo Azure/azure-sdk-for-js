@@ -43,13 +43,14 @@ export class Receiver {
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the Receiver.
+   * To stop receiving messages, call `close()` on the Receiver or set the property
+   * `maxMessageWaitTimeoutInSeconds` in the options.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control whether messages should be automatically completed and/or
    * automatically have their locks renewed. You can also provide a timeout in seconds to denote the
-   * amount of time to wait for a new message before stopping the receiving of any more messages.
+   * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
    */
