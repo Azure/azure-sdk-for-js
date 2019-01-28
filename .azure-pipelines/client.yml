@@ -52,7 +52,6 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Package'
 
- 
   - job: 'Audit'
 
     pool:
@@ -163,8 +162,3 @@ jobs:
           testRunTitle: '$(os.name) Node $(node.version)'
         condition: succeededOrFailed()
         displayName: 'Publish test results'
-    
- 
- 
-
-
