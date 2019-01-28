@@ -516,8 +516,20 @@ export class SessionReceiver extends LinkEntity {
               description: msg
             });
             this._notifyError(translate(error));
+
+            // TODO: Session Manager needs to close the link so that it can open new ones
+            // But this stops user from settling the messages from current session, after this point!
+            await this.close();
+          } else {
+            // To stop receiving any more messages, drain the credit
+            // We do this instead of close() as the receiver link should be open to enable users to
+            // settle their messages.
+            if (this._receiver) {
+              // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
+              this._receiver.drain = true;
+              this._receiver.addCredit(1);
+            }
           }
-          await this.close();
         }, this.maxMessageWaitTimeoutInSeconds * 1000);
       }
     };
