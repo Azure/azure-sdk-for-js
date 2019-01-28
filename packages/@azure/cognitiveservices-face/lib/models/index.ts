@@ -570,7 +570,7 @@ export interface FindSimilarRequest {
    * face list, created in Face List - Create a Face List. Face list contains a
    * set of persistedFaceIds which are persisted and will never expire.
    * Parameter faceListId, largeFaceListId and faceIds should not be provided
-   * at the same time。
+   * at the same time.
    */
   faceListId?: string;
   /**
@@ -1197,7 +1197,7 @@ export interface FaceFindSimilarOptionalParams extends msRest.RequestOptionsBase
    * face list, created in Face List - Create a Face List. Face list contains a
    * set of persistedFaceIds which are persisted and will never expire.
    * Parameter faceListId, largeFaceListId and faceIds should not be provided
-   * at the same time。
+   * at the same time.
    */
   faceListId?: string;
   /**
