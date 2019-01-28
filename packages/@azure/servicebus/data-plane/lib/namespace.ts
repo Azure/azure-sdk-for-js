@@ -111,8 +111,6 @@ export class Namespace {
    * It assumes that the topic has already been created.
    * @param {string} topicName The topic name.
    * @param {string} subscriptionName The subscription name.
-   * @param {SubscriptionClientOptions} [options] Optional parameters that can be provided while
-   * creating a SubscriptionClient.
    * @returns SubscriptionClient.
    */
   createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {

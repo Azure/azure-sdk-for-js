@@ -44,7 +44,7 @@ export class TopicClient extends Client {
   }
 
   /**
-   * Gets a Sender by establishing an AMQP session and an AMQP sender link on the session.
+   * Creates a Sender by establishing an AMQP session and an AMQP sender link on the session.
    * This Sender can be used to send messages, schedule messages to be sent at a later time
    * and cancel such scheduled messages.
    */

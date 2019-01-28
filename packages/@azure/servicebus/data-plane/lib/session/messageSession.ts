@@ -458,7 +458,7 @@ export class SessionReceiver extends LinkEntity {
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
    * To stop receiving messages, call `close()` on the SessionReceiver or set the property
-   * `maxMessageWaitTimeoutInSeconds` in the options.
+   * `maxMessageWaitTimeoutInSeconds` in the options to provide a timeout.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.

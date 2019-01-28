@@ -38,7 +38,7 @@ export interface MessageHandlerOptions {
    * Account for the time take to process messages, as once the receiver is closed, you cant
    * complete/abandon/defer/deadletter a message.
    *
-   * If this options is not provided, then receiver link will stay open until manually closed.
+   * If this option is not provided, then receiver link will stay open until manually closed.
    */
   maxMessageWaitTimeoutInSeconds?: number;
 }

@@ -87,7 +87,7 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Gets a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
+   * Creates a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
    * This Receiver can be used to receive messages in batches or by registering handlers.
    *
    * @param options Options for creating the receiver.

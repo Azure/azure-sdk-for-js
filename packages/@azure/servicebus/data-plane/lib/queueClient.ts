@@ -72,7 +72,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Gets a Sender by establishing an AMQP session and an AMQP sender link on the session.
+   * Creates a Sender by establishing an AMQP session and an AMQP sender link on the session.
    * This Sender can be used to send messages, schedule messages to be sent at a later time
    * and cancel such scheduled messages.
    */
@@ -81,7 +81,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Gets a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
+   * Creates a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
    * This Receiver can be used to receive messages in batches or by registering handlers.
    *
    * @param options Options for creating the receiver.
