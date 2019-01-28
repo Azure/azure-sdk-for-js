@@ -6,14 +6,14 @@
 
 import { PullRequestsGetAllResponseItem } from "@octokit/rest";
 import { execSync } from "child_process";
-import fs from "fs";
+import fssync, { promises as fs } from "fs";
 import * as path from "path";
 import { SdkType } from "./commandLine";
 import { contains, npmInstall } from "./common";
 import { Branch, BranchLocation, checkoutRemoteBranch, commitAndPush, getValidatedRepository, mergeMasterIntoBranch, refreshRepository, unlockGitRepository, ValidateFunction, waitAndLockGitRepository, checkoutBranch } from "./git";
 import { commitAndCreatePullRequest, findPullRequest, forcePrDiffRefresh, requestPullRequestReview } from "./github";
 import { Logger } from "./logger";
-import { findMissingSdks, findSdkDirectory, saveContentToFile } from "./packages";
+import { findMissingSdks, findSdkDirectory, saveContentToFile, getPackageInformationFromPackageJsons } from "./packages";
 import { copyExistingNodeJsReadme, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents, getSinglePackageName, updateMainReadmeFile, updateTypeScriptReadmeFile } from "./readme";
 import { Version } from "./version";
 import { Merge } from 'nodegit';
@@ -37,7 +37,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
     for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
         const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
 
-        const typeScriptReadmeFileContents: string = await fs.promises.readFile(typeScriptReadmeFilePath, { encoding: 'utf8' });
+        const typeScriptReadmeFileContents: string = await fssync.promises.readFile(typeScriptReadmeFilePath, { encoding: 'utf8' });
         const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
         const packageNamesString: string = JSON.stringify(packageNames);
 
@@ -52,7 +52,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
             }
             else {
                 const localAutorestTypeScriptFolderPath = path.resolve(azureSDKForJSRepoRoot, '..', 'autorest.typescript');
-                if (fs.existsSync(localAutorestTypeScriptFolderPath) && fs.lstatSync(localAutorestTypeScriptFolderPath).isDirectory()) {
+                if (fssync.existsSync(localAutorestTypeScriptFolderPath) && fssync.lstatSync(localAutorestTypeScriptFolderPath).isDirectory()) {
                     cmd += ` --use=${localAutorestTypeScriptFolderPath}`;
                 }
             }
@@ -233,7 +233,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {
     const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "packages", packageName, "package.json");
-    const packageJsonContent = await fs.promises.readFile(pathToPackageJson);
+    const packageJsonContent = await fssync.promises.readFile(pathToPackageJson);
     const packageJson = JSON.parse(packageJsonContent.toString());
     const versionString = packageJson.version;
     const version = Version.parse(versionString);
@@ -242,4 +242,31 @@ async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: stri
 
     packageJson.version = version.toString();
     await saveContentToFile(pathToPackageJson, JSON.stringify(packageJson, undefined, "  "));
+}
+
+export async function setAutoPublish(azureSdkForJsRoot: string, packagesToIgnore?: string[]) {
+    if (!packagesToIgnore) {
+        packagesToIgnore = [];
+    }
+    const jsonPackageInfos = await getPackageInformationFromPackageJsons(azureSdkForJsRoot);
+
+    for (const packageInfo of jsonPackageInfos) {
+        _logger.log(`Analyzing ${packageInfo.name} package`);
+        if (packageInfo.name && packagesToIgnore.includes(packageInfo.name)) {
+            _logger.log(`Skipping ${packageInfo.name} package`);
+            continue;
+        }
+
+        if (!packageInfo.outputPath) {
+            throw new Error("Output path cannot be undefined");
+        }
+
+        const packageJsonPath = path.join(packageInfo.outputPath, "package.json");
+        _logger.log(`Reading "${packageJsonPath}"`);
+        const configContent = await fs.readFile(packageJsonPath);
+        const config = JSON.parse(configContent.toString());
+        config["authPublish"] = true;
+        fs.writeFile(packageJsonPath, config);
+        _logger.log("Save");
+    }
 }

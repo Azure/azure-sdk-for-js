@@ -12,7 +12,7 @@ import PluginError from "plugin-error";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
 import { endsWith, getPackageFolderPaths, packagesToIgnore } from "./.scripts/common";
 import { getDataFromPullRequest } from "./.scripts/github";
-import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate } from "./.scripts/gulp";
+import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate, setAutoPublish } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
@@ -455,4 +455,13 @@ gulp.task("find-wrong-packages", async () => {
     _logger.log(`  Readme path: ${incorrectPackage.package.readmePath}`.gray);
     _logger.log();
   }
+});
+
+gulp.task("set-autopublish", async () => {
+  _logger.log(`Passed arguments: ${Argv.print()}`);
+  const argv: Argv.RepositoryOptions
+    = Argv.construct(Argv.Options.Repository)
+      .usage("Example: gulp set-autopublish")
+      .argv as any;
+  const a = await setAutoPublish(argv.azureSDKForJSRepoRoot, [])
 });

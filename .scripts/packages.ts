@@ -184,7 +184,7 @@ async function findPackagesWithoutMatchingPackageJson(readmePackageInfos: Packag
     });
 }
 
-async function getPackageInformationFromPackageJsons(azureSdkForJsRoot: string): Promise<PackageInfo[]> {
+export async function getPackageInformationFromPackageJsons(azureSdkForJsRoot: string): Promise<PackageInfo[]> {
     const packageJsonPaths = await getPackageJsons(azureSdkForJsRoot);
     const packageInfos = [];
     for (const packageJsonPath of packageJsonPaths) {
