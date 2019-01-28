@@ -12,6 +12,7 @@ export {
   AlertRulesList,
   AlertRule,
   CloudError,
-  ScheduledAlertRule
+  ScheduledAlertRule,
+  ScheduledAlertRuleProperties
 } from "../models/mappers";
 

@@ -130,30 +130,29 @@ export const AlertRuleKind1: msRest.CompositeMapper = {
   }
 };
 
-export const ScheduledAlertRule: msRest.CompositeMapper = {
-  serializedName: "Scheduled",
+export const ScheduledAlertRuleProperties: msRest.CompositeMapper = {
+  serializedName: "ScheduledAlertRuleProperties",
   type: {
     name: "Composite",
-    className: "ScheduledAlertRule",
+    className: "ScheduledAlertRuleProperties",
     modelProperties: {
-      ...AlertRule.type.modelProperties,
       ruleName: {
         required: true,
-        serializedName: "properties.ruleName",
+        serializedName: "ruleName",
         type: {
           name: "String"
         }
       },
       description: {
         required: true,
-        serializedName: "properties.description",
+        serializedName: "description",
         type: {
           name: "String"
         }
       },
       severity: {
         required: true,
-        serializedName: "properties.severity",
+        serializedName: "severity",
         type: {
           name: "Enum",
           allowedValues: [
@@ -166,35 +165,35 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
       },
       enabled: {
         required: true,
-        serializedName: "properties.enabled",
+        serializedName: "enabled",
         type: {
           name: "Boolean"
         }
       },
       query: {
         required: true,
-        serializedName: "properties.query",
+        serializedName: "query",
         type: {
           name: "String"
         }
       },
       queryFrequency: {
         required: true,
-        serializedName: "properties.queryFrequency",
+        serializedName: "queryFrequency",
         type: {
           name: "TimeSpan"
         }
       },
       queryPeriod: {
         required: true,
-        serializedName: "properties.queryPeriod",
+        serializedName: "queryPeriod",
         type: {
           name: "TimeSpan"
         }
       },
       triggerOperator: {
         required: true,
-        serializedName: "properties.triggerOperator",
+        serializedName: "triggerOperator",
         type: {
           name: "Enum",
           allowedValues: [
@@ -207,30 +206,48 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
       },
       triggerThreshold: {
         required: true,
-        serializedName: "properties.triggerThreshold",
+        serializedName: "triggerThreshold",
         type: {
           name: "Number"
         }
       },
       suppressionEnabled: {
         required: true,
-        serializedName: "properties.suppressionEnabled",
+        serializedName: "suppressionEnabled",
         type: {
           name: "Boolean"
         }
       },
       suppressionDuration: {
         required: true,
-        serializedName: "properties.suppressionDuration",
+        serializedName: "suppressionDuration",
         type: {
           name: "TimeSpan"
         }
       },
       lastModifiedUtc: {
         readOnly: true,
-        serializedName: "properties.lastModifiedUtc",
+        serializedName: "lastModifiedUtc",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ScheduledAlertRule: msRest.CompositeMapper = {
+  serializedName: "Scheduled",
+  type: {
+    name: "Composite",
+    className: "ScheduledAlertRule",
+    modelProperties: {
+      ...AlertRule.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ScheduledAlertRuleProperties"
         }
       }
     }
