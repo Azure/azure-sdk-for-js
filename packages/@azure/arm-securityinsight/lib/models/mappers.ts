@@ -71,11 +71,11 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
+export const AlertRule: msRest.CompositeMapper = {
+  serializedName: "AlertRule",
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "AlertRule",
     modelProperties: {
       id: {
         readOnly: true,
@@ -97,24 +97,46 @@ export const Resource: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AlertRuleKind1: msRest.CompositeMapper = {
+  serializedName: "AlertRuleKind",
+  type: {
+    name: "Composite",
+    className: "AlertRuleKind1",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
 export const ScheduledAlertRule: msRest.CompositeMapper = {
-  serializedName: "ScheduledAlertRule",
+  serializedName: "Scheduled",
   type: {
     name: "Composite",
     className: "ScheduledAlertRule",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      },
+      ...AlertRule.type.modelProperties,
       ruleName: {
         required: true,
         serializedName: "properties.ruleName",
@@ -170,9 +192,9 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
           name: "TimeSpan"
         }
       },
-      alertTriggerOperator: {
+      triggerOperator: {
         required: true,
-        serializedName: "properties.alertTriggerOperator",
+        serializedName: "properties.triggerOperator",
         type: {
           name: "Enum",
           allowedValues: [
@@ -183,9 +205,9 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
           ]
         }
       },
-      alertTriggerThreshold: {
+      triggerThreshold: {
         required: true,
-        serializedName: "properties.alertTriggerThreshold",
+        serializedName: "properties.triggerThreshold",
         type: {
           name: "Number"
         }
@@ -207,6 +229,37 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
       lastModifiedUtc: {
         readOnly: true,
         serializedName: "properties.lastModifiedUtc",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
         type: {
           name: "String"
         }
@@ -244,11 +297,11 @@ export const OperationsList: msRest.CompositeMapper = {
   }
 };
 
-export const ScheduledAlertRulesList: msRest.CompositeMapper = {
-  serializedName: "ScheduledAlertRulesList",
+export const AlertRulesList: msRest.CompositeMapper = {
+  serializedName: "AlertRulesList",
   type: {
     name: "Composite",
-    className: "ScheduledAlertRulesList",
+    className: "AlertRulesList",
     modelProperties: {
       nextLink: {
         readOnly: true,
@@ -265,7 +318,7 @@ export const ScheduledAlertRulesList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ScheduledAlertRule"
+              className: "AlertRule"
             }
           }
         }

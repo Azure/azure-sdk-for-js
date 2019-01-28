@@ -18,7 +18,7 @@ import { SecurityInsightsContext } from "./securityInsightsContext";
 class SecurityInsights extends SecurityInsightsContext {
   // Operation groups
   operations: operations.Operations;
-  scheduledAlertRules: operations.ScheduledAlertRules;
+  alertRules: operations.AlertRules;
 
   /**
    * Initializes a new instance of the SecurityInsights class.
@@ -29,7 +29,7 @@ class SecurityInsights extends SecurityInsightsContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SecurityInsightsOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
-    this.scheduledAlertRules = new operations.ScheduledAlertRules(this);
+    this.alertRules = new operations.AlertRules(this);
   }
 }
 

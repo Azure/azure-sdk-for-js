@@ -58,12 +58,11 @@ export interface Operation {
 
 /**
  * @interface
- * An interface representing Resource.
- * An azure resource object
+ * An interface representing AlertRule.
+ * Alert rule.
  *
- * @extends BaseResource
  */
-export interface Resource extends BaseResource {
+export interface AlertRule {
   /**
    * @member {string} [id] Azure resource Id
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -82,20 +81,39 @@ export interface Resource extends BaseResource {
    * the server.**
    */
   readonly name?: string;
+  /**
+   * @member {AlertRuleKind} [kind] The kind of the alert rule. Possible values
+   * include: 'Scheduled'
+   */
+  kind?: AlertRuleKind;
+  /**
+   * @member {string} [etag] Etag of the alert rule.
+   */
+  etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AlertRuleKind1.
+ * Describes an Azure resource with kind.
+ *
+ */
+export interface AlertRuleKind1 {
+  /**
+   * @member {AlertRuleKind} [kind] The kind of the alert rule. Possible values
+   * include: 'Scheduled'
+   */
+  kind?: AlertRuleKind;
 }
 
 /**
  * @interface
  * An interface representing ScheduledAlertRule.
- * Alert rule.
+ * Represents scheduled alert rule.
  *
- * @extends Resource
+ * @extends AlertRule
  */
-export interface ScheduledAlertRule extends Resource {
-  /**
-   * @member {string} [etag] Etag of the alert rule.
-   */
-  etag?: string;
+export interface ScheduledAlertRule extends AlertRule {
   /**
    * @member {string} ruleName The name for alerts created by this alert rule.
    */
@@ -129,16 +147,15 @@ export interface ScheduledAlertRule extends Resource {
    */
   queryPeriod: string;
   /**
-   * @member {AlertTriggerOperator} alertTriggerOperator The operation against
-   * the threshold that triggers alert rule. Possible values include:
+   * @member {TriggerOperator} triggerOperator The operation against the
+   * threshold that triggers alert rule. Possible values include:
    * 'GreaterThan', 'LessThan', 'Equal', 'NotEqual'
    */
-  alertTriggerOperator: AlertTriggerOperator;
+  triggerOperator: TriggerOperator;
   /**
-   * @member {number} alertTriggerThreshold The threshold triggers this alert
-   * rule.
+   * @member {number} triggerThreshold The threshold triggers this alert rule.
    */
-  alertTriggerThreshold: number;
+  triggerThreshold: number;
   /**
    * @member {boolean} suppressionEnabled Determines whether the suppression
    * for this alert rule is enabled or disabled.
@@ -156,6 +173,34 @@ export interface ScheduledAlertRule extends Resource {
    * the server.**
    */
   readonly lastModifiedUtc?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Resource.
+ * An azure resource object
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
 }
 
 /**
@@ -187,20 +232,27 @@ export interface OperationsList extends Array<Operation> {
 
 /**
  * @interface
- * An interface representing the ScheduledAlertRulesList.
- * List all the scheduled alert rules.
+ * An interface representing the AlertRulesList.
+ * List all the alert rules.
  *
- * @extends Array<ScheduledAlertRule>
+ * @extends Array<AlertRule>
  */
-export interface ScheduledAlertRulesList extends Array<ScheduledAlertRule> {
+export interface AlertRulesList extends Array<AlertRule> {
   /**
-   * @member {string} [nextLink] URL to fetch the next set of scheduled alert
-   * rules.
+   * @member {string} [nextLink] URL to fetch the next set of alert rules.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly nextLink?: string;
 }
+
+/**
+ * Defines values for AlertRuleKind.
+ * Possible values include: 'Scheduled'
+ * @readonly
+ * @enum {string}
+ */
+export type AlertRuleKind = 'Scheduled';
 
 /**
  * Defines values for Severity.
@@ -211,12 +263,12 @@ export interface ScheduledAlertRulesList extends Array<ScheduledAlertRule> {
 export type Severity = 'Low' | 'Medium' | 'High' | 'Informational';
 
 /**
- * Defines values for AlertTriggerOperator.
+ * Defines values for TriggerOperator.
  * Possible values include: 'GreaterThan', 'LessThan', 'Equal', 'NotEqual'
  * @readonly
  * @enum {string}
  */
-export type AlertTriggerOperator = 'GreaterThan' | 'LessThan' | 'Equal' | 'NotEqual';
+export type TriggerOperator = 'GreaterThan' | 'LessThan' | 'Equal' | 'NotEqual';
 
 /**
  * Contains response data for the list operation.
@@ -259,7 +311,7 @@ export type OperationsListNextResponse = OperationsList & {
 /**
  * Contains response data for the list operation.
  */
-export type ScheduledAlertRulesListResponse = ScheduledAlertRulesList & {
+export type AlertRulesListResponse = AlertRulesList & {
   /**
    * The underlying HTTP response.
    */
@@ -271,14 +323,14 @@ export type ScheduledAlertRulesListResponse = ScheduledAlertRulesList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduledAlertRulesList;
+      parsedBody: AlertRulesList;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ScheduledAlertRulesGetResponse = ScheduledAlertRule & {
+export type AlertRulesGetResponse = AlertRule & {
   /**
    * The underlying HTTP response.
    */
@@ -290,14 +342,14 @@ export type ScheduledAlertRulesGetResponse = ScheduledAlertRule & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduledAlertRule;
+      parsedBody: AlertRule;
     };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type ScheduledAlertRulesCreateResponse = ScheduledAlertRule & {
+export type AlertRulesCreateResponse = AlertRule & {
   /**
    * The underlying HTTP response.
    */
@@ -309,14 +361,14 @@ export type ScheduledAlertRulesCreateResponse = ScheduledAlertRule & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduledAlertRule;
+      parsedBody: AlertRule;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type ScheduledAlertRulesListNextResponse = ScheduledAlertRulesList & {
+export type AlertRulesListNextResponse = AlertRulesList & {
   /**
    * The underlying HTTP response.
    */
@@ -328,6 +380,6 @@ export type ScheduledAlertRulesListNextResponse = ScheduledAlertRulesList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ScheduledAlertRulesList;
+      parsedBody: AlertRulesList;
     };
 };

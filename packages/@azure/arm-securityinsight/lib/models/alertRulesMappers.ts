@@ -8,5 +8,10 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./alertRules";
+export {
+  AlertRulesList,
+  AlertRule,
+  CloudError,
+  ScheduledAlertRule
+} from "../models/mappers";
+
