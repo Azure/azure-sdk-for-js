@@ -90,7 +90,7 @@ export interface OpenShiftRouterProfile {
    */
   name?: string;
   /**
-   * @member {string} [publicSubdomain] DNS subdomain for openshift router.
+   * @member {string} [publicSubdomain] DNS subdomain for OpenShift router.
    */
   publicSubdomain?: string;
   /**
@@ -134,12 +134,22 @@ export interface OpenShiftManagedClusterMasterPoolProfile {
   name?: string;
   /**
    * @member {number} count Number of masters (VMs) to host docker containers.
-   * The default value is 3. Default value: 3 .
+   * The default value is 3.
    */
   count: number;
   /**
    * @member {OpenShiftContainerServiceVMSize} vmSize Size of agent VMs.
-   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3',
+   * 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
+   * 'Standard_D64s_v3', 'Standard_DS4_v2', 'Standard_DS5_v2',
+   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2',
+   * 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s',
+   * 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3',
+   * 'Standard_E20s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3',
+   * 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+   * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
+   * 'Standard_DS15_v2', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s',
+   * 'Standard_L32s'
    */
   vmSize: OpenShiftContainerServiceVMSize;
   /**
@@ -168,13 +178,21 @@ export interface OpenShiftManagedClusterAgentPoolProfile {
   name: string;
   /**
    * @member {number} count Number of agents (VMs) to host docker containers.
-   * Allowed values must be in the range of 1 to 5 (inclusive). The default
-   * value is 2. . Default value: 2 .
    */
   count: number;
   /**
    * @member {OpenShiftContainerServiceVMSize} vmSize Size of agent VMs.
-   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3',
+   * 'Standard_D8s_v3', 'Standard_D16s_v3', 'Standard_D32s_v3',
+   * 'Standard_D64s_v3', 'Standard_DS4_v2', 'Standard_DS5_v2',
+   * 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2',
+   * 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s',
+   * 'Standard_E4s_v3', 'Standard_E8s_v3', 'Standard_E16s_v3',
+   * 'Standard_E20s_v3', 'Standard_E32s_v3', 'Standard_E64s_v3',
+   * 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+   * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2',
+   * 'Standard_DS15_v2', 'Standard_L4s', 'Standard_L8s', 'Standard_L16s',
+   * 'Standard_L32s'
    */
   vmSize: OpenShiftContainerServiceVMSize;
   /**
@@ -510,7 +528,7 @@ export interface ContainerServiceMasterProfile {
    */
   osDiskSizeGB?: number;
   /**
-   * @member {string} [vnetSubnetID] VNet SubnetID specifies the vnet's subnet
+   * @member {string} [vnetSubnetID] VNet SubnetID specifies the VNet's subnet
    * identifier.
    */
   vnetSubnetID?: string;
@@ -528,7 +546,7 @@ export interface ContainerServiceMasterProfile {
    */
   storageProfile?: ContainerServiceStorageProfileTypes;
   /**
-   * @member {string} [fqdn] FDQN for the master pool.
+   * @member {string} [fqdn] FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -621,7 +639,7 @@ export interface ContainerServiceAgentPoolProfile {
    */
   dnsPrefix?: string;
   /**
-   * @member {string} [fqdn] FDQN for the agent pool.
+   * @member {string} [fqdn] FQDN for the agent pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -641,7 +659,7 @@ export interface ContainerServiceAgentPoolProfile {
    */
   storageProfile?: ContainerServiceStorageProfileTypes;
   /**
-   * @member {string} [vnetSubnetID] VNet SubnetID specifies the vnet's subnet
+   * @member {string} [vnetSubnetID] VNet SubnetID specifies the VNet's subnet
    * identifier.
    */
   vnetSubnetID?: string;
@@ -961,7 +979,7 @@ export interface ManagedClusterAgentPoolProfile {
    */
   osDiskSizeGB?: number;
   /**
-   * @member {string} [vnetSubnetID] VNet SubnetID specifies the vnet's subnet
+   * @member {string} [vnetSubnetID] VNet SubnetID specifies the VNet's subnet
    * identifier.
    */
   vnetSubnetID?: string;
@@ -988,8 +1006,8 @@ export interface ManagedClusterAgentPoolProfile {
    */
   enableAutoScaling?: boolean;
   /**
-   * @member {AgentPoolType} [type] AgentPoolType represents types of
-   * agentpool. Possible values include: 'VirtualMachineScaleSets',
+   * @member {AgentPoolType} [type] AgentPoolType represents types of an agent
+   * pool. Possible values include: 'VirtualMachineScaleSets',
    * 'AvailabilitySet'
    */
   type?: AgentPoolType;
@@ -1108,7 +1126,7 @@ export interface ManagedCluster extends Resource {
    */
   dnsPrefix?: string;
   /**
-   * @member {string} [fqdn] FDQN for the master pool.
+   * @member {string} [fqdn] FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1156,6 +1174,11 @@ export interface ManagedCluster extends Resource {
    * Directory configuration.
    */
   aadProfile?: ManagedClusterAADProfile;
+  /**
+   * @member {string[]} [apiServerAuthorizedIPRanges] Authorized IP Ranges to
+   * kubernetes API server.
+   */
+  apiServerAuthorizedIPRanges?: string[];
 }
 
 /**
@@ -1286,8 +1309,10 @@ export interface CredentialResult {
  */
 export interface CredentialResults {
   /**
-   * @member {CredentialResult[]} [kubeconfigs] **NOTE: This property will not
-   * be serialized. It can only be populated by the server.**
+   * @member {CredentialResult[]} [kubeconfigs] Base64-encoded Kubernetes
+   * configuration file.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly kubeconfigs?: CredentialResult[];
 }
@@ -1384,6 +1409,23 @@ export interface ContainerServiceClientOptions extends AzureServiceClientOptions
 
 /**
  * @interface
+ * An interface representing the OpenShiftManagedClusterListResult.
+ * The response from the List OpenShift Managed Clusters operation.
+ *
+ * @extends Array<OpenShiftManagedCluster>
+ */
+export interface OpenShiftManagedClusterListResult extends Array<OpenShiftManagedCluster> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of OpenShift
+   * managed cluster results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ContainerServiceListResult.
  * The response from the List Container Services operation.
  *
@@ -1436,11 +1478,18 @@ export type OSType = 'Linux' | 'Windows';
 
 /**
  * Defines values for OpenShiftContainerServiceVMSize.
- * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+ * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3', 'Standard_D8s_v3',
+ * 'Standard_D16s_v3', 'Standard_D32s_v3', 'Standard_D64s_v3', 'Standard_DS4_v2',
+ * 'Standard_DS5_v2', 'Standard_F8s_v2', 'Standard_F16s_v2', 'Standard_F32s_v2',
+ * 'Standard_F64s_v2', 'Standard_F72s_v2', 'Standard_F8s', 'Standard_F16s', 'Standard_E4s_v3',
+ * 'Standard_E8s_v3', 'Standard_E16s_v3', 'Standard_E20s_v3', 'Standard_E32s_v3',
+ * 'Standard_E64s_v3', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5',
+ * 'Standard_DS12_v2', 'Standard_DS13_v2', 'Standard_DS14_v2', 'Standard_DS15_v2', 'Standard_L4s',
+ * 'Standard_L8s', 'Standard_L16s', 'Standard_L32s'
  * @readonly
  * @enum {string}
  */
-export type OpenShiftContainerServiceVMSize = 'Standard_D2s_v3' | 'Standard_D4s_v3';
+export type OpenShiftContainerServiceVMSize = 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E20s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s';
 
 /**
  * Defines values for OpenShiftAgentPoolProfileRole.
@@ -1536,6 +1585,44 @@ export type NetworkPlugin = 'azure' | 'kubenet';
 export type NetworkPolicy = 'calico';
 
 /**
+ * Contains response data for the list operation.
+ */
+export type OpenShiftManagedClustersListResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type OpenShiftManagedClustersListByResourceGroupResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type OpenShiftManagedClustersGetResponse = OpenShiftManagedCluster & {
@@ -1627,6 +1714,44 @@ export type OpenShiftManagedClustersBeginUpdateTagsResponse = OpenShiftManagedCl
        * The response body as parsed JSON or XML
        */
       parsedBody: OpenShiftManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OpenShiftManagedClustersListNextResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type OpenShiftManagedClustersListByResourceGroupNextResponse = OpenShiftManagedClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedClusterListResult;
     };
 };
 

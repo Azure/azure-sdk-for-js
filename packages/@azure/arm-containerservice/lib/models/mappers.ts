@@ -164,11 +164,6 @@ export const OpenShiftManagedClusterMasterPoolProfile: msRest.CompositeMapper = 
       count: {
         required: true,
         serializedName: "count",
-        defaultValue: 3,
-        constraints: {
-          InclusiveMaximum: 10,
-          InclusiveMinimum: 1
-        },
         type: {
           name: "Number"
         }
@@ -213,11 +208,6 @@ export const OpenShiftManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       count: {
         required: true,
         serializedName: "count",
-        defaultValue: 2,
-        constraints: {
-          InclusiveMaximum: 5,
-          InclusiveMinimum: 1
-        },
         type: {
           name: "Number"
         }
@@ -1314,6 +1304,17 @@ export const ManagedCluster: msRest.CompositeMapper = {
           name: "Composite",
           className: "ManagedClusterAADProfile"
         }
+      },
+      apiServerAuthorizedIPRanges: {
+        serializedName: "properties.apiServerAuthorizedIPRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1583,6 +1584,35 @@ export const OrchestratorVersionProfileListResult: msRest.CompositeMapper = {
               className: "OrchestratorVersionProfile"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const OpenShiftManagedClusterListResult: msRest.CompositeMapper = {
+  serializedName: "OpenShiftManagedClusterListResult",
+  type: {
+    name: "Composite",
+    className: "OpenShiftManagedClusterListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OpenShiftManagedCluster"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
