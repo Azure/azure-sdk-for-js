@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -268,6 +268,13 @@ export const HanaInstance: msRest.CompositeMapper = {
       powerState: {
         readOnly: true,
         serializedName: "properties.powerState",
+        type: {
+          name: "String"
+        }
+      },
+      proximityPlacementGroup: {
+        readOnly: true,
+        serializedName: "properties.proximityPlacementGroup",
         type: {
           name: "String"
         }
