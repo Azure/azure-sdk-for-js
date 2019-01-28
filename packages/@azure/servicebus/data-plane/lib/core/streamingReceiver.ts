@@ -13,10 +13,14 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 
+/**
+ * Describes the options to control receiving of messages in streaming mode.
+ */
 export interface MessageHandlerOptions {
   /**
-   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete.
+   * @property {boolean} [autoComplete] Indicates whether the message (if not settled by the user)
+   * should be automatically completed after the user provided onMessage handler has been executed.
+   * Completing a message, removes it from the Queue/Subscription.
    * - **Default**: `true`.
    */
   autoComplete?: boolean;
@@ -29,8 +33,8 @@ export interface MessageHandlerOptions {
   maxAutoRenewDurationInSeconds?: number;
   /**
    * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the
-   * receiver will wait after a message has been received. If no messages are received in that
-   * time frame then the receiver will be closed.
+   * receiver will wait to receive a new message. If no messages are received in this
+   * time, then the receiver will stop receiving any more messages.
    */
   maxMessageWaitTimeoutInSeconds?: number;
 }

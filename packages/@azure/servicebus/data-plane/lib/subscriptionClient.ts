@@ -29,7 +29,7 @@ export class SubscriptionClient extends Client {
   readonly defaultRuleName: string = "$Default";
 
   /**
-   * Instantiates a client pointing to the ServiceBus Subscription given by this configuration.
+   * Instantiates a client that will maintain an AMQP connection to a Service Bus Subscription.
    * This is not meant for the user to call directly.
    * The user should use the `createSubscriptionClient` on the Namespace instead.
    *
@@ -101,9 +101,8 @@ export class SubscriptionClient extends Client {
    * The first call to `peek()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
    *
-   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
-   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`.
-   *
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
@@ -116,8 +115,8 @@ export class SubscriptionClient extends Client {
    * Peeks the desired number of active messages (including deferred but not deadlettereed messages)
    * from the specified sequence number.
    *
-   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
-   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`.
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param [messageCount] The number of messages to retrieve. Default value `1`.
@@ -176,7 +175,7 @@ export class SubscriptionClient extends Client {
    * Lists the ids of the sessions on the ServiceBus Subscription.
    * @param maxNumberOfSessions Maximum number of sessions.
    * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
-   * value: 3 days ago from the current time.
+   * value is 3 days before the current time.
    */
   async listMessageSessions(
     maxNumberOfSessions: number,
@@ -192,6 +191,7 @@ export class SubscriptionClient extends Client {
   /**
    * Creates a session client with given sessionId in the ServiceBus Subscription.
    * When no sessionId is given, a random session among the available sessions is used.
+   * This Receiver can be used to receive messages in batches or by registering handlers.
    *
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Subscription.

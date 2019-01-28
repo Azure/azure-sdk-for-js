@@ -10,7 +10,7 @@ import { ClientEntityContext } from "./clientEntityContext";
 
 export class Sender {
   /**
-   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   * @property {ClientEntityContext} _context Describes the amqp connection context for the Client.
    */
   private _context: ClientEntityContext;
 
@@ -18,9 +18,10 @@ export class Sender {
     this._context = context;
   }
   /**
-   * Sends the given message to a ServiceBus Queue.
-   * To send a message to a `session` or `partition` enabled Queue, please set the
-   * `sessionId` property and `partitionKey` properties respectively.
+   * Sends the given message after creating an AMQP Sender link if it doesnt already exists.
+   *
+   * To send a message to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
+   * and/or `partitionKey` properties respectively on the message.
    *
    * @param message - Message to send.
    * @returns Promise<void>
@@ -31,11 +32,13 @@ export class Sender {
   }
 
   /**
-   * Sends a batch of SendableMessageInfo to the ServiceBus Queue in a single AMQP message.
-   * To send messages to a `session` or `partition` enabled Queue, set the
-   * `sessionId` property and `partitionKey` properties respectively. When doing so, all
+   * Sends the given messages in a batch i.e. in a single AMQP message after creating an AMQP Sender
+   * link if it doesnt already exists.
+   *
+   * To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
+   * and/or `partitionKey` properties respectively on the messages. When doing so, all
    * messages in the batch should have the same `sessionId` (if using sessions) and the same
-   * `parititionKey` (if using paritions) properties.
+   * `parititionKey` (if using paritions).
    *
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
@@ -46,17 +49,14 @@ export class Sender {
   }
 
   /**
-   * Schedules a message to appear on Service Bus Queue at a later time.
+   * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
    * @param message - The message that needs to be scheduled.
-   * @returns Promise<Long> - The sequence number of the message that was
-   * scheduled. Please save the `Long` type as-is in your application. Do not convert it to a
-   * number as that may cause loss of precision, since JS only supports 53 bit numbers.
-   * `Long` type provides methods for mathematical operations.
-   * If you want to save it to a log file, then save the stringifed form
-   * `const result = Long.toString();`. When deserializing it, please use
-   * `Long.fromString("result");`. This will ensure that precision is preserved.
+   * @returns Promise<Long> - The sequence number of the message that was scheduled.
+   * You will need the sequence number if you intend to cancel the scheduling of the message.
+   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
+   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    */
   async scheduleMessage(
     scheduledEnqueueTimeUtc: Date,
@@ -70,16 +70,14 @@ export class Sender {
   }
 
   /**
-   * Schedules a message to appear on Service Bus Queue at a later time.
+   * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
    *
-   * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
+   * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - Array of Messages that need to be scheduled.
-   * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled. Please
-   * save the `Long` type as-is in your application. Do not convert it to a number as that may
-   * cause loss of precision, since JS only supports 53 bit numbers. `Long` type provides methods
-   * for mathematical operations. If you want to save it to a log file, then save the stringifed
-   * form `const result = Long.toString();`. When deserializing it, please use
-   * `Long.fromString("result");`. This will ensure that precision is preserved.
+   * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled.
+   * You will need the sequence number if you intend to cancel the scheduling of the messages.
+   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
+   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
@@ -95,7 +93,7 @@ export class Sender {
   }
 
   /**
-   * Cancels a message that was scheduled to appear on a ServiceBus Queue.
+   * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumber - The sequence number of the message to be cancelled.
    * @returns Promise<void>
    */
@@ -104,7 +102,7 @@ export class Sender {
   }
 
   /**
-   * Cancels an array of messages that were scheduled to appear on a ServiceBus Queue.
+   * Cancels an array of messages that were scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */

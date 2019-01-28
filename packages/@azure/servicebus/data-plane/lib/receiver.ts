@@ -9,6 +9,9 @@ import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/message
 import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
 
+/**
+ * Describes the options for creating a Receiver.
+ */
 export interface MessageReceiverOptions {
   /**
    * An enum indicating the mode in which messages should be received.
@@ -17,6 +20,10 @@ export interface MessageReceiverOptions {
   receiveMode?: ReceiveMode;
 }
 
+/**
+ * An abstraction over the underlying receiver link.
+ * The Reciever class can be used to recieve messages in a batch or by registering handlers
+ */
 export class Receiver {
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
@@ -34,13 +41,15 @@ export class Receiver {
   }
 
   /**
-   * Starts the receiver in streaming mode by establishing an AMQP session and an AMQP receiver
-   * link on the session.
+   * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
+   * from a Queue/Subscription.
+   * To stop receiving messages, call `close()` on the Receiver.
    *
-   * @param onMessage - Callback for processing each incoming message.
-   * @param onError - Callback for any error that occurs while receiving or processing messages.
+   * @param onMessage - Handler for processing each incoming message.
+   * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control whether messages should be automatically completed and/or
-   * automatically have their locks renewed.
+   * automatically have their locks renewed. You can also provide a timeout in seconds to denote the
+   * amount of time to wait for a new message before stopping the receiving of any more messages.
    *
    * @returns void
    */
@@ -60,8 +69,10 @@ export class Receiver {
   }
 
   /**
-   * Receives a batch of messages from a ServiceBus Queue.
-   * @param maxMessageCount      The maximum number of messages to receive.
+   * Returns a batch of messages based on given count and timeout over an AMQP receiver link
+   * from a Queue/Subscription.
+   *
+   * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
    * the returned promise gets resolved to an empty array.
@@ -100,8 +111,7 @@ export class Receiver {
   }
 
   /**
-   * Renews the lock on the message. The lock will be renewed based on the setting specified on
-   * the queue.
+   * Renews the lock on the message.
    *
    * When a message is received in `PeekLock` mode, the message is locked on the server for this
    * receiver instance for a duration as specified during the Queue/Subscription creation
@@ -120,7 +130,7 @@ export class Receiver {
   }
 
   /**
-   * Receives a specific deferred message identified by `sequenceNumber` of the `Message`.
+   * Receives a deferred message identified by the given `sequenceNumber`.
    * @param sequenceNumber The sequence number of the message that will be received.
    * @returns Promise<ServiceBusMessage | undefined>
    * - Returns `Message` identified by sequence number.
@@ -138,7 +148,7 @@ export class Receiver {
   }
 
   /**
-   * Receives a list of deferred messages identified by `sequenceNumbers`.
+   * Receives a list of deferred messages identified by given `sequenceNumbers`.
    * @param sequenceNumbers A list containing the sequence numbers to receive.
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.

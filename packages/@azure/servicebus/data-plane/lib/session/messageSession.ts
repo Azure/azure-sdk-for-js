@@ -27,6 +27,7 @@ import {
   ReceivedMessageInfo
 } from "../serviceBusMessage";
 import { messageDispositionTimeout } from "../util/constants";
+import { MessageHandlerOptions } from "../core/streamingReceiver";
 
 export enum Callee {
   standalone = "standalone",
@@ -47,31 +48,6 @@ export interface CreateMessageSessionReceiverLinkOptions {
 }
 
 /**
- * Describes the options for the streaming receiver.
- */
-export interface SessionMessageHandlerOptions {
-  /**
-   * @property {number} [maxAutoRenewDurationInSeconds] The maximum duration until which the
-   * lock on the session will be renewed automatically.
-   * - **Default**: `300` seconds (5 minutes).
-   * - **For disabling autolock renewal**, set `maxAutoRenewDurationInSeconds` to `0`.
-   */
-  maxAutoRenewDurationInSeconds?: number;
-
-  /**
-   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete while receiving messages with handlers.
-   * - **Default**: `true`.
-   */
-  autoComplete?: boolean;
-  /**
-   * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the session
-   * receiver will wait after a message has been received. If no messages are received in that
-   * time frame then the session will be closed.
-   */
-  maxMessageWaitTimeoutInSeconds?: number;
-}
-/**
  * Describes the options for creating a SessionReceiver.
  */
 export interface SessionReceiverOptions {
@@ -88,7 +64,7 @@ export interface SessionReceiverOptions {
 /**
  * Describes the options for creating a Session Manager.
  */
-export interface SessionManagerOptions extends SessionMessageHandlerOptions {
+export interface SessionManagerOptions extends MessageHandlerOptions {
   /**
    * @property {number} [maxConcurrentSessions] The maximum number of sessions that the user wants to
    * handle concurrently.
@@ -429,7 +405,7 @@ export class SessionReceiver extends LinkEntity {
   }
 
   /**
-   * Closes the underlying AMQP receiver.
+   * Closes the underlying AMQP receiver link.
    */
   async close(): Promise<void> {
     try {
@@ -479,16 +455,19 @@ export class SessionReceiver extends LinkEntity {
   }
 
   /**
-   * Starts the receiver in streaming mode by establishing an AMQP session and an AMQP receiver
-   * link on the session.
+   * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
+   * from a Queue/Subscription.
    * To stop receiving messages, call `close()` on the SessionReceiver.
    *
-   * @param onMessage Callback for each incoming message.
-   * @param onError Callback for any error that occurs while receiving messages.
+   * @param onMessage - Handler for processing each incoming message.
+   * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control whether messages should be automatically completed and/or
-   * automatically have the session lock renewed.
+   * automatically have the session lock renewed. You can also provide a timeout in seconds to denote
+   * the amount of time to wait for a new message before stopping the receiving of any more messages.
+   *
+   * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+  receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
     if (this._isReceivingMessages) {
       throw new Error(
         `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
@@ -631,12 +610,15 @@ export class SessionReceiver extends LinkEntity {
   }
 
   /**
-   * Receive a batch of Message objects from a ServiceBus Queue/Topic for a given count and
-   * a given max wait time in seconds, whichever happens first. This method can be used directly
-   * after creating the receiver object and **MUST NOT** be used along with the `start()` method.
-   * @param maxMessageCount The maximum message count. Must be a value greater than 0.
+   * Returns a batch of messages based on given count and timeout over an AMQP receiver link
+   * from a Queue/Subscription.
+   *
+   * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
    * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the said amount of messages. If not provided, it defaults to 60 seconds.
+   * should wait to receive the first message. If no message is received by this time,
+   * the returned promise gets resolved to an empty array.
+   * - **Default**: `60` seconds.
+   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveBatch(
     maxMessageCount: number,
@@ -854,7 +836,7 @@ export class SessionReceiver extends LinkEntity {
   }
 
   /**
-   * Renews the lock for the MessageSession.
+   * Renews the lock for the Session.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewLock(): Promise<Date> {
@@ -917,7 +899,7 @@ export class SessionReceiver extends LinkEntity {
   }
 
   /**
-   * Receives a specific deferred message identified by `sequenceNumber` of the `Message`.
+   * Receives a deferred message identified by the given `sequenceNumber`.
    * @param sequenceNumber The sequence number of the message that will be received.
    * @returns Promise<ServiceBusMessage | undefined>
    * - Returns `Message` identified by sequence number.
@@ -936,7 +918,7 @@ export class SessionReceiver extends LinkEntity {
   }
 
   /**
-   * Receives a list of deferred messages identified by `sequenceNumbers`.
+   * Receives a list of deferred messages identified by given `sequenceNumbers`.
    * @param sequenceNumbers A list containing the sequence numbers to receive.
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
