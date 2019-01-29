@@ -22,7 +22,7 @@ export interface MessageReceiverOptions {
 
 /**
  * An abstraction over the underlying receiver link.
- * The Reciever class can be used to recieve messages in a batch or by registering handlers
+ * The Receiver class can be used to receive messages in a batch or by registering handlers.
  */
 export class Receiver {
   /**
@@ -44,7 +44,7 @@ export class Receiver {
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
    * from a Queue/Subscription.
    * To stop receiving messages, call `close()` on the Receiver or set the property
-   * `maxMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
@@ -74,7 +74,7 @@ export class Receiver {
    * from a Queue/Subscription.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
+   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
    * the returned promise gets resolved to an empty array.
    * - **Default**: `60` seconds.
@@ -82,7 +82,7 @@ export class Receiver {
    */
   async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number
+    idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this.validateNewReceiveCall(ReceiverType.batching);
 
@@ -90,13 +90,13 @@ export class Receiver {
       const options: ReceiveOptions = {
         maxConcurrentCalls: 0,
         receiveMode: this._receiveMode,
-        maxMessageWaitTimeoutInSeconds: 1
+        newMessageWaitTimeoutInSeconds: 1
       };
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
     try {
-      return await this._context.batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
+      return await this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
@@ -104,7 +104,7 @@ export class Receiver {
         this._context.namespace.connectionId,
         this._context.batchingReceiver.name,
         maxMessageCount,
-        maxWaitTimeInSeconds,
+        idleTimeoutInSeconds,
         err
       );
       throw err;
