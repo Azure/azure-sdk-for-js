@@ -206,6 +206,6 @@ export async function purge(
     : recieverClient.getReceiver();
 
   receiver.receive(() => Promise.resolve(), (err) => console.log(`Error when purging: ${err}`));
-  await delay(3000);
+  await delay(5000);
   await receiver.close();
 }
