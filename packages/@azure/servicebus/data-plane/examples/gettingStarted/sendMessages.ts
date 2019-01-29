@@ -30,6 +30,7 @@ async function main(): Promise<void> {
 
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
+  const sender = client.getSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
@@ -40,7 +41,7 @@ async function main(): Promise<void> {
       };
 
       console.log(`Sending message: ${message.body} - ${message.label}`);
-      await client.send(message);
+      await sender.send(message);
     }
 
     await client.close();

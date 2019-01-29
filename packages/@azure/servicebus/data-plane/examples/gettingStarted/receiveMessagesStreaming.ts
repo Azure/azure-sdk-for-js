@@ -16,6 +16,7 @@ async function main(): Promise<void> {
 
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(queueName);
+  const receiver = client.getReceiver();
 
   const onMessageHandler: OnMessage = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);
@@ -26,15 +27,12 @@ async function main(): Promise<void> {
   };
 
   try {
-    const receiveListener = client.receive(onMessageHandler, onErrorHandler, {
-      autoComplete: false
-    });
+    receiver.receive(onMessageHandler, onErrorHandler, { autoComplete: false });
 
-    // Inducing delay to keep receiveListener open long enough to receive messages
-    // Ideally the receiveListener will remain open as long as an application is running.
+    // Waiting long enough before closing the receiver to receive messages
     await delay(5000);
 
-    await receiveListener.stop();
+    await receiver.close();
     await client.close();
   } finally {
     await ns.close();

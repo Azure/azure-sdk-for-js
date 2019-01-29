@@ -8,7 +8,7 @@
   sessions in Service Bus.
 */
 
-import { OnSessionMessage, OnError, delay, Namespace } from "../../lib";
+import { OnError, delay, Namespace, ServiceBusMessage } from "../../lib";
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
@@ -44,7 +44,8 @@ async function main(): Promise<void> {
     await sendMessage(ns, listOfScientists[8], "session-2");
     await sendMessage(ns, listOfScientists[9], "session-2");
 
-    await receiveMessages(ns);
+    await receiveMessages(ns, "session-1");
+    await receiveMessages(ns, "session-2");
   } finally {
     await ns.close();
   }
@@ -53,6 +54,7 @@ async function main(): Promise<void> {
 async function sendMessage(ns: Namespace, scientist: any, sessionId: string): Promise<void> {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
+  const sender = client.getSender();
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -61,22 +63,23 @@ async function sendMessage(ns: Namespace, scientist: any, sessionId: string): Pr
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
-  await client.send(message);
+  await sender.send(message);
 
   await client.close();
 }
 
-async function receiveMessages(ns: Namespace): Promise<void> {
+async function receiveMessages(ns: Namespace, sessionId: string): Promise<void> {
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(queueName);
+  const receiver = await client.getSessionReceiver({ sessionId: sessionId });
 
-  const onMessage: OnSessionMessage = async (messageSession, brokeredMessage) => {
+  const onMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
   };
   const onError: OnError = (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  await client.receiveMessagesFromSessions(onMessage, onError);
+  receiver.receive(onMessage, onError);
   await delay(5000);
 
   await client.close();

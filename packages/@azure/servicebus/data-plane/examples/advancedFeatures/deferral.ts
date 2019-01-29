@@ -24,6 +24,7 @@ async function sendMessages(): Promise<void> {
   const nsSend = Namespace.createFromConnectionString(connectionString);
   // If using Topics, use createTopicClient to send to a topic
   const sendClient = nsSend.createQueueClient(queueName);
+  const sender = sendClient.getSender();
 
   const data = [
     { step: 1, title: "Shop" },
@@ -43,7 +44,7 @@ async function sendMessages(): Promise<void> {
     promises.push(
       delay(Math.random() * 30).then(async () => {
         try {
-          await sendClient.send(message);
+          await sender.send(message);
           console.log("Sent message step:", data[index].step);
         } catch (err) {
           console.log("Error while sending message", err);
@@ -86,7 +87,7 @@ async function receiveMessage(): Promise<void> {
       } else {
         // we dead-letter the message if we don't know what to do with it.
         console.log(
-          "Unknown message recieved, moving it to dead-letter queue ",
+          "Unknown message received, moving it to dead-letter queue ",
           brokeredMessage.body
         );
         await brokeredMessage.deadLetter();
@@ -96,15 +97,18 @@ async function receiveMessage(): Promise<void> {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered.
-    const rcvHandler = receiveClient.receive(onMessage, onError, { autoComplete: false });
+    let receiver = receiveClient.getReceiver();
+    receiver.receive(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
+    receiver.close();
     console.log("Deferred Messages count:", deferredSteps.size);
+
+    receiver = receiveClient.getReceiver();
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
       const sequenceNumber = deferredSteps.get(step);
-      const message = await receiveClient.receiveDeferredMessage(sequenceNumber);
+      const message = await receiver.receiveDeferredMessage(sequenceNumber);
       if (message) {
         console.log("Received Deferral Message:", message.body);
         await message.complete();
@@ -114,7 +118,6 @@ async function receiveMessage(): Promise<void> {
       deferredSteps.delete(step);
       lastProcessedRecipeStep++;
     }
-    await rcvHandler.stop();
   } finally {
     await nsRcv.close();
   }

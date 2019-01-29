@@ -39,37 +39,22 @@ export class BatchingReceiver extends MessageReceiver {
   }
 
   /**
-   * Receive a batch of Message objects from a ServiceBus Queue/Topic for a given count and
-   * a given max wait time in seconds, whichever happens first. This method can be used directly
-   * after creating the receiver object and **MUST NOT** be used along with the `start()` method.
-   *
-   * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
-   * should wait to receive the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the Receiver
-   * will wait after creating the link or after receiving a new message. If no messages are received
-   * in that time frame then the batch receive operation ends. It is advised to keep this value at
-   * 10% of the lockDuration value.
-   * - **Default**: `2` seconds.
+   * Receives a batch of messages from a ServiceBus Queue/Topic.
+   * @param maxMessageCount      The maximum number of messages to receive.
+   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
+   * should wait to receive the first message. If no message is received by this time,
+   * the returned promise gets resolved to an empty array.
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  receive(
-    maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
-    maxMessageWaitTimeoutInSeconds?: number
-  ): Promise<ServiceBusMessage[]> {
+  receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
       throw new Error(
         "'maxMessageCount' is a required parameter of type number with a value " + "greater than 0."
       );
     }
 
-    if (maxWaitTimeInSeconds == undefined) {
-      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
-    }
-
-    if (maxMessageWaitTimeoutInSeconds == undefined) {
-      maxMessageWaitTimeoutInSeconds = 2;
+    if (idleTimeoutInSeconds == undefined) {
+      idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -82,17 +67,18 @@ export class BatchingReceiver extends MessageReceiver {
       let onReceiveDrain: OnAmqpEvent;
       let onReceiveError: OnAmqpEvent;
       let onSessionError: OnAmqpEvent;
-      let waitTimer: any;
-      let maxMessageWaitTimer: any;
+      let firstMessageWaitTimer: NodeJS.Timer | undefined;
 
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = () => {
-        if (maxMessageWaitTimer) {
-          clearTimeout(maxMessageWaitTimer);
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
         }
 
-        clearTimeout(waitTimer);
-
+        // Removing listeners, so that the next receiveBatch() call can set them again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
@@ -126,15 +112,18 @@ export class BatchingReceiver extends MessageReceiver {
         }
       };
 
-      const resetTimerOnNewMessageReceived = () => {
-        if (maxMessageWaitTimer) clearTimeout(maxMessageWaitTimer);
-        maxMessageWaitTimer = setTimeout(() => {
-          const msg =
-            `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
-            `${maxMessageWaitTimeoutInSeconds} seconds. Hence ending this batch receive operation.`;
-          log.error("[%s] %s", this._context.namespace.connectionId, msg);
-          finalAction();
-        }, maxMessageWaitTimeoutInSeconds! * 1000);
+      this.resetTimerOnNewMessageReceived = () => {
+        if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+        if (this.newMessageWaitTimeoutInSeconds) {
+          this._newMessageReceivedTimer = setTimeout(async () => {
+            const msg =
+              `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
+              `${this.newMessageWaitTimeoutInSeconds} seconds. ` +
+              `Hence ending this batch receive operation.`;
+            log.error("[%s] %s", this._context.namespace.connectionId, msg);
+            finalAction();
+          }, this.newMessageWaitTimeoutInSeconds * 1000);
+        }
       };
 
       // Action to be performed after the max wait time is over.
@@ -143,7 +132,7 @@ export class BatchingReceiver extends MessageReceiver {
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          maxWaitTimeInSeconds
+          idleTimeoutInSeconds
         );
         return finalAction();
       };
@@ -168,7 +157,11 @@ export class BatchingReceiver extends MessageReceiver {
       // Action to be performed on the "message" event.
       onReceiveMessage = async (context: EventContext) => {
         try {
-          resetTimerOnNewMessageReceived();
+          if (firstMessageWaitTimer) {
+            clearTimeout(firstMessageWaitTimer);
+            firstMessageWaitTimer = undefined;
+          }
+          this.resetTimerOnNewMessageReceived();
           const data: ServiceBusMessage = new ServiceBusMessage(
             this._context,
             context.message!,
@@ -210,11 +203,11 @@ export class BatchingReceiver extends MessageReceiver {
             error
           );
         }
-        if (waitTimer) {
-          clearTimeout(waitTimer);
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
         }
-        if (maxMessageWaitTimer) {
-          clearTimeout(maxMessageWaitTimer);
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
         }
         reject(error);
       };
@@ -281,11 +274,11 @@ export class BatchingReceiver extends MessageReceiver {
             error
           );
         }
-        if (waitTimer) {
-          clearTimeout(waitTimer);
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
         }
-        if (maxMessageWaitTimer) {
-          clearTimeout(maxMessageWaitTimer);
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
         }
         reject(error);
       };
@@ -344,12 +337,15 @@ export class BatchingReceiver extends MessageReceiver {
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
-        waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
+        log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
+        firstMessageWaitTimer = setTimeout(
+          actionAfterWaitTimeout,
+          (idleTimeoutInSeconds as number) * 1000
+        );
         // TODO: Disabling this for now. We would want to give the user a decent chance to receive
         // the first message and only timeout faster if successive messages from there onwards are
         // not received quickly. However, it may be possible that there are no pending messages
-        // currently on the queue. In that case waiting for maxWaitTimeInSeconds would be
+        // currently on the queue. In that case waiting for idleTimeoutInSeconds would be
         // unnecessary.
         // There is a management plane API to get runtimeInfo of the Queue which provides
         // information about active messages on the Queue and it's sub Queues. However, this adds
