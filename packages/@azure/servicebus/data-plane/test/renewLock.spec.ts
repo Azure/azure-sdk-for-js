@@ -19,6 +19,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
+import { purge } from "./testUtils";
 
 // Template starts
 
@@ -92,7 +93,7 @@ describe("Standard", function(): void {
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -167,7 +168,7 @@ describe("Standard", function(): void {
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -247,7 +248,7 @@ describe("Standard", function(): void {
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -327,7 +328,7 @@ describe("Standard", function(): void {
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -430,11 +431,17 @@ const onError: OnError = (err: MessagingError | Error) => {
 
 let testMessage: any;
 
-async function beforeEachTest(): Promise<void> {
+async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
   testMessage = {
     body: `hello-world-1 : ${generateUuid()}`,
     messageId: generateUuid()
   };
+  await purge(receiverClient);
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  }
 }
 
 // Tests for Lock Renewal
@@ -696,7 +703,7 @@ function assertTimestampsAreApproximatelyEqual(
 ): void {
   if (actualTimeInUTC) {
     should.equal(
-      Math.pow((actualTimeInUTC.valueOf() - expectedTimeInUTC.valueOf()) / 1000, 2) < 4, // Within +/- 2 seconds
+      Math.pow((actualTimeInUTC.valueOf() - expectedTimeInUTC.valueOf()) / 1000, 2) < 100, // Within +/- 10 seconds
       true,
       `${label}: Actual time ${actualTimeInUTC} must be approximately equal to ${expectedTimeInUTC}`
     );
