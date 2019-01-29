@@ -7,7 +7,8 @@ import {
   QueueClient,
   TopicClient,
   Namespace,
-  SubscriptionClient
+  SubscriptionClient,
+  delay
 } from "../lib";
 
 export const testSimpleMessages: SendableMessageInfo[] = [
@@ -189,4 +190,22 @@ export function getReceiverClient(
   }
 
   throw new Error("Cannot create receiver client for give client type");
+}
+
+export async function purge(
+  recieverClient: QueueClient | SubscriptionClient,
+  useSessions?: boolean
+): Promise<void> {
+  const peekedMsgs = await recieverClient.peek();
+  if (!peekedMsgs.length) {
+    return;
+  }
+
+  const receiver = useSessions
+    ? await recieverClient.getSessionReceiver()
+    : recieverClient.getReceiver();
+
+  receiver.receive(() => Promise.resolve(), (err) => console.log(`Error when purging: ${err}`));
+  await delay(5000);
+  await receiver.close();
 }

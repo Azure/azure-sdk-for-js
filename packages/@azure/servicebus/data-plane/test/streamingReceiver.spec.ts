@@ -18,7 +18,13 @@ import {
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
-import { testSimpleMessages, getSenderClient, getReceiverClient, ClientType } from "./testUtils";
+import {
+  testSimpleMessages,
+  getSenderClient,
+  getReceiverClient,
+  ClientType,
+  purge
+} from "./testUtils";
 import { Receiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -81,14 +87,22 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     );
   }
 
-  sender = senderClient.getSender();
-  receiver = receiverClient.getReceiver();
-
+  await purge(receiverClient);
+  await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
-    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
+  const peekedDeadMsgs = await deadLetterClient.peek();
+  if (peekedDeadMsgs.length) {
+    chai.assert.fail(
+      `Please use an empty dead letter ${receiverEntityType} for integration testing`
+    );
+  }
+
+  sender = senderClient.getSender();
+  receiver = receiverClient.getReceiver();
 
   errorWasThrown = false;
   unexpectedError = undefined;
