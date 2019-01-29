@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-appservice.js.map'\" -o ./dist/arm-appservice.min.js ./dist/arm-appservice.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

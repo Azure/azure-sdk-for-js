@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-trafficmanager.js.map'\" -o ./dist/arm-trafficmanager.min.js ./dist/arm-trafficmanager.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

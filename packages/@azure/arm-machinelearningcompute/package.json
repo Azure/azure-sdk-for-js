@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-machinelearningcompute.js.map'\" -o ./dist/arm-machinelearningcompute.min.js ./dist/arm-machinelearningcompute.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

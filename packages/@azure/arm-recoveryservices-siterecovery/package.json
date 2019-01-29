@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-recoveryservices-siterecovery.js.map'\" -o ./dist/arm-recoveryservices-siterecovery.min.js ./dist/arm-recoveryservices-siterecovery.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

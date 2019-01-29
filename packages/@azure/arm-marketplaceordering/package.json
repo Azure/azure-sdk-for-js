@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-marketplaceordering.js.map'\" -o ./dist/arm-marketplaceordering.min.js ./dist/arm-marketplaceordering.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }
