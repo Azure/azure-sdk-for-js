@@ -279,7 +279,7 @@ export async function setAutoPublish(azureSdkForJsRoot: string, include?: RegExp
         }
 
         config.content["authPublish"] = true;
-        fs.writeFileSync(config.path, JSON.stringify(config, undefined, "  ") + "\n");
+        fs.writeFileSync(config.path, JSON.stringify(config.content, undefined, "  ") + "\n");
         _logger.log("Saved");
     }
 }
@@ -303,8 +303,8 @@ export async function setVersion(azureSdkForJsRoot: string, include?: RegExp, ex
         const npm = new NPMScope({});
         const npmViewResult: NPMViewResult = npm.view({ packageName: nodeName });
 
-        config.content["version"] = npmViewResult.version;
-        fs.writeFileSync(config.path, JSON.stringify(config, undefined, "  ") + "\n");
+        config.content["version"] = npmViewResult.version!.replace("-preview", "");
+        fs.writeFileSync(config.path, JSON.stringify(config.content, undefined, "  ") + "\n");
         _logger.log("Saved");
     }
 }
