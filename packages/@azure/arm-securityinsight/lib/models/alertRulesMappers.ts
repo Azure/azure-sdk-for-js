@@ -9,10 +9,10 @@
  */
 
 export {
+  discriminators,
   AlertRulesList,
   AlertRule,
   CloudError,
-  ScheduledAlertRule,
-  ScheduledAlertRuleProperties
+  ScheduledAlertRule
 } from "../models/mappers";
 

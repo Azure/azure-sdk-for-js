@@ -89,7 +89,7 @@ export class AlertRules {
    * @param ruleId Alert rule ID
    * @param callback The callback
    */
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, callback: msRest.ServiceCallback<Models.AlertRule>): void;
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -100,8 +100,8 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRule>): void;
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRule>, callback?: msRest.ServiceCallback<Models.AlertRule>): Promise<Models.AlertRulesGetResponse> {
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleUnion>, callback?: msRest.ServiceCallback<Models.AlertRuleUnion>): Promise<Models.AlertRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +126,7 @@ export class AlertRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesCreateResponse>
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRule, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateResponse>;
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -137,7 +137,7 @@ export class AlertRules {
    * @param alertRule The alert rule
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRule, callback: msRest.ServiceCallback<Models.AlertRule>): void;
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -149,8 +149,8 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRule>): void;
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRule>, callback?: msRest.ServiceCallback<Models.AlertRule>): Promise<Models.AlertRulesCreateResponse> {
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
+  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleUnion>, callback?: msRest.ServiceCallback<Models.AlertRuleUnion>): Promise<Models.AlertRulesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

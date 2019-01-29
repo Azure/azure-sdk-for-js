@@ -57,12 +57,21 @@ export interface Operation {
 }
 
 /**
+ * Contains the possible cases for AlertRule.
+ */
+export type AlertRuleUnion = AlertRule | ScheduledAlertRule;
+
+/**
  * @interface
  * An interface representing AlertRule.
  * Alert rule.
  *
  */
 export interface AlertRule {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AlertRule";
   /**
    * @member {string} [id] Azure resource Id
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -81,11 +90,6 @@ export interface AlertRule {
    * the server.**
    */
   readonly name?: string;
-  /**
-   * @member {AlertRuleKind} [kind] The kind of the alert rule. Possible values
-   * include: 'Scheduled'
-   */
-  kind?: AlertRuleKind;
   /**
    * @member {string} [etag] Etag of the alert rule.
    */
@@ -108,11 +112,37 @@ export interface AlertRuleKind1 {
 
 /**
  * @interface
- * An interface representing ScheduledAlertRuleProperties.
- * Alert rule property bag.
+ * An interface representing ScheduledAlertRule.
+ * Represents scheduled alert rule.
  *
  */
-export interface ScheduledAlertRuleProperties {
+export interface ScheduledAlertRule {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Scheduled";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the alert rule.
+   */
+  etag?: string;
   /**
    * @member {string} ruleName The name for alerts created by this alert rule.
    */
@@ -176,21 +206,6 @@ export interface ScheduledAlertRuleProperties {
 
 /**
  * @interface
- * An interface representing ScheduledAlertRule.
- * Represents scheduled alert rule.
- *
- * @extends AlertRule
- */
-export interface ScheduledAlertRule extends AlertRule {
-  /**
-   * @member {ScheduledAlertRuleProperties} [properties] Scheduled alert rule
-   * properties
-   */
-  properties?: ScheduledAlertRuleProperties;
-}
-
-/**
- * @interface
  * An interface representing Resource.
  * An azure resource object
  *
@@ -249,9 +264,9 @@ export interface OperationsList extends Array<Operation> {
  * An interface representing the AlertRulesList.
  * List all the alert rules.
  *
- * @extends Array<AlertRule>
+ * @extends Array<AlertRuleUnion>
  */
-export interface AlertRulesList extends Array<AlertRule> {
+export interface AlertRulesList extends Array<AlertRuleUnion> {
   /**
    * @member {string} [nextLink] URL to fetch the next set of alert rules.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -344,7 +359,7 @@ export type AlertRulesListResponse = AlertRulesList & {
 /**
  * Contains response data for the get operation.
  */
-export type AlertRulesGetResponse = AlertRule & {
+export type AlertRulesGetResponse = AlertRuleUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -356,14 +371,14 @@ export type AlertRulesGetResponse = AlertRule & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AlertRule;
+      parsedBody: AlertRuleUnion;
     };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type AlertRulesCreateResponse = AlertRule & {
+export type AlertRulesCreateResponse = AlertRuleUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -375,7 +390,7 @@ export type AlertRulesCreateResponse = AlertRule & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AlertRule;
+      parsedBody: AlertRuleUnion;
     };
 };
 

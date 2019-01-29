@@ -9,6 +9,7 @@
  */
 
 export {
+  discriminators,
   OperationsList,
   Operation,
   OperationDisplay,
