@@ -20,9 +20,13 @@ async function main(): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   try {
-    const messages = await client.peek(10);
-    for (let i = 0; i < messages.length; i++) {
-      console.log(`Peeking message #${i}: ${messages[i].body}`);
+    for (let i = 0; i < 20; i++) {
+      const messages = await client.peek();
+      if (!messages.length) {
+        console.log("No more messages to peek");
+        break;
+      }
+      console.log(`Peeking message #${i}: ${messages[0].body}`);
     }
     await client.close();
   } finally {

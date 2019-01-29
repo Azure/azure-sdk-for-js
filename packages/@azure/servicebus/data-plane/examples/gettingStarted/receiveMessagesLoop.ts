@@ -16,10 +16,11 @@ async function main(): Promise<void> {
 
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(queueName);
+  const receiver = client.getReceiver();
 
   try {
     for (let i = 0; i < 10; i++) {
-      const messages = await client.receiveBatch(1);
+      const messages = await receiver.receiveBatch(1);
       console.log(`Received message #${i}: ${messages[0].body}`);
       await messages[0].complete();
     }

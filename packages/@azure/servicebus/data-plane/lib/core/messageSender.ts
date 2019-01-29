@@ -303,6 +303,11 @@ export class MessageSender extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._sender) {
+      log.sender(
+        "[%s] Closing the Sender for the entity '%s'.",
+        this._context.namespace.connectionId,
+        this._context.entityPath
+      );
       const senderLink = this._sender;
       this._deleteFromCache();
       await this._closeLink(senderLink);

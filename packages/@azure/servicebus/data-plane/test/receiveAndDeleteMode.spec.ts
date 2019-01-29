@@ -12,7 +12,7 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  SessionClient,
+  SessionReceiver,
   ServiceBusMessage,
   delay,
   SendableMessageInfo,
@@ -27,11 +27,15 @@ import {
   testSessionId,
   getSenderClient,
   getReceiverClient,
-  ClientType
+  ClientType,
+  purge
 } from "./testUtils";
 
+import { Receiver } from "../lib/receiver";
+import { Sender } from "../lib/sender";
+
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | SessionClient,
+  client: QueueClient | SubscriptionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -48,7 +52,8 @@ let errorWasThrown: boolean;
 
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
-let messageSession: SessionClient;
+let sender: Sender;
+let receiver: Receiver | SessionReceiver;
 
 async function beforeEachTest(
   senderType: ClientType,
@@ -67,20 +72,23 @@ async function beforeEachTest(
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, receiverType, ReceiveMode.receiveAndDelete);
+  receiverClient = getReceiverClient(ns, receiverType);
 
-  if (useSessions) {
-    messageSession = await receiverClient.createSessionClient({
-      sessionId: testSessionId,
-      receiveMode: ReceiveMode.receiveAndDelete
-    });
-  }
-
+  await purge(receiverClient, useSessions);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
-    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
+
+  sender = senderClient.getSender();
+  receiver = useSessions
+    ? await receiverClient.getSessionReceiver({
+        sessionId: testSessionId,
+        receiveMode: ReceiveMode.receiveAndDelete
+      })
+    : receiverClient.getReceiver({ receiveMode: ReceiveMode.receiveAndDelete });
+
   errorWasThrown = false;
 }
 
@@ -93,13 +101,9 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     await afterEachTest();
   });
 
-  async function sendReceiveMsg(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | SessionClient,
-    testMessages: SendableMessageInfo[]
-  ): Promise<void> {
-    await senderClient.send(testMessages[0]);
-    const msgs = await receiverClient.receiveBatch(1);
+  async function sendReceiveMsg(testMessages: SendableMessageInfo[]): Promise<void> {
+    await sender.send(testMessages[0]);
+    const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
@@ -110,7 +114,7 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    await sendReceiveMsg(senderClient, useSessions ? messageSession : receiverClient, testMessages);
+    await sendReceiveMsg(testMessages);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -196,43 +200,25 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   });
 
   async function sendReceiveMsg(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | SessionClient,
     testMessages: SendableMessageInfo[],
-    autoCompleteFlag: boolean
+    autoCompleteFlag: boolean,
+    useSessions?: boolean
   ): Promise<void> {
-    await senderClient.send(testMessages[0]);
+    await sender.send(testMessages[0]);
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    if (receiverClient instanceof SessionClient) {
-      receiverClient.receive(
-        (messageSession: SessionClient, msg: ServiceBusMessage) => {
-          receivedMsgs.push(msg);
-          return Promise.resolve();
-        },
-        (err: Error) => {
-          if (err) {
-            errorFromErrorHandler = err;
-          }
-        },
-        { autoComplete: autoCompleteFlag }
-      );
-    } else {
-      const receiveListener = receiverClient.receive(
-        (msg: ServiceBusMessage) => {
-          receivedMsgs.push(msg);
-          return Promise.resolve();
-        },
-        (err: Error) => {
-          if (err) {
-            errorFromErrorHandler = err;
-          }
-        },
-        { autoComplete: autoCompleteFlag }
-      );
-      await delay(2000);
-      await receiveListener.stop();
-    }
+    receiver.receive(
+      (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
+        return Promise.resolve();
+      },
+      (err: Error) => {
+        if (err) {
+          errorFromErrorHandler = err;
+        }
+      },
+      { autoComplete: autoCompleteFlag }
+    );
 
     await delay(2000);
 
@@ -253,12 +239,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
 
   async function testNoSettlement(autoCompleteFlag: boolean, useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    await sendReceiveMsg(
-      senderClient,
-      useSessions ? messageSession : receiverClient,
-      testMessages,
-      autoCompleteFlag
-    );
+    await sendReceiveMsg(testMessages, autoCompleteFlag, useSessions);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -412,13 +393,9 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   afterEach(async () => {
     await afterEachTest();
   });
-  async function sendReceiveMsg(
-    senderClient: QueueClient | TopicClient,
-    receiverClient: QueueClient | SubscriptionClient | SessionClient,
-    testMessages: SendableMessageInfo[]
-  ): Promise<ServiceBusMessage> {
-    await senderClient.send(testMessages[0]);
-    const msgs = await receiverClient.receiveBatch(1);
+  async function sendReceiveMsg(testMessages: SendableMessageInfo[]): Promise<ServiceBusMessage> {
+    await sender.send(testMessages[0]);
+    const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
@@ -436,11 +413,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
 
   async function testSettlement(operation: DispositionType, useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const msg = await sendReceiveMsg(
-      senderClient,
-      useSessions ? messageSession : receiverClient,
-      testMessages
-    );
+    const msg = await sendReceiveMsg(testMessages);
 
     if (operation === DispositionType.complete) {
       await msg.complete().catch((err) => testError(err));
@@ -721,13 +694,9 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
 
   async function testRenewLock(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const msg = await sendReceiveMsg(
-      senderClient,
-      useSessions ? messageSession : receiverClient,
-      testMessages
-    );
+    const msg = await sendReceiveMsg(testMessages);
 
-    await receiverClient.renewLock(msg).catch((err) => testError(err));
+    await receiver.renewLock(msg).catch((err) => testError(err));
 
     should.equal(errorWasThrown, true);
   }
