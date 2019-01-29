@@ -859,7 +859,10 @@ export class SessionClient extends LinkEntity {
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewLock(): Promise<Date> {
-    return this._context.managementClient!.renewSessionLock(this.sessionId!);
+    this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
+      this.sessionId!
+    );
+    return this.sessionLockedUntilUtc;
   }
 
   /**
