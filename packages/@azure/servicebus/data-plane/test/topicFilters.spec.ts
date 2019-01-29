@@ -105,6 +105,7 @@ const data = [
 ];
 
 async function sendOrders(): Promise<void> {
+  const sender = topicClient.getSender();
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
     const message: SendableMessageInfo = {
@@ -118,14 +119,15 @@ async function sendOrders(): Promise<void> {
         priority: `${element.Priority}`
       }
     };
-    await topicClient.send(message);
+    await sender.send(message);
   }
 }
 
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
-  const receiveListener = client.receive(
+  const receiver = client.getReceiver();
+  receiver.receive(
     (msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
@@ -138,7 +140,7 @@ async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMess
   );
 
   await delay(5000);
-  await receiveListener.stop();
+  await receiver.close();
   should.equal(
     errorFromErrorHandler,
     undefined,

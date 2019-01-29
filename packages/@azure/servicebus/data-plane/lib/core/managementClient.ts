@@ -111,17 +111,6 @@ export interface CorrelationFilter {
 }
 
 /**
- * Describes the response that will be received for listing sessions.
- * @interface ListSessionsResponse
- */
-export interface ListSessionsResponse {
-  statusCode: number;
-  statusDescription?: string | null;
-  skip?: number;
-  sessionIds?: string[];
-}
-
-/**
  * Describes the options that can be provided while peeking a message.
  * @interface PeekOptions
  */
@@ -987,13 +976,9 @@ export class ManagementClient extends LinkEntity {
    * @param lastUpdateTime Filter to include only sessions updated after a given time.
    * @param skip The number of sessions to skip
    * @param top Maximum numer of sessions.
-   * @returns Promise<ListSessionsResponse> A list of sessions.
+   * @returns Promise<string[]> A list of session ids.
    */
-  async listMessageSessions(
-    skip: number,
-    top: number,
-    lastUpdatedTime?: Date
-  ): Promise<ListSessionsResponse> {
+  async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<string[]> {
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
     if (typeof skip !== "number") {
       throw new Error("'skip' is a required parameter and must be of type 'number'.");
@@ -1033,19 +1018,8 @@ export class ManagementClient extends LinkEntity {
         return this._init();
       });
       const response = await this._mgmtReqResLink!.sendRequest(request);
-      const result: ListSessionsResponse = {
-        statusCode: response.application_properties!.statusCode,
-        statusDescription: response.application_properties!.statusDescription
-      };
-      if (response && response.body) {
-        if (response.body.skip) {
-          result.skip = response.body.skip;
-        }
-        if (response.body["sessions-ids"]) {
-          result.sessionIds = response.body["sessions-ids"];
-        }
-      }
-      return result;
+
+      return (response && response.body && response.body["sessions-ids"]) || [];
     } catch (err) {
       const error = translate(err);
       log.error(

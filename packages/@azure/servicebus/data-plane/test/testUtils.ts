@@ -7,8 +7,7 @@ import {
   QueueClient,
   TopicClient,
   Namespace,
-  SubscriptionClient,
-  ReceiveMode
+  SubscriptionClient
 } from "../lib";
 
 export const testSimpleMessages: SendableMessageInfo[] = [
@@ -137,65 +136,53 @@ export function getSenderClient(
 
 export function getReceiverClient(
   namespace: Namespace,
-  clientType: ClientType,
-  receiveMode: ReceiveMode = ReceiveMode.peekLock
+  clientType: ClientType
 ): QueueClient | SubscriptionClient {
   switch (clientType) {
     case ClientType.PartitionedQueue:
-      return namespace.createQueueClient(process.env.QUEUE_NAME || "partitioned-queue", {
-        receiveMode
-      });
+      return namespace.createQueueClient(process.env.QUEUE_NAME || "partitioned-queue");
     case ClientType.PartitionedSubscription:
       return namespace.createSubscriptionClient(
         process.env.TOPIC_NAME || "partitioned-topic",
-        process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription",
-        { receiveMode }
+        process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription"
       );
     case ClientType.UnpartitionedQueue:
       return namespace.createQueueClient(
-        process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue",
-        { receiveMode }
+        process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue"
       );
     case ClientType.UnpartitionedSubscription:
       return namespace.createSubscriptionClient(
         process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic",
-        process.env.SUBSCRIPTION_NAME_NO_PARTITION || "unpartitioned-topic-subscription",
-        { receiveMode }
+        process.env.SUBSCRIPTION_NAME_NO_PARTITION || "unpartitioned-topic-subscription"
       );
     case ClientType.PartitionedQueueWithSessions:
       return namespace.createQueueClient(
-        process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions",
-        { receiveMode }
+        process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions"
       );
     case ClientType.PartitionedSubscriptionWithSessions:
       return namespace.createSubscriptionClient(
         process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions",
-        process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription",
-        { receiveMode }
+        process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription"
       );
     case ClientType.UnpartitionedQueueWithSessions:
       return namespace.createQueueClient(
-        process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions",
-        { receiveMode }
+        process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions"
       );
     case ClientType.UnpartitionedSubscriptionWithSessions:
       return namespace.createSubscriptionClient(
         process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions",
         process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
-          "unpartitioned-topic-sessions-subscription",
-        { receiveMode }
+          "unpartitioned-topic-sessions-subscription"
       );
     case ClientType.TopicFilterTestDefaultSubscription:
       return namespace.createSubscriptionClient(
         process.env.TOPIC_FILTER_NAME || "topic-filter",
-        process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription",
-        { receiveMode }
+        process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription"
       );
     case ClientType.TopicFilterTestSubscription:
       return namespace.createSubscriptionClient(
         process.env.TOPIC_FILTER_NAME || "topic-filter",
-        process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription",
-        { receiveMode }
+        process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription"
       );
     default:
       break;
