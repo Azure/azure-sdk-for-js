@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/resourceLinksMappers";
 import * as Parameters from "../models/parameters";
@@ -53,7 +53,7 @@ export class ResourceLinks {
    * @param callback The callback
    */
   deleteMethod(linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(linkId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         linkId,
@@ -93,7 +93,7 @@ export class ResourceLinks {
    * @param callback The callback
    */
   createOrUpdate(linkId: string, parameters: Models.ResourceLink, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLink>): void;
-  createOrUpdate(linkId: string, parameters: Models.ResourceLink, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceLink>): Promise<Models.ResourceLinksCreateOrUpdateResponse> {
+  createOrUpdate(linkId: string, parameters: Models.ResourceLink, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLink>, callback?: msRest.ServiceCallback<Models.ResourceLink>): Promise<Models.ResourceLinksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         linkId,
@@ -125,7 +125,7 @@ export class ResourceLinks {
    * @param callback The callback
    */
   get(linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLink>): void;
-  get(linkId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceLink>): Promise<Models.ResourceLinksGetResponse> {
+  get(linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLink>, callback?: msRest.ServiceCallback<Models.ResourceLink>): Promise<Models.ResourceLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         linkId,
@@ -150,7 +150,7 @@ export class ResourceLinks {
    * @param callback The callback
    */
   listAtSubscription(options: Models.ResourceLinksListAtSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSubscription(options?: Models.ResourceLinksListAtSubscriptionOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSubscriptionResponse> {
+  listAtSubscription(options?: Models.ResourceLinksListAtSubscriptionOptionalParams | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -183,7 +183,7 @@ export class ResourceLinks {
    * @param callback The callback
    */
   listAtSourceScope(scope: string, options: Models.ResourceLinksListAtSourceScopeOptionalParams, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSourceScope(scope: string, options?: Models.ResourceLinksListAtSourceScopeOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSourceScopeResponse> {
+  listAtSourceScope(scope: string, options?: Models.ResourceLinksListAtSourceScopeOptionalParams | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSourceScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -211,7 +211,7 @@ export class ResourceLinks {
    * @param callback The callback
    */
   listAtSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSubscriptionNextResponse> {
+  listAtSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -239,7 +239,7 @@ export class ResourceLinks {
    * @param callback The callback
    */
   listAtSourceScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSourceScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSourceScopeNextResponse> {
+  listAtSourceScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSourceScopeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

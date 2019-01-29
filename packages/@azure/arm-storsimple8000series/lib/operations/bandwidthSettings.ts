@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/bandwidthSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class BandwidthSettings {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BandwidthSettingList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BandwidthSettingList>): Promise<Models.BandwidthSettingsListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BandwidthSettingList>, callback?: msRest.ServiceCallback<Models.BandwidthSettingList>): Promise<Models.BandwidthSettingsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class BandwidthSettings {
    * @param callback The callback
    */
   get(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BandwidthSetting>): void;
-  get(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BandwidthSetting>): Promise<Models.BandwidthSettingsGetResponse> {
+  get(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BandwidthSetting>, callback?: msRest.ServiceCallback<Models.BandwidthSetting>): Promise<Models.BandwidthSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         bandwidthSettingName,

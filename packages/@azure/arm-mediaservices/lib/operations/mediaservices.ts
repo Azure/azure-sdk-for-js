@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/mediaservicesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaServiceCollection>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MediaServiceCollection>): Promise<Models.MediaservicesListResponse> {
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaServiceCollection>, callback?: msRest.ServiceCallback<Models.MediaServiceCollection>): Promise<Models.MediaservicesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -77,7 +77,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaService>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesGetResponse> {
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaService>, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +113,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaService>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaService>, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +147,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +183,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaService>): void;
-  update(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaService>, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -221,7 +221,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   syncStorageKeys(resourceGroupName: string, accountName: string, parameters: Models.SyncStorageKeysInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  syncStorageKeys(resourceGroupName: string, accountName: string, parameters: Models.SyncStorageKeysInput, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  syncStorageKeys(resourceGroupName: string, accountName: string, parameters: Models.SyncStorageKeysInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -249,7 +249,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -277,7 +277,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   getBySubscription(accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionMediaService>): void;
-  getBySubscription(accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionMediaService>): Promise<Models.MediaservicesGetBySubscriptionResponse> {
+  getBySubscription(accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionMediaService>, callback?: msRest.ServiceCallback<Models.SubscriptionMediaService>): Promise<Models.MediaservicesGetBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         accountName,
@@ -306,7 +306,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaServiceCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MediaServiceCollection>): Promise<Models.MediaservicesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaServiceCollection>, callback?: msRest.ServiceCallback<Models.MediaServiceCollection>): Promise<Models.MediaservicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -335,7 +335,7 @@ export class Mediaservices {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionMediaServiceCollection>): Promise<Models.MediaservicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

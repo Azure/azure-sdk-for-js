@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/productsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class Products {
    * @param callback The callback
    */
   list(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductList>): void;
-  list(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProductList>): Promise<Models.ProductsListResponse> {
+  list(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductList>, callback?: msRest.ServiceCallback<Models.ProductList>): Promise<Models.ProductsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -82,7 +82,7 @@ export class Products {
    * @param callback The callback
    */
   get(resourceGroup: string, registrationName: string, productName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Product>): void;
-  get(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Product>): Promise<Models.ProductsGetResponse> {
+  get(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Product>, callback?: msRest.ServiceCallback<Models.Product>): Promise<Models.ProductsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -118,7 +118,7 @@ export class Products {
    * @param callback The callback
    */
   listDetails(resourceGroup: string, registrationName: string, productName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtendedProduct>): void;
-  listDetails(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ExtendedProduct>): Promise<Models.ProductsListDetailsResponse> {
+  listDetails(resourceGroup: string, registrationName: string, productName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtendedProduct>, callback?: msRest.ServiceCallback<Models.ExtendedProduct>): Promise<Models.ProductsListDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -148,7 +148,7 @@ export class Products {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProductList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProductList>): Promise<Models.ProductsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProductList>, callback?: msRest.ServiceCallback<Models.ProductList>): Promise<Models.ProductsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

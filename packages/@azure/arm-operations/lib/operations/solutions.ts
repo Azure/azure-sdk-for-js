@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/solutionsMappers";
 import * as Parameters from "../models/parameters";
@@ -76,7 +76,7 @@ export class Solutions {
    * @param callback The callback
    */
   get(resourceGroupName: string, solutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Solution>): void;
-  get(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Solution>): Promise<Models.SolutionsGetResponse> {
+  get(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Solution>, callback?: msRest.ServiceCallback<Models.Solution>): Promise<Models.SolutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class Solutions {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SolutionPropertiesList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>): Promise<Models.SolutionsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SolutionPropertiesList>, callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>): Promise<Models.SolutionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +132,7 @@ export class Solutions {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SolutionPropertiesList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>): Promise<Models.SolutionsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SolutionPropertiesList>, callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>): Promise<Models.SolutionsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "ms-rest-js";
-import * as msRest from "ms-rest-js";
+import { ServiceClientOptions } from "@azure/ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 
 /**
@@ -249,24 +249,28 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing SpellCheckAPIClientOptions.
+ * An interface representing SpellCheckClientOptions.
  * @extends ServiceClientOptions
  */
-export interface SpellCheckAPIClientOptions extends ServiceClientOptions {
+export interface SpellCheckClientOptions extends ServiceClientOptions {
   /**
-   * @member {string} [baseUri]
+   * @member {string} [endpoint] Supported Cognitive Services endpoints
+   * (protocol and hostname, for example:
+   * "https://westus.api.cognitive.microsoft.com",
+   * "https://api.cognitive.microsoft.com"). Default value:
+   * 'https://api.cognitive.microsoft.com' .
    */
-  baseUri?: string;
+  endpoint?: string;
 }
 
 /**
  * @interface
- * An interface representing SpellCheckAPIClientSpellCheckerOptionalParams.
+ * An interface representing SpellCheckClientSpellCheckerOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface SpellCheckAPIClientSpellCheckerOptionalParams extends msRest.RequestOptionsBase {
+export interface SpellCheckClientSpellCheckerOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [acceptLanguage] A comma-delimited list of one or more
    * languages to use for user interface strings. The list is in decreasing
@@ -505,95 +509,46 @@ export interface SpellCheckAPIClientSpellCheckerOptionalParams extends msRest.Re
 /**
  * Defines values for ErrorType.
  * Possible values include: 'UnknownToken', 'RepeatedToken'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorType = <ErrorType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ErrorType {
-  UnknownToken = 'UnknownToken',
-  RepeatedToken = 'RepeatedToken',
-}
+export type ErrorType = 'UnknownToken' | 'RepeatedToken';
 
 /**
  * Defines values for ErrorCode.
- * Possible values include: 'None', 'ServerError', 'InvalidRequest',
- * 'RateLimitExceeded', 'InvalidAuthorization', 'InsufficientAuthorization'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorCode = <ErrorCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'ServerError', 'InvalidRequest', 'RateLimitExceeded',
+ * 'InvalidAuthorization', 'InsufficientAuthorization'
  * @readonly
  * @enum {string}
  */
-export enum ErrorCode {
-  None = 'None',
-  ServerError = 'ServerError',
-  InvalidRequest = 'InvalidRequest',
-  RateLimitExceeded = 'RateLimitExceeded',
-  InvalidAuthorization = 'InvalidAuthorization',
-  InsufficientAuthorization = 'InsufficientAuthorization',
-}
+export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
 
 /**
  * Defines values for ErrorSubCode.
- * Possible values include: 'UnexpectedError', 'ResourceError',
- * 'NotImplemented', 'ParameterMissing', 'ParameterInvalidValue',
- * 'HttpNotAllowed', 'Blocked', 'AuthorizationMissing',
- * 'AuthorizationRedundancy', 'AuthorizationDisabled', 'AuthorizationExpired'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ErrorSubCode =
- * <ErrorSubCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'UnexpectedError', 'ResourceError', 'NotImplemented',
+ * 'ParameterMissing', 'ParameterInvalidValue', 'HttpNotAllowed', 'Blocked',
+ * 'AuthorizationMissing', 'AuthorizationRedundancy', 'AuthorizationDisabled',
+ * 'AuthorizationExpired'
  * @readonly
  * @enum {string}
  */
-export enum ErrorSubCode {
-  UnexpectedError = 'UnexpectedError',
-  ResourceError = 'ResourceError',
-  NotImplemented = 'NotImplemented',
-  ParameterMissing = 'ParameterMissing',
-  ParameterInvalidValue = 'ParameterInvalidValue',
-  HttpNotAllowed = 'HttpNotAllowed',
-  Blocked = 'Blocked',
-  AuthorizationMissing = 'AuthorizationMissing',
-  AuthorizationRedundancy = 'AuthorizationRedundancy',
-  AuthorizationDisabled = 'AuthorizationDisabled',
-  AuthorizationExpired = 'AuthorizationExpired',
-}
+export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
 
 /**
  * Defines values for ActionType.
  * Possible values include: 'Edit', 'Load'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ActionType = <ActionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ActionType {
-  Edit = 'Edit',
-  Load = 'Load',
-}
+export type ActionType = 'Edit' | 'Load';
 
 /**
  * Defines values for Mode.
  * Possible values include: 'proof', 'spell'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Mode = <Mode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Mode {
-  Proof = 'proof',
-  Spell = 'spell',
-}
+export type Mode = 'proof' | 'spell';
 
 /**
  * Contains response data for the spellChecker operation.

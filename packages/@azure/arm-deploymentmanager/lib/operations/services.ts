@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/servicesMappers";
 import * as Parameters from "../models/parameters";
@@ -54,7 +54,7 @@ export class Services {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceInfo: Models.ServiceResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResource>): void;
-  createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceInfo: Models.ServiceResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceResource>): Promise<Models.ServicesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceInfo: Models.ServiceResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource>, callback?: msRest.ServiceCallback<Models.ServiceResource>): Promise<Models.ServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +91,7 @@ export class Services {
    * @param callback The callback
    */
   get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResource>): void;
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceResource>): Promise<Models.ServicesGetResponse> {
+  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource>, callback?: msRest.ServiceCallback<Models.ServiceResource>): Promise<Models.ServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +127,7 @@ export class Services {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/componentAvailableFeaturesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class ComponentAvailableFeatures {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>): Promise<Models.ComponentAvailableFeaturesGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAvailableFeatures>): Promise<Models.ComponentAvailableFeaturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

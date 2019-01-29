@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/trafficManagerUserMetricsKeysMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class TrafficManagerUserMetricsKeys {
    * @param callback The callback
    */
   get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserMetricsModel>): void;
-  get(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserMetricsModel>): Promise<Models.TrafficManagerUserMetricsKeysGetResponse> {
+  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserMetricsModel>, callback?: msRest.ServiceCallback<Models.UserMetricsModel>): Promise<Models.TrafficManagerUserMetricsKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -65,7 +65,7 @@ export class TrafficManagerUserMetricsKeys {
    * @param callback The callback
    */
   createOrUpdate(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserMetricsModel>): void;
-  createOrUpdate(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UserMetricsModel>): Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse> {
+  createOrUpdate(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserMetricsModel>, callback?: msRest.ServiceCallback<Models.UserMetricsModel>): Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -89,7 +89,7 @@ export class TrafficManagerUserMetricsKeys {
    * @param callback The callback
    */
   deleteMethod(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
-  deleteMethod(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse> {
+  deleteMethod(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         options

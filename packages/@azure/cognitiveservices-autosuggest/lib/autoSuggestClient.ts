@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -25,7 +25,7 @@ class AutoSuggestClient extends AutoSuggestClientContext {
   }
 
   /**
-   * @summary The AutoSuggest API lets you send a search query to Bing and get back a list of
+   * @summary The AutoSuggest API lets you send a search query to Bing and get back a list of query
    * suggestions. This section provides technical details about the query parameters and headers that
    * you use to request suggestions and the JSON response objects that contain them.
    * @param query The user's search term.
@@ -44,7 +44,7 @@ class AutoSuggestClient extends AutoSuggestClientContext {
    * @param callback The callback
    */
   autoSuggest(query: string, options: Models.AutoSuggestClientAutoSuggestOptionalParams, callback: msRest.ServiceCallback<Models.Suggestions>): void;
-  autoSuggest(query: string, options?: Models.AutoSuggestClientAutoSuggestOptionalParams, callback?: msRest.ServiceCallback<Models.Suggestions>): Promise<Models.AutoSuggestResponse> {
+  autoSuggest(query: string, options?: Models.AutoSuggestClientAutoSuggestOptionalParams | msRest.ServiceCallback<Models.Suggestions>, callback?: msRest.ServiceCallback<Models.Suggestions>): Promise<Models.AutoSuggestResponse> {
     return this.sendOperationRequest(
       {
         query,
@@ -59,7 +59,10 @@ class AutoSuggestClient extends AutoSuggestClientContext {
 const serializer = new msRest.Serializer(Mappers);
 const autoSuggestOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "bing/v7.0/Suggestions",
+  path: "Suggestions",
+  urlParameters: [
+    Parameters.endpoint
+  ],
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -190,33 +190,18 @@ export interface OperationList extends Array<OperationResponse> {
 /**
  * Defines values for State.
  * Possible values include: 'Active', 'Deleted'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: State = <State>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum State {
-  Active = 'Active',
-  Deleted = 'Deleted',
-}
+export type State = 'Active' | 'Deleted';
 
 /**
  * Defines values for Code.
  * Possible values include: 'NotFound', 'Conflict', 'BadRequest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Code = <Code>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Code {
-  NotFound = 'NotFound',
-  Conflict = 'Conflict',
-  BadRequest = 'BadRequest',
-}
+export type Code = 'NotFound' | 'Conflict' | 'BadRequest';
 
 /**
  * Contains response data for the get operation.

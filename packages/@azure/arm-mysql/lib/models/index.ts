@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -883,18 +883,10 @@ export interface PerformanceTierListResult extends Array<PerformanceTierProperti
 /**
  * Defines values for ServerVersion.
  * Possible values include: '5.6', '5.7'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServerVersion =
- * <ServerVersion>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServerVersion {
-  FiveFullStopSix = '5.6',
-  FiveFullStopSeven = '5.7',
-}
+export type ServerVersion = '5.6' | '5.7';
 
 /**
  * Defines values for SslEnforcementEnum.
@@ -902,96 +894,47 @@ export enum ServerVersion {
  * @readonly
  * @enum {string}
  */
-export enum SslEnforcementEnum {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type SslEnforcementEnum = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ServerState.
  * Possible values include: 'Ready', 'Dropping', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServerState =
- * <ServerState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServerState {
-  Ready = 'Ready',
-  Dropping = 'Dropping',
-  Disabled = 'Disabled',
-}
+export type ServerState = 'Ready' | 'Dropping' | 'Disabled';
 
 /**
  * Defines values for GeoRedundantBackup.
  * Possible values include: 'Enabled', 'Disabled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GeoRedundantBackup =
- * <GeoRedundantBackup>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum GeoRedundantBackup {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type GeoRedundantBackup = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SkuTier.
  * Possible values include: 'Basic', 'GeneralPurpose', 'MemoryOptimized'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuTier = <SkuTier>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuTier {
-  Basic = 'Basic',
-  GeneralPurpose = 'GeneralPurpose',
-  MemoryOptimized = 'MemoryOptimized',
-}
+export type SkuTier = 'Basic' | 'GeneralPurpose' | 'MemoryOptimized';
 
 /**
  * Defines values for VirtualNetworkRuleState.
- * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting',
- * 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: VirtualNetworkRuleState =
- * <VirtualNetworkRuleState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting', 'Unknown'
  * @readonly
  * @enum {string}
  */
-export enum VirtualNetworkRuleState {
-  Initializing = 'Initializing',
-  InProgress = 'InProgress',
-  Ready = 'Ready',
-  Deleting = 'Deleting',
-  Unknown = 'Unknown',
-}
+export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 'Deleting' | 'Unknown';
 
 /**
  * Defines values for OperationOrigin.
  * Possible values include: 'NotSpecified', 'user', 'system'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperationOrigin =
- * <OperationOrigin>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperationOrigin {
-  NotSpecified = 'NotSpecified',
-  User = 'user',
-  System = 'system',
-}
+export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
 
 /**
  * Defines values for ServerSecurityAlertPolicyState.
@@ -999,10 +942,7 @@ export enum OperationOrigin {
  * @readonly
  * @enum {string}
  */
-export enum ServerSecurityAlertPolicyState {
-  Enabled = 'Enabled',
-  Disabled = 'Disabled',
-}
+export type ServerSecurityAlertPolicyState = 'Enabled' | 'Disabled';
 
 /**
  * Contains response data for the create operation.

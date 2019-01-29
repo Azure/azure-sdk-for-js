@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -680,60 +680,31 @@ export interface CustomerSubscriptionList extends Array<CustomerSubscription> {
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Creating = 'Creating',
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Canceled = 'Canceled',
-}
+export type ProvisioningState = 'Creating' | 'Failed' | 'Succeeded' | 'Canceled';
 
 /**
  * Defines values for ComputeRole.
  * Possible values include: 'None', 'IaaS', 'PaaS'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ComputeRole =
- * <ComputeRole>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ComputeRole {
-  None = 'None',
-  IaaS = 'IaaS',
-  PaaS = 'PaaS',
-}
+export type ComputeRole = 'None' | 'IaaS' | 'PaaS';
 
 /**
  * Defines values for OperatingSystem.
  * Possible values include: 'None', 'Windows', 'Linux'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperatingSystem =
- * <OperatingSystem>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperatingSystem {
-  None = 'None',
-  Windows = 'Windows',
-  Linux = 'Linux',
-}
+export type OperatingSystem = 'None' | 'Windows' | 'Linux';
 
 /**
  * Defines values for Location.
  * Possible values include: 'global'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Location = <Location>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum Location {
-  Global = 'global',
-}
+export type Location = 'global';
 
 /**
  * Contains response data for the list operation.

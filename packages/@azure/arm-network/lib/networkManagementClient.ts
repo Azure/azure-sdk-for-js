@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -24,6 +24,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   availableResourceGroupDelegations: operations.AvailableResourceGroupDelegations;
   azureFirewalls: operations.AzureFirewalls;
   azureFirewallFqdnTags: operations.AzureFirewallFqdnTags;
+  ddosCustomPolicies: operations.DdosCustomPolicies;
   ddosProtectionPlans: operations.DdosProtectionPlans;
   availableEndpointServices: operations.AvailableEndpointServices;
   expressRouteCircuitAuthorizations: operations.ExpressRouteCircuitAuthorizations;
@@ -72,10 +73,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualNetworks: operations.VirtualNetworks;
   subnets: operations.Subnets;
   virtualNetworkPeerings: operations.VirtualNetworkPeerings;
-  virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualNetworkGateways: operations.VirtualNetworkGateways;
   virtualNetworkGatewayConnections: operations.VirtualNetworkGatewayConnections;
   localNetworkGateways: operations.LocalNetworkGateways;
+  virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualWans: operations.VirtualWans;
   vpnSites: operations.VpnSites;
   vpnSitesConfiguration: operations.VpnSitesConfiguration;
@@ -101,6 +102,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.availableResourceGroupDelegations = new operations.AvailableResourceGroupDelegations(this);
     this.azureFirewalls = new operations.AzureFirewalls(this);
     this.azureFirewallFqdnTags = new operations.AzureFirewallFqdnTags(this);
+    this.ddosCustomPolicies = new operations.DdosCustomPolicies(this);
     this.ddosProtectionPlans = new operations.DdosProtectionPlans(this);
     this.availableEndpointServices = new operations.AvailableEndpointServices(this);
     this.expressRouteCircuitAuthorizations = new operations.ExpressRouteCircuitAuthorizations(this);
@@ -149,10 +151,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualNetworks = new operations.VirtualNetworks(this);
     this.subnets = new operations.Subnets(this);
     this.virtualNetworkPeerings = new operations.VirtualNetworkPeerings(this);
-    this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualNetworkGateways = new operations.VirtualNetworkGateways(this);
     this.virtualNetworkGatewayConnections = new operations.VirtualNetworkGatewayConnections(this);
     this.localNetworkGateways = new operations.LocalNetworkGateways(this);
+    this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualWans = new operations.VirtualWans(this);
     this.vpnSites = new operations.VpnSites(this);
     this.vpnSitesConfiguration = new operations.VpnSitesConfiguration(this);

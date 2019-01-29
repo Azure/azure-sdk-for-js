@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -5465,83 +5465,42 @@ export interface RunbookListResult extends Array<Runbook> {
 /**
  * Defines values for SkuNameEnum.
  * Possible values include: 'Free', 'Basic'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SkuNameEnum =
- * <SkuNameEnum>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SkuNameEnum {
-  Free = 'Free',
-  Basic = 'Basic',
-}
+export type SkuNameEnum = 'Free' | 'Basic';
 
 /**
  * Defines values for AutomationAccountState.
  * Possible values include: 'Ok', 'Unavailable', 'Suspended'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AutomationAccountState =
- * <AutomationAccountState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AutomationAccountState {
-  Ok = 'Ok',
-  Unavailable = 'Unavailable',
-  Suspended = 'Suspended',
-}
+export type AutomationAccountState = 'Ok' | 'Unavailable' | 'Suspended';
 
 /**
  * Defines values for AutomationKeyName.
  * Possible values include: 'Primary', 'Secondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AutomationKeyName =
- * <AutomationKeyName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AutomationKeyName {
-  Primary = 'Primary',
-  Secondary = 'Secondary',
-}
+export type AutomationKeyName = 'Primary' | 'Secondary';
 
 /**
  * Defines values for AutomationKeyPermissions.
  * Possible values include: 'Read', 'Full'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AutomationKeyPermissions =
- * <AutomationKeyPermissions>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AutomationKeyPermissions {
-  Read = 'Read',
-  Full = 'Full',
-}
+export type AutomationKeyPermissions = 'Read' | 'Full';
 
 /**
  * Defines values for ContentSourceType.
  * Possible values include: 'embeddedContent', 'uri'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ContentSourceType =
- * <ContentSourceType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ContentSourceType {
-  EmbeddedContent = 'embeddedContent',
-  Uri = 'uri',
-}
+export type ContentSourceType = 'embeddedContent' | 'uri';
 
 /**
  * Defines values for DscConfigurationProvisioningState.
@@ -5549,113 +5508,51 @@ export enum ContentSourceType {
  * @readonly
  * @enum {string}
  */
-export enum DscConfigurationProvisioningState {
-  Succeeded = 'Succeeded',
-}
+export type DscConfigurationProvisioningState = 'Succeeded';
 
 /**
  * Defines values for DscConfigurationState.
  * Possible values include: 'New', 'Edit', 'Published'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DscConfigurationState =
- * <DscConfigurationState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DscConfigurationState {
-  New = 'New',
-  Edit = 'Edit',
-  Published = 'Published',
-}
+export type DscConfigurationState = 'New' | 'Edit' | 'Published';
 
 /**
  * Defines values for GroupTypeEnum.
  * Possible values include: 'User', 'System'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: GroupTypeEnum =
- * <GroupTypeEnum>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum GroupTypeEnum {
-  User = 'User',
-  System = 'System',
-}
+export type GroupTypeEnum = 'User' | 'System';
 
 /**
  * Defines values for ModuleProvisioningState.
- * Possible values include: 'Created', 'Creating',
- * 'StartingImportModuleRunbook', 'RunningImportModuleRunbook',
- * 'ContentRetrieved', 'ContentDownloaded', 'ContentValidated',
- * 'ConnectionTypeImported', 'ContentStored', 'ModuleDataStored',
- * 'ActivitiesStored', 'ModuleImportRunbookComplete', 'Succeeded', 'Failed',
- * 'Cancelled', 'Updating'
+ * Possible values include: 'Created', 'Creating', 'StartingImportModuleRunbook',
+ * 'RunningImportModuleRunbook', 'ContentRetrieved', 'ContentDownloaded', 'ContentValidated',
+ * 'ConnectionTypeImported', 'ContentStored', 'ModuleDataStored', 'ActivitiesStored',
+ * 'ModuleImportRunbookComplete', 'Succeeded', 'Failed', 'Cancelled', 'Updating'
  * @readonly
  * @enum {string}
  */
-export enum ModuleProvisioningState {
-  Created = 'Created',
-  Creating = 'Creating',
-  StartingImportModuleRunbook = 'StartingImportModuleRunbook',
-  RunningImportModuleRunbook = 'RunningImportModuleRunbook',
-  ContentRetrieved = 'ContentRetrieved',
-  ContentDownloaded = 'ContentDownloaded',
-  ContentValidated = 'ContentValidated',
-  ConnectionTypeImported = 'ConnectionTypeImported',
-  ContentStored = 'ContentStored',
-  ModuleDataStored = 'ModuleDataStored',
-  ActivitiesStored = 'ActivitiesStored',
-  ModuleImportRunbookComplete = 'ModuleImportRunbookComplete',
-  Succeeded = 'Succeeded',
-  Failed = 'Failed',
-  Cancelled = 'Cancelled',
-  Updating = 'Updating',
-}
+export type ModuleProvisioningState = 'Created' | 'Creating' | 'StartingImportModuleRunbook' | 'RunningImportModuleRunbook' | 'ContentRetrieved' | 'ContentDownloaded' | 'ContentValidated' | 'ConnectionTypeImported' | 'ContentStored' | 'ModuleDataStored' | 'ActivitiesStored' | 'ModuleImportRunbookComplete' | 'Succeeded' | 'Failed' | 'Cancelled' | 'Updating';
 
 /**
  * Defines values for ScheduleDay.
- * Possible values include: 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
- * 'Friday', 'Saturday', 'Sunday'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ScheduleDay =
- * <ScheduleDay>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+ * 'Sunday'
  * @readonly
  * @enum {string}
  */
-export enum ScheduleDay {
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-  Sunday = 'Sunday',
-}
+export type ScheduleDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 /**
  * Defines values for ScheduleFrequency.
  * Possible values include: 'OneTime', 'Day', 'Hour', 'Week', 'Month'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ScheduleFrequency =
- * <ScheduleFrequency>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ScheduleFrequency {
-  OneTime = 'OneTime',
-  Day = 'Day',
-  Hour = 'Hour',
-  Week = 'Week',
-  Month = 'Month',
-}
+export type ScheduleFrequency = 'OneTime' | 'Day' | 'Hour' | 'Week' | 'Month';
 
 /**
  * Defines values for OperatingSystemType.
@@ -5663,53 +5560,24 @@ export enum ScheduleFrequency {
  * @readonly
  * @enum {string}
  */
-export enum OperatingSystemType {
-  Windows = 'Windows',
-  Linux = 'Linux',
-}
+export type OperatingSystemType = 'Windows' | 'Linux';
 
 /**
  * Defines values for WindowsUpdateClasses.
- * Possible values include: 'Unclassified', 'Critical', 'Security',
- * 'UpdateRollup', 'FeaturePack', 'ServicePack', 'Definition', 'Tools',
- * 'Updates'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: WindowsUpdateClasses =
- * <WindowsUpdateClasses>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unclassified', 'Critical', 'Security', 'UpdateRollup', 'FeaturePack',
+ * 'ServicePack', 'Definition', 'Tools', 'Updates'
  * @readonly
  * @enum {string}
  */
-export enum WindowsUpdateClasses {
-  Unclassified = 'Unclassified',
-  Critical = 'Critical',
-  Security = 'Security',
-  UpdateRollup = 'UpdateRollup',
-  FeaturePack = 'FeaturePack',
-  ServicePack = 'ServicePack',
-  Definition = 'Definition',
-  Tools = 'Tools',
-  Updates = 'Updates',
-}
+export type WindowsUpdateClasses = 'Unclassified' | 'Critical' | 'Security' | 'UpdateRollup' | 'FeaturePack' | 'ServicePack' | 'Definition' | 'Tools' | 'Updates';
 
 /**
  * Defines values for LinuxUpdateClasses.
  * Possible values include: 'Unclassified', 'Critical', 'Security', 'Other'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LinuxUpdateClasses =
- * <LinuxUpdateClasses>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LinuxUpdateClasses {
-  Unclassified = 'Unclassified',
-  Critical = 'Critical',
-  Security = 'Security',
-  Other = 'Other',
-}
+export type LinuxUpdateClasses = 'Unclassified' | 'Critical' | 'Security' | 'Other';
 
 /**
  * Defines values for TagOperators.
@@ -5717,210 +5585,97 @@ export enum LinuxUpdateClasses {
  * @readonly
  * @enum {string}
  */
-export enum TagOperators {
-  All = 'All',
-  Any = 'Any',
-}
+export type TagOperators = 'All' | 'Any';
 
 /**
  * Defines values for SourceType.
  * Possible values include: 'VsoGit', 'VsoTfvc', 'GitHub'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SourceType = <SourceType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SourceType {
-  VsoGit = 'VsoGit',
-  VsoTfvc = 'VsoTfvc',
-  GitHub = 'GitHub',
-}
+export type SourceType = 'VsoGit' | 'VsoTfvc' | 'GitHub';
 
 /**
  * Defines values for TokenType.
  * Possible values include: 'PersonalAccessToken', 'Oauth'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: TokenType = <TokenType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum TokenType {
-  PersonalAccessToken = 'PersonalAccessToken',
-  Oauth = 'Oauth',
-}
+export type TokenType = 'PersonalAccessToken' | 'Oauth';
 
 /**
  * Defines values for ProvisioningState.
  * Possible values include: 'Completed', 'Failed', 'Running'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisioningState =
- * <ProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProvisioningState {
-  Completed = 'Completed',
-  Failed = 'Failed',
-  Running = 'Running',
-}
+export type ProvisioningState = 'Completed' | 'Failed' | 'Running';
 
 /**
  * Defines values for SyncType.
  * Possible values include: 'PartialSync', 'FullSync'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SyncType = <SyncType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum SyncType {
-  PartialSync = 'PartialSync',
-  FullSync = 'FullSync',
-}
+export type SyncType = 'PartialSync' | 'FullSync';
 
 /**
  * Defines values for StreamType.
  * Possible values include: 'Error', 'Output'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: StreamType = <StreamType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum StreamType {
-  Error = 'Error',
-  Output = 'Output',
-}
+export type StreamType = 'Error' | 'Output';
 
 /**
  * Defines values for JobStreamType.
- * Possible values include: 'Progress', 'Output', 'Warning', 'Error', 'Debug',
- * 'Verbose', 'Any'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobStreamType =
- * <JobStreamType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Progress', 'Output', 'Warning', 'Error', 'Debug', 'Verbose', 'Any'
  * @readonly
  * @enum {string}
  */
-export enum JobStreamType {
-  Progress = 'Progress',
-  Output = 'Output',
-  Warning = 'Warning',
-  Error = 'Error',
-  Debug = 'Debug',
-  Verbose = 'Verbose',
-  Any = 'Any',
-}
+export type JobStreamType = 'Progress' | 'Output' | 'Warning' | 'Error' | 'Debug' | 'Verbose' | 'Any';
 
 /**
  * Defines values for JobStatus.
- * Possible values include: 'New', 'Activating', 'Running', 'Completed',
- * 'Failed', 'Stopped', 'Blocked', 'Suspended', 'Disconnected', 'Suspending',
- * 'Stopping', 'Resuming', 'Removing'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobStatus = <JobStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'New', 'Activating', 'Running', 'Completed', 'Failed', 'Stopped',
+ * 'Blocked', 'Suspended', 'Disconnected', 'Suspending', 'Stopping', 'Resuming', 'Removing'
  * @readonly
  * @enum {string}
  */
-export enum JobStatus {
-  New = 'New',
-  Activating = 'Activating',
-  Running = 'Running',
-  Completed = 'Completed',
-  Failed = 'Failed',
-  Stopped = 'Stopped',
-  Blocked = 'Blocked',
-  Suspended = 'Suspended',
-  Disconnected = 'Disconnected',
-  Suspending = 'Suspending',
-  Stopping = 'Stopping',
-  Resuming = 'Resuming',
-  Removing = 'Removing',
-}
+export type JobStatus = 'New' | 'Activating' | 'Running' | 'Completed' | 'Failed' | 'Stopped' | 'Blocked' | 'Suspended' | 'Disconnected' | 'Suspending' | 'Stopping' | 'Resuming' | 'Removing';
 
 /**
  * Defines values for JobProvisioningState.
  * Possible values include: 'Failed', 'Succeeded', 'Suspended', 'Processing'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: JobProvisioningState =
- * <JobProvisioningState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum JobProvisioningState {
-  Failed = 'Failed',
-  Succeeded = 'Succeeded',
-  Suspended = 'Suspended',
-  Processing = 'Processing',
-}
+export type JobProvisioningState = 'Failed' | 'Succeeded' | 'Suspended' | 'Processing';
 
 /**
  * Defines values for AgentRegistrationKeyName.
  * Possible values include: 'primary', 'secondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: AgentRegistrationKeyName =
- * <AgentRegistrationKeyName>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum AgentRegistrationKeyName {
-  Primary = 'primary',
-  Secondary = 'secondary',
-}
+export type AgentRegistrationKeyName = 'primary' | 'secondary';
 
 /**
  * Defines values for RunbookTypeEnum.
- * Possible values include: 'Script', 'Graph', 'PowerShellWorkflow',
- * 'PowerShell', 'GraphPowerShellWorkflow', 'GraphPowerShell'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunbookTypeEnum =
- * <RunbookTypeEnum>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Script', 'Graph', 'PowerShellWorkflow', 'PowerShell',
+ * 'GraphPowerShellWorkflow', 'GraphPowerShell'
  * @readonly
  * @enum {string}
  */
-export enum RunbookTypeEnum {
-  Script = 'Script',
-  Graph = 'Graph',
-  PowerShellWorkflow = 'PowerShellWorkflow',
-  PowerShell = 'PowerShell',
-  GraphPowerShellWorkflow = 'GraphPowerShellWorkflow',
-  GraphPowerShell = 'GraphPowerShell',
-}
+export type RunbookTypeEnum = 'Script' | 'Graph' | 'PowerShellWorkflow' | 'PowerShell' | 'GraphPowerShellWorkflow' | 'GraphPowerShell';
 
 /**
  * Defines values for RunbookState.
  * Possible values include: 'New', 'Edit', 'Published'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RunbookState =
- * <RunbookState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RunbookState {
-  New = 'New',
-  Edit = 'Edit',
-  Published = 'Published',
-}
+export type RunbookState = 'New' | 'Edit' | 'Published';
 
 /**
  * Defines values for RunbookProvisioningState.
@@ -5928,96 +5683,32 @@ export enum RunbookState {
  * @readonly
  * @enum {string}
  */
-export enum RunbookProvisioningState {
-  Succeeded = 'Succeeded',
-}
+export type RunbookProvisioningState = 'Succeeded';
 
 /**
  * Defines values for HttpStatusCode.
- * Possible values include: 'Continue', 'SwitchingProtocols', 'OK', 'Created',
- * 'Accepted', 'NonAuthoritativeInformation', 'NoContent', 'ResetContent',
- * 'PartialContent', 'MultipleChoices', 'Ambiguous', 'MovedPermanently',
- * 'Moved', 'Found', 'Redirect', 'SeeOther', 'RedirectMethod', 'NotModified',
- * 'UseProxy', 'Unused', 'TemporaryRedirect', 'RedirectKeepVerb', 'BadRequest',
- * 'Unauthorized', 'PaymentRequired', 'Forbidden', 'NotFound',
- * 'MethodNotAllowed', 'NotAcceptable', 'ProxyAuthenticationRequired',
- * 'RequestTimeout', 'Conflict', 'Gone', 'LengthRequired',
- * 'PreconditionFailed', 'RequestEntityTooLarge', 'RequestUriTooLong',
- * 'UnsupportedMediaType', 'RequestedRangeNotSatisfiable', 'ExpectationFailed',
- * 'UpgradeRequired', 'InternalServerError', 'NotImplemented', 'BadGateway',
- * 'ServiceUnavailable', 'GatewayTimeout', 'HttpVersionNotSupported'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HttpStatusCode =
- * <HttpStatusCode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Continue', 'SwitchingProtocols', 'OK', 'Created', 'Accepted',
+ * 'NonAuthoritativeInformation', 'NoContent', 'ResetContent', 'PartialContent', 'MultipleChoices',
+ * 'Ambiguous', 'MovedPermanently', 'Moved', 'Found', 'Redirect', 'SeeOther', 'RedirectMethod',
+ * 'NotModified', 'UseProxy', 'Unused', 'TemporaryRedirect', 'RedirectKeepVerb', 'BadRequest',
+ * 'Unauthorized', 'PaymentRequired', 'Forbidden', 'NotFound', 'MethodNotAllowed', 'NotAcceptable',
+ * 'ProxyAuthenticationRequired', 'RequestTimeout', 'Conflict', 'Gone', 'LengthRequired',
+ * 'PreconditionFailed', 'RequestEntityTooLarge', 'RequestUriTooLong', 'UnsupportedMediaType',
+ * 'RequestedRangeNotSatisfiable', 'ExpectationFailed', 'UpgradeRequired', 'InternalServerError',
+ * 'NotImplemented', 'BadGateway', 'ServiceUnavailable', 'GatewayTimeout',
+ * 'HttpVersionNotSupported'
  * @readonly
  * @enum {string}
  */
-export enum HttpStatusCode {
-  Continue = 'Continue',
-  SwitchingProtocols = 'SwitchingProtocols',
-  OK = 'OK',
-  Created = 'Created',
-  Accepted = 'Accepted',
-  NonAuthoritativeInformation = 'NonAuthoritativeInformation',
-  NoContent = 'NoContent',
-  ResetContent = 'ResetContent',
-  PartialContent = 'PartialContent',
-  MultipleChoices = 'MultipleChoices',
-  Ambiguous = 'Ambiguous',
-  MovedPermanently = 'MovedPermanently',
-  Moved = 'Moved',
-  Found = 'Found',
-  Redirect = 'Redirect',
-  SeeOther = 'SeeOther',
-  RedirectMethod = 'RedirectMethod',
-  NotModified = 'NotModified',
-  UseProxy = 'UseProxy',
-  Unused = 'Unused',
-  TemporaryRedirect = 'TemporaryRedirect',
-  RedirectKeepVerb = 'RedirectKeepVerb',
-  BadRequest = 'BadRequest',
-  Unauthorized = 'Unauthorized',
-  PaymentRequired = 'PaymentRequired',
-  Forbidden = 'Forbidden',
-  NotFound = 'NotFound',
-  MethodNotAllowed = 'MethodNotAllowed',
-  NotAcceptable = 'NotAcceptable',
-  ProxyAuthenticationRequired = 'ProxyAuthenticationRequired',
-  RequestTimeout = 'RequestTimeout',
-  Conflict = 'Conflict',
-  Gone = 'Gone',
-  LengthRequired = 'LengthRequired',
-  PreconditionFailed = 'PreconditionFailed',
-  RequestEntityTooLarge = 'RequestEntityTooLarge',
-  RequestUriTooLong = 'RequestUriTooLong',
-  UnsupportedMediaType = 'UnsupportedMediaType',
-  RequestedRangeNotSatisfiable = 'RequestedRangeNotSatisfiable',
-  ExpectationFailed = 'ExpectationFailed',
-  UpgradeRequired = 'UpgradeRequired',
-  InternalServerError = 'InternalServerError',
-  NotImplemented = 'NotImplemented',
-  BadGateway = 'BadGateway',
-  ServiceUnavailable = 'ServiceUnavailable',
-  GatewayTimeout = 'GatewayTimeout',
-  HttpVersionNotSupported = 'HttpVersionNotSupported',
-}
+export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created' | 'Accepted' | 'NonAuthoritativeInformation' | 'NoContent' | 'ResetContent' | 'PartialContent' | 'MultipleChoices' | 'Ambiguous' | 'MovedPermanently' | 'Moved' | 'Found' | 'Redirect' | 'SeeOther' | 'RedirectMethod' | 'NotModified' | 'UseProxy' | 'Unused' | 'TemporaryRedirect' | 'RedirectKeepVerb' | 'BadRequest' | 'Unauthorized' | 'PaymentRequired' | 'Forbidden' | 'NotFound' | 'MethodNotAllowed' | 'NotAcceptable' | 'ProxyAuthenticationRequired' | 'RequestTimeout' | 'Conflict' | 'Gone' | 'LengthRequired' | 'PreconditionFailed' | 'RequestEntityTooLarge' | 'RequestUriTooLong' | 'UnsupportedMediaType' | 'RequestedRangeNotSatisfiable' | 'ExpectationFailed' | 'UpgradeRequired' | 'InternalServerError' | 'NotImplemented' | 'BadGateway' | 'ServiceUnavailable' | 'GatewayTimeout' | 'HttpVersionNotSupported';
 
 /**
  * Defines values for CountType.
  * Possible values include: 'status', 'nodeconfiguration'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CountType = <CountType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CountType {
-  Status = 'status',
-  Nodeconfiguration = 'nodeconfiguration',
-}
+export type CountType = 'status' | 'nodeconfiguration';
 
 /**
  * Contains response data for the update operation.

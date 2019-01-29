@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/iotDpsResourceMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   get(provisioningServiceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescription>): void;
-  get(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescription>): Promise<Models.IotDpsResourceGetResponse> {
+  get(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescription>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescription>): Promise<Models.IotDpsResourceGetResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -121,7 +121,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -148,7 +148,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +192,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
-  getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.IotDpsResourceGetOperationResultResponse> {
+  getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.IotDpsResourceGetOperationResultResponse> {
     return this.client.sendOperationRequest(
       {
         operationId,
@@ -227,7 +227,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listValidSkus(provisioningServiceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): void;
-  listValidSkus(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): Promise<Models.IotDpsResourceListValidSkusResponse> {
+  listValidSkus(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>, callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): Promise<Models.IotDpsResourceListValidSkusResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -261,7 +261,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   checkProvisioningServiceNameAvailability(argumentsParameter: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityInfo>): void;
-  checkProvisioningServiceNameAvailability(argumentsParameter: Models.OperationInputs, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.NameAvailabilityInfo>): Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse> {
+  checkProvisioningServiceNameAvailability(argumentsParameter: Models.OperationInputs, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityInfo>, callback?: msRest.ServiceCallback<Models.NameAvailabilityInfo>): Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         argumentsParameter,
@@ -293,7 +293,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listKeys(provisioningServiceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
-  listKeys(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotDpsResourceListKeysResponse> {
+  listKeys(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotDpsResourceListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -329,7 +329,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>): void;
-  listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>): Promise<Models.IotDpsResourceListKeysForKeyNameResponse> {
+  listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>): Promise<Models.IotDpsResourceListKeysForKeyNameResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -425,7 +425,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -453,7 +453,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -482,7 +482,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listValidSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): void;
-  listValidSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): Promise<Models.IotDpsResourceListValidSkusNextResponse> {
+  listValidSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>, callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): Promise<Models.IotDpsResourceListValidSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -511,7 +511,7 @@ export class IotDpsResource {
    * @param callback The callback
    */
   listKeysNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
-  listKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotDpsResourceListKeysNextResponse> {
+  listKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotDpsResourceListKeysNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

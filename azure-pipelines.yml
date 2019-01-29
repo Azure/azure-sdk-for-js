@@ -15,20 +15,24 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: cd .. && git clone https://github.com/Azure/azure-rest-api-specs
-  displayName: cd.. && git clone https://github.com/Azure/azure-rest-api-specs
-
 - task: Npm@1
   displayName: 'npm install'
   inputs:
     verbose: false
 
 - task: Npm@1
+  displayName: 'npm run check:everything'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run check:everything -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --azure-devops --verbose'
+
+- task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
     verbose: false
-    customCommand: run build
+    customCommand: 'run build -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --logging-level=trace'
 
 - task: PublishBuildArtifacts@1
   inputs:

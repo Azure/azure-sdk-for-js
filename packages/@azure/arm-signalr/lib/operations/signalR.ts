@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/signalRMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class SignalR {
    * @param callback The callback
    */
   checkNameAvailability(location: string, options: Models.SignalRCheckNameAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
-  checkNameAvailability(location: string, options?: Models.SignalRCheckNameAvailabilityOptionalParams, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.SignalRCheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, options?: Models.SignalRCheckNameAvailabilityOptionalParams | msRest.ServiceCallback<Models.NameAvailability>, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.SignalRCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -70,7 +70,7 @@ export class SignalR {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -100,7 +100,7 @@ export class SignalR {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class SignalR {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRKeys>): void;
-  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRKeys>): Promise<Models.SignalRListKeysResponse> {
+  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRKeys>, callback?: msRest.ServiceCallback<Models.SignalRKeys>): Promise<Models.SignalRListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +183,7 @@ export class SignalR {
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResource>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRResource>): Promise<Models.SignalRGetResponse> {
+  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResource>, callback?: msRest.ServiceCallback<Models.SignalRResource>): Promise<Models.SignalRGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -328,7 +328,7 @@ export class SignalR {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -356,7 +356,7 @@ export class SignalR {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

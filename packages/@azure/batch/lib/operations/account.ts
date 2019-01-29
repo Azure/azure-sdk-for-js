@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/accountMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Account {
    * @param callback The callback
    */
   listNodeAgentSkus(options: Models.AccountListNodeAgentSkusOptionalParams, callback: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): void;
-  listNodeAgentSkus(options?: Models.AccountListNodeAgentSkusOptionalParams, callback?: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): Promise<Models.AccountListNodeAgentSkusResponse> {
+  listNodeAgentSkus(options?: Models.AccountListNodeAgentSkusOptionalParams | msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>, callback?: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): Promise<Models.AccountListNodeAgentSkusResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -65,7 +65,7 @@ export class Account {
    * @param callback The callback
    */
   listPoolNodeCounts(options: Models.AccountListPoolNodeCountsOptionalParams, callback: msRest.ServiceCallback<Models.PoolNodeCountsListResult>): void;
-  listPoolNodeCounts(options?: Models.AccountListPoolNodeCountsOptionalParams, callback?: msRest.ServiceCallback<Models.PoolNodeCountsListResult>): Promise<Models.AccountListPoolNodeCountsResponse> {
+  listPoolNodeCounts(options?: Models.AccountListPoolNodeCountsOptionalParams | msRest.ServiceCallback<Models.PoolNodeCountsListResult>, callback?: msRest.ServiceCallback<Models.PoolNodeCountsListResult>): Promise<Models.AccountListPoolNodeCountsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -92,7 +92,7 @@ export class Account {
    * @param callback The callback
    */
   listNodeAgentSkusNext(nextPageLink: string, options: Models.AccountListNodeAgentSkusNextOptionalParams, callback: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): void;
-  listNodeAgentSkusNext(nextPageLink: string, options?: Models.AccountListNodeAgentSkusNextOptionalParams, callback?: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): Promise<Models.AccountListNodeAgentSkusResponse> {
+  listNodeAgentSkusNext(nextPageLink: string, options?: Models.AccountListNodeAgentSkusNextOptionalParams | msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>, callback?: msRest.ServiceCallback<Models.AccountListNodeAgentSkusResult>): Promise<Models.AccountListNodeAgentSkusResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -120,7 +120,7 @@ export class Account {
    * @param callback The callback
    */
   listPoolNodeCountsNext(nextPageLink: string, options: Models.AccountListPoolNodeCountsNextOptionalParams, callback: msRest.ServiceCallback<Models.PoolNodeCountsListResult>): void;
-  listPoolNodeCountsNext(nextPageLink: string, options?: Models.AccountListPoolNodeCountsNextOptionalParams, callback?: msRest.ServiceCallback<Models.PoolNodeCountsListResult>): Promise<Models.AccountListPoolNodeCountsResponse> {
+  listPoolNodeCountsNext(nextPageLink: string, options?: Models.AccountListPoolNodeCountsNextOptionalParams | msRest.ServiceCallback<Models.PoolNodeCountsListResult>, callback?: msRest.ServiceCallback<Models.PoolNodeCountsListResult>): Promise<Models.AccountListPoolNodeCountsResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/balancesMappers";
 import * as Parameters from "../models/parameters";
@@ -45,7 +45,7 @@ export class Balances {
    * @param callback The callback
    */
   getByBillingAccount(billingAccountId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Balance>): void;
-  getByBillingAccount(billingAccountId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Balance>): Promise<Models.BalancesGetByBillingAccountResponse> {
+  getByBillingAccount(billingAccountId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Balance>, callback?: msRest.ServiceCallback<Models.Balance>): Promise<Models.BalancesGetByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -77,7 +77,7 @@ export class Balances {
    * @param callback The callback
    */
   getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Balance>): void;
-  getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Balance>): Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse> {
+  getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Balance>, callback?: msRest.ServiceCallback<Models.Balance>): Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,

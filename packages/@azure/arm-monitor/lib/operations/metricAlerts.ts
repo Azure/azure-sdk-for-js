@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/metricAlertsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class MetricAlerts {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): Promise<Models.MetricAlertsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResourceCollection>, callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): Promise<Models.MetricAlertsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class MetricAlerts {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): Promise<Models.MetricAlertsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResourceCollection>, callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): Promise<Models.MetricAlertsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +99,7 @@ export class MetricAlerts {
    * @param callback The callback
    */
   get(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsGetResponse> {
+  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class MetricAlerts {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResource, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,7 +170,7 @@ export class MetricAlerts {
    * @param callback The callback
    */
   update(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
-  update(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResourcePatch, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsUpdateResponse> {
+  update(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +203,7 @@ export class MetricAlerts {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

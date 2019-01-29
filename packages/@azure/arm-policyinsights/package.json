@@ -2,10 +2,10 @@
   "name": "@azure/arm-policyinsights",
   "author": "Microsoft Corporation",
   "description": "PolicyInsightsClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.176",
-    "ms-rest-js": "^1.0.455",
+    "@azure/ms-rest-azure-js": "^1.2.0",
+    "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -23,6 +23,7 @@
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-policyinsights",
@@ -33,10 +34,24 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "lib/**/*.ts",
+    "README.md",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-policyinsights.js.map'\" -o ./dist/arm-policyinsights.min.js ./dist/arm-policyinsights.js",
-    "prepare": "npm run build"
+    "prepack": "npm install && npm run build"
   },
   "sideEffects": false
 }

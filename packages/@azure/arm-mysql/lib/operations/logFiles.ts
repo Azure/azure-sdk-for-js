@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/logFilesMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class LogFiles {
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogFileListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LogFileListResult>): Promise<Models.LogFilesListByServerResponse> {
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogFileListResult>, callback?: msRest.ServiceCallback<Models.LogFileListResult>): Promise<Models.LogFilesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

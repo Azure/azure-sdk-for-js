@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/appliancesMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Appliances {
    * @param callback The callback
    */
   get(resourceGroupName: string, applianceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  get(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetResponse> {
+  get(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class Appliances {
    * @param callback The callback
    */
   update(resourceGroupName: string, applianceName: string, options: Models.AppliancesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  update(resourceGroupName: string, applianceName: string, options?: Models.AppliancesUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateResponse> {
+  update(resourceGroupName: string, applianceName: string, options?: Models.AppliancesUpdateOptionalParams | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +135,7 @@ export class Appliances {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +160,7 @@ export class Appliances {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -193,7 +193,7 @@ export class Appliances {
    * @param callback The callback
    */
   getById(applianceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  getById(applianceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetByIdResponse> {
+  getById(applianceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         applianceId,
@@ -255,7 +255,7 @@ export class Appliances {
    * @param callback The callback
    */
   updateById(applianceId: string, options: Models.AppliancesUpdateByIdOptionalParams, callback: msRest.ServiceCallback<Models.Appliance>): void;
-  updateById(applianceId: string, options?: Models.AppliancesUpdateByIdOptionalParams, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateByIdResponse> {
+  updateById(applianceId: string, options?: Models.AppliancesUpdateByIdOptionalParams | msRest.ServiceCallback<Models.Appliance>, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateByIdResponse> {
     return this.client.sendOperationRequest(
       {
         applianceId,
@@ -359,7 +359,7 @@ export class Appliances {
    * @param callback The callback
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -387,7 +387,7 @@ export class Appliances {
    * @param callback The callback
    */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceListResult>, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

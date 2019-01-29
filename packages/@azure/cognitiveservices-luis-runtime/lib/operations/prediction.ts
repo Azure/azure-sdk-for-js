@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/predictionMappers";
 import * as Parameters from "../models/parameters";
@@ -48,7 +48,7 @@ export class Prediction {
    * @param callback The callback
    */
   resolve(appId: string, query: string, options: Models.PredictionResolveOptionalParams, callback: msRest.ServiceCallback<Models.LuisResult>): void;
-  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams, callback?: msRest.ServiceCallback<Models.LuisResult>): Promise<Models.PredictionResolveResponse> {
+  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams | msRest.ServiceCallback<Models.LuisResult>, callback?: msRest.ServiceCallback<Models.LuisResult>): Promise<Models.PredictionResolveResponse> {
     return this.client.sendOperationRequest(
       {
         appId,

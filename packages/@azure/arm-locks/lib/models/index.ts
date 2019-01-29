@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -202,18 +202,10 @@ export interface ManagementLockListResult extends Array<ManagementLockObject> {
 /**
  * Defines values for LockLevel.
  * Possible values include: 'NotSpecified', 'CanNotDelete', 'ReadOnly'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: LockLevel = <LockLevel>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum LockLevel {
-  NotSpecified = 'NotSpecified',
-  CanNotDelete = 'CanNotDelete',
-  ReadOnly = 'ReadOnly',
-}
+export type LockLevel = 'NotSpecified' | 'CanNotDelete' | 'ReadOnly';
 
 /**
  * Contains response data for the list operation.

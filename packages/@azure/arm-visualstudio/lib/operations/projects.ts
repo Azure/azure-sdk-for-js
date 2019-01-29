@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/projectsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class Projects {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, rootResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResourceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, rootResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectResourceListResult>): Promise<Models.ProjectsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, rootResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResourceListResult>, callback?: msRest.ServiceCallback<Models.ProjectResourceListResult>): Promise<Models.ProjectsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +106,7 @@ export class Projects {
    * @param callback The callback
    */
   get(resourceGroupName: string, rootResourceName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
-  get(resourceGroupName: string, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsGetResponse> {
+  get(resourceGroupName: string, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResource>, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +146,7 @@ export class Projects {
    * @param callback The callback
    */
   update(resourceGroupName: string, body: Models.ProjectResource, rootResourceName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
-  update(resourceGroupName: string, body: Models.ProjectResource, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsUpdateResponse> {
+  update(resourceGroupName: string, body: Models.ProjectResource, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResource>, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -190,7 +190,7 @@ export class Projects {
    * @param callback The callback
    */
   getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, options: Models.ProjectsGetJobStatusOptionalParams, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
-  getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, options?: Models.ProjectsGetJobStatusOptionalParams, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsGetJobStatusResponse> {
+  getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, options?: Models.ProjectsGetJobStatusOptionalParams | msRest.ServiceCallback<Models.ProjectResource>, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsGetJobStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/codePackageMappers";
 import * as Parameters from "../models/parameters";
@@ -27,61 +27,61 @@ export class CodePackage {
   }
 
   /**
-   * Get the logs for the container of a given code package of an application.
-   * @summary Gets the logs for the container.
+   * Gets the logs for the container of the specified code package of the service replica.
+   * @summary Gets the logs from the container.
    * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param serviceName The identity of the service.
-   * @param replicaName The identity of the service replica.
-   * @param codePackageName The name of the code package.
+   * @param applicationResourceName The identity of the application.
+   * @param serviceResourceName The identity of the service.
+   * @param replicaName Service Fabric replica name.
+   * @param codePackageName The name of code package of the service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.CodePackageGetContainerLogResponse>
+   * @returns Promise<Models.CodePackageGetContainerLogsResponse>
    */
-  getContainerLog(resourceGroupName: string, applicationName: string, serviceName: string, replicaName: string, codePackageName: string, options?: Models.CodePackageGetContainerLogOptionalParams): Promise<Models.CodePackageGetContainerLogResponse>;
+  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options?: Models.CodePackageGetContainerLogsOptionalParams): Promise<Models.CodePackageGetContainerLogsResponse>;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param serviceName The identity of the service.
-   * @param replicaName The identity of the service replica.
-   * @param codePackageName The name of the code package.
+   * @param applicationResourceName The identity of the application.
+   * @param serviceResourceName The identity of the service.
+   * @param replicaName Service Fabric replica name.
+   * @param codePackageName The name of code package of the service.
    * @param callback The callback
    */
-  getContainerLog(resourceGroupName: string, applicationName: string, serviceName: string, replicaName: string, codePackageName: string, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
+  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
   /**
    * @param resourceGroupName Azure resource group name
-   * @param applicationName The identity of the application.
-   * @param serviceName The identity of the service.
-   * @param replicaName The identity of the service replica.
-   * @param codePackageName The name of the code package.
+   * @param applicationResourceName The identity of the application.
+   * @param serviceResourceName The identity of the service.
+   * @param replicaName Service Fabric replica name.
+   * @param codePackageName The name of code package of the service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getContainerLog(resourceGroupName: string, applicationName: string, serviceName: string, replicaName: string, codePackageName: string, options: Models.CodePackageGetContainerLogOptionalParams, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
-  getContainerLog(resourceGroupName: string, applicationName: string, serviceName: string, replicaName: string, codePackageName: string, options?: Models.CodePackageGetContainerLogOptionalParams, callback?: msRest.ServiceCallback<Models.ContainerLogs>): Promise<Models.CodePackageGetContainerLogResponse> {
+  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options: Models.CodePackageGetContainerLogsOptionalParams, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
+  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options?: Models.CodePackageGetContainerLogsOptionalParams | msRest.ServiceCallback<Models.ContainerLogs>, callback?: msRest.ServiceCallback<Models.ContainerLogs>): Promise<Models.CodePackageGetContainerLogsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        applicationName,
-        serviceName,
+        applicationResourceName,
+        serviceResourceName,
         replicaName,
         codePackageName,
         options
       },
-      getContainerLogOperationSpec,
-      callback) as Promise<Models.CodePackageGetContainerLogResponse>;
+      getContainerLogsOperationSpec,
+      callback) as Promise<Models.CodePackageGetContainerLogsResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getContainerLogOperationSpec: msRest.OperationSpec = {
+const getContainerLogsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationName}/services/{serviceName}/replicas/{replicaName}/codePackages/{codePackageName}/logs",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}/codePackages/{codePackageName}/logs",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationName,
-    Parameters.serviceName,
+    Parameters.applicationResourceName,
+    Parameters.serviceResourceName,
     Parameters.replicaName,
     Parameters.codePackageName
   ],

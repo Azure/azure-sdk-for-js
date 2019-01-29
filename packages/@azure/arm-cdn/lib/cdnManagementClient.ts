@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -62,7 +62,7 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param callback The callback
    */
   checkNameAvailability(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckNameAvailabilityResponse> {
+  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         name,
@@ -91,7 +91,7 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param callback The callback
    */
   checkNameAvailabilityWithSubscription(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailabilityWithSubscription(name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckNameAvailabilityWithSubscriptionResponse> {
+  checkNameAvailabilityWithSubscription(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckNameAvailabilityWithSubscriptionResponse> {
     return this.sendOperationRequest(
       {
         name,
@@ -121,7 +121,7 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param callback The callback
    */
   validateProbe(probeURL: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateProbeOutput>): void;
-  validateProbe(probeURL: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ValidateProbeOutput>): Promise<Models.ValidateProbeResponse> {
+  validateProbe(probeURL: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateProbeOutput>, callback?: msRest.ServiceCallback<Models.ValidateProbeOutput>): Promise<Models.ValidateProbeResponse> {
     return this.sendOperationRequest(
       {
         probeURL,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/patchSchedulesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class PatchSchedules {
    * @param callback The callback
    */
   listByRedisResource(resourceGroupName: string, cacheName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisPatchScheduleListResult>): void;
-  listByRedisResource(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisPatchScheduleListResult>): Promise<Models.PatchSchedulesListByRedisResourceResponse> {
+  listByRedisResource(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisPatchScheduleListResult>, callback?: msRest.ServiceCallback<Models.RedisPatchScheduleListResult>): Promise<Models.PatchSchedulesListByRedisResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +82,7 @@ export class PatchSchedules {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, name: string, scheduleEntries: Models.ScheduleEntry[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisPatchSchedule>): void;
-  createOrUpdate(resourceGroupName: string, name: string, scheduleEntries: Models.ScheduleEntry[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisPatchSchedule>): Promise<Models.PatchSchedulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, name: string, scheduleEntries: Models.ScheduleEntry[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisPatchSchedule>, callback?: msRest.ServiceCallback<Models.RedisPatchSchedule>): Promise<Models.PatchSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +115,7 @@ export class PatchSchedules {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +147,7 @@ export class PatchSchedules {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisPatchSchedule>): void;
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisPatchSchedule>): Promise<Models.PatchSchedulesGetResponse> {
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisPatchSchedule>, callback?: msRest.ServiceCallback<Models.RedisPatchSchedule>): Promise<Models.PatchSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,7 +176,7 @@ export class PatchSchedules {
    * @param callback The callback
    */
   listByRedisResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisPatchScheduleListResult>): void;
-  listByRedisResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisPatchScheduleListResult>): Promise<Models.PatchSchedulesListByRedisResourceNextResponse> {
+  listByRedisResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisPatchScheduleListResult>, callback?: msRest.ServiceCallback<Models.RedisPatchScheduleListResult>): Promise<Models.PatchSchedulesListByRedisResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

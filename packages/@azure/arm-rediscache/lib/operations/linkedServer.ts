@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/linkedServerMappers";
 import * as Parameters from "../models/parameters";
@@ -65,7 +65,7 @@ export class LinkedServer {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, name: string, linkedServerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +101,7 @@ export class LinkedServer {
    * @param callback The callback
    */
   get(resourceGroupName: string, name: string, linkedServerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>): void;
-  get(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>): Promise<Models.LinkedServerGetResponse> {
+  get(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>): Promise<Models.LinkedServerGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +134,7 @@ export class LinkedServer {
    * @param callback The callback
    */
   list(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): void;
-  list(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): Promise<Models.LinkedServerListResponse> {
+  list(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): Promise<Models.LinkedServerListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class LinkedServer {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): Promise<Models.LinkedServerListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): Promise<Models.LinkedServerListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

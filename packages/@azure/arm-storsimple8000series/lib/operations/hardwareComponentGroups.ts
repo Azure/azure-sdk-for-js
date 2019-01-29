@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hardwareComponentGroupsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class HardwareComponentGroups {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HardwareComponentGroupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HardwareComponentGroupList>): Promise<Models.HardwareComponentGroupsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HardwareComponentGroupList>, callback?: msRest.ServiceCallback<Models.HardwareComponentGroupList>): Promise<Models.HardwareComponentGroupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,

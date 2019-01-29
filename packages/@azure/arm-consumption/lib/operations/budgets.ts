@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/budgetsMappers";
 import * as Parameters from "../models/parameters";
@@ -41,7 +41,7 @@ export class Budgets {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -68,7 +68,7 @@ export class Budgets {
    * @param callback The callback
    */
   listByResourceGroupName(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  listByResourceGroupName(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListByResourceGroupNameResponse> {
+  listByResourceGroupName(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListByResourceGroupNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +96,7 @@ export class Budgets {
    * @param callback The callback
    */
   get(budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  get(budgetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsGetResponse> {
+  get(budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         budgetName,
@@ -129,7 +129,7 @@ export class Budgets {
    * @param callback The callback
    */
   createOrUpdate(budgetName: string, parameters: Models.Budget, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  createOrUpdate(budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsCreateOrUpdateResponse> {
+  createOrUpdate(budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         budgetName,
@@ -158,7 +158,7 @@ export class Budgets {
    * @param callback The callback
    */
   deleteMethod(budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(budgetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         budgetName,
@@ -189,7 +189,7 @@ export class Budgets {
    * @param callback The callback
    */
   getByResourceGroupName(resourceGroupName: string, budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  getByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsGetByResourceGroupNameResponse> {
+  getByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsGetByResourceGroupNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,7 +226,7 @@ export class Budgets {
    * @param callback The callback
    */
   createOrUpdateByResourceGroupName(resourceGroupName: string, budgetName: string, parameters: Models.Budget, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  createOrUpdateByResourceGroupName(resourceGroupName: string, budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse> {
+  createOrUpdateByResourceGroupName(resourceGroupName: string, budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -259,7 +259,7 @@ export class Budgets {
    * @param callback The callback
    */
   deleteByResourceGroupName(resourceGroupName: string, budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -288,7 +288,7 @@ export class Budgets {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -316,7 +316,7 @@ export class Budgets {
    * @param callback The callback
    */
   listByResourceGroupNameNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  listByResourceGroupNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListByResourceGroupNameNextResponse> {
+  listByResourceGroupNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListByResourceGroupNameNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

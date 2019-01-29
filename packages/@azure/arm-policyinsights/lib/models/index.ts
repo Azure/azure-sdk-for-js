@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -190,7 +190,7 @@ export interface RemediationFilters {
 /**
  * @interface
  * An interface representing RemediationDeploymentSummary.
- * The deployment status summary for all deplyoments created by the
+ * The deployment status summary for all deployments created by the
  * remediation.
  *
  */
@@ -258,7 +258,7 @@ export interface Remediation extends BaseResource {
   filters?: RemediationFilters;
   /**
    * @member {RemediationDeploymentSummary} [deploymentStatus] The deployment
-   * status summary for all deplyoments created by the remediation.
+   * status summary for all deployments created by the remediation.
    */
   deploymentStatus?: RemediationDeploymentSummary;
   /**
@@ -531,7 +531,7 @@ export interface PolicyEvent {
    */
   policySetDefinitionParameters?: string;
   /**
-   * @member {string} [managementGroupIds] Comma seperated list of management
+   * @member {string} [managementGroupIds] Comma separated list of management
    * group IDs, which represent the hierarchy of the management groups the
    * resource is under.
    */
@@ -700,7 +700,7 @@ export interface PolicyState {
    */
   policySetDefinitionParameters?: string;
   /**
-   * @member {string} [managementGroupIds] Comma seperated list of management
+   * @member {string} [managementGroupIds] Comma separated list of management
    * group IDs, which represent the hierarchy of the management groups the
    * resource is under.
    */
@@ -1583,18 +1583,10 @@ export interface RemediationListResult extends Array<Remediation> {
 /**
  * Defines values for PolicyStatesResource.
  * Possible values include: 'default', 'latest'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PolicyStatesResource =
- * <PolicyStatesResource>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PolicyStatesResource {
-  Default = 'default',
-  Latest = 'latest',
-}
+export type PolicyStatesResource = 'default' | 'latest';
 
 /**
  * Contains response data for the listQueryResultsForManagementGroup operation.

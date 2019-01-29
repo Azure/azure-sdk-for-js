@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/backupsMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Backups {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: Models.BackupsListByDeviceOptionalParams, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -195,7 +195,7 @@ export class Backups {
    * @param callback The callback
    */
   listByDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceNextResponse> {
+  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

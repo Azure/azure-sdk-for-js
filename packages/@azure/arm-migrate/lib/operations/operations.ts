@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/operationsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class Operations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationResultList>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationResultList>): Promise<Models.OperationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationResultList>, callback?: msRest.ServiceCallback<Models.OperationResultList>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options

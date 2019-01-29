@@ -1,31 +1,38 @@
-# An isomorphic javascript sdk for - NewsSearchAPIClient
-This project provides an isomorphic javascript package. Right now it supports:
-- node.js version 6.x.x or higher
-- browser javascript
+## An isomorphic javascript sdk for - NewsSearchClient
 
-## How to Install
+This package contains an isomorphic SDK for NewsSearchClient.
 
-- nodejs
-```
+### Currently supported environments
+
+- Node.js version 6.x.x or higher
+- Browser JavaScript
+
+### How to Install
+
+```bash
 npm install @azure/cognitiveservices-newssearch
 ```
-- browser
-```html
-<script type="text/javascript" src="@azure/cognitiveservices-newssearch/dist/cognitiveservices-newssearch.js"></script>
+
+### How to use
+
+#### nodejs - Authentication, client creation and search news as an example written in TypeScript.
+
+##### Install @azure/ms-rest-nodeauth
+
+```bash
+npm install @azure/ms-rest-nodeauth
 ```
 
-## How to use
+##### Sample code
 
-### nodejs - Authentication, client creation and search news as an example written in TypeScript.
-
-```ts
-import * as msRest from "ms-rest-js";
-import * as msRestNodeAuth from "ms-rest-nodeauth";
-import { NewsSearchAPIClient, NewsSearchAPIModels, NewsSearchAPIMappers } from "@azure/cognitiveservices-newssearch";
+```typescript
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { NewsSearchClient, NewsSearchModels, NewsSearchMappers } from "@azure/cognitiveservices-newssearch";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new NewsSearchAPIClient(creds, subscriptionId);
+  const client = new NewsSearchClient(creds, subscriptionId);
   const query = "testquery";
   const acceptLanguage = "testacceptLanguage";
   const userAgent = "testuserAgent";
@@ -52,7 +59,17 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and search news as an example written in javascript.
+#### browser - Authentication, client creation and search news as an example written in JavaScript.
+
+##### Install @azure/ms-rest-browserauth
+
+```bash
+npm install @azure/ms-rest-browserauth
+```
+
+##### Sample code
+
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -60,8 +77,8 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-newssearch sample</title>
-    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-newssearch/dist/cognitiveservices-newssearch.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
@@ -74,7 +91,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesNewssearch.NewsSearchAPIClient(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesNewssearch.NewsSearchClient(res.creds, subscriptionId);
         const query = "testquery";
         const acceptLanguage = "testacceptLanguage";
         const userAgent = "testuserAgent";
@@ -102,10 +119,10 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
       });
     </script>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
 ```
 
-# Related projects
- - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

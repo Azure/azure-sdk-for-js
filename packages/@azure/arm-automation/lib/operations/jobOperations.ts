@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/jobOperationsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class JobOperations {
    * @param callback The callback
    */
   getOutput(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobGetOutputOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getOutput(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobGetOutputOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobGetOutputResponse> {
+  getOutput(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobGetOutputOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobGetOutputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -86,7 +86,7 @@ export class JobOperations {
    * @param callback The callback
    */
   getRunbookContent(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobGetRunbookContentOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getRunbookContent(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobGetRunbookContentOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.JobGetRunbookContentResponse> {
+  getRunbookContent(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobGetRunbookContentOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.JobGetRunbookContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class JobOperations {
    * @param callback The callback
    */
   suspend(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobSuspendOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  suspend(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobSuspendOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  suspend(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobSuspendOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class JobOperations {
    * @param callback The callback
    */
   stop(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobStopOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobStopOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stop(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobStopOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class JobOperations {
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobGetOptionalParams, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobGetOptionalParams, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobGetOptionalParams | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -233,7 +233,7 @@ export class JobOperations {
    * @param callback The callback
    */
   create(resourceGroupName: string, automationAccountName: string, jobName: string, parameters: Models.JobCreateParameters, options: Models.JobCreateOptionalParams, callback: msRest.ServiceCallback<Models.Job>): void;
-  create(resourceGroupName: string, automationAccountName: string, jobName: string, parameters: Models.JobCreateParameters, options?: Models.JobCreateOptionalParams, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobCreateResponse> {
+  create(resourceGroupName: string, automationAccountName: string, jobName: string, parameters: Models.JobCreateParameters, options?: Models.JobCreateOptionalParams | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -267,7 +267,7 @@ export class JobOperations {
    * @param callback The callback
    */
   listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.JobListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.JobListResultV2>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.JobListByAutomationAccountOptionalParams, callback?: msRest.ServiceCallback<Models.JobListResultV2>): Promise<Models.JobListByAutomationAccountResponse> {
+  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.JobListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.JobListResultV2>, callback?: msRest.ServiceCallback<Models.JobListResultV2>): Promise<Models.JobListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -302,7 +302,7 @@ export class JobOperations {
    * @param callback The callback
    */
   resume(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobResumeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resume(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobResumeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resume(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobResumeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -332,7 +332,7 @@ export class JobOperations {
    * @param callback The callback
    */
   listByAutomationAccountNext(nextPageLink: string, options: Models.JobListByAutomationAccountNextOptionalParams, callback: msRest.ServiceCallback<Models.JobListResultV2>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: Models.JobListByAutomationAccountNextOptionalParams, callback?: msRest.ServiceCallback<Models.JobListResultV2>): Promise<Models.JobListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(nextPageLink: string, options?: Models.JobListByAutomationAccountNextOptionalParams | msRest.ServiceCallback<Models.JobListResultV2>, callback?: msRest.ServiceCallback<Models.JobListResultV2>): Promise<Models.JobListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

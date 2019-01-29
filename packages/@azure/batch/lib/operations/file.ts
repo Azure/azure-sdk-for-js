@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/fileMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class File {
    * @param callback The callback
    */
   deleteFromTask(jobId: string, taskId: string, filePath: string, options: Models.FileDeleteFromTaskOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileDeleteFromTaskOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteFromTaskResponse> {
+  deleteFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileDeleteFromTaskOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -86,7 +86,7 @@ export class File {
    * @param callback The callback
    */
   getFromTask(jobId: string, taskId: string, filePath: string, options: Models.FileGetFromTaskOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetFromTaskOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetFromTaskResponse> {
+  getFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetFromTaskOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -122,7 +122,7 @@ export class File {
    * @param callback The callback
    */
   getPropertiesFromTask(jobId: string, taskId: string, filePath: string, options: Models.FileGetPropertiesFromTaskOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getPropertiesFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetPropertiesFromTaskOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesFromTaskResponse> {
+  getPropertiesFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetPropertiesFromTaskOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -158,7 +158,7 @@ export class File {
    * @param callback The callback
    */
   deleteFromComputeNode(poolId: string, nodeId: string, filePath: string, options: Models.FileDeleteFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileDeleteFromComputeNodeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteFromComputeNodeResponse> {
+  deleteFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileDeleteFromComputeNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -194,7 +194,7 @@ export class File {
    * @param callback The callback
    */
   getFromComputeNode(poolId: string, nodeId: string, filePath: string, options: Models.FileGetFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetFromComputeNodeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetFromComputeNodeResponse> {
+  getFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetFromComputeNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -230,7 +230,7 @@ export class File {
    * @param callback The callback
    */
   getPropertiesFromComputeNode(poolId: string, nodeId: string, filePath: string, options: Models.FileGetPropertiesFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getPropertiesFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetPropertiesFromComputeNodeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesFromComputeNodeResponse> {
+  getPropertiesFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetPropertiesFromComputeNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -263,7 +263,7 @@ export class File {
    * @param callback The callback
    */
   listFromTask(jobId: string, taskId: string, options: Models.FileListFromTaskOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
-  listFromTask(jobId: string, taskId: string, options?: Models.FileListFromTaskOptionalParams, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromTaskResponse> {
+  listFromTask(jobId: string, taskId: string, options?: Models.FileListFromTaskOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -295,7 +295,7 @@ export class File {
    * @param callback The callback
    */
   listFromComputeNode(poolId: string, nodeId: string, options: Models.FileListFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
-  listFromComputeNode(poolId: string, nodeId: string, options?: Models.FileListFromComputeNodeOptionalParams, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromComputeNodeResponse> {
+  listFromComputeNode(poolId: string, nodeId: string, options?: Models.FileListFromComputeNodeOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -324,7 +324,7 @@ export class File {
    * @param callback The callback
    */
   listFromTaskNext(nextPageLink: string, options: Models.FileListFromTaskNextOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
-  listFromTaskNext(nextPageLink: string, options?: Models.FileListFromTaskNextOptionalParams, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromTaskResponse> {
+  listFromTaskNext(nextPageLink: string, options?: Models.FileListFromTaskNextOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -352,7 +352,7 @@ export class File {
    * @param callback The callback
    */
   listFromComputeNodeNext(nextPageLink: string, options: Models.FileListFromComputeNodeNextOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
-  listFromComputeNodeNext(nextPageLink: string, options?: Models.FileListFromComputeNodeNextOptionalParams, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromComputeNodeResponse> {
+  listFromComputeNodeNext(nextPageLink: string, options?: Models.FileListFromComputeNodeNextOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

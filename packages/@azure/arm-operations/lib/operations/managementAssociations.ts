@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/managementAssociationsMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class ManagementAssociations {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>): Promise<Models.ManagementAssociationsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>, callback?: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>): Promise<Models.ManagementAssociationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -76,7 +76,7 @@ export class ManagementAssociations {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: Models.ManagementAssociation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementAssociation>): void;
-  createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: Models.ManagementAssociation, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementAssociation>): Promise<Models.ManagementAssociationsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: Models.ManagementAssociation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociation>, callback?: msRest.ServiceCallback<Models.ManagementAssociation>): Promise<Models.ManagementAssociationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +110,7 @@ export class ManagementAssociations {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, managementAssociationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +143,7 @@ export class ManagementAssociations {
    * @param callback The callback
    */
   get(resourceGroupName: string, managementAssociationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementAssociation>): void;
-  get(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagementAssociation>): Promise<Models.ManagementAssociationsGetResponse> {
+  get(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociation>, callback?: msRest.ServiceCallback<Models.ManagementAssociation>): Promise<Models.ManagementAssociationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/priceSheetMappers";
 import * as Parameters from "../models/parameters";
@@ -42,7 +42,7 @@ export class PriceSheet {
    * @param callback The callback
    */
   get(options: Models.PriceSheetGetOptionalParams, callback: msRest.ServiceCallback<Models.PriceSheetResult>): void;
-  get(options?: Models.PriceSheetGetOptionalParams, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetResponse> {
+  get(options?: Models.PriceSheetGetOptionalParams | msRest.ServiceCallback<Models.PriceSheetResult>, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -70,7 +70,7 @@ export class PriceSheet {
    * @param callback The callback
    */
   getByBillingPeriod(billingPeriodName: string, options: Models.PriceSheetGetByBillingPeriodOptionalParams, callback: msRest.ServiceCallback<Models.PriceSheetResult>): void;
-  getByBillingPeriod(billingPeriodName: string, options?: Models.PriceSheetGetByBillingPeriodOptionalParams, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetByBillingPeriodResponse> {
+  getByBillingPeriod(billingPeriodName: string, options?: Models.PriceSheetGetByBillingPeriodOptionalParams | msRest.ServiceCallback<Models.PriceSheetResult>, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetByBillingPeriodResponse> {
     return this.client.sendOperationRequest(
       {
         billingPeriodName,

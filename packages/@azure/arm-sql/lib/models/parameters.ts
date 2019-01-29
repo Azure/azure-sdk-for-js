@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
@@ -75,6 +75,18 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     defaultValue: '2017-03-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion4: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-06-01-preview',
     type: {
       name: "String"
     }
@@ -184,28 +196,6 @@ export const credentialName: msRest.OperationURLParameter = {
     }
   }
 };
-export const dataMaskingPolicyName: msRest.OperationURLParameter = {
-  parameterPath: "dataMaskingPolicyName",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "dataMaskingPolicyName",
-    defaultValue: 'Default',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const dataMaskingRuleName: msRest.OperationURLParameter = {
-  parameterPath: "dataMaskingRuleName",
-  mapper: {
-    required: true,
-    serializedName: "dataMaskingRuleName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const databaseName: msRest.OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
@@ -223,6 +213,28 @@ export const databaseState: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "databaseState",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataMaskingPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "dataMaskingPolicyName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "dataMaskingPolicyName",
+    defaultValue: 'Default',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataMaskingRuleName: msRest.OperationURLParameter = {
+  parameterPath: "dataMaskingRuleName",
+  mapper: {
+    required: true,
+    serializedName: "dataMaskingRuleName",
     type: {
       name: "String"
     }

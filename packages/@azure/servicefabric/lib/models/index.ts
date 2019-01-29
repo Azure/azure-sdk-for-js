@@ -8,9 +8,217 @@
  * regenerated.
  */
 
-import { ServiceClientOptions } from "ms-rest-js";
-import * as msRest from "ms-rest-js";
+import { ServiceClientOptions } from "@azure/ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 
+
+/**
+ * @interface
+ * An interface representing FabricErrorError.
+ * Error object containing error code and error message.
+ *
+ */
+export interface FabricErrorError {
+  /**
+   * @member {FabricErrorCodes} code Defines the fabric error codes that be
+   * returned as part of the error object in response to Service Fabric API
+   * operations that are not successful. Following are the error code values
+   * that can be returned for a specific HTTP status code.
+   *
+   * - Possible values of the error code for HTTP status code 400 (Bad Request)
+   * - "FABRIC_E_INVALID_PARTITION_KEY"
+   * - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+   * - "FABRIC_E_INVALID_ADDRESS"
+   * - "FABRIC_E_APPLICATION_NOT_UPGRADING"
+   * - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+   * - "FABRIC_E_FABRIC_NOT_UPGRADING"
+   * - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+   * - "FABRIC_E_INVALID_CONFIGURATION"
+   * - "FABRIC_E_INVALID_NAME_URI"
+   * - "FABRIC_E_PATH_TOO_LONG"
+   * - "FABRIC_E_KEY_TOO_LARGE"
+   * - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+   * - "FABRIC_E_INVALID_ATOMIC_GROUP"
+   * - "FABRIC_E_VALUE_EMPTY"
+   * - "FABRIC_E_BACKUP_IS_ENABLED"
+   * - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+   * - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+   * - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+   * - "E_INVALIDARG"
+   *
+   * - Possible values of the error code for HTTP status code 404 (Not Found)
+   * - "FABRIC_E_NODE_NOT_FOUND"
+   * - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+   * - "FABRIC_E_APPLICATION_NOT_FOUND"
+   * - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+   * - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+   * - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+   * - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+   * - "FABRIC_E_PARTITION_NOT_FOUND"
+   * - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+   * - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+   * - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+   * - "FABRIC_E_DIRECTORY_NOT_FOUND"
+   * - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+   * - "FABRIC_E_FILE_NOT_FOUND"
+   * - "FABRIC_E_NAME_DOES_NOT_EXIST"
+   * - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+   * - "FABRIC_E_ENUMERATION_COMPLETED"
+   * - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+   * - "FABRIC_E_KEY_NOT_FOUND"
+   * - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+   * - "FABRIC_E_BACKUP_NOT_ENABLED"
+   * - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+   * - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+   * - "FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR"
+   *
+   * - Possible values of the error code for HTTP status code 409 (Conflict)
+   * - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+   * - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+   * - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+   * - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+   * - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+   * - "FABRIC_E_SERVICE_ALREADY_EXISTS"
+   * - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+   * - "FABRIC_E_APPLICATION_TYPE_IN_USE"
+   * - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+   * - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+   * - "FABRIC_E_FABRIC_VERSION_IN_USE"
+   * - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+   * - "FABRIC_E_NAME_ALREADY_EXISTS"
+   * - "FABRIC_E_NAME_NOT_EMPTY"
+   * - "FABRIC_E_PROPERTY_CHECK_FAILED"
+   * - "FABRIC_E_SERVICE_METADATA_MISMATCH"
+   * - "FABRIC_E_SERVICE_TYPE_MISMATCH"
+   * - "FABRIC_E_HEALTH_STALE_REPORT"
+   * - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+   * - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+   * - "FABRIC_E_INSTANCE_ID_MISMATCH"
+   * - "FABRIC_E_BACKUP_IN_PROGRESS"
+   * - "FABRIC_E_RESTORE_IN_PROGRESS"
+   * - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+   *
+   * - Possible values of the error code for HTTP status code 413 (Request
+   * Entity Too Large)
+   * - "FABRIC_E_VALUE_TOO_LARGE"
+   *
+   * - Possible values of the error code for HTTP status code 500 (Internal
+   * Server Error)
+   * - "FABRIC_E_NODE_IS_UP"
+   * - "E_FAIL"
+   * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"
+   * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"
+   * - "FABRIC_E_VOLUME_ALREADY_EXISTS"
+   * - "ABRIC_E_VOLUME_NOT_FOUND"
+   * - "SerializationError"
+   *
+   * - Possible values of the error code for HTTP status code 503 (Service
+   * Unavailable)
+   * - "FABRIC_E_NO_WRITE_QUORUM"
+   * - "FABRIC_E_NOT_PRIMARY"
+   * - "FABRIC_E_NOT_READY"
+   * - "FABRIC_E_RECONFIGURATION_PENDING"
+   * - "FABRIC_E_SERVICE_OFFLINE"
+   * - "E_ABORT"
+   * - "FABRIC_E_VALUE_TOO_LARGE"
+   *
+   * - Possible values of the error code for HTTP status code 504 (Gateway
+   * Timeout)
+   * - "FABRIC_E_COMMUNICATION_ERROR"
+   * - "FABRIC_E_OPERATION_NOT_COMPLETE"
+   * - "FABRIC_E_TIMEOUT". Possible values include:
+   * 'FABRIC_E_INVALID_PARTITION_KEY',
+   * 'FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR', 'FABRIC_E_INVALID_ADDRESS',
+   * 'FABRIC_E_APPLICATION_NOT_UPGRADING',
+   * 'FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR',
+   * 'FABRIC_E_FABRIC_NOT_UPGRADING',
+   * 'FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR',
+   * 'FABRIC_E_INVALID_CONFIGURATION', 'FABRIC_E_INVALID_NAME_URI',
+   * 'FABRIC_E_PATH_TOO_LONG', 'FABRIC_E_KEY_TOO_LARGE',
+   * 'FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED',
+   * 'FABRIC_E_INVALID_ATOMIC_GROUP', 'FABRIC_E_VALUE_EMPTY',
+   * 'FABRIC_E_NODE_NOT_FOUND', 'FABRIC_E_APPLICATION_TYPE_NOT_FOUND',
+   * 'FABRIC_E_APPLICATION_NOT_FOUND', 'FABRIC_E_SERVICE_TYPE_NOT_FOUND',
+   * 'FABRIC_E_SERVICE_DOES_NOT_EXIST',
+   * 'FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND',
+   * 'FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND',
+   * 'FABRIC_E_PARTITION_NOT_FOUND', 'FABRIC_E_REPLICA_DOES_NOT_EXIST',
+   * 'FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST',
+   * 'FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND',
+   * 'FABRIC_E_DIRECTORY_NOT_FOUND', 'FABRIC_E_FABRIC_VERSION_NOT_FOUND',
+   * 'FABRIC_E_FILE_NOT_FOUND', 'FABRIC_E_NAME_DOES_NOT_EXIST',
+   * 'FABRIC_E_PROPERTY_DOES_NOT_EXIST', 'FABRIC_E_ENUMERATION_COMPLETED',
+   * 'FABRIC_E_SERVICE_MANIFEST_NOT_FOUND', 'FABRIC_E_KEY_NOT_FOUND',
+   * 'FABRIC_E_HEALTH_ENTITY_NOT_FOUND',
+   * 'FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS',
+   * 'FABRIC_E_APPLICATION_ALREADY_EXISTS',
+   * 'FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION',
+   * 'FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS',
+   * 'FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS',
+   * 'FABRIC_E_SERVICE_ALREADY_EXISTS',
+   * 'FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS',
+   * 'FABRIC_E_APPLICATION_TYPE_IN_USE',
+   * 'FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION',
+   * 'FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS',
+   * 'FABRIC_E_FABRIC_VERSION_IN_USE', 'FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS',
+   * 'FABRIC_E_NAME_ALREADY_EXISTS', 'FABRIC_E_NAME_NOT_EMPTY',
+   * 'FABRIC_E_PROPERTY_CHECK_FAILED', 'FABRIC_E_SERVICE_METADATA_MISMATCH',
+   * 'FABRIC_E_SERVICE_TYPE_MISMATCH', 'FABRIC_E_HEALTH_STALE_REPORT',
+   * 'FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED',
+   * 'FABRIC_E_NODE_HAS_NOT_STOPPED_YET', 'FABRIC_E_INSTANCE_ID_MISMATCH',
+   * 'FABRIC_E_VALUE_TOO_LARGE', 'FABRIC_E_NO_WRITE_QUORUM',
+   * 'FABRIC_E_NOT_PRIMARY', 'FABRIC_E_NOT_READY',
+   * 'FABRIC_E_RECONFIGURATION_PENDING', 'FABRIC_E_SERVICE_OFFLINE', 'E_ABORT',
+   * 'FABRIC_E_COMMUNICATION_ERROR', 'FABRIC_E_OPERATION_NOT_COMPLETE',
+   * 'FABRIC_E_TIMEOUT', 'FABRIC_E_NODE_IS_UP', 'E_FAIL',
+   * 'FABRIC_E_BACKUP_IS_ENABLED',
+   * 'FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH',
+   * 'FABRIC_E_INVALID_FOR_STATELESS_SERVICES', 'FABRIC_E_BACKUP_NOT_ENABLED',
+   * 'FABRIC_E_BACKUP_POLICY_NOT_EXISTING',
+   * 'FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING',
+   * 'FABRIC_E_BACKUP_IN_PROGRESS', 'FABRIC_E_RESTORE_IN_PROGRESS',
+   * 'FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING',
+   * 'FABRIC_E_INVALID_SERVICE_SCALING_POLICY', 'E_INVALIDARG',
+   * 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS',
+   * 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND',
+   * 'FABRIC_E_VOLUME_ALREADY_EXISTS', 'FABRIC_E_VOLUME_NOT_FOUND',
+   * 'SerializationError', 'FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR'
+   */
+  code: FabricErrorCodes;
+  /**
+   * @member {string} [message] Error message.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing FabricError.
+ * The REST API operations for Service Fabric return standard HTTP status
+ * codes. This type defines the additional information returned from the
+ * Service Fabric API operations that are not successful.
+ *
+ */
+export interface FabricError {
+  /**
+   * @member {FabricErrorError} error Error object containing error code and
+   * error message.
+   */
+  error: FabricErrorError;
+}
+
+/**
+ * @interface
+ * An interface representing ContainerLogs.
+ * Container logs.
+ *
+ */
+export interface ContainerLogs {
+  /**
+   * @member {string} [content] Container logs.
+   */
+  content?: string;
+}
 
 /**
  * @interface
@@ -103,6 +311,10 @@ export interface FabricEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -116,7 +328,7 @@ export interface FabricEvent {
 /**
  * Contains the possible cases for ApplicationEvent.
  */
-export type ApplicationEventUnion = ApplicationEvent | ApplicationCreatedEvent | ApplicationDeletedEvent | ApplicationHealthReportCreatedEvent | ApplicationHealthReportExpiredEvent | ApplicationUpgradeCompleteEvent | ApplicationUpgradeDomainCompleteEvent | ApplicationUpgradeRollbackCompleteEvent | ApplicationUpgradeRollbackStartEvent | ApplicationUpgradeStartEvent | DeployedApplicationHealthReportCreatedEvent | DeployedApplicationHealthReportExpiredEvent | ProcessDeactivatedEvent | ContainerDeactivatedEvent | DeployedServiceHealthReportCreatedEvent | DeployedServiceHealthReportExpiredEvent | ChaosRestartCodePackageFaultScheduledEvent | ChaosRestartCodePackageFaultCompletedEvent;
+export type ApplicationEventUnion = ApplicationEvent | ApplicationCreatedEvent | ApplicationDeletedEvent | ApplicationNewHealthReportEvent | ApplicationHealthReportExpiredEvent | ApplicationUpgradeCompletedEvent | ApplicationUpgradeDomainCompletedEvent | ApplicationUpgradeRollbackCompletedEvent | ApplicationUpgradeRollbackStartedEvent | ApplicationUpgradeStartedEvent | DeployedApplicationNewHealthReportEvent | DeployedApplicationHealthReportExpiredEvent | ApplicationProcessExitedEvent | ApplicationContainerInstanceExitedEvent | DeployedServicePackageNewHealthReportEvent | DeployedServicePackageHealthReportExpiredEvent | ChaosCodePackageRestartScheduledEvent;
 
 /**
  * @interface
@@ -134,6 +346,10 @@ export interface ApplicationEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -397,7 +613,7 @@ export interface ServiceTypeHealthPolicy {
    */
   maxPercentUnhealthyReplicasPerPartition?: number;
   /**
-   * @member {number} [maxPercentUnhealthyServices] The maximum maximum allowed
+   * @member {number} [maxPercentUnhealthyServices] The maximum allowed
    * percentage of unhealthy services. Allowed values are Byte values from zero
    * to 100.
    *
@@ -2034,7 +2250,7 @@ export interface ClusterConfiguration {
 /**
  * Contains the possible cases for ClusterEvent.
  */
-export type ClusterEventUnion = ClusterEvent | ClusterHealthReportCreatedEvent | ClusterHealthReportExpiredEvent | ClusterUpgradeCompleteEvent | ClusterUpgradeDomainCompleteEvent | ClusterUpgradeRollbackCompleteEvent | ClusterUpgradeRollbackStartEvent | ClusterUpgradeStartEvent | ChaosStoppedEvent | ChaosStartedEvent;
+export type ClusterEventUnion = ClusterEvent | ClusterNewHealthReportEvent | ClusterHealthReportExpiredEvent | ClusterUpgradeCompletedEvent | ClusterUpgradeDomainCompletedEvent | ClusterUpgradeRollbackCompletedEvent | ClusterUpgradeRollbackStartedEvent | ClusterUpgradeStartedEvent | ChaosStoppedEvent | ChaosStartedEvent;
 
 /**
  * @interface
@@ -2052,6 +2268,10 @@ export interface ClusterEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -2406,6 +2626,19 @@ export interface ClusterManifest {
 
 /**
  * @interface
+ * An interface representing ClusterVersion.
+ * The cluster version.
+ *
+ */
+export interface ClusterVersion {
+  /**
+   * @member {string} [version] The Service Fabric cluster runtime version.
+   */
+  version?: string;
+}
+
+/**
+ * @interface
  * An interface representing ContainerApiRequestBody.
  * parameters for making container API call.
  *
@@ -2486,6 +2719,10 @@ export interface ContainerInstanceEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -3251,7 +3488,7 @@ export interface HealthInformation {
    * of this property is false by default.
    * When clients report periodically, they should set RemoveWhenExpired false
    * (default).
-   * This way, is the reporter has issues (eg. deadlock) and can't report, the
+   * This way, if the reporter has issues (e.g. deadlock) and can't report, the
    * entity is evaluated at error when the health report expires.
    * This flags the entity as being in Error health state.
    */
@@ -3424,32 +3661,6 @@ export interface Epoch {
 
 /**
  * @interface
- * An interface representing BackupEpoch.
- * An Epoch is a configuration number for the partition as a whole. When the
- * configuration of the replica set changes, for example when the Primary
- * replica changes, the operations that are replicated from the new Primary
- * replica are said to be a new Epoch from the ones which were sent by the old
- * Primary replica.
- *
- */
-export interface BackupEpoch {
-  /**
-   * @member {string} [configurationNumber] The current configuration number of
-   * this Epoch. The configuration number is an increasing value that is
-   * updated whenever the configuration of this replica set changes.
-   */
-  configurationNumber?: string;
-  /**
-   * @member {string} [dataLossNumber] The current dataloss number of this
-   * Epoch. The data loss number property is an increasing value which is
-   * updated whenever data loss is suspected, as when loss of a quorum of
-   * replicas in the replica set that includes the Primary replica.
-   */
-  dataLossNumber?: string;
-}
-
-/**
- * @interface
  * An interface representing EventHealthEvaluation.
  * Represents health evaluation of a HealthEvent that was reported on the
  * entity.
@@ -3512,200 +3723,6 @@ export interface FabricConfigVersionInfo {
    * @member {string} [configVersion] The config version of Service Fabric.
    */
   configVersion?: string;
-}
-
-/**
- * @interface
- * An interface representing FabricErrorError.
- * Error object containing error code and error message.
- *
- */
-export interface FabricErrorError {
-  /**
-   * @member {FabricErrorCodes} code Defines the fabric error codes that be
-   * returned as part of the error object in response to Service Fabric API
-   * operations that are not successful. Following are the error code values
-   * that can be returned for a specific HTTP status code.
-   *
-   * - Possible values of the error code for HTTP status code 400 (Bad Request)
-   * - "FABRIC_E_INVALID_PARTITION_KEY"
-   * - "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
-   * - "FABRIC_E_INVALID_ADDRESS"
-   * - "FABRIC_E_APPLICATION_NOT_UPGRADING"
-   * - "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
-   * - "FABRIC_E_FABRIC_NOT_UPGRADING"
-   * - "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
-   * - "FABRIC_E_INVALID_CONFIGURATION"
-   * - "FABRIC_E_INVALID_NAME_URI"
-   * - "FABRIC_E_PATH_TOO_LONG"
-   * - "FABRIC_E_KEY_TOO_LARGE"
-   * - "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
-   * - "FABRIC_E_INVALID_ATOMIC_GROUP"
-   * - "FABRIC_E_VALUE_EMPTY"
-   * - "FABRIC_E_BACKUP_IS_ENABLED"
-   * - "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
-   * - "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
-   * - "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
-   * - "E_INVALIDARG"
-   *
-   * - Possible values of the error code for HTTP status code 404 (Not Found)
-   * - "FABRIC_E_NODE_NOT_FOUND"
-   * - "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
-   * - "FABRIC_E_APPLICATION_NOT_FOUND"
-   * - "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
-   * - "FABRIC_E_SERVICE_DOES_NOT_EXIST"
-   * - "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
-   * - "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
-   * - "FABRIC_E_PARTITION_NOT_FOUND"
-   * - "FABRIC_E_REPLICA_DOES_NOT_EXIST"
-   * - "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
-   * - "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
-   * - "FABRIC_E_DIRECTORY_NOT_FOUND"
-   * - "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
-   * - "FABRIC_E_FILE_NOT_FOUND"
-   * - "FABRIC_E_NAME_DOES_NOT_EXIST"
-   * - "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
-   * - "FABRIC_E_ENUMERATION_COMPLETED"
-   * - "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
-   * - "FABRIC_E_KEY_NOT_FOUND"
-   * - "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
-   * - "FABRIC_E_BACKUP_NOT_ENABLED"
-   * - "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
-   * - "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
-   *
-   * - Possible values of the error code for HTTP status code 409 (Conflict)
-   * - "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
-   * - "FABRIC_E_APPLICATION_ALREADY_EXISTS"
-   * - "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
-   * - "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
-   * - "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
-   * - "FABRIC_E_SERVICE_ALREADY_EXISTS"
-   * - "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
-   * - "FABRIC_E_APPLICATION_TYPE_IN_USE"
-   * - "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
-   * - "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
-   * - "FABRIC_E_FABRIC_VERSION_IN_USE"
-   * - "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
-   * - "FABRIC_E_NAME_ALREADY_EXISTS"
-   * - "FABRIC_E_NAME_NOT_EMPTY"
-   * - "FABRIC_E_PROPERTY_CHECK_FAILED"
-   * - "FABRIC_E_SERVICE_METADATA_MISMATCH"
-   * - "FABRIC_E_SERVICE_TYPE_MISMATCH"
-   * - "FABRIC_E_HEALTH_STALE_REPORT"
-   * - "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
-   * - "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
-   * - "FABRIC_E_INSTANCE_ID_MISMATCH"
-   * - "FABRIC_E_BACKUP_IN_PROGRESS"
-   * - "FABRIC_E_RESTORE_IN_PROGRESS"
-   * - "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
-   *
-   * - Possible values of the error code for HTTP status code 413 (Request
-   * Entity Too Large)
-   * - "FABRIC_E_VALUE_TOO_LARGE"
-   *
-   * - Possible values of the error code for HTTP status code 500 (Internal
-   * Server Error)
-   * - "FABRIC_E_NODE_IS_UP"
-   * - "E_FAIL"
-   * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"
-   * - "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"
-   * - "FABRIC_E_VOLUME_ALREADY_EXISTS"
-   * - "ABRIC_E_VOLUME_NOT_FOUND"
-   * - "SerializationError"
-   *
-   * - Possible values of the error code for HTTP status code 503 (Service
-   * Unavailable)
-   * - "FABRIC_E_NO_WRITE_QUORUM"
-   * - "FABRIC_E_NOT_PRIMARY"
-   * - "FABRIC_E_NOT_READY"
-   * - "FABRIC_E_RECONFIGURATION_PENDING"
-   * - "FABRIC_E_SERVICE_OFFLINE"
-   * - "E_ABORT"
-   * - "FABRIC_E_VALUE_TOO_LARGE"
-   *
-   * - Possible values of the error code for HTTP status code 504 (Gateway
-   * Timeout)
-   * - "FABRIC_E_COMMUNICATION_ERROR"
-   * - "FABRIC_E_OPERATION_NOT_COMPLETE"
-   * - "FABRIC_E_TIMEOUT". Possible values include:
-   * 'FABRIC_E_INVALID_PARTITION_KEY',
-   * 'FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR', 'FABRIC_E_INVALID_ADDRESS',
-   * 'FABRIC_E_APPLICATION_NOT_UPGRADING',
-   * 'FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR',
-   * 'FABRIC_E_FABRIC_NOT_UPGRADING',
-   * 'FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR',
-   * 'FABRIC_E_INVALID_CONFIGURATION', 'FABRIC_E_INVALID_NAME_URI',
-   * 'FABRIC_E_PATH_TOO_LONG', 'FABRIC_E_KEY_TOO_LARGE',
-   * 'FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED',
-   * 'FABRIC_E_INVALID_ATOMIC_GROUP', 'FABRIC_E_VALUE_EMPTY',
-   * 'FABRIC_E_NODE_NOT_FOUND', 'FABRIC_E_APPLICATION_TYPE_NOT_FOUND',
-   * 'FABRIC_E_APPLICATION_NOT_FOUND', 'FABRIC_E_SERVICE_TYPE_NOT_FOUND',
-   * 'FABRIC_E_SERVICE_DOES_NOT_EXIST',
-   * 'FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND',
-   * 'FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND',
-   * 'FABRIC_E_PARTITION_NOT_FOUND', 'FABRIC_E_REPLICA_DOES_NOT_EXIST',
-   * 'FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST',
-   * 'FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND',
-   * 'FABRIC_E_DIRECTORY_NOT_FOUND', 'FABRIC_E_FABRIC_VERSION_NOT_FOUND',
-   * 'FABRIC_E_FILE_NOT_FOUND', 'FABRIC_E_NAME_DOES_NOT_EXIST',
-   * 'FABRIC_E_PROPERTY_DOES_NOT_EXIST', 'FABRIC_E_ENUMERATION_COMPLETED',
-   * 'FABRIC_E_SERVICE_MANIFEST_NOT_FOUND', 'FABRIC_E_KEY_NOT_FOUND',
-   * 'FABRIC_E_HEALTH_ENTITY_NOT_FOUND',
-   * 'FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS',
-   * 'FABRIC_E_APPLICATION_ALREADY_EXISTS',
-   * 'FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION',
-   * 'FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS',
-   * 'FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS',
-   * 'FABRIC_E_SERVICE_ALREADY_EXISTS',
-   * 'FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS',
-   * 'FABRIC_E_APPLICATION_TYPE_IN_USE',
-   * 'FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION',
-   * 'FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS',
-   * 'FABRIC_E_FABRIC_VERSION_IN_USE', 'FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS',
-   * 'FABRIC_E_NAME_ALREADY_EXISTS', 'FABRIC_E_NAME_NOT_EMPTY',
-   * 'FABRIC_E_PROPERTY_CHECK_FAILED', 'FABRIC_E_SERVICE_METADATA_MISMATCH',
-   * 'FABRIC_E_SERVICE_TYPE_MISMATCH', 'FABRIC_E_HEALTH_STALE_REPORT',
-   * 'FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED',
-   * 'FABRIC_E_NODE_HAS_NOT_STOPPED_YET', 'FABRIC_E_INSTANCE_ID_MISMATCH',
-   * 'FABRIC_E_VALUE_TOO_LARGE', 'FABRIC_E_NO_WRITE_QUORUM',
-   * 'FABRIC_E_NOT_PRIMARY', 'FABRIC_E_NOT_READY',
-   * 'FABRIC_E_RECONFIGURATION_PENDING', 'FABRIC_E_SERVICE_OFFLINE', 'E_ABORT',
-   * 'FABRIC_E_COMMUNICATION_ERROR', 'FABRIC_E_OPERATION_NOT_COMPLETE',
-   * 'FABRIC_E_TIMEOUT', 'FABRIC_E_NODE_IS_UP', 'E_FAIL',
-   * 'FABRIC_E_BACKUP_IS_ENABLED',
-   * 'FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH',
-   * 'FABRIC_E_INVALID_FOR_STATELESS_SERVICES', 'FABRIC_E_BACKUP_NOT_ENABLED',
-   * 'FABRIC_E_BACKUP_POLICY_NOT_EXISTING',
-   * 'FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING',
-   * 'FABRIC_E_BACKUP_IN_PROGRESS', 'FABRIC_E_RESTORE_IN_PROGRESS',
-   * 'FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING',
-   * 'FABRIC_E_INVALID_SERVICE_SCALING_POLICY', 'E_INVALIDARG',
-   * 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS',
-   * 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND',
-   * 'FABRIC_E_VOLUME_ALREADY_EXISTS', 'FABRIC_E_VOLUME_NOT_FOUND',
-   * 'SerializationError'
-   */
-  code: FabricErrorCodes;
-  /**
-   * @member {string} [message] Error message.
-   */
-  message?: string;
-}
-
-/**
- * @interface
- * An interface representing FabricError.
- * The REST API operations for Service Fabric return standard HTTP status
- * codes. This type defines the additional information returned from the
- * Service Fabric API operations that are not successful.
- *
- */
-export interface FabricError {
-  /**
-   * @member {FabricErrorError} error Error object containing error code and
-   * error message.
-   */
-  error: FabricErrorError;
 }
 
 /**
@@ -3899,7 +3916,7 @@ export interface NodeDeactivationInfo {
 /**
  * Contains the possible cases for NodeEvent.
  */
-export type NodeEventUnion = NodeEvent | NodeAbortedEvent | NodeAbortingEvent | NodeAddedEvent | NodeCloseEvent | NodeClosingEvent | NodeDeactivateCompleteEvent | NodeDeactivateStartEvent | NodeDownEvent | NodeHealthReportCreatedEvent | NodeHealthReportExpiredEvent | NodeOpenedSuccessEvent | NodeOpenFailedEvent | NodeOpeningEvent | NodeRemovedEvent | NodeUpEvent | ChaosRestartNodeFaultCompletedEvent | ChaosRestartNodeFaultScheduledEvent;
+export type NodeEventUnion = NodeEvent | NodeAbortedEvent | NodeAddedToClusterEvent | NodeClosedEvent | NodeDeactivateCompletedEvent | NodeDeactivateStartedEvent | NodeDownEvent | NodeNewHealthReportEvent | NodeHealthReportExpiredEvent | NodeOpenSucceededEvent | NodeOpenFailedEvent | NodeRemovedFromClusterEvent | NodeUpEvent | ChaosNodeRestartScheduledEvent;
 
 /**
  * @interface
@@ -3917,6 +3934,10 @@ export interface NodeEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -4496,7 +4517,7 @@ export interface PagedServiceInfoList {
 /**
  * Contains the possible cases for PartitionEvent.
  */
-export type PartitionEventUnion = PartitionEvent | PartitionAnalysisEventUnion | PartitionHealthReportCreatedEvent | PartitionHealthReportExpiredEvent | PartitionReconfigurationCompletedEvent | ChaosMoveSecondaryFaultScheduledEvent | ChaosMovePrimaryFaultScheduledEvent;
+export type PartitionEventUnion = PartitionEvent | PartitionAnalysisEventUnion | PartitionNewHealthReportEvent | PartitionHealthReportExpiredEvent | PartitionReconfiguredEvent | ChaosPartitionSecondaryMoveScheduledEvent | ChaosPartitionPrimaryMoveScheduledEvent;
 
 /**
  * @interface
@@ -4514,6 +4535,10 @@ export interface PartitionEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -4554,6 +4579,10 @@ export interface PartitionAnalysisEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -5196,7 +5225,7 @@ export interface PartitionsHealthEvaluation {
 /**
  * Contains the possible cases for ReplicaEvent.
  */
-export type ReplicaEventUnion = ReplicaEvent | StatefulReplicaHealthReportCreatedEvent | StatefulReplicaHealthReportExpiredEvent | StatelessReplicaHealthReportCreatedEvent | StatelessReplicaHealthReportExpiredEvent | ChaosRemoveReplicaFaultScheduledEvent | ChaosRemoveReplicaFaultCompletedEvent | ChaosRestartReplicaFaultScheduledEvent;
+export type ReplicaEventUnion = ReplicaEvent | StatefulReplicaNewHealthReportEvent | StatefulReplicaHealthReportExpiredEvent | StatelessReplicaNewHealthReportEvent | StatelessReplicaHealthReportExpiredEvent | ChaosReplicaRemovalScheduledEvent | ChaosReplicaRestartScheduledEvent;
 
 /**
  * @interface
@@ -5214,6 +5243,10 @@ export interface ReplicaEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -5419,7 +5452,7 @@ export interface RestartNodeDescription {
 /**
  * Contains the possible cases for ServiceEvent.
  */
-export type ServiceEventUnion = ServiceEvent | ServiceCreatedEvent | ServiceDeletedEvent | ServiceHealthReportCreatedEvent | ServiceHealthReportExpiredEvent;
+export type ServiceEventUnion = ServiceEvent | ServiceCreatedEvent | ServiceDeletedEvent | ServiceNewHealthReportEvent | ServiceHealthReportExpiredEvent;
 
 /**
  * @interface
@@ -5437,6 +5470,10 @@ export interface ServiceEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -6047,13 +6084,13 @@ export interface StatefulServicePartitionInfo {
    */
   lastQuorumLossDuration?: string;
   /**
-   * @member {Epoch} [currentConfigurationEpoch] An Epoch is a configuration
-   * number for the partition as a whole. When the configuration of the replica
-   * set changes, for example when the Primary replica changes, the operations
-   * that are replicated from the new Primary replica are said to be a new
-   * Epoch from the ones which were sent by the old Primary replica.
+   * @member {Epoch} [primaryEpoch] An Epoch is a configuration number for the
+   * partition as a whole. When the configuration of the replica set changes,
+   * for example when the Primary replica changes, the operations that are
+   * replicated from the new Primary replica are said to be a new Epoch from
+   * the ones which were sent by the old Primary replica.
    */
-  currentConfigurationEpoch?: Epoch;
+  primaryEpoch?: Epoch;
 }
 
 /**
@@ -6673,9 +6710,15 @@ export interface LoadMetricReport {
    */
   name?: string;
   /**
-   * @member {string} [value] The value of the load metric.
+   * @member {string} [value] The value of the load metric. In future releases
+   * of Service Fabric this parameter will be deprecated in favor of
+   * CurrentValue.
    */
   value?: string;
+  /**
+   * @member {string} [currentValue] The value of the load metric.
+   */
+  currentValue?: string;
 }
 
 /**
@@ -7015,12 +7058,16 @@ export interface ClusterUpgradeProgressObject {
  */
 export interface ClusterConfigurationUpgradeDescription {
   /**
-   * @member {string} clusterConfig The cluster configuration.
+   * @member {string} clusterConfig The cluster configuration as a JSON string.
+   * For example, [this
+   * file](https://github.com/Azure-Samples/service-fabric-dotnet-standalone-cluster-configuration/blob/master/Samples/ClusterConfig.Unsecure.DevCluster.json)
+   * contains JSON describing the [nodes and other properties of the
+   * cluster](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-manifest).
    */
   clusterConfig: string;
   /**
    * @member {string} [healthCheckRetryTimeout] The length of time between
-   * attempts to perform a health checks if the application or cluster is not
+   * attempts to perform health checks if the application or cluster is not
    * healthy. Default value: 'PT0H0M0S' .
    */
   healthCheckRetryTimeout?: string;
@@ -7032,8 +7079,8 @@ export interface ClusterConfigurationUpgradeDescription {
   healthCheckWaitDurationInSeconds?: string;
   /**
    * @member {string} [healthCheckStableDurationInSeconds] The length of time
-   * that the application or cluster must remain healthy. Default value:
-   * 'PT0H0M0S' .
+   * that the application or cluster must remain healthy before the upgrade
+   * proceeds to the next upgrade domain. Default value: 'PT0H0M0S' .
    */
   healthCheckStableDurationInSeconds?: string;
   /**
@@ -9208,9 +9255,16 @@ export interface LoadMetricReportInfo {
    */
   name?: string;
   /**
-   * @member {number} [value] The value of the load for the metric..
+   * @member {number} [value] The value of the load for the metric. In future
+   * releases of Service Fabric this parameter will be deprecated in favor of
+   * CurrentValue.
    */
   value?: number;
+  /**
+   * @member {string} [currentValue] The double value of the load for the
+   * metric.
+   */
+  currentValue?: string;
   /**
    * @member {Date} [lastReportedUtc] The UTC time when the load is reported.
    */
@@ -10923,6 +10977,24 @@ export interface BackupStorageDescription {
 }
 
 /**
+ * Contains the possible cases for RetentionPolicyDescription.
+ */
+export type RetentionPolicyDescriptionUnion = RetentionPolicyDescription | BasicRetentionPolicyDescription;
+
+/**
+ * @interface
+ * An interface representing RetentionPolicyDescription.
+ * Describes the retention policy configured.
+ *
+ */
+export interface RetentionPolicyDescription {
+  /**
+   * @member {string} retentionPolicyType Polymorphic Discriminator
+   */
+  retentionPolicyType: "RetentionPolicyDescription";
+}
+
+/**
  * @interface
  * An interface representing BackupPolicyDescription.
  * Describes a backup policy for configuring periodic backup.
@@ -10959,6 +11031,11 @@ export interface BackupPolicyDescription {
    * backup storage where to store the periodic backups.
    */
   storage: BackupStorageDescriptionUnion;
+  /**
+   * @member {RetentionPolicyDescriptionUnion} [retentionPolicy] Describes the
+   * policy to retain backups in storage.
+   */
+  retentionPolicy?: RetentionPolicyDescriptionUnion;
 }
 
 /**
@@ -10985,6 +11062,48 @@ export interface PagedBackupPolicyDescriptionList {
    * information.
    */
   items?: BackupPolicyDescription[];
+}
+
+/**
+ * @interface
+ * An interface representing BasicRetentionPolicyDescription.
+ * Describes basic retention policy.
+ *
+ */
+export interface BasicRetentionPolicyDescription {
+  /**
+   * @member {string} retentionPolicyType Polymorphic Discriminator
+   */
+  retentionPolicyType: "Basic";
+  /**
+   * @member {string} retentionDuration It is the minimum duration for which a
+   * backup created, will remain stored in the storage and might get deleted
+   * after that span of time. It should be specified in ISO8601 format.
+   */
+  retentionDuration: string;
+  /**
+   * @member {number} [minimumNumberOfBackups] It is the minimum number of
+   * backups to be retained at any point of time. If specified with a non zero
+   * value, backups will not be deleted even if the backups have gone past
+   * retention duration and have number of backups less than or equal to it.
+   */
+  minimumNumberOfBackups?: number;
+}
+
+/**
+ * @interface
+ * An interface representing DisableBackupDescription.
+ * It describes the body parameters while disabling backup of a backup
+ * entity(Application/Service/Partition).
+ *
+ */
+export interface DisableBackupDescription {
+  /**
+   * @member {boolean} cleanBackup Boolean flag to delete backups. It can be
+   * set to true for deleting all the backups which were created for the backup
+   * entity that is getting disabled for backup.
+   */
+  cleanBackup: boolean;
 }
 
 /**
@@ -11182,10 +11301,10 @@ export interface RestoreProgressInfo {
    */
   timeStampUtc?: Date;
   /**
-   * @member {BackupEpoch} [restoredEpoch] Describes the epoch at which the
-   * partition is restored.
+   * @member {Epoch} [restoredEpoch] Describes the epoch at which the partition
+   * is restored.
    */
-  restoredEpoch?: BackupEpoch;
+  restoredEpoch?: Epoch;
   /**
    * @member {string} [restoredLsn] Restored LSN.
    */
@@ -11255,10 +11374,10 @@ export interface BackupInfo {
    */
   backupType?: BackupType;
   /**
-   * @member {BackupEpoch} [epochOfLastBackupRecord] Epoch of the last record
-   * in this backup.
+   * @member {Epoch} [epochOfLastBackupRecord] Epoch of the last record in this
+   * backup.
    */
-  epochOfLastBackupRecord?: BackupEpoch;
+  epochOfLastBackupRecord?: Epoch;
   /**
    * @member {string} [lsnOfLastBackupRecord] LSN of the last record in this
    * backup.
@@ -11268,6 +11387,11 @@ export interface BackupInfo {
    * @member {Date} [creationTimeUtc] The date time when this backup was taken.
    */
   creationTimeUtc?: Date;
+  /**
+   * @member {string} [serviceManifestVersion] Manifest Version of the service
+   * this partition backup belongs to.
+   */
+  serviceManifestVersion?: string;
   /**
    * @member {FabricErrorError} [failureError] Denotes the failure encountered
    * in getting backup point information.
@@ -11448,10 +11572,10 @@ export interface BackupProgressInfo {
    */
   backupLocation?: string;
   /**
-   * @member {BackupEpoch} [epochOfLastBackupRecord] Specifies the epoch of the
-   * last record included in backup.
+   * @member {Epoch} [epochOfLastBackupRecord] Specifies the epoch of the last
+   * record included in backup.
    */
-  epochOfLastBackupRecord?: BackupEpoch;
+  epochOfLastBackupRecord?: Epoch;
   /**
    * @member {string} [lsnOfLastBackupRecord] The LSN of last record included
    * in backup.
@@ -11498,11 +11622,8 @@ export interface PartitionBackupConfigurationInfo {
    */
   serviceName?: string;
   /**
-   * @member {string} [partitionId] An internal ID used by Service Fabric to
-   * uniquely identify a partition. This is a randomly generated GUID when the
-   * service was created. The partition ID is unique and does not change for
-   * the lifetime of the service. If the same service was deleted and recreated
-   * the IDs of its partitions would be different.
+   * @member {string} [partitionId] The partition ID indentifying the
+   * partition.
    */
   partitionId?: string;
 }
@@ -11578,11 +11699,8 @@ export interface PartitionBackupEntity {
    */
   serviceName?: string;
   /**
-   * @member {string} [partitionId] An internal ID used by Service Fabric to
-   * uniquely identify a partition. This is a randomly generated GUID when the
-   * service was created. The partition ID is unique and does not change for
-   * the lifetime of the service. If the same service was deleted and recreated
-   * the IDs of its partitions would be different.
+   * @member {string} [partitionId] The partition ID indentifying the
+   * partition.
    */
   partitionId?: string;
 }
@@ -12172,19 +12290,6 @@ export interface UploadSession {
 
 /**
  * @interface
- * An interface representing ContainerLogs.
- * Container logs.
- *
- */
-export interface ContainerLogs {
-  /**
-   * @member {string} [content] Container logs.
-   */
-  content?: string;
-}
-
-/**
- * @interface
  * An interface representing AveragePartitionLoadScalingTrigger.
  * Represents a scaling trigger related to an average load of a metric/resource
  * of a partition.
@@ -12326,6 +12431,10 @@ export interface ApplicationCreatedEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -12375,6 +12484,10 @@ export interface ApplicationDeletedEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -12405,20 +12518,24 @@ export interface ApplicationDeletedEvent {
 
 /**
  * @interface
- * An interface representing ApplicationHealthReportCreatedEvent.
+ * An interface representing ApplicationNewHealthReportEvent.
  * Application Health Report Created event.
  *
  */
-export interface ApplicationHealthReportCreatedEvent {
+export interface ApplicationNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ApplicationHealthReportCreated";
+  kind: "ApplicationNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -12493,6 +12610,10 @@ export interface ApplicationHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -12551,20 +12672,24 @@ export interface ApplicationHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing ApplicationUpgradeCompleteEvent.
- * Application Upgrade Complete event.
+ * An interface representing ApplicationUpgradeCompletedEvent.
+ * Application Upgrade Completed event.
  *
  */
-export interface ApplicationUpgradeCompleteEvent {
+export interface ApplicationUpgradeCompletedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ApplicationUpgradeComplete";
+  kind: "ApplicationUpgradeCompleted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -12601,20 +12726,24 @@ export interface ApplicationUpgradeCompleteEvent {
 
 /**
  * @interface
- * An interface representing ApplicationUpgradeDomainCompleteEvent.
- * Application Upgrade Domain Complete event.
+ * An interface representing ApplicationUpgradeDomainCompletedEvent.
+ * Application Upgrade Domain Completed event.
  *
  */
-export interface ApplicationUpgradeDomainCompleteEvent {
+export interface ApplicationUpgradeDomainCompletedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ApplicationUpgradeDomainComplete";
+  kind: "ApplicationUpgradeDomainCompleted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -12664,20 +12793,24 @@ export interface ApplicationUpgradeDomainCompleteEvent {
 
 /**
  * @interface
- * An interface representing ApplicationUpgradeRollbackCompleteEvent.
- * Application Upgrade Rollback Complete event.
+ * An interface representing ApplicationUpgradeRollbackCompletedEvent.
+ * Application Upgrade Rollback Completed event.
  *
  */
-export interface ApplicationUpgradeRollbackCompleteEvent {
+export interface ApplicationUpgradeRollbackCompletedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ApplicationUpgradeRollbackComplete";
+  kind: "ApplicationUpgradeRollbackCompleted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -12718,20 +12851,24 @@ export interface ApplicationUpgradeRollbackCompleteEvent {
 
 /**
  * @interface
- * An interface representing ApplicationUpgradeRollbackStartEvent.
- * Application Upgrade Rollback Start event.
+ * An interface representing ApplicationUpgradeRollbackStartedEvent.
+ * Application Upgrade Rollback Started event.
  *
  */
-export interface ApplicationUpgradeRollbackStartEvent {
+export interface ApplicationUpgradeRollbackStartedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ApplicationUpgradeRollbackStart";
+  kind: "ApplicationUpgradeRollbackStarted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -12777,20 +12914,24 @@ export interface ApplicationUpgradeRollbackStartEvent {
 
 /**
  * @interface
- * An interface representing ApplicationUpgradeStartEvent.
- * Application Upgrade Start event.
+ * An interface representing ApplicationUpgradeStartedEvent.
+ * Application Upgrade Started event.
  *
  */
-export interface ApplicationUpgradeStartEvent {
+export interface ApplicationUpgradeStartedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ApplicationUpgradeStart";
+  kind: "ApplicationUpgradeStarted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -12839,20 +12980,24 @@ export interface ApplicationUpgradeStartEvent {
 
 /**
  * @interface
- * An interface representing DeployedApplicationHealthReportCreatedEvent.
+ * An interface representing DeployedApplicationNewHealthReportEvent.
  * Deployed Application Health Report Created event.
  *
  */
-export interface DeployedApplicationHealthReportCreatedEvent {
+export interface DeployedApplicationNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "DeployedApplicationHealthReportCreated";
+  kind: "DeployedApplicationNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -12931,6 +13076,10 @@ export interface DeployedApplicationHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -12993,20 +13142,24 @@ export interface DeployedApplicationHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing ProcessDeactivatedEvent.
- * Process Deactivated event.
+ * An interface representing ApplicationProcessExitedEvent.
+ * Process Exited event.
  *
  */
-export interface ProcessDeactivatedEvent {
+export interface ApplicationProcessExitedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ProcessDeactivated";
+  kind: "ApplicationProcessExited";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13080,20 +13233,24 @@ export interface ProcessDeactivatedEvent {
 
 /**
  * @interface
- * An interface representing ContainerDeactivatedEvent.
- * Container Deactivated event.
+ * An interface representing ApplicationContainerInstanceExitedEvent.
+ * Container Exited event.
  *
  */
-export interface ContainerDeactivatedEvent {
+export interface ApplicationContainerInstanceExitedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ContainerDeactivated";
+  kind: "ApplicationContainerInstanceExited";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13182,68 +13339,9 @@ export interface NodeAbortedEvent {
    */
   eventInstanceId: string;
   /**
-   * @member {Date} timeStamp The time event was logged.
+   * @member {string} [category] The category of event.
    */
-  timeStamp: Date;
-  /**
-   * @member {boolean} [hasCorrelatedEvents] Shows there is existing related
-   * events available.
-   */
-  hasCorrelatedEvents?: boolean;
-  /**
-   * @member {string} nodeName The name of a Service Fabric node.
-   */
-  nodeName: string;
-  /**
-   * @member {number} nodeInstance Id of Node instance.
-   */
-  nodeInstance: number;
-  /**
-   * @member {string} nodeId Id of Node.
-   */
-  nodeId: string;
-  /**
-   * @member {string} upgradeDomain Upgrade domain of Node.
-   */
-  upgradeDomain: string;
-  /**
-   * @member {string} faultDomain Fault domain of Node.
-   */
-  faultDomain: string;
-  /**
-   * @member {string} ipAddressOrFQDN IP address or FQDN.
-   */
-  ipAddressOrFQDN: string;
-  /**
-   * @member {string} hostname Name of Host.
-   */
-  hostname: string;
-  /**
-   * @member {boolean} isSeedNode Indicates if it is seed node.
-   */
-  isSeedNode: boolean;
-  /**
-   * @member {string} nodeVersion Version of Node.
-   */
-  nodeVersion: string;
-}
-
-/**
- * @interface
- * An interface representing NodeAbortingEvent.
- * Node Aborting event.
- *
- */
-export interface NodeAbortingEvent {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "NodeAborting";
-  /**
-   * @member {string} eventInstanceId The identifier for the FabricEvent
-   * instance.
-   */
-  eventInstanceId: string;
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13293,20 +13391,24 @@ export interface NodeAbortingEvent {
 
 /**
  * @interface
- * An interface representing NodeAddedEvent.
+ * An interface representing NodeAddedToClusterEvent.
  * Node Added event.
  *
  */
-export interface NodeAddedEvent {
+export interface NodeAddedToClusterEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "NodeAdded";
+  kind: "NodeAddedToCluster";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13348,20 +13450,24 @@ export interface NodeAddedEvent {
 
 /**
  * @interface
- * An interface representing NodeCloseEvent.
- * Node Close event.
+ * An interface representing NodeClosedEvent.
+ * Node Closed event.
  *
  */
-export interface NodeCloseEvent {
+export interface NodeClosedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "NodeClose";
+  kind: "NodeClosed";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13380,9 +13486,9 @@ export interface NodeCloseEvent {
    */
   nodeId: string;
   /**
-   * @member {string} nodeInstance Id of Node instance.
+   * @member {number} nodeInstance Id of Node instance.
    */
-  nodeInstance: string;
+  nodeInstance: number;
   /**
    * @member {string} error Describes error.
    */
@@ -13391,83 +13497,24 @@ export interface NodeCloseEvent {
 
 /**
  * @interface
- * An interface representing NodeClosingEvent.
- * Node Closing event.
+ * An interface representing NodeDeactivateCompletedEvent.
+ * Node Deactivate Completed event.
  *
  */
-export interface NodeClosingEvent {
+export interface NodeDeactivateCompletedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "NodeClosing";
+  kind: "NodeDeactivateCompleted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
   /**
-   * @member {Date} timeStamp The time event was logged.
+   * @member {string} [category] The category of event.
    */
-  timeStamp: Date;
-  /**
-   * @member {boolean} [hasCorrelatedEvents] Shows there is existing related
-   * events available.
-   */
-  hasCorrelatedEvents?: boolean;
-  /**
-   * @member {string} nodeName The name of a Service Fabric node.
-   */
-  nodeName: string;
-  /**
-   * @member {number} nodeInstance Id of Node instance.
-   */
-  nodeInstance: number;
-  /**
-   * @member {string} nodeId Id of Node.
-   */
-  nodeId: string;
-  /**
-   * @member {string} upgradeDomain Upgrade domain of Node.
-   */
-  upgradeDomain: string;
-  /**
-   * @member {string} faultDomain Fault domain of Node.
-   */
-  faultDomain: string;
-  /**
-   * @member {string} ipAddressOrFQDN IP address or FQDN.
-   */
-  ipAddressOrFQDN: string;
-  /**
-   * @member {string} hostname Name of Host.
-   */
-  hostname: string;
-  /**
-   * @member {boolean} isSeedNode Indicates if it is seed node.
-   */
-  isSeedNode: boolean;
-  /**
-   * @member {string} nodeVersion Version of Node.
-   */
-  nodeVersion: string;
-}
-
-/**
- * @interface
- * An interface representing NodeDeactivateCompleteEvent.
- * Node Deactivate Complete event.
- *
- */
-export interface NodeDeactivateCompleteEvent {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "NodeDeactivateComplete";
-  /**
-   * @member {string} eventInstanceId The identifier for the FabricEvent
-   * instance.
-   */
-  eventInstanceId: string;
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13501,20 +13548,24 @@ export interface NodeDeactivateCompleteEvent {
 
 /**
  * @interface
- * An interface representing NodeDeactivateStartEvent.
- * Node Deactivate Start event.
+ * An interface representing NodeDeactivateStartedEvent.
+ * Node Deactivate Started event.
  *
  */
-export interface NodeDeactivateStartEvent {
+export interface NodeDeactivateStartedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "NodeDeactivateStart";
+  kind: "NodeDeactivateStarted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13559,6 +13610,10 @@ export interface NodeDownEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -13583,20 +13638,24 @@ export interface NodeDownEvent {
 
 /**
  * @interface
- * An interface representing NodeHealthReportCreatedEvent.
+ * An interface representing NodeNewHealthReportEvent.
  * Node Health Report Created event.
  *
  */
-export interface NodeHealthReportCreatedEvent {
+export interface NodeNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "NodeHealthReportCreated";
+  kind: "NodeNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13665,6 +13724,10 @@ export interface NodeHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -13717,20 +13780,24 @@ export interface NodeHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing NodeOpenedSuccessEvent.
- * Node Opened Success event.
+ * An interface representing NodeOpenSucceededEvent.
+ * Node Opened Succeeded event.
  *
  */
-export interface NodeOpenedSuccessEvent {
+export interface NodeOpenSucceededEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "NodeOpenedSuccess";
+  kind: "NodeOpenSucceeded";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13795,6 +13862,10 @@ export interface NodeOpenFailedEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -13847,83 +13918,24 @@ export interface NodeOpenFailedEvent {
 
 /**
  * @interface
- * An interface representing NodeOpeningEvent.
- * Node Opening event.
- *
- */
-export interface NodeOpeningEvent {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "NodeOpening";
-  /**
-   * @member {string} eventInstanceId The identifier for the FabricEvent
-   * instance.
-   */
-  eventInstanceId: string;
-  /**
-   * @member {Date} timeStamp The time event was logged.
-   */
-  timeStamp: Date;
-  /**
-   * @member {boolean} [hasCorrelatedEvents] Shows there is existing related
-   * events available.
-   */
-  hasCorrelatedEvents?: boolean;
-  /**
-   * @member {string} nodeName The name of a Service Fabric node.
-   */
-  nodeName: string;
-  /**
-   * @member {number} nodeInstance Id of Node instance.
-   */
-  nodeInstance: number;
-  /**
-   * @member {string} nodeId Id of Node.
-   */
-  nodeId: string;
-  /**
-   * @member {string} upgradeDomain Upgrade domain of Node.
-   */
-  upgradeDomain: string;
-  /**
-   * @member {string} faultDomain Fault domain of Node.
-   */
-  faultDomain: string;
-  /**
-   * @member {string} ipAddressOrFQDN IP address or FQDN.
-   */
-  ipAddressOrFQDN: string;
-  /**
-   * @member {string} hostname Name of Host.
-   */
-  hostname: string;
-  /**
-   * @member {boolean} isSeedNode Indicates if it is seed node.
-   */
-  isSeedNode: boolean;
-  /**
-   * @member {string} nodeVersion Version of Node.
-   */
-  nodeVersion: string;
-}
-
-/**
- * @interface
- * An interface representing NodeRemovedEvent.
+ * An interface representing NodeRemovedFromClusterEvent.
  * Node Removed event.
  *
  */
-export interface NodeRemovedEvent {
+export interface NodeRemovedFromClusterEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "NodeRemoved";
+  kind: "NodeRemovedFromCluster";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -13980,6 +13992,10 @@ export interface NodeUpEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -14004,20 +14020,24 @@ export interface NodeUpEvent {
 
 /**
  * @interface
- * An interface representing PartitionHealthReportCreatedEvent.
+ * An interface representing PartitionNewHealthReportEvent.
  * Partition Health Report Created event.
  *
  */
-export interface PartitionHealthReportCreatedEvent {
+export interface PartitionNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "PartitionHealthReportCreated";
+  kind: "PartitionNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -14086,6 +14106,10 @@ export interface PartitionHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -14138,20 +14162,24 @@ export interface PartitionHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing PartitionReconfigurationCompletedEvent.
- * Partition Reconfiguration Completed event.
+ * An interface representing PartitionReconfiguredEvent.
+ * Partition Reconfiguration event.
  *
  */
-export interface PartitionReconfigurationCompletedEvent {
+export interface PartitionReconfiguredEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "PartitionReconfigurationCompleted";
+  kind: "PartitionReconfigured";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -14240,6 +14268,10 @@ export interface PartitionPrimaryMoveAnalysisEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -14298,6 +14330,10 @@ export interface ServiceCreatedEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -14380,6 +14416,10 @@ export interface ServiceDeletedEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -14438,20 +14478,24 @@ export interface ServiceDeletedEvent {
 
 /**
  * @interface
- * An interface representing ServiceHealthReportCreatedEvent.
+ * An interface representing ServiceNewHealthReportEvent.
  * Service Health Report Created event.
  *
  */
-export interface ServiceHealthReportCreatedEvent {
+export interface ServiceNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ServiceHealthReportCreated";
+  kind: "ServiceNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -14526,6 +14570,10 @@ export interface ServiceHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -14584,20 +14632,24 @@ export interface ServiceHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing DeployedServiceHealthReportCreatedEvent.
+ * An interface representing DeployedServicePackageNewHealthReportEvent.
  * Deployed Service Health Report Created event.
  *
  */
-export interface DeployedServiceHealthReportCreatedEvent {
+export interface DeployedServicePackageNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "DeployedServiceHealthReportCreated";
+  kind: "DeployedServicePackageNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -14647,9 +14699,9 @@ export interface DeployedServiceHealthReportCreatedEvent {
    */
   healthState: string;
   /**
-   * @member {number} tTLTimespan Time to live in milli-seconds.
+   * @member {number} timeToLiveMs Time to live in milli-seconds.
    */
-  tTLTimespan: number;
+  timeToLiveMs: number;
   /**
    * @member {number} sequenceNumber Sequence number of report.
    */
@@ -14670,20 +14722,24 @@ export interface DeployedServiceHealthReportCreatedEvent {
 
 /**
  * @interface
- * An interface representing DeployedServiceHealthReportExpiredEvent.
+ * An interface representing DeployedServicePackageHealthReportExpiredEvent.
  * Deployed Service Health Report Expired event.
  *
  */
-export interface DeployedServiceHealthReportExpiredEvent {
+export interface DeployedServicePackageHealthReportExpiredEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "DeployedServiceHealthReportExpired";
+  kind: "DeployedServicePackageHealthReportExpired";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -14733,9 +14789,9 @@ export interface DeployedServiceHealthReportExpiredEvent {
    */
   healthState: string;
   /**
-   * @member {number} tTLTimespan Time to live in milli-seconds.
+   * @member {number} timeToLiveMs Time to live in milli-seconds.
    */
-  tTLTimespan: number;
+  timeToLiveMs: number;
   /**
    * @member {number} sequenceNumber Sequence number of report.
    */
@@ -14756,20 +14812,24 @@ export interface DeployedServiceHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing StatefulReplicaHealthReportCreatedEvent.
+ * An interface representing StatefulReplicaNewHealthReportEvent.
  * Stateful Replica Health Report Created event.
  *
  */
-export interface StatefulReplicaHealthReportCreatedEvent {
+export interface StatefulReplicaNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "StatefulReplicaHealthReportCreated";
+  kind: "StatefulReplicaNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -14852,6 +14912,10 @@ export interface StatefulReplicaHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -14918,20 +14982,24 @@ export interface StatefulReplicaHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing StatelessReplicaHealthReportCreatedEvent.
+ * An interface representing StatelessReplicaNewHealthReportEvent.
  * Stateless Replica Health Report Created event.
  *
  */
-export interface StatelessReplicaHealthReportCreatedEvent {
+export interface StatelessReplicaNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "StatelessReplicaHealthReportCreated";
+  kind: "StatelessReplicaNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15010,6 +15078,10 @@ export interface StatelessReplicaHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -15072,20 +15144,24 @@ export interface StatelessReplicaHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing ClusterHealthReportCreatedEvent.
+ * An interface representing ClusterNewHealthReportEvent.
  * Cluster Health Report Created event.
  *
  */
-export interface ClusterHealthReportCreatedEvent {
+export interface ClusterNewHealthReportEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ClusterHealthReportCreated";
+  kind: "ClusterNewHealthReport";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15146,6 +15222,10 @@ export interface ClusterHealthReportExpiredEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -15190,20 +15270,24 @@ export interface ClusterHealthReportExpiredEvent {
 
 /**
  * @interface
- * An interface representing ClusterUpgradeCompleteEvent.
- * Cluster Upgrade Complete event.
+ * An interface representing ClusterUpgradeCompletedEvent.
+ * Cluster Upgrade Completed event.
  *
  */
-export interface ClusterUpgradeCompleteEvent {
+export interface ClusterUpgradeCompletedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ClusterUpgradeComplete";
+  kind: "ClusterUpgradeCompleted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15226,20 +15310,24 @@ export interface ClusterUpgradeCompleteEvent {
 
 /**
  * @interface
- * An interface representing ClusterUpgradeDomainCompleteEvent.
- * Cluster Upgrade Domain Complete event.
+ * An interface representing ClusterUpgradeDomainCompletedEvent.
+ * Cluster Upgrade Domain Completed event.
  *
  */
-export interface ClusterUpgradeDomainCompleteEvent {
+export interface ClusterUpgradeDomainCompletedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ClusterUpgradeDomainComplete";
+  kind: "ClusterUpgradeDomainCompleted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15270,20 +15358,24 @@ export interface ClusterUpgradeDomainCompleteEvent {
 
 /**
  * @interface
- * An interface representing ClusterUpgradeRollbackCompleteEvent.
- * Cluster Upgrade Rollback Complete event.
+ * An interface representing ClusterUpgradeRollbackCompletedEvent.
+ * Cluster Upgrade Rollback Completed event.
  *
  */
-export interface ClusterUpgradeRollbackCompleteEvent {
+export interface ClusterUpgradeRollbackCompletedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ClusterUpgradeRollbackComplete";
+  kind: "ClusterUpgradeRollbackCompleted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15310,20 +15402,24 @@ export interface ClusterUpgradeRollbackCompleteEvent {
 
 /**
  * @interface
- * An interface representing ClusterUpgradeRollbackStartEvent.
- * Cluster Upgrade Rollback Start event.
+ * An interface representing ClusterUpgradeRollbackStartedEvent.
+ * Cluster Upgrade Rollback Started event.
  *
  */
-export interface ClusterUpgradeRollbackStartEvent {
+export interface ClusterUpgradeRollbackStartedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ClusterUpgradeRollbackStart";
+  kind: "ClusterUpgradeRollbackStarted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15350,20 +15446,24 @@ export interface ClusterUpgradeRollbackStartEvent {
 
 /**
  * @interface
- * An interface representing ClusterUpgradeStartEvent.
- * Cluster Upgrade Start event.
+ * An interface representing ClusterUpgradeStartedEvent.
+ * Cluster Upgrade Started event.
  *
  */
-export interface ClusterUpgradeStartEvent {
+export interface ClusterUpgradeStartedEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ClusterUpgradeStart";
+  kind: "ClusterUpgradeStarted";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15412,6 +15512,10 @@ export interface ChaosStoppedEvent {
    */
   eventInstanceId: string;
   /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
+  /**
    * @member {Date} timeStamp The time event was logged.
    */
   timeStamp: Date;
@@ -15442,6 +15546,10 @@ export interface ChaosStartedEvent {
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15499,63 +15607,24 @@ export interface ChaosStartedEvent {
 
 /**
  * @interface
- * An interface representing ChaosRestartNodeFaultCompletedEvent.
- * Chaos Restart Node Fault Completed event.
- *
- */
-export interface ChaosRestartNodeFaultCompletedEvent {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "ChaosRestartNodeFaultCompleted";
-  /**
-   * @member {string} eventInstanceId The identifier for the FabricEvent
-   * instance.
-   */
-  eventInstanceId: string;
-  /**
-   * @member {Date} timeStamp The time event was logged.
-   */
-  timeStamp: Date;
-  /**
-   * @member {boolean} [hasCorrelatedEvents] Shows there is existing related
-   * events available.
-   */
-  hasCorrelatedEvents?: boolean;
-  /**
-   * @member {string} nodeName The name of a Service Fabric node.
-   */
-  nodeName: string;
-  /**
-   * @member {number} nodeInstanceId Id of Node instance.
-   */
-  nodeInstanceId: number;
-  /**
-   * @member {string} faultGroupId Id of fault group.
-   */
-  faultGroupId: string;
-  /**
-   * @member {string} faultId Id of fault.
-   */
-  faultId: string;
-}
-
-/**
- * @interface
- * An interface representing ChaosRestartCodePackageFaultScheduledEvent.
+ * An interface representing ChaosCodePackageRestartScheduledEvent.
  * Chaos Restart Code Package Fault Scheduled event.
  *
  */
-export interface ChaosRestartCodePackageFaultScheduledEvent {
+export interface ChaosCodePackageRestartScheduledEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ChaosRestartCodePackageFaultScheduled";
+  kind: "ChaosCodePackageRestartScheduled";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15604,82 +15673,24 @@ export interface ChaosRestartCodePackageFaultScheduledEvent {
 
 /**
  * @interface
- * An interface representing ChaosRestartCodePackageFaultCompletedEvent.
- * Chaos Restart Code Package Fault Completed event.
- *
- */
-export interface ChaosRestartCodePackageFaultCompletedEvent {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "ChaosRestartCodePackageFaultCompleted";
-  /**
-   * @member {string} eventInstanceId The identifier for the FabricEvent
-   * instance.
-   */
-  eventInstanceId: string;
-  /**
-   * @member {Date} timeStamp The time event was logged.
-   */
-  timeStamp: Date;
-  /**
-   * @member {boolean} [hasCorrelatedEvents] Shows there is existing related
-   * events available.
-   */
-  hasCorrelatedEvents?: boolean;
-  /**
-   * @member {string} applicationId The identity of the application. This is an
-   * encoded representation of the application name. This is used in the REST
-   * APIs to identify the application resource.
-   * Starting in version 6.0, hierarchical names are delimited with the "\~"
-   * character. For example, if the application name is "fabric:/myapp/app1",
-   * the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1"
-   * in previous versions.
-   */
-  applicationId: string;
-  /**
-   * @member {string} faultGroupId Id of fault group.
-   */
-  faultGroupId: string;
-  /**
-   * @member {string} faultId Id of fault.
-   */
-  faultId: string;
-  /**
-   * @member {string} nodeName The name of a Service Fabric node.
-   */
-  nodeName: string;
-  /**
-   * @member {string} serviceManifestName Service manifest name.
-   */
-  serviceManifestName: string;
-  /**
-   * @member {string} codePackageName Code package name.
-   */
-  codePackageName: string;
-  /**
-   * @member {string} servicePackageActivationId Id of Service package
-   * activation.
-   */
-  servicePackageActivationId: string;
-}
-
-/**
- * @interface
- * An interface representing ChaosRemoveReplicaFaultScheduledEvent.
+ * An interface representing ChaosReplicaRemovalScheduledEvent.
  * Chaos Remove Replica Fault Scheduled event.
  *
  */
-export interface ChaosRemoveReplicaFaultScheduledEvent {
+export interface ChaosReplicaRemovalScheduledEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ChaosRemoveReplicaFaultScheduled";
+  kind: "ChaosReplicaRemovalScheduled";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15723,77 +15734,24 @@ export interface ChaosRemoveReplicaFaultScheduledEvent {
 
 /**
  * @interface
- * An interface representing ChaosRemoveReplicaFaultCompletedEvent.
- * Chaos Remove Replica Fault Completed event.
- *
- */
-export interface ChaosRemoveReplicaFaultCompletedEvent {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "ChaosRemoveReplicaFaultCompleted";
-  /**
-   * @member {string} eventInstanceId The identifier for the FabricEvent
-   * instance.
-   */
-  eventInstanceId: string;
-  /**
-   * @member {Date} timeStamp The time event was logged.
-   */
-  timeStamp: Date;
-  /**
-   * @member {boolean} [hasCorrelatedEvents] Shows there is existing related
-   * events available.
-   */
-  hasCorrelatedEvents?: boolean;
-  /**
-   * @member {string} partitionId An internal ID used by Service Fabric to
-   * uniquely identify a partition. This is a randomly generated GUID when the
-   * service was created. The partition ID is unique and does not change for
-   * the lifetime of the service. If the same service was deleted and recreated
-   * the IDs of its partitions would be different.
-   */
-  partitionId: string;
-  /**
-   * @member {number} replicaId Id of a stateful service replica. ReplicaId is
-   * used by Service Fabric to uniquely identify a replica of a partition. It
-   * is unique within a partition and does not change for the lifetime of the
-   * replica. If a replica gets dropped and another replica gets created on the
-   * same node for the same partition, it will get a different value for the
-   * id. Sometimes the id of a stateless service instance is also referred as a
-   * replica id.
-   */
-  replicaId: number;
-  /**
-   * @member {string} faultGroupId Id of fault group.
-   */
-  faultGroupId: string;
-  /**
-   * @member {string} faultId Id of fault.
-   */
-  faultId: string;
-  /**
-   * @member {string} serviceUri Service name.
-   */
-  serviceUri: string;
-}
-
-/**
- * @interface
- * An interface representing ChaosMoveSecondaryFaultScheduledEvent.
+ * An interface representing ChaosPartitionSecondaryMoveScheduledEvent.
  * Chaos Move Secondary Fault Scheduled event.
  *
  */
-export interface ChaosMoveSecondaryFaultScheduledEvent {
+export interface ChaosPartitionSecondaryMoveScheduledEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ChaosMoveSecondaryFaultScheduled";
+  kind: "ChaosPartitionSecondaryMoveScheduled";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15839,20 +15797,24 @@ export interface ChaosMoveSecondaryFaultScheduledEvent {
 
 /**
  * @interface
- * An interface representing ChaosMovePrimaryFaultScheduledEvent.
+ * An interface representing ChaosPartitionPrimaryMoveScheduledEvent.
  * Chaos Move Primary Fault Scheduled event.
  *
  */
-export interface ChaosMovePrimaryFaultScheduledEvent {
+export interface ChaosPartitionPrimaryMoveScheduledEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ChaosMovePrimaryFaultScheduled";
+  kind: "ChaosPartitionPrimaryMoveScheduled";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15894,20 +15856,24 @@ export interface ChaosMovePrimaryFaultScheduledEvent {
 
 /**
  * @interface
- * An interface representing ChaosRestartReplicaFaultScheduledEvent.
+ * An interface representing ChaosReplicaRestartScheduledEvent.
  * Chaos Restart Replica Fault Scheduled event.
  *
  */
-export interface ChaosRestartReplicaFaultScheduledEvent {
+export interface ChaosReplicaRestartScheduledEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ChaosRestartReplicaFaultScheduled";
+  kind: "ChaosReplicaRestartScheduled";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15951,20 +15917,24 @@ export interface ChaosRestartReplicaFaultScheduledEvent {
 
 /**
  * @interface
- * An interface representing ChaosRestartNodeFaultScheduledEvent.
+ * An interface representing ChaosNodeRestartScheduledEvent.
  * Chaos Restart Node Fault Scheduled event.
  *
  */
-export interface ChaosRestartNodeFaultScheduledEvent {
+export interface ChaosNodeRestartScheduledEvent {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ChaosRestartNodeFaultScheduled";
+  kind: "ChaosNodeRestartScheduled";
   /**
    * @member {string} eventInstanceId The identifier for the FabricEvent
    * instance.
    */
   eventInstanceId: string;
+  /**
+   * @member {string} [category] The category of event.
+   */
+  category?: string;
   /**
    * @member {Date} timeStamp The time event was logged.
    */
@@ -15993,191 +15963,133 @@ export interface ChaosRestartNodeFaultScheduledEvent {
 }
 
 /**
- * @interface
- * An interface representing ServiceResourceDescription.
- * Describes a service fabric service resource.
- *
+ * Contains the possible cases for SecretResourcePropertiesBase.
  */
-export interface ServiceResourceDescription {
-  /**
-   * @member {OperatingSystemTypes} osType The Operating system type required
-   * by the code in service. Possible values include: 'Linux', 'Windows'
-   */
-  osType: OperatingSystemTypes;
-  /**
-   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
-   * of code packages that forms the service. A code package describes the
-   * container and the properties for running it. All the code packages are
-   * started together on the same host and share the same context (network,
-   * process etc.).
-   */
-  codePackages: ContainerCodePackageProperties[];
-  /**
-   * @member {NetworkRef[]} [networkRefs] The names of the private networks
-   * that this service needs to be part of.
-   */
-  networkRefs?: NetworkRef[];
-  /**
-   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
-   * DiagnosticsDescription.
-   */
-  diagnostics?: DiagnosticsRef;
-  /**
-   * @member {string} [description] User readable description of the service.
-   */
-  description?: string;
-  /**
-   * @member {number} [replicaCount] The number of replicas of the service to
-   * create. Defaults to 1 if not specified.
-   */
-  replicaCount?: number;
-  /**
-   * @member {HealthState} [healthState] The health state of a Service Fabric
-   * entity such as Cluster, Node, Application, Service, Partition, Replica
-   * etc. Possible values include: 'Invalid', 'Ok', 'Warning', 'Error',
-   * 'Unknown'
-   */
-  healthState?: HealthState;
-  /**
-   * @member {ServiceResourceStatus} [status] Represents the status of the
-   * service. Possible values include: 'Unknown', 'Active', 'Upgrading',
-   * 'Deleting', 'Creating', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ServiceResourceStatus;
-  /**
-   * @member {string} name Service resource name.
-   */
-  name: string;
-}
+export type SecretResourcePropertiesBaseUnion = SecretResourcePropertiesBase | SecretResourcePropertiesUnion;
 
 /**
  * @interface
- * An interface representing DiagnosticsSinkProperties.
- * Properties of a DiagnosticsSink.
+ * An interface representing SecretResourcePropertiesBase.
+ * This type describes the properties of a secret resource, including its kind.
  *
  */
-export interface DiagnosticsSinkProperties {
+export interface SecretResourcePropertiesBase {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "DiagnosticsSinkProperties";
-  /**
-   * @member {string} [name] Name of the sink. This value is referenced by
-   * DiagnosticsReferenceDescription
-   */
-  name?: string;
-  /**
-   * @member {string} [description] A description of the sink.
-   */
-  description?: string;
+  kind: "SecretResourcePropertiesBase";
 }
 
 /**
- * @interface
- * An interface representing DiagnosticsDescription.
- * Describes the diagnostics options available
- *
+ * Contains the possible cases for SecretResourceProperties.
  */
-export interface DiagnosticsDescription {
-  /**
-   * @member {DiagnosticsSinkProperties[]} [sinks] List of supported sinks that
-   * can be referenced.
-   */
-  sinks?: DiagnosticsSinkProperties[];
-  /**
-   * @member {boolean} [enabled] Status of whether or not sinks are enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {string[]} [defaultSinkRefs] The sinks to be used if diagnostics
-   * is enabled. Sink choices can be overridden at the service and code package
-   * level.
-   */
-  defaultSinkRefs?: string[];
-}
+export type SecretResourcePropertiesUnion = SecretResourceProperties | InlinedValueSecretResourceProperties;
 
 /**
  * @interface
- * An interface representing ApplicationResourceDescription.
- * Describes a service fabric application resource.
+ * An interface representing SecretResourceProperties.
+ * Describes the properties of a secret resource.
  *
  */
-export interface ApplicationResourceDescription {
+export interface SecretResourceProperties {
   /**
-   * @member {string} [description] User readable description of the
-   * application.
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "SecretResourceProperties";
+  /**
+   * @member {string} [description] User readable description of the secret.
    */
   description?: string;
   /**
-   * @member {string} [debugParams] Internal use.
-   */
-  debugParams?: string;
-  /**
-   * @member {ServiceResourceDescription[]} [services] describes the services
-   * in the application.
-   */
-  services?: ServiceResourceDescription[];
-  /**
-   * @member {HealthState} [healthState] Describes the health state of an
-   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
-   * 'Error', 'Unknown'
+   * @member {ResourceStatus} [status] Status of the resource. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly healthState?: HealthState;
-  /**
-   * @member {string} [unhealthyEvaluation] When the application's health state
-   * is not 'Ok', this additional details from service fabric Health Manager
-   * for the user to know why the application is marked unhealthy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unhealthyEvaluation?: string;
-  /**
-   * @member {ApplicationResourceStatus} [status] Status of the application
-   * resource. Possible values include: 'Invalid', 'Ready', 'Upgrading',
-   * 'Creating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ApplicationResourceStatus;
+  readonly status?: ResourceStatus;
   /**
    * @member {string} [statusDetails] Gives additional information about the
-   * current status of the application deployment.
+   * current status of the secret.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly statusDetails?: string;
   /**
-   * @member {string[]} [serviceNames] Names of the services in the
-   * application.
+   * @member {string} [contentType] The type of the content stored in the
+   * secret value. The value of this property is opaque to Service Fabric. Once
+   * set, the value of this property cannot be changed.
+   */
+  contentType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InlinedValueSecretResourceProperties.
+ * Describes the properties of a secret resource whose value is provided
+ * explicitly as plaintext. The secret resource may have multiple values, each
+ * being uniquely versioned. The secret value of each version is stored
+ * encrypted, and delivered as plaintext into the context of applications
+ * referencing it.
+ *
+ */
+export interface InlinedValueSecretResourceProperties {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "inlinedValue";
+  /**
+   * @member {string} [description] User readable description of the secret.
+   */
+  description?: string;
+  /**
+   * @member {ResourceStatus} [status] Status of the resource. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly serviceNames?: string[];
+  readonly status?: ResourceStatus;
   /**
-   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
-   * definition and usage for an application resource.
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the secret.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  diagnostics?: DiagnosticsDescription;
+  readonly statusDetails?: string;
   /**
-   * @member {string} name Application resource name.
+   * @member {string} [contentType] The type of the content stored in the
+   * secret value. The value of this property is opaque to Service Fabric. Once
+   * set, the value of this property cannot be changed.
+   */
+  contentType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SecretResourceDescription.
+ * This type describes a secret resource.
+ *
+ */
+export interface SecretResourceDescription {
+  /**
+   * @member {SecretResourcePropertiesUnion} properties Describes the
+   * properties of a secret resource.
+   */
+  properties: SecretResourcePropertiesUnion;
+  /**
+   * @member {string} name Name of the Secret resource.
    */
   name: string;
 }
 
 /**
  * @interface
- * An interface representing PagedServiceResourceDescriptionList.
- * The list of service resources in the cluster. The list is paged when all of
- * the results cannot fit in a single message. The next set of results can be
- * obtained by executing the same query with the continuation token provided in
- * this list.
+ * An interface representing PagedSecretResourceDescriptionList.
+ * The list of secret resources. The list is paged when all of the results
+ * cannot fit in a single message. The next set of results can be obtained by
+ * executing the same query with the continuation token provided in this list.
  *
  */
-export interface PagedServiceResourceDescriptionList {
+export interface PagedSecretResourceDescriptionList {
   /**
    * @member {string} [continuationToken] The continuation token parameter is
    * used to obtain next set of results. The continuation token is included in
@@ -16188,68 +16100,65 @@ export interface PagedServiceResourceDescriptionList {
    */
   continuationToken?: string;
   /**
-   * @member {ServiceResourceDescription[]} [items] List of service resource
-   * description.
+   * @member {SecretResourceDescription[]} [items] One page of the list.
    */
-  items?: ServiceResourceDescription[];
+  items?: SecretResourceDescription[];
 }
 
 /**
  * @interface
- * An interface representing ServiceReplicaProperties.
- * Describes the properties of a service replica.
+ * An interface representing SecretValue.
+ * This type represents the unencrypted value of the secret.
  *
  */
-export interface ServiceReplicaProperties {
+export interface SecretValue {
   /**
-   * @member {OperatingSystemTypes} osType The Operating system type required
-   * by the code in service. Possible values include: 'Linux', 'Windows'
+   * @member {string} [value] The actual value of the secret.
    */
-  osType: OperatingSystemTypes;
-  /**
-   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
-   * of code packages that forms the service. A code package describes the
-   * container and the properties for running it. All the code packages are
-   * started together on the same host and share the same context (network,
-   * process etc.).
-   */
-  codePackages: ContainerCodePackageProperties[];
-  /**
-   * @member {NetworkRef[]} [networkRefs] The names of the private networks
-   * that this service needs to be part of.
-   */
-  networkRefs?: NetworkRef[];
-  /**
-   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
-   * DiagnosticsDescription.
-   */
-  diagnostics?: DiagnosticsRef;
+  value?: string;
 }
 
 /**
  * @interface
- * An interface representing ServiceResourceReplicaDescription.
- * Describes a replica of a service resource.
+ * An interface representing SecretValueProperties.
+ * This type describes properties of secret value resource.
  *
- * @extends ServiceReplicaProperties
  */
-export interface ServiceResourceReplicaDescription extends ServiceReplicaProperties {
+export interface SecretValueProperties {
   /**
-   * @member {string} replicaName Name of the replica.
+   * @member {string} [value] The actual value of the secret.
    */
-  replicaName: string;
+  value?: string;
 }
 
 /**
  * @interface
- * An interface representing PagedServiceResourceReplicaDescriptionList.
- * The list of service resources in the cluster. The list is paged when all of
- * the results cannot fit in a single message. The next set of results can be
+ * An interface representing SecretValueResourceDescription.
+ * This type describes a value of a secret resource. The name of this resource
+ * is the version identifier corresponding to this secret value.
+ *
+ */
+export interface SecretValueResourceDescription {
+  /**
+   * @member {string} name Version identifier of the secret value.
+   */
+  name: string;
+  /**
+   * @member {string} [value] The actual value of the secret.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PagedSecretValueResourceDescriptionList.
+ * The list of values of a secret resource, paged if the number of results
+ * exceeds the limits of a single message. The next set of results can be
  * obtained by executing the same query with the continuation token provided in
- * this list.
+ * the previous page.
  *
  */
-export interface PagedServiceResourceReplicaDescriptionList {
+export interface PagedSecretValueResourceDescriptionList {
   /**
    * @member {string} [continuationToken] The continuation token parameter is
    * used to obtain next set of results. The continuation token is included in
@@ -16260,10 +16169,9 @@ export interface PagedServiceResourceReplicaDescriptionList {
    */
   continuationToken?: string;
   /**
-   * @member {ServiceResourceReplicaDescription[]} [items] List of service
-   * resource description.
+   * @member {SecretValueResourceDescription[]} [items] One page of the list.
    */
-  items?: ServiceResourceReplicaDescription[];
+  items?: SecretValueResourceDescription[];
 }
 
 /**
@@ -16292,24 +16200,559 @@ export interface VolumeProviderParametersAzureFile {
 
 /**
  * @interface
- * An interface representing VolumeResourceDescription.
- * Describes a service fabric volume resource.
+ * An interface representing VolumeReference.
+ * Describes a reference to a volume resource.
  *
  */
-export interface VolumeResourceDescription {
+export interface VolumeReference {
+  /**
+   * @member {string} name Name of the volume being referenced.
+   */
+  name: string;
+  /**
+   * @member {boolean} [readOnly] The flag indicating whether the volume is
+   * read only. Default is 'false'.
+   */
+  readOnly?: boolean;
+  /**
+   * @member {string} destinationPath The path within the container at which
+   * the volume should be mounted. Only valid path characters are allowed.
+   */
+  destinationPath: string;
+}
+
+/**
+ * Contains the possible cases for ApplicationScopedVolumeCreationParameters.
+ */
+export type ApplicationScopedVolumeCreationParametersUnion = ApplicationScopedVolumeCreationParameters | ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
+
+/**
+ * @interface
+ * An interface representing ApplicationScopedVolumeCreationParameters.
+ * Describes parameters for creating application-scoped volumes.
+ *
+ */
+export interface ApplicationScopedVolumeCreationParameters {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "ApplicationScopedVolumeCreationParameters";
+  /**
+   * @member {string} [description] User readable description of the volume.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationScopedVolume.
+ * Describes a volume whose lifetime is scoped to the application's lifetime.
+ *
+ * @extends VolumeReference
+ */
+export interface ApplicationScopedVolume extends VolumeReference {
+  /**
+   * @member {ApplicationScopedVolumeCreationParametersUnion}
+   * creationParameters Describes parameters for creating application-scoped
+   * volumes.
+   */
+  creationParameters: ApplicationScopedVolumeCreationParametersUnion;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk.
+ * Describes parameters for creating application-scoped volumes provided by
+ * Service Fabric Volume Disks
+ *
+ */
+export interface ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "ServiceFabricVolumeDisk";
   /**
    * @member {string} [description] User readable description of the volume.
    */
   description?: string;
   /**
+   * @member {SizeTypes} sizeDisk Volume size. Possible values include:
+   * 'Small', 'Medium', 'Large'
+   */
+  sizeDisk: SizeTypes;
+}
+
+/**
+ * @interface
+ * An interface representing VolumeResourceDescription.
+ * This type describes a volume resource.
+ *
+ */
+export interface VolumeResourceDescription {
+  /**
+   * @member {string} name Name of the Volume resource.
+   */
+  name: string;
+  /**
+   * @member {string} [description] User readable description of the volume.
+   */
+  description?: string;
+  /**
+   * @member {ResourceStatus} [status] Status of the volume. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the volume.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
    * @member {VolumeProviderParametersAzureFile} [azureFileParameters] This
    * type describes a volume provided by an Azure Files file share.
    */
   azureFileParameters?: VolumeProviderParametersAzureFile;
+}
+
+/**
+ * @interface
+ * An interface representing PagedVolumeResourceDescriptionList.
+ * The list of volume resources. The list is paged when all of the results
+ * cannot fit in a single message. The next set of results can be obtained by
+ * executing the same query with the continuation token provided in this list.
+ *
+ */
+export interface PagedVolumeResourceDescriptionList {
   /**
-   * @member {string} name Volume resource name.
+   * @member {string} [continuationToken] The continuation token parameter is
+   * used to obtain next set of results. The continuation token is included in
+   * the response of the API when the results from the system do not fit in a
+   * single response. When this value is passed to the next API call, the API
+   * returns next set of results. If there are no further results, then the
+   * continuation token is not included in the response.
+   */
+  continuationToken?: string;
+  /**
+   * @member {VolumeResourceDescription[]} [items] One page of the list.
+   */
+  items?: VolumeResourceDescription[];
+}
+
+/**
+ * Contains the possible cases for NetworkResourcePropertiesBase.
+ */
+export type NetworkResourcePropertiesBaseUnion = NetworkResourcePropertiesBase | NetworkResourcePropertiesUnion;
+
+/**
+ * @interface
+ * An interface representing NetworkResourcePropertiesBase.
+ * This type describes the properties of a network resource, including its
+ * kind.
+ *
+ */
+export interface NetworkResourcePropertiesBase {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "NetworkResourcePropertiesBase";
+}
+
+/**
+ * Contains the possible cases for NetworkResourceProperties.
+ */
+export type NetworkResourcePropertiesUnion = NetworkResourceProperties | LocalNetworkResourceProperties;
+
+/**
+ * @interface
+ * An interface representing NetworkResourceProperties.
+ * Describes properties of a network resource.
+ *
+ */
+export interface NetworkResourceProperties {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "NetworkResourceProperties";
+  /**
+   * @member {string} [description] User readable description of the network.
+   */
+  description?: string;
+  /**
+   * @member {ResourceStatus} [status] Status of the network. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the network.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+}
+
+/**
+ * @interface
+ * An interface representing LocalNetworkResourceProperties.
+ * Information about a Service Fabric container network local to a single
+ * Service Fabric cluster.
+ *
+ */
+export interface LocalNetworkResourceProperties {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Local";
+  /**
+   * @member {string} [description] User readable description of the network.
+   */
+  description?: string;
+  /**
+   * @member {ResourceStatus} [status] Status of the network. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the network.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {string} [networkAddressPrefix] Address space for the local
+   * container network.
+   */
+  networkAddressPrefix?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EndpointRef.
+ * Describes a reference to a service endpoint.
+ *
+ */
+export interface EndpointRef {
+  /**
+   * @member {string} [name] Name of the endpoint.
+   */
+  name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkRef.
+ * Describes a network reference in a service.
+ *
+ */
+export interface NetworkRef {
+  /**
+   * @member {string} [name] Name of the network
+   */
+  name?: string;
+  /**
+   * @member {EndpointRef[]} [endpointRefs] A list of endpoints that are
+   * exposed on this network.
+   */
+  endpointRefs?: EndpointRef[];
+}
+
+/**
+ * @interface
+ * An interface representing NetworkResourceDescription.
+ * This type describes a network resource.
+ *
+ */
+export interface NetworkResourceDescription {
+  /**
+   * @member {string} name Name of the Network resource.
    */
   name: string;
+  /**
+   * @member {NetworkResourcePropertiesUnion} properties Describes properties
+   * of a network resource.
+   */
+  properties: NetworkResourcePropertiesUnion;
+}
+
+/**
+ * @interface
+ * An interface representing PagedNetworkResourceDescriptionList.
+ * The list of network resources. The list is paged when all of the results
+ * cannot fit in a single message. The next set of results can be obtained by
+ * executing the same query with the continuation token provided in this list.
+ *
+ */
+export interface PagedNetworkResourceDescriptionList {
+  /**
+   * @member {string} [continuationToken] The continuation token parameter is
+   * used to obtain next set of results. The continuation token is included in
+   * the response of the API when the results from the system do not fit in a
+   * single response. When this value is passed to the next API call, the API
+   * returns next set of results. If there are no further results, then the
+   * continuation token is not included in the response.
+   */
+  continuationToken?: string;
+  /**
+   * @member {NetworkResourceDescription[]} [items] One page of the list.
+   */
+  items?: NetworkResourceDescription[];
+}
+
+/**
+ * @interface
+ * An interface representing GatewayDestination.
+ * Describes destination endpoint for routing traffic.
+ *
+ */
+export interface GatewayDestination {
+  /**
+   * @member {string} applicationName Name of the service fabric Mesh
+   * application.
+   */
+  applicationName: string;
+  /**
+   * @member {string} serviceName service that contains the endpoint.
+   */
+  serviceName: string;
+  /**
+   * @member {string} endpointName name of the endpoint in the service.
+   */
+  endpointName: string;
+}
+
+/**
+ * @interface
+ * An interface representing TcpConfig.
+ * Describes the tcp configuration for external connectivity for this network.
+ *
+ */
+export interface TcpConfig {
+  /**
+   * @member {string} name tcp gateway config name.
+   */
+  name: string;
+  /**
+   * @member {number} port Specifies the port at which the service endpoint
+   * below needs to be exposed.
+   */
+  port: number;
+  /**
+   * @member {GatewayDestination} destination Describes destination endpoint
+   * for routing traffic.
+   */
+  destination: GatewayDestination;
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteMatchPath.
+ * Path to match for routing.
+ *
+ */
+export interface HttpRouteMatchPath {
+  /**
+   * @member {string} value Uri path to match for request.
+   */
+  value: string;
+  /**
+   * @member {string} [rewrite] replacement string for matched part of the Uri.
+   */
+  rewrite?: string;
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteMatchHeader.
+ * Describes header information for http route matching.
+ *
+ */
+export interface HttpRouteMatchHeader {
+  /**
+   * @member {string} name Name of header to match in request.
+   */
+  name: string;
+  /**
+   * @member {string} [value] Value of header to match in request.
+   */
+  value?: string;
+  /**
+   * @member {HeaderMatchType} [type] how to match header value. Possible
+   * values include: 'exact'
+   */
+  type?: HeaderMatchType;
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteMatchRule.
+ * Describes a rule for http route matching.
+ *
+ */
+export interface HttpRouteMatchRule {
+  /**
+   * @member {HttpRouteMatchPath} path Path to match for routing.
+   */
+  path: HttpRouteMatchPath;
+  /**
+   * @member {HttpRouteMatchHeader[]} [headers] headers and their values to
+   * match in request.
+   */
+  headers?: HttpRouteMatchHeader[];
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteConfig.
+ * Describes the hostname properties for http routing.
+ *
+ */
+export interface HttpRouteConfig {
+  /**
+   * @member {string} name http route name.
+   */
+  name: string;
+  /**
+   * @member {HttpRouteMatchRule} match Describes a rule for http route
+   * matching.
+   */
+  match: HttpRouteMatchRule;
+  /**
+   * @member {GatewayDestination} destination Describes destination endpoint
+   * for routing traffic.
+   */
+  destination: GatewayDestination;
+}
+
+/**
+ * @interface
+ * An interface representing HttpHostConfig.
+ * Describes the hostname properties for http routing.
+ *
+ */
+export interface HttpHostConfig {
+  /**
+   * @member {string} name http hostname config name.
+   */
+  name: string;
+  /**
+   * @member {HttpRouteConfig[]} routes Route information to use for routing.
+   * Routes are processed in the order they are specified. Specify routes that
+   * are more specific before routes that can hamdle general cases.
+   */
+  routes: HttpRouteConfig[];
+}
+
+/**
+ * @interface
+ * An interface representing HttpConfig.
+ * Describes the http configuration for external connectivity for this network.
+ *
+ */
+export interface HttpConfig {
+  /**
+   * @member {string} name http gateway config name.
+   */
+  name: string;
+  /**
+   * @member {number} port Specifies the port at which the service endpoint
+   * below needs to be exposed.
+   */
+  port: number;
+  /**
+   * @member {HttpHostConfig[]} hosts description for routing.
+   */
+  hosts: HttpHostConfig[];
+}
+
+/**
+ * @interface
+ * An interface representing GatewayResourceDescription.
+ * This type describes a gateway resource.
+ *
+ */
+export interface GatewayResourceDescription {
+  /**
+   * @member {string} name Name of the Gateway resource.
+   */
+  name: string;
+  /**
+   * @member {string} [description] User readable description of the gateway.
+   */
+  description?: string;
+  /**
+   * @member {NetworkRef} sourceNetwork Network the gateway should listen on
+   * for requests.
+   */
+  sourceNetwork: NetworkRef;
+  /**
+   * @member {NetworkRef} destinationNetwork Network that the Application is
+   * using.
+   */
+  destinationNetwork: NetworkRef;
+  /**
+   * @member {TcpConfig[]} [tcp] Configuration for tcp connectivity for this
+   * gateway.
+   */
+  tcp?: TcpConfig[];
+  /**
+   * @member {HttpConfig[]} [http] Configuration for http connectivity for this
+   * gateway.
+   */
+  http?: HttpConfig[];
+  /**
+   * @member {ResourceStatus} [status] Status of the resource. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {string} [ipAddress] IP address of the gateway. This is populated
+   * in the response and is ignored for incoming requests.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ipAddress?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PagedGatewayResourceDescriptionList.
+ * The list of gateway resources. The list is paged when all of the results
+ * cannot fit in a single message. The next set of results can be obtained by
+ * executing the same query with the continuation token provided in this list.
+ *
+ */
+export interface PagedGatewayResourceDescriptionList {
+  /**
+   * @member {string} [continuationToken] The continuation token parameter is
+   * used to obtain next set of results. The continuation token is included in
+   * the response of the API when the results from the system do not fit in a
+   * single response. When this value is passed to the next API call, the API
+   * returns next set of results. If there are no further results, then the
+   * continuation token is not included in the response.
+   */
+  continuationToken?: string;
+  /**
+   * @member {GatewayResourceDescription[]} [items] One page of the list.
+   */
+  items?: GatewayResourceDescription[];
 }
 
 /**
@@ -16329,7 +16772,9 @@ export interface ImageRegistryCredential {
    */
   username: string;
   /**
-   * @member {string} [password] The password for the private registry.
+   * @member {string} [password] The password for the private registry. The
+   * password is required for create or update operations, however it is not
+   * returned in the get or list operations.
    */
   password?: string;
 }
@@ -16354,7 +16799,9 @@ export interface EnvironmentVariable {
 /**
  * @interface
  * An interface representing Setting.
- * Describes a setting for the container.
+ * Describes a setting for the container. The setting file path can be fetched
+ * from environment variable "Fabric_SettingPath". The path for Windows
+ * container is "C:\\secrets". The path for Linux container is "/var/secrets".
  *
  */
 export interface Setting {
@@ -16465,25 +16912,41 @@ export interface ResourceRequirements {
 
 /**
  * @interface
- * An interface representing ContainerVolume.
- * Describes how a volume is attached to a container.
+ * An interface representing DiagnosticsRef.
+ * Reference to sinks in DiagnosticsDescription.
  *
  */
-export interface ContainerVolume {
+export interface DiagnosticsRef {
   /**
-   * @member {string} name Name of the volume.
+   * @member {boolean} [enabled] Status of whether or not sinks are enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {string[]} [sinkRefs] List of sinks to be used if enabled.
+   * References the list of sinks in DiagnosticsDescription.
+   */
+  sinkRefs?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ReliableCollectionsRef.
+ * Specifying this parameter adds support for reliable collections
+ *
+ */
+export interface ReliableCollectionsRef {
+  /**
+   * @member {string} name Name of ReliableCollection resource. Right now it's
+   * not used and you can use any string.
    */
   name: string;
   /**
-   * @member {boolean} [readOnly] The flag indicating whether the volume is
-   * read only. Default is 'false'.
+   * @member {boolean} [doNotPersistState] False (the default) if
+   * ReliableCollections state is persisted to disk as usual. True if you do
+   * not want to persist state, in which case replication is still enabled and
+   * you can use ReliableCollections as distributed cache.
    */
-  readOnly?: boolean;
-  /**
-   * @member {string} destinationPath The path within the container at which
-   * the volume should be mounted. Only valid path characters are allowed.
-   */
-  destinationPath: string;
+  doNotPersistState?: boolean;
 }
 
 /**
@@ -16577,24 +17040,6 @@ export interface ContainerInstanceView {
 
 /**
  * @interface
- * An interface representing DiagnosticsRef.
- * Reference to sinks in DiagnosticsDescription.
- *
- */
-export interface DiagnosticsRef {
-  /**
-   * @member {boolean} [enabled] Status of whether or not sinks are enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {string[]} [sinkRefs] List of sinks to be used if enabled.
-   * References the list of sinks in DiagnosticsDescription.
-   */
-  sinkRefs?: string[];
-}
-
-/**
- * @interface
  * An interface representing ContainerCodePackageProperties.
  * Describes a container and its runtime properties.
  *
@@ -16645,15 +17090,33 @@ export interface ContainerCodePackageProperties {
    */
   endpoints?: EndpointProperties[];
   /**
-   * @member {ResourceRequirements} resources This type describes the resource
-   * requirements for a container or a service.
+   * @member {ResourceRequirements} resources The resources required by this
+   * container.
    */
   resources: ResourceRequirements;
   /**
-   * @member {ContainerVolume[]} [volumeRefs] The volumes to be attached to the
-   * container.
+   * @member {VolumeReference[]} [volumeRefs] Volumes to be attached to the
+   * container. The lifetime of these volumes is independent of the
+   * application's lifetime.
    */
-  volumeRefs?: ContainerVolume[];
+  volumeRefs?: VolumeReference[];
+  /**
+   * @member {ApplicationScopedVolume[]} [volumes] Volumes to be attached to
+   * the container. The lifetime of these volumes is scoped to the
+   * application's lifetime.
+   */
+  volumes?: ApplicationScopedVolume[];
+  /**
+   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
+   * DiagnosticsDescription.
+   */
+  diagnostics?: DiagnosticsRef;
+  /**
+   * @member {ReliableCollectionsRef[]} [reliableCollectionsRefs] A list of
+   * ReliableCollection resources used by this particular code package. Please
+   * refer to ReliablecollectionsRef for more details.
+   */
+  reliableCollectionsRefs?: ReliableCollectionsRef[];
   /**
    * @member {ContainerInstanceView} [instanceView] Runtime information of a
    * container instance.
@@ -16661,6 +17124,387 @@ export interface ContainerCodePackageProperties {
    * the server.**
    */
   readonly instanceView?: ContainerInstanceView;
+}
+
+/**
+ * Contains the possible cases for AutoScalingTrigger.
+ */
+export type AutoScalingTriggerUnion = AutoScalingTrigger | AverageLoadScalingTrigger;
+
+/**
+ * @interface
+ * An interface representing AutoScalingTrigger.
+ * Describes the trigger for performing auto scaling operation.
+ *
+ */
+export interface AutoScalingTrigger {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AutoScalingTrigger";
+}
+
+/**
+ * Contains the possible cases for AutoScalingMechanism.
+ */
+export type AutoScalingMechanismUnion = AutoScalingMechanism | AddRemoveReplicaScalingMechanism;
+
+/**
+ * @interface
+ * An interface representing AutoScalingMechanism.
+ * Describes the mechanism for performing auto scaling operation. Derived
+ * classes will describe the actual mechanism.
+ *
+ */
+export interface AutoScalingMechanism {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AutoScalingMechanism";
+}
+
+/**
+ * @interface
+ * An interface representing AutoScalingPolicy.
+ * Describes the auto scaling policy
+ *
+ */
+export interface AutoScalingPolicy {
+  /**
+   * @member {string} name The name of the auto scaling policy.
+   */
+  name: string;
+  /**
+   * @member {AutoScalingTriggerUnion} trigger Determines when auto scaling
+   * operation will be invoked.
+   */
+  trigger: AutoScalingTriggerUnion;
+  /**
+   * @member {AutoScalingMechanismUnion} mechanism The mechanism that is used
+   * to scale when auto scaling operation is invoked.
+   */
+  mechanism: AutoScalingMechanismUnion;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceResourceDescription.
+ * This type describes a service resource.
+ *
+ */
+export interface ServiceResourceDescription {
+  /**
+   * @member {string} name Name of the Service resource.
+   */
+  name: string;
+  /**
+   * @member {OperatingSystemType} osType The operation system required by the
+   * code in service. Possible values include: 'Linux', 'Windows'
+   */
+  osType: OperatingSystemType;
+  /**
+   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
+   * of code packages that forms the service. A code package describes the
+   * container and the properties for running it. All the code packages are
+   * started together on the same host and share the same context (network,
+   * process etc.).
+   */
+  codePackages: ContainerCodePackageProperties[];
+  /**
+   * @member {NetworkRef[]} [networkRefs] The names of the private networks
+   * that this service needs to be part of.
+   */
+  networkRefs?: NetworkRef[];
+  /**
+   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
+   * DiagnosticsDescription.
+   */
+  diagnostics?: DiagnosticsRef;
+  /**
+   * @member {string} [description] User readable description of the service.
+   */
+  description?: string;
+  /**
+   * @member {number} [replicaCount] The number of replicas of the service to
+   * create. Defaults to 1 if not specified.
+   */
+  replicaCount?: number;
+  /**
+   * @member {AutoScalingPolicy[]} [autoScalingPolicies] Auto scaling policies
+   */
+  autoScalingPolicies?: AutoScalingPolicy[];
+  /**
+   * @member {ResourceStatus} [status] Status of the service. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the service.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {HealthState} [healthState] Describes the health state of an
+   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
+   * 'Error', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthState?: HealthState;
+  /**
+   * @member {string} [unhealthyEvaluation] When the service's health state is
+   * not 'Ok', this additional details from service fabric Health Manager for
+   * the user to know why the service is marked unhealthy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unhealthyEvaluation?: string;
+}
+
+/**
+ * Contains the possible cases for DiagnosticsSinkProperties.
+ */
+export type DiagnosticsSinkPropertiesUnion = DiagnosticsSinkProperties | AzureInternalMonitoringPipelineSinkDescription;
+
+/**
+ * @interface
+ * An interface representing DiagnosticsSinkProperties.
+ * Properties of a DiagnosticsSink.
+ *
+ */
+export interface DiagnosticsSinkProperties {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "DiagnosticsSinkProperties";
+  /**
+   * @member {string} [name] Name of the sink. This value is referenced by
+   * DiagnosticsReferenceDescription
+   */
+  name?: string;
+  /**
+   * @member {string} [description] A description of the sink.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DiagnosticsDescription.
+ * Describes the diagnostics options available
+ *
+ */
+export interface DiagnosticsDescription {
+  /**
+   * @member {DiagnosticsSinkPropertiesUnion[]} [sinks] List of supported sinks
+   * that can be referenced.
+   */
+  sinks?: DiagnosticsSinkPropertiesUnion[];
+  /**
+   * @member {boolean} [enabled] Status of whether or not sinks are enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {string[]} [defaultSinkRefs] The sinks to be used if diagnostics
+   * is enabled. Sink choices can be overridden at the service and code package
+   * level.
+   */
+  defaultSinkRefs?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing AzureInternalMonitoringPipelineSinkDescription.
+ * Diagnostics settings for Geneva.
+ *
+ */
+export interface AzureInternalMonitoringPipelineSinkDescription {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AzureInternalMonitoringPipeline";
+  /**
+   * @member {string} [name] Name of the sink. This value is referenced by
+   * DiagnosticsReferenceDescription
+   */
+  name?: string;
+  /**
+   * @member {string} [description] A description of the sink.
+   */
+  description?: string;
+  /**
+   * @member {string} [accountName] Azure Internal monitoring pipeline account.
+   */
+  accountName?: string;
+  /**
+   * @member {string} [namespace] Azure Internal monitoring pipeline account
+   * namespace.
+   */
+  namespace?: string;
+  /**
+   * @member {string} [maConfigUrl] Azure Internal monitoring agent
+   * configuration.
+   */
+  maConfigUrl?: string;
+  /**
+   * @member {any} [fluentdConfigUrl] Azure Internal monitoring agent fluentd
+   * configuration.
+   */
+  fluentdConfigUrl?: any;
+  /**
+   * @member {string} [autoKeyConfigUrl] Azure Internal monitoring pipeline
+   * autokey associated with the certificate.
+   */
+  autoKeyConfigUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AddRemoveReplicaScalingMechanism.
+ * Describes the horizontal auto scaling mechanism that adds or removes
+ * replicas (containers or container groups).
+ *
+ */
+export interface AddRemoveReplicaScalingMechanism {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AddRemoveReplica";
+  /**
+   * @member {number} minCount Minimum number of containers (scale down won't
+   * be performed below this number).
+   */
+  minCount: number;
+  /**
+   * @member {number} maxCount Maximum number of containers (scale up won't be
+   * performed above this number).
+   */
+  maxCount: number;
+  /**
+   * @member {number} scaleIncrement Each time auto scaling is performed, this
+   * number of containers will be added or removed.
+   */
+  scaleIncrement: number;
+}
+
+/**
+ * Contains the possible cases for AutoScalingMetric.
+ */
+export type AutoScalingMetricUnion = AutoScalingMetric | AutoScalingResourceMetric;
+
+/**
+ * @interface
+ * An interface representing AutoScalingMetric.
+ * Describes the metric that is used for triggering auto scaling operation.
+ * Derived classes will describe resources or metrics.
+ *
+ */
+export interface AutoScalingMetric {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AutoScalingMetric";
+}
+
+/**
+ * @interface
+ * An interface representing AutoScalingResourceMetric.
+ * Describes the resource that is used for triggering auto scaling.
+ *
+ */
+export interface AutoScalingResourceMetric {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Resource";
+  /**
+   * @member {AutoScalingResourceMetricName} name Name of the resource.
+   * Possible values include: 'cpu', 'memoryInGB'
+   */
+  name: AutoScalingResourceMetricName;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceProperties.
+ * Describes properties of a service resource.
+ *
+ */
+export interface ServiceProperties {
+  /**
+   * @member {string} [description] User readable description of the service.
+   */
+  description?: string;
+  /**
+   * @member {number} [replicaCount] The number of replicas of the service to
+   * create. Defaults to 1 if not specified.
+   */
+  replicaCount?: number;
+  /**
+   * @member {AutoScalingPolicy[]} [autoScalingPolicies] Auto scaling policies
+   */
+  autoScalingPolicies?: AutoScalingPolicy[];
+  /**
+   * @member {ResourceStatus} [status] Status of the service. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the service.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {HealthState} [healthState] Describes the health state of an
+   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
+   * 'Error', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthState?: HealthState;
+  /**
+   * @member {string} [unhealthyEvaluation] When the service's health state is
+   * not 'Ok', this additional details from service fabric Health Manager for
+   * the user to know why the service is marked unhealthy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unhealthyEvaluation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceReplicaProperties.
+ * Describes the properties of a service replica.
+ *
+ */
+export interface ServiceReplicaProperties {
+  /**
+   * @member {OperatingSystemType} osType The operation system required by the
+   * code in service. Possible values include: 'Linux', 'Windows'
+   */
+  osType: OperatingSystemType;
+  /**
+   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
+   * of code packages that forms the service. A code package describes the
+   * container and the properties for running it. All the code packages are
+   * started together on the same host and share the same context (network,
+   * process etc.).
+   */
+  codePackages: ContainerCodePackageProperties[];
+  /**
+   * @member {NetworkRef[]} [networkRefs] The names of the private networks
+   * that this service needs to be part of.
+   */
+  networkRefs?: NetworkRef[];
   /**
    * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
    * DiagnosticsDescription.
@@ -16670,15 +17514,196 @@ export interface ContainerCodePackageProperties {
 
 /**
  * @interface
- * An interface representing NetworkRef.
- * Describes a network reference in a service.
+ * An interface representing ServiceReplicaDescription.
+ * Describes a replica of a service resource.
+ *
+ * @extends ServiceReplicaProperties
+ */
+export interface ServiceReplicaDescription extends ServiceReplicaProperties {
+  /**
+   * @member {string} replicaName Name of the replica.
+   */
+  replicaName: string;
+}
+
+/**
+ * @interface
+ * An interface representing AverageLoadScalingTrigger.
+ * Describes the average load trigger used for auto scaling.
  *
  */
-export interface NetworkRef {
+export interface AverageLoadScalingTrigger {
   /**
-   * @member {string} [name] Name of the network.
+   * @member {string} kind Polymorphic Discriminator
    */
-  name?: string;
+  kind: "AverageLoad";
+  /**
+   * @member {AutoScalingMetricUnion} metric Description of the metric that is
+   * used for scaling.
+   */
+  metric: AutoScalingMetricUnion;
+  /**
+   * @member {number} lowerLoadThreshold Lower load threshold (if average load
+   * is below this threshold, service will scale down).
+   */
+  lowerLoadThreshold: number;
+  /**
+   * @member {number} upperLoadThreshold Upper load threshold (if average load
+   * is above this threshold, service will scale up).
+   */
+  upperLoadThreshold: number;
+  /**
+   * @member {number} scaleIntervalInSeconds Scale interval that indicates how
+   * often will this trigger be checked.
+   */
+  scaleIntervalInSeconds: number;
+}
+
+/**
+ * @interface
+ * An interface representing PagedServiceResourceDescriptionList.
+ * The list of service resources. The list is paged when all of the results
+ * cannot fit in a single message. The next set of results can be obtained by
+ * executing the same query with the continuation token provided in this list.
+ *
+ */
+export interface PagedServiceResourceDescriptionList {
+  /**
+   * @member {string} [continuationToken] The continuation token parameter is
+   * used to obtain next set of results. The continuation token is included in
+   * the response of the API when the results from the system do not fit in a
+   * single response. When this value is passed to the next API call, the API
+   * returns next set of results. If there are no further results, then the
+   * continuation token is not included in the response.
+   */
+  continuationToken?: string;
+  /**
+   * @member {ServiceResourceDescription[]} [items] One page of the list.
+   */
+  items?: ServiceResourceDescription[];
+}
+
+/**
+ * @interface
+ * An interface representing PagedServiceReplicaDescriptionList.
+ * The list of service resource replicas in the cluster. The list is paged when
+ * all of the results cannot fit in a single message. The next set of results
+ * can be obtained by executing the same query with the continuation token
+ * provided in this list.
+ *
+ */
+export interface PagedServiceReplicaDescriptionList {
+  /**
+   * @member {string} [continuationToken] The continuation token parameter is
+   * used to obtain next set of results. The continuation token is included in
+   * the response of the API when the results from the system do not fit in a
+   * single response. When this value is passed to the next API call, the API
+   * returns next set of results. If there are no further results, then the
+   * continuation token is not included in the response.
+   */
+  continuationToken?: string;
+  /**
+   * @member {ServiceReplicaDescription[]} [items] List of service resource
+   * replica description.
+   */
+  items?: ServiceReplicaDescription[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationResourceDescription.
+ * This type describes a application resource.
+ *
+ */
+export interface ApplicationResourceDescription {
+  /**
+   * @member {string} name Name of the Application resource.
+   */
+  name: string;
+  /**
+   * @member {string} [description] User readable description of the
+   * application.
+   */
+  description?: string;
+  /**
+   * @member {ServiceResourceDescription[]} [services] Describes the services
+   * in the application. This property is used to create or modify services of
+   * the application. On get only the name of the service is returned. The
+   * service description can be obtained by querying for the service resource.
+   */
+  services?: ServiceResourceDescription[];
+  /**
+   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
+   * definition and usage for an application resource.
+   */
+  diagnostics?: DiagnosticsDescription;
+  /**
+   * @member {string} [debugParams] Internal - used by Visual Studio to setup
+   * the debugging session on the local development environment.
+   */
+  debugParams?: string;
+  /**
+   * @member {string[]} [serviceNames] Names of the services in the
+   * application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceNames?: string[];
+  /**
+   * @member {ResourceStatus} [status] Status of the application. Possible
+   * values include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting',
+   * 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {HealthState} [healthState] Describes the health state of an
+   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
+   * 'Error', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthState?: HealthState;
+  /**
+   * @member {string} [unhealthyEvaluation] When the application's health state
+   * is not 'Ok', this additional details from service fabric Health Manager
+   * for the user to know why the application is marked unhealthy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unhealthyEvaluation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PagedApplicationResourceDescriptionList.
+ * The list of application resources. The list is paged when all of the results
+ * cannot fit in a single message. The next set of results can be obtained by
+ * executing the same query with the continuation token provided in this list.
+ *
+ */
+export interface PagedApplicationResourceDescriptionList {
+  /**
+   * @member {string} [continuationToken] The continuation token parameter is
+   * used to obtain next set of results. The continuation token is included in
+   * the response of the API when the results from the system do not fit in a
+   * single response. When this value is passed to the next API call, the API
+   * returns next set of results. If there are no further results, then the
+   * continuation token is not included in the response.
+   */
+  continuationToken?: string;
+  /**
+   * @member {ApplicationResourceDescription[]} [items] One page of the list.
+   */
+  items?: ApplicationResourceDescription[];
 }
 
 /**
@@ -17311,6 +18336,23 @@ export interface ServiceFabricClientUpdateClusterUpgradeOptionalParams extends m
  * @extends RequestOptionsBase
  */
 export interface ServiceFabricClientGetAadMetadataOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [timeoutParameter] The server timeout for performing the
+   * operation in seconds. This timeout specifies the time duration that the
+   * client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60 .
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceFabricClientGetClusterVersionOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ServiceFabricClientGetClusterVersionOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [timeoutParameter] The server timeout for performing the
    * operation in seconds. This timeout specifies the time duration that the
@@ -19019,6 +20061,11 @@ export interface ServiceFabricClientResolveServiceOptionalParams extends msRest.
   /**
    * @member {string} [partitionKeyValue] Partition key. This is required if
    * the partition scheme for the service is Int64Range or Named.
+   * This is not the partition ID, but rather, either the integer key value, or
+   * the name of the partition ID.
+   * For example, if your service is using ranged partitions from 0 to 10, then
+   * they PartitionKeyValue would be an
+   * integer in that range. Query service description to see the range or name.
    */
   partitionKeyValue?: string;
   /**
@@ -20109,6 +21156,23 @@ export interface ServiceFabricClientStartComposeDeploymentUpgradeOptionalParams 
 
 /**
  * @interface
+ * An interface representing ServiceFabricClientStartRollbackComposeDeploymentUpgradeOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ServiceFabricClientStartRollbackComposeDeploymentUpgradeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [timeoutParameter] The server timeout for performing the
+   * operation in seconds. This timeout specifies the time duration that the
+   * client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60 .
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * @interface
  * An interface representing ServiceFabricClientGetChaosOptionalParams.
  * Optional Parameters.
  *
@@ -20807,6 +21871,11 @@ export interface ServiceFabricClientDisableApplicationBackupOptionalParams exten
    * default value for this parameter is 60 seconds. Default value: 60 .
    */
   timeoutParameter?: number;
+  /**
+   * @member {DisableBackupDescription} [disableBackupDescription] Specifies
+   * the parameters to disable backup for any backup entity.
+   */
+  disableBackupDescription?: DisableBackupDescription;
 }
 
 /**
@@ -20962,6 +22031,11 @@ export interface ServiceFabricClientEnableServiceBackupOptionalParams extends ms
  * @extends RequestOptionsBase
  */
 export interface ServiceFabricClientDisableServiceBackupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {DisableBackupDescription} [disableBackupDescription] Specifies
+   * the parameters to disable backup for any backup entity.
+   */
+  disableBackupDescription?: DisableBackupDescription;
   /**
    * @member {number} [timeoutParameter] The server timeout for performing the
    * operation in seconds. This timeout specifies the time duration that the
@@ -21124,6 +22198,11 @@ export interface ServiceFabricClientEnablePartitionBackupOptionalParams extends 
  * @extends RequestOptionsBase
  */
 export interface ServiceFabricClientDisablePartitionBackupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {DisableBackupDescription} [disableBackupDescription] Specifies
+   * the parameters to disable backup for any backup entity.
+   */
+  disableBackupDescription?: DisableBackupDescription;
   /**
    * @member {number} [timeoutParameter] The server timeout for performing the
    * operation in seconds. This timeout specifies the time duration that the
@@ -21976,3550 +23055,918 @@ export interface ServiceFabricClientGetCorrelatedEventListOptionalParams extends
 }
 
 /**
- * Defines values for ApplicationDefinitionKind.
- * Possible values include: 'Invalid', 'ServiceFabricApplicationDescription',
- * 'Compose'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationDefinitionKind =
- * <ApplicationDefinitionKind>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
+ * @interface
+ * An interface representing MeshCodePackageGetContainerLogsOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
  */
-export enum ApplicationDefinitionKind {
+export interface MeshCodePackageGetContainerLogsOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Indicates the application definition kind is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is 65535.
+   * @member {string} [tail] Number of lines to show from the end of the logs.
+   * Default is 100. 'all' to show the complete logs.
    */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the application is defined by a Service Fabric application
-   * description. The value is 0.
-   */
-  ServiceFabricApplicationDescription = 'ServiceFabricApplicationDescription',
-  /**
-   * Indicates the application is defined by compose file(s). The value is 1.
-   */
-  Compose = 'Compose',
+  tail?: string;
 }
 
 /**
  * Defines values for HealthState.
  * Possible values include: 'Invalid', 'Ok', 'Warning', 'Error', 'Unknown'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HealthState =
- * <HealthState>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HealthState {
-  /**
-   * Indicates an invalid health state. All Service Fabric enumerations have
-   * the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the health state is okay. The value is 1.
-   */
-  Ok = 'Ok',
-  /**
-   * Indicates the health state is at a warning level. The value is 2.
-   */
-  Warning = 'Warning',
-  /**
-   * Indicates the health state is at an error level. Error health state should
-   * be investigated, as they can impact the correct functionality of the
-   * cluster. The value is 3.
-   */
-  Error = 'Error',
-  /**
-   * Indicates an unknown health status. The value is 65535.
-   */
-  Unknown = 'Unknown',
-}
-
-/**
- * Defines values for ApplicationStatus.
- * Possible values include: 'Invalid', 'Ready', 'Upgrading', 'Creating',
- * 'Deleting', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationStatus =
- * <ApplicationStatus>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ApplicationStatus {
-  /**
-   * Indicates the application status is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the application status is ready. The value is 1.
-   */
-  Ready = 'Ready',
-  /**
-   * Indicates the application status is upgrading. The value is 2.
-   */
-  Upgrading = 'Upgrading',
-  /**
-   * Indicates the application status is creating. The value is 3.
-   */
-  Creating = 'Creating',
-  /**
-   * Indicates the application status is deleting. The value is 4.
-   */
-  Deleting = 'Deleting',
-  /**
-   * Indicates the creation or deletion of application was terminated due to
-   * persistent failures. Another create/delete request can be accepted to
-   * resume a failed application. The value is 5.
-   */
-  Failed = 'Failed',
-}
-
-/**
- * Defines values for ApplicationPackageCleanupPolicy.
- * Possible values include: 'Invalid', 'Default', 'Automatic', 'Manual'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationPackageCleanupPolicy =
- * <ApplicationPackageCleanupPolicy>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ApplicationPackageCleanupPolicy {
-  /**
-   * Indicates that the application package cleanup policy is invalid. This
-   * value is default. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the cleanup policy of application packages is based on the
-   * cluster setting "CleanupApplicationPackageOnProvisionSuccess." The value
-   * is 1.
-   */
-  Default = 'Default',
-  /**
-   * Indicates that the service fabric runtime determines when to do the
-   * application package cleanup. By default, cleanup is done on successful
-   * provision. The value is 2.
-   */
-  Automatic = 'Automatic',
-  /**
-   * Indicates that the user has to explicitly clean up the application
-   * package. The value is 3.
-   */
-  Manual = 'Manual',
-}
-
-/**
- * Defines values for ApplicationTypeDefinitionKind.
- * Possible values include: 'Invalid', 'ServiceFabricApplicationPackage',
- * 'Compose'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationTypeDefinitionKind =
- * <ApplicationTypeDefinitionKind>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ApplicationTypeDefinitionKind {
-  /**
-   * Indicates the application type definition kind is invalid. All Service
-   * Fabric enumerations have the invalid type. The value is 0.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the application type is defined and created by a Service Fabric
-   * application package provided by the user. The value is 1.
-   */
-  ServiceFabricApplicationPackage = 'ServiceFabricApplicationPackage',
-  /**
-   * Indicates the application type is defined and created implicitly as part
-   * of a compose deployment. The value is 2.
-   */
-  Compose = 'Compose',
-}
-
-/**
- * Defines values for ApplicationTypeStatus.
- * Possible values include: 'Invalid', 'Provisioning', 'Available',
- * 'Unprovisioning', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationTypeStatus =
- * <ApplicationTypeStatus>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ApplicationTypeStatus {
-  /**
-   * Indicates the application type status is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the application type is being provisioned in the cluster.
-   * The value is 1.
-   */
-  Provisioning = 'Provisioning',
-  /**
-   * Indicates that the application type is fully provisioned and is available
-   * for use. An application of this type and version can be created. The value
-   * is 2.
-   */
-  Available = 'Available',
-  /**
-   * Indicates that the application type is in process of being unprovisioned
-   * from the cluster. The value is 3.
-   */
-  Unprovisioning = 'Unprovisioning',
-  /**
-   * Indicates that the application type provisioning failed and it is
-   * unavailable for use. The failure details can be obtained from the
-   * application type information query. The failed application type
-   * information remains in the cluster until it is unprovisioned or
-   * reprovisioned successfully. The value is 4.
-   */
-  Failed = 'Failed',
-}
-
-/**
- * Defines values for UpgradeKind.
- * Possible values include: 'Invalid', 'Rolling'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UpgradeKind =
- * <UpgradeKind>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum UpgradeKind {
-  /**
-   * Indicates the upgrade kind is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade progresses one upgrade domain at a time. The value is 1
-   */
-  Rolling = 'Rolling',
-}
-
-/**
- * Defines values for UpgradeMode.
- * Possible values include: 'Invalid', 'UnmonitoredAuto', 'UnmonitoredManual',
- * 'Monitored'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UpgradeMode =
- * <UpgradeMode>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum UpgradeMode {
-  /**
-   * Indicates the upgrade mode is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade will proceed automatically without performing any health
-   * monitoring. The value is 1
-   */
-  UnmonitoredAuto = 'UnmonitoredAuto',
-  /**
-   * The upgrade will stop after completing each upgrade domain, giving the
-   * opportunity to manually monitor health before proceeding. The value is 2
-   */
-  UnmonitoredManual = 'UnmonitoredManual',
-  /**
-   * The upgrade will stop after completing each upgrade domain and
-   * automatically monitor health before proceeding. The value is 3
-   */
-  Monitored = 'Monitored',
-}
-
-/**
- * Defines values for FailureAction.
- * Possible values include: 'Invalid', 'Rollback', 'Manual'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FailureAction =
- * <FailureAction>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum FailureAction {
-  /**
-   * Indicates the failure action is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade will start rolling back automatically. The value is 1
-   */
-  Rollback = 'Rollback',
-  /**
-   * The upgrade will switch to UnmonitoredManual upgrade mode. The value is 2
-   */
-  Manual = 'Manual',
-}
-
-/**
- * Defines values for UpgradeDomainState.
- * Possible values include: 'Invalid', 'Pending', 'InProgress', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UpgradeDomainState =
- * <UpgradeDomainState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum UpgradeDomainState {
-  /**
-   * Indicates the upgrade domain state is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade domain has not started upgrading yet. The value is 1
-   */
-  Pending = 'Pending',
-  /**
-   * The upgrade domain is being upgraded but not complete yet. The value is 2
-   */
-  InProgress = 'InProgress',
-  /**
-   * The upgrade domain has completed upgrade. The value is 3
-   */
-  Completed = 'Completed',
-}
-
-/**
- * Defines values for UpgradeState.
- * Possible values include: 'Invalid', 'RollingBackInProgress',
- * 'RollingBackCompleted', 'RollingForwardPending', 'RollingForwardInProgress',
- * 'RollingForwardCompleted', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UpgradeState =
- * <UpgradeState>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum UpgradeState {
-  /**
-   * Indicates the upgrade state is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade is rolling back to the previous version but is not complete
-   * yet. The value is 1
-   */
-  RollingBackInProgress = 'RollingBackInProgress',
-  /**
-   * The upgrade has finished rolling back. The value is 2
-   */
-  RollingBackCompleted = 'RollingBackCompleted',
-  /**
-   * The current upgrade domain has finished upgrading. The overall upgrade is
-   * waiting for an explicit move next request in UnmonitoredManual mode or
-   * performing health checks in Monitored mode. The value is 3
-   */
-  RollingForwardPending = 'RollingForwardPending',
-  /**
-   * The upgrade is rolling forward to the target version but is not complete
-   * yet. The value is 4
-   */
-  RollingForwardInProgress = 'RollingForwardInProgress',
-  /**
-   * The upgrade has finished rolling forward. The value is 5
-   */
-  RollingForwardCompleted = 'RollingForwardCompleted',
-  /**
-   * The upgrade has failed and is unable to execute FailureAction. The value
-   * is 6
-   */
-  Failed = 'Failed',
-}
-
-/**
- * Defines values for NodeUpgradePhase.
- * Possible values include: 'Invalid', 'PreUpgradeSafetyCheck', 'Upgrading',
- * 'PostUpgradeSafetyCheck'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NodeUpgradePhase =
- * <NodeUpgradePhase>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum NodeUpgradePhase {
-  /**
-   * Indicates the upgrade state is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade has not started yet due to pending safety checks. The value is
-   * 1
-   */
-  PreUpgradeSafetyCheck = 'PreUpgradeSafetyCheck',
-  /**
-   * The upgrade is in progress. The value is 2
-   */
-  Upgrading = 'Upgrading',
-  /**
-   * The upgrade has completed and post upgrade safety checks are being
-   * performed. The value is 3
-   */
-  PostUpgradeSafetyCheck = 'PostUpgradeSafetyCheck',
-}
-
-/**
- * Defines values for FailureReason.
- * Possible values include: 'None', 'Interrupted', 'HealthCheck',
- * 'UpgradeDomainTimeout', 'OverallUpgradeTimeout'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FailureReason =
- * <FailureReason>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum FailureReason {
-  /**
-   * Indicates the reason is invalid or unknown. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  None = 'None',
-  /**
-   * There was an external request to roll back the upgrade. The value is 1
-   */
-  Interrupted = 'Interrupted',
-  /**
-   * The upgrade failed due to health policy violations. The value is 2
-   */
-  HealthCheck = 'HealthCheck',
-  /**
-   * An upgrade domain took longer than the allowed upgrade domain timeout to
-   * process. The value is 3
-   */
-  UpgradeDomainTimeout = 'UpgradeDomainTimeout',
-  /**
-   * The overall upgrade took longer than the allowed upgrade timeout to
-   * process. The value is 4
-   */
-  OverallUpgradeTimeout = 'OverallUpgradeTimeout',
-}
-
-/**
- * Defines values for DeactivationIntent.
- * Possible values include: 'Pause', 'Restart', 'RemoveData'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DeactivationIntent =
- * <DeactivationIntent>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum DeactivationIntent {
-  /**
-   * Indicates that the node should be paused. The value is 1.
-   */
-  Pause = 'Pause',
-  /**
-   * Indicates that the intent is for the node to be restarted after a short
-   * period of time. The value is 2.
-   */
-  Restart = 'Restart',
-  /**
-   * Indicates the intent is for the node to remove data. The value is 3.
-   */
-  RemoveData = 'RemoveData',
-}
-
-/**
- * Defines values for DeployedApplicationStatus.
- * Possible values include: 'Invalid', 'Downloading', 'Activating', 'Active',
- * 'Upgrading', 'Deactivating'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DeployedApplicationStatus =
- * <DeployedApplicationStatus>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum DeployedApplicationStatus {
-  /**
-   * Indicates that deployment status is not valid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the package is downloading from the ImageStore. The value
-   * is 1.
-   */
-  Downloading = 'Downloading',
-  /**
-   * Indicates that the package is activating. The value is 2.
-   */
-  Activating = 'Activating',
-  /**
-   * Indicates that the package is active. The value is 3.
-   */
-  Active = 'Active',
-  /**
-   * Indicates that the package is upgrading. The value is 4.
-   */
-  Upgrading = 'Upgrading',
-  /**
-   * Indicates that the package is deactivating. The value is 5.
-   */
-  Deactivating = 'Deactivating',
-}
-
-/**
- * Defines values for ReplicaStatus.
- * Possible values include: 'Invalid', 'InBuild', 'Standby', 'Ready', 'Down',
- * 'Dropped'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReplicaStatus =
- * <ReplicaStatus>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ReplicaStatus {
-  /**
-   * Indicates the replica status is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The replica is being built. This means that a primary replica is seeding
-   * this replica. The value is 1.
-   */
-  InBuild = 'InBuild',
-  /**
-   * The replica is in standby. The value is 2.
-   */
-  Standby = 'Standby',
-  /**
-   * The replica is ready. The value is 3.
-   */
-  Ready = 'Ready',
-  /**
-   * The replica is down. The value is 4.
-   */
-  Down = 'Down',
-  /**
-   * Replica is dropped. This means that the replica has been removed from the
-   * replica set. If it is persisted, its state has been deleted. The value is
-   * 5.
-   */
-  Dropped = 'Dropped',
-}
-
-/**
- * Defines values for ReplicaRole.
- * Possible values include: 'Unknown', 'None', 'Primary', 'IdleSecondary',
- * 'ActiveSecondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReplicaRole =
- * <ReplicaRole>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ReplicaRole {
-  /**
-   * Indicates the initial role that a replica is created in. The value is
-   * zero.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Specifies that the replica has no responsibility in regard to the replica
-   * set. The value is 1
-   */
-  None = 'None',
-  /**
-   * Refers to the replica in the set on which all read and write operations
-   * are complete in order to enforce strong consistency semantics. Read
-   * operations are handled directly by the Primary replica, while write
-   * operations must be acknowledged by a quorum of the replicas in the replica
-   * set. There can only be one Primary replica in a replica set at a time. The
-   * value is 2.
-   */
-  Primary = 'Primary',
-  /**
-   * Refers to a replica in the set that receives a state transfer from the
-   * Primary replica to prepare for becoming an active Secondary replica. There
-   * can be multiple Idle Secondary replicas in a replica set at a time. Idle
-   * Secondary replicas do not count as a part of a write quorum. The value is
-   * 3.
-   */
-  IdleSecondary = 'IdleSecondary',
-  /**
-   * Refers to a replica in the set that receives state updates from the
-   * Primary replica, applies them, and sends acknowledgements back. Secondary
-   * replicas must participate in the write quorum for a replica set. There can
-   * be multiple active Secondary replicas in a replica set at a time. The
-   * number of active Secondary replicas is configurable that the reliability
-   * subsystem should maintain. The value is 4.
-   */
-  ActiveSecondary = 'ActiveSecondary',
-}
-
-/**
- * Defines values for ReconfigurationPhase.
- * Possible values include: 'Unknown', 'None', 'Phase0', 'Phase1', 'Phase2',
- * 'Phase3', 'Phase4', 'AbortPhaseZero'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReconfigurationPhase =
- * <ReconfigurationPhase>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ReconfigurationPhase {
-  /**
-   * Indicates the invalid reconfiguration phase.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Specifies that there is no reconfiguration in progress.
-   */
-  None = 'None',
-  /**
-   * Refers to the phase where the reconfiguration is transferring data from
-   * the previous primary to the new primary.
-   */
-  Phase0 = 'Phase0',
-  /**
-   * Refers to the phase where the reconfiguration is querying the replica set
-   * for the progress.
-   */
-  Phase1 = 'Phase1',
-  /**
-   * Refers to the phase where the reconfiguration is ensuring that data from
-   * the current primary is present in a majority of the replica set.
-   */
-  Phase2 = 'Phase2',
-  /**
-   * This phase is for internal use only.
-   */
-  Phase3 = 'Phase3',
-  /**
-   * This phase is for internal use only.
-   */
-  Phase4 = 'Phase4',
-  /**
-   * This phase is for internal use only.
-   */
-  AbortPhaseZero = 'AbortPhaseZero',
-}
-
-/**
- * Defines values for ReconfigurationType.
- * Possible values include: 'Unknown', 'SwapPrimary', 'Failover', 'Other'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReconfigurationType =
- * <ReconfigurationType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum ReconfigurationType {
-  /**
-   * Indicates the invalid reconfiguration type.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Specifies that the primary replica is being swapped with a different
-   * replica.
-   */
-  SwapPrimary = 'SwapPrimary',
-  /**
-   * Reconfiguration triggered in response to a primary going down. This could
-   * be due to many reasons such as primary replica crashing etc.
-   */
-  Failover = 'Failover',
-  /**
-   * Reconfigurations where the primary replica is not changing.
-   */
-  Other = 'Other',
-}
-
-/**
- * Defines values for EntityKind.
- * Possible values include: 'Invalid', 'Node', 'Partition', 'Service',
- * 'Application', 'Replica', 'DeployedApplication', 'DeployedServicePackage',
- * 'Cluster'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EntityKind = <EntityKind>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum EntityKind {
-  /**
-   * Indicates an invalid entity kind. All Service Fabric enumerations have the
-   * invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the entity is a Service Fabric node. The value is 1.
-   */
-  Node = 'Node',
-  /**
-   * Indicates the entity is a Service Fabric partition. The value is 2.
-   */
-  Partition = 'Partition',
-  /**
-   * Indicates the entity is a Service Fabric service. The value is 3.
-   */
-  Service = 'Service',
-  /**
-   * Indicates the entity is a Service Fabric application. The value is 4.
-   */
-  Application = 'Application',
-  /**
-   * Indicates the entity is a Service Fabric replica. The value is 5.
-   */
-  Replica = 'Replica',
-  /**
-   * Indicates the entity is a Service Fabric deployed application. The value
-   * is 6.
-   */
-  DeployedApplication = 'DeployedApplication',
-  /**
-   * Indicates the entity is a Service Fabric deployed service package. The
-   * value is 7.
-   */
-  DeployedServicePackage = 'DeployedServicePackage',
-  /**
-   * Indicates the entity is a Service Fabric cluster. The value is 8.
-   */
-  Cluster = 'Cluster',
-}
+export type HealthState = 'Invalid' | 'Ok' | 'Warning' | 'Error' | 'Unknown';
 
 /**
  * Defines values for FabricErrorCodes.
  * Possible values include: 'FABRIC_E_INVALID_PARTITION_KEY',
  * 'FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR', 'FABRIC_E_INVALID_ADDRESS',
- * 'FABRIC_E_APPLICATION_NOT_UPGRADING',
- * 'FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR',
+ * 'FABRIC_E_APPLICATION_NOT_UPGRADING', 'FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR',
  * 'FABRIC_E_FABRIC_NOT_UPGRADING', 'FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR',
- * 'FABRIC_E_INVALID_CONFIGURATION', 'FABRIC_E_INVALID_NAME_URI',
- * 'FABRIC_E_PATH_TOO_LONG', 'FABRIC_E_KEY_TOO_LARGE',
- * 'FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED',
- * 'FABRIC_E_INVALID_ATOMIC_GROUP', 'FABRIC_E_VALUE_EMPTY',
- * 'FABRIC_E_NODE_NOT_FOUND', 'FABRIC_E_APPLICATION_TYPE_NOT_FOUND',
- * 'FABRIC_E_APPLICATION_NOT_FOUND', 'FABRIC_E_SERVICE_TYPE_NOT_FOUND',
- * 'FABRIC_E_SERVICE_DOES_NOT_EXIST',
- * 'FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND',
- * 'FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND', 'FABRIC_E_PARTITION_NOT_FOUND',
- * 'FABRIC_E_REPLICA_DOES_NOT_EXIST', 'FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST',
- * 'FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND',
- * 'FABRIC_E_DIRECTORY_NOT_FOUND', 'FABRIC_E_FABRIC_VERSION_NOT_FOUND',
- * 'FABRIC_E_FILE_NOT_FOUND', 'FABRIC_E_NAME_DOES_NOT_EXIST',
- * 'FABRIC_E_PROPERTY_DOES_NOT_EXIST', 'FABRIC_E_ENUMERATION_COMPLETED',
- * 'FABRIC_E_SERVICE_MANIFEST_NOT_FOUND', 'FABRIC_E_KEY_NOT_FOUND',
- * 'FABRIC_E_HEALTH_ENTITY_NOT_FOUND',
- * 'FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS',
- * 'FABRIC_E_APPLICATION_ALREADY_EXISTS',
+ * 'FABRIC_E_INVALID_CONFIGURATION', 'FABRIC_E_INVALID_NAME_URI', 'FABRIC_E_PATH_TOO_LONG',
+ * 'FABRIC_E_KEY_TOO_LARGE', 'FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED',
+ * 'FABRIC_E_INVALID_ATOMIC_GROUP', 'FABRIC_E_VALUE_EMPTY', 'FABRIC_E_NODE_NOT_FOUND',
+ * 'FABRIC_E_APPLICATION_TYPE_NOT_FOUND', 'FABRIC_E_APPLICATION_NOT_FOUND',
+ * 'FABRIC_E_SERVICE_TYPE_NOT_FOUND', 'FABRIC_E_SERVICE_DOES_NOT_EXIST',
+ * 'FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND', 'FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND',
+ * 'FABRIC_E_PARTITION_NOT_FOUND', 'FABRIC_E_REPLICA_DOES_NOT_EXIST',
+ * 'FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST', 'FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND',
+ * 'FABRIC_E_DIRECTORY_NOT_FOUND', 'FABRIC_E_FABRIC_VERSION_NOT_FOUND', 'FABRIC_E_FILE_NOT_FOUND',
+ * 'FABRIC_E_NAME_DOES_NOT_EXIST', 'FABRIC_E_PROPERTY_DOES_NOT_EXIST',
+ * 'FABRIC_E_ENUMERATION_COMPLETED', 'FABRIC_E_SERVICE_MANIFEST_NOT_FOUND',
+ * 'FABRIC_E_KEY_NOT_FOUND', 'FABRIC_E_HEALTH_ENTITY_NOT_FOUND',
+ * 'FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS', 'FABRIC_E_APPLICATION_ALREADY_EXISTS',
  * 'FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION',
- * 'FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS',
- * 'FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS',
+ * 'FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS', 'FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS',
  * 'FABRIC_E_SERVICE_ALREADY_EXISTS', 'FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS',
- * 'FABRIC_E_APPLICATION_TYPE_IN_USE',
- * 'FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION',
+ * 'FABRIC_E_APPLICATION_TYPE_IN_USE', 'FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION',
  * 'FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS', 'FABRIC_E_FABRIC_VERSION_IN_USE',
  * 'FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS', 'FABRIC_E_NAME_ALREADY_EXISTS',
  * 'FABRIC_E_NAME_NOT_EMPTY', 'FABRIC_E_PROPERTY_CHECK_FAILED',
  * 'FABRIC_E_SERVICE_METADATA_MISMATCH', 'FABRIC_E_SERVICE_TYPE_MISMATCH',
  * 'FABRIC_E_HEALTH_STALE_REPORT', 'FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED',
  * 'FABRIC_E_NODE_HAS_NOT_STOPPED_YET', 'FABRIC_E_INSTANCE_ID_MISMATCH',
- * 'FABRIC_E_VALUE_TOO_LARGE', 'FABRIC_E_NO_WRITE_QUORUM',
- * 'FABRIC_E_NOT_PRIMARY', 'FABRIC_E_NOT_READY',
- * 'FABRIC_E_RECONFIGURATION_PENDING', 'FABRIC_E_SERVICE_OFFLINE', 'E_ABORT',
- * 'FABRIC_E_COMMUNICATION_ERROR', 'FABRIC_E_OPERATION_NOT_COMPLETE',
- * 'FABRIC_E_TIMEOUT', 'FABRIC_E_NODE_IS_UP', 'E_FAIL',
- * 'FABRIC_E_BACKUP_IS_ENABLED',
- * 'FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH',
- * 'FABRIC_E_INVALID_FOR_STATELESS_SERVICES', 'FABRIC_E_BACKUP_NOT_ENABLED',
- * 'FABRIC_E_BACKUP_POLICY_NOT_EXISTING',
- * 'FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING',
- * 'FABRIC_E_BACKUP_IN_PROGRESS', 'FABRIC_E_RESTORE_IN_PROGRESS',
- * 'FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING',
+ * 'FABRIC_E_VALUE_TOO_LARGE', 'FABRIC_E_NO_WRITE_QUORUM', 'FABRIC_E_NOT_PRIMARY',
+ * 'FABRIC_E_NOT_READY', 'FABRIC_E_RECONFIGURATION_PENDING', 'FABRIC_E_SERVICE_OFFLINE', 'E_ABORT',
+ * 'FABRIC_E_COMMUNICATION_ERROR', 'FABRIC_E_OPERATION_NOT_COMPLETE', 'FABRIC_E_TIMEOUT',
+ * 'FABRIC_E_NODE_IS_UP', 'E_FAIL', 'FABRIC_E_BACKUP_IS_ENABLED',
+ * 'FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH', 'FABRIC_E_INVALID_FOR_STATELESS_SERVICES',
+ * 'FABRIC_E_BACKUP_NOT_ENABLED', 'FABRIC_E_BACKUP_POLICY_NOT_EXISTING',
+ * 'FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING', 'FABRIC_E_BACKUP_IN_PROGRESS',
+ * 'FABRIC_E_RESTORE_IN_PROGRESS', 'FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING',
  * 'FABRIC_E_INVALID_SERVICE_SCALING_POLICY', 'E_INVALIDARG',
  * 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS',
- * 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND',
- * 'FABRIC_E_VOLUME_ALREADY_EXISTS', 'FABRIC_E_VOLUME_NOT_FOUND',
- * 'SerializationError'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FabricErrorCodes =
- * <FabricErrorCodes>"someUnknownValueThatWillStillBeValid";
+ * 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND', 'FABRIC_E_VOLUME_ALREADY_EXISTS',
+ * 'FABRIC_E_VOLUME_NOT_FOUND', 'SerializationError',
+ * 'FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR'
  * @readonly
  * @enum {string}
  */
-export enum FabricErrorCodes {
-  FABRICEINVALIDPARTITIONKEY = 'FABRIC_E_INVALID_PARTITION_KEY',
-  FABRICEIMAGEBUILDERVALIDATIONERROR = 'FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR',
-  FABRICEINVALIDADDRESS = 'FABRIC_E_INVALID_ADDRESS',
-  FABRICEAPPLICATIONNOTUPGRADING = 'FABRIC_E_APPLICATION_NOT_UPGRADING',
-  FABRICEAPPLICATIONUPGRADEVALIDATIONERROR = 'FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR',
-  FABRICEFABRICNOTUPGRADING = 'FABRIC_E_FABRIC_NOT_UPGRADING',
-  FABRICEFABRICUPGRADEVALIDATIONERROR = 'FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR',
-  FABRICEINVALIDCONFIGURATION = 'FABRIC_E_INVALID_CONFIGURATION',
-  FABRICEINVALIDNAMEURI = 'FABRIC_E_INVALID_NAME_URI',
-  FABRICEPATHTOOLONG = 'FABRIC_E_PATH_TOO_LONG',
-  FABRICEKEYTOOLARGE = 'FABRIC_E_KEY_TOO_LARGE',
-  FABRICESERVICEAFFINITYCHAINNOTSUPPORTED = 'FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED',
-  FABRICEINVALIDATOMICGROUP = 'FABRIC_E_INVALID_ATOMIC_GROUP',
-  FABRICEVALUEEMPTY = 'FABRIC_E_VALUE_EMPTY',
-  FABRICENODENOTFOUND = 'FABRIC_E_NODE_NOT_FOUND',
-  FABRICEAPPLICATIONTYPENOTFOUND = 'FABRIC_E_APPLICATION_TYPE_NOT_FOUND',
-  FABRICEAPPLICATIONNOTFOUND = 'FABRIC_E_APPLICATION_NOT_FOUND',
-  FABRICESERVICETYPENOTFOUND = 'FABRIC_E_SERVICE_TYPE_NOT_FOUND',
-  FABRICESERVICEDOESNOTEXIST = 'FABRIC_E_SERVICE_DOES_NOT_EXIST',
-  FABRICESERVICETYPETEMPLATENOTFOUND = 'FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND',
-  FABRICECONFIGURATIONSECTIONNOTFOUND = 'FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND',
-  FABRICEPARTITIONNOTFOUND = 'FABRIC_E_PARTITION_NOT_FOUND',
-  FABRICEREPLICADOESNOTEXIST = 'FABRIC_E_REPLICA_DOES_NOT_EXIST',
-  FABRICESERVICEGROUPDOESNOTEXIST = 'FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST',
-  FABRICECONFIGURATIONPARAMETERNOTFOUND = 'FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND',
-  FABRICEDIRECTORYNOTFOUND = 'FABRIC_E_DIRECTORY_NOT_FOUND',
-  FABRICEFABRICVERSIONNOTFOUND = 'FABRIC_E_FABRIC_VERSION_NOT_FOUND',
-  FABRICEFILENOTFOUND = 'FABRIC_E_FILE_NOT_FOUND',
-  FABRICENAMEDOESNOTEXIST = 'FABRIC_E_NAME_DOES_NOT_EXIST',
-  FABRICEPROPERTYDOESNOTEXIST = 'FABRIC_E_PROPERTY_DOES_NOT_EXIST',
-  FABRICEENUMERATIONCOMPLETED = 'FABRIC_E_ENUMERATION_COMPLETED',
-  FABRICESERVICEMANIFESTNOTFOUND = 'FABRIC_E_SERVICE_MANIFEST_NOT_FOUND',
-  FABRICEKEYNOTFOUND = 'FABRIC_E_KEY_NOT_FOUND',
-  FABRICEHEALTHENTITYNOTFOUND = 'FABRIC_E_HEALTH_ENTITY_NOT_FOUND',
-  FABRICEAPPLICATIONTYPEALREADYEXISTS = 'FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS',
-  FABRICEAPPLICATIONALREADYEXISTS = 'FABRIC_E_APPLICATION_ALREADY_EXISTS',
-  FABRICEAPPLICATIONALREADYINTARGETVERSION = 'FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION',
-  FABRICEAPPLICATIONTYPEPROVISIONINPROGRESS = 'FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS',
-  FABRICEAPPLICATIONUPGRADEINPROGRESS = 'FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS',
-  FABRICESERVICEALREADYEXISTS = 'FABRIC_E_SERVICE_ALREADY_EXISTS',
-  FABRICESERVICEGROUPALREADYEXISTS = 'FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS',
-  FABRICEAPPLICATIONTYPEINUSE = 'FABRIC_E_APPLICATION_TYPE_IN_USE',
-  FABRICEFABRICALREADYINTARGETVERSION = 'FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION',
-  FABRICEFABRICVERSIONALREADYEXISTS = 'FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS',
-  FABRICEFABRICVERSIONINUSE = 'FABRIC_E_FABRIC_VERSION_IN_USE',
-  FABRICEFABRICUPGRADEINPROGRESS = 'FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS',
-  FABRICENAMEALREADYEXISTS = 'FABRIC_E_NAME_ALREADY_EXISTS',
-  FABRICENAMENOTEMPTY = 'FABRIC_E_NAME_NOT_EMPTY',
-  FABRICEPROPERTYCHECKFAILED = 'FABRIC_E_PROPERTY_CHECK_FAILED',
-  FABRICESERVICEMETADATAMISMATCH = 'FABRIC_E_SERVICE_METADATA_MISMATCH',
-  FABRICESERVICETYPEMISMATCH = 'FABRIC_E_SERVICE_TYPE_MISMATCH',
-  FABRICEHEALTHSTALEREPORT = 'FABRIC_E_HEALTH_STALE_REPORT',
-  FABRICESEQUENCENUMBERCHECKFAILED = 'FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED',
-  FABRICENODEHASNOTSTOPPEDYET = 'FABRIC_E_NODE_HAS_NOT_STOPPED_YET',
-  FABRICEINSTANCEIDMISMATCH = 'FABRIC_E_INSTANCE_ID_MISMATCH',
-  FABRICEVALUETOOLARGE = 'FABRIC_E_VALUE_TOO_LARGE',
-  FABRICENOWRITEQUORUM = 'FABRIC_E_NO_WRITE_QUORUM',
-  FABRICENOTPRIMARY = 'FABRIC_E_NOT_PRIMARY',
-  FABRICENOTREADY = 'FABRIC_E_NOT_READY',
-  FABRICERECONFIGURATIONPENDING = 'FABRIC_E_RECONFIGURATION_PENDING',
-  FABRICESERVICEOFFLINE = 'FABRIC_E_SERVICE_OFFLINE',
-  EABORT = 'E_ABORT',
-  FABRICECOMMUNICATIONERROR = 'FABRIC_E_COMMUNICATION_ERROR',
-  FABRICEOPERATIONNOTCOMPLETE = 'FABRIC_E_OPERATION_NOT_COMPLETE',
-  FABRICETIMEOUT = 'FABRIC_E_TIMEOUT',
-  FABRICENODEISUP = 'FABRIC_E_NODE_IS_UP',
-  EFAIL = 'E_FAIL',
-  FABRICEBACKUPISENABLED = 'FABRIC_E_BACKUP_IS_ENABLED',
-  FABRICERESTORESOURCETARGETPARTITIONMISMATCH = 'FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH',
-  FABRICEINVALIDFORSTATELESSSERVICES = 'FABRIC_E_INVALID_FOR_STATELESS_SERVICES',
-  FABRICEBACKUPNOTENABLED = 'FABRIC_E_BACKUP_NOT_ENABLED',
-  FABRICEBACKUPPOLICYNOTEXISTING = 'FABRIC_E_BACKUP_POLICY_NOT_EXISTING',
-  FABRICEFAULTANALYSISSERVICENOTEXISTING = 'FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING',
-  FABRICEBACKUPINPROGRESS = 'FABRIC_E_BACKUP_IN_PROGRESS',
-  FABRICERESTOREINPROGRESS = 'FABRIC_E_RESTORE_IN_PROGRESS',
-  FABRICEBACKUPPOLICYALREADYEXISTING = 'FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING',
-  FABRICEINVALIDSERVICESCALINGPOLICY = 'FABRIC_E_INVALID_SERVICE_SCALING_POLICY',
-  EINVALIDARG = 'E_INVALIDARG',
-  FABRICESINGLEINSTANCEAPPLICATIONALREADYEXISTS = 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS',
-  FABRICESINGLEINSTANCEAPPLICATIONNOTFOUND = 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND',
-  FABRICEVOLUMEALREADYEXISTS = 'FABRIC_E_VOLUME_ALREADY_EXISTS',
-  FABRICEVOLUMENOTFOUND = 'FABRIC_E_VOLUME_NOT_FOUND',
-  SerializationError = 'SerializationError',
-}
+export type FabricErrorCodes = 'FABRIC_E_INVALID_PARTITION_KEY' | 'FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR' | 'FABRIC_E_INVALID_ADDRESS' | 'FABRIC_E_APPLICATION_NOT_UPGRADING' | 'FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR' | 'FABRIC_E_FABRIC_NOT_UPGRADING' | 'FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR' | 'FABRIC_E_INVALID_CONFIGURATION' | 'FABRIC_E_INVALID_NAME_URI' | 'FABRIC_E_PATH_TOO_LONG' | 'FABRIC_E_KEY_TOO_LARGE' | 'FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED' | 'FABRIC_E_INVALID_ATOMIC_GROUP' | 'FABRIC_E_VALUE_EMPTY' | 'FABRIC_E_NODE_NOT_FOUND' | 'FABRIC_E_APPLICATION_TYPE_NOT_FOUND' | 'FABRIC_E_APPLICATION_NOT_FOUND' | 'FABRIC_E_SERVICE_TYPE_NOT_FOUND' | 'FABRIC_E_SERVICE_DOES_NOT_EXIST' | 'FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND' | 'FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND' | 'FABRIC_E_PARTITION_NOT_FOUND' | 'FABRIC_E_REPLICA_DOES_NOT_EXIST' | 'FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST' | 'FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND' | 'FABRIC_E_DIRECTORY_NOT_FOUND' | 'FABRIC_E_FABRIC_VERSION_NOT_FOUND' | 'FABRIC_E_FILE_NOT_FOUND' | 'FABRIC_E_NAME_DOES_NOT_EXIST' | 'FABRIC_E_PROPERTY_DOES_NOT_EXIST' | 'FABRIC_E_ENUMERATION_COMPLETED' | 'FABRIC_E_SERVICE_MANIFEST_NOT_FOUND' | 'FABRIC_E_KEY_NOT_FOUND' | 'FABRIC_E_HEALTH_ENTITY_NOT_FOUND' | 'FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS' | 'FABRIC_E_APPLICATION_ALREADY_EXISTS' | 'FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION' | 'FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS' | 'FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS' | 'FABRIC_E_SERVICE_ALREADY_EXISTS' | 'FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS' | 'FABRIC_E_APPLICATION_TYPE_IN_USE' | 'FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION' | 'FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS' | 'FABRIC_E_FABRIC_VERSION_IN_USE' | 'FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS' | 'FABRIC_E_NAME_ALREADY_EXISTS' | 'FABRIC_E_NAME_NOT_EMPTY' | 'FABRIC_E_PROPERTY_CHECK_FAILED' | 'FABRIC_E_SERVICE_METADATA_MISMATCH' | 'FABRIC_E_SERVICE_TYPE_MISMATCH' | 'FABRIC_E_HEALTH_STALE_REPORT' | 'FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED' | 'FABRIC_E_NODE_HAS_NOT_STOPPED_YET' | 'FABRIC_E_INSTANCE_ID_MISMATCH' | 'FABRIC_E_VALUE_TOO_LARGE' | 'FABRIC_E_NO_WRITE_QUORUM' | 'FABRIC_E_NOT_PRIMARY' | 'FABRIC_E_NOT_READY' | 'FABRIC_E_RECONFIGURATION_PENDING' | 'FABRIC_E_SERVICE_OFFLINE' | 'E_ABORT' | 'FABRIC_E_COMMUNICATION_ERROR' | 'FABRIC_E_OPERATION_NOT_COMPLETE' | 'FABRIC_E_TIMEOUT' | 'FABRIC_E_NODE_IS_UP' | 'E_FAIL' | 'FABRIC_E_BACKUP_IS_ENABLED' | 'FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH' | 'FABRIC_E_INVALID_FOR_STATELESS_SERVICES' | 'FABRIC_E_BACKUP_NOT_ENABLED' | 'FABRIC_E_BACKUP_POLICY_NOT_EXISTING' | 'FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING' | 'FABRIC_E_BACKUP_IN_PROGRESS' | 'FABRIC_E_RESTORE_IN_PROGRESS' | 'FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING' | 'FABRIC_E_INVALID_SERVICE_SCALING_POLICY' | 'E_INVALIDARG' | 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS' | 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND' | 'FABRIC_E_VOLUME_ALREADY_EXISTS' | 'FABRIC_E_VOLUME_NOT_FOUND' | 'SerializationError' | 'FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR';
+
+/**
+ * Defines values for ApplicationDefinitionKind.
+ * Possible values include: 'Invalid', 'ServiceFabricApplicationDescription', 'Compose'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationDefinitionKind = 'Invalid' | 'ServiceFabricApplicationDescription' | 'Compose';
+
+/**
+ * Defines values for ApplicationStatus.
+ * Possible values include: 'Invalid', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationStatus = 'Invalid' | 'Ready' | 'Upgrading' | 'Creating' | 'Deleting' | 'Failed';
+
+/**
+ * Defines values for ApplicationPackageCleanupPolicy.
+ * Possible values include: 'Invalid', 'Default', 'Automatic', 'Manual'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationPackageCleanupPolicy = 'Invalid' | 'Default' | 'Automatic' | 'Manual';
+
+/**
+ * Defines values for ApplicationTypeDefinitionKind.
+ * Possible values include: 'Invalid', 'ServiceFabricApplicationPackage', 'Compose'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationTypeDefinitionKind = 'Invalid' | 'ServiceFabricApplicationPackage' | 'Compose';
+
+/**
+ * Defines values for ApplicationTypeStatus.
+ * Possible values include: 'Invalid', 'Provisioning', 'Available', 'Unprovisioning', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationTypeStatus = 'Invalid' | 'Provisioning' | 'Available' | 'Unprovisioning' | 'Failed';
+
+/**
+ * Defines values for UpgradeKind.
+ * Possible values include: 'Invalid', 'Rolling'
+ * @readonly
+ * @enum {string}
+ */
+export type UpgradeKind = 'Invalid' | 'Rolling';
+
+/**
+ * Defines values for UpgradeMode.
+ * Possible values include: 'Invalid', 'UnmonitoredAuto', 'UnmonitoredManual', 'Monitored'
+ * @readonly
+ * @enum {string}
+ */
+export type UpgradeMode = 'Invalid' | 'UnmonitoredAuto' | 'UnmonitoredManual' | 'Monitored';
+
+/**
+ * Defines values for FailureAction.
+ * Possible values include: 'Invalid', 'Rollback', 'Manual'
+ * @readonly
+ * @enum {string}
+ */
+export type FailureAction = 'Invalid' | 'Rollback' | 'Manual';
+
+/**
+ * Defines values for UpgradeDomainState.
+ * Possible values include: 'Invalid', 'Pending', 'InProgress', 'Completed'
+ * @readonly
+ * @enum {string}
+ */
+export type UpgradeDomainState = 'Invalid' | 'Pending' | 'InProgress' | 'Completed';
+
+/**
+ * Defines values for UpgradeState.
+ * Possible values include: 'Invalid', 'RollingBackInProgress', 'RollingBackCompleted',
+ * 'RollingForwardPending', 'RollingForwardInProgress', 'RollingForwardCompleted', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type UpgradeState = 'Invalid' | 'RollingBackInProgress' | 'RollingBackCompleted' | 'RollingForwardPending' | 'RollingForwardInProgress' | 'RollingForwardCompleted' | 'Failed';
+
+/**
+ * Defines values for NodeUpgradePhase.
+ * Possible values include: 'Invalid', 'PreUpgradeSafetyCheck', 'Upgrading',
+ * 'PostUpgradeSafetyCheck'
+ * @readonly
+ * @enum {string}
+ */
+export type NodeUpgradePhase = 'Invalid' | 'PreUpgradeSafetyCheck' | 'Upgrading' | 'PostUpgradeSafetyCheck';
+
+/**
+ * Defines values for FailureReason.
+ * Possible values include: 'None', 'Interrupted', 'HealthCheck', 'UpgradeDomainTimeout',
+ * 'OverallUpgradeTimeout'
+ * @readonly
+ * @enum {string}
+ */
+export type FailureReason = 'None' | 'Interrupted' | 'HealthCheck' | 'UpgradeDomainTimeout' | 'OverallUpgradeTimeout';
+
+/**
+ * Defines values for DeactivationIntent.
+ * Possible values include: 'Pause', 'Restart', 'RemoveData'
+ * @readonly
+ * @enum {string}
+ */
+export type DeactivationIntent = 'Pause' | 'Restart' | 'RemoveData';
+
+/**
+ * Defines values for DeployedApplicationStatus.
+ * Possible values include: 'Invalid', 'Downloading', 'Activating', 'Active', 'Upgrading',
+ * 'Deactivating'
+ * @readonly
+ * @enum {string}
+ */
+export type DeployedApplicationStatus = 'Invalid' | 'Downloading' | 'Activating' | 'Active' | 'Upgrading' | 'Deactivating';
+
+/**
+ * Defines values for ReplicaStatus.
+ * Possible values include: 'Invalid', 'InBuild', 'Standby', 'Ready', 'Down', 'Dropped'
+ * @readonly
+ * @enum {string}
+ */
+export type ReplicaStatus = 'Invalid' | 'InBuild' | 'Standby' | 'Ready' | 'Down' | 'Dropped';
+
+/**
+ * Defines values for ReplicaRole.
+ * Possible values include: 'Unknown', 'None', 'Primary', 'IdleSecondary', 'ActiveSecondary'
+ * @readonly
+ * @enum {string}
+ */
+export type ReplicaRole = 'Unknown' | 'None' | 'Primary' | 'IdleSecondary' | 'ActiveSecondary';
+
+/**
+ * Defines values for ReconfigurationPhase.
+ * Possible values include: 'Unknown', 'None', 'Phase0', 'Phase1', 'Phase2', 'Phase3', 'Phase4',
+ * 'AbortPhaseZero'
+ * @readonly
+ * @enum {string}
+ */
+export type ReconfigurationPhase = 'Unknown' | 'None' | 'Phase0' | 'Phase1' | 'Phase2' | 'Phase3' | 'Phase4' | 'AbortPhaseZero';
+
+/**
+ * Defines values for ReconfigurationType.
+ * Possible values include: 'Unknown', 'SwapPrimary', 'Failover', 'Other'
+ * @readonly
+ * @enum {string}
+ */
+export type ReconfigurationType = 'Unknown' | 'SwapPrimary' | 'Failover' | 'Other';
+
+/**
+ * Defines values for EntityKind.
+ * Possible values include: 'Invalid', 'Node', 'Partition', 'Service', 'Application', 'Replica',
+ * 'DeployedApplication', 'DeployedServicePackage', 'Cluster'
+ * @readonly
+ * @enum {string}
+ */
+export type EntityKind = 'Invalid' | 'Node' | 'Partition' | 'Service' | 'Application' | 'Replica' | 'DeployedApplication' | 'DeployedServicePackage' | 'Cluster';
 
 /**
  * Defines values for FabricEventKind.
- * Possible values include: 'ClusterEvent', 'ContainerInstanceEvent',
- * 'NodeEvent', 'ApplicationEvent', 'ServiceEvent', 'PartitionEvent',
- * 'ReplicaEvent', 'PartitionAnalysisEvent', 'ApplicationCreated',
- * 'ApplicationDeleted', 'ApplicationHealthReportCreated',
- * 'ApplicationHealthReportExpired', 'ApplicationUpgradeComplete',
- * 'ApplicationUpgradeDomainComplete', 'ApplicationUpgradeRollbackComplete',
- * 'ApplicationUpgradeRollbackStart', 'ApplicationUpgradeStart',
- * 'DeployedApplicationHealthReportCreated',
- * 'DeployedApplicationHealthReportExpired', 'ProcessDeactivated',
- * 'ContainerDeactivated', 'NodeAborted', 'NodeAborting', 'NodeAdded',
- * 'NodeClose', 'NodeClosing', 'NodeDeactivateComplete', 'NodeDeactivateStart',
- * 'NodeDown', 'NodeHealthReportCreated', 'NodeHealthReportExpired',
- * 'NodeOpenedSuccess', 'NodeOpenFailed', 'NodeOpening', 'NodeRemoved',
- * 'NodeUp', 'PartitionHealthReportCreated', 'PartitionHealthReportExpired',
- * 'PartitionReconfigurationCompleted', 'PartitionPrimaryMoveAnalysis',
- * 'ServiceCreated', 'ServiceDeleted', 'ServiceHealthReportCreated',
- * 'ServiceHealthReportExpired', 'DeployedServiceHealthReportCreated',
- * 'DeployedServiceHealthReportExpired', 'StatefulReplicaHealthReportCreated',
- * 'StatefulReplicaHealthReportExpired', 'StatelessReplicaHealthReportCreated',
- * 'StatelessReplicaHealthReportExpired', 'ClusterHealthReportCreated',
- * 'ClusterHealthReportExpired', 'ClusterUpgradeComplete',
- * 'ClusterUpgradeDomainComplete', 'ClusterUpgradeRollbackComplete',
- * 'ClusterUpgradeRollbackStart', 'ClusterUpgradeStart', 'ChaosStopped',
- * 'ChaosStarted', 'ChaosRestartNodeFaultCompleted',
- * 'ChaosRestartCodePackageFaultScheduled',
- * 'ChaosRestartCodePackageFaultCompleted', 'ChaosRemoveReplicaFaultScheduled',
- * 'ChaosRemoveReplicaFaultCompleted', 'ChaosMoveSecondaryFaultScheduled',
- * 'ChaosMovePrimaryFaultScheduled', 'ChaosRestartReplicaFaultScheduled',
- * 'ChaosRestartNodeFaultScheduled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FabricEventKind =
- * <FabricEventKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'ClusterEvent', 'ContainerInstanceEvent', 'NodeEvent',
+ * 'ApplicationEvent', 'ServiceEvent', 'PartitionEvent', 'ReplicaEvent', 'PartitionAnalysisEvent',
+ * 'ApplicationCreated', 'ApplicationDeleted', 'ApplicationNewHealthReport',
+ * 'ApplicationHealthReportExpired', 'ApplicationUpgradeCompleted',
+ * 'ApplicationUpgradeDomainCompleted', 'ApplicationUpgradeRollbackCompleted',
+ * 'ApplicationUpgradeRollbackStarted', 'ApplicationUpgradeStarted',
+ * 'DeployedApplicationNewHealthReport', 'DeployedApplicationHealthReportExpired',
+ * 'ApplicationProcessExited', 'ApplicationContainerInstanceExited', 'NodeAborted',
+ * 'NodeAddedToCluster', 'NodeClosed', 'NodeDeactivateCompleted', 'NodeDeactivateStarted',
+ * 'NodeDown', 'NodeNewHealthReport', 'NodeHealthReportExpired', 'NodeOpenSucceeded',
+ * 'NodeOpenFailed', 'NodeRemovedFromCluster', 'NodeUp', 'PartitionNewHealthReport',
+ * 'PartitionHealthReportExpired', 'PartitionReconfigured', 'PartitionPrimaryMoveAnalysis',
+ * 'ServiceCreated', 'ServiceDeleted', 'ServiceNewHealthReport', 'ServiceHealthReportExpired',
+ * 'DeployedServicePackageNewHealthReport', 'DeployedServicePackageHealthReportExpired',
+ * 'StatefulReplicaNewHealthReport', 'StatefulReplicaHealthReportExpired',
+ * 'StatelessReplicaNewHealthReport', 'StatelessReplicaHealthReportExpired',
+ * 'ClusterNewHealthReport', 'ClusterHealthReportExpired', 'ClusterUpgradeCompleted',
+ * 'ClusterUpgradeDomainCompleted', 'ClusterUpgradeRollbackCompleted',
+ * 'ClusterUpgradeRollbackStarted', 'ClusterUpgradeStarted', 'ChaosStopped', 'ChaosStarted',
+ * 'ChaosCodePackageRestartScheduled', 'ChaosReplicaRemovalScheduled',
+ * 'ChaosPartitionSecondaryMoveScheduled', 'ChaosPartitionPrimaryMoveScheduled',
+ * 'ChaosReplicaRestartScheduled', 'ChaosNodeRestartScheduled'
  * @readonly
  * @enum {string}
  */
-export enum FabricEventKind {
-  ClusterEvent = 'ClusterEvent',
-  ContainerInstanceEvent = 'ContainerInstanceEvent',
-  NodeEvent = 'NodeEvent',
-  ApplicationEvent = 'ApplicationEvent',
-  ServiceEvent = 'ServiceEvent',
-  PartitionEvent = 'PartitionEvent',
-  ReplicaEvent = 'ReplicaEvent',
-  PartitionAnalysisEvent = 'PartitionAnalysisEvent',
-  ApplicationCreated = 'ApplicationCreated',
-  ApplicationDeleted = 'ApplicationDeleted',
-  ApplicationHealthReportCreated = 'ApplicationHealthReportCreated',
-  ApplicationHealthReportExpired = 'ApplicationHealthReportExpired',
-  ApplicationUpgradeComplete = 'ApplicationUpgradeComplete',
-  ApplicationUpgradeDomainComplete = 'ApplicationUpgradeDomainComplete',
-  ApplicationUpgradeRollbackComplete = 'ApplicationUpgradeRollbackComplete',
-  ApplicationUpgradeRollbackStart = 'ApplicationUpgradeRollbackStart',
-  ApplicationUpgradeStart = 'ApplicationUpgradeStart',
-  DeployedApplicationHealthReportCreated = 'DeployedApplicationHealthReportCreated',
-  DeployedApplicationHealthReportExpired = 'DeployedApplicationHealthReportExpired',
-  ProcessDeactivated = 'ProcessDeactivated',
-  ContainerDeactivated = 'ContainerDeactivated',
-  NodeAborted = 'NodeAborted',
-  NodeAborting = 'NodeAborting',
-  NodeAdded = 'NodeAdded',
-  NodeClose = 'NodeClose',
-  NodeClosing = 'NodeClosing',
-  NodeDeactivateComplete = 'NodeDeactivateComplete',
-  NodeDeactivateStart = 'NodeDeactivateStart',
-  NodeDown = 'NodeDown',
-  NodeHealthReportCreated = 'NodeHealthReportCreated',
-  NodeHealthReportExpired = 'NodeHealthReportExpired',
-  NodeOpenedSuccess = 'NodeOpenedSuccess',
-  NodeOpenFailed = 'NodeOpenFailed',
-  NodeOpening = 'NodeOpening',
-  NodeRemoved = 'NodeRemoved',
-  NodeUp = 'NodeUp',
-  PartitionHealthReportCreated = 'PartitionHealthReportCreated',
-  PartitionHealthReportExpired = 'PartitionHealthReportExpired',
-  PartitionReconfigurationCompleted = 'PartitionReconfigurationCompleted',
-  PartitionPrimaryMoveAnalysis = 'PartitionPrimaryMoveAnalysis',
-  ServiceCreated = 'ServiceCreated',
-  ServiceDeleted = 'ServiceDeleted',
-  ServiceHealthReportCreated = 'ServiceHealthReportCreated',
-  ServiceHealthReportExpired = 'ServiceHealthReportExpired',
-  DeployedServiceHealthReportCreated = 'DeployedServiceHealthReportCreated',
-  DeployedServiceHealthReportExpired = 'DeployedServiceHealthReportExpired',
-  StatefulReplicaHealthReportCreated = 'StatefulReplicaHealthReportCreated',
-  StatefulReplicaHealthReportExpired = 'StatefulReplicaHealthReportExpired',
-  StatelessReplicaHealthReportCreated = 'StatelessReplicaHealthReportCreated',
-  StatelessReplicaHealthReportExpired = 'StatelessReplicaHealthReportExpired',
-  ClusterHealthReportCreated = 'ClusterHealthReportCreated',
-  ClusterHealthReportExpired = 'ClusterHealthReportExpired',
-  ClusterUpgradeComplete = 'ClusterUpgradeComplete',
-  ClusterUpgradeDomainComplete = 'ClusterUpgradeDomainComplete',
-  ClusterUpgradeRollbackComplete = 'ClusterUpgradeRollbackComplete',
-  ClusterUpgradeRollbackStart = 'ClusterUpgradeRollbackStart',
-  ClusterUpgradeStart = 'ClusterUpgradeStart',
-  ChaosStopped = 'ChaosStopped',
-  ChaosStarted = 'ChaosStarted',
-  ChaosRestartNodeFaultCompleted = 'ChaosRestartNodeFaultCompleted',
-  ChaosRestartCodePackageFaultScheduled = 'ChaosRestartCodePackageFaultScheduled',
-  ChaosRestartCodePackageFaultCompleted = 'ChaosRestartCodePackageFaultCompleted',
-  ChaosRemoveReplicaFaultScheduled = 'ChaosRemoveReplicaFaultScheduled',
-  ChaosRemoveReplicaFaultCompleted = 'ChaosRemoveReplicaFaultCompleted',
-  ChaosMoveSecondaryFaultScheduled = 'ChaosMoveSecondaryFaultScheduled',
-  ChaosMovePrimaryFaultScheduled = 'ChaosMovePrimaryFaultScheduled',
-  ChaosRestartReplicaFaultScheduled = 'ChaosRestartReplicaFaultScheduled',
-  ChaosRestartNodeFaultScheduled = 'ChaosRestartNodeFaultScheduled',
-}
+export type FabricEventKind = 'ClusterEvent' | 'ContainerInstanceEvent' | 'NodeEvent' | 'ApplicationEvent' | 'ServiceEvent' | 'PartitionEvent' | 'ReplicaEvent' | 'PartitionAnalysisEvent' | 'ApplicationCreated' | 'ApplicationDeleted' | 'ApplicationNewHealthReport' | 'ApplicationHealthReportExpired' | 'ApplicationUpgradeCompleted' | 'ApplicationUpgradeDomainCompleted' | 'ApplicationUpgradeRollbackCompleted' | 'ApplicationUpgradeRollbackStarted' | 'ApplicationUpgradeStarted' | 'DeployedApplicationNewHealthReport' | 'DeployedApplicationHealthReportExpired' | 'ApplicationProcessExited' | 'ApplicationContainerInstanceExited' | 'NodeAborted' | 'NodeAddedToCluster' | 'NodeClosed' | 'NodeDeactivateCompleted' | 'NodeDeactivateStarted' | 'NodeDown' | 'NodeNewHealthReport' | 'NodeHealthReportExpired' | 'NodeOpenSucceeded' | 'NodeOpenFailed' | 'NodeRemovedFromCluster' | 'NodeUp' | 'PartitionNewHealthReport' | 'PartitionHealthReportExpired' | 'PartitionReconfigured' | 'PartitionPrimaryMoveAnalysis' | 'ServiceCreated' | 'ServiceDeleted' | 'ServiceNewHealthReport' | 'ServiceHealthReportExpired' | 'DeployedServicePackageNewHealthReport' | 'DeployedServicePackageHealthReportExpired' | 'StatefulReplicaNewHealthReport' | 'StatefulReplicaHealthReportExpired' | 'StatelessReplicaNewHealthReport' | 'StatelessReplicaHealthReportExpired' | 'ClusterNewHealthReport' | 'ClusterHealthReportExpired' | 'ClusterUpgradeCompleted' | 'ClusterUpgradeDomainCompleted' | 'ClusterUpgradeRollbackCompleted' | 'ClusterUpgradeRollbackStarted' | 'ClusterUpgradeStarted' | 'ChaosStopped' | 'ChaosStarted' | 'ChaosCodePackageRestartScheduled' | 'ChaosReplicaRemovalScheduled' | 'ChaosPartitionSecondaryMoveScheduled' | 'ChaosPartitionPrimaryMoveScheduled' | 'ChaosReplicaRestartScheduled' | 'ChaosNodeRestartScheduled';
 
 /**
  * Defines values for HealthEvaluationKind.
  * Possible values include: 'Invalid', 'Event', 'Replicas', 'Partitions',
- * 'DeployedServicePackages', 'DeployedApplications', 'Services', 'Nodes',
- * 'Applications', 'SystemApplication', 'UpgradeDomainDeployedApplications',
- * 'UpgradeDomainNodes', 'Replica', 'Partition', 'DeployedServicePackage',
- * 'DeployedApplication', 'Service', 'Node', 'Application', 'DeltaNodesCheck',
- * 'UpgradeDomainDeltaNodesCheck', 'ApplicationTypeApplications'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HealthEvaluationKind =
- * <HealthEvaluationKind>"someUnknownValueThatWillStillBeValid";
+ * 'DeployedServicePackages', 'DeployedApplications', 'Services', 'Nodes', 'Applications',
+ * 'SystemApplication', 'UpgradeDomainDeployedApplications', 'UpgradeDomainNodes', 'Replica',
+ * 'Partition', 'DeployedServicePackage', 'DeployedApplication', 'Service', 'Node', 'Application',
+ * 'DeltaNodesCheck', 'UpgradeDomainDeltaNodesCheck', 'ApplicationTypeApplications'
  * @readonly
  * @enum {string}
  */
-export enum HealthEvaluationKind {
-  /**
-   * Indicates that the health evaluation is invalid. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the health evaluation is for a health event. The value is
-   * 1.
-   */
-  Event = 'Event',
-  /**
-   * Indicates that the health evaluation is for the replicas of a partition.
-   * The value is 2.
-   */
-  Replicas = 'Replicas',
-  /**
-   * Indicates that the health evaluation is for the partitions of a service.
-   * The value is 3.
-   */
-  Partitions = 'Partitions',
-  /**
-   * Indicates that the health evaluation is for the deployed service packages
-   * of a deployed application. The value is 4.
-   */
-  DeployedServicePackages = 'DeployedServicePackages',
-  /**
-   * Indicates that the health evaluation is for the deployed applications of
-   * an application. The value is 5.
-   */
-  DeployedApplications = 'DeployedApplications',
-  /**
-   * Indicates that the health evaluation is for services of an application.
-   * The value is 6.
-   */
-  Services = 'Services',
-  /**
-   * Indicates that the health evaluation is for the cluster nodes. The value
-   * is 7.
-   */
-  Nodes = 'Nodes',
-  /**
-   * Indicates that the health evaluation is for the cluster applications. The
-   * value is 8.
-   */
-  Applications = 'Applications',
-  /**
-   * Indicates that the health evaluation is for the system application. The
-   * value is 9.
-   */
-  SystemApplication = 'SystemApplication',
-  /**
-   * Indicates that the health evaluation is for the deployed applications of
-   * an application in an upgrade domain. The value is 10.
-   */
-  UpgradeDomainDeployedApplications = 'UpgradeDomainDeployedApplications',
-  /**
-   * Indicates that the health evaluation is for the cluster nodes in an
-   * upgrade domain. The value is 11.
-   */
-  UpgradeDomainNodes = 'UpgradeDomainNodes',
-  /**
-   * Indicates that the health evaluation is for a replica. The value is 13.
-   */
-  Replica = 'Replica',
-  /**
-   * Indicates that the health evaluation is for a partition. The value is 14.
-   */
-  Partition = 'Partition',
-  /**
-   * Indicates that the health evaluation is for a deployed service package.
-   * The value is 16.
-   */
-  DeployedServicePackage = 'DeployedServicePackage',
-  /**
-   * Indicates that the health evaluation is for a deployed application. The
-   * value is 17.
-   */
-  DeployedApplication = 'DeployedApplication',
-  /**
-   * Indicates that the health evaluation is for a service. The value is 15.
-   */
-  Service = 'Service',
-  /**
-   * Indicates that the health evaluation is for a node. The value is 12.
-   */
-  Node = 'Node',
-  /**
-   * Indicates that the health evaluation is for an application. The value is
-   * 18.
-   */
-  Application = 'Application',
-  /**
-   * Indicates that the health evaluation is for the delta of unhealthy cluster
-   * nodes. The value is 19.
-   */
-  DeltaNodesCheck = 'DeltaNodesCheck',
-  /**
-   * Indicates that the health evaluation is for the delta of unhealthy upgrade
-   * domain cluster nodes. The value is 20.
-   */
-  UpgradeDomainDeltaNodesCheck = 'UpgradeDomainDeltaNodesCheck',
-  /**
-   * – Indicates that the health evaluation is for applications of an
-   * application type. The value is 21.
-   */
-  ApplicationTypeApplications = 'ApplicationTypeApplications',
-}
+export type HealthEvaluationKind = 'Invalid' | 'Event' | 'Replicas' | 'Partitions' | 'DeployedServicePackages' | 'DeployedApplications' | 'Services' | 'Nodes' | 'Applications' | 'SystemApplication' | 'UpgradeDomainDeployedApplications' | 'UpgradeDomainNodes' | 'Replica' | 'Partition' | 'DeployedServicePackage' | 'DeployedApplication' | 'Service' | 'Node' | 'Application' | 'DeltaNodesCheck' | 'UpgradeDomainDeltaNodesCheck' | 'ApplicationTypeApplications';
 
 /**
  * Defines values for NodeDeactivationIntent.
- * Possible values include: 'Invalid', 'Pause', 'Restart', 'RemoveData',
- * 'RemoveNode'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NodeDeactivationIntent =
- * <NodeDeactivationIntent>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Pause', 'Restart', 'RemoveData', 'RemoveNode'
  * @readonly
  * @enum {string}
  */
-export enum NodeDeactivationIntent {
-  /**
-   * Indicates the node deactivation intent is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero. This value is not
-   * used.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the node should be paused. The value is 1.
-   */
-  Pause = 'Pause',
-  /**
-   * Indicates that the intent is for the node to be restarted after a short
-   * period of time. Service Fabric does not restart the node, this action is
-   * done outside of Service Fabric. The value is 2.
-   */
-  Restart = 'Restart',
-  /**
-   * Indicates that the intent is to reimage the node. Service Fabric does not
-   * reimage the node, this action is done outside of Service Fabric. The value
-   * is 3.
-   */
-  RemoveData = 'RemoveData',
-  /**
-   * Indicates that the node is being decommissioned and is not expected to
-   * return. Service Fabric does not decommission the node, this action is done
-   * outside of Service Fabric. The value is 4.
-   */
-  RemoveNode = 'RemoveNode',
-}
+export type NodeDeactivationIntent = 'Invalid' | 'Pause' | 'Restart' | 'RemoveData' | 'RemoveNode';
 
 /**
  * Defines values for NodeDeactivationStatus.
- * Possible values include: 'None', 'SafetyCheckInProgress',
- * 'SafetyCheckComplete', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NodeDeactivationStatus =
- * <NodeDeactivationStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'None', 'SafetyCheckInProgress', 'SafetyCheckComplete', 'Completed'
  * @readonly
  * @enum {string}
  */
-export enum NodeDeactivationStatus {
-  /**
-   * No status is associated with the task. The value is zero.
-   */
-  None = 'None',
-  /**
-   * When a node is deactivated Service Fabric performs checks to ensure that
-   * the operation is safe to proceed to ensure availability of the service and
-   * reliability of the state. This value indicates that one or more safety
-   * checks are in progress. The value is 1.
-   */
-  SafetyCheckInProgress = 'SafetyCheckInProgress',
-  /**
-   * When a node is deactivated Service Fabric performs checks to ensure that
-   * the operation is safe to proceed to ensure availability of the service and
-   * reliability of the state. This value indicates that all safety checks have
-   * been completed. The value is 2.
-   */
-  SafetyCheckComplete = 'SafetyCheckComplete',
-  /**
-   * The task is completed. The value is 3.
-   */
-  Completed = 'Completed',
-}
+export type NodeDeactivationStatus = 'None' | 'SafetyCheckInProgress' | 'SafetyCheckComplete' | 'Completed';
 
 /**
  * Defines values for NodeDeactivationTaskType.
  * Possible values include: 'Invalid', 'Infrastructure', 'Repair', 'Client'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NodeDeactivationTaskType =
- * <NodeDeactivationTaskType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NodeDeactivationTaskType {
-  /**
-   * Indicates the node deactivation task type is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero. This value is not
-   * used.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Specifies the task created by Infrastructure hosting the nodes. The value
-   * is 1.
-   */
-  Infrastructure = 'Infrastructure',
-  /**
-   * Specifies the task that was created by the Repair Manager service. The
-   * value is 2.
-   */
-  Repair = 'Repair',
-  /**
-   * Specifies that the task was created by using the public API. The value is
-   * 3.
-   */
-  Client = 'Client',
-}
+export type NodeDeactivationTaskType = 'Invalid' | 'Infrastructure' | 'Repair' | 'Client';
 
 /**
  * Defines values for NodeStatus.
- * Possible values include: 'Invalid', 'Up', 'Down', 'Enabling', 'Disabling',
- * 'Disabled', 'Unknown', 'Removed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NodeStatus = <NodeStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Up', 'Down', 'Enabling', 'Disabling', 'Disabled',
+ * 'Unknown', 'Removed'
  * @readonly
  * @enum {string}
  */
-export enum NodeStatus {
-  /**
-   * Indicates the node status is invalid. All Service Fabric enumerations have
-   * the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the node is up. The value is 1.
-   */
-  Up = 'Up',
-  /**
-   * Indicates the node is down. The value is 2.
-   */
-  Down = 'Down',
-  /**
-   * Indicates the node is in process of being enabled. The value is 3.
-   */
-  Enabling = 'Enabling',
-  /**
-   * Indicates the node is in the process of being disabled. The value is 4.
-   */
-  Disabling = 'Disabling',
-  /**
-   * Indicates the node is disabled. The value is 5.
-   */
-  Disabled = 'Disabled',
-  /**
-   * Indicates the node is unknown. A node would be in Unknown state if Service
-   * Fabric does not have authoritative information about that node. This can
-   * happen if the system learns about a node at runtime.The value is 6.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Indicates the node is removed. A node would be in Removed state if
-   * NodeStateRemoved API has been called for this node. In other words,
-   * Service Fabric has been informed that the persisted state on the node has
-   * been permanently lost. The value is 7.
-   */
-  Removed = 'Removed',
-}
+export type NodeStatus = 'Invalid' | 'Up' | 'Down' | 'Enabling' | 'Disabling' | 'Disabled' | 'Unknown' | 'Removed';
 
 /**
  * Defines values for ServicePartitionStatus.
- * Possible values include: 'Invalid', 'Ready', 'NotReady', 'InQuorumLoss',
- * 'Reconfiguring', 'Deleting'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServicePartitionStatus =
- * <ServicePartitionStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Ready', 'NotReady', 'InQuorumLoss', 'Reconfiguring',
+ * 'Deleting'
  * @readonly
  * @enum {string}
  */
-export enum ServicePartitionStatus {
-  /**
-   * Indicates the partition status is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the partition is ready. This means that for a stateless
-   * service partition there is at least one instance that is up and for a
-   * stateful service partition the number of ready replicas is greater than or
-   * equal to the MinReplicaSetSize. The value is 1.
-   */
-  Ready = 'Ready',
-  /**
-   * Indicates that the partition is not ready. This status is returned when
-   * none of the other states apply. The value is 2.
-   */
-  NotReady = 'NotReady',
-  /**
-   * Indicates that the partition is in quorum loss. This means that number of
-   * replicas that are up and participating in a replica set is less than
-   * MinReplicaSetSize for this partition. The value is 3.
-   */
-  InQuorumLoss = 'InQuorumLoss',
-  /**
-   * Indicates that the partition is undergoing reconfiguration of its replica
-   * sets. This can happen due to failover, upgrade, load balancing or addition
-   * or removal of replicas from the replica set. The value is 4.
-   */
-  Reconfiguring = 'Reconfiguring',
-  /**
-   * Indicates that the partition is being deleted. The value is 5.
-   */
-  Deleting = 'Deleting',
-}
+export type ServicePartitionStatus = 'Invalid' | 'Ready' | 'NotReady' | 'InQuorumLoss' | 'Reconfiguring' | 'Deleting';
 
 /**
  * Defines values for ServiceStatus.
- * Possible values include: 'Unknown', 'Active', 'Upgrading', 'Deleting',
- * 'Creating', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceStatus =
- * <ServiceStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'Active', 'Upgrading', 'Deleting', 'Creating', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ServiceStatus {
-  /**
-   * Indicates the service status is unknown. The value is zero.
-   */
-  Unknown = 'Unknown',
-  /**
-   * Indicates the service status is active. The value is 1.
-   */
-  Active = 'Active',
-  /**
-   * Indicates the service is upgrading. The value is 2.
-   */
-  Upgrading = 'Upgrading',
-  /**
-   * Indicates the service is being deleted. The value is 3.
-   */
-  Deleting = 'Deleting',
-  /**
-   * Indicates the service is being created. The value is 4.
-   */
-  Creating = 'Creating',
-  /**
-   * Indicates creation or deletion was terminated due to persistent failures.
-   * Another create/delete request can be accepted. The value is 5.
-   */
-  Failed = 'Failed',
-}
+export type ServiceStatus = 'Unknown' | 'Active' | 'Upgrading' | 'Deleting' | 'Creating' | 'Failed';
 
 /**
  * Defines values for ProvisionApplicationTypeKind.
  * Possible values include: 'Invalid', 'ImageStorePath', 'ExternalStore'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ProvisionApplicationTypeKind =
- * <ProvisionApplicationTypeKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ProvisionApplicationTypeKind {
-  /**
-   * Indicates that the provision kind is invalid. This value is default and
-   * should not be used. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the provision is for a package that was previously uploaded
-   * to the image store. The value is 1.
-   */
-  ImageStorePath = 'ImageStorePath',
-  /**
-   * Indicates that the provision is for an application package that was
-   * previously uploaded to an external store. The application package ends
-   * with the extension *.sfpkg. The value is 2.
-   */
-  ExternalStore = 'ExternalStore',
-}
+export type ProvisionApplicationTypeKind = 'Invalid' | 'ImageStorePath' | 'ExternalStore';
 
 /**
  * Defines values for UpgradeType.
  * Possible values include: 'Invalid', 'Rolling', 'Rolling_ForceRestart'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: UpgradeType =
- * <UpgradeType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum UpgradeType {
-  /**
-   * Indicates the upgrade kind is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade progresses one upgrade domain at a time. The value is 1.
-   */
-  Rolling = 'Rolling',
-  /**
-   * The upgrade gets restarted by force. The value is 2.
-   */
-  RollingForceRestart = 'Rolling_ForceRestart',
-}
+export type UpgradeType = 'Invalid' | 'Rolling' | 'Rolling_ForceRestart';
 
 /**
  * Defines values for SafetyCheckKind.
- * Possible values include: 'Invalid', 'EnsureSeedNodeQuorum',
- * 'EnsurePartitionQuorum', 'WaitForPrimaryPlacement', 'WaitForPrimarySwap',
- * 'WaitForReconfiguration', 'WaitForInbuildReplica', 'EnsureAvailability'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: SafetyCheckKind =
- * <SafetyCheckKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'EnsureSeedNodeQuorum', 'EnsurePartitionQuorum',
+ * 'WaitForPrimaryPlacement', 'WaitForPrimarySwap', 'WaitForReconfiguration',
+ * 'WaitForInbuildReplica', 'EnsureAvailability'
  * @readonly
  * @enum {string}
  */
-export enum SafetyCheckKind {
-  /**
-   * Indicates that the upgrade safety check kind is invalid. All Service
-   * Fabric enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that if we bring down the node then this will result in global
-   * seed node quorum loss. The value is 1.
-   */
-  EnsureSeedNodeQuorum = 'EnsureSeedNodeQuorum',
-  /**
-   * Indicates that there is some partition for which if we bring down the
-   * replica on the node, it will result in quorum loss for that partition. The
-   * value is 2.
-   */
-  EnsurePartitionQuorum = 'EnsurePartitionQuorum',
-  /**
-   * Indicates that there is some replica on the node that was moved out of
-   * this node due to upgrade. Service Fabric is now waiting for the primary to
-   * be moved back to this node. The value is 3.
-   */
-  WaitForPrimaryPlacement = 'WaitForPrimaryPlacement',
-  /**
-   * Indicates that Service Fabric is waiting for a primary replica to be moved
-   * out of the node before starting upgrade on that node. The value is 4.
-   */
-  WaitForPrimarySwap = 'WaitForPrimarySwap',
-  /**
-   * Indicates that there is some replica on the node that is involved in a
-   * reconfiguration. Service Fabric is waiting for the reconfiguration to be
-   * complete before staring upgrade on that node. The value is 5.
-   */
-  WaitForReconfiguration = 'WaitForReconfiguration',
-  /**
-   * Indicates that there is either a replica on the node that is going through
-   * copy, or there is a primary replica on the node that is copying data to
-   * some other replica. In both cases, bringing down the replica on the node
-   * due to upgrade will abort the copy. The value is 6.
-   */
-  WaitForInbuildReplica = 'WaitForInbuildReplica',
-  /**
-   * Indicates that there is either a stateless service partition on the node
-   * having exactly one instance, or there is a primary replica on the node for
-   * which the partition is quorum loss. In both cases, bringing down the
-   * replicas due to upgrade will result in loss of availability. The value is
-   * 7.
-   */
-  EnsureAvailability = 'EnsureAvailability',
-}
+export type SafetyCheckKind = 'Invalid' | 'EnsureSeedNodeQuorum' | 'EnsurePartitionQuorum' | 'WaitForPrimaryPlacement' | 'WaitForPrimarySwap' | 'WaitForReconfiguration' | 'WaitForInbuildReplica' | 'EnsureAvailability';
 
 /**
  * Defines values for CreateFabricDump.
  * Possible values include: 'False', 'True'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: CreateFabricDump =
- * <CreateFabricDump>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum CreateFabricDump {
-  False = 'False',
-  True = 'True',
-}
+export type CreateFabricDump = 'False' | 'True';
 
 /**
  * Defines values for ServicePackageActivationMode.
  * Possible values include: 'SharedProcess', 'ExclusiveProcess'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServicePackageActivationMode =
- * <ServicePackageActivationMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServicePackageActivationMode {
-  /**
-   * This is the default activation mode. With this activation mode, replicas
-   * or instances from different partition(s) of service, on a given node, will
-   * share same activation of service package on a node. The value is zero.
-   */
-  SharedProcess = 'SharedProcess',
-  /**
-   * With this activation mode, each replica or instance of service, on a given
-   * node, will have its own dedicated activation of service package on a node.
-   * The value is 1.
-   */
-  ExclusiveProcess = 'ExclusiveProcess',
-}
+export type ServicePackageActivationMode = 'SharedProcess' | 'ExclusiveProcess';
 
 /**
  * Defines values for ServiceKind.
  * Possible values include: 'Invalid', 'Stateless', 'Stateful'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceKind =
- * <ServiceKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServiceKind {
-  /**
-   * Indicates the service kind is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Does not use Service Fabric to make its state highly available or
-   * reliable. The value is 1.
-   */
-  Stateless = 'Stateless',
-  /**
-   * Uses Service Fabric to make its state or part of its state highly
-   * available and reliable. The value is 2.
-   */
-  Stateful = 'Stateful',
-}
+export type ServiceKind = 'Invalid' | 'Stateless' | 'Stateful';
 
 /**
  * Defines values for ServicePartitionKind.
  * Possible values include: 'Invalid', 'Singleton', 'Int64Range', 'Named'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServicePartitionKind =
- * <ServicePartitionKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServicePartitionKind {
-  /**
-   * Indicates the partition kind is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that there is only one partition, and
-   * SingletonPartitionSchemeDescription was specified while creating the
-   * service. The value is 1.
-   */
-  Singleton = 'Singleton',
-  /**
-   * Indicates that the partition is based on Int64 key ranges, and
-   * UniformInt64RangePartitionSchemeDescription was specified while creating
-   * the service. The value is 2.
-   */
-  Int64Range = 'Int64Range',
-  /**
-   * Indicates that the partition is based on string names, and
-   * NamedPartitionInformation  was specified while creating the service. The
-   * value is 3.
-   */
-  Named = 'Named',
-}
+export type ServicePartitionKind = 'Invalid' | 'Singleton' | 'Int64Range' | 'Named';
 
 /**
  * Defines values for ServicePlacementPolicyType.
- * Possible values include: 'Invalid', 'InvalidDomain', 'RequiredDomain',
- * 'PreferredPrimaryDomain', 'RequiredDomainDistribution',
- * 'NonPartiallyPlaceService'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServicePlacementPolicyType =
- * <ServicePlacementPolicyType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'InvalidDomain', 'RequiredDomain', 'PreferredPrimaryDomain',
+ * 'RequiredDomainDistribution', 'NonPartiallyPlaceService'
  * @readonly
  * @enum {string}
  */
-export enum ServicePlacementPolicyType {
-  /**
-   * Indicates the type of the placement policy is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the ServicePlacementPolicyDescription is of type
-   * ServicePlacementInvalidDomainPolicyDescription, which indicates that a
-   * particular fault or upgrade domain cannot be used for placement of this
-   * service. The value is 1.
-   */
-  InvalidDomain = 'InvalidDomain',
-  /**
-   * Indicates that the ServicePlacementPolicyDescription is of type
-   * ServicePlacementRequireDomainDistributionPolicyDescription indicating that
-   * the replicas of the service must be placed in a specific domain. The value
-   * is 2.
-   */
-  RequiredDomain = 'RequiredDomain',
-  /**
-   * Indicates that the ServicePlacementPolicyDescription is of type
-   * ServicePlacementPreferPrimaryDomainPolicyDescription, which indicates that
-   * if possible the Primary replica for the partitions of the service should
-   * be located in a particular domain as an optimization. The value is 3.
-   */
-  PreferredPrimaryDomain = 'PreferredPrimaryDomain',
-  /**
-   * Indicates that the ServicePlacementPolicyDescription is of type
-   * ServicePlacementRequireDomainDistributionPolicyDescription, indicating
-   * that the system will disallow placement of any two replicas from the same
-   * partition in the same domain at any time. The value is 4.
-   */
-  RequiredDomainDistribution = 'RequiredDomainDistribution',
-  /**
-   * Indicates that the ServicePlacementPolicyDescription is of type
-   * ServicePlacementNonPartiallyPlaceServicePolicyDescription, which indicates
-   * that if possible all replicas of a particular partition of the service
-   * should be placed atomically. The value is 5.
-   */
-  NonPartiallyPlaceService = 'NonPartiallyPlaceService',
-}
+export type ServicePlacementPolicyType = 'Invalid' | 'InvalidDomain' | 'RequiredDomain' | 'PreferredPrimaryDomain' | 'RequiredDomainDistribution' | 'NonPartiallyPlaceService';
 
 /**
  * Defines values for ServiceLoadMetricWeight.
  * Possible values include: 'Zero', 'Low', 'Medium', 'High'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceLoadMetricWeight =
- * <ServiceLoadMetricWeight>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServiceLoadMetricWeight {
-  /**
-   * Disables resource balancing for this metric. This value is zero.
-   */
-  Zero = 'Zero',
-  /**
-   * Specifies the metric weight of the service load as Low. The value is 1.
-   */
-  Low = 'Low',
-  /**
-   * Specifies the metric weight of the service load as Medium. The value is 2.
-   */
-  Medium = 'Medium',
-  /**
-   * Specifies the metric weight of the service load as High. The value is 3.
-   */
-  High = 'High',
-}
+export type ServiceLoadMetricWeight = 'Zero' | 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for HostType.
  * Possible values include: 'Invalid', 'ExeHost', 'ContainerHost'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HostType = <HostType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HostType {
-  /**
-   * Indicates the type of host is not known or invalid. The value is 0.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the host is an executable. The value is 1.
-   */
-  ExeHost = 'ExeHost',
-  /**
-   * Indicates the host is a container. The value is 2.
-   */
-  ContainerHost = 'ContainerHost',
-}
+export type HostType = 'Invalid' | 'ExeHost' | 'ContainerHost';
 
 /**
  * Defines values for HostIsolationMode.
  * Possible values include: 'None', 'Process', 'HyperV'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: HostIsolationMode =
- * <HostIsolationMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum HostIsolationMode {
-  /**
-   * Indicates the isolation mode is not applicable for given HostType. The
-   * value is 0.
-   */
-  None = 'None',
-  /**
-   * This is the default isolation mode for a ContainerHost. The value is 1.
-   */
-  Process = 'Process',
-  /**
-   * Indicates the ContainerHost is a Hyper-V container. This applies to only
-   * Windows containers. The value is 2.
-   */
-  HyperV = 'HyperV',
-}
+export type HostIsolationMode = 'None' | 'Process' | 'HyperV';
 
 /**
  * Defines values for DeploymentStatus.
- * Possible values include: 'Invalid', 'Downloading', 'Activating', 'Active',
- * 'Upgrading', 'Deactivating'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DeploymentStatus =
- * <DeploymentStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Downloading', 'Activating', 'Active', 'Upgrading',
+ * 'Deactivating'
  * @readonly
  * @enum {string}
  */
-export enum DeploymentStatus {
-  /**
-   * Indicates status of the application or service package is not known or
-   * invalid. The value is 0.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the application or service package is being downloaded to the
-   * node from the ImageStore. The value is 1.
-   */
-  Downloading = 'Downloading',
-  /**
-   * Indicates the application or service package is being activated. The value
-   * is 2.
-   */
-  Activating = 'Activating',
-  /**
-   * Indicates the application or service package is active the node. The value
-   * is 3.
-   */
-  Active = 'Active',
-  /**
-   * Indicates the application or service package is being upgraded. The value
-   * is 4.
-   */
-  Upgrading = 'Upgrading',
-  /**
-   * Indicates the application or service package is being deactivated. The
-   * value is 5.
-   */
-  Deactivating = 'Deactivating',
-}
+export type DeploymentStatus = 'Invalid' | 'Downloading' | 'Activating' | 'Active' | 'Upgrading' | 'Deactivating';
 
 /**
  * Defines values for EntryPointStatus.
- * Possible values include: 'Invalid', 'Pending', 'Starting', 'Started',
- * 'Stopping', 'Stopped'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: EntryPointStatus =
- * <EntryPointStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Pending', 'Starting', 'Started', 'Stopping', 'Stopped'
  * @readonly
  * @enum {string}
  */
-export enum EntryPointStatus {
-  /**
-   * Indicates status of entry point is not known or invalid. The value is 0.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the entry point is scheduled to be started. The value is 1.
-   */
-  Pending = 'Pending',
-  /**
-   * Indicates the entry point is being started. The value is 2.
-   */
-  Starting = 'Starting',
-  /**
-   * Indicates the entry point was started successfully and is running. The
-   * value is 3.
-   */
-  Started = 'Started',
-  /**
-   * Indicates the entry point is being stopped. The value is 4.
-   */
-  Stopping = 'Stopping',
-  /**
-   * Indicates the entry point is not running. The value is 5.
-   */
-  Stopped = 'Stopped',
-}
+export type EntryPointStatus = 'Invalid' | 'Pending' | 'Starting' | 'Started' | 'Stopping' | 'Stopped';
 
 /**
  * Defines values for ChaosStatus.
  * Possible values include: 'Invalid', 'Running', 'Stopped'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ChaosStatus =
- * <ChaosStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ChaosStatus {
-  /**
-   * Indicates an invalid Chaos status. All Service Fabric enumerations have
-   * the invalid type. The valus is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that Chaos is not stopped. The value is one.
-   */
-  Running = 'Running',
-  /**
-   * Indicates that Chaos is not scheduling further faults. The value is two.
-   */
-  Stopped = 'Stopped',
-}
+export type ChaosStatus = 'Invalid' | 'Running' | 'Stopped';
 
 /**
  * Defines values for ChaosScheduleStatus.
- * Possible values include: 'Invalid', 'Stopped', 'Active', 'Expired',
- * 'Pending'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ChaosScheduleStatus =
- * <ChaosScheduleStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Stopped', 'Active', 'Expired', 'Pending'
  * @readonly
  * @enum {string}
  */
-export enum ChaosScheduleStatus {
-  /**
-   * Indicates an invalid Chaos Schedule status. All Service Fabric
-   * enumerations have the invalid type. The valus is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the schedule is stopped and not being used to schedule runs
-   * of chaos. The value is one.
-   */
-  Stopped = 'Stopped',
-  /**
-   * Indicates that the schedule is active and is being used to schedule runs
-   * of Chaos. The value is two.
-   */
-  Active = 'Active',
-  /**
-   * Indicates that the schedule is expired and will no longer be used to
-   * schedule runs of Chaos. The value is three.
-   */
-  Expired = 'Expired',
-  /**
-   * Indicates that the schedule is pending and is not yet being used to
-   * schedule runs of Chaos but will be used when the start time is passed. The
-   * value is four.
-   */
-  Pending = 'Pending',
-}
+export type ChaosScheduleStatus = 'Invalid' | 'Stopped' | 'Active' | 'Expired' | 'Pending';
 
 /**
  * Defines values for ChaosEventKind.
- * Possible values include: 'Invalid', 'Started', 'ExecutingFaults', 'Waiting',
- * 'ValidationFailed', 'TestError', 'Stopped'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ChaosEventKind =
- * <ChaosEventKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Started', 'ExecutingFaults', 'Waiting', 'ValidationFailed',
+ * 'TestError', 'Stopped'
  * @readonly
  * @enum {string}
  */
-export enum ChaosEventKind {
-  /**
-   * Indicates an invalid Chaos event kind. All Service Fabric enumerations
-   * have the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates a Chaos event that gets generated when Chaos is started.
-   */
-  Started = 'Started',
-  /**
-   * Indicates a Chaos event that gets generated when Chaos has decided on the
-   * faults for an iteration. This Chaos event contains the details of the
-   * faults as a list of strings.
-   */
-  ExecutingFaults = 'ExecutingFaults',
-  /**
-   * Indicates a Chaos event that gets generated when Chaos is waiting for the
-   * cluster to become ready for faulting, for example, Chaos may be waiting
-   * for the on-going upgrade to finish.
-   */
-  Waiting = 'Waiting',
-  /**
-   * Indicates a Chaos event that gets generated when the cluster entities do
-   * not become stable and healthy within
-   * ChaosParameters.MaxClusterStabilizationTimeoutInSeconds.
-   */
-  ValidationFailed = 'ValidationFailed',
-  /**
-   * Indicates a Chaos event that gets generated when an unexpected event has
-   * occurred in the Chaos engine, for example, due to the cluster snapshot
-   * being inconsistent, while faulting a faultable entity Chaos found that the
-   * entity was already faulted.
-   */
-  TestError = 'TestError',
-  /**
-   * Indicates a Chaos event that gets generated when Chaos stops because
-   * either the user issued a stop or the time to run was up.
-   */
-  Stopped = 'Stopped',
-}
+export type ChaosEventKind = 'Invalid' | 'Started' | 'ExecutingFaults' | 'Waiting' | 'ValidationFailed' | 'TestError' | 'Stopped';
 
 /**
  * Defines values for ComposeDeploymentStatus.
- * Possible values include: 'Invalid', 'Provisioning', 'Creating', 'Ready',
- * 'Unprovisioning', 'Deleting', 'Failed', 'Upgrading'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ComposeDeploymentStatus =
- * <ComposeDeploymentStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Provisioning', 'Creating', 'Ready', 'Unprovisioning',
+ * 'Deleting', 'Failed', 'Upgrading'
  * @readonly
  * @enum {string}
  */
-export enum ComposeDeploymentStatus {
-  /**
-   * Indicates that the compose deployment status is invalid. The value is
-   * zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the compose deployment is being provisioned in background.
-   * The value is 1.
-   */
-  Provisioning = 'Provisioning',
-  /**
-   * Indicates that the compose deployment is being created in background. The
-   * value is 2.
-   */
-  Creating = 'Creating',
-  /**
-   * Indicates that the compose deployment has been successfully created or
-   * upgraded. The value is 3.
-   */
-  Ready = 'Ready',
-  /**
-   * Indicates that the compose deployment is being unprovisioned in
-   * background. The value is 4.
-   */
-  Unprovisioning = 'Unprovisioning',
-  /**
-   * Indicates that the compose deployment is being deleted in background. The
-   * value is 5.
-   */
-  Deleting = 'Deleting',
-  /**
-   * Indicates that the compose deployment was terminated due to persistent
-   * failures. The value is 6.
-   */
-  Failed = 'Failed',
-  /**
-   * Indicates that the compose deployment is being upgraded in the background.
-   * The value is 7.
-   */
-  Upgrading = 'Upgrading',
-}
+export type ComposeDeploymentStatus = 'Invalid' | 'Provisioning' | 'Creating' | 'Ready' | 'Unprovisioning' | 'Deleting' | 'Failed' | 'Upgrading';
 
 /**
  * Defines values for ComposeDeploymentUpgradeState.
- * Possible values include: 'Invalid', 'ProvisioningTarget',
- * 'RollingForwardInProgress', 'RollingForwardPending',
- * 'UnprovisioningCurrent', 'RollingForwardCompleted', 'RollingBackInProgress',
- * 'UnprovisioningTarget', 'RollingBackCompleted', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ComposeDeploymentUpgradeState =
- * <ComposeDeploymentUpgradeState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'ProvisioningTarget', 'RollingForwardInProgress',
+ * 'RollingForwardPending', 'UnprovisioningCurrent', 'RollingForwardCompleted',
+ * 'RollingBackInProgress', 'UnprovisioningTarget', 'RollingBackCompleted', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ComposeDeploymentUpgradeState {
-  /**
-   * Indicates the upgrade state is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The upgrade is in the progress of provisioning target application type
-   * version. The value is 1.
-   */
-  ProvisioningTarget = 'ProvisioningTarget',
-  /**
-   * The upgrade is rolling forward to the target version but is not complete
-   * yet. The value is 2.
-   */
-  RollingForwardInProgress = 'RollingForwardInProgress',
-  /**
-   * The current upgrade domain has finished upgrading. The overall upgrade is
-   * waiting for an explicit move next request in UnmonitoredManual mode or
-   * performing health checks in Monitored mode. The value is 3
-   */
-  RollingForwardPending = 'RollingForwardPending',
-  /**
-   * The upgrade is in the progress of unprovisioning current application type
-   * version and rolling forward to the target version is completed. The value
-   * is 4.
-   */
-  UnprovisioningCurrent = 'UnprovisioningCurrent',
-  /**
-   * The upgrade has finished rolling forward. The value is 5.
-   */
-  RollingForwardCompleted = 'RollingForwardCompleted',
-  /**
-   * The upgrade is rolling back to the previous version but is not complete
-   * yet. The value is 6.
-   */
-  RollingBackInProgress = 'RollingBackInProgress',
-  /**
-   * The upgrade is in the progress of unprovisioning target application type
-   * version and rolling back to the current version is completed. The value is
-   * 7.
-   */
-  UnprovisioningTarget = 'UnprovisioningTarget',
-  /**
-   * The upgrade has finished rolling back. The value is 8.
-   */
-  RollingBackCompleted = 'RollingBackCompleted',
-  /**
-   * The upgrade has failed and is unable to execute FailureAction. The value
-   * is 9.
-   */
-  Failed = 'Failed',
-}
+export type ComposeDeploymentUpgradeState = 'Invalid' | 'ProvisioningTarget' | 'RollingForwardInProgress' | 'RollingForwardPending' | 'UnprovisioningCurrent' | 'RollingForwardCompleted' | 'RollingBackInProgress' | 'UnprovisioningTarget' | 'RollingBackCompleted' | 'Failed';
 
 /**
  * Defines values for ServiceCorrelationScheme.
- * Possible values include: 'Invalid', 'Affinity', 'AlignedAffinity',
- * 'NonAlignedAffinity'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceCorrelationScheme =
- * <ServiceCorrelationScheme>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Affinity', 'AlignedAffinity', 'NonAlignedAffinity'
  * @readonly
  * @enum {string}
  */
-export enum ServiceCorrelationScheme {
-  /**
-   * An invalid correlation scheme. Cannot be used. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that this service has an affinity relationship with another
-   * service. Provided for backwards compatibility, consider preferring the
-   * Aligned or NonAlignedAffinity options. The value is 1.
-   */
-  Affinity = 'Affinity',
-  /**
-   * Aligned affinity ensures that the primaries of the partitions of the
-   * affinitized services are collocated on the same nodes. This is the default
-   * and is the same as selecting the Affinity scheme. The value is 2.
-   */
-  AlignedAffinity = 'AlignedAffinity',
-  /**
-   * Non-Aligned affinity guarantees that all replicas of each service will be
-   * placed on the same nodes. Unlike Aligned Affinity, this does not guarantee
-   * that replicas of particular role will be collocated. The value is 3.
-   */
-  NonAlignedAffinity = 'NonAlignedAffinity',
-}
+export type ServiceCorrelationScheme = 'Invalid' | 'Affinity' | 'AlignedAffinity' | 'NonAlignedAffinity';
 
 /**
  * Defines values for MoveCost.
  * Possible values include: 'Zero', 'Low', 'Medium', 'High'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: MoveCost = <MoveCost>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum MoveCost {
-  /**
-   * Zero move cost. This value is zero.
-   */
-  Zero = 'Zero',
-  /**
-   * Specifies the move cost of the service as Low. The value is 1.
-   */
-  Low = 'Low',
-  /**
-   * Specifies the move cost of the service as Medium. The value is 2.
-   */
-  Medium = 'Medium',
-  /**
-   * Specifies the move cost of the service as High. The value is 3.
-   */
-  High = 'High',
-}
+export type MoveCost = 'Zero' | 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for PartitionScheme.
- * Possible values include: 'Invalid', 'Singleton', 'UniformInt64Range',
- * 'Named'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PartitionScheme =
- * <PartitionScheme>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Singleton', 'UniformInt64Range', 'Named'
  * @readonly
  * @enum {string}
  */
-export enum PartitionScheme {
-  /**
-   * Indicates the partition kind is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the partition is based on string names, and is a
-   * SingletonPartitionSchemeDescription object, The value is 1.
-   */
-  Singleton = 'Singleton',
-  /**
-   * Indicates that the partition is based on Int64 key ranges, and is a
-   * UniformInt64RangePartitionSchemeDescription object. The value is 2.
-   */
-  UniformInt64Range = 'UniformInt64Range',
-  /**
-   * Indicates that the partition is based on string names, and is a
-   * NamedPartitionSchemeDescription object. The value is 3
-   */
-  Named = 'Named',
-}
+export type PartitionScheme = 'Invalid' | 'Singleton' | 'UniformInt64Range' | 'Named';
 
 /**
  * Defines values for ServiceOperationName.
- * Possible values include: 'Unknown', 'None', 'Open', 'ChangeRole', 'Close',
- * 'Abort'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceOperationName =
- * <ServiceOperationName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Unknown', 'None', 'Open', 'ChangeRole', 'Close', 'Abort'
  * @readonly
  * @enum {string}
  */
-export enum ServiceOperationName {
-  /**
-   * Reserved for future use.
-   */
-  Unknown = 'Unknown',
-  /**
-   * The service replica or instance is not going through any life-cycle
-   * changes.
-   */
-  None = 'None',
-  /**
-   * The service replica or instance is being opened.
-   */
-  Open = 'Open',
-  /**
-   * The service replica is changing roles.
-   */
-  ChangeRole = 'ChangeRole',
-  /**
-   * The service replica or instance is being closed.
-   */
-  Close = 'Close',
-  /**
-   * The service replica or instance is being aborted.
-   */
-  Abort = 'Abort',
-}
+export type ServiceOperationName = 'Unknown' | 'None' | 'Open' | 'ChangeRole' | 'Close' | 'Abort';
 
 /**
  * Defines values for ReplicatorOperationName.
- * Possible values include: 'Invalid', 'None', 'Open', 'ChangeRole',
- * 'UpdateEpoch', 'Close', 'Abort', 'OnDataLoss', 'WaitForCatchup', 'Build'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReplicatorOperationName =
- * <ReplicatorOperationName>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'None', 'Open', 'ChangeRole', 'UpdateEpoch', 'Close',
+ * 'Abort', 'OnDataLoss', 'WaitForCatchup', 'Build'
  * @readonly
  * @enum {string}
  */
-export enum ReplicatorOperationName {
-  /**
-   * Default value if the replicator is not yet ready.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Replicator is not running any operation from Service Fabric perspective.
-   */
-  None = 'None',
-  /**
-   * Replicator is opening.
-   */
-  Open = 'Open',
-  /**
-   * Replicator is in the process of changing its role.
-   */
-  ChangeRole = 'ChangeRole',
-  /**
-   * Due to a change in the replica set, replicator is being updated with its
-   * Epoch.
-   */
-  UpdateEpoch = 'UpdateEpoch',
-  /**
-   * Replicator is closing.
-   */
-  Close = 'Close',
-  /**
-   * Replicator is being aborted.
-   */
-  Abort = 'Abort',
-  /**
-   * Replicator is handling the data loss condition, where the user service may
-   * potentially be recovering state from an external source.
-   */
-  OnDataLoss = 'OnDataLoss',
-  /**
-   * Replicator is waiting for a quorum of replicas to be caught up to the
-   * latest state.
-   */
-  WaitForCatchup = 'WaitForCatchup',
-  /**
-   * Replicator is in the process of building one or more replicas.
-   */
-  Build = 'Build',
-}
+export type ReplicatorOperationName = 'Invalid' | 'None' | 'Open' | 'ChangeRole' | 'UpdateEpoch' | 'Close' | 'Abort' | 'OnDataLoss' | 'WaitForCatchup' | 'Build';
 
 /**
  * Defines values for PartitionAccessStatus.
- * Possible values include: 'Invalid', 'Granted', 'ReconfigurationPending',
- * 'NotPrimary', 'NoWriteQuorum'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PartitionAccessStatus =
- * <PartitionAccessStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Granted', 'ReconfigurationPending', 'NotPrimary',
+ * 'NoWriteQuorum'
  * @readonly
  * @enum {string}
  */
-export enum PartitionAccessStatus {
-  /**
-   * Indicates that the read or write operation access status is not valid.
-   * This value is not returned to the caller.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the read or write operation access is granted and the
-   * operation is allowed.
-   */
-  Granted = 'Granted',
-  /**
-   * Indicates that the client should try again later, because a
-   * reconfiguration is in progress.
-   */
-  ReconfigurationPending = 'ReconfigurationPending',
-  /**
-   * Indicates that this client request was received by a replica that is not a
-   * Primary replica.
-   */
-  NotPrimary = 'NotPrimary',
-  /**
-   * Indicates that no write quorum is available and, therefore, no write
-   * operation can be accepted.
-   */
-  NoWriteQuorum = 'NoWriteQuorum',
-}
+export type PartitionAccessStatus = 'Invalid' | 'Granted' | 'ReconfigurationPending' | 'NotPrimary' | 'NoWriteQuorum';
 
 /**
  * Defines values for FabricReplicaStatus.
  * Possible values include: 'Invalid', 'Down', 'Up'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: FabricReplicaStatus =
- * <FabricReplicaStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum FabricReplicaStatus {
-  /**
-   * Indicates that the read or write operation access status is not valid.
-   * This value is not returned to the caller.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the replica is down.
-   */
-  Down = 'Down',
-  /**
-   * Indicates that the replica is up.
-   */
-  Up = 'Up',
-}
+export type FabricReplicaStatus = 'Invalid' | 'Down' | 'Up';
 
 /**
  * Defines values for ReplicaKind.
  * Possible values include: 'Invalid', 'KeyValueStore'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReplicaKind =
- * <ReplicaKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ReplicaKind {
-  /**
-   * Represents an invalid replica kind. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Represents a key value store replica. The value is 1
-   */
-  KeyValueStore = 'KeyValueStore',
-}
+export type ReplicaKind = 'Invalid' | 'KeyValueStore';
 
 /**
  * Defines values for ServiceTypeRegistrationStatus.
  * Possible values include: 'Invalid', 'Disabled', 'Enabled', 'Registered'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceTypeRegistrationStatus =
- * <ServiceTypeRegistrationStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServiceTypeRegistrationStatus {
-  /**
-   * Indicates the registration status is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the service type is disabled on this node. A type gets
-   * disabled when there are too many failures of the code package hosting the
-   * service type. If the service type is disabled, new replicas of that
-   * service type will not be placed on the node until it is enabled again. The
-   * service type is enabled again after the process hosting it comes up and
-   * re-registers the type or a preconfigured time interval has passed. The
-   * value is 1.
-   */
-  Disabled = 'Disabled',
-  /**
-   * Indicates that the service type is enabled on this node. Replicas of this
-   * service type can be placed on this node when the code package registers
-   * the service type. The value is 2.
-   */
-  Enabled = 'Enabled',
-  /**
-   * Indicates that the service type is enabled and registered on the node by a
-   * code package. Replicas of this service type can now be placed on this
-   * node. The value is 3.
-   */
-  Registered = 'Registered',
-}
+export type ServiceTypeRegistrationStatus = 'Invalid' | 'Disabled' | 'Enabled' | 'Registered';
 
 /**
  * Defines values for ServiceEndpointRole.
- * Possible values include: 'Invalid', 'Stateless', 'StatefulPrimary',
- * 'StatefulSecondary'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceEndpointRole =
- * <ServiceEndpointRole>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Stateless', 'StatefulPrimary', 'StatefulSecondary'
  * @readonly
  * @enum {string}
  */
-export enum ServiceEndpointRole {
-  /**
-   * Indicates the service endpoint role is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the service endpoint is of a stateless service. The value
-   * is 1.
-   */
-  Stateless = 'Stateless',
-  /**
-   * Indicates that the service endpoint is of a primary replica of a stateful
-   * service. The value is 2.
-   */
-  StatefulPrimary = 'StatefulPrimary',
-  /**
-   * Indicates that the service endpoint is of a secondary replica of a
-   * stateful service. The value is 3.
-   */
-  StatefulSecondary = 'StatefulSecondary',
-}
+export type ServiceEndpointRole = 'Invalid' | 'Stateless' | 'StatefulPrimary' | 'StatefulSecondary';
 
 /**
  * Defines values for OperationState.
- * Possible values include: 'Invalid', 'Running', 'RollingBack', 'Completed',
- * 'Faulted', 'Cancelled', 'ForceCancelled'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperationState =
- * <OperationState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Running', 'RollingBack', 'Completed', 'Faulted',
+ * 'Cancelled', 'ForceCancelled'
  * @readonly
  * @enum {string}
  */
-export enum OperationState {
-  /**
-   * The operation state is invalid.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The operation is in progress.
-   */
-  Running = 'Running',
-  /**
-   * The operation is rolling back internal system state because it encountered
-   * a fatal error or was cancelled by the user.  "RollingBack"     does not
-   * refer to user state.  For example, if CancelOperation is called on a
-   * command of type PartitionDataLoss, state of "RollingBack" does not mean
-   * service data is being restored (assuming the command has progressed far
-   * enough to cause data loss). It means the system is rolling back/cleaning
-   * up internal system state associated with the command.
-   */
-  RollingBack = 'RollingBack',
-  /**
-   * The operation has completed successfully and is no longer running.
-   */
-  Completed = 'Completed',
-  /**
-   * The operation has failed and is no longer running.
-   */
-  Faulted = 'Faulted',
-  /**
-   * The operation was cancelled by the user using CancelOperation, and is no
-   * longer running.
-   */
-  Cancelled = 'Cancelled',
-  /**
-   * The operation was cancelled by the user using CancelOperation, with the
-   * force parameter set to true.  It is no longer running.  Refer to
-   * CancelOperation for more details.
-   */
-  ForceCancelled = 'ForceCancelled',
-}
+export type OperationState = 'Invalid' | 'Running' | 'RollingBack' | 'Completed' | 'Faulted' | 'Cancelled' | 'ForceCancelled';
 
 /**
  * Defines values for OperationType.
- * Possible values include: 'Invalid', 'PartitionDataLoss',
- * 'PartitionQuorumLoss', 'PartitionRestart', 'NodeTransition'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperationType =
- * <OperationType>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'PartitionDataLoss', 'PartitionQuorumLoss',
+ * 'PartitionRestart', 'NodeTransition'
  * @readonly
  * @enum {string}
  */
-export enum OperationType {
-  /**
-   * The operation state is invalid.
-   */
-  Invalid = 'Invalid',
-  /**
-   * An operation started using the StartDataLoss API.
-   */
-  PartitionDataLoss = 'PartitionDataLoss',
-  /**
-   * An operation started using the StartQuorumLoss API.
-   */
-  PartitionQuorumLoss = 'PartitionQuorumLoss',
-  /**
-   * An operation started using the StartPartitionRestart API.
-   */
-  PartitionRestart = 'PartitionRestart',
-  /**
-   * An operation started using the StartNodeTransition API.
-   */
-  NodeTransition = 'NodeTransition',
-}
+export type OperationType = 'Invalid' | 'PartitionDataLoss' | 'PartitionQuorumLoss' | 'PartitionRestart' | 'NodeTransition';
 
 /**
  * Defines values for PackageSharingPolicyScope.
  * Possible values include: 'None', 'All', 'Code', 'Config', 'Data'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PackageSharingPolicyScope =
- * <PackageSharingPolicyScope>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PackageSharingPolicyScope {
-  /**
-   * No package sharing policy scope. The value is 0.
-   */
-  None = 'None',
-  /**
-   * Share all code, config and data packages from corresponding service
-   * manifest. The value is 1.
-   */
-  All = 'All',
-  /**
-   * Share all code packages from corresponding service manifest. The value is
-   * 2.
-   */
-  Code = 'Code',
-  /**
-   * Share all config packages from corresponding service manifest. The value
-   * is 3.
-   */
-  Config = 'Config',
-  /**
-   * Share all data packages from corresponding service manifest. The value is
-   * 4.
-   */
-  Data = 'Data',
-}
+export type PackageSharingPolicyScope = 'None' | 'All' | 'Code' | 'Config' | 'Data';
 
 /**
  * Defines values for PropertyValueKind.
- * Possible values include: 'Invalid', 'Binary', 'Int64', 'Double', 'String',
- * 'Guid'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PropertyValueKind =
- * <PropertyValueKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Binary', 'Int64', 'Double', 'String', 'Guid'
  * @readonly
  * @enum {string}
  */
-export enum PropertyValueKind {
-  /**
-   * Indicates the property is invalid. All Service Fabric enumerations have
-   * the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The data inside the property is a binary blob. The value is 1.
-   */
-  Binary = 'Binary',
-  /**
-   * The data inside the property is an int64. The value is 2.
-   */
-  Int64 = 'Int64',
-  /**
-   * The data inside the property is a double. The value is 3.
-   */
-  Double = 'Double',
-  /**
-   * The data inside the property is a string. The value is 4.
-   */
-  String = 'String',
-  /**
-   * The data inside the property is a guid. The value is 5.
-   */
-  Guid = 'Guid',
-}
+export type PropertyValueKind = 'Invalid' | 'Binary' | 'Int64' | 'Double' | 'String' | 'Guid';
 
 /**
  * Defines values for PropertyBatchOperationKind.
- * Possible values include: 'Invalid', 'Put', 'Get', 'CheckExists',
- * 'CheckSequence', 'Delete', 'CheckValue'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PropertyBatchOperationKind =
- * <PropertyBatchOperationKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Put', 'Get', 'CheckExists', 'CheckSequence', 'Delete',
+ * 'CheckValue'
  * @readonly
  * @enum {string}
  */
-export enum PropertyBatchOperationKind {
-  /**
-   * Indicates the property operation is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The operation will create or edit a property. The value is 1.
-   */
-  Put = 'Put',
-  /**
-   * The operation will get a property. The value is 2.
-   */
-  Get = 'Get',
-  /**
-   * The operation will check that a property exists or doesn't exists,
-   * depending on the provided value. The value is 3.
-   */
-  CheckExists = 'CheckExists',
-  /**
-   * The operation will ensure that the sequence number is equal to the
-   * provided value. The value is 4.
-   */
-  CheckSequence = 'CheckSequence',
-  /**
-   * The operation will delete a property. The value is 5.
-   */
-  Delete = 'Delete',
-  /**
-   * The operation will ensure that the value of a property is equal to the
-   * provided value. The value is 7.
-   */
-  CheckValue = 'CheckValue',
-}
+export type PropertyBatchOperationKind = 'Invalid' | 'Put' | 'Get' | 'CheckExists' | 'CheckSequence' | 'Delete' | 'CheckValue';
 
 /**
  * Defines values for PropertyBatchInfoKind.
  * Possible values include: 'Invalid', 'Successful', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PropertyBatchInfoKind =
- * <PropertyBatchInfoKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum PropertyBatchInfoKind {
-  /**
-   * Indicates the property batch info is invalid. All Service Fabric
-   * enumerations have the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The property batch succeeded.
-   */
-  Successful = 'Successful',
-  /**
-   * The property batch failed.
-   */
-  Failed = 'Failed',
-}
+export type PropertyBatchInfoKind = 'Invalid' | 'Successful' | 'Failed';
+
+/**
+ * Defines values for RetentionPolicyType.
+ * Possible values include: 'Basic', 'Invalid'
+ * @readonly
+ * @enum {string}
+ */
+export type RetentionPolicyType = 'Basic' | 'Invalid';
 
 /**
  * Defines values for BackupStorageKind.
  * Possible values include: 'Invalid', 'FileShare', 'AzureBlobStore'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupStorageKind =
- * <BackupStorageKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupStorageKind {
-  /**
-   * Indicates an invalid backup storage kind. All Service Fabric enumerations
-   * have the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates file/ SMB share to be used as backup storage.
-   */
-  FileShare = 'FileShare',
-  /**
-   * Indicates Azure blob store to be used as backup storage.
-   */
-  AzureBlobStore = 'AzureBlobStore',
-}
+export type BackupStorageKind = 'Invalid' | 'FileShare' | 'AzureBlobStore';
 
 /**
  * Defines values for BackupScheduleKind.
  * Possible values include: 'Invalid', 'TimeBased', 'FrequencyBased'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupScheduleKind =
- * <BackupScheduleKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupScheduleKind {
-  /**
-   * Indicates an invalid backup schedule kind. All Service Fabric enumerations
-   * have the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates a time-based backup schedule.
-   */
-  TimeBased = 'TimeBased',
-  /**
-   * Indicates a frequency-based backup schedule.
-   */
-  FrequencyBased = 'FrequencyBased',
-}
+export type BackupScheduleKind = 'Invalid' | 'TimeBased' | 'FrequencyBased';
 
 /**
  * Defines values for BackupPolicyScope.
  * Possible values include: 'Invalid', 'Partition', 'Service', 'Application'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupPolicyScope =
- * <BackupPolicyScope>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupPolicyScope {
-  /**
-   * Indicates an invalid backup policy scope type. All Service Fabric
-   * enumerations have the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the backup policy is applied at partition level. Hence
-   * overriding any policy which may have applied at partition's service or
-   * application level.
-   */
-  Partition = 'Partition',
-  /**
-   * Indicates the backup policy is applied at service level. All partitions of
-   * the service inherit this policy unless explicitly overridden at partition
-   * level.
-   */
-  Service = 'Service',
-  /**
-   * Indicates the backup policy is applied at application level. All services
-   * and partitions of the application inherit this policy unless explicitly
-   * overridden at service or partition level.
-   */
-  Application = 'Application',
-}
+export type BackupPolicyScope = 'Invalid' | 'Partition' | 'Service' | 'Application';
 
 /**
  * Defines values for BackupSuspensionScope.
  * Possible values include: 'Invalid', 'Partition', 'Service', 'Application'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupSuspensionScope =
- * <BackupSuspensionScope>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupSuspensionScope {
-  /**
-   * Indicates an invalid backup suspension scope type also indicating entity
-   * is not suspended. All Service Fabric enumerations have the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the backup suspension is applied at partition level.
-   */
-  Partition = 'Partition',
-  /**
-   * Indicates the backup suspension is applied at service level. All
-   * partitions of the service are hence suspended for backup.
-   */
-  Service = 'Service',
-  /**
-   * Indicates the backup suspension is applied at application level. All
-   * services and partitions of the application are hence suspended for backup.
-   */
-  Application = 'Application',
-}
+export type BackupSuspensionScope = 'Invalid' | 'Partition' | 'Service' | 'Application';
 
 /**
  * Defines values for RestoreState.
- * Possible values include: 'Invalid', 'Accepted', 'RestoreInProgress',
- * 'Success', 'Failure', 'Timeout'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RestoreState =
- * <RestoreState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Accepted', 'RestoreInProgress', 'Success', 'Failure',
+ * 'Timeout'
  * @readonly
  * @enum {string}
  */
-export enum RestoreState {
-  /**
-   * Indicates an invalid restore state. All Service Fabric enumerations have
-   * the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Operation has been validated and accepted. Restore is yet to be triggered.
-   */
-  Accepted = 'Accepted',
-  /**
-   * Restore operation has been triggered and is under process.
-   */
-  RestoreInProgress = 'RestoreInProgress',
-  /**
-   * Operation completed with success.
-   */
-  Success = 'Success',
-  /**
-   * Operation completed with failure.
-   */
-  Failure = 'Failure',
-  /**
-   * Operation timed out.
-   */
-  Timeout = 'Timeout',
-}
+export type RestoreState = 'Invalid' | 'Accepted' | 'RestoreInProgress' | 'Success' | 'Failure' | 'Timeout';
 
 /**
  * Defines values for BackupType.
  * Possible values include: 'Invalid', 'Full', 'Incremental'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupType = <BackupType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupType {
-  /**
-   * Indicates an invalid backup type. All Service Fabric enumerations have the
-   * invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates a full backup.
-   */
-  Full = 'Full',
-  /**
-   * Indicates an incremental backup. A backup chain is comprised of a full
-   * backup followed by 0 or more incremental backups.
-   */
-  Incremental = 'Incremental',
-}
+export type BackupType = 'Invalid' | 'Full' | 'Incremental';
 
 /**
  * Defines values for BackupScheduleFrequencyType.
  * Possible values include: 'Invalid', 'Daily', 'Weekly'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupScheduleFrequencyType =
- * <BackupScheduleFrequencyType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupScheduleFrequencyType {
-  /**
-   * Indicates an invalid backup schedule frequency type. All Service Fabric
-   * enumerations have the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the time based backup schedule is repeated at a daily
-   * frequency.
-   */
-  Daily = 'Daily',
-  /**
-   * Indicates that the time based backup schedule is repeated at a weekly
-   * frequency.
-   */
-  Weekly = 'Weekly',
-}
+export type BackupScheduleFrequencyType = 'Invalid' | 'Daily' | 'Weekly';
 
 /**
  * Defines values for DayOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
- * 'Thursday', 'Friday', 'Saturday'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DayOfWeek = <DayOfWeek>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
  * @readonly
  * @enum {string}
  */
-export enum DayOfWeek {
-  /**
-   * Indicates the Day referred is Sunday.
-   */
-  Sunday = 'Sunday',
-  /**
-   * Indicates the Day referred is Monday.
-   */
-  Monday = 'Monday',
-  /**
-   * Indicates the Day referred is Tuesday.
-   */
-  Tuesday = 'Tuesday',
-  /**
-   * Indicates the Day referred is Wednesday.
-   */
-  Wednesday = 'Wednesday',
-  /**
-   * Indicates the Day referred is Thursday.
-   */
-  Thursday = 'Thursday',
-  /**
-   * Indicates the Day referred is Friday.
-   */
-  Friday = 'Friday',
-  /**
-   * Indicates the Day referred is Saturday.
-   */
-  Saturday = 'Saturday',
-}
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for BackupState.
- * Possible values include: 'Invalid', 'Accepted', 'BackupInProgress',
- * 'Success', 'Failure', 'Timeout'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupState =
- * <BackupState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Accepted', 'BackupInProgress', 'Success', 'Failure',
+ * 'Timeout'
  * @readonly
  * @enum {string}
  */
-export enum BackupState {
-  /**
-   * Indicates an invalid backup state. All Service Fabric enumerations have
-   * the invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Operation has been validated and accepted. Backup is yet to be triggered.
-   */
-  Accepted = 'Accepted',
-  /**
-   * Backup operation has been triggered and is under process.
-   */
-  BackupInProgress = 'BackupInProgress',
-  /**
-   * Operation completed with success.
-   */
-  Success = 'Success',
-  /**
-   * Operation completed with failure.
-   */
-  Failure = 'Failure',
-  /**
-   * Operation timed out.
-   */
-  Timeout = 'Timeout',
-}
+export type BackupState = 'Invalid' | 'Accepted' | 'BackupInProgress' | 'Success' | 'Failure' | 'Timeout';
 
 /**
  * Defines values for BackupEntityKind.
  * Possible values include: 'Invalid', 'Partition', 'Service', 'Application'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: BackupEntityKind =
- * <BackupEntityKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum BackupEntityKind {
-  /**
-   * Indicates an invalid entity kind. All Service Fabric enumerations have the
-   * invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates the entity is a Service Fabric partition.
-   */
-  Partition = 'Partition',
-  /**
-   * Indicates the entity is a Service Fabric service.
-   */
-  Service = 'Service',
-  /**
-   * Indicates the entity is a Service Fabric application.
-   */
-  Application = 'Application',
-}
+export type BackupEntityKind = 'Invalid' | 'Partition' | 'Service' | 'Application';
 
 /**
  * Defines values for ImpactLevel.
- * Possible values include: 'Invalid', 'None', 'Restart', 'RemoveData',
- * 'RemoveNode'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ImpactLevel =
- * <ImpactLevel>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'None', 'Restart', 'RemoveData', 'RemoveNode'
  * @readonly
  * @enum {string}
  */
-export enum ImpactLevel {
-  Invalid = 'Invalid',
-  None = 'None',
-  Restart = 'Restart',
-  RemoveData = 'RemoveData',
-  RemoveNode = 'RemoveNode',
-}
+export type ImpactLevel = 'Invalid' | 'None' | 'Restart' | 'RemoveData' | 'RemoveNode';
 
 /**
  * Defines values for RepairImpactKind.
  * Possible values include: 'Invalid', 'Node'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RepairImpactKind =
- * <RepairImpactKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RepairImpactKind {
-  /**
-   * The repair impact is not valid or is of an unknown type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The repair impact affects a set of Service Fabric nodes.
-   */
-  Node = 'Node',
-}
+export type RepairImpactKind = 'Invalid' | 'Node';
 
 /**
  * Defines values for RepairTargetKind.
  * Possible values include: 'Invalid', 'Node'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RepairTargetKind =
- * <RepairTargetKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum RepairTargetKind {
-  /**
-   * The repair target is not valid or is of an unknown type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * The repair target is a set of Service Fabric nodes.
-   */
-  Node = 'Node',
-}
+export type RepairTargetKind = 'Invalid' | 'Node';
 
 /**
  * Defines values for State.
- * Possible values include: 'Invalid', 'Created', 'Claimed', 'Preparing',
- * 'Approved', 'Executing', 'Restoring', 'Completed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: State = <State>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Created', 'Claimed', 'Preparing', 'Approved', 'Executing',
+ * 'Restoring', 'Completed'
  * @readonly
  * @enum {string}
  */
-export enum State {
-  /**
-   * Indicates that the repair task state is invalid. All Service Fabric
-   * enumerations have the invalid value.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the repair task has been created.
-   */
-  Created = 'Created',
-  /**
-   * Indicates that the repair task has been claimed by a repair executor.
-   */
-  Claimed = 'Claimed',
-  /**
-   * Indicates that the Repair Manager is preparing the system to handle the
-   * impact of the repair task, usually by taking resources offline gracefully.
-   */
-  Preparing = 'Preparing',
-  /**
-   * Indicates that the repair task has been approved by the Repair Manager and
-   * is safe to execute.
-   */
-  Approved = 'Approved',
-  /**
-   * Indicates that execution of the repair task is in progress.
-   */
-  Executing = 'Executing',
-  /**
-   * Indicates that the Repair Manager is restoring the system to its
-   * pre-repair state, usually by bringing resources back online.
-   */
-  Restoring = 'Restoring',
-  /**
-   * Indicates that the repair task has completed, and no further state changes
-   * will occur.
-   */
-  Completed = 'Completed',
-}
+export type State = 'Invalid' | 'Created' | 'Claimed' | 'Preparing' | 'Approved' | 'Executing' | 'Restoring' | 'Completed';
 
 /**
  * Defines values for ResultStatus.
- * Possible values include: 'Invalid', 'Succeeded', 'Cancelled', 'Interrupted',
- * 'Failed', 'Pending'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ResultStatus =
- * <ResultStatus>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'Succeeded', 'Cancelled', 'Interrupted', 'Failed', 'Pending'
  * @readonly
  * @enum {string}
  */
-export enum ResultStatus {
-  /**
-   * Indicates that the repair task result is invalid. All Service Fabric
-   * enumerations have the invalid value.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates that the repair task completed execution successfully.
-   */
-  Succeeded = 'Succeeded',
-  /**
-   * Indicates that the repair task was cancelled prior to execution.
-   */
-  Cancelled = 'Cancelled',
-  /**
-   * Indicates that execution of the repair task was interrupted by a
-   * cancellation request after some work had already been performed.
-   */
-  Interrupted = 'Interrupted',
-  /**
-   * Indicates that there was a failure during execution of the repair task.
-   * Some work may have been performed.
-   */
-  Failed = 'Failed',
-  /**
-   * Indicates that the repair task result is not yet available, because the
-   * repair task has not finished executing.
-   */
-  Pending = 'Pending',
-}
+export type ResultStatus = 'Invalid' | 'Succeeded' | 'Cancelled' | 'Interrupted' | 'Failed' | 'Pending';
 
 /**
  * Defines values for RepairTaskHealthCheckState.
- * Possible values include: 'NotStarted', 'InProgress', 'Succeeded', 'Skipped',
- * 'TimedOut'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RepairTaskHealthCheckState =
- * <RepairTaskHealthCheckState>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'NotStarted', 'InProgress', 'Succeeded', 'Skipped', 'TimedOut'
  * @readonly
  * @enum {string}
  */
-export enum RepairTaskHealthCheckState {
-  /**
-   * Indicates that the health check has not started.
-   */
-  NotStarted = 'NotStarted',
-  /**
-   * Indicates that the health check is in progress.
-   */
-  InProgress = 'InProgress',
-  /**
-   * Indicates that the health check succeeded.
-   */
-  Succeeded = 'Succeeded',
-  /**
-   * Indicates that the health check was skipped.
-   */
-  Skipped = 'Skipped',
-  /**
-   * Indicates that the health check timed out.
-   */
-  TimedOut = 'TimedOut',
-}
+export type RepairTaskHealthCheckState = 'NotStarted' | 'InProgress' | 'Succeeded' | 'Skipped' | 'TimedOut';
 
 /**
  * Defines values for ScalingTriggerKind.
- * Possible values include: 'Invalid', 'AveragePartitionLoad',
- * 'AverageServiceLoad'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ScalingTriggerKind =
- * <ScalingTriggerKind>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'AveragePartitionLoad', 'AverageServiceLoad'
  * @readonly
  * @enum {string}
  */
-export enum ScalingTriggerKind {
-  /**
-   * Indicates the scaling trigger is invalid. All Service Fabric enumerations
-   * have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates a trigger where scaling decisions are made based on average load
-   * of a partition. The value is 1.
-   */
-  AveragePartitionLoad = 'AveragePartitionLoad',
-  /**
-   * Indicates a trigger where scaling decisions are made based on average load
-   * of a service. The value is 2.
-   */
-  AverageServiceLoad = 'AverageServiceLoad',
-}
+export type ScalingTriggerKind = 'Invalid' | 'AveragePartitionLoad' | 'AverageServiceLoad';
 
 /**
  * Defines values for ScalingMechanismKind.
  * Possible values include: 'Invalid', 'PartitionInstanceCount',
  * 'AddRemoveIncrementalNamedPartition'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ScalingMechanismKind =
- * <ScalingMechanismKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ScalingMechanismKind {
-  /**
-   * Indicates the scaling mechanism is invalid. All Service Fabric
-   * enumerations have the invalid type. The value is zero.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Indicates a mechanism for scaling where new instances are added or removed
-   * from a partition. The value is 1.
-   */
-  PartitionInstanceCount = 'PartitionInstanceCount',
-  /**
-   * Indicates a mechanism for scaling where new named partitions are added or
-   * removed from a service. The value is 2.
-   */
-  AddRemoveIncrementalNamedPartition = 'AddRemoveIncrementalNamedPartition',
-}
+export type ScalingMechanismKind = 'Invalid' | 'PartitionInstanceCount' | 'AddRemoveIncrementalNamedPartition';
 
 /**
- * Defines values for ServiceResourceStatus.
- * Possible values include: 'Unknown', 'Active', 'Upgrading', 'Deleting',
- * 'Creating', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ServiceResourceStatus =
- * <ServiceResourceStatus>"someUnknownValueThatWillStillBeValid";
+ * Defines values for ResourceStatus.
+ * Possible values include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
  * @readonly
  * @enum {string}
  */
-export enum ServiceResourceStatus {
-  Unknown = 'Unknown',
-  Active = 'Active',
-  Upgrading = 'Upgrading',
-  Deleting = 'Deleting',
-  Creating = 'Creating',
-  Failed = 'Failed',
-}
+export type ResourceStatus = 'Unknown' | 'Ready' | 'Upgrading' | 'Creating' | 'Deleting' | 'Failed';
 
 /**
- * Defines values for ApplicationResourceStatus.
- * Possible values include: 'Invalid', 'Ready', 'Upgrading', 'Creating',
- * 'Deleting', 'Failed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ApplicationResourceStatus =
- * <ApplicationResourceStatus>"someUnknownValueThatWillStillBeValid";
+ * Defines values for SecretKind.
+ * Possible values include: 'inlinedValue'
  * @readonly
  * @enum {string}
  */
-export enum ApplicationResourceStatus {
-  Invalid = 'Invalid',
-  Ready = 'Ready',
-  Upgrading = 'Upgrading',
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Failed = 'Failed',
-}
+export type SecretKind = 'inlinedValue';
+
+/**
+ * Defines values for VolumeProvider.
+ * Possible values include: 'SFAzureFile'
+ * @readonly
+ * @enum {string}
+ */
+export type VolumeProvider = 'SFAzureFile';
+
+/**
+ * Defines values for SizeTypes.
+ * Possible values include: 'Small', 'Medium', 'Large'
+ * @readonly
+ * @enum {string}
+ */
+export type SizeTypes = 'Small' | 'Medium' | 'Large';
+
+/**
+ * Defines values for ApplicationScopedVolumeKind.
+ * Possible values include: 'ServiceFabricVolumeDisk'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationScopedVolumeKind = 'ServiceFabricVolumeDisk';
+
+/**
+ * Defines values for NetworkKind.
+ * Possible values include: 'Local'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkKind = 'Local';
+
+/**
+ * Defines values for HeaderMatchType.
+ * Possible values include: 'exact'
+ * @readonly
+ * @enum {string}
+ */
+export type HeaderMatchType = 'exact';
+
+/**
+ * Defines values for OperatingSystemType.
+ * Possible values include: 'Linux', 'Windows'
+ * @readonly
+ * @enum {string}
+ */
+export type OperatingSystemType = 'Linux' | 'Windows';
 
 /**
  * Defines values for DiagnosticsSinkKind.
  * Possible values include: 'Invalid', 'AzureInternalMonitoringPipeline'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DiagnosticsSinkKind =
- * <DiagnosticsSinkKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DiagnosticsSinkKind {
-  /**
-   * Indicates an invalid sink kind. All Service Fabric enumerations have the
-   * invalid type.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Diagnostics settings for Geneva.
-   */
-  AzureInternalMonitoringPipeline = 'AzureInternalMonitoringPipeline',
-}
+export type DiagnosticsSinkKind = 'Invalid' | 'AzureInternalMonitoringPipeline';
 
 /**
- * Defines values for OperatingSystemTypes.
- * Possible values include: 'Linux', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OperatingSystemTypes =
- * <OperatingSystemTypes>"someUnknownValueThatWillStillBeValid";
+ * Defines values for AutoScalingMechanismKind.
+ * Possible values include: 'AddRemoveReplica'
  * @readonly
  * @enum {string}
  */
-export enum OperatingSystemTypes {
-  Linux = 'Linux',
-  Windows = 'Windows',
-}
+export type AutoScalingMechanismKind = 'AddRemoveReplica';
+
+/**
+ * Defines values for AutoScalingMetricKind.
+ * Possible values include: 'Resource'
+ * @readonly
+ * @enum {string}
+ */
+export type AutoScalingMetricKind = 'Resource';
+
+/**
+ * Defines values for AutoScalingResourceMetricName.
+ * Possible values include: 'cpu', 'memoryInGB'
+ * @readonly
+ * @enum {string}
+ */
+export type AutoScalingResourceMetricName = 'cpu' | 'memoryInGB';
+
+/**
+ * Defines values for AutoScalingTriggerKind.
+ * Possible values include: 'AverageLoad'
+ * @readonly
+ * @enum {string}
+ */
+export type AutoScalingTriggerKind = 'AverageLoad';
 
 /**
  * Defines values for NodeStatusFilter.
- * Possible values include: 'default', 'all', 'up', 'down', 'enabling',
- * 'disabling', 'disabled', 'unknown', 'removed'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NodeStatusFilter =
- * <NodeStatusFilter>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'default', 'all', 'up', 'down', 'enabling', 'disabling', 'disabled',
+ * 'unknown', 'removed'
  * @readonly
  * @enum {string}
  */
-export enum NodeStatusFilter {
-  /**
-   * This filter value will match all of the nodes excepts the ones with with
-   * status as Unknown or Removed.
-   */
-  Default = 'default',
-  /**
-   * This filter value will match all of the nodes.
-   */
-  All = 'all',
-  /**
-   * This filter value will match nodes that are Up.
-   */
-  Up = 'up',
-  /**
-   * This filter value will match nodes that are Down.
-   */
-  Down = 'down',
-  /**
-   * This filter value will match nodes that are in the process of being
-   * enabled with status as Enabling.
-   */
-  Enabling = 'enabling',
-  /**
-   * This filter value will match nodes that are in the process of being
-   * disabled with status as Disabling.
-   */
-  Disabling = 'disabling',
-  /**
-   * This filter value will match nodes that are Disabled.
-   */
-  Disabled = 'disabled',
-  /**
-   * This filter value will match nodes whose status is Unknown. A node would
-   * be in Unknown state if Service Fabric does not have authoritative
-   * information about that node. This can happen if the system learns about a
-   * node at runtime.
-   */
-  Unknown = 'unknown',
-  /**
-   * This filter value will match nodes whose status is Removed. These are the
-   * nodes that are removed from the cluster using the RemoveNodeState API.
-   */
-  Removed = 'removed',
-}
+export type NodeStatusFilter = 'default' | 'all' | 'up' | 'down' | 'enabling' | 'disabling' | 'disabled' | 'unknown' | 'removed';
 
 /**
  * Defines values for ReplicaHealthReportServiceKind.
  * Possible values include: 'Stateless', 'Stateful'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: ReplicaHealthReportServiceKind =
- * <ReplicaHealthReportServiceKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ReplicaHealthReportServiceKind {
-  /**
-   * Does not use Service Fabric to make its state highly available or
-   * reliable. The value is 1
-   */
-  Stateless = 'Stateless',
-  /**
-   * Uses Service Fabric to make its state or part of its state highly
-   * available and reliable. The value is 2.
-   */
-  Stateful = 'Stateful',
-}
+export type ReplicaHealthReportServiceKind = 'Stateless' | 'Stateful';
 
 /**
  * Defines values for DataLossMode.
  * Possible values include: 'Invalid', 'PartialDataLoss', 'FullDataLoss'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: DataLossMode =
- * <DataLossMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum DataLossMode {
-  /**
-   * Reserved.  Do not pass into API.
-   */
-  Invalid = 'Invalid',
-  /**
-   * PartialDataLoss option will cause a quorum of replicas to go down,
-   * triggering an OnDataLoss event in the system for the given partition.
-   */
-  PartialDataLoss = 'PartialDataLoss',
-  /**
-   * FullDataLoss option will drop all the replicas which means that all the
-   * data will be lost.
-   */
-  FullDataLoss = 'FullDataLoss',
-}
+export type DataLossMode = 'Invalid' | 'PartialDataLoss' | 'FullDataLoss';
 
 /**
  * Defines values for NodeTransitionType.
  * Possible values include: 'Invalid', 'Start', 'Stop'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: NodeTransitionType =
- * <NodeTransitionType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum NodeTransitionType {
-  /**
-   * Reserved.  Do not pass into API.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Transition a stopped node to up.
-   */
-  Start = 'Start',
-  /**
-   * Transition an up node to stopped.
-   */
-  Stop = 'Stop',
-}
+export type NodeTransitionType = 'Invalid' | 'Start' | 'Stop';
 
 /**
  * Defines values for QuorumLossMode.
  * Possible values include: 'Invalid', 'QuorumReplicas', 'AllReplicas'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: QuorumLossMode =
- * <QuorumLossMode>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum QuorumLossMode {
-  /**
-   * Reserved.  Do not pass into API.
-   */
-  Invalid = 'Invalid',
-  /**
-   * Partial Quorum loss mode : Minimum number of replicas for a partition will
-   * be down that will cause a quorum loss.
-   */
-  QuorumReplicas = 'QuorumReplicas',
-  AllReplicas = 'AllReplicas',
-}
+export type QuorumLossMode = 'Invalid' | 'QuorumReplicas' | 'AllReplicas';
 
 /**
  * Defines values for RestartPartitionMode.
- * Possible values include: 'Invalid', 'AllReplicasOrInstances',
- * 'OnlyActiveSecondaries'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: RestartPartitionMode =
- * <RestartPartitionMode>"someUnknownValueThatWillStillBeValid";
+ * Possible values include: 'Invalid', 'AllReplicasOrInstances', 'OnlyActiveSecondaries'
  * @readonly
  * @enum {string}
  */
-export enum RestartPartitionMode {
-  /**
-   * Reserved.  Do not pass into API.
-   */
-  Invalid = 'Invalid',
-  /**
-   * All replicas or instances in the partition are restarted at once.
-   */
-  AllReplicasOrInstances = 'AllReplicasOrInstances',
-  /**
-   * Only the secondary replicas are restarted.
-   */
-  OnlyActiveSecondaries = 'OnlyActiveSecondaries',
-}
+export type RestartPartitionMode = 'Invalid' | 'AllReplicasOrInstances' | 'OnlyActiveSecondaries';
 
 /**
  * Contains response data for the getClusterManifest operation.
@@ -25765,6 +24212,25 @@ export type GetAadMetadataResponse = AadMetadataObject & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AadMetadataObject;
+    };
+};
+
+/**
+ * Contains response data for the getClusterVersion operation.
+ */
+export type GetClusterVersionResponse = ClusterVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterVersion;
     };
 };
 
@@ -27715,9 +26181,256 @@ export type GetCorrelatedEventListResponse = Array<FabricEventUnion> & {
 };
 
 /**
- * Contains response data for the getApplicationResource operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type GetApplicationResourceResponse = ApplicationResourceDescription & {
+export type MeshSecretCreateOrUpdateResponse = SecretResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MeshSecretGetResponse = SecretResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type MeshSecretListResponse = PagedSecretResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedSecretResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the addValue operation.
+ */
+export type MeshSecretValueAddValueResponse = SecretValueResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValueResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MeshSecretValueGetResponse = SecretValueResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValueResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type MeshSecretValueListResponse = PagedSecretValueResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedSecretValueResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the show operation.
+ */
+export type MeshSecretValueShowResponse = SecretValue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValue;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type MeshVolumeCreateOrUpdateResponse = VolumeResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MeshVolumeGetResponse = VolumeResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type MeshVolumeListResponse = PagedVolumeResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedVolumeResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type MeshNetworkCreateOrUpdateResponse = NetworkResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MeshNetworkGetResponse = NetworkResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type MeshNetworkListResponse = PagedNetworkResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedNetworkResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type MeshApplicationCreateOrUpdateResponse = ApplicationResourceDescription & {
   /**
    * The underlying HTTP response.
    */
@@ -27734,9 +26447,9 @@ export type GetApplicationResourceResponse = ApplicationResourceDescription & {
 };
 
 /**
- * Contains response data for the getServices operation.
+ * Contains response data for the get operation.
  */
-export type GetServicesResponse = PagedServiceResourceDescriptionList & {
+export type MeshApplicationGetResponse = ApplicationResourceDescription & {
   /**
    * The underlying HTTP response.
    */
@@ -27748,14 +26461,33 @@ export type GetServicesResponse = PagedServiceResourceDescriptionList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PagedServiceResourceDescriptionList;
+      parsedBody: ApplicationResourceDescription;
     };
 };
 
 /**
- * Contains response data for the getService operation.
+ * Contains response data for the list operation.
  */
-export type GetServiceResponse = ServiceResourceDescription & {
+export type MeshApplicationListResponse = PagedApplicationResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedApplicationResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MeshServiceGetResponse = ServiceResourceDescription & {
   /**
    * The underlying HTTP response.
    */
@@ -27772,9 +26504,9 @@ export type GetServiceResponse = ServiceResourceDescription & {
 };
 
 /**
- * Contains response data for the getReplicas operation.
+ * Contains response data for the list operation.
  */
-export type GetReplicasResponse = PagedServiceResourceReplicaDescriptionList & {
+export type MeshServiceListResponse = PagedServiceResourceDescriptionList & {
   /**
    * The underlying HTTP response.
    */
@@ -27786,14 +26518,14 @@ export type GetReplicasResponse = PagedServiceResourceReplicaDescriptionList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PagedServiceResourceReplicaDescriptionList;
+      parsedBody: PagedServiceResourceDescriptionList;
     };
 };
 
 /**
- * Contains response data for the getReplica operation.
+ * Contains response data for the getContainerLogs operation.
  */
-export type GetReplicaResponse = ServiceResourceReplicaDescription & {
+export type MeshCodePackageGetContainerLogsResponse = ContainerLogs & {
   /**
    * The underlying HTTP response.
    */
@@ -27805,14 +26537,14 @@ export type GetReplicaResponse = ServiceResourceReplicaDescription & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ServiceResourceReplicaDescription;
+      parsedBody: ContainerLogs;
     };
 };
 
 /**
- * Contains response data for the getVolumeResource operation.
+ * Contains response data for the get operation.
  */
-export type GetVolumeResourceResponse = VolumeResourceDescription & {
+export type MeshServiceReplicaGetResponse = ServiceReplicaDescription & {
   /**
    * The underlying HTTP response.
    */
@@ -27824,6 +26556,82 @@ export type GetVolumeResourceResponse = VolumeResourceDescription & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VolumeResourceDescription;
+      parsedBody: ServiceReplicaDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type MeshServiceReplicaListResponse = PagedServiceReplicaDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedServiceReplicaDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type MeshGatewayCreateOrUpdateResponse = GatewayResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MeshGatewayGetResponse = GatewayResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewayResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type MeshGatewayListResponse = PagedGatewayResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PagedGatewayResourceDescriptionList;
     };
 };

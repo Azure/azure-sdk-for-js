@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hybridConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   listByNamespace(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionListResult>): void;
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>): Promise<Models.HybridConnectionsListByNamespaceResponse> {
+  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionListResult>, callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>): Promise<Models.HybridConnectionsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: Models.HybridConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: Models.HybridConnection, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.HybridConnectionsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: Models.HybridConnection, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.HybridConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.HybridConnectionsGetResponse> {
+  get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.HybridConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +194,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.HybridConnectionsListAuthorizationRulesResponse> {
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.HybridConnectionsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +236,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse> {
+  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -277,7 +277,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -317,7 +317,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.HybridConnectionsGetAuthorizationRuleResponse> {
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.HybridConnectionsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -357,7 +357,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.HybridConnectionsListKeysResponse> {
+  listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.HybridConnectionsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -400,7 +400,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.HybridConnectionsRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.HybridConnectionsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -432,7 +432,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionListResult>): void;
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>): Promise<Models.HybridConnectionsListByNamespaceNextResponse> {
+  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionListResult>, callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>): Promise<Models.HybridConnectionsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -460,7 +460,7 @@ export class HybridConnections {
    * @param callback The callback
    */
   listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workspacesMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class Workspaces {
    * @param callback The callback
    */
   disableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +87,7 @@ export class Workspaces {
    * @param callback The callback
    */
   enableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +121,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listIntelligencePacks(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntelligencePack[]>): void;
-  listIntelligencePacks(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IntelligencePack[]>): Promise<Models.WorkspacesListIntelligencePacksResponse> {
+  listIntelligencePacks(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntelligencePack[]>, callback?: msRest.ServiceCallback<Models.IntelligencePack[]>): Promise<Models.WorkspacesListIntelligencePacksResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -153,7 +153,7 @@ export class Workspaces {
    * @param callback The callback
    */
   getSharedKeys(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedKeys>): void;
-  getSharedKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SharedKeys>): Promise<Models.WorkspacesGetSharedKeysResponse> {
+  getSharedKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedKeys>, callback?: msRest.ServiceCallback<Models.SharedKeys>): Promise<Models.WorkspacesGetSharedKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +185,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListUsagesResult>): void;
-  listUsages(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListUsagesResult>): Promise<Models.WorkspacesListUsagesResponse> {
+  listUsages(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListUsagesResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListUsagesResult>): Promise<Models.WorkspacesListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -217,7 +217,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listManagementGroups(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>): void;
-  listManagementGroups(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>): Promise<Models.WorkspacesListManagementGroupsResponse> {
+  listManagementGroups(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>): Promise<Models.WorkspacesListManagementGroupsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -246,7 +246,7 @@ export class Workspaces {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -271,7 +271,7 @@ export class Workspaces {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -314,7 +314,7 @@ export class Workspaces {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -346,7 +346,7 @@ export class Workspaces {
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workspace>): void;
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workspace>, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -381,7 +381,7 @@ export class Workspaces {
    * @param callback The callback
    */
   update(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workspace>): void;
-  update(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesUpdateResponse> {
+  update(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workspace>, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

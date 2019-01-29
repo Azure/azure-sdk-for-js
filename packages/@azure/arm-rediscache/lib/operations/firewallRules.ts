@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/firewallRulesMappers";
 import * as Parameters from "../models/parameters";
@@ -47,7 +47,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   listByRedisResource(resourceGroupName: string, cacheName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisFirewallRuleListResult>): void;
-  listByRedisResource(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisFirewallRuleListResult>): Promise<Models.FirewallRulesListByRedisResourceResponse> {
+  listByRedisResource(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisFirewallRuleListResult>, callback?: msRest.ServiceCallback<Models.RedisFirewallRuleListResult>): Promise<Models.FirewallRulesListByRedisResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +85,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, cacheName: string, ruleName: string, parameters: Models.RedisFirewallRuleCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisFirewallRule>): void;
-  createOrUpdate(resourceGroupName: string, cacheName: string, ruleName: string, parameters: Models.RedisFirewallRuleCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisFirewallRule>): Promise<Models.FirewallRulesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, cacheName: string, ruleName: string, parameters: Models.RedisFirewallRuleCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisFirewallRule>, callback?: msRest.ServiceCallback<Models.RedisFirewallRule>): Promise<Models.FirewallRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +122,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   get(resourceGroupName: string, cacheName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisFirewallRule>): void;
-  get(resourceGroupName: string, cacheName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisFirewallRule>): Promise<Models.FirewallRulesGetResponse> {
+  get(resourceGroupName: string, cacheName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisFirewallRule>, callback?: msRest.ServiceCallback<Models.RedisFirewallRule>): Promise<Models.FirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +158,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, cacheName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, cacheName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, cacheName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -188,7 +188,7 @@ export class FirewallRules {
    * @param callback The callback
    */
   listByRedisResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisFirewallRuleListResult>): void;
-  listByRedisResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RedisFirewallRuleListResult>): Promise<Models.FirewallRulesListByRedisResourceNextResponse> {
+  listByRedisResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisFirewallRuleListResult>, callback?: msRest.ServiceCallback<Models.RedisFirewallRuleListResult>): Promise<Models.FirewallRulesListByRedisResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,

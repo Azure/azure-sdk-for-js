@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
+import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/alertRuleIncidentsMappers";
 import * as Parameters from "../models/parameters";
@@ -50,7 +50,7 @@ export class AlertRuleIncidents {
    * @param callback The callback
    */
   get(resourceGroupName: string, ruleName: string, incidentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Incident>): void;
-  get(resourceGroupName: string, ruleName: string, incidentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Incident>): Promise<Models.AlertRuleIncidentsGetResponse> {
+  get(resourceGroupName: string, ruleName: string, incidentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Incident>, callback?: msRest.ServiceCallback<Models.Incident>): Promise<Models.AlertRuleIncidentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +83,7 @@ export class AlertRuleIncidents {
    * @param callback The callback
    */
   listByAlertRule(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IncidentListResult>): void;
-  listByAlertRule(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.IncidentListResult>): Promise<Models.AlertRuleIncidentsListByAlertRuleResponse> {
+  listByAlertRule(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IncidentListResult>, callback?: msRest.ServiceCallback<Models.IncidentListResult>): Promise<Models.AlertRuleIncidentsListByAlertRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/topicsMappers";
 import * as Parameters from "../models/parameters";
@@ -49,7 +49,7 @@ export class Topics {
    * @param callback The callback
    */
   get(resourceGroupName: string, topicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Topic>): void;
-  get(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Topic>): Promise<Models.TopicsGetResponse> {
+  get(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Topic>, callback?: msRest.ServiceCallback<Models.Topic>): Promise<Models.TopicsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +117,7 @@ export class Topics {
    * @param callback The callback
    */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListBySubscriptionResponse> {
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicsListResult>, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -145,7 +145,7 @@ export class Topics {
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicsListResult>, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +177,7 @@ export class Topics {
    * @param callback The callback
    */
   listSharedAccessKeys(resourceGroupName: string, topicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
-  listSharedAccessKeys(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): Promise<Models.TopicsListSharedAccessKeysResponse> {
+  listSharedAccessKeys(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicSharedAccessKeys>, callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): Promise<Models.TopicsListSharedAccessKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -213,7 +213,7 @@ export class Topics {
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
-  regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): Promise<Models.TopicsRegenerateKeyResponse> {
+  regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicSharedAccessKeys>, callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): Promise<Models.TopicsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -253,7 +253,7 @@ export class Topics {
    * @param callback The callback
    */
   listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
-  listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventTypesListResult>): Promise<Models.TopicsListEventTypesResponse> {
+  listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventTypesListResult>, callback?: msRest.ServiceCallback<Models.EventTypesListResult>): Promise<Models.TopicsListEventTypesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,

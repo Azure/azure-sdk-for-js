@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/iscsiServersMappers";
 import * as Parameters from "../models/parameters";
@@ -51,7 +51,7 @@ export class IscsiServers {
    * @param callback The callback
    */
   listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIServerList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ISCSIServerList>): Promise<Models.IscsiServersListByDeviceResponse> {
+  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServerList>, callback?: msRest.ServiceCallback<Models.ISCSIServerList>): Promise<Models.IscsiServersListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -90,7 +90,7 @@ export class IscsiServers {
    * @param callback The callback
    */
   get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIServer>): void;
-  get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ISCSIServer>): Promise<Models.IscsiServersGetResponse> {
+  get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServer>, callback?: msRest.ServiceCallback<Models.ISCSIServer>): Promise<Models.IscsiServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -173,7 +173,7 @@ export class IscsiServers {
    * @param callback The callback
    */
   listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: Models.IscsiServersListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiServersListMetricsOptionalParams, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.IscsiServersListMetricsResponse> {
+  listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiServersListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.IscsiServersListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -213,7 +213,7 @@ export class IscsiServers {
    * @param callback The callback
    */
   listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.IscsiServersListMetricDefinitionResponse> {
+  listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.IscsiServersListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -247,7 +247,7 @@ export class IscsiServers {
    * @param callback The callback
    */
   listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIServerList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ISCSIServerList>): Promise<Models.IscsiServersListByManagerResponse> {
+  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServerList>, callback?: msRest.ServiceCallback<Models.ISCSIServerList>): Promise<Models.IscsiServersListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
