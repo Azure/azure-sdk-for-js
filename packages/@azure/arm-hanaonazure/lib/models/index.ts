@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -234,6 +234,13 @@ export interface HanaInstance extends Resource {
    * the server.**
    */
   readonly powerState?: HanaInstancePowerStateEnum;
+  /**
+   * @member {string} [proximityPlacementGroup] Resource proximity placement
+   * group
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly proximityPlacementGroup?: string;
 }
 
 /**
