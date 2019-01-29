@@ -107,11 +107,12 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it.only(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
-        void
-      > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
+      it.only(
+        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
+        async function(): Promise<void> {
+          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+        }
+      ).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -182,11 +183,12 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
-        void
-      > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
+      it.only(
+        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
+        async function(): Promise<void> {
+          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+        }
+      ).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -263,11 +265,12 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
-        void
-      > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
+      it.only(
+        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
+        async function(): Promise<void> {
+          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+        }
+      ).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -343,11 +346,12 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
-        void
-      > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-      });
+      it.only(
+        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
+        async function(): Promise<void> {
+          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+        }
+      ).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -424,7 +428,7 @@ describe("Standard", function(): void {
 // });
 
 const lockDurationInMilliseconds = 30000;
-const maxAutoRenewDurationInSeconds = 300000;
+const maxAutoRenewDurationInSeconds = 300;
 let uncaughtErrorFromHandlers: Error | undefined;
 
 const onError: OnError = (err: MessagingError | Error) => {
@@ -510,30 +514,28 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 ): Promise<void> {
   await senderClient.send(testMessage);
 
-  const sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
+  let sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
   const msgs = await sessionClient.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1, "Expected message length does not match");
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);
-  console.log(sessionClient.sessionLockedUntilUtc);
 
-  // Sleeping 30 seconds...
-  await delay(maxAutoRenewDurationInSeconds + 1000);
+  // Sleeping (maxAutoRenewDurationInSeconds + lockDuration) seconds...
+  await delay(maxAutoRenewDurationInSeconds * 1000 + lockDurationInMilliseconds + 1000);
 
-  // console.log(sessionClient.sessionLockedUntilUtc);
   let errorWasThrown: boolean = false;
   await msgs[0].complete().catch((err) => {
-    // console.log(sessionClient.sessionLockedUntilUtc);
-    console.log("hello");
-    should.equal(err.name, "MessageLockLostError");
+    should.equal(err.name, "Error");
+    should.equal(!(err.message.search("Cannot find the receiver with name") + 1), false);
     errorWasThrown = true;
   });
 
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
+  sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
   await unprocessedMsgs[0].complete();
 }
