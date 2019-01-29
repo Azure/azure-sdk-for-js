@@ -23,6 +23,7 @@ export {
   UserDefinedFunctionType
 } from "./documents";
 
+export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
 export { Constants } from "./common";
 export { RetryOptions } from "./retry";
 export { Response, RequestOptions, FeedOptions, MediaOptions, ErrorResponse } from "./request";
