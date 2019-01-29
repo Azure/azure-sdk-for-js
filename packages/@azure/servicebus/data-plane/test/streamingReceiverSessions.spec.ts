@@ -24,7 +24,8 @@ import {
   testSessionId,
   getSenderClient,
   getReceiverClient,
-  ClientType
+  ClientType,
+  purge
 } from "./testUtils";
 import { Sender } from "../lib/sender";
 
@@ -88,14 +89,18 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
       receiverClient.subscriptionName
     );
   }
-  sessionReceiver = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId
-  });
+
+  await purge(receiverClient, true);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
-    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
+
+  sessionReceiver = await receiverClient.getSessionReceiver({
+    sessionId: testSessionId
+  });
+
   errorWasThrown = false;
   unexpectedError = undefined;
 }

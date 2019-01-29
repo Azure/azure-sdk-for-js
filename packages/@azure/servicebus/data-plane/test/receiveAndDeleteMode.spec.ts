@@ -27,7 +27,8 @@ import {
   testSessionId,
   getSenderClient,
   getReceiverClient,
-  ClientType
+  ClientType,
+  purge
 } from "./testUtils";
 
 import { Receiver } from "../lib/receiver";
@@ -73,6 +74,13 @@ async function beforeEachTest(
   senderClient = getSenderClient(ns, senderType);
   receiverClient = getReceiverClient(ns, receiverType);
 
+  await purge(receiverClient, useSessions);
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  }
+
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
@@ -81,11 +89,6 @@ async function beforeEachTest(
       })
     : receiverClient.getReceiver({ receiveMode: ReceiveMode.receiveAndDelete });
 
-  const peekedMsgs = await receiverClient.peek();
-  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
-  if (peekedMsgs.length) {
-    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
-  }
   errorWasThrown = false;
 }
 

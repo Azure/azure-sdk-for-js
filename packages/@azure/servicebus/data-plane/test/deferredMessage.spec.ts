@@ -23,7 +23,8 @@ import {
   testSessionId,
   getSenderClient,
   getReceiverClient,
-  ClientType
+  ClientType,
+  purge
 } from "./testUtils";
 import { Receiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
@@ -82,18 +83,26 @@ async function beforeEachTest(
     );
   }
 
+  await purge(receiverClient, useSessions);
+  await purge(deadLetterClient, useSessions);
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  }
+  const peekedDeadMsgs = await deadLetterClient.peek();
+  if (peekedDeadMsgs.length) {
+    chai.assert.fail(
+      `Please use an empty dead letter ${receiverEntityType} for integration testing`
+    );
+  }
+
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
         sessionId: testSessionId
       })
     : receiverClient.getReceiver();
-
-  const peekedMsgs = await receiverClient.peek();
-  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
-  if (peekedMsgs.length) {
-    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
-  }
 }
 
 async function afterEachTest(): Promise<void> {

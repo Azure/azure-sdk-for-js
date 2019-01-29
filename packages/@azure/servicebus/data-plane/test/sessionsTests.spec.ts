@@ -22,7 +22,8 @@ import {
   getSenderClient,
   getReceiverClient,
   ClientType,
-  testSessionId
+  testSessionId,
+  purge
 } from "./testUtils";
 
 async function testPeekMsgsLength(
@@ -64,6 +65,13 @@ async function beforeEachTest(senderType: ClientType, sessionType: ClientType): 
 
   senderClient = getSenderClient(ns, senderType);
   receiverClient = getReceiverClient(ns, sessionType);
+
+  await purge(receiverClient, true);
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  }
 }
 
 async function afterEachTest(): Promise<void> {
