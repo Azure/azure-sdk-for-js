@@ -235,6 +235,13 @@ export const LuisResult: msRest.CompositeMapper = {
           name: "Composite",
           className: "Sentiment"
         }
+      },
+      connectedServiceResult: {
+        serializedName: "connectedServiceResult",
+        type: {
+          name: "Composite",
+          className: "LuisResult"
+        }
       }
     }
   }
