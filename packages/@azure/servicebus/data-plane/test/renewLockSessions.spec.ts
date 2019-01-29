@@ -101,13 +101,13 @@ describe("Standard", function(): void {
         await namespace.close();
       });
 
-      it.only(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
+      it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
         void
       > {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
+      it.only(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
         void
       > {
         await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
@@ -424,7 +424,7 @@ describe("Standard", function(): void {
 // });
 
 const lockDurationInMilliseconds = 30000;
-
+const maxAutoRenewDurationInSeconds = 300000;
 let uncaughtErrorFromHandlers: Error | undefined;
 
 const onError: OnError = (err: MessagingError | Error) => {
@@ -454,17 +454,15 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   // Compute expected initial lock duration
   const expectedLockExpiryTimeUtc = new Date();
-  console.log(expectedLockExpiryTimeUtc);
   expectedLockExpiryTimeUtc.setSeconds(
     expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
   );
-  console.log(expectedLockExpiryTimeUtc);
+
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1);
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);
 
-  console.log(sessionClient.sessionLockedUntilUtc);
   // Verify actual lock duration is reset
   assertTimestampsAreApproximatelyEqual(
     sessionClient.sessionLockedUntilUtc,
@@ -479,7 +477,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   // Compute expected lock duration after 10 seconds of sleep
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
-  console.log(sessionClient.sessionLockedUntilUtc);
+
   // Verify actual lock duration is reset
   assertTimestampsAreApproximatelyEqual(
     sessionClient.sessionLockedUntilUtc,
@@ -519,12 +517,16 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(msgs.length, 1, "Expected message length does not match");
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);
+  console.log(sessionClient.sessionLockedUntilUtc);
 
   // Sleeping 30 seconds...
-  await delay(lockDurationInMilliseconds + 1000);
+  await delay(maxAutoRenewDurationInSeconds + 1000);
 
+  // console.log(sessionClient.sessionLockedUntilUtc);
   let errorWasThrown: boolean = false;
   await msgs[0].complete().catch((err) => {
+    // console.log(sessionClient.sessionLockedUntilUtc);
+    console.log("hello");
     should.equal(err.name, "MessageLockLostError");
     errorWasThrown = true;
   });
@@ -580,7 +582,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 
       // Verify actual lock duration is reset
       assertTimestampsAreApproximatelyEqual(
-        brokeredMessage.lockedUntilUtc,
+        sessionClient.sessionLockedUntilUtc,
         expectedLockExpiryTimeUtc,
         "After first renewal"
       );
@@ -595,7 +597,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 
       // Verify actual lock duration is reset
       assertTimestampsAreApproximatelyEqual(
-        brokeredMessage.lockedUntilUtc,
+        sessionClient.sessionLockedUntilUtc,
         expectedLockExpiryTimeUtc,
         "After second renewal"
       );
@@ -633,49 +635,48 @@ async function testAutoLockRenewalConfigBehavior(
 
   await senderClient.send(testMessage);
 
-  const onSessionMessage: OnSessionMessage = async (
-    x: SessionClient,
-    brokeredMessage: ServiceBusMessage
-  ) => {
-    if (numOfMessagesReceived < 1) {
-      numOfMessagesReceived++;
-
-      should.equal(brokeredMessage.body, testMessage.body);
-      should.equal(brokeredMessage.messageId, testMessage.messageId);
-
-      // Compute expected initial lock duration
-      const initialTimeUtc = new Date();
-      const expectedLockExpiryTimeUtc = new Date();
-
-      expectedLockExpiryTimeUtc.setSeconds(
-        initialTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
-      );
-
-      // Verify actual lock duration is reset
-      assertTimestampsAreApproximatelyEqual(
-        brokeredMessage.lockedUntilUtc,
-        expectedLockExpiryTimeUtc,
-        "Initial"
-      );
-
-      // Sleeping...
-      await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
-
-      let errorWasThrown: boolean = false;
-      await brokeredMessage.complete().catch((err) => {
-        should.equal(err.name, "MessageLockLostError");
-        errorWasThrown = true;
-      });
-
-      should.equal(errorWasThrown, options.willCompleteFail, "Error Thrown flag value mismatch");
-    }
-  };
-
   const sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
-  await sessionClient.receive(onSessionMessage, onError, {
-    autoComplete: false,
-    maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
-  });
+  await sessionClient.receive(
+    async (x: SessionClient, brokeredMessage: ServiceBusMessage) => {
+      if (numOfMessagesReceived < 1) {
+        numOfMessagesReceived++;
+
+        should.equal(brokeredMessage.body, testMessage.body);
+        should.equal(brokeredMessage.messageId, testMessage.messageId);
+
+        // Compute expected initial lock duration
+        const initialTimeUtc = new Date();
+        const expectedLockExpiryTimeUtc = new Date();
+
+        expectedLockExpiryTimeUtc.setSeconds(
+          initialTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
+        );
+
+        // Verify actual lock duration is reset
+        assertTimestampsAreApproximatelyEqual(
+          sessionClient.sessionLockedUntilUtc,
+          expectedLockExpiryTimeUtc,
+          "Initial"
+        );
+
+        // Sleeping...
+        await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
+
+        let errorWasThrown: boolean = false;
+        await brokeredMessage.complete().catch((err) => {
+          should.equal(err.name, "MessageLockLostError");
+          errorWasThrown = true;
+        });
+
+        should.equal(errorWasThrown, options.willCompleteFail, "Error Thrown flag value mismatch");
+      }
+    },
+    onError,
+    {
+      autoComplete: false,
+      maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
+    }
+  );
   await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);
   await sessionClient.close();
 
