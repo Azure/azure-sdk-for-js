@@ -41,6 +41,7 @@ async function main(): Promise<void> {
 async function sendScheduledMessages(ns: Namespace): Promise<void> {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
+  const sender = client.getSender();
 
   const messages: SendableMessageInfo[] = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -54,13 +55,14 @@ async function sendScheduledMessages(ns: Namespace): Promise<void> {
     `>>>> Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
   );
 
-  await client.scheduleMessages(scheduledEnqueueTimeUtc, messages);
+  await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
 }
 
 async function receiveMessages(ns: Namespace): Promise<void> {
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(queueName);
 
+  let numOfMessagesReceived = 0;
   const onMessageHandler: OnMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
@@ -71,20 +73,23 @@ async function receiveMessages(ns: Namespace): Promise<void> {
     console.log("Error occurred: ", err);
   };
 
-  let numOfMessagesReceived = 0;
-
-  const receiveListenerFirst = client.receive(onMessageHandler, onErrorHandler);
+  let receiver = client.getReceiver();
+  receiver.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
-  await receiveListenerFirst.stop();
-  console.log(`\nStarted looking up immediately, received ${numOfMessagesReceived} messages.`);
+  await receiver.close();
+  console.log(
+    `\nWhen receiver was started immediately, received ${numOfMessagesReceived} messages.`
+  );
 
   await delay(5000);
 
-  console.log(`\nStarted looking up after 10 seconds:`);
-
-  const receiveListenerSecond = client.receive(onMessageHandler, onErrorHandler);
+  receiver = client.getReceiver();
+  receiver.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
-  await receiveListenerSecond.stop();
+  await receiver.close();
+  console.log(
+    `\nWhen receiver was started after 10 seconds, received ${numOfMessagesReceived} messages.`
+  );
 
   await client.close();
 }
