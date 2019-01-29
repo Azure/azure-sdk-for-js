@@ -17,7 +17,7 @@ import { findMissingSdks, findSdkDirectory, saveContentToFile, getPackageInforma
 import { copyExistingNodeJsReadme, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents, getSinglePackageName, updateMainReadmeFile, updateTypeScriptReadmeFile } from "./readme";
 import { Version } from "./version";
 import { Merge } from 'nodegit';
-import { NPMViewResult, npm, NPMScope } from "@ts-common/azure-js-dev-tools";
+import { NPMViewResult, NPMScope } from "@ts-common/azure-js-dev-tools";
 
 const _logger = Logger.get();
 
