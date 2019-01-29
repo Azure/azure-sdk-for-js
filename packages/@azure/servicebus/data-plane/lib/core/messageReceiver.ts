@@ -135,11 +135,11 @@ export class MessageReceiver extends LinkEntity {
    */
   maxAutoRenewDurationInSeconds: number;
   /**
-   * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the
+   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of idle time the
    * receiver will wait after a message has been received. If no messages are received by this
    * time then the receive operation will end.
    */
-  maxMessageWaitTimeoutInSeconds?: number;
+  newMessageWaitTimeoutInSeconds?: number;
   /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */
@@ -244,7 +244,7 @@ export class MessageReceiver extends LinkEntity {
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.maxConcurrentCalls =
       options.maxConcurrentCalls != undefined ? options.maxConcurrentCalls : 1;
-    this.maxMessageWaitTimeoutInSeconds = options.maxMessageWaitTimeoutInSeconds;
+    this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
     this.resetTimerOnNewMessageReceived = () => {
       /** */
     };
