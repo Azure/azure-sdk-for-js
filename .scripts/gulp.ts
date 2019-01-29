@@ -6,7 +6,7 @@
 
 import { PullRequestsGetAllResponseItem } from "@octokit/rest";
 import { execSync } from "child_process";
-import fssync, { promises as fs } from "fs";
+import fs from "fs";
 import * as path from "path";
 import { SdkType } from "./commandLine";
 import { contains, npmInstall } from "./common";
@@ -37,7 +37,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
     for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
         const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
 
-        const typeScriptReadmeFileContents: string = await fssync.promises.readFile(typeScriptReadmeFilePath, { encoding: 'utf8' });
+        const typeScriptReadmeFileContents: string = await fs.promises.readFile(typeScriptReadmeFilePath, { encoding: 'utf8' });
         const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
         const packageNamesString: string = JSON.stringify(packageNames);
 
@@ -52,7 +52,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
             }
             else {
                 const localAutorestTypeScriptFolderPath = path.resolve(azureSDKForJSRepoRoot, '..', 'autorest.typescript');
-                if (fssync.existsSync(localAutorestTypeScriptFolderPath) && fssync.lstatSync(localAutorestTypeScriptFolderPath).isDirectory()) {
+                if (fs.existsSync(localAutorestTypeScriptFolderPath) && fs.lstatSync(localAutorestTypeScriptFolderPath).isDirectory()) {
                     cmd += ` --use=${localAutorestTypeScriptFolderPath}`;
                 }
             }
@@ -233,7 +233,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {
     const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "packages", packageName, "package.json");
-    const packageJsonContent = await fssync.promises.readFile(pathToPackageJson);
+    const packageJsonContent = await fs.promises.readFile(pathToPackageJson);
     const packageJson = JSON.parse(packageJsonContent.toString());
     const versionString = packageJson.version;
     const version = Version.parse(versionString);
@@ -244,15 +244,16 @@ async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: stri
     await saveContentToFile(pathToPackageJson, JSON.stringify(packageJson, undefined, "  "));
 }
 
-export async function setAutoPublish(azureSdkForJsRoot: string, packagesToIgnore?: string[]) {
-    if (!packagesToIgnore) {
-        packagesToIgnore = [];
+export async function setAutoPublish(azureSdkForJsRoot: string, include?: RegExp) {
+    if (!include) {
+        include = /.*/;
     }
+
     const jsonPackageInfos = await getPackageInformationFromPackageJsons(azureSdkForJsRoot);
 
     for (const packageInfo of jsonPackageInfos) {
         _logger.log(`Analyzing ${packageInfo.name} package`);
-        if (packageInfo.name && packagesToIgnore.includes(packageInfo.name)) {
+        if (packageInfo.name && !packageInfo.name.match(include)) {
             _logger.log(`Skipping ${packageInfo.name} package`);
             continue;
         }
@@ -261,12 +262,12 @@ export async function setAutoPublish(azureSdkForJsRoot: string, packagesToIgnore
             throw new Error("Output path cannot be undefined");
         }
 
-        const packageJsonPath = path.join(packageInfo.outputPath, "package.json");
+        const packageJsonPath = path.join(azureSdkForJsRoot, packageInfo.outputPath, "package.json");
         _logger.log(`Reading "${packageJsonPath}"`);
-        const configContent = await fs.readFile(packageJsonPath);
+        const configContent = await fs.readFileSync(packageJsonPath);
         const config = JSON.parse(configContent.toString());
         config["authPublish"] = true;
-        fs.writeFile(packageJsonPath, config);
+        fs.promises.writeFile(packageJsonPath, JSON.stringify(config, undefined, "  ") + "\n");
         _logger.log("Save");
     }
 }

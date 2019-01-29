@@ -459,9 +459,17 @@ gulp.task("find-wrong-packages", async () => {
 
 gulp.task("set-autopublish", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
-  const argv: Argv.RepositoryOptions
+  const argv: Argv.RepositoryOptions & { include: RegExp }
     = Argv.construct(Argv.Options.Repository)
+      .options({
+        "include": {
+          type: "string",
+          coerse: (s: string) => new RegExp(s),
+          default: "arm-*"
+        }
+      })
       .usage("Example: gulp set-autopublish")
       .argv as any;
-  const a = await setAutoPublish(argv.azureSDKForJSRepoRoot, [])
+
+  await setAutoPublish(argv.azureSDKForJSRepoRoot, argv.include);
 });
