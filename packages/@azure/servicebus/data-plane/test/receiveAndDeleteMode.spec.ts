@@ -690,9 +690,8 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
     await testSettlement(DispositionType.deadletter, true);
   });
 
-  async function testRenewLock(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    const msg = await sendReceiveMsg(testMessages);
+  async function testRenewLock(): Promise<void> {
+    const msg = await sendReceiveMsg(testSimpleMessages);
 
     await receiver.renewLock(msg).catch((err) => testError(err));
 
