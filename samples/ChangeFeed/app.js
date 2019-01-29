@@ -1,7 +1,7 @@
 ﻿// @ts-check
 "use strict";
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../lib/src");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -141,8 +141,8 @@ async function init() {
 }
 
 async function handleError(error) {
-  console.log("\nAn error with code '" + error.code + "' has occurred:");
-  console.log("\t" + error);
+  console.log(`\nAn error with code '${error.code}' has occurred:`);
+  console.log(`\t${error}`);
 }
 
 async function finish(container) {

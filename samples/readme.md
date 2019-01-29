@@ -7,8 +7,9 @@ These samples demonstrate how to use the Node.js SDK to interact with the [Azure
 ### Quick steps:
 
 1.  Start the Cosmos DB emulator
-2.  `cd` into a given sample's directory
-3.  `npm start`
+2.  Follow the steps in [../dev.md](../dev.md) to build the SDK.
+3.  `cd` into a given sample's directory
+4.  `npm start`
 
 ### Debugging
 

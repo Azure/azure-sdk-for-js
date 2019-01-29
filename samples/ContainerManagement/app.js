@@ -8,7 +8,7 @@ console.log("container MANAGEMENT");
 console.log("=====================");
 console.log();
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../lib/src");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -33,7 +33,7 @@ async function run() {
   const database = await init(databaseId);
 
   //1.
-  console.log("1. create container with id '" + containerId + "'");
+  console.log(`1. create container with id '${containerId}'`);
   await database.containers.createIfNotExists({ id: containerId });
 
   //2.
@@ -48,10 +48,10 @@ async function run() {
   const container = database.container(containerId);
   const { body: containerDef } = await container.read();
 
-  console.log("container with url '" + container.url + "' was found its id is '" + containerDef.id);
+  console.log(`container with url '${container.url}' was found its id is '${containerDef.id}'`);
 
   //4.
-  console.log("\n4. deletecontainer '" + containerId + "'");
+  console.log(`\n4. deletecontainer '${containerId}'`);
   await container.delete();
   await finish(database);
 }
@@ -62,7 +62,7 @@ async function init(databaseId) {
 }
 
 async function handleError(error) {
-  console.log("\nAn error with code '" + error.code + "' has occurred:");
+  console.log(`\nAn error with code '${error.code}' has occurred:`);
   console.log("\t" + error);
 
   await finish();

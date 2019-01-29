@@ -7,7 +7,7 @@ console.log("USER MANAGEMENT");
 console.log("================");
 console.log();
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../lib/src");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -57,31 +57,31 @@ async function init() {
   let permissionDef;
 
   const { body: itemDef, item: item1 } = await container1.items.create(itemSpec);
-  console.log(item1Name + "Created in " + container1Name + " !");
+  console.log(`${item1Name}Created in ${container1Name} !`);
 
   itemSpec = { id: item2Name };
 
   const { item: item2 } = await container1.items.create(itemSpec);
-  console.log(item2Name + "Created in " + container1Name + " !");
+  console.log(`${item2Name}Created in ${container1Name} !`);
 
   itemSpec = { id: item3Name };
 
   const { item: item3 } = await container2.items.create(itemSpec);
-  console.log(item3Name + " Created in " + container2Name + " !");
+  console.log(`${item3Name} Created in ${container2Name} !`);
 
   const { user: user1 } = await database.users.create(userDef);
-  console.log(user1Name + " created!");
+  console.log(`${user1Name} created!`);
 
   userDef = { id: user2Name };
 
   const { user: user2 } = await database.users.create(userDef);
-  console.log(user2Name + " created!");
+  console.log(`${user2Name} created!`);
 
   // Read Permission on container 1 for user1
   permissionDef = { id: "p1", permissionMode: cosmos.DocumentBase.PermissionMode.Read, resource: container1.url };
 
   const { ref: permission1 } = await user1.permissions.create(permissionDef);
-  console.log("Read only permission assigned to Thomas Andersen on container 1!");
+  console.log(`Read only permission assigned to Thomas Andersen on container 1!`);
 
   permissionDef = { id: "p2", permissionMode: cosmos.DocumentBase.PermissionMode.All, resource: item1.url };
 
@@ -101,7 +101,7 @@ async function init() {
   console.log("All permission assigned to Robin Wakefield on container 2!");
 
   const { result: permissions } = await user1.permissions.readAll().toArray();
-  console.log("Fetched permission for Thomas Andersen. Count is : " + permissions.length);
+  console.log(`Fetched permission for Thomas Andersen. Count is : ${permissions.length}`);
 
   return { user1, user2, container1, container2, permission1, permission2, permission3, permission4 };
 }
@@ -109,10 +109,10 @@ async function init() {
 //handle error
 async function handleError(error) {
   console.log();
-  console.log("An error with code '" + error.code + "' has occurred:");
-  console.log("\t" + error.body || error);
+  console.log(`An error with code '${error.code}' has occurred:`);
+  console.log(`\t${error.body || error}`);
   if (error.headers) {
-    console.log("\t" + JSON.stringify(error.headers));
+    console.log(`\t${JSON.stringify(error.headers)}`);
   }
   console.log();
   try {
@@ -146,6 +146,7 @@ async function getResourceToken(container, permission) {
  * @param {cosmos.Permission} permission
  */
 async function attemptAdminOperations(container, user, permission) {
+  /** @type any */
   const resourceTokens = await getResourceToken(container, permission);
   const client = new CosmosClient({
     endpoint,
@@ -159,16 +160,15 @@ async function attemptAdminOperations(container, user, permission) {
     .container(container.id)
     .items.readAll()
     .toArray();
-  console.log(user.id + " able to perform read operation on container 1");
+  console.log(`${user.id} able to perform read operation on container 1`);
 
   try {
     await client.databases.readAll().toArray();
   } catch (err) {
     console.log(
-      "Expected error occurred as " +
-        user.id +
-        " does not have access to get the list of databases. Error code : " +
+      `Expected error occurred as ${user.id} does not have access to get the list of databases. Error code : ${
         err.code
+      }`
     );
   }
 }
@@ -180,6 +180,7 @@ async function attemptAdminOperations(container, user, permission) {
  * @param {cosmos.Permission} permission
  */
 async function attemptWriteWithReadPermissionAsync(container, user, permission) {
+  /** @type any */
   const resourceTokens = await getResourceToken(container, permission);
   const client = new CosmosClient({
     endpoint,
@@ -196,10 +197,9 @@ async function attemptWriteWithReadPermissionAsync(container, user, permission) 
       .items.upsert(itemDef);
   } catch (err) {
     console.log(
-      "Expected error occurred as " +
-        user.id +
-        " does not have access to insert an item in the first container. Error code : " +
-        err.code
+      `Expected error occurred as ${
+        user.id
+      } does not have access to insert an item in the first container. Error code : ${err.code}`
     );
   }
 }
@@ -230,7 +230,7 @@ async function attemptReadFromTwoCollections(container1, container2, user1, perm
     .container(container1.id)
     .items.readAll()
     .toArray();
-  console.log(user1.id + " able to read items from container 1. Document count is " + items1.length);
+  console.log(`${user1.id} able to read items from container 1. Document count is ${items1.length}`);
 
   const { result: items2 } = await client
     .database(databaseId)
@@ -238,7 +238,7 @@ async function attemptReadFromTwoCollections(container1, container2, user1, perm
     .items.readAll()
     .toArray();
 
-  console.log(user1.id + " able to read items from container 2. Document count is " + items2.length);
+  console.log(`${user1.id} able to read items from container 2. Document count is ${items2.length}`);
 
   const itemDef = { id: "not allowed" };
 
@@ -249,10 +249,9 @@ async function attemptReadFromTwoCollections(container1, container2, user1, perm
       .items.upsert(itemDef);
   } catch (err) {
     console.log(
-      "Expected error occurred as " +
-        user1.id +
-        " does not have access to insert an item in container 2. Error code : " +
+      `Expected error occurred as ${user1.id} does not have access to insert an item in container 2. Error code : ${
         err.code
+      }`
     );
   }
 }

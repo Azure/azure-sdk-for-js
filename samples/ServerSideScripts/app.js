@@ -10,7 +10,7 @@ console.log();
 /*jshint node:true */
 ("use strict");
 
-const cosmos = require("../../lib/");
+const cosmos = require("../../lib/src");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const fs = require("fs");
@@ -59,7 +59,7 @@ async function run() {
   console.log("//////////////////////////////////");
 
   await database.delete();
-  console.log("Database and Collection DELETED"); 
+  console.log("Database and Collection DELETED");
   console.log("Demo finished");
 }
 

@@ -9,7 +9,7 @@ console.log("===================");
 console.log();
 
 const assert = require("assert");
-const cosmos = require("../../lib/");
+const cosmos = require("../../lib/src");
 const CosmosClient = cosmos.CosmosClient;
 const config = require("../Shared/config");
 const databaseId = config.names.database;
@@ -32,7 +32,7 @@ const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 async function run() {
   // 1.
-  console.log("\n1. Create database, if it doesn't already exist '" + databaseId + "'");
+  console.log(`\n1. Create database, if it doesn't already exist '${databaseId}'`);
   await client.databases.createIfNotExists({ id: databaseId });
   console.log("Database with id " + databaseId + " created.");
 
@@ -42,7 +42,7 @@ async function run() {
   console.log(dbDefList);
 
   // 3.
-  console.log("\n3. readDatabase - with id '" + databaseId + "'");
+  console.log(`\n3. readDatabase - with id '${databaseId}'`);
   const { body: dbDef } = await client.database(databaseId).read();
   // This uses Object deconstruction to just grab the body of the response,
   // but you can also grab the whole response object to use
@@ -51,10 +51,10 @@ async function run() {
   assert.equal(dbDef.id, alsoDbDef.id); // The bodies will also almost be equal, _ts will defer based on the read time
   // This applies for all response types, not just DatabaseResponse.
 
-  console.log("Database with id of " + dbDef.id + "' was found");
+  console.log(`Database with id of ${dbDef.id}' was found`);
 
   // 4.
-  console.log("\n4. delete database with id '" + databaseId + "'");
+  console.log(`\n4. delete database with id '${databaseId}'`);
   await client.database(databaseId).delete();
 
   await finish();
@@ -62,8 +62,8 @@ async function run() {
 
 function handleError(error) {
   console.log();
-  console.log("An error with code '" + error.code + "' has occurred:");
-  console.log("\t" + error.body || error);
+  console.log(`An error with code '${error.code}' has occurred:`);
+  console.log(`\t${error.body || error}`);
   console.log();
 
   finish();
