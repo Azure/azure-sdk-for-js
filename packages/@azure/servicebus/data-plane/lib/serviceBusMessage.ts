@@ -628,15 +628,18 @@ export module ReceivedMessageInfo {
     } else {
       props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
     }
+    const receiver = delivery ? delivery.link : undefined;
+
     const rcvdsbmsg: ReceivedMessageInfo = {
       _amqpMessage: msg,
       _delivery: delivery,
       deliveryCount: msg.delivery_count,
-      lockToken: delivery
-        ? uuid_to_string(
-            typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-          )
-        : undefined,
+      lockToken:
+        delivery && (receiver ? receiver.rcv_settle_mode != undefined : true)
+          ? uuid_to_string(
+              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+            )
+          : undefined,
       ...sbmsg,
       ...props
     };
