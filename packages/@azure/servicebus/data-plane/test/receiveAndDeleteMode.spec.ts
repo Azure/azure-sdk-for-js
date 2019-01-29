@@ -720,48 +720,4 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
     await testRenewLock();
   });*/
-
-  it.only("Partitioned Queues with Sessions: Renew message lock throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
-      true
-    );
-    await testRenewLock(true);
-  });
-
-  it("Partitioned Topics and Subscription with Sessions: Renew message lock throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
-    await testRenewLock(true);
-  });
-
-  it("Unpartitioned Queues with Sessions: Renew message lock throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
-      true
-    );
-    await testRenewLock(true);
-  });
-
-  it("Unpartitioned Topics and Subscription with Sessions: Renew message lock throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
-      true
-    );
-    await testRenewLock(true);
-  });
 });
