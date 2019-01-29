@@ -1281,31 +1281,31 @@ export interface ContainerRegistryEventSource {
  */
 export interface ContainerRegistryArtifactEventTarget {
   /**
-   * @member {string} [mediaType] The MIME type of the referenced object.
+   * @member {string} [mediaType] The MIME type of the artifact.
    */
   mediaType?: string;
   /**
-   * @member {number} [size] The number of bytes of the content.
+   * @member {number} [size] The size in bytes of the artifact.
    */
   size?: number;
   /**
-   * @member {string} [digest] The digest of the helm chart.
+   * @member {string} [digest] The digest of the artifact.
    */
   digest?: string;
   /**
-   * @member {string} [repository] The repository name.
+   * @member {string} [repository] The repository name of the artifact.
    */
   repository?: string;
   /**
-   * @member {string} [tag] The tag name.
+   * @member {string} [tag] The tag of the artifact.
    */
   tag?: string;
   /**
-   * @member {string} [name] The name of the helm chart.
+   * @member {string} [name] The name of the artifact.
    */
   name?: string;
   /**
-   * @member {string} [version] The version of the helm chart.
+   * @member {string} [version] The version of the artifact.
    */
   version?: string;
 }
