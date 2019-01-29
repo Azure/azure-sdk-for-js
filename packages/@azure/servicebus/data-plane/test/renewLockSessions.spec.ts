@@ -10,14 +10,12 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  SessionClient,
   generateUuid,
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
   MessagingError,
-  OnError,
-  OnSessionMessage
+  OnError
 } from "../lib";
 import { delay } from "rhea-promise";
 import { testSessionId } from "./testUtils";
@@ -107,12 +105,11 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it.only(
-        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
-        async function(): Promise<void> {
-          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-        }
-      ).timeout(450000);
+      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
+        void
+      > {
+        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+      }).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -183,12 +180,11 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it.only(
-        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
-        async function(): Promise<void> {
-          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-        }
-      ).timeout(450000);
+      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
+        void
+      > {
+        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+      }).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -265,12 +261,11 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it.only(
-        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
-        async function(): Promise<void> {
-          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-        }
-      ).timeout(450000);
+      // it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
+      //   void
+      // > {
+      //   await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+      // }).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -346,12 +341,11 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it.only(
-        `Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`,
-        async function(): Promise<void> {
-          await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
-        }
-      ).timeout(450000);
+      // it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
+      //   void
+      // > {
+      //   await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+      // }).timeout(450000);
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
         void
@@ -444,16 +438,16 @@ async function beforeEachTest(): Promise<void> {
   };
 }
 
-// Tests for Lock Renewal
-// See -  https://github.com/Azure/azure-service-bus-node/issues/103
+// Tests for Lock Renewal with sessions
+// See -  https://github.com/Azure/azure-service-bus-node/issues/236
 // Receive a msg using Batch Receiver, test renewLock()
 async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.send(testMessage);
+  await senderClient.getSender().send(testMessage);
 
-  const sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
+  const sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
   const msgs = await sessionClient.receiveBatch(1);
 
   // Compute expected initial lock duration
@@ -512,9 +506,9 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.send(testMessage);
+  await senderClient.getSender().send(testMessage);
 
-  let sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
+  let sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
   const msgs = await sessionClient.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true);
@@ -535,12 +529,12 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
-  sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
+  sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
   await unprocessedMsgs[0].complete();
 }
 
-// Tests for Lock Renewal, see -  https://github.com/Azure/azure-service-bus-node/issues/103
+// Tests for Lock Renewal with sessions, see -  https://github.com/Azure/azure-service-bus-node/issues/236
 // Receive a msg using Batch Receiver, test renewLock()
 async function testStreamingReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
@@ -548,13 +542,10 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.send(testMessage);
-  const sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
+  await senderClient.getSender().send(testMessage);
+  const sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
 
-  const onSessionMessage: OnSessionMessage = async (
-    x: SessionClient,
-    brokeredMessage: ServiceBusMessage
-  ) => {
+  const onSessionMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
@@ -635,11 +626,11 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.send(testMessage);
+  await senderClient.getSender().send(testMessage);
 
-  const sessionClient = await receiverClient.createSessionClient({ sessionId: testSessionId });
+  let sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
   await sessionClient.receive(
-    async (x: SessionClient, brokeredMessage: ServiceBusMessage) => {
+    async (brokeredMessage: ServiceBusMessage) => {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -690,6 +681,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
+    sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
     const unprocessedMsgs = await sessionClient.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }
