@@ -13,10 +13,11 @@ import { contains, npmInstall } from "./common";
 import { Branch, BranchLocation, checkoutRemoteBranch, commitAndPush, getValidatedRepository, mergeMasterIntoBranch, refreshRepository, unlockGitRepository, ValidateFunction, waitAndLockGitRepository, checkoutBranch } from "./git";
 import { commitAndCreatePullRequest, findPullRequest, forcePrDiffRefresh, requestPullRequestReview } from "./github";
 import { Logger } from "./logger";
-import { findMissingSdks, findSdkDirectory, saveContentToFile, getPackageInformationFromPackageJsons } from "./packages";
+import { findMissingSdks, findSdkDirectory, saveContentToFile, getPackageInformationFromPackageJsons, PackageInfo } from "./packages";
 import { copyExistingNodeJsReadme, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents, getSinglePackageName, updateMainReadmeFile, updateTypeScriptReadmeFile } from "./readme";
 import { Version } from "./version";
 import { Merge } from 'nodegit';
+import { NPMViewResult, npm, NPMScope } from "@ts-common/azure-js-dev-tools";
 
 const _logger = Logger.get();
 
@@ -244,7 +245,46 @@ async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: stri
     await saveContentToFile(pathToPackageJson, JSON.stringify(packageJson, undefined, "  "));
 }
 
-export async function setAutoPublish(azureSdkForJsRoot: string, include?: RegExp) {
+function getPackageConfig(azureSdkForJsRoot: string, packageInfo: PackageInfo, include?: RegExp, exclude?: RegExp): { content: any; path: string } | undefined {
+    if (!include) {
+        include = /.*/;
+    }
+
+    if (!packageInfo.name || (!packageInfo.name.match(include) || (exclude && packageInfo.name.match(exclude)))) {
+        _logger.log(`Skipping ${packageInfo.name} package`);
+        return undefined;
+    }
+
+    if (!packageInfo.outputPath) {
+        throw new Error("Output path cannot be undefined");
+    }
+
+    const packageJsonPath = path.join(azureSdkForJsRoot, packageInfo.outputPath, "package.json");
+    _logger.log(`Reading "${packageJsonPath}"`);
+    const configContent = fs.readFileSync(packageJsonPath);
+    const config = JSON.parse(configContent.toString());
+
+    return { content: config, path: packageJsonPath };
+}
+
+export async function setAutoPublish(azureSdkForJsRoot: string, include?: RegExp, exclude?: RegExp) {
+    const jsonPackageInfos = await getPackageInformationFromPackageJsons(azureSdkForJsRoot);
+
+    for (const packageInfo of jsonPackageInfos) {
+        _logger.log(`Analyzing ${packageInfo.name} package`);
+        const config = getPackageConfig(azureSdkForJsRoot, packageInfo, include, exclude);
+        if (!config) {
+            _logger.log(`Skipping ${packageInfo.name} package`);
+            continue;
+        }
+
+        config.content["authPublish"] = true;
+        fs.writeFileSync(config.path, JSON.stringify(config, undefined, "  ") + "\n");
+        _logger.log("Saved");
+    }
+}
+
+export async function setVersion(azureSdkForJsRoot: string, include?: RegExp, exclude?: RegExp) {
     if (!include) {
         include = /.*/;
     }
@@ -253,21 +293,18 @@ export async function setAutoPublish(azureSdkForJsRoot: string, include?: RegExp
 
     for (const packageInfo of jsonPackageInfos) {
         _logger.log(`Analyzing ${packageInfo.name} package`);
-        if (packageInfo.name && !packageInfo.name.match(include)) {
+        const config = getPackageConfig(azureSdkForJsRoot, packageInfo, include, exclude);
+        if (!config) {
             _logger.log(`Skipping ${packageInfo.name} package`);
             continue;
         }
 
-        if (!packageInfo.outputPath) {
-            throw new Error("Output path cannot be undefined");
-        }
+        const nodeName = packageInfo.name!.replace("@", "").replace("/", "-");
+        const npm = new NPMScope({});
+        const npmViewResult: NPMViewResult = npm.view({ packageName: nodeName });
 
-        const packageJsonPath = path.join(azureSdkForJsRoot, packageInfo.outputPath, "package.json");
-        _logger.log(`Reading "${packageJsonPath}"`);
-        const configContent = await fs.readFileSync(packageJsonPath);
-        const config = JSON.parse(configContent.toString());
-        config["authPublish"] = true;
-        fs.promises.writeFile(packageJsonPath, JSON.stringify(config, undefined, "  ") + "\n");
-        _logger.log("Save");
+        config.content["version"] = npmViewResult.version;
+        fs.writeFileSync(config.path, JSON.stringify(config, undefined, "  ") + "\n");
+        _logger.log("Saved");
     }
 }

@@ -12,7 +12,7 @@ import PluginError from "plugin-error";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
 import { endsWith, getPackageFolderPaths, packagesToIgnore } from "./.scripts/common";
 import { getDataFromPullRequest } from "./.scripts/github";
-import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate, setAutoPublish } from "./.scripts/gulp";
+import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate, setAutoPublish, setVersion } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
@@ -459,17 +459,20 @@ gulp.task("find-wrong-packages", async () => {
 
 gulp.task("set-autopublish", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
-  const argv: Argv.RepositoryOptions & { include: RegExp }
-    = Argv.construct(Argv.Options.Repository)
-      .options({
-        "include": {
-          type: "string",
-          coerse: (s: string) => new RegExp(s),
-          default: "arm-*"
-        }
-      })
+  const argv: Argv.RepositoryOptions & Argv.FilterOptions
+    = Argv.construct(Argv.Options.Repository, Argv.Options.Filter)
       .usage("Example: gulp set-autopublish")
       .argv as any;
 
-  await setAutoPublish(argv.azureSDKForJSRepoRoot, argv.include);
+  await setAutoPublish(argv.azureSDKForJSRepoRoot, argv.include, argv.exclude || /@azure\/(keyvault|template|service-bus)/);
+});
+
+gulp.task("set-version", async () => {
+  _logger.log(`Passed arguments: ${Argv.print()}`);
+  const argv: Argv.RepositoryOptions & Argv.FilterOptions
+    = Argv.construct(Argv.Options.Repository, Argv.Options.Filter)
+      .usage("Example: gulp set-version")
+      .argv as any;
+
+  await setVersion(argv.azureSDKForJSRepoRoot, argv.include, argv.exclude || /@azure\/(keyvault|template|service-bus)/);
 });
