@@ -2,18 +2,15 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import "chai/register-should";
-import { SuiteFunction, PendingSuiteFunction } from "mocha";
 
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
 import { Constants } from "../lib/util/constants";
 import { WebResource } from "../lib/webResource";
 import { userAgentPolicy } from "../lib/policies/userAgentPolicy";
-import { isNode } from "../lib/util/utils";
+import { nodeDescribe, browserDescribe } from "./msAssert";
 
 const userAgentHeaderKey = Constants.HeaderConstants.USER_AGENT;
-export const browserDescribe: SuiteFunction | PendingSuiteFunction = (isNode ? describe.skip : describe);
-const nodeDescribe: SuiteFunction | PendingSuiteFunction = (!isNode ? describe.skip : describe);
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -36,7 +33,7 @@ const getUserAgent = async (headerValue?: string): Promise<string> => {
 };
 
 describe("MsRestUserAgentPolicy", () => {
-  nodeDescribe("NodeJS", () => {
+  nodeDescribe("for Node.js", () => {
     it("should not modify user agent header if already present", async () => {
       const userAgentPolicy = getPlainUserAgentPolicy();
       const customUserAgent = "my custom user agent";
@@ -99,7 +96,7 @@ describe("MsRestUserAgentPolicy", () => {
     });
   });
 
-  browserDescribe("Browser", function() {
+  browserDescribe("for browser", function() {
     const userAgentHeaderKey = "x-ms-command-name";
 
     const emptyRequestPolicy: RequestPolicy = {

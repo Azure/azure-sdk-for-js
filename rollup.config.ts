@@ -69,7 +69,8 @@
    plugins: [
      alias({
        "./defaultHttpClient": "./defaultHttpClient.browser",
-       "./msRestUserAgentPolicy": "./msRestUserAgentPolicy.browser",
+       "./policies/msRestUserAgentPolicy": "./policies/msRestUserAgentPolicy.browser",
+       "./policies/proxyPolicy": "./policies/proxyPolicy.browser",
        "./util/xml": "./util/xml.browser",
        "./util/base64": "./util/base64.browser",
      }),
