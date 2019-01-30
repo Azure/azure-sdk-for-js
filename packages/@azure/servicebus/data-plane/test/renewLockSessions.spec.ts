@@ -22,37 +22,6 @@ import { testSessionId } from "./testUtils";
 
 // Template starts
 
-/*
-  .env variables used
-
-  PREMIUM_SERVICEBUS_CONNECTION_STRING=
-  PREMIUM_QUEUE=unpartitioned-queue
-  PREMIUM_QUEUE_SESSION=unpartitioned-sessions-queue
-  PREMIUM_TOPIC=unpartitioned-topic
-  PREMIUM_TOPIC_SESSION=unpartitioned-sessions-topic
-  PREMIUM_SUBSCRIPTION=unpartitioned-subscription
-  PREMIUM_SUBSCRIPTION_SESSION=unpartitioned-sessions-subscription
-
-  STANDARD_SERVICEBUS_CONNECTION_STRING=
-  STANDARD_QUEUE_PARTITION=partitioned-queue
-  STANDARD_QUEUE=unpartitioned-queue
-  STANDARD_QUEUE_PARTITION_SESSION=partitioned-sessions-queue
-  STANDARD_QUEUE_SESSION=unpartitioned-sessions-queue
-  STANDARD_TOPIC_PARTITION=partitioned-topic
-  STANDARD_TOPIC=unpartitioned-topic
-  STANDARD_TOPIC_PARTITION_SESSION=partitioned-sessions-topic
-  STANDARD_TOPIC_SESSION=unpartitioned-sessions-topic
-  STANDARD_SUBSCRIPTION_PARTITION=partitioned-subscription
-  STANDARD_SUBSCRIPTION=unpartitioned-subscription
-  STANDARD_SUBSCRIPTION_PARTITION_SESSION=partitioned-sessions-subscription
-  STANDARD_SUBSCRIPTION_SESSION=unpartitioned-sessions-subscription
-
-  BASIC_SERVICEBUS_CONNECTION_STRING=
-  BASIC_QUEUE_PARTITION=partitioned-queue
-  BASIC_QUEUE=unpartitioned-queue
-
-*/
-
 // describe("Premium", function(): void {
 //   const PREMIUM_SERVICEBUS_CONNECTION_STRING = check(
 //     process.env.PREMIUM_SERVICEBUS_CONNECTION_STRING,
