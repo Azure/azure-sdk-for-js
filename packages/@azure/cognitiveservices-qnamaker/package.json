@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-qnamaker",
   "author": "Microsoft Corporation",
   "description": "QnAMakerClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-qnamaker.js.map'\" -o ./dist/cognitiveservices-qnamaker.min.js ./dist/cognitiveservices-qnamaker.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }
