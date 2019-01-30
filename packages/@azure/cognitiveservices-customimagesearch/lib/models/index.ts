@@ -928,10 +928,10 @@ export interface WebPage {
 
 /**
  * @interface
- * An interface representing CustomImageSearchAPIClientOptions.
+ * An interface representing CustomImageSearchClientOptions.
  * @extends ServiceClientOptions
  */
-export interface CustomImageSearchAPIClientOptions extends ServiceClientOptions {
+export interface CustomImageSearchClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [endpoint] Supported Cognitive Services endpoints
    * (protocol and hostname, for example:
