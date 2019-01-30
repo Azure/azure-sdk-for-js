@@ -20,8 +20,6 @@ import {
 import { delay } from "rhea-promise";
 import { testSessionId, purge } from "./testUtils";
 
-// Template starts
-
 // describe("Premium", function(): void {
 //   const PREMIUM_SERVICEBUS_CONNECTION_STRING = check(
 //     process.env.PREMIUM_SERVICEBUS_CONNECTION_STRING,
