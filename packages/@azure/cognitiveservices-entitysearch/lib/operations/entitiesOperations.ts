@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/entitiesOperationsMappers";
 import * as Parameters from "../models/parameters";
-import { EntitySearchAPIClientContext } from "../entitySearchAPIClientContext";
+import { EntitySearchClientContext } from "../entitySearchClientContext";
 
 /** Class representing a EntitiesOperations. */
 export class EntitiesOperations {
-  private readonly client: EntitySearchAPIClientContext;
+  private readonly client: EntitySearchClientContext;
 
   /**
    * Create a EntitiesOperations.
-   * @param {EntitySearchAPIClientContext} client Reference to the service client.
+   * @param {EntitySearchClientContext} client Reference to the service client.
    */
-  constructor(client: EntitySearchAPIClientContext) {
+  constructor(client: EntitySearchClientContext) {
     this.client = client;
   }
 

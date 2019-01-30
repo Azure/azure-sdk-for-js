@@ -14,6 +14,7 @@ export * from "./availableDelegations";
 export * from "./availableResourceGroupDelegations";
 export * from "./azureFirewalls";
 export * from "./azureFirewallFqdnTags";
+export * from "./ddosCustomPolicies";
 export * from "./ddosProtectionPlans";
 export * from "./availableEndpointServices";
 export * from "./expressRouteCircuitAuthorizations";

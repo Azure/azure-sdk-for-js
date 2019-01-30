@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/videosOperationsMappers";
 import * as Parameters from "../models/parameters";
-import { VideoSearchAPIClientContext } from "../videoSearchAPIClientContext";
+import { VideoSearchClientContext } from "../videoSearchClientContext";
 
 /** Class representing a VideosOperations. */
 export class VideosOperations {
-  private readonly client: VideoSearchAPIClientContext;
+  private readonly client: VideoSearchClientContext;
 
   /**
    * Create a VideosOperations.
-   * @param {VideoSearchAPIClientContext} client Reference to the service client.
+   * @param {VideoSearchClientContext} client Reference to the service client.
    */
-  constructor(client: VideoSearchAPIClientContext) {
+  constructor(client: VideoSearchClientContext) {
     this.client = client;
   }
 

@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for AutoSuggestClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-autosuggest
 ```
 
@@ -19,13 +19,13 @@ npm install @azure/cognitiveservices-autosuggest
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { AutoSuggestClient, AutoSuggestModels, AutoSuggestMappers } from "@azure/cognitiveservices-autosuggest";
@@ -58,7 +58,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 

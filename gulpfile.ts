@@ -4,21 +4,63 @@
  * license information.
  */
 
-import { execSync } from "child_process";
+import { contains, getArgument, gitDiff, GitDiffResult, gitStatus, GitStatusResult, joinPath, normalize, npmInstall, npmRun, NPMScope, NPMViewResult, RunOptions, StringMap } from "@ts-common/azure-js-dev-tools";
 import * as fs from "fs";
 import gulp from "gulp";
 import * as path from "path";
+import PluginError from "plugin-error";
 import { Argv, CommandLineOptions, getCommandLineOptions } from "./.scripts/commandLine";
-import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
+import { endsWith, getPackageFolderPaths, packagesToIgnore } from "./.scripts/common";
 import { getDataFromPullRequest } from "./.scripts/github";
 import { generateAllMissingSdks, generateMissingSdk, generateSdk, generateTsReadme, regenerate } from "./.scripts/gulp";
 import { Logger } from "./.scripts/logger";
 import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 
+enum PackagesToPack {
+  All,
+  DifferentVersion,
+  BranchHasChanges
+}
+
+function getPackagesToPackArgument(toPackArgument: string | undefined): PackagesToPack {
+  let result: PackagesToPack = PackagesToPack.BranchHasChanges;
+  if (toPackArgument) {
+    const toPackArgumentLower: string = toPackArgument.toLowerCase();
+    for (const option in PackagesToPack) {
+      if (option.toLowerCase() === toPackArgumentLower) {
+        result = PackagesToPack[option] as any;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 const args: CommandLineOptions = getCommandLineOptions();
 const _logger: Logger = Logger.get();
-const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
+
+const azureSDKForJSRepoRoot: string = getArgument("azure-sdk-for-js-repo-root", { defaultValue: __dirname })!;
+const rawToPack: string | undefined = getArgument("to-pack");
+let toPack: PackagesToPack = getPackagesToPackArgument(rawToPack);
+const headReference: string | undefined = getArgument("head-reference", { environmentVariableName: "headReference" });
+const baseReference: string | undefined = getArgument("base-reference", { environmentVariableName: "baseReference" });
+
+function getDropFolderPath(): string {
+  let result: string | undefined = getArgument("drop");
+  if (!result) {
+    result = "drop";
+  }
+  if (!path.isAbsolute(result)) {
+    result = path.join(azureSDKForJSRepoRoot, result);
+  }
+  return result;
+}
+
+const dropFolderPath: string = getDropFolderPath();
+if (!fs.existsSync(dropFolderPath)) {
+  fs.mkdirSync(dropFolderPath);
+}
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -37,18 +79,23 @@ gulp.task('default', () => {
   _logger.log('  --package');
   _logger.log('    NPM package to regenerate. If no package is specified, then all packages will be regenerated.');
   _logger.log();
-  _logger.log('gulp pack [--package <package name>] [--whatif]');
+  _logger.log('gulp pack [--package <package name>] [--whatif] [--to-pack <to-pack option>] [--drop <drop folder path>]');
   _logger.log('  --package');
-  _logger.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
+  _logger.log('    The name of the package to pack. If no package is specified, then all packages will be packed.');
   _logger.log('  --whatif');
-  _logger.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
+  _logger.log('    Don\'t actually pack packages, but just indicate which packages would be packed.');
+  _logger.log("  --to-pack");
+  _logger.log(`    Which packages should be packed. Options are "All", "DifferentVersion", "BranchHasChanges".`);
+  _logger.log(`  --drop`);
+  _logger.log(`    The folder where packed tarballs will be put. Defaults to "<azure-sdk-for-js-root>/drop/".`);
 });
 
 gulp.task("install", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
-  const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-    .usage("Example: gulp install --package @azure/arm-mariadb")
-    .argv;
+  const argv: (Argv.PackageOptions & Argv.RepositoryOptions)
+    = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+          .usage("Example: gulp install --package @azure/arm-mariadb")
+          .argv as any;
 
   const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(
     argv.package,
@@ -56,16 +103,16 @@ gulp.task("install", async () => {
     argv.azureSDKForJSRepoRoot,
   );
   if (packageFolderPath) {
-    _logger.logWithPath(packageFolderPath, "npm install");
-    npmInstall(packageFolderPath);
+    npmInstall({ executionFolderPath: packageFolderPath });
   }
 });
 
 gulp.task("build", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
-  const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-    .usage("Example: gulp build --package @azure/arm-mariadb")
-    .argv;
+  const argv: (Argv.PackageOptions & Argv.RepositoryOptions)
+    = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+          .usage("Example: gulp build --package @azure/arm-mariadb")
+          .argv as any;
 
   const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(
     argv.package,
@@ -73,107 +120,162 @@ gulp.task("build", async () => {
     argv.azureSDKForJSRepoRoot,
   );
   if (packageFolderPath) {
-    _logger.logWithPath(packageFolderPath, "npm run build");
-    npmRunBuild(packageFolderPath);
+    npmRun("build", { executionFolderPath: packageFolderPath });
   }
 });
 
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', async () => {
+  interface CodegenOptions {
+    debugger: boolean | undefined;
+    use: string | undefined;
+  };
+
   _logger.log(`Passed arguments: ${Argv.print()}`);
-  const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-    .options({
-      "debugger": {
-        boolean: true,
-        alias: ["d", "use-debugger"],
-        description: "Enables debugger attaching to autorest.typescript process"
-      },
-      "use": {
-        string: true,
-        description: "Specifies location for the generator to use"
-      }
-    })
-    .usage("Example: gulp codegen --package @azure/arm-mariadb")
-    .argv;
+  const argv: (CodegenOptions & Argv.PackageOptions & Argv.RepositoryOptions)
+    = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+          .options({
+            "debugger": {
+              boolean: true,
+              alias: ["d", "use-debugger"],
+              description: "Enables debugger attaching to autorest.typescript process"
+            },
+            "use": {
+              string: true,
+              description: "Specifies location for the generator to use"
+            }
+          })
+          .usage("Example: gulp codegen --package @azure/arm-mariadb")
+          .argv as any;
 
   await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package, argv.use, argv.debugger);
 });
 
 function pack(): void {
+  const runOptions: RunOptions = {
+    log: (text: string) => _logger.logTrace(text),
+    showCommand: true,
+    showOutput: true
+  };
+
   let errorPackages = 0;
   let upToDatePackages = 0;
-  let publishedPackages = 0;
-  let publishedPackagesSkipped = 0;
+  let packedPackages = 0;
+  let skippedPackages = 0;
 
-  // `./drop/` folder
-  const dropPath = path.join(azureSDKForJSRepoRoot, "drop");
-  if (!fs.existsSync(dropPath)) {
-    fs.mkdirSync(dropPath);
-  }
+  const changedFiles: string[] = [];
 
-  const folderNamesToIgnore: string[] = ["node_modules"];
-
-  function getAllPackageFolders(folderPath: string, result?: string[]): string[] {
-    if (result == undefined) {
-      result = [];
+  if (toPack === PackagesToPack.BranchHasChanges) {
+    let packBaseReference: string | undefined = baseReference;
+    if (!packBaseReference) {
+      packBaseReference = "master";
+      _logger.log(`No base-reference argument specified on command line or in environment variables. Defaulting to "${packBaseReference}".`);
     }
 
-    const folderName: string = path.basename(folderPath);
-    if (folderNamesToIgnore.indexOf(folderName) === -1 && fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
-      const packageJsonFilePath: string = path.join(folderPath, "package.json");
-      if (fs.existsSync(packageJsonFilePath) && fs.lstatSync(packageJsonFilePath).isFile()) {
-        result.push(folderPath);
-      }
+    let packHeadReference: string | undefined = headReference;
+    if (!packHeadReference) {
+      const statusResult: GitStatusResult = gitStatus(runOptions);
+      packHeadReference = statusResult.localBranch!;
+      _logger.log(`No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`);
 
-      for (const folderEntryName of fs.readdirSync(folderPath)) {
-        const folderEntryPath: string = path.join(folderPath, folderEntryName);
-        getAllPackageFolders(folderEntryPath, result);
+      const modifiedFiles: string[] | undefined = statusResult.modifiedFiles;
+      if (modifiedFiles) {
+        changedFiles.push(...modifiedFiles);
       }
     }
 
-    return result;
-  }
-
-  const packagesToSkip: string[] = ["@azure/keyvault"];
-
-  const packageFolderRoot: string = path.resolve(__dirname, "packages");
-  _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);;
-  for (const packageFolderPath of getAllPackageFolders(packageFolderRoot)) {
-    _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
-
-    const packageJsonFilePath: string = path.join(packageFolderPath, "package.json");
-    const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
-    const packageName: string = packageJson.name;
-
-    if (packagesToSkip.indexOf(packageName) !== -1) {
-      _logger.log(`INFO: Skipping package ${packageName}`);
-      ++publishedPackagesSkipped;
-    } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
-      const localPackageVersion: string = packageJson.version;
-      if (!localPackageVersion) {
-        _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
-        errorPackages++;
+    if (packBaseReference === packHeadReference) {
+      if (rawToPack) {
+        _logger.logWarn(`The base-reference "${packBaseReference}" is equal to the head-reference "${packHeadReference}". This will result in nothing getting packed because there won't be any changes detected. Please change either the base or head-reference.`);
+      } else {
+        toPack = PackagesToPack.DifferentVersion;
+        _logger.log(`The base-reference "${packBaseReference}" is equal to the head-reference "${packHeadReference}" which means there won't be any changes to pack. Switching "to-pack" to be "${PackagesToPack[toPack]}".`);
       }
-      else {
-        _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
-        if (!args.whatif) {
-          try {
-            execSync(`npm pack`, { cwd: packageFolderPath });
-            const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
-            const packFilePath = path.join(packageFolderPath, packFileName);
-            fs.renameSync(packFilePath, path.join(dropPath, packFileName));
-            console.log(`Filename: ${packFileName}`);
-            publishedPackages++;
-          }
-          catch (error) {
-            errorPackages++;
-          }
-        } else {
-          publishedPackagesSkipped++;
+    } else {
+      const diffResult: GitDiffResult = gitDiff(packBaseReference, packHeadReference, runOptions);
+      changedFiles.push(...diffResult.filesChanged);
+      if (!changedFiles || changedFiles.length === 0) {
+        _logger.logTrace(`Found no changes between "${packBaseReference}" and "${packHeadReference}".`);
+      } else {
+        _logger.logTrace(`Found the following changed files`)
+        for (const changedFilePath of changedFiles) {
+          _logger.logTrace(changedFilePath);
         }
       }
     }
   }
+
+  const packageFolderRoot: string = path.resolve(__dirname, "packages");
+  _logger.logTrace(`INFO: Searching for package folders in ${packageFolderRoot}`);
+  const packageFolderPaths: string[] | undefined = getPackageFolderPaths(packageFolderRoot);
+  if (!packageFolderPaths) {
+    _logger.logTrace(`INFO: The folder ${packageFolderPaths} doesn't exist.`);
+  } else {
+    for (const packageFolderPath of packageFolderPaths) {
+      _logger.logTrace(`INFO: Processing ${packageFolderPath}`);
+  
+      const npm = new NPMScope({ executionFolderPath: packageFolderPath });
+      const packageJsonFilePath: string = joinPath(packageFolderPath, "package.json");
+      const packageJson: { [propertyName: string]: any } = require(packageJsonFilePath);
+      const packageName: string = packageJson.name;
+  
+      if (packagesToIgnore.indexOf(packageName) !== -1) {
+        _logger.log(`INFO: Skipping package ${packageName}`);
+        ++skippedPackages;
+      } else if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
+        const localPackageVersion: string = packageJson.version;
+        if (!localPackageVersion) {
+          _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
+          errorPackages++;
+        }
+        else {
+          let shouldPack: boolean = false;
+  
+          if (toPack === PackagesToPack.All) {
+            shouldPack = true;
+          } else if (toPack === PackagesToPack.DifferentVersion) {
+            let npmPackageVersion: string | undefined;
+            try {
+              const npmViewResult: NPMViewResult = npm.view({ packageName, ...runOptions, showCommand: false, showOutput: false });
+              const distTags: StringMap<string> | undefined = npmViewResult["dist-tags"];
+              npmPackageVersion = distTags && distTags["latest"];
+            }
+            catch (error) {
+              // This happens if the package doesn't exist in NPM.
+            }
+  
+            _logger.logTrace(`Local version: ${localPackageVersion}, NPM version: ${npmPackageVersion}`);
+            shouldPack = localPackageVersion !== npmPackageVersion;
+          } else if (toPack === PackagesToPack.BranchHasChanges) {
+            const packageFolderPathWithSep: string = normalize(packageFolderPath + path.posix.sep);
+            shouldPack = !!changedFiles && contains(changedFiles, (changedFilePath: string) => normalize(changedFilePath).startsWith(packageFolderPathWithSep));
+          }
+  
+          if (!shouldPack) {
+            upToDatePackages++;
+          } else {
+            _logger.log(`Packing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+            if (!args.whatif) {
+              try {
+                npm.pack(runOptions);
+                const packFileName = `${packageName.replace("/", "-").replace("@", "")}-${localPackageVersion}.tgz`
+                const packFilePath = path.join(packageFolderPath, packFileName);
+                fs.renameSync(packFilePath, path.join(dropFolderPath, packFileName));
+                _logger.log(`Filename: ${packFileName}`);
+                packedPackages++;
+              }
+              catch (error) {
+                errorPackages++;
+              }
+            } else {
+              skippedPackages++;
+            }
+          }
+        }
+      }
+    }
+  }
+  
 
   function padLeft(value: number, minimumWidth: number, padCharacter: string = " "): string {
     let result: string = value.toString();
@@ -182,12 +284,16 @@ function pack(): void {
     }
     return result;
   }
-  const minimumWidth: number = Math.max(errorPackages, upToDatePackages, publishedPackages, publishedPackagesSkipped).toString().length;
+  const minimumWidth: number = Math.max(errorPackages, upToDatePackages, packedPackages, skippedPackages).toString().length;
   _logger.log();
   _logger.log(`Error packages:      ${padLeft(errorPackages, minimumWidth)}`);
   _logger.log(`Up to date packages: ${padLeft(upToDatePackages, minimumWidth)}`);
-  _logger.log(`Packed packages:     ${padLeft(publishedPackages, minimumWidth)}`);
-  _logger.log(`Skipped packages:    ${padLeft(publishedPackagesSkipped, minimumWidth)}`);
+  _logger.log(`Packed packages:     ${padLeft(packedPackages, minimumWidth)}`);
+  _logger.log(`Skipped packages:    ${padLeft(skippedPackages, minimumWidth)}`);
+
+  if (errorPackages !== 0) {
+    throw new PluginError("pack", { message: "Some packages failed to pack." });
+  }
 }
 
 gulp.task('pack', () => pack());
@@ -195,9 +301,10 @@ gulp.task('pack', () => pack());
 gulp.task("find-missing-sdks", async () => {
   try {
     _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv = Argv.construct(Argv.Options.Repository)
-      .usage("Example: gulp find-missing-sdks")
-      .argv;
+    const argv: Argv.RepositoryOptions
+      = Argv.construct(Argv.Options.Repository)
+            .usage("Example: gulp find-missing-sdks")
+            .argv as any;
 
     const azureRestApiSpecsRepositoryPath = argv.azureRestAPISpecsRoot;
     _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
@@ -209,16 +316,22 @@ gulp.task("find-missing-sdks", async () => {
 });
 
 gulp.task("generate-readme", async () => {
+  interface GenerateReadmeOptions {
+    dir: string | undefined;
+  };
+
   try {
     _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
-      .options({
-        "spec-directory": {
-          alias: "dir",
-          description: "Forces generating readme in the specified directory"
-        }
-      }).usage("Example: gulp generate-readme --package @azure/arm-mariadb --type rm")
-      .argv;
+    const argv: (GenerateReadmeOptions & Argv.PackageOptions & Argv.RepositoryOptions)
+      = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+            .options({
+              "spec-directory": {
+                alias: "dir",
+                description: "Forces generating readme in the specified directory"
+              }
+            })
+            .usage("Example: gulp generate-readme --package @azure/arm-mariadb --type rm")
+            .argv as any;
 
     await generateTsReadme(argv.package, argv.type, argv.azureRestAPISpecsRoot, argv.dir);
   }
@@ -230,11 +343,12 @@ gulp.task("generate-readme", async () => {
 gulp.task("generate-missing-sdk", async () => {
   try {
     _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository, Argv.Options.Generate)
-      .usage("gulp generate-missing-sdk --package @azure/arm-mariadb --type rm")
-      .argv;
+    const argv: (Argv.PackageOptions & Argv.RepositoryOptions & Argv.GenerateOptions)
+      = Argv.construct(Argv.Options.Package, Argv.Options.Repository, Argv.Options.Generate)
+            .usage("gulp generate-missing-sdk --package @azure/arm-mariadb --type rm")
+            .argv as any;
 
-    await generateMissingSdk(argv.azureSDKForJSRepoRoot, argv.package, argv.type, argv["skip-spec"], argv["skip-sdk"]);
+    await generateMissingSdk(argv.azureSDKForJSRepoRoot, argv.package, argv.type, argv.azureRestAPISpecsRoot, argv["skip-spec"], argv["skip-sdk"]);
   }
   catch (error) {
     _logger.logError(error);
@@ -244,9 +358,10 @@ gulp.task("generate-missing-sdk", async () => {
 gulp.task("generate-all-missing-sdks", async () => {
   try {
     _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
-      .usage("Example: gulp find-missing-sdks")
-      .argv;
+    const argv: (Argv.RepositoryOptions & Argv.GenerateOptions)
+      = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
+            .usage("Example: gulp find-missing-sdks")
+            .argv as any;
 
     await generateAllMissingSdks(argv.azureSDKForJSRepoRoot, argv.azureRestAPISpecsRoot, argv["skip-spec"], argv["skip-sdk"]);
   } catch (error) {
@@ -255,34 +370,45 @@ gulp.task("generate-all-missing-sdks", async () => {
 });
 
 gulp.task("regenerate", async () => {
-  const argv = Argv.construct(Argv.Options.Repository)
-    .options({
-      "branch": {
-        alias: "b",
-        string: true,
-        description: "Name of the AutoPR branch",
-        implies: "package"
-      },
-      "package": {
-        alias: "p",
-        string: true,
-        description: "Name of the regenerated package"
-      },
-      "pull-request": {
-        alias: "pr",
-        string: true,
-        description: "URL to GitHub pull request",
-        conflicts: ["branch"]
-      },
-      "skip-version-bump": {
-        boolean: true,
-        description: "Determines if version bumping should be skipped"
-      },
-      "request-review": {
-        boolean: true,
-        description: "Determines if review should be automatically requested on matching pull request"
-      }
-    }).usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
+  interface RegenerateOptions {
+    branch: string | undefined;
+    package: string | undefined;
+    "pull-request": string | undefined;
+    "skip-version-bump": boolean | undefined;
+    "request-review": boolean | undefined;
+  };
+
+  const argv : (RegenerateOptions & Argv.RepositoryOptions)
+    = Argv.construct(Argv.Options.Repository)
+          .options({
+            "branch": {
+              alias: "b",
+              string: true,
+              description: "Name of the AutoPR branch",
+              implies: "package"
+            },
+            "package": {
+              alias: "p",
+              string: true,
+              description: "Name of the regenerated package"
+            },
+            "pull-request": {
+              alias: "pr",
+              string: true,
+              description: "URL to GitHub pull request",
+              conflicts: ["branch"]
+            },
+            "skip-version-bump": {
+              boolean: true,
+              description: "Determines if version bumping should be skipped"
+            },
+            "request-review": {
+              boolean: true,
+              description: "Determines if review should be automatically requested on matching pull request"
+            }
+          })
+          .usage("Example: gulp regenerate --branch 'restapi_auto_daschult/sql'")
+          .argv as any;
 
   try {
     const pullRequestUrl: string | undefined = argv["pull-request"];
@@ -297,13 +423,16 @@ gulp.task("regenerate", async () => {
     }
 
     const branchName = argv.branch || pullRequestData.branchName;
-    const packageName = argv.package || pullRequestData.packageName;
-
     if (!branchName) {
+      throw new Error("Unable to find the name of the branch. Please specify the --branch parameter");
+    }
+
+    const packageName: string | undefined = argv.package || pullRequestData.packageName;
+    if (!packageName) {
       throw new Error("Unable to find the name of the package. Please specify the --package parameter");
     }
 
-    regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
+    regenerate(branchName, packageName, argv.azureSDKForJSRepoRoot, argv.azureRestAPISpecsRoot, pullRequestData.prId, argv["skip-version-bump"], argv["request-review"])
   } catch (error) {
     _logger.logError(error);
   }
@@ -311,9 +440,10 @@ gulp.task("regenerate", async () => {
 
 gulp.task("find-wrong-packages", async () => {
   _logger.log(`Passed arguments: ${Argv.print()}`);
-  const argv = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
-    .usage("Example: gulp find-missing-sdks")
-    .argv;
+  const argv: (Argv.RepositoryOptions & Argv.GenerateOptions)
+    = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
+          .usage("Example: gulp find-missing-sdks")
+          .argv as any;
 
   const incorrectPackages = await findWrongPackages(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
 
