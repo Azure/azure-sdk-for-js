@@ -18,7 +18,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
-import { testSessionId } from "./testUtils";
+import { testSessionId, purge } from "./testUtils";
 
 // Template starts
 
@@ -61,7 +61,7 @@ describe("Standard", function(): void {
     const receiverClient = senderClient;
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -136,7 +136,7 @@ describe("Standard", function(): void {
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -217,7 +217,7 @@ describe("Standard", function(): void {
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -297,7 +297,7 @@ describe("Standard", function(): void {
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        await beforeEachTest();
+        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
@@ -399,12 +399,18 @@ const onError: OnError = (err: MessagingError | Error) => {
 };
 
 let testMessage: any;
-async function beforeEachTest(): Promise<void> {
+async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
   testMessage = {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
     sessionId: testSessionId
   };
+  await purge(receiverClient, true);
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  }
 }
 
 /**
