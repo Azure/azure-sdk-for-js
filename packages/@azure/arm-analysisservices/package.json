@@ -2,7 +2,7 @@
   "name": "@azure/arm-analysisservices",
   "author": "Microsoft Corporation",
   "description": "AnalysisServicesManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "2.3.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.1.0",
     "@azure/ms-rest-js": "^1.1.0",
@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-analysisservices.js.map'\" -o ./dist/arm-analysisservices.min.js ./dist/arm-analysisservices.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }
