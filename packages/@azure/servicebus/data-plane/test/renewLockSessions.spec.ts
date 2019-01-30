@@ -517,7 +517,10 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   let numOfMessagesReceived = 0;
 
   await senderClient.getSender().send(testMessage);
-  const sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
+  const sessionClient = await receiverClient.getSessionReceiver({
+    sessionId: testSessionId,
+    maxSessionAutoRenewLockDurationInSeconds: 0
+  });
 
   const onSessionMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -570,8 +573,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   };
 
   await sessionClient.receive(onSessionMessage, onError, {
-    autoComplete: false,
-    maxAutoRenewDurationInSeconds: 0
+    autoComplete: false
   });
   await delay(40000);
   await sessionClient.close();
@@ -598,7 +600,10 @@ async function testAutoLockRenewalConfigBehavior(
 
   await senderClient.getSender().send(testMessage);
 
-  let sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
+  let sessionClient = await receiverClient.getSessionReceiver({
+    sessionId: testSessionId,
+    maxSessionAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInSeconds
+  });
   await sessionClient.receive(
     async (brokeredMessage: ServiceBusMessage) => {
       if (numOfMessagesReceived < 1) {
@@ -641,8 +646,7 @@ async function testAutoLockRenewalConfigBehavior(
     },
     onError,
     {
-      autoComplete: false,
-      maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
+      autoComplete: false
     }
   );
   await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);

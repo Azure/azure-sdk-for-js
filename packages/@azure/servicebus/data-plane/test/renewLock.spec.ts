@@ -569,7 +569,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 
   receiver.receive(onMessage, onError, {
     autoComplete: false,
-    maxAutoRenewDurationInSeconds: 0
+    maxMessageAutoRenewLockDurationInSeconds: 0
   });
   await delay(40000);
   await receiver.close();
@@ -634,7 +634,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   receiver.receive(onMessage, onError, {
     autoComplete: false,
-    maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
+    maxMessageAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInSeconds
   });
   await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);
   await receiver.close();
