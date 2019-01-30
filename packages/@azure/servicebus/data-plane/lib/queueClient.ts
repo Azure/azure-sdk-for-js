@@ -84,6 +84,8 @@ export class QueueClient extends Client {
    * Creates a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
    * This Receiver can be used to receive messages in batches or by registering handlers.
    *
+   * You can have multiple receivers for the same Queue.
+   *
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
@@ -146,6 +148,8 @@ export class QueueClient extends Client {
    * Creates a sessionReceiver with given sessionId from the ServiceBus Queue.
    * When no sessionId is given, a random session among the available sessions is used.
    * This Receiver can be used to receive messages in batches or by registering handlers.
+   *
+   * Note that you cannot have more than 1 session receiver for the same session.
    *
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Queue.

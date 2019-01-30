@@ -32,15 +32,17 @@ export interface MessageHandlerOptions {
    */
   maxAutoRenewDurationInSeconds?: number;
   /**
-   * @property {number} [maxMessageWaitTimeoutInSeconds] The maximum amount of idle time the
-   * receiver will wait to receive a new message. If no messages are received in this
-   * time, then the receiver will close.
-   * Account for the time take to process messages, as once the receiver is closed, you cant
-   * complete/abandon/defer/deadletter a message.
+   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of time the receiver
+   * will wait to receive a new message. If no new message is received in this time, then the
+   * receiver will be closed.
+   *
+   * Caution: When setting this value, take into account the time taken to process messages. Once
+   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
+   * invoked on messages.
    *
    * If this option is not provided, then receiver link will stay open until manually closed.
    */
-  maxMessageWaitTimeoutInSeconds?: number;
+  newMessageWaitTimeoutInSeconds?: number;
 }
 
 /**
@@ -62,16 +64,16 @@ export class StreamingReceiver extends MessageReceiver {
 
     this.resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-      if (this.maxMessageWaitTimeoutInSeconds) {
+      if (this.newMessageWaitTimeoutInSeconds) {
         this._newMessageReceivedTimer = setTimeout(async () => {
           const msg =
             `StreamingReceiver '${this.name}' did not receive any messages in ` +
-            `the last ${this.maxMessageWaitTimeoutInSeconds} seconds. ` +
+            `the last ${this.newMessageWaitTimeoutInSeconds} seconds. ` +
             `Hence ending this receive operation.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
           await this.close();
-        }, this.maxMessageWaitTimeoutInSeconds * 1000);
+        }, this.newMessageWaitTimeoutInSeconds * 1000);
       }
     };
   }
