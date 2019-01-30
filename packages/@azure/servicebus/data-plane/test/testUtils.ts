@@ -7,8 +7,7 @@ import {
   QueueClient,
   TopicClient,
   Namespace,
-  SubscriptionClient,
-  delay
+  SubscriptionClient
 } from "../lib";
 
 export const testSimpleMessages: SendableMessageInfo[] = [
@@ -196,16 +195,23 @@ export async function purge(
   recieverClient: QueueClient | SubscriptionClient,
   useSessions?: boolean
 ): Promise<void> {
-  const peekedMsgs = await recieverClient.peek();
-  if (!peekedMsgs.length) {
-    return;
-  }
+  let isEmpty = false;
 
   const receiver = useSessions
-    ? await recieverClient.getSessionReceiver()
+    ? await recieverClient.getSessionReceiver({ sessionId: "my-session" })
     : recieverClient.getReceiver();
 
-  receiver.receive(() => Promise.resolve(), (err) => console.log(`Error when purging: ${err}`));
-  await delay(5000);
+  while (!isEmpty) {
+    const peekedMsgs = await recieverClient.peek();
+    if (peekedMsgs.length === 0) {
+      isEmpty = true;
+    } else {
+      const msgs = await receiver.receiveBatch(1);
+      if (msgs && msgs.length) {
+        await msgs[0].complete();
+      }
+    }
+  }
+
   await receiver.close();
 }

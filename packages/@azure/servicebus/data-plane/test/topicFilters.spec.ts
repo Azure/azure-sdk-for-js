@@ -126,28 +126,18 @@ async function sendOrders(): Promise<void> {
 }
 
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
-  let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = client.getReceiver();
-  receiver.receive(
-    (msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      return Promise.resolve();
-    },
-    (err: Error) => {
-      if (err) {
-        errorFromErrorHandler = err;
-      }
+  const msgs = await receiver.receiveBatch(100);
+  if (msgs) {
+    for (let index = 0; index < msgs.length; index++) {
+      receivedMsgs.push(msgs[index]);
+      msgs[index].complete();
     }
-  );
+  }
 
   await delay(5000);
   await receiver.close();
-  should.equal(
-    errorFromErrorHandler,
-    undefined,
-    errorFromErrorHandler && errorFromErrorHandler.message
-  );
 
   return receivedMsgs;
 }
