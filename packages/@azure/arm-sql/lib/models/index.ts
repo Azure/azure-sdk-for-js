@@ -895,7 +895,7 @@ export interface MetricDefinition {
   readonly unit?: UnitDefinitionType;
   /**
    * @member {MetricAvailability[]} [metricAvailabilities] The list of database
-   * metric availabities for the metric.
+   * metric availabilities for the metric.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -928,7 +928,7 @@ export interface RecommendedElasticPoolMetric {
 /**
  * @interface
  * An interface representing RecommendedElasticPool.
- * Represents a recommented elastic pool.
+ * Represents a recommended elastic pool.
  *
  * @extends ProxyResource
  */
@@ -2314,6 +2314,15 @@ export interface ManagedInstance extends TrackedResource {
    * instance whose DNS zone this managed instance will share after creation.
    */
   dnsZonePartner?: string;
+  /**
+   * @member {boolean} [publicDataEndpointEnabled] Whether or not the public
+   * data endpoint is enabled.
+   */
+  publicDataEndpointEnabled?: boolean;
+  /**
+   * @member {string} [proxyOverride] Proxy override of the managed instance.
+   */
+  proxyOverride?: string;
 }
 
 /**
@@ -2383,6 +2392,15 @@ export interface ManagedInstanceUpdate {
    * instance whose DNS zone this managed instance will share after creation.
    */
   dnsZonePartner?: string;
+  /**
+   * @member {boolean} [publicDataEndpointEnabled] Whether or not the public
+   * data endpoint is enabled.
+   */
+  publicDataEndpointEnabled?: boolean;
+  /**
+   * @member {string} [proxyOverride] Proxy override of the managed instance.
+   */
+  proxyOverride?: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
@@ -3999,7 +4017,7 @@ export interface JobSchedule {
   enabled?: boolean;
   /**
    * @member {string} [interval] Value of the schedule's recurring interval, if
-   * the scheduletype is recurring. ISO8601 duration format.
+   * the schedule type is recurring. ISO8601 duration format.
    */
   interval?: string;
 }
@@ -4360,9 +4378,9 @@ export interface ManagedDatabase extends TrackedResource {
    */
   collation?: string;
   /**
-   * @member {ManagedDatabaseStatus} [status] Status for the database. Possible
+   * @member {ManagedDatabaseStatus} [status] Status of the database. Possible
    * values include: 'Online', 'Offline', 'Shutdown', 'Creating',
-   * 'Inaccessible'
+   * 'Inaccessible', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4406,8 +4424,10 @@ export interface ManagedDatabase extends TrackedResource {
    * SourceManagedInstanceName and PointInTime must be specified.
    * RestoreExternalBackup: Create a database by restoring from external backup
    * files. Collation, StorageContainerUri and StorageContainerSasToken must be
-   * specified. Possible values include: 'Default', 'RestoreExternalBackup',
-   * 'PointInTimeRestore'
+   * specified. Recovery: Creates a database by restoring a geo-replicated
+   * backup. RecoverableDatabaseId must be specified as the recoverable
+   * database resource ID to restore. Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -4422,6 +4442,11 @@ export interface ManagedDatabase extends TrackedResource {
    */
   sourceDatabaseId?: string;
   /**
+   * @member {string} [restorableDroppedDatabaseId] The restorable dropped
+   * database resource id to restore when creating this database.
+   */
+  restorableDroppedDatabaseId?: string;
+  /**
    * @member {string} [storageContainerSasToken] Conditional. If createMode is
    * RestoreExternalBackup, this value is required. Specifies the storage
    * container sas token.
@@ -4434,6 +4459,11 @@ export interface ManagedDatabase extends TrackedResource {
    * the server.**
    */
   readonly failoverGroupId?: string;
+  /**
+   * @member {string} [recoverableDatabaseId] The resource identifier of the
+   * recoverable database associated with create operation of this database.
+   */
+  recoverableDatabaseId?: string;
 }
 
 /**
@@ -4448,9 +4478,9 @@ export interface ManagedDatabaseUpdate {
    */
   collation?: string;
   /**
-   * @member {ManagedDatabaseStatus} [status] Status for the database. Possible
+   * @member {ManagedDatabaseStatus} [status] Status of the database. Possible
    * values include: 'Online', 'Offline', 'Shutdown', 'Creating',
-   * 'Inaccessible'
+   * 'Inaccessible', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4494,8 +4524,10 @@ export interface ManagedDatabaseUpdate {
    * SourceManagedInstanceName and PointInTime must be specified.
    * RestoreExternalBackup: Create a database by restoring from external backup
    * files. Collation, StorageContainerUri and StorageContainerSasToken must be
-   * specified. Possible values include: 'Default', 'RestoreExternalBackup',
-   * 'PointInTimeRestore'
+   * specified. Recovery: Creates a database by restoring a geo-replicated
+   * backup. RecoverableDatabaseId must be specified as the recoverable
+   * database resource ID to restore. Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -4510,6 +4542,11 @@ export interface ManagedDatabaseUpdate {
    */
   sourceDatabaseId?: string;
   /**
+   * @member {string} [restorableDroppedDatabaseId] The restorable dropped
+   * database resource id to restore when creating this database.
+   */
+  restorableDroppedDatabaseId?: string;
+  /**
    * @member {string} [storageContainerSasToken] Conditional. If createMode is
    * RestoreExternalBackup, this value is required. Specifies the storage
    * container sas token.
@@ -4522,6 +4559,11 @@ export interface ManagedDatabaseUpdate {
    * the server.**
    */
   readonly failoverGroupId?: string;
+  /**
+   * @member {string} [recoverableDatabaseId] The resource identifier of the
+   * recoverable database associated with create operation of this database.
+   */
+  recoverableDatabaseId?: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
@@ -4667,6 +4709,50 @@ export interface ServerSecurityAlertPolicy extends ProxyResource {
    * the Threat Detection audit logs.
    */
   retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing RestorableDroppedManagedDatabase.
+ * A restorable dropped managed database resource.
+ *
+ * @extends TrackedResource
+ */
+export interface RestorableDroppedManagedDatabase extends TrackedResource {
+  /**
+   * @member {string} [databaseName] The name of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the database (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {Date} [deletionDate] The deletion date of the database (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletionDate?: Date;
+  /**
+   * @member {Date} [earliestRestoreDate] The earliest restore date of the
+   * database (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly earliestRestoreDate?: Date;
 }
 
 /**
@@ -4724,6 +4810,116 @@ export interface CreateDatabaseRestorePointDefinition {
    * @member {string} restorePointLabel The restore point label to apply
    */
   restorePointLabel: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseSecurityAlertPolicy.
+ * A managed database security alert policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedDatabaseSecurityAlertPolicy extends ProxyResource {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled. Possible values include: 'New',
+   * 'Enabled', 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedServerSecurityAlertPolicy.
+ * A managed server security alert policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled. Possible values include: 'New',
+   * 'Enabled', 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
 }
 
 /**
@@ -6505,6 +6701,22 @@ export interface ManagedInstanceEncryptionProtector extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing RecoverableManagedDatabase.
+ * A recoverable managed database resource.
+ *
+ * @extends ProxyResource
+ */
+export interface RecoverableManagedDatabase extends ProxyResource {
+  /**
+   * @member {string} [lastAvailableBackupDate] The last available backup date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastAvailableBackupDate?: string;
+}
+
+/**
+ * @interface
  * An interface representing ManagedInstanceVulnerabilityAssessment.
  * A managed instance vulnerability assessment.
  *
@@ -7524,7 +7736,7 @@ export interface JobVersionListResult extends Array<JobVersion> {
 /**
  * @interface
  * An interface representing the LongTermRetentionBackupListResult.
- * A list of long term retention bacukps.
+ * A list of long term retention backups.
  *
  * @extends Array<LongTermRetentionBackup>
  */
@@ -7587,8 +7799,24 @@ export interface ServerDnsAliasListResult extends Array<ServerDnsAlias> {
 
 /**
  * @interface
+ * An interface representing the RestorableDroppedManagedDatabaseListResult.
+ * A list of restorable dropped managed databases.
+ *
+ * @extends Array<RestorableDroppedManagedDatabase>
+ */
+export interface RestorableDroppedManagedDatabaseListResult extends Array<RestorableDroppedManagedDatabase> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the RestorePointListResult.
- * A list of long term retention bacukps.
+ * A list of long term retention backups.
  *
  * @extends Array<RestorePoint>
  */
@@ -7705,6 +7933,22 @@ export interface ManagedInstanceKeyListResult extends Array<ManagedInstanceKey> 
  * @extends Array<ManagedInstanceEncryptionProtector>
  */
 export interface ManagedInstanceEncryptionProtectorListResult extends Array<ManagedInstanceEncryptionProtector> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RecoverableManagedDatabaseListResult.
+ * A list of recoverable managed databases.
+ *
+ * @extends Array<RecoverableManagedDatabase>
+ */
+export interface RecoverableManagedDatabaseListResult extends Array<RecoverableManagedDatabase> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -8181,11 +8425,11 @@ export type JobTargetGroupMembershipType = 'Include' | 'Exclude';
 
 /**
  * Defines values for ManagedDatabaseStatus.
- * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible'
+ * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible', 'Updating'
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible';
+export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible' | 'Updating';
 
 /**
  * Defines values for CatalogCollationType.
@@ -8197,11 +8441,11 @@ export type CatalogCollationType = 'DATABASE_DEFAULT' | 'SQL_Latin1_General_CP1_
 
 /**
  * Defines values for ManagedDatabaseCreateMode.
- * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore'
+ * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore';
+export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore' | 'Recovery';
 
 /**
  * Defines values for AutomaticTuningServerMode.
@@ -13005,6 +13249,139 @@ export type ManagedDatabasesListByInstanceNextResponse = ManagedDatabaseListResu
 /**
  * Contains response data for the get operation.
  */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByRestorableDroppedDatabase operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesBeginUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByRestorableDroppedDatabaseNext operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type ServerAutomaticTuningGetResponse = ServerAutomaticTuning & {
   /**
    * The underlying HTTP response.
@@ -13193,6 +13570,63 @@ export type ServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ServerSecur
 };
 
 /**
+ * Contains response data for the listByInstance operation.
+ */
+export type RestorableDroppedManagedDatabasesListByInstanceResponse = RestorableDroppedManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RestorableDroppedManagedDatabasesGetResponse = RestorableDroppedManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type RestorableDroppedManagedDatabasesListByInstanceNextResponse = RestorableDroppedManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabaseListResult;
+    };
+};
+
+/**
  * Contains response data for the listByDatabase operation.
  */
 export type RestorePointsListByDatabaseResponse = RestorePointListResult & {
@@ -13265,6 +13699,101 @@ export type RestorePointsBeginCreateResponse = RestorePoint & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RestorePoint;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesGetResponse = ManagedDatabaseSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse = ManagedDatabaseSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedServerSecurityAlertPoliciesGetResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
     };
 };
 
@@ -14120,6 +14649,63 @@ export type ManagedInstanceEncryptionProtectorsListByInstanceNextResponse = Mana
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedInstanceEncryptionProtectorListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type RecoverableManagedDatabasesListByInstanceResponse = RecoverableManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RecoverableManagedDatabasesGetResponse = RecoverableManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type RecoverableManagedDatabasesListByInstanceNextResponse = RecoverableManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabaseListResult;
     };
 };
 
