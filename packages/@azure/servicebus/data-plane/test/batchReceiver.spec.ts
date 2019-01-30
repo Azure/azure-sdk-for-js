@@ -105,7 +105,8 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId
+        sessionId: testSessionId,
+        maxSessionAutoRenewLockDurationInSeconds: 0
       })
     : receiverClient.getReceiver();
 }
@@ -947,6 +948,12 @@ describe("Batching Receiver Misc Tests", function(): void {
     should.equal(receivedMsgs[0].deliveryCount, 0);
     should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
 
+    if (useSessions) {
+      await delay(45000); // 1.5*lockduration = (SessionLockDuration + buffer) : Session lock gets expired
+      receiver = await receiverClient.getSessionReceiver({
+        sessionId: testSessionId
+      });
+    }
     await testPeekMsgsLength(receiverClient, 1);
 
     receivedMsgs = await receiver.receiveBatch(1);
@@ -986,49 +993,49 @@ describe("Batching Receiver Misc Tests", function(): void {
     await testNoSettlement();
   });
 
-  // it("Partitioned Queues with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.PartitionedQueueWithSessions,
-  //     ClientType.PartitionedQueueWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
+  it("Partitioned Queues with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });
 
-  // it("Partitioned Topics and Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.PartitionedTopicWithSessions,
-  //     ClientType.PartitionedSubscriptionWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
+  it("Partitioned Topics and Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });
 
-  // it("Unpartitioned Queues with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.UnpartitionedQueueWithSessions,
-  //     ClientType.UnpartitionedQueueWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
+  it("Unpartitioned Queues with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });
 
-  // it("Unpartitioned Topics and Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.UnpartitionedTopicWithSessions,
-  //     ClientType.UnpartitionedSubscriptionWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
+  it("Unpartitioned Topics and Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      true
+    );
+    await testNoSettlement(true);
+  });
 
   async function testAskForMore(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
