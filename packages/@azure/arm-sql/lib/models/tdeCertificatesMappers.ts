@@ -88,7 +88,10 @@ export {
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
+  RestorableDroppedManagedDatabase,
   RestorePoint,
+  ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,
@@ -105,6 +108,7 @@ export {
   BackupShortTermRetentionPolicy,
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
+  RecoverableManagedDatabase,
   ManagedInstanceVulnerabilityAssessment,
   ServerVulnerabilityAssessment
 } from "../models/mappers";
