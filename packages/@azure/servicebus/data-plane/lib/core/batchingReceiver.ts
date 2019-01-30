@@ -112,6 +112,11 @@ export class BatchingReceiver extends MessageReceiver {
         }
       };
 
+      /**
+       * Resets the timer when a new message is received. If no messages were received for
+       * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
+       * receiver link stays open for the next receive call, but doesnt receive messages until then
+       */
       this.resetTimerOnNewMessageReceived = () => {
         if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
         if (this.newMessageWaitTimeoutInSeconds) {
