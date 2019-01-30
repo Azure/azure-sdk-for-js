@@ -303,6 +303,10 @@ export async function setVersion(azureSdkForJsRoot: string, include?: RegExp, ex
         const npm = new NPMScope({});
         const npmViewResult: NPMViewResult = npm.view({ packageName: nodeName });
 
+        if (!npmViewResult.version) {
+            continue;
+        }
+
         config.content["version"] = npmViewResult.version!.replace("-preview", "");
         fs.writeFileSync(config.path, JSON.stringify(config.content, undefined, "  ") + "\n");
         _logger.log("Saved");
