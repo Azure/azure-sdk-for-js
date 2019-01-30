@@ -113,7 +113,7 @@ async function beforeEachTest(
 async function afterEachTest(): Promise<void> {
   await ns.close();
 }
-describe.only("Complete/Abandon/Defer/Deadletter normal message", function(): void {
+describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
