@@ -2,7 +2,7 @@
   "name": "@azure/arm-cognitiveservices",
   "author": "Microsoft Corporation",
   "description": "CognitiveServicesManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.2.0",
     "@azure/ms-rest-js": "^1.2.0",
