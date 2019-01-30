@@ -3380,7 +3380,7 @@ export interface AzureFirewallNatRule {
   sourceAddresses?: string[];
   /**
    * @member {string[]} [destinationAddresses] List of destination IP addresses
-   * for this rule.
+   * for this rule. Supports IP ranges, prefixes, and service tags.
    */
   destinationAddresses?: string[];
   /**
