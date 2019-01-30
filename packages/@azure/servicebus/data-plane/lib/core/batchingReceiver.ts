@@ -156,12 +156,12 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = async (context: EventContext) => {
+        if (firstMessageWaitTimer) {
+          clearTimeout(firstMessageWaitTimer);
+          firstMessageWaitTimer = undefined;
+        }
+        this.resetTimerOnNewMessageReceived();
         try {
-          if (firstMessageWaitTimer) {
-            clearTimeout(firstMessageWaitTimer);
-            firstMessageWaitTimer = undefined;
-          }
-          this.resetTimerOnNewMessageReceived();
           const data: ServiceBusMessage = new ServiceBusMessage(
             this._context,
             context.message!,
@@ -170,16 +170,11 @@ export class BatchingReceiver extends MessageReceiver {
           if (brokeredMessages.length < maxMessageCount) {
             brokeredMessages.push(data);
           }
-          if (brokeredMessages.length === maxMessageCount) {
-            finalAction();
-          }
         } catch (err) {
-          log.error(
-            "[%s] Receiver '%s' error in onMessage handler:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            translate(err)
-          );
+          reject(`Error while converting AmqpMessage to ReceivedSBMessage: ${err}`);
+        }
+        if (brokeredMessages.length === maxMessageCount) {
+          finalAction();
         }
       };
 

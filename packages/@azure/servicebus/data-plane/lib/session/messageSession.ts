@@ -736,13 +736,17 @@ export class SessionReceiver extends LinkEntity {
           firstMessageWaitTimer = undefined;
         }
         resetTimerOnNewMessageReceived();
-        const data: ServiceBusMessage = new ServiceBusMessage(
-          this._context,
-          context.message!,
-          context.delivery!
-        );
-        if (brokeredMessages.length < maxMessageCount) {
-          brokeredMessages.push(data);
+        try {
+          const data: ServiceBusMessage = new ServiceBusMessage(
+            this._context,
+            context.message!,
+            context.delivery!
+          );
+          if (brokeredMessages.length < maxMessageCount) {
+            brokeredMessages.push(data);
+          }
+        } catch (err) {
+          reject(`Error while converting AmqpMessage to ReceivedSBMessage: ${err}`);
         }
         if (brokeredMessages.length === maxMessageCount) {
           finalAction();
