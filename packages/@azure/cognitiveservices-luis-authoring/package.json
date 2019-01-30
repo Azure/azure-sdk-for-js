@@ -50,5 +50,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-luis-authoring.js.map'\" -o ./dist/cognitiveservices-luis-authoring.min.js ./dist/cognitiveservices-luis-authoring.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

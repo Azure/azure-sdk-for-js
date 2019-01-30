@@ -52,5 +52,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-contentmoderator.js.map'\" -o ./dist/cognitiveservices-contentmoderator.min.js ./dist/cognitiveservices-contentmoderator.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

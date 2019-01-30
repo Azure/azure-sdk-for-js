@@ -51,5 +51,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/storage-datalake.js.map'\" -o ./dist/storage-datalake.min.js ./dist/storage-datalake.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }
