@@ -23,37 +23,6 @@ import { purge } from "./testUtils";
 
 // Template starts
 
-/*
-  .env variables used
-
-  PREMIUM_SERVICEBUS_CONNECTION_STRING=
-  PREMIUM_QUEUE=unpartitioned-queue
-  PREMIUM_QUEUE_SESSION=unpartitioned-sessions-queue
-  PREMIUM_TOPIC=unpartitioned-topic
-  PREMIUM_TOPIC_SESSION=unpartitioned-sessions-topic
-  PREMIUM_SUBSCRIPTION=unpartitioned-subscription
-  PREMIUM_SUBSCRIPTION_SESSION=unpartitioned-sessions-subscription
-
-  STANDARD_SERVICEBUS_CONNECTION_STRING=
-  STANDARD_QUEUE_PARTITION=partitioned-queue
-  STANDARD_QUEUE=unpartitioned-queue
-  STANDARD_QUEUE_PARTITION_SESSION=partitioned-sessions-queue
-  STANDARD_QUEUE_SESSION=unpartitioned-sessions-queue
-  STANDARD_TOPIC_PARTITION=partitioned-topic
-  STANDARD_TOPIC=unpartitioned-topic
-  STANDARD_TOPIC_PARTITION_SESSION=partitioned-sessions-topic
-  STANDARD_TOPIC_SESSION=unpartitioned-sessions-topic
-  STANDARD_SUBSCRIPTION_PARTITION=partitioned-subscription
-  STANDARD_SUBSCRIPTION=unpartitioned-subscription
-  STANDARD_SUBSCRIPTION_PARTITION_SESSION=partitioned-sessions-subscription
-  STANDARD_SUBSCRIPTION_SESSION=unpartitioned-sessions-subscription
-
-  BASIC_SERVICEBUS_CONNECTION_STRING=
-  BASIC_QUEUE_PARTITION=partitioned-queue
-  BASIC_QUEUE=unpartitioned-queue
-
-*/
-
 // describe("Premium", function(): void {
 //   const PREMIUM_SERVICEBUS_CONNECTION_STRING = check(
 //     process.env.PREMIUM_SERVICEBUS_CONNECTION_STRING,
@@ -444,9 +413,9 @@ async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient):
   }
 }
 
-// Tests for Lock Renewal
-// See -  https://github.com/Azure/azure-service-bus-node/issues/103
-// Receive a msg using Batch Receiver, test renewLock()
+/**
+ * Test renewLock() after receiving a message using Batch Receiver
+ */
 async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
@@ -456,7 +425,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
 
-  // Compute expected initial lock duration
+  // Compute expected initial lock expiry time
   const expectedLockExpiryTimeUtc = new Date();
   expectedLockExpiryTimeUtc.setSeconds(
     expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
@@ -467,37 +436,33 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);
 
-  // Verify actual lock duration is reset
+  // Verify initial lock expiry time on the message
   assertTimestampsAreApproximatelyEqual(
     msgs[0].lockedUntilUtc,
     expectedLockExpiryTimeUtc,
     "Initial"
   );
 
-  // Sleeping 10 seconds...
   await delay(10000);
-
   await receiver.renewLock(msgs[0]);
 
-  // Compute expected lock duration after 10 seconds of sleep
+  // Compute expected lock expiry time after renewing lock after 10 seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
 
-  // Verify actual lock duration is reset
+  // Verify lock expiry time after the first renewLock()
   assertTimestampsAreApproximatelyEqual(
     msgs[0].lockedUntilUtc,
     expectedLockExpiryTimeUtc,
     "After first renewal"
   );
 
-  // Sleeping 5 more seconds...
   await delay(5000);
-
   await receiver.renewLock(msgs[0]);
 
-  // Compute expected lock duration after 5 more seconds of sleep
+  // Compute expected lock expiry time after renewing lock after 5 more seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
-  // Verify actual lock duration is reset
+  // Verify lock expiry time after the second renewLock()
   assertTimestampsAreApproximatelyEqual(
     msgs[0].lockedUntilUtc,
     expectedLockExpiryTimeUtc,
@@ -507,7 +472,9 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   await msgs[0].complete();
 }
 
-// Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error
+/**
+ * Test settling of message from Batch Receiver fails after message lock expires
+ */
 async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
@@ -538,8 +505,9 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   await unprocessedMsgs[0].complete();
 }
 
-// Tests for Lock Renewal, see -  https://github.com/Azure/azure-service-bus-node/issues/103
-// Receive a msg using Batch Receiver, test renewLock()
+/**
+ * Test renewLock() after receiving a message using Streaming Receiver with autoLockRenewal disabled
+ */
 async function testStreamingReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
@@ -556,43 +524,39 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
       should.equal(brokeredMessage.body, testMessage.body);
       should.equal(brokeredMessage.messageId, testMessage.messageId);
 
-      // Compute expected initial lock duration
+      // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
       expectedLockExpiryTimeUtc.setSeconds(
         expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
       );
 
-      // Verify actual lock duration is reset
+      // Verify initial expiry time on message
       assertTimestampsAreApproximatelyEqual(
         brokeredMessage.lockedUntilUtc,
         expectedLockExpiryTimeUtc,
         "Initial"
       );
 
-      // Sleeping 10 seconds...
       await delay(10000);
-
       await receiver.renewLock(brokeredMessage);
 
-      // Compute expected lock duration after 10 seconds of sleep
+      // Compute expected lock expiry time after renewing lock after 10 seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
 
-      // Verify actual lock duration is reset
+      // Verify actual expiry time on session after first renewal
       assertTimestampsAreApproximatelyEqual(
         brokeredMessage.lockedUntilUtc,
         expectedLockExpiryTimeUtc,
         "After first renewal"
       );
 
-      // Sleeping 5 more seconds...
       await delay(5000);
-
       await receiver.renewLock(brokeredMessage);
 
-      // Compute expected lock duration after 5 more seconds of sleep
+      // Compute expected lock expiry time after renewing lock after 5 more seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
-      // Verify actual lock duration is reset
+      // Verify actual expiry time on session after second renewal
       assertTimestampsAreApproximatelyEqual(
         brokeredMessage.lockedUntilUtc,
         expectedLockExpiryTimeUtc,
@@ -640,7 +604,7 @@ async function testAutoLockRenewalConfigBehavior(
       should.equal(brokeredMessage.body, testMessage.body);
       should.equal(brokeredMessage.messageId, testMessage.messageId);
 
-      // Compute expected initial lock duration
+      // Compute expected initial lock lock expiry time
       const initialTimeUtc = new Date();
       const expectedLockExpiryTimeUtc = new Date();
 
@@ -648,7 +612,7 @@ async function testAutoLockRenewalConfigBehavior(
         initialTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
       );
 
-      // Verify actual lock duration is reset
+      // Verify initial lock expiry time
       assertTimestampsAreApproximatelyEqual(
         brokeredMessage.lockedUntilUtc,
         expectedLockExpiryTimeUtc,

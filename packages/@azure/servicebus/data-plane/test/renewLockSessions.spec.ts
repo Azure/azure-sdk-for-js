@@ -407,9 +407,9 @@ async function beforeEachTest(): Promise<void> {
   };
 }
 
-// Tests for Lock Renewal with sessions
-// See -  https://github.com/Azure/azure-service-bus-node/issues/236
-// Receive a msg using Batch Receiver, test renewLock()
+/**
+ * Test renewLock() after receiving a message using Batch Receiver
+ */
 async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
@@ -419,7 +419,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   const sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
   const msgs = await sessionClient.receiveBatch(1);
 
-  // Compute expected initial lock duration
+  // Compute expected initial lock expiry time
   const expectedLockExpiryTimeUtc = new Date();
   expectedLockExpiryTimeUtc.setSeconds(
     expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
@@ -430,37 +430,33 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);
 
-  // Verify actual lock duration is reset
+  // Verify initial lock expiry time on the session
   assertTimestampsAreApproximatelyEqual(
     sessionClient.sessionLockedUntilUtc,
     expectedLockExpiryTimeUtc,
     "Initial"
   );
 
-  // Sleeping 10 seconds...
   await delay(10000);
-
   await sessionClient.renewLock();
 
-  // Compute expected lock duration after 10 seconds of sleep
+  // Compute expected lock expiry time after renewing lock after 10 seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
 
-  // Verify actual lock duration is reset
+  // Verify lock expiry time after the first renewLock()
   assertTimestampsAreApproximatelyEqual(
     sessionClient.sessionLockedUntilUtc,
     expectedLockExpiryTimeUtc,
     "After first renewal"
   );
 
-  // Sleeping 5 more seconds...
   await delay(5000);
-
   await sessionClient.renewLock();
 
-  // Compute expected lock duration after 5 more seconds of sleep
+  // Compute expected lock expiry time after renewing lock after 5 more seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
-  // Verify actual lock duration is reset
+  // Verify lock expiry time after the second renewLock()
   assertTimestampsAreApproximatelyEqual(
     sessionClient.sessionLockedUntilUtc,
     expectedLockExpiryTimeUtc,
@@ -470,7 +466,9 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   await msgs[0].complete();
 }
 
-// Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error
+/**
+ * Test settling of message from Batch Receiver fails after session lock expires
+ */
 async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
@@ -503,8 +501,9 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   await unprocessedMsgs[0].complete();
 }
 
-// Tests for Lock Renewal with sessions, see -  https://github.com/Azure/azure-service-bus-node/issues/236
-// Receive a msg using Batch Receiver, test renewLock()
+/**
+ * Test renewLock() after receiving a message using Streaming Receiver with autoLockRenewal disabled
+ */
 async function testStreamingReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
@@ -521,43 +520,39 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
       should.equal(brokeredMessage.body, testMessage.body);
       should.equal(brokeredMessage.messageId, testMessage.messageId);
 
-      // Compute expected initial lock duration
+      // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
       expectedLockExpiryTimeUtc.setSeconds(
         expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
       );
 
-      // Verify actual lock duration is reset
+      // Verify initial expiry time on session
       assertTimestampsAreApproximatelyEqual(
-        brokeredMessage.lockedUntilUtc,
+        sessionClient.sessionLockedUntilUtc,
         expectedLockExpiryTimeUtc,
         "Initial"
       );
 
-      // Sleeping 10 seconds...
       await delay(10000);
-
       await sessionClient.renewLock();
 
-      // Compute expected lock duration after 10 seconds of sleep
+      // Compute expected lock expiry time after renewing lock after 10 seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
 
-      // Verify actual lock duration is reset
+      // Verify actual expiry time on session after first renewal
       assertTimestampsAreApproximatelyEqual(
         sessionClient.sessionLockedUntilUtc,
         expectedLockExpiryTimeUtc,
         "After first renewal"
       );
 
-      // Sleeping 5 more seconds...
       await delay(5000);
-
       await sessionClient.renewLock();
 
-      // Compute expected lock duration after 5 more seconds of sleep
+      // Compute expected lock expiry time after renewing lock after 5 more seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
-      // Verify actual lock duration is reset
+      // Verify actual expiry time on session after second renewal
       assertTimestampsAreApproximatelyEqual(
         sessionClient.sessionLockedUntilUtc,
         expectedLockExpiryTimeUtc,
@@ -606,7 +601,7 @@ async function testAutoLockRenewalConfigBehavior(
         should.equal(brokeredMessage.body, testMessage.body);
         should.equal(brokeredMessage.messageId, testMessage.messageId);
 
-        // Compute expected initial lock duration
+        // Compute expected initial lock expiry time
         const initialTimeUtc = new Date();
         const expectedLockExpiryTimeUtc = new Date();
 
@@ -614,7 +609,7 @@ async function testAutoLockRenewalConfigBehavior(
           initialTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
         );
 
-        // Verify actual lock duration is reset
+        // Verify initial lock expiry time
         assertTimestampsAreApproximatelyEqual(
           sessionClient.sessionLockedUntilUtc,
           expectedLockExpiryTimeUtc,
