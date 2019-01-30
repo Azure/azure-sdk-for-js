@@ -17,7 +17,7 @@ import {
   delay,
   CorrelationFilter
 } from "../lib";
-import { getSenderClient, getReceiverClient, ClientType } from "./testUtils";
+import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -66,14 +66,16 @@ async function beforeEachTest(): Promise<void> {
     ClientType.TopicFilterTestDefaultSubscription
   ) as SubscriptionClient;
 
+  await purge(defaultSubscriptionClient);
+  await purge(subscriptionClient);
   const peekedDefaultSubscriptionMsg = await defaultSubscriptionClient.peek();
   if (peekedDefaultSubscriptionMsg.length) {
-    throw new Error("Please use an empty Default Subscription for integration testing");
+    chai.assert.fail("Please use an empty Default Subscription for integration testing");
   }
 
   const peekedSubscriptionMsg = await subscriptionClient.peek();
   if (peekedSubscriptionMsg.length) {
-    throw new Error("Please use an empty Subscription for integration testing");
+    chai.assert.fail("Please use an empty Subscription for integration testing");
   }
   await removeAllRules(subscriptionClient);
 }
@@ -105,6 +107,7 @@ const data = [
 ];
 
 async function sendOrders(): Promise<void> {
+  const sender = topicClient.getSender();
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
     const message: SendableMessageInfo = {
@@ -118,14 +121,15 @@ async function sendOrders(): Promise<void> {
         priority: `${element.Priority}`
       }
     };
-    await topicClient.send(message);
+    await sender.send(message);
   }
 }
 
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
-  const receiveListener = client.receive(
+  const receiver = client.getReceiver();
+  receiver.receive(
     (msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
@@ -138,7 +142,7 @@ async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMess
   );
 
   await delay(5000);
-  await receiveListener.stop();
+  await receiver.close();
   should.equal(
     errorFromErrorHandler,
     undefined,
@@ -168,7 +172,7 @@ async function addRules(
   }
 }
 
-describe.skip("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
+describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -206,7 +210,7 @@ describe.skip("Topic Filters -  Add Rule - Positive Test Cases", function(): voi
     await subscriptionClient.addRule(
       "Priority_1",
       "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')",
-      "SET sys.body = 'MessageX'"
+      "SET sys.label = 'MessageX'"
     );
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1);
@@ -224,7 +228,7 @@ describe.skip("Topic Filters -  Add Rule - Positive Test Cases", function(): voi
   });
 });
 
-describe.skip("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
+describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -285,7 +289,7 @@ describe.skip("Topic Filters -  Add Rule - Negative Test Cases", function(): voi
   });
 });
 
-describe.skip("Topic Filters -  Remove Rule", function(): void {
+describe("Topic Filters -  Remove Rule", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -322,7 +326,7 @@ describe.skip("Topic Filters -  Remove Rule", function(): void {
   });
 });
 
-describe.skip("Topic Filters: Get Rules", function(): void {
+describe("Topic Filters: Get Rules", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -368,7 +372,7 @@ describe.skip("Topic Filters: Get Rules", function(): void {
     await subscriptionClient.addRule(
       "Priority_1",
       "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')",
-      "SET sys.body = 'MessageX'"
+      "SET sys.label = 'MessageX'"
     );
     const rules = await subscriptionClient.getRules();
     should.equal(rules[0].name, "Priority_1");
@@ -381,23 +385,23 @@ describe.skip("Topic Filters: Get Rules", function(): void {
     });
     const rules = await subscriptionClient.getRules();
     should.equal(rules[0].name, "Correlationfilter");
-    const matchexpr = {
+    const expectedFilter = {
       correlationId: "high",
-      messageId: undefined,
-      to: undefined,
-      replyTo: undefined,
       label: "red",
-      sessionId: undefined,
-      replyToSessionId: undefined,
-      contentType: undefined,
       userProperties: []
     };
     should.equal(rules.length, 1);
-    should.equal(JSON.stringify(rules[0].filter), JSON.stringify(matchexpr));
+    rules.forEach((rule) => {
+      should.equal((<CorrelationFilter>rule.filter).correlationId, expectedFilter.correlationId);
+      should.equal((<CorrelationFilter>rule.filter).label, expectedFilter.label);
+      const userProperties = (<CorrelationFilter>rule.filter).userProperties;
+      should.equal(Array.isArray(userProperties), true);
+      should.equal(userProperties.length, 0);
+    });
   });
 });
 
-describe.skip("Send/Receive messages using default filter of subscription", function(): void {
+describe("Send/Receive messages using default filter of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -417,7 +421,7 @@ describe.skip("Send/Receive messages using default filter of subscription", func
   });
 });
 
-describe.skip("Send/Receive messages using boolean filters of subscription", function(): void {
+describe("Send/Receive messages using boolean filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -466,7 +470,7 @@ describe.skip("Send/Receive messages using boolean filters of subscription", fun
   });
 });
 
-describe.skip("Send/Receive messages using sql filters of subscription", function(): void {
+describe("Send/Receive messages using sql filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -568,7 +572,7 @@ describe.skip("Send/Receive messages using sql filters of subscription", functio
   });*/
 });
 
-describe.skip("Send/Receive messages using correlation filters of subscription", function(): void {
+describe("Send/Receive messages using correlation filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });

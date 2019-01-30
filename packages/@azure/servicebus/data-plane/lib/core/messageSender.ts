@@ -8,7 +8,6 @@ import {
   EventContext,
   OnAmqpEvent,
   SenderOptions,
-  Delivery,
   SenderEvents,
   message,
   AmqpError,
@@ -304,6 +303,11 @@ export class MessageSender extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._sender) {
+      log.sender(
+        "[%s] Closing the Sender for the entity '%s'.",
+        this._context.namespace.connectionId,
+        this._context.entityPath
+      );
       const senderLink = this._sender;
       this._deleteFromCache();
       await this._closeLink(senderLink);
@@ -330,10 +334,10 @@ export class MessageSender extends LinkEntity {
   /**
    * Sends the given message, with the given options on this link
    *
-   * @param {any} data Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @returns {Promise<Delivery>} Promise<Delivery>
+   * @param {SendableMessageInfo} data Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @returns {Promise<void>}
    */
-  async send(data: SendableMessageInfo): Promise<Delivery> {
+  async send(data: SendableMessageInfo): Promise<void> {
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
@@ -359,14 +363,14 @@ export class MessageSender extends LinkEntity {
   }
 
   /**
-   * Send a batch of Message to the ServiceBus. The "message_annotations",
+   * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
    * @param {Array<Message>} datas  An array of Message objects to be sent in a
    * Batch message.
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * @return {Promise<void>}
    */
-  async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
+  async sendBatch(datas: SendableMessageInfo[]): Promise<void> {
     try {
       if (!datas || (datas && !Array.isArray(datas))) {
         throw new Error("data is required and it must be an Array.");
@@ -465,9 +469,9 @@ export class MessageSender extends LinkEntity {
    * @param message The message to be sent to ServiceBus.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: SendableMessageInfo, tag?: any, format?: number): Promise<Delivery> {
+  private _trySend(message: SendableMessageInfo, tag?: any, format?: number): Promise<void> {
     const sendEventPromise = () =>
-      new Promise<Delivery>((resolve, reject) => {
+      new Promise<void>((resolve, reject) => {
         let waitTimer: any;
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
@@ -505,7 +509,7 @@ export class MessageSender extends LinkEntity {
               this._context.namespace.connectionId,
               this.name
             );
-            resolve(context.delivery);
+            resolve();
           };
           onRejected = (context: EventContext) => {
             removeListeners();
@@ -601,7 +605,7 @@ export class MessageSender extends LinkEntity {
       });
 
     const jitterInSeconds = randomNumberFromInterval(1, 4);
-    const config: RetryConfig<Delivery> = {
+    const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
@@ -609,7 +613,7 @@ export class MessageSender extends LinkEntity {
       delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
     };
 
-    return retry<Delivery>(config);
+    return retry<void>(config);
   }
 
   /**

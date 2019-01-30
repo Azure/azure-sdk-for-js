@@ -81,10 +81,12 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    */
   receiveMode?: ReceiveMode;
   /**
-   * @property {string} [name] The name of the receiver. If not provided then we will be a
-   * GUID by default.
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * processed concurrently while in peek lock mode. Once this limit has been reached, more
+   * messages will not be received until messages currently being processed have been settled.
+   * - **Default**: `1` (message at a time).
    */
-  name?: string;
+  maxConcurrentCalls?: number;
 }
 
 /**
@@ -132,6 +134,12 @@ export class MessageReceiver extends LinkEntity {
    * Default: `300` (5 minutes);
    */
   maxAutoRenewDurationInSeconds: number;
+  /**
+   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of idle time the
+   * receiver will wait after a message has been received. If no messages are received by this
+   * time then the receive operation will end.
+   */
+  newMessageWaitTimeoutInSeconds?: number;
   /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */
@@ -205,6 +213,16 @@ export class MessageReceiver extends LinkEntity {
     NodeJS.Timer | undefined
   >();
   /**
+   * @property {NodeJS.Timer} _newMessageReceivedTimer The timer that keeps track of time since the
+   * last message was received.
+   */
+  protected _newMessageReceivedTimer?: NodeJS.Timer;
+  /**
+   * Resets the `_newMessageReceivedTimer` timer when a new message is received.
+   * @ignore
+   */
+  protected resetTimerOnNewMessageReceived: () => void;
+  /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
    * specific messageId.
    * @protected
@@ -226,6 +244,10 @@ export class MessageReceiver extends LinkEntity {
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.maxConcurrentCalls =
       options.maxConcurrentCalls != undefined ? options.maxConcurrentCalls : 1;
+    this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
+    this.resetTimerOnNewMessageReceived = () => {
+      /** */
+    };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInSeconds =
@@ -295,6 +317,7 @@ export class MessageReceiver extends LinkEntity {
     };
 
     this._onAmqpMessage = async (context: EventContext) => {
+      this.resetTimerOnNewMessageReceived();
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessage = new ServiceBusMessage(
         this._context,
@@ -325,7 +348,10 @@ export class MessageReceiver extends LinkEntity {
           new Date(totalAutoLockRenewDuration).toString()
         );
         const autoRenewLockTask = (): void => {
-          if (Date.now() < totalAutoLockRenewDuration) {
+          if (
+            new Date(totalAutoLockRenewDuration) > bMessage.lockedUntilUtc! &&
+            Date.now() < totalAutoLockRenewDuration
+          ) {
             if (this._messageRenewLockTimers.has(bMessage.messageId as string)) {
               // TODO: We can run into problems with clock skew between the client and the server.
               // It would be better to calculate the duration based on the "lockDuration" property
@@ -511,6 +537,9 @@ export class MessageReceiver extends LinkEntity {
           );
         }
       }
+      if (this._newMessageReceivedTimer) {
+        clearTimeout(this._newMessageReceivedTimer);
+      }
     };
 
     this._onSessionError = (context: EventContext) => {
@@ -533,6 +562,9 @@ export class MessageReceiver extends LinkEntity {
           );
           this._onError!(sbError);
         }
+      }
+      if (this._newMessageReceivedTimer) {
+        clearTimeout(this._newMessageReceivedTimer);
       }
     };
 
@@ -737,6 +769,13 @@ export class MessageReceiver extends LinkEntity {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
+    log.receiver(
+      "[%s] Closing the [%s]Receiver for entity '%s'.",
+      this._context.namespace.connectionId,
+      this.receiverType,
+      this._context.entityPath
+    );
+    if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
     if (this._receiver) {
       const receiverLink = this._receiver;
       this._deleteFromCache();

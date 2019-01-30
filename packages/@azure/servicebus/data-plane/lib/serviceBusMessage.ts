@@ -628,15 +628,17 @@ export module ReceivedMessageInfo {
     } else {
       props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
     }
+
     const rcvdsbmsg: ReceivedMessageInfo = {
       _amqpMessage: msg,
       _delivery: delivery,
       deliveryCount: msg.delivery_count,
-      lockToken: delivery
-        ? uuid_to_string(
-            typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-          )
-        : undefined,
+      lockToken:
+        delivery && delivery.tag.length !== 0
+          ? uuid_to_string(
+              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+            )
+          : undefined,
       ...sbmsg,
       ...props
     };
@@ -650,36 +652,13 @@ export module ReceivedMessageInfo {
  * Describes the message received from ServiceBus.
  * @interface ReceivedMessage
  */
-export interface ReceivedMessage extends ReceivedMessageInfo {
-  /**
-   * Completes a message using its lock token. This will delete the message from ServiceBus.
-   * @returns Promise<void>.
-   */
+interface ReceivedMessage extends ReceivedMessageInfo {
   complete(): Promise<void>;
-  /**
-   * Abandons a message using its lock token. This will make the message available again for
-   * processing.
-   * @param {Dictionary<any>} [propertiesToModify] The properties of the message to modify while
-   * abandoning the message. Abandoning a message will increase the delivery count on the message.
-   * @return Promise<void>.
-   */
+
   abandon(propertiesToModify?: Dictionary<any>): Promise<void>;
-  /**
-   * Indicates that the receiver wants to defer the processing for the message. In order to receive
-   * this message again in the future, you will need to save the `sequenceNumber` and receive it
-   * using `client.receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact
-   * message's expiration, meaning that deferred messages can still expire.
-   * @param {Dictionary<any>} [propertiesToModify] The properties of the message to modify while
-   * deferring the message
-   * @return Promise<void>.
-   */
+
   defer(propertiesToModify?: Dictionary<any>): Promise<void>;
-  /**
-   * Moves the message to the deadletter sub-queue.
-   * @param {DeadLetterOptions} [options] The DeadLetter options that can be provided while rejecting
-   * the message.
-   * @returns Promise<void>
-   */
+
   deadLetter(options?: DeadLetterOptions): Promise<void>;
 }
 
@@ -917,8 +896,8 @@ export class ServiceBusMessage implements ReceivedMessage {
     }
   }
   /**
-   * Abandons a message using it's lock token. This will make the message available again for
-   * processing.
+   * Abandons a message using it's lock token. This will make the message available again in
+   * Service Bus for processing.
    * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
    * abandoning the message. Abandoning a message will increase the delivery count on the message.
    * @return Promise<void>.
@@ -958,8 +937,8 @@ export class ServiceBusMessage implements ReceivedMessage {
   }
 
   /**
-   * Indicates that the receiver wants to defer the processing for the message. In order to receive
-   * this message again in the future, you will need to save the `sequenceNumber` and receive it
+   * Defers the processing of the message. In order to receive this message again in the future,
+   * you will need to save the `sequenceNumber` and receive it
    * using `receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact message's
    * expiration, meaning that deferred messages can still expire.
    * @param [propertiesToModify] The properties of the message to modify while
