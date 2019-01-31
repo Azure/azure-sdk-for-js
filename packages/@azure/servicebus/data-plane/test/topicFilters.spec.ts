@@ -132,11 +132,9 @@ async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMess
   if (msgs) {
     for (let index = 0; index < msgs.length; index++) {
       receivedMsgs.push(msgs[index]);
-      msgs[index].complete();
+      await msgs[index].complete();
     }
   }
-
-  await delay(5000);
   await receiver.close();
 
   return receivedMsgs;

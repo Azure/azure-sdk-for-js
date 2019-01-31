@@ -192,17 +192,17 @@ export function getReceiverClient(
 }
 
 export async function purge(
-  recieverClient: QueueClient | SubscriptionClient,
+  receiverClient: QueueClient | SubscriptionClient,
   useSessions?: boolean
 ): Promise<void> {
   let isEmpty = false;
 
   const receiver = useSessions
-    ? await recieverClient.getSessionReceiver({ sessionId: "my-session" })
-    : recieverClient.getReceiver();
+    ? await receiverClient.getSessionReceiver({ sessionId: "my-session" })
+    : receiverClient.getReceiver();
 
   while (!isEmpty) {
-    const peekedMsgs = await recieverClient.peek();
+    const peekedMsgs = await receiverClient.peek();
     if (peekedMsgs.length === 0) {
       isEmpty = true;
     } else {
