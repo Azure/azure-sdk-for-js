@@ -173,22 +173,22 @@ export class SubscriptionClient extends Client {
 
   //#region sessions
 
-  /**
-   * Lists the ids of the sessions on the ServiceBus Subscription.
-   * @param maxNumberOfSessions Maximum number of sessions.
-   * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
-   * value is 3 days before the current time.
-   */
-  async listMessageSessions(
-    maxNumberOfSessions: number,
-    lastUpdatedTime?: Date
-  ): Promise<string[]> {
-    return this._context.managementClient!.listMessageSessions(
-      0,
-      maxNumberOfSessions,
-      lastUpdatedTime
-    );
-  }
+  // /**
+  //  * Lists the ids of the sessions on the ServiceBus Subscription.
+  //  * @param maxNumberOfSessions Maximum number of sessions.
+  //  * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
+  //  * value is 3 days before the current time.
+  //  */
+  // async listMessageSessions(
+  //   maxNumberOfSessions: number,
+  //   lastUpdatedTime?: Date
+  // ): Promise<string[]> {
+  //   return this._context.managementClient!.listMessageSessions(
+  //     0,
+  //     maxNumberOfSessions,
+  //     lastUpdatedTime
+  //   );
+  // }
 
   /**
    * Creates a session client with given sessionId in the ServiceBus Subscription.
