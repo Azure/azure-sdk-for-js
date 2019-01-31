@@ -116,7 +116,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(80000);
+      }).timeout(90000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -191,7 +191,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(80000);
+      }).timeout(90000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -271,7 +271,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(80000);
+      }).timeout(90000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -351,7 +351,7 @@ describe("Standard", function(): void {
           delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(80000);
+      }).timeout(90000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
