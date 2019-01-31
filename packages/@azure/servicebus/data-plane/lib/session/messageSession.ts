@@ -27,7 +27,6 @@ import {
   ReceivedMessageInfo
 } from "../serviceBusMessage";
 import { messageDispositionTimeout } from "../util/constants";
-import { MessageHandlerOptions } from "../core/streamingReceiver";
 
 export enum Callee {
   standalone = "standalone",
@@ -60,11 +59,43 @@ export interface SessionReceiverOptions {
    * Possible values are `ReceiveMode.peekLock` (default) and `ReceiveMode.receiveAndDelete`
    */
   receiveMode?: ReceiveMode;
+  /**
+   * @property {number} [maxSessionAutoRenewLockDurationInSeconds] The maximum duration in seconds
+   * until which, the lock on the session will be renewed automatically.
+   * - **Default**: `300` seconds (5 minutes).
+   * - **To disable autolock renewal**, set `maxSessionAutoRenewLockDurationInSeconds` to `0`.
+   */
+  maxSessionAutoRenewLockDurationInSeconds?: number;
+}
+
+/**
+ * Describes the options to control receiving of messages in streaming mode.
+ */
+export interface SessionMessageHandlerOptions {
+  /**
+   * @property {boolean} [autoComplete] Indicates whether the message (if not settled by the user)
+   * should be automatically completed after the user provided onMessage handler has been executed.
+   * Completing a message, removes it from the Queue/Subscription.
+   * - **Default**: `true`.
+   */
+  autoComplete?: boolean;
+  /**
+   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of time the receiver
+   * will wait to receive a new message. If no new message is received in this time, then the
+   * receiver will be closed.
+   *
+   * Caution: When setting this value, take into account the time taken to process messages. Once
+   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
+   * invoked on messages.
+   *
+   * If this option is not provided, then receiver link will stay open until manually closed.
+   */
+  newMessageWaitTimeoutInSeconds?: number;
 }
 /**
  * Describes the options for creating a Session Manager.
  */
-export interface SessionManagerOptions extends MessageHandlerOptions {
+export interface SessionManagerOptions extends SessionMessageHandlerOptions {
   /**
    * @property {number} [maxConcurrentSessions] The maximum number of sessions that the user wants to
    * handle concurrently.
@@ -219,8 +250,8 @@ export class SessionReceiver extends LinkEntity {
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.callee = options.callee || Callee.standalone;
     this.maxAutoRenewDurationInSeconds =
-      options.maxAutoRenewDurationInSeconds != undefined
-        ? options.maxAutoRenewDurationInSeconds
+      options.maxSessionAutoRenewLockDurationInSeconds != undefined
+        ? options.maxSessionAutoRenewLockDurationInSeconds
         : 300;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
     this.autoRenewLock =
@@ -462,13 +493,13 @@ export class SessionReceiver extends LinkEntity {
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
-   * @param options - Options to control whether messages should be automatically completed and/or
-   * automatically have the session lock renewed. You can also provide a timeout in seconds to denote
-   * the amount of time to wait for a new message before closing the receiver.
+   * @param options - Options to control whether messages should be automatically completed. You can
+   * also provide a timeout in seconds to denote the amount of time to wait for a new message
+   * before closing the receiver.
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
+  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
     if (this._isReceivingMessages) {
       throw new Error(
         `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
@@ -892,7 +923,10 @@ export class SessionReceiver extends LinkEntity {
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewLock(): Promise<Date> {
-    return this._context.managementClient!.renewSessionLock(this.sessionId!);
+    this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
+      this.sessionId!
+    );
+    return this.sessionLockedUntilUtc;
   }
 
   /**
