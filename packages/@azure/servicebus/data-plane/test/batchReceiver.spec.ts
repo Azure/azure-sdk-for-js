@@ -140,7 +140,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it.only("Partitioned Queues: complete() removes message", async function(): Promise<void> {
+  it("Partitioned Queues: complete() removes message", async function(): Promise<void> {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testComplete();
   });
