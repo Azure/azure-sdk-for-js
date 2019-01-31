@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -302,6 +302,11 @@ export interface CaptureDescription {
    * capture will be stored. (Storage Account, Blob Names)
    */
   destination?: Destination;
+  /**
+   * @member {boolean} [skipEmptyArchives] A value that indicates whether to
+   * Skip Empty Archives
+   */
+  skipEmptyArchives?: boolean;
 }
 
 /**
