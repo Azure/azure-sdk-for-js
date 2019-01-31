@@ -12,7 +12,6 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  SessionReceiver,
   ServiceBusMessage,
   delay,
   SendableMessageInfo,
@@ -31,7 +30,7 @@ import {
   purge
 } from "./testUtils";
 
-import { Receiver } from "../lib/receiver";
+import { Receiver, SessionReceiverOuter } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
 async function testPeekMsgsLength(
@@ -53,7 +52,7 @@ let errorWasThrown: boolean;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let sender: Sender;
-let receiver: Receiver | SessionReceiver;
+let receiver: Receiver | SessionReceiverOuter;
 
 async function beforeEachTest(
   senderType: ClientType,

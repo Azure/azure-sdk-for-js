@@ -7,14 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import {
-  Namespace,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
-  delay,
-  SessionReceiver
-} from "../lib";
+import { Namespace, QueueClient, TopicClient, SubscriptionClient, delay } from "../lib";
 
 import {
   testSimpleMessages,
@@ -27,7 +20,7 @@ import {
   ClientType,
   purge
 } from "./testUtils";
-import { Receiver } from "../lib/receiver";
+import { Receiver, SessionReceiverOuter } from "../lib/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -45,7 +38,7 @@ let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-let receiver: Receiver | SessionReceiver;
+let receiver: Receiver | SessionReceiverOuter;
 
 async function beforeEachTest(
   senderType: ClientType,

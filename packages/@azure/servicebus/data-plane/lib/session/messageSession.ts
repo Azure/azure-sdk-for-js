@@ -20,12 +20,7 @@ import {
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
-import {
-  ServiceBusMessage,
-  DispositionType,
-  ReceiveMode,
-  ReceivedMessageInfo
-} from "../serviceBusMessage";
+import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { messageDispositionTimeout } from "../util/constants";
 
 export enum Callee {
@@ -176,9 +171,6 @@ export class SessionReceiver extends LinkEntity {
    * @property {Receiver} [_receiver] The AMQP receiver link.
    */
   private _receiver?: Receiver;
-  public get receiver(): Receiver | undefined {
-    return this._receiver;
-  }
   /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
@@ -190,28 +182,16 @@ export class SessionReceiver extends LinkEntity {
    * be wrapped inside _onAmqpMessage.
    */
   private _onMessage!: OnMessage;
-  public set onMessage(onMessage: OnMessage) {
-    this._onMessage = onMessage;
-  }
-  public get context(): any {
-    return this._context;
-  }
   /**
    * @property {OnError} _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    */
   private _onError?: OnError;
-  public set onError(onError: OnError) {
-    this._onError = onError;
-  }
   /**
    * @property {OnError} _notifyError If the user provided error handler is present then it will
    * notify the user's error handler about the error.
    */
   private _notifyError: OnError;
-  public set notifyError(onError: OnError) {
-    this._onError = onError;
-  }
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
@@ -248,20 +228,8 @@ export class SessionReceiver extends LinkEntity {
    * `newMessageWaitTimeoutInSeconds` seconds.
    */
   private _newMessageReceivedTimer?: NodeJS.Timer;
-  public get newMessageReceivedTimer(): NodeJS.Timer | undefined {
-    return this._newMessageReceivedTimer;
-  }
-  public set newMessageReceivedTimer(val: NodeJS.Timer | undefined) {
-    this._newMessageReceivedTimer = val;
-  }
 
   private _isReceivingMessages: boolean;
-  public get isReceivingMessages(): boolean {
-    return this._isReceivingMessages;
-  }
-  public set isReceivingMessages(val: boolean) {
-    this._isReceivingMessages = val;
-  }
   private _totalAutoLockRenewDuration: number;
 
   constructor(context: ClientEntityContext, options?: MessageSessionOptions) {
@@ -943,110 +911,6 @@ export class SessionReceiver extends LinkEntity {
         delivery.reject(options.error || {});
       }
     });
-  }
-
-  /**
-   * Renews the lock for the Session.
-   * @returns Promise<Date> New lock token expiry date and time in UTC format.
-   */
-  async renewLock(): Promise<Date> {
-    this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-      this.sessionId!
-    );
-    return this.sessionLockedUntilUtc;
-  }
-
-  /**
-   * Sets the state of the MessageSession.
-   * @param state The state that needs to be set.
-   */
-  async setState(state: any): Promise<void> {
-    return this._context.managementClient!.setSessionState(this.sessionId!, state);
-  }
-
-  /**
-   * Gets the state of the MessageSession.
-   * @returns Promise<any> The state of that session
-   */
-  async getState(): Promise<any> {
-    return this._context.managementClient!.getSessionState(this.sessionId!);
-  }
-
-  /**
-   * Fetches the next batch of active messages in the current MessageSession. The first call to
-   * `peek()` fetches the first active message for this client. Each subsequent call fetches the
-   * subsequent message in the entity.
-   *
-   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
-   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
-   * `receive() | receiveBatch()` this method will also fetch `Deferred` messages, but
-   * **NOT** `Deadlettered` messages.
-   *
-   * It is especially important to keep in mind when attempting to recover deferred messages from
-   * the queue. A message for which the `expiresAtUtc` instant has passed is no longer eligible for
-   * regular retrieval by any other means, even when it's being returned by `peek()`. Returning
-   * these messages is deliberate, since `peek()` is a diagnostics tool reflecting the current
-   * state of the log.
-   *
-   * @param messageCount The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedMessageInfo[]>
-   */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, messageCount);
-  }
-
-  /**
-   * Peeks the desired number of messages in the MessageSession from the specified sequence number.
-   * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param messageCount The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedMessageInfo[]>
-   */
-  async peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    messageCount?: number
-  ): Promise<ReceivedMessageInfo[]> {
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      sessionId: this.sessionId!,
-      messageCount: messageCount
-    });
-  }
-
-  /**
-   * Receives a deferred message identified by the given `sequenceNumber`.
-   * @param sequenceNumber The sequence number of the message that will be received.
-   * @returns Promise<ServiceBusMessage | undefined>
-   * - Returns `Message` identified by sequence number.
-   * - Returns `undefined` if no such message is found.
-   * - Throws an error if the message has not been deferred.
-   */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
-    if (this.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    return this._context.managementClient!.receiveDeferredMessage(
-      sequenceNumber,
-      this.receiveMode,
-      this.sessionId
-    );
-  }
-
-  /**
-   * Receives a list of deferred messages identified by given `sequenceNumbers`.
-   * @param sequenceNumbers A list containing the sequence numbers to receive.
-   * @returns Promise<ServiceBusMessage[]>
-   * - Returns a list of messages identified by the given sequenceNumbers.
-   * - Returns an empty list if no messages are found.
-   * - Throws an error if the messages have not been deferred.
-   */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
-    if (this.receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
-    return this._context.managementClient!.receiveDeferredMessages(
-      sequenceNumbers,
-      this.receiveMode,
-      this.sessionId
-    );
   }
 
   /**

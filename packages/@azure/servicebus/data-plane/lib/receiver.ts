@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { translate } from "@azure/amqp-common";
 import * as Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
@@ -8,8 +7,7 @@ import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
-import { EventContext, ReceiverEvents } from "rhea-promise";
-import { SessionReceiver, SessionMessageHandlerOptions, Callee } from "./session/messageSession";
+import { SessionReceiver, SessionMessageHandlerOptions } from "./session/messageSession";
 
 /**
  * Describes the options for creating a Receiver.
@@ -432,154 +430,18 @@ export class SessionReceiverOuter {
    * @returns void
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
-    if (this._sessionReceiver.isReceivingMessages) {
-      throw new Error(
-        `MessageSession '${this._sessionReceiver.name}' with sessionId '${this.sessionId}' is ` +
-          `already receiving messages.`
-      );
-    }
-    if (typeof onMessage !== "function") {
-      throw new Error("'onSessionMessage' is a required parameter and must be of type 'function'.");
-    }
-    if (typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
-    }
-    if (!options) options = {};
-    this._sessionReceiver.isReceivingMessages = true;
-    this._sessionReceiver.maxConcurrentCallsPerSession = 1;
-    this._sessionReceiver.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
-
-    // If explicitly set to false then autoComplete is false else true (default).
-    this._sessionReceiver.autoComplete =
-      options.autoComplete === false ? options.autoComplete : true;
-    this._sessionReceiver.onMessage = onMessage;
-    this._sessionReceiver.onError = onError;
-    const connectionId = this._context.namespace.connectionId;
-
-    /**
-     * Resets the timer when a new message is received for Session Manager.
-     * It will close the receiver gracefully, if no
-     * messages were received for the configured newMessageWaitTimeoutInSeconds
-     * @ignore
-     */
-    const resetTimerOnNewMessageReceived = () => {
-      if (this._sessionReceiver.newMessageReceivedTimer) {
-        clearTimeout(this._sessionReceiver.newMessageReceivedTimer);
-      }
-      if (this._sessionReceiver.newMessageWaitTimeoutInSeconds) {
-        this._sessionReceiver.newMessageReceivedTimer = setTimeout(async () => {
-          const msg =
-            `MessageSession '${this.sessionId}' with name '${
-              this._sessionReceiver.name
-            }' did not receive ` +
-            `any messages in the last ${
-              this._sessionReceiver.newMessageWaitTimeoutInSeconds
-            } seconds. Hence closing it.`;
-          log.error("[%s] %s", this._context.namespace.connectionId, msg);
-
-          if (this._sessionReceiver.callee === Callee.sessionManager) {
-            // The session manager will not forward this error to user.
-            // Instead, this is taken as a indicator to create a new session client for the next session.
-            const error = translate({
-              condition: "com.microsoft:message-wait-timeout",
-              description: msg
-            });
-            this._sessionReceiver.notifyError(translate(error));
-          }
-          await this._sessionReceiver.close();
-        }, this._sessionReceiver.newMessageWaitTimeoutInSeconds * 1000);
-      }
-    };
-
-    if (this._sessionReceiver.receiver && this._sessionReceiver.receiver.isOpen()) {
-      const onSessionMessage = async (context: EventContext) => {
-        resetTimerOnNewMessageReceived();
-        const bMessage: ServiceBusMessage = new ServiceBusMessage(
-          this._sessionReceiver.context,
-          context.message!,
-          context.delivery!
-        );
-        try {
-          await this._sessionReceiver.onMessage(bMessage);
-        } catch (err) {
-          const error = translate(err);
-          // Nothing much to do if user's message handler throws. Let us try abandoning the message.
-          if (
-            this._sessionReceiver.receiveMode === ReceiveMode.peekLock &&
-            this._sessionReceiver.isOpen() // only try to abandon the messages if the connection is still open
-          ) {
-            try {
-              log.error(
-                "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
-                  "an error occured: %O.",
-                connectionId,
-                bMessage.messageId,
-                this._sessionReceiver.name,
-                error
-              );
-              await bMessage.abandon();
-            } catch (abandonError) {
-              const translatedError = translate(abandonError);
-              log.error(
-                "[%s] An error occurred while abandoning the message with id '%s' on the " +
-                  "receiver '%s': %O.",
-                connectionId,
-                bMessage.messageId,
-                this._sessionReceiver.name,
-                translatedError
-              );
-              this._sessionReceiver.notifyError(translatedError);
-            }
-          }
-          return;
-        }
-
-        // If we've made it this far, then user's message handler completed fine. Let us try
-        // completing the message.
-        if (
-          this._sessionReceiver.autoComplete &&
-          this._sessionReceiver.receiveMode === ReceiveMode.peekLock &&
-          !bMessage.delivery.remote_settled
-        ) {
-          try {
-            log.messageSession(
-              "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
-              connectionId,
-              bMessage.messageId,
-              this._sessionReceiver.name
-            );
-            await bMessage.complete();
-          } catch (completeError) {
-            const translatedError = translate(completeError);
-            log.error(
-              "[%s] An error occurred while completing the message with id '%s' on the " +
-                "receiver '%s': %O.",
-              connectionId,
-              bMessage.messageId,
-              this._sessionReceiver.name,
-              translatedError
-            );
-            this._sessionReceiver.notifyError(translatedError);
-          }
-        }
-      };
-      // setting the "message" event listener.
-      this._sessionReceiver.receiver.on(ReceiverEvents.message, onSessionMessage);
-      // adding credit
-      this._sessionReceiver.receiver!.setCreditWindow(
-        this._sessionReceiver.maxConcurrentCallsPerSession
-      );
-      this._sessionReceiver.receiver!.addCredit(this._sessionReceiver.maxConcurrentCallsPerSession);
-    } else {
-      this._sessionReceiver.isReceivingMessages = false;
+    try {
+      return this._sessionReceiver.receive(onMessage, onError, options);
+    } catch (err) {
       const msg =
         `MessageSession with sessionId '${this.sessionId}' and name '${
           this._sessionReceiver.name
         }' ` + `has either not been created or is not open.`;
-      log.error("[%s] %s", this._sessionReceiver.context.namespace.connectionId, msg);
-      this._sessionReceiver.notifyError(new Error(msg));
+      log.error("[%s] %s", this._context.namespace.connectionId, msg);
+      throw err;
     }
   }
+
   async close(): Promise<void> {
     try {
       return await this._sessionReceiver.close();

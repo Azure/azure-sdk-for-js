@@ -202,12 +202,7 @@ export class SubscriptionClient extends Client {
    *
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
-  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    if (!options) options = {};
-    this._context.isSessionEnabled = true;
-    return SessionReceiver.create(this._context, options);
-  }
-  async getSessionReceiver2(options?: SessionReceiverOptions): Promise<SessionReceiverOuter> {
+  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiverOuter> {
     if (!options) options = {};
     this._context.isSessionEnabled = true;
     const sessionReceiver = await SessionReceiver.create(this._context, options);
