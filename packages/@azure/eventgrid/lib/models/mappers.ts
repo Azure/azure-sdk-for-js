@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
@@ -1377,6 +1377,63 @@ export const ContainerRegistryImageDeletedEventData: msRest.CompositeMapper = {
   }
 };
 
+export const ContainerRegistryArtifactEventData: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryArtifactEventData",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryArtifactEventData",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "Composite",
+          className: "ContainerRegistryArtifactEventTarget"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryChartPushedEventData: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryChartPushedEventData",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartPushedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryChartDeletedEventData: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryChartDeletedEventData",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartDeletedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
 export const ContainerRegistryEventTarget: msRest.CompositeMapper = {
   serializedName: "ContainerRegistryEventTarget",
   type: {
@@ -1499,6 +1556,58 @@ export const ContainerRegistryEventSource: msRest.CompositeMapper = {
       },
       instanceID: {
         serializedName: "instanceID",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryArtifactEventTarget: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryArtifactEventTarget",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryArtifactEventTarget",
+    modelProperties: {
+      mediaType: {
+        serializedName: "mediaType",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "size",
+        type: {
+          name: "Number"
+        }
+      },
+      digest: {
+        serializedName: "digest",
+        type: {
+          name: "String"
+        }
+      },
+      repository: {
+        serializedName: "repository",
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
         type: {
           name: "String"
         }
@@ -1891,11 +2000,6 @@ export const MediaJobOutputStateChangeEventData: msRest.CompositeMapper = {
         serializedName: "output",
         type: {
           name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "@odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "MediaJobOutput",
           className: "MediaJobOutput"
         }
       },
@@ -1961,11 +2065,6 @@ export const MediaJobFinishedEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
@@ -1989,11 +2088,6 @@ export const MediaJobCanceledEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
@@ -2017,11 +2111,6 @@ export const MediaJobErroredEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "@odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
