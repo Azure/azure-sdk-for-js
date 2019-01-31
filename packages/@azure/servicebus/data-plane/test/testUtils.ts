@@ -192,9 +192,13 @@ export function getReceiverClient(
   throw new Error("Cannot create receiver client for give client type");
 }
 
+/**
+ * Purges the content in the Queue/Subscription corresponding to the receiverClient
+ * @param receiverClient
+ * @param sessionId if passed, session receiver will be used instead of normal receiver
+ */
 export async function purge(
   receiverClient: QueueClient | SubscriptionClient,
-  useSessions?: boolean,
   sessionId?: string
 ): Promise<void> {
   let isEmpty = false;
@@ -204,7 +208,7 @@ export async function purge(
     if (peekedMsgs.length === 0) {
       isEmpty = true;
     } else {
-      const receiver = useSessions
+      const receiver = sessionId
         ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
         : receiverClient.getReceiver();
 
