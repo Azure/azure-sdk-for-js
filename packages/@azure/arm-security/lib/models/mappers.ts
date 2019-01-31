@@ -780,6 +780,13 @@ export const Alert: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      isIncident: {
+        readOnly: true,
+        serializedName: "properties.isIncident",
+        type: {
+          name: "Boolean"
+        }
+      },
       entities: {
         serializedName: "properties.entities",
         type: {
