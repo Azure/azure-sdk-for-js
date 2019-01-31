@@ -1291,6 +1291,12 @@ export const ManagedCluster: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      enablePodSecurityPolicy: {
+        serializedName: "properties.enablePodSecurityPolicy",
+        type: {
+          name: "Boolean"
+        }
+      },
       networkProfile: {
         serializedName: "properties.networkProfile",
         type: {
