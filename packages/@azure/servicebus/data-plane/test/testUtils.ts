@@ -35,28 +35,29 @@ export const testMessagesToSamePartitions: SendableMessageInfo[] = [
 ];
 
 export const testSessionId = "my-session";
+export const testSessionId2 = "my-session2";
 export const testMessagesWithSessions: SendableMessageInfo[] = [
   {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session"
+    sessionId: testSessionId
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session"
+    sessionId: testSessionId
   }
 ];
 export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
   {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session"
+    sessionId: testSessionId
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session2"
+    sessionId: testSessionId2
   }
 ];
 export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
@@ -64,13 +65,13 @@ export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
     partitionKey: "dummy",
-    sessionId: "my-session"
+    sessionId: testSessionId
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
     partitionKey: "dummy",
-    sessionId: "my-session"
+    sessionId: testSessionId
   }
 ];
 
@@ -193,12 +194,12 @@ export function getReceiverClient(
 
 export async function purge(
   receiverClient: QueueClient | SubscriptionClient,
-  useSessions?: boolean
+  sessionId?: string
 ): Promise<void> {
   let isEmpty = false;
 
-  const receiver = useSessions
-    ? await receiverClient.getSessionReceiver({ sessionId: "my-session" })
+  const receiver = sessionId
+    ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
     : receiverClient.getReceiver();
 
   while (!isEmpty) {

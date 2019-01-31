@@ -125,18 +125,10 @@ async function sendOrders(): Promise<void> {
 }
 
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
-  const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = client.getReceiver();
-  const msgs = await receiver.receiveBatch(100);
-  if (msgs) {
-    for (let index = 0; index < msgs.length; index++) {
-      receivedMsgs.push(msgs[index]);
-      await msgs[index].complete();
-    }
-  }
+  const msgs = await receiver.receiveBatch(data.length);
   await receiver.close();
-
-  return receivedMsgs;
+  return msgs;
 }
 
 async function addRules(
