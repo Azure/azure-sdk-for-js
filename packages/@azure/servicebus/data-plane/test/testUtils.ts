@@ -200,7 +200,7 @@ export async function purge(
   let isEmpty = false;
 
   while (!isEmpty) {
-    const peekedMsgs = await receiverClient.peek();
+    const peekedMsgs = await receiverClient.peek(10);
     if (peekedMsgs.length === 0) {
       isEmpty = true;
     } else {
@@ -208,7 +208,7 @@ export async function purge(
         ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
         : receiverClient.getReceiver();
 
-      const msgs = await receiver.receiveBatch(1);
+      const msgs = await receiver.receiveBatch(peekedMsgs.length);
       if (msgs && msgs.length) {
         await msgs[0].complete();
       }
