@@ -32,6 +32,8 @@ steps:
       command: 'custom'
       customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter'
     displayName: 'npm run live-test-client'
+    env:
+      SERVICEBUS_CONNECTION_STRING: $(SERVICEBUS_CONNECTION_STRING)
 
   - task: PublishTestResults@2
     inputs:
