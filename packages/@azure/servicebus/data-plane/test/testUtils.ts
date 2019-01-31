@@ -34,25 +34,25 @@ export const testMessagesToSamePartitions: SendableMessageInfo[] = [
   }
 ];
 
-export const testSessionId = "my-session";
+export const testSessionId1 = "my-session";
 export const testSessionId2 = "my-session2";
 export const testMessagesWithSessions: SendableMessageInfo[] = [
   {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
-    sessionId: testSessionId
+    sessionId: testSessionId1
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
-    sessionId: testSessionId
+    sessionId: testSessionId1
   }
 ];
 export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
   {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
-    sessionId: testSessionId
+    sessionId: testSessionId1
   },
   {
     body: "hello2",
@@ -65,13 +65,13 @@ export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
     partitionKey: "dummy",
-    sessionId: testSessionId
+    sessionId: testSessionId1
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
     partitionKey: "dummy",
-    sessionId: testSessionId
+    sessionId: testSessionId1
   }
 ];
 
@@ -209,8 +209,10 @@ export async function purge(
         : receiverClient.getReceiver();
 
       const msgs = await receiver.receiveBatch(peekedMsgs.length);
-      if (msgs && msgs.length) {
-        await msgs[0].complete();
+      for (let index = 0; index < msgs.length; index++) {
+        if (msgs[index]) {
+          await msgs[index].complete();
+        }
       }
       await receiver.close();
     }
