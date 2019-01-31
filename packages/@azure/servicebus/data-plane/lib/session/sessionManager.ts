@@ -84,8 +84,8 @@ export class SessionManager {
     if (options.maxConcurrentSessions) this.maxConcurrentSessions = options.maxConcurrentSessions;
     // We are explicitly configuring the messageSession to timeout in 60 seconds (if not provided
     // by the user) when no new messages are received.
-    if (!options.maxMessageWaitTimeoutInSeconds) {
-      options.maxMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    if (!options.newMessageWaitTimeoutInSeconds) {
+      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
     this._maxConcurrentSessionsSemaphore = new Semaphore(this.maxConcurrenSessions);
     this._maxPendingAcceptSessionsSemaphore = new Semaphore(

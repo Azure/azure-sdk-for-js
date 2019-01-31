@@ -87,7 +87,7 @@ async function receiveMessage(): Promise<void> {
       } else {
         // we dead-letter the message if we don't know what to do with it.
         console.log(
-          "Unknown message recieved, moving it to dead-letter queue ",
+          "Unknown message received, moving it to dead-letter queue ",
           brokeredMessage.body
         );
         await brokeredMessage.deadLetter();
