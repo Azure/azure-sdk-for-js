@@ -206,7 +206,7 @@ describe("Standard", function(): void {
     process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic";
   const STANDARD_SUBSCRIPTION_SESSION =
     process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-subscription";
-  describe.only("Unpartitioned Topic/Subscription", function(): void {
+  describe("Unpartitioned Topic/Subscription", function(): void {
     const senderClient = namespace.createTopicClient(STANDARD_TOPIC_SESSION);
     const receiverClient = namespace.createSubscriptionClient(
       STANDARD_TOPIC_SESSION,
@@ -480,7 +480,6 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);
 
-  // Sleeping (maxSessionAutoRenewLockDurationInSeconds + lockDuration + buffer) seconds...
   await delay(lockDurationInMilliseconds + 1000);
 
   let errorWasThrown: boolean = false;
