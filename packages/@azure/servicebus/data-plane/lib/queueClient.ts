@@ -127,22 +127,22 @@ export class QueueClient extends Client {
     });
   }
 
-  /**
-   * Lists the ids of the sessions on the ServiceBus Queue.
-   * @param maxNumberOfSessions Maximum number of sessions.
-   * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
-   * value is 3 days before the current time.
-   */
-  async listMessageSessions(
-    maxNumberOfSessions: number,
-    lastUpdatedTime?: Date
-  ): Promise<string[]> {
-    return this._context.managementClient!.listMessageSessions(
-      0,
-      maxNumberOfSessions,
-      lastUpdatedTime
-    );
-  }
+  // /**
+  //  * Lists the ids of the sessions on the ServiceBus Queue.
+  //  * @param maxNumberOfSessions Maximum number of sessions.
+  //  * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
+  //  * value is 3 days before the current time.
+  //  */
+  // async listMessageSessions(
+  //   maxNumberOfSessions: number,
+  //   lastUpdatedTime?: Date
+  // ): Promise<string[]> {
+  //   return this._context.managementClient!.listMessageSessions(
+  //     0,
+  //     maxNumberOfSessions,
+  //     lastUpdatedTime
+  //   );
+  // }
 
   /**
    * Creates a sessionReceiver with given sessionId from the ServiceBus Queue.
