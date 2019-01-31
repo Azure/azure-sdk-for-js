@@ -245,6 +245,337 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
   }
 };
 
+export const DataConnector: msRest.CompositeMapper = {
+  serializedName: "DataConnector",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    uberParent: "DataConnector",
+    className: "DataConnector",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      kind: {
+        required: true,
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataConnectorKind1: msRest.CompositeMapper = {
+  serializedName: "DataConnectorKind",
+  type: {
+    name: "Composite",
+    className: "DataConnectorKind1",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataConnectorContextId: msRest.CompositeMapper = {
+  serializedName: "DataConnectorContextId",
+  type: {
+    name: "Composite",
+    className: "DataConnectorContextId",
+    modelProperties: {
+      contextId: {
+        serializedName: "contextId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataConnectorDataTypeCommon: msRest.CompositeMapper = {
+  serializedName: "DataConnectorDataTypeCommon",
+  type: {
+    name: "Composite",
+    className: "DataConnectorDataTypeCommon",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OfficeDataConnectorDataTypesSharePoint: msRest.CompositeMapper = {
+  serializedName: "OfficeDataConnectorDataTypes_sharePoint",
+  type: {
+    name: "Composite",
+    className: "OfficeDataConnectorDataTypesSharePoint",
+    modelProperties: {
+      ...DataConnectorDataTypeCommon.type.modelProperties
+    }
+  }
+};
+
+export const OfficeDataConnectorDataTypesExchange: msRest.CompositeMapper = {
+  serializedName: "OfficeDataConnectorDataTypes_exchange",
+  type: {
+    name: "Composite",
+    className: "OfficeDataConnectorDataTypesExchange",
+    modelProperties: {
+      ...DataConnectorDataTypeCommon.type.modelProperties
+    }
+  }
+};
+
+export const OfficeDataConnectorDataTypes: msRest.CompositeMapper = {
+  serializedName: "OfficeDataConnectorDataTypes",
+  type: {
+    name: "Composite",
+    className: "OfficeDataConnectorDataTypes",
+    modelProperties: {
+      sharePoint: {
+        serializedName: "sharePoint",
+        type: {
+          name: "Composite",
+          className: "OfficeDataConnectorDataTypesSharePoint"
+        }
+      },
+      exchange: {
+        serializedName: "exchange",
+        type: {
+          name: "Composite",
+          className: "OfficeDataConnectorDataTypesExchange"
+        }
+      }
+    }
+  }
+};
+
+export const OfficeDataConnector: msRest.CompositeMapper = {
+  serializedName: "Office365",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "OfficeDataConnector",
+    modelProperties: {
+      ...DataConnector.type.modelProperties,
+      contextId: {
+        serializedName: "properties.contextId",
+        type: {
+          name: "String"
+        }
+      },
+      dataTypes: {
+        serializedName: "properties.dataTypes",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "OfficeDataConnectorDataTypes"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TIDataConnectorDataTypesIndicators: msRest.CompositeMapper = {
+  serializedName: "TIDataConnectorDataTypes_indicators",
+  type: {
+    name: "Composite",
+    className: "TIDataConnectorDataTypesIndicators",
+    modelProperties: {
+      ...DataConnectorDataTypeCommon.type.modelProperties
+    }
+  }
+};
+
+export const TIDataConnectorDataTypes: msRest.CompositeMapper = {
+  serializedName: "TIDataConnectorDataTypes",
+  type: {
+    name: "Composite",
+    className: "TIDataConnectorDataTypes",
+    modelProperties: {
+      indicators: {
+        serializedName: "indicators",
+        type: {
+          name: "Composite",
+          className: "TIDataConnectorDataTypesIndicators"
+        }
+      }
+    }
+  }
+};
+
+export const TIDataConnector: msRest.CompositeMapper = {
+  serializedName: "ThreatInelegance",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "TIDataConnector",
+    modelProperties: {
+      ...DataConnector.type.modelProperties,
+      contextId: {
+        serializedName: "properties.contextId",
+        type: {
+          name: "String"
+        }
+      },
+      dataTypes: {
+        serializedName: "properties.dataTypes",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "TIDataConnectorDataTypes"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DataConnectorWithAlerts: msRest.CompositeMapper = {
+  serializedName: "DataConnectorWithAlerts",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "DataConnectorWithAlerts",
+    modelProperties: {
+      ...DataConnector.type.modelProperties,
+      contextId: {
+        serializedName: "properties.contextId",
+        type: {
+          name: "String"
+        }
+      },
+      dataTypes: {
+        serializedName: "properties.dataTypes",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "AlertsDataTypeOfDataConnector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AADDataConnector: msRest.CompositeMapper = {
+  serializedName: "AzureActiveDirectory",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "AADDataConnector",
+    modelProperties: {
+      ...DataConnectorWithAlerts.type.modelProperties
+    }
+  }
+};
+
+export const ASCDataConnector: msRest.CompositeMapper = {
+  serializedName: "AzureSecurityCenter",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "ASCDataConnector",
+    modelProperties: {
+      ...DataConnectorWithAlerts.type.modelProperties
+    }
+  }
+};
+
+export const MCASDataConnector: msRest.CompositeMapper = {
+  serializedName: "MicrosoftCloudAappSecurity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "MCASDataConnector",
+    modelProperties: {
+      ...DataConnectorWithAlerts.type.modelProperties
+    }
+  }
+};
+
+export const AlertsDataTypeOfDataConnectorAlerts: msRest.CompositeMapper = {
+  serializedName: "AlertsDataTypeOfDataConnector_alerts",
+  type: {
+    name: "Composite",
+    className: "AlertsDataTypeOfDataConnectorAlerts",
+    modelProperties: {
+      ...DataConnectorDataTypeCommon.type.modelProperties
+    }
+  }
+};
+
+export const AlertsDataTypeOfDataConnector: msRest.CompositeMapper = {
+  serializedName: "AlertsDataTypeOfDataConnector",
+  type: {
+    name: "Composite",
+    className: "AlertsDataTypeOfDataConnector",
+    modelProperties: {
+      alerts: {
+        serializedName: "alerts",
+        type: {
+          name: "Composite",
+          className: "AlertsDataTypeOfDataConnectorAlerts"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -335,7 +666,44 @@ export const AlertRulesList: msRest.CompositeMapper = {
   }
 };
 
+export const DataConnectorList: msRest.CompositeMapper = {
+  serializedName: "DataConnectorList",
+  type: {
+    name: "Composite",
+    className: "DataConnectorList",
+    modelProperties: {
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataConnector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'AlertRule' : AlertRule,
-  'AlertRule.Scheduled' : ScheduledAlertRule
+  'AlertRule.Scheduled' : ScheduledAlertRule,
+  'DataConnector' : DataConnector,
+  'DataConnector.Office365' : OfficeDataConnector,
+  'DataConnector.ThreatInelegance' : TIDataConnector,
+  'DataConnector.AzureActiveDirectory' : AADDataConnector,
+  'DataConnector.AzureSecurityCenter' : ASCDataConnector,
+  'DataConnector.MicrosoftCloudAappSecurity' : MCASDataConnector,
+  'DataConnector.DataConnectorWithAlerts' : DataConnectorWithAlerts
 };
