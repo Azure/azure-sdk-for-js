@@ -365,10 +365,10 @@ export interface OfficeDataConnector {
    */
   contextId?: string;
   /**
-   * @member {{ [propertyName: string]: OfficeDataConnectorDataTypes }}
-   * [dataTypes] The available data types for the connector.
+   * @member {OfficeDataConnectorDataTypes} [dataTypes] The available data
+   * types for the connector.
    */
-  dataTypes?: { [propertyName: string]: OfficeDataConnectorDataTypes };
+  dataTypes?: OfficeDataConnectorDataTypes;
 }
 
 /**
@@ -434,10 +434,10 @@ export interface TIDataConnector {
    */
   contextId?: string;
   /**
-   * @member {{ [propertyName: string]: TIDataConnectorDataTypes }} [dataTypes]
-   * The available data types for the connector.
+   * @member {TIDataConnectorDataTypes} [dataTypes] The available data types
+   * for the connector.
    */
-  dataTypes?: { [propertyName: string]: TIDataConnectorDataTypes };
+  dataTypes?: TIDataConnectorDataTypes;
 }
 
 /**
@@ -484,10 +484,10 @@ export interface DataConnectorWithAlerts {
    */
   contextId?: string;
   /**
-   * @member {{ [propertyName: string]: AlertsDataTypeOfDataConnector }}
-   * [dataTypes] The available data types for the connector.
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
    */
-  dataTypes?: { [propertyName: string]: AlertsDataTypeOfDataConnector };
+  dataTypes?: AlertsDataTypeOfDataConnector;
 }
 
 /**
@@ -529,10 +529,10 @@ export interface AADDataConnector {
    */
   contextId?: string;
   /**
-   * @member {{ [propertyName: string]: AlertsDataTypeOfDataConnector }}
-   * [dataTypes] The available data types for the connector.
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
    */
-  dataTypes?: { [propertyName: string]: AlertsDataTypeOfDataConnector };
+  dataTypes?: AlertsDataTypeOfDataConnector;
 }
 
 /**
@@ -574,10 +574,10 @@ export interface ASCDataConnector {
    */
   contextId?: string;
   /**
-   * @member {{ [propertyName: string]: AlertsDataTypeOfDataConnector }}
-   * [dataTypes] The available data types for the connector.
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
    */
-  dataTypes?: { [propertyName: string]: AlertsDataTypeOfDataConnector };
+  dataTypes?: AlertsDataTypeOfDataConnector;
 }
 
 /**
@@ -619,10 +619,10 @@ export interface MCASDataConnector {
    */
   contextId?: string;
   /**
-   * @member {{ [propertyName: string]: AlertsDataTypeOfDataConnector }}
-   * [dataTypes] The available data types for the connector.
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
    */
-  dataTypes?: { [propertyName: string]: AlertsDataTypeOfDataConnector };
+  dataTypes?: AlertsDataTypeOfDataConnector;
 }
 
 /**

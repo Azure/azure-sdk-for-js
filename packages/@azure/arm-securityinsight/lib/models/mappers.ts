@@ -406,13 +406,8 @@ export const OfficeDataConnector: msRest.CompositeMapper = {
       dataTypes: {
         serializedName: "properties.dataTypes",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "OfficeDataConnectorDataTypes"
-            }
-          }
+          name: "Composite",
+          className: "OfficeDataConnectorDataTypes"
         }
       }
     }
@@ -465,13 +460,8 @@ export const TIDataConnector: msRest.CompositeMapper = {
       dataTypes: {
         serializedName: "properties.dataTypes",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "TIDataConnectorDataTypes"
-            }
-          }
+          name: "Composite",
+          className: "TIDataConnectorDataTypes"
         }
       }
     }
@@ -496,13 +486,8 @@ export const DataConnectorWithAlerts: msRest.CompositeMapper = {
       dataTypes: {
         serializedName: "properties.dataTypes",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "AlertsDataTypeOfDataConnector"
-            }
-          }
+          name: "Composite",
+          className: "AlertsDataTypeOfDataConnector"
         }
       }
     }
