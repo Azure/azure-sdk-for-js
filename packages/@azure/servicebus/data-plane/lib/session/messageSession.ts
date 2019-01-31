@@ -678,6 +678,7 @@ export class SessionReceiver extends LinkEntity {
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEventAsPromise;
+      let onReceiveDrain: OnAmqpEvent;
       let firstMessageWaitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
 
@@ -695,13 +696,14 @@ export class SessionReceiver extends LinkEntity {
         if (firstMessageWaitTimer) {
           clearTimeout(firstMessageWaitTimer);
         }
+        // Removing listeners, so that the next receiveBatch() call can set them again.
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        }
         reject(error);
       };
 
-      const resetCreditWindow = () => {
-        this._receiver!.setCreditWindow(0);
-        this._receiver!.addCredit(0);
-      };
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = () => {
         if (this._newMessageReceivedTimer) {
@@ -720,17 +722,39 @@ export class SessionReceiver extends LinkEntity {
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         }
 
-        this._isReceivingMessages = false;
-        resetCreditWindow();
-        resolve(brokeredMessages);
+        if (this._receiver && this._receiver.credit > 0) {
+          log.messageSession(
+            "[%s] Receiver '%s': Draining leftover credits(%d).",
+            this._context.namespace.connectionId,
+            this.name,
+            this._receiver.credit
+          );
+
+          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
+          this._receiver.drain = true;
+          this._receiver.addCredit(1);
+        } else {
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+
+          this._isReceivingMessages = false;
+          log.messageSession(
+            "[%s] Receiver '%s': Resolving receiveBatch() with %d messages.",
+            this._context.namespace.connectionId,
+            this.name,
+            brokeredMessages.length
+          );
+          resolve(brokeredMessages);
+        }
       };
 
       /**
-       * Resets the timer when a new message is received. It will close the receiver gracefully, if no
-       * messages were received for the configured newMessageWaitTimeoutInSeconds
+       * Resets the timer when a new message is received. If no messages were received for
+       * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
+       * receiver link stays open for the next receive call, but doesnt receive messages until then
        * @ignore
        */
-
       const resetTimerOnNewMessageReceived = () => {
         if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
         if (this.newMessageWaitTimeoutInSeconds) {
@@ -760,6 +784,23 @@ export class SessionReceiver extends LinkEntity {
         return finalAction();
       };
 
+      // Action to be performed on the "receiver_drained" event.
+      onReceiveDrain = (context: EventContext) => {
+        this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        this._receiver!.drain = false;
+
+        this._isReceivingMessages = false;
+
+        log.messageSession(
+          "[%s] Receiver '%s' drained. Resolving receiveBatch() with %d messages.",
+          this._context.namespace.connectionId,
+          this.name,
+          brokeredMessages.length
+        );
+
+        resolve(brokeredMessages);
+      };
+
       // Action to be performed on the "message" event.
       onReceiveMessage = async (context: EventContext) => {
         if (firstMessageWaitTimer) {
@@ -777,6 +818,11 @@ export class SessionReceiver extends LinkEntity {
             brokeredMessages.push(data);
           }
         } catch (err) {
+          // Removing listeners, so that the next receiveBatch() call can set them again.
+          if (this._receiver) {
+            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
           reject(`Error while converting AmqpMessage to ReceivedSBMessage: ${err}`);
         }
         if (brokeredMessages.length === maxMessageCount) {
@@ -807,6 +853,7 @@ export class SessionReceiver extends LinkEntity {
 
       if (this.isOpen()) {
         this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
+        this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
         addCreditAndSetTimer(true);
       } else {
         const msg =
