@@ -14,7 +14,6 @@ import {
   generateUuid,
   TopicClient,
   SendableMessageInfo,
-  delay,
   CorrelationFilter
 } from "../lib";
 import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
