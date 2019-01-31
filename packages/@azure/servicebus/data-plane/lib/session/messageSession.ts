@@ -176,6 +176,9 @@ export class SessionReceiver extends LinkEntity {
    * @property {Receiver} [_receiver] The AMQP receiver link.
    */
   private _receiver?: Receiver;
+  public get receiver(): Receiver | undefined {
+    return this._receiver;
+  }
   /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
@@ -187,16 +190,28 @@ export class SessionReceiver extends LinkEntity {
    * be wrapped inside _onAmqpMessage.
    */
   private _onMessage!: OnMessage;
+  public set onMessage(onMessage: OnMessage) {
+    this._onMessage = onMessage;
+  }
+  public get context(): any {
+    return this._context;
+  }
   /**
    * @property {OnError} _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    */
   private _onError?: OnError;
+  public set onError(onError: OnError) {
+    this._onError = onError;
+  }
   /**
    * @property {OnError} _notifyError If the user provided error handler is present then it will
    * notify the user's error handler about the error.
    */
   private _notifyError: OnError;
+  public set notifyError(onError: OnError) {
+    this._onError = onError;
+  }
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
@@ -233,8 +248,20 @@ export class SessionReceiver extends LinkEntity {
    * `newMessageWaitTimeoutInSeconds` seconds.
    */
   private _newMessageReceivedTimer?: NodeJS.Timer;
+  public get newMessageReceivedTimer(): NodeJS.Timer | undefined {
+    return this._newMessageReceivedTimer;
+  }
+  public set newMessageReceivedTimer(val: NodeJS.Timer | undefined) {
+    this._newMessageReceivedTimer = val;
+  }
 
   private _isReceivingMessages: boolean;
+  public get isReceivingMessages(): boolean {
+    return this._isReceivingMessages;
+  }
+  public set isReceivingMessages(val: boolean) {
+    this._isReceivingMessages = val;
+  }
   private _totalAutoLockRenewDuration: number;
 
   constructor(context: ClientEntityContext, options?: MessageSessionOptions) {

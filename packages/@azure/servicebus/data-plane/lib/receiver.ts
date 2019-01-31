@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
+import { translate } from "@azure/amqp-common";
 import * as Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
+import { EventContext, ReceiverEvents } from "rhea-promise";
+import { SessionReceiver, SessionMessageHandlerOptions, Callee } from "./session/messageSession";
 
 /**
  * Describes the options for creating a Receiver.
@@ -237,6 +239,358 @@ export class Receiver {
         `cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
 
       throw new Error(msg);
+    }
+  }
+}
+
+/**
+ * An abstraction over the underlying session-receiver.
+ */
+export class SessionReceiverOuter {
+  /**
+   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   */
+
+  private _context: ClientEntityContext;
+  private _receiveMode: ReceiveMode;
+  private _sessionId: string | undefined;
+
+  private _sessionReceiver: SessionReceiver;
+
+  public get sessionId(): string {
+    return this._sessionId || "";
+  }
+
+  public get sessionLockedUntilUtc(): Date | undefined {
+    return this._sessionReceiver.sessionLockedUntilUtc;
+  }
+
+  constructor(context: ClientEntityContext, sessionReceiver: SessionReceiver) {
+    this._context = context;
+    this._receiveMode = sessionReceiver.receiveMode;
+    this._sessionId = sessionReceiver.sessionId;
+    this._sessionReceiver = sessionReceiver;
+  }
+
+  /**
+   * Renews the lock for the Session.
+   * @returns Promise<Date> New lock token expiry date and time in UTC format.
+   */
+
+  async renewLock(): Promise<Date> {
+    this._sessionReceiver.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
+      this.sessionId!
+    );
+    return this._sessionReceiver.sessionLockedUntilUtc;
+  }
+
+  /**
+   * Sets the state of the MessageSession.
+   * @param state The state that needs to be set.
+   */
+  async setState(state: any): Promise<void> {
+    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+  }
+
+  /**
+   * Gets the state of the MessageSession.
+   * @returns Promise<any> The state of that session
+   */
+
+  async getState(): Promise<any> {
+    return this._context.managementClient!.getSessionState(this.sessionId!);
+  }
+
+  /**
+   * Fetches the next batch of active messages in the current MessageSession. The first call to
+   * `peek()` fetches the first active message for this client. Each subsequent call fetches the
+   * subsequent message in the entity.
+   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
+   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
+   * `receive() | receiveBatch()` this method will also fetch `Deferred` messages, but
+   * **NOT** `Deadlettered` messages.
+   * It is especially important to keep in mind when attempting to recover deferred messages from
+   * the queue. A message for which the `expiresAtUtc` instant has passed is no longer eligible for
+   * regular retrieval by any other means, even when it's being returned by `peek()`. Returning
+   * these messages is deliberate, since `peek()` is a diagnostics tool reflecting the current
+   * state of the log.
+   *
+   * @param messageCount The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedMessageInfo[]>
+   */
+
+  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, messageCount);
+  }
+
+  /** Peeks the desired number of messages in the MessageSession from the specified sequence number.
+   * @param fromSequenceNumber The sequence number from where to read the message.
+   * @param messageCount The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedMessageInfo[]>
+   */
+
+  async peekBySequenceNumber(
+    fromSequenceNumber: Long,
+    messageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
+      sessionId: this.sessionId!,
+      messageCount: messageCount
+    });
+  }
+
+  /**
+   * Receives a deferred message identified by the given `sequenceNumber`.
+   * @param sequenceNumber The sequence number of the message that will be received.
+   * @returns Promise<ServiceBusMessage | undefined>
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * - Throws an error if the message has not been deferred.
+   */
+
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+
+    return this._context.managementClient!.receiveDeferredMessage(
+      sequenceNumber,
+
+      this._receiveMode,
+
+      this.sessionId
+    );
+  }
+
+  /**
+   * Receives a list of deferred messages identified by given `sequenceNumbers`.
+   * @param sequenceNumbers A list containing the sequence numbers to receive.
+   * @returns Promise<ServiceBusMessage[]>
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * - Throws an error if the messages have not been deferred.
+   */
+
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+
+    return this._context.managementClient!.receiveDeferredMessages(
+      sequenceNumbers,
+
+      this._receiveMode,
+
+      this.sessionId
+    );
+  }
+
+  /**
+   * Returns a batch of messages based on given count and timeout over an AMQP receiver link
+   * from a Queue/Subscription.
+   *
+   * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
+   * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
+   * should wait to receive the first message. If no message is received by this time,
+   * the returned promise gets resolved to an empty array.
+   * - **Default**: `60` seconds.
+   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
+   */
+
+  async receiveBatch(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number
+  ): Promise<ServiceBusMessage[]> {
+    try {
+      return await this._sessionReceiver.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
+    } catch (err) {
+      log.error(
+        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+          "max time:\n %O",
+        this._context.namespace.connectionId,
+        this._sessionReceiver.name,
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        err
+      );
+      throw err;
+    }
+  }
+
+  /**
+   * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
+   * from a Queue/Subscription.
+   * To stop receiving messages, call `close()` on the SessionReceiver or set the property
+   * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   *
+   * @param onMessage - Handler for processing each incoming message.
+   * @param onError - Handler for any error that occurs while receiving or processing messages.
+   * @param options - Options to control whether messages should be automatically completed. You can
+   * also provide a timeout in seconds to denote the amount of time to wait for a new message
+   * before closing the receiver.
+   *
+   * @returns void
+   */
+  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+    if (this._sessionReceiver.isReceivingMessages) {
+      throw new Error(
+        `MessageSession '${this._sessionReceiver.name}' with sessionId '${this.sessionId}' is ` +
+          `already receiving messages.`
+      );
+    }
+    if (typeof onMessage !== "function") {
+      throw new Error("'onSessionMessage' is a required parameter and must be of type 'function'.");
+    }
+    if (typeof onError !== "function") {
+      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+    }
+    if (!options) options = {};
+    this._sessionReceiver.isReceivingMessages = true;
+    this._sessionReceiver.maxConcurrentCallsPerSession = 1;
+    this._sessionReceiver.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
+
+    // If explicitly set to false then autoComplete is false else true (default).
+    this._sessionReceiver.autoComplete =
+      options.autoComplete === false ? options.autoComplete : true;
+    this._sessionReceiver.onMessage = onMessage;
+    this._sessionReceiver.onError = onError;
+    const connectionId = this._context.namespace.connectionId;
+
+    /**
+     * Resets the timer when a new message is received for Session Manager.
+     * It will close the receiver gracefully, if no
+     * messages were received for the configured newMessageWaitTimeoutInSeconds
+     * @ignore
+     */
+    const resetTimerOnNewMessageReceived = () => {
+      if (this._sessionReceiver.newMessageReceivedTimer) {
+        clearTimeout(this._sessionReceiver.newMessageReceivedTimer);
+      }
+      if (this._sessionReceiver.newMessageWaitTimeoutInSeconds) {
+        this._sessionReceiver.newMessageReceivedTimer = setTimeout(async () => {
+          const msg =
+            `MessageSession '${this.sessionId}' with name '${
+              this._sessionReceiver.name
+            }' did not receive ` +
+            `any messages in the last ${
+              this._sessionReceiver.newMessageWaitTimeoutInSeconds
+            } seconds. Hence closing it.`;
+          log.error("[%s] %s", this._context.namespace.connectionId, msg);
+
+          if (this._sessionReceiver.callee === Callee.sessionManager) {
+            // The session manager will not forward this error to user.
+            // Instead, this is taken as a indicator to create a new session client for the next session.
+            const error = translate({
+              condition: "com.microsoft:message-wait-timeout",
+              description: msg
+            });
+            this._sessionReceiver.notifyError(translate(error));
+          }
+          await this._sessionReceiver.close();
+        }, this._sessionReceiver.newMessageWaitTimeoutInSeconds * 1000);
+      }
+    };
+
+    if (this._sessionReceiver.receiver && this._sessionReceiver.receiver.isOpen()) {
+      const onSessionMessage = async (context: EventContext) => {
+        resetTimerOnNewMessageReceived();
+        const bMessage: ServiceBusMessage = new ServiceBusMessage(
+          this._sessionReceiver.context,
+          context.message!,
+          context.delivery!
+        );
+        try {
+          await this._sessionReceiver.onMessage(bMessage);
+        } catch (err) {
+          const error = translate(err);
+          // Nothing much to do if user's message handler throws. Let us try abandoning the message.
+          if (
+            this._sessionReceiver.receiveMode === ReceiveMode.peekLock &&
+            this._sessionReceiver.isOpen() // only try to abandon the messages if the connection is still open
+          ) {
+            try {
+              log.error(
+                "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
+                  "an error occured: %O.",
+                connectionId,
+                bMessage.messageId,
+                this._sessionReceiver.name,
+                error
+              );
+              await bMessage.abandon();
+            } catch (abandonError) {
+              const translatedError = translate(abandonError);
+              log.error(
+                "[%s] An error occurred while abandoning the message with id '%s' on the " +
+                  "receiver '%s': %O.",
+                connectionId,
+                bMessage.messageId,
+                this._sessionReceiver.name,
+                translatedError
+              );
+              this._sessionReceiver.notifyError(translatedError);
+            }
+          }
+          return;
+        }
+
+        // If we've made it this far, then user's message handler completed fine. Let us try
+        // completing the message.
+        if (
+          this._sessionReceiver.autoComplete &&
+          this._sessionReceiver.receiveMode === ReceiveMode.peekLock &&
+          !bMessage.delivery.remote_settled
+        ) {
+          try {
+            log.messageSession(
+              "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
+              connectionId,
+              bMessage.messageId,
+              this._sessionReceiver.name
+            );
+            await bMessage.complete();
+          } catch (completeError) {
+            const translatedError = translate(completeError);
+            log.error(
+              "[%s] An error occurred while completing the message with id '%s' on the " +
+                "receiver '%s': %O.",
+              connectionId,
+              bMessage.messageId,
+              this._sessionReceiver.name,
+              translatedError
+            );
+            this._sessionReceiver.notifyError(translatedError);
+          }
+        }
+      };
+      // setting the "message" event listener.
+      this._sessionReceiver.receiver.on(ReceiverEvents.message, onSessionMessage);
+      // adding credit
+      this._sessionReceiver.receiver!.setCreditWindow(
+        this._sessionReceiver.maxConcurrentCallsPerSession
+      );
+      this._sessionReceiver.receiver!.addCredit(this._sessionReceiver.maxConcurrentCallsPerSession);
+    } else {
+      this._sessionReceiver.isReceivingMessages = false;
+      const msg =
+        `MessageSession with sessionId '${this.sessionId}' and name '${
+          this._sessionReceiver.name
+        }' ` + `has either not been created or is not open.`;
+      log.error("[%s] %s", this._sessionReceiver.context.namespace.connectionId, msg);
+      this._sessionReceiver.notifyError(new Error(msg));
+    }
+  }
+  async close(): Promise<void> {
+    try {
+      return await this._sessionReceiver.close();
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while closing the message session with id '%s': %O.",
+        this._context.namespace.connectionId,
+        this.sessionId,
+        err
+      );
+      throw err;
     }
   }
 }

@@ -8,7 +8,7 @@ import { ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { SessionReceiver, SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
-import { Receiver, MessageReceiverOptions } from "./receiver";
+import { Receiver, MessageReceiverOptions, SessionReceiverOuter } from "./receiver";
 
 export class QueueClient extends Client {
   /**
@@ -160,5 +160,11 @@ export class QueueClient extends Client {
     if (!options) options = {};
     this._context.isSessionEnabled = true;
     return SessionReceiver.create(this._context, options);
+  }
+  async getSessionReceiver2(options?: SessionReceiverOptions): Promise<SessionReceiverOuter> {
+    if (!options) options = {};
+    this._context.isSessionEnabled = true;
+    const sessionReceiver = await SessionReceiver.create(this._context, options);
+    return new SessionReceiverOuter(this._context, sessionReceiver);
   }
 }

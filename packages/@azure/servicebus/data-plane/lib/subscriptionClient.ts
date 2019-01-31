@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { Receiver, MessageReceiverOptions } from "./receiver";
+import { Receiver, MessageReceiverOptions, SessionReceiverOuter } from "./receiver";
 import { ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
@@ -206,6 +206,12 @@ export class SubscriptionClient extends Client {
     if (!options) options = {};
     this._context.isSessionEnabled = true;
     return SessionReceiver.create(this._context, options);
+  }
+  async getSessionReceiver2(options?: SessionReceiverOptions): Promise<SessionReceiverOuter> {
+    if (!options) options = {};
+    this._context.isSessionEnabled = true;
+    const sessionReceiver = await SessionReceiver.create(this._context, options);
+    return new SessionReceiverOuter(this._context, sessionReceiver);
   }
 
   //#endregion

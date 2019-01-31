@@ -420,7 +420,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   await senderClient.getSender().send(testMessage);
 
-  const sessionClient = await receiverClient.getSessionReceiver({
+  const sessionClient = await receiverClient.getSessionReceiver2({
     sessionId: testSessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -469,7 +469,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 ): Promise<void> {
   await senderClient.getSender().send(testMessage);
 
-  let sessionClient = await receiverClient.getSessionReceiver({
+  let sessionClient = await receiverClient.getSessionReceiver2({
     sessionId: testSessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -492,7 +492,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
-  sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
+  sessionClient = await receiverClient.getSessionReceiver2({ sessionId: testSessionId });
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
   await unprocessedMsgs[0].complete();
 }
@@ -507,7 +507,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   let numOfMessagesReceived = 0;
 
   await senderClient.getSender().send(testMessage);
-  const sessionClient = await receiverClient.getSessionReceiver({
+  const sessionClient = await receiverClient.getSessionReceiver2({
     sessionId: testSessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -577,7 +577,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   await senderClient.getSender().send(testMessage);
 
-  let sessionClient = await receiverClient.getSessionReceiver({
+  let sessionClient = await receiverClient.getSessionReceiver2({
     sessionId: testSessionId,
     maxSessionAutoRenewLockDurationInSeconds: options.maxSessionAutoRenewLockDurationInSeconds
   });
@@ -622,7 +622,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
+    sessionClient = await receiverClient.getSessionReceiver2({ sessionId: testSessionId });
     const unprocessedMsgs = await sessionClient.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }
