@@ -6,9 +6,9 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
-import { SessionReceiver, SessionReceiverOptions } from "./session/messageSession";
+import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
-import { Receiver, MessageReceiverOptions, SessionReceiverOuter } from "./receiver";
+import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
 
 export class QueueClient extends Client {
   /**
@@ -156,10 +156,10 @@ export class QueueClient extends Client {
    *
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
-  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiverOuter> {
+  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
     if (!options) options = {};
     this._context.isSessionEnabled = true;
-    const sessionReceiver = await SessionReceiver.create(this._context, options);
-    return new SessionReceiverOuter(this._context, sessionReceiver);
+    const sessionReceiver = await MessageSession.create(this._context, options);
+    return new SessionReceiver(this._context, sessionReceiver);
   }
 }

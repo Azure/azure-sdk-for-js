@@ -27,7 +27,7 @@ import {
   purge
 } from "./testUtils";
 import { Sender } from "../lib/sender";
-import { SessionReceiverOuter } from "../lib/receiver";
+import { SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -46,7 +46,7 @@ let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
-let sessionReceiver: SessionReceiverOuter;
+let sessionReceiver: SessionReceiver;
 let sender: Sender;
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;

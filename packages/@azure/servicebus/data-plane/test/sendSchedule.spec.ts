@@ -20,7 +20,7 @@ import {
   ClientType,
   purge
 } from "./testUtils";
-import { Receiver, SessionReceiverOuter } from "../lib/receiver";
+import { Receiver, SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -38,7 +38,7 @@ let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-let receiver: Receiver | SessionReceiverOuter;
+let receiver: Receiver | SessionReceiver;
 
 async function beforeEachTest(
   senderType: ClientType,

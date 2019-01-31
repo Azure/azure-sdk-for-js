@@ -23,7 +23,7 @@ export { Receiver, MessageReceiverOptions } from "./receiver";
 
 export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
-export { SessionReceiver, SessionReceiverOptions } from "./session/messageSession";
+export { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 
 export { SQLExpression, CorrelationFilter, RuleDescription } from "./core/managementClient";
 

@@ -7,7 +7,7 @@ import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
-import { SessionReceiver, SessionMessageHandlerOptions } from "./session/messageSession";
+import { MessageSession, SessionMessageHandlerOptions } from "./session/messageSession";
 
 /**
  * Describes the options for creating a Receiver.
@@ -244,7 +244,7 @@ export class Receiver {
 /**
  * An abstraction over the underlying session-receiver.
  */
-export class SessionReceiverOuter {
+export class SessionReceiver {
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
@@ -253,7 +253,7 @@ export class SessionReceiverOuter {
   private _receiveMode: ReceiveMode;
   private _sessionId: string | undefined;
 
-  private _sessionReceiver: SessionReceiver;
+  private _sessionReceiver: MessageSession;
 
   public get sessionId(): string {
     return this._sessionId || "";
@@ -263,7 +263,7 @@ export class SessionReceiverOuter {
     return this._sessionReceiver.sessionLockedUntilUtc;
   }
 
-  constructor(context: ClientEntityContext, sessionReceiver: SessionReceiver) {
+  constructor(context: ClientEntityContext, sessionReceiver: MessageSession) {
     this._context = context;
     this._receiveMode = sessionReceiver.receiveMode;
     this._sessionId = sessionReceiver.sessionId;

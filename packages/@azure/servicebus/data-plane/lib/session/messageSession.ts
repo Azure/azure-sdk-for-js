@@ -110,7 +110,7 @@ export type MessageSessionOptions = SessionManagerOptions &
 /**
  * Describes the receiver for a Message Session.
  */
-export class SessionReceiver extends LinkEntity {
+export class MessageSession extends LinkEntity {
   /**
    * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
    */
@@ -1140,8 +1140,8 @@ export class SessionReceiver extends LinkEntity {
   static async create(
     context: ClientEntityContext,
     options?: MessageSessionOptions
-  ): Promise<SessionReceiver> {
-    const messageSession = new SessionReceiver(context, options);
+  ): Promise<MessageSession> {
+    const messageSession = new MessageSession(context, options);
     await messageSession._init();
     return messageSession;
   }
