@@ -194,25 +194,25 @@ export function getReceiverClient(
 
 export async function purge(
   receiverClient: QueueClient | SubscriptionClient,
+  useSessions?: boolean,
   sessionId?: string
 ): Promise<void> {
   let isEmpty = false;
-
-  const receiver = sessionId
-    ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
-    : receiverClient.getReceiver();
 
   while (!isEmpty) {
     const peekedMsgs = await receiverClient.peek();
     if (peekedMsgs.length === 0) {
       isEmpty = true;
     } else {
+      const receiver = useSessions
+        ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
+        : receiverClient.getReceiver();
+
       const msgs = await receiver.receiveBatch(1);
       if (msgs && msgs.length) {
         await msgs[0].complete();
       }
+      await receiver.close();
     }
   }
-
-  await receiver.close();
 }

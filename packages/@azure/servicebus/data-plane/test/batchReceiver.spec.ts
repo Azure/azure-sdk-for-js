@@ -88,7 +88,7 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, testSessionId);
+  await purge(receiverClient, useSessions, testSessionId);
   await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
