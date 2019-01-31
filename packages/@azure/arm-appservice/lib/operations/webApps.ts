@@ -1197,158 +1197,6 @@ export class WebApps {
   }
 
   /**
-   * Gets a Swift Virtual Network connection.
-   * @summary Gets a Swift Virtual Network connection.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>
-   */
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      getSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        options
-      },
-      createOrUpdateSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
-  }
-
-  /**
-   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      deleteSwiftVirtualNetworkOperationSpec,
-      callback);
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        options
-      },
-      updateSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
-  }
-
-  /**
    * Gets the configuration of an app, such as platform version and bitness, default documents,
    * virtual applications, Always On, etc.
    * @summary Gets the configuration of an app, such as platform version and bitness, default
@@ -3776,6 +3624,158 @@ export class WebApps {
       },
       getMigrateMySqlStatusOperationSpec,
       callback) as Promise<Models.WebAppsGetMigrateMySqlStatusResponse>;
+  }
+
+  /**
+   * Gets a Swift Virtual Network connection.
+   * @summary Gets a Swift Virtual Network connection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>
+   */
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getSwiftVirtualNetworkConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionResponse>;
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>
+   */
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        options
+      },
+      createOrUpdateSwiftVirtualNetworkConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
+  }
+
+  /**
+   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      deleteSwiftVirtualNetworkOperationSpec,
+      callback);
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>
+   */
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        options
+      },
+      updateSwiftVirtualNetworkConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
   }
 
   /**
@@ -6398,186 +6398,6 @@ export class WebApps {
       },
       listSitePushSettingsSlotOperationSpec,
       callback) as Promise<Models.WebAppsListSitePushSettingsSlotResponse>;
-  }
-
-  /**
-   * Gets a Swift Virtual Network connection.
-   * @summary Gets a Swift Virtual Network connection.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
-   * for the production slot's Virtual Network.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
-   * for the production slot's Virtual Network.
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
-   * for the production slot's Virtual Network.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        slot,
-        options
-      },
-      getSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        slot,
-        options
-      },
-      createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  }
-
-  /**
-   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
-   * connection for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
-   * connection for the production slot.
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
-   * connection for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        slot,
-        options
-      },
-      deleteSwiftVirtualNetworkSlotOperationSpec,
-      callback);
-  }
-
-  /**
-   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
-   * when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        slot,
-        options
-      },
-      updateSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
   }
 
   /**
@@ -9375,6 +9195,186 @@ export class WebApps {
       },
       getMigrateMySqlStatusSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetMigrateMySqlStatusSlotResponse>;
+  }
+
+  /**
+   * Gets a Swift Virtual Network connection.
+   * @summary Gets a Swift Virtual Network connection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
+   * for the production slot's Virtual Network.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>
+   */
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
+   * for the production slot's Virtual Network.
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway
+   * for the production slot's Virtual Network.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getSwiftVirtualNetworkConnectionSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>
+   */
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        slot,
+        options
+      },
+      createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec,
+      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
+  }
+
+  /**
+   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
+   * connection for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
+   * connection for the production slot.
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
+   * connection for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      deleteSwiftVirtualNetworkSlotOperationSpec,
+      callback);
+  }
+
+  /**
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true
+   * when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
+   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
+   * delegated, and is not
+   * in use by another App Service Plan other than the one this App is in.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>
+   */
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
+   * connections for the production slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
+  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionEnvelope,
+        slot,
+        options
+      },
+      updateSwiftVirtualNetworkConnectionSlotOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
   }
 
   /**
@@ -15646,7 +15646,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15671,7 +15671,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.includeSlots,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15696,7 +15696,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15724,7 +15724,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.deleteMetrics,
     Parameters.deleteEmptyServerFarm,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15749,7 +15749,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15785,7 +15785,7 @@ const analyzeCustomHostnameOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.hostName0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15810,7 +15810,7 @@ const applySlotConfigToProductionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15840,7 +15840,7 @@ const backupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15872,7 +15872,7 @@ const listBackupsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15898,7 +15898,7 @@ const getBackupStatusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15924,7 +15924,7 @@ const deleteBackupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15949,7 +15949,7 @@ const listBackupStatusSecretsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -15981,7 +15981,7 @@ const listConfigurationsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16006,7 +16006,7 @@ const updateApplicationSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16038,7 +16038,7 @@ const listApplicationSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16063,7 +16063,7 @@ const updateAuthSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16095,7 +16095,7 @@ const getAuthSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16120,7 +16120,7 @@ const updateAzureStorageAccountsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16152,7 +16152,7 @@ const listAzureStorageAccountsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16177,7 +16177,7 @@ const updateBackupConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16209,7 +16209,7 @@ const deleteBackupConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16232,7 +16232,7 @@ const getBackupConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16257,7 +16257,7 @@ const updateConnectionStringsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16289,7 +16289,7 @@ const listConnectionStringsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16314,7 +16314,7 @@ const getDiagnosticLogsConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16339,7 +16339,7 @@ const updateDiagnosticLogsConfigOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16371,7 +16371,7 @@ const updateMetadataOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16403,7 +16403,7 @@ const listMetadataOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16428,7 +16428,7 @@ const updateSitePushSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16460,7 +16460,7 @@ const listSitePushSettingsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16485,7 +16485,7 @@ const listSlotConfigurationNamesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16510,7 +16510,7 @@ const updateSlotConfigurationNamesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16533,119 +16533,6 @@ const updateSlotConfigurationNamesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
 const getConfigurationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web",
@@ -16655,7 +16542,7 @@ const getConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16680,7 +16567,7 @@ const createOrUpdateConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16712,7 +16599,7 @@ const updateConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16744,7 +16631,7 @@ const listConfigurationSnapshotInfoOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16770,7 +16657,7 @@ const getConfigurationSnapshotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16796,7 +16683,7 @@ const recoverSiteConfigurationSnapshotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16819,7 +16706,7 @@ const getWebSiteContainerLogsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16850,7 +16737,7 @@ const getContainerLogsZipOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16881,7 +16768,7 @@ const listContinuousWebJobsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16907,7 +16794,7 @@ const getContinuousWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16934,7 +16821,7 @@ const deleteContinuousWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16959,7 +16846,7 @@ const startContinuousWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -16984,7 +16871,7 @@ const stopContinuousWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17008,7 +16895,7 @@ const listDeploymentsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17034,7 +16921,7 @@ const getDeploymentOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17060,7 +16947,7 @@ const createDeploymentOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17093,7 +16980,7 @@ const deleteDeploymentOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17118,7 +17005,7 @@ const listDeploymentLogOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17143,7 +17030,7 @@ const discoverBackupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17175,7 +17062,7 @@ const listDomainOwnershipIdentifiersOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17201,7 +17088,7 @@ const getDomainOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17227,7 +17114,7 @@ const createOrUpdateDomainOwnershipIdentifierOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17260,7 +17147,7 @@ const deleteDomainOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17285,7 +17172,7 @@ const updateDomainOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17317,7 +17204,7 @@ const getMSDeployStatusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17342,7 +17229,7 @@ const getMSDeployLogOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17368,7 +17255,7 @@ const listFunctionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17394,7 +17281,7 @@ const getFunctionsAdminTokenOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17425,7 +17312,7 @@ const getFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17452,7 +17339,7 @@ const deleteFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17477,7 +17364,7 @@ const listFunctionSecretsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17502,7 +17389,7 @@ const listHostNameBindingsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17528,7 +17415,7 @@ const getHostNameBindingOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17554,7 +17441,7 @@ const createOrUpdateHostNameBindingOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17587,7 +17474,7 @@ const deleteHostNameBindingOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17613,7 +17500,7 @@ const getHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17640,7 +17527,7 @@ const createOrUpdateHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17674,7 +17561,7 @@ const deleteHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17700,7 +17587,7 @@ const updateHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17734,7 +17621,7 @@ const listHybridConnectionKeysOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17759,7 +17646,7 @@ const listHybridConnectionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17784,7 +17671,7 @@ const listRelayServiceConnectionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17810,7 +17697,7 @@ const getRelayServiceConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17836,7 +17723,7 @@ const createOrUpdateRelayServiceConnectionOperationSpec: msRest.OperationSpec = 
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17869,7 +17756,7 @@ const deleteRelayServiceConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17894,7 +17781,7 @@ const updateRelayServiceConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17926,7 +17813,7 @@ const listInstanceIdentifiersOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17952,7 +17839,7 @@ const getInstanceMsDeployStatusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -17978,7 +17865,7 @@ const getInstanceMSDeployLogOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18005,7 +17892,7 @@ const listInstanceProcessesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18033,7 +17920,7 @@ const getInstanceProcessOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18061,7 +17948,7 @@ const deleteInstanceProcessOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18087,7 +17974,7 @@ const getInstanceProcessDumpOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18120,7 +18007,7 @@ const listInstanceProcessModulesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18149,7 +18036,7 @@ const getInstanceProcessModuleOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18177,7 +18064,7 @@ const listInstanceProcessThreadsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18206,7 +18093,7 @@ const getInstanceProcessThreadOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18232,7 +18119,7 @@ const isCloneableOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18257,7 +18144,7 @@ const listSyncFunctionTriggersOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18282,7 +18169,7 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18309,7 +18196,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.details,
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18334,7 +18221,7 @@ const getMigrateMySqlStatusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18342,6 +18229,119 @@ const getMigrateMySqlStatusOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.MigrateMySqlStatus
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -18360,7 +18360,7 @@ const listNetworkFeaturesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18387,7 +18387,7 @@ const getNetworkTraceOperationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18440,7 +18440,7 @@ const startWebSiteNetworkTraceOperationSpec: msRest.OperationSpec = {
     Parameters.durationInSeconds,
     Parameters.maxFrameLength,
     Parameters.sasUrl,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18470,7 +18470,7 @@ const stopWebSiteNetworkTraceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18495,7 +18495,7 @@ const getNetworkTracesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18532,7 +18532,7 @@ const getNetworkTraceOperationV2OperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18583,7 +18583,7 @@ const getNetworkTracesV2OperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18619,7 +18619,7 @@ const generateNewSitePublishingPasswordOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18644,7 +18644,7 @@ const listPerfMonCountersOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18669,7 +18669,7 @@ const getSitePhpErrorLogFlagOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18694,7 +18694,7 @@ const listPremierAddOnsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18720,7 +18720,7 @@ const getPremierAddOnOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18746,7 +18746,7 @@ const addPremierAddOnOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18779,7 +18779,7 @@ const deletePremierAddOnOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18803,7 +18803,7 @@ const updatePremierAddOnOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18835,7 +18835,7 @@ const getPrivateAccessOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18860,7 +18860,7 @@ const putPrivateAccessVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18892,7 +18892,7 @@ const listProcessesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18919,7 +18919,7 @@ const getProcessOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18946,7 +18946,7 @@ const deleteProcessOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -18971,7 +18971,7 @@ const getProcessDumpOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19003,7 +19003,7 @@ const listProcessModulesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19031,7 +19031,7 @@ const getProcessModuleOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19058,7 +19058,7 @@ const listProcessThreadsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19086,7 +19086,7 @@ const getProcessThreadOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19112,7 +19112,7 @@ const listPublicCertificatesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19138,7 +19138,7 @@ const getPublicCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19164,7 +19164,7 @@ const createOrUpdatePublicCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19197,7 +19197,7 @@ const deletePublicCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19221,7 +19221,7 @@ const listPublishingProfileXmlWithSecretsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19258,7 +19258,7 @@ const resetProductionSlotConfigOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19283,7 +19283,7 @@ const restartOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.softRestart,
     Parameters.synchronous,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19306,7 +19306,7 @@ const listSiteExtensionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19333,7 +19333,7 @@ const getSiteExtensionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19360,7 +19360,7 @@ const deleteSiteExtensionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19384,7 +19384,7 @@ const listSlotsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19410,7 +19410,7 @@ const getSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19439,7 +19439,7 @@ const deleteSlotOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.deleteMetrics,
     Parameters.deleteEmptyServerFarm,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19465,7 +19465,7 @@ const updateSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19502,7 +19502,7 @@ const analyzeCustomHostnameSlotOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.hostName0,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19528,7 +19528,7 @@ const applySlotConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19559,7 +19559,7 @@ const backupSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19592,7 +19592,7 @@ const listBackupsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19619,7 +19619,7 @@ const getBackupStatusSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19646,7 +19646,7 @@ const deleteBackupSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19672,7 +19672,7 @@ const listBackupStatusSecretsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19705,7 +19705,7 @@ const listConfigurationsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19731,7 +19731,7 @@ const updateApplicationSettingsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19764,7 +19764,7 @@ const listApplicationSettingsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19790,7 +19790,7 @@ const updateAuthSettingsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19823,7 +19823,7 @@ const getAuthSettingsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19849,7 +19849,7 @@ const updateAzureStorageAccountsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19882,7 +19882,7 @@ const listAzureStorageAccountsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19908,7 +19908,7 @@ const updateBackupConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19941,7 +19941,7 @@ const deleteBackupConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19965,7 +19965,7 @@ const getBackupConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -19991,7 +19991,7 @@ const updateConnectionStringsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20024,7 +20024,7 @@ const listConnectionStringsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20050,7 +20050,7 @@ const getDiagnosticLogsConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20076,7 +20076,7 @@ const updateDiagnosticLogsConfigSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20109,7 +20109,7 @@ const updateMetadataSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20142,7 +20142,7 @@ const listMetadataSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20168,7 +20168,7 @@ const updateSitePushSettingsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20201,7 +20201,7 @@ const listSitePushSettingsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20209,123 +20209,6 @@ const listSitePushSettingsSlotOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PushSettings
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const getSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -20344,7 +20227,7 @@ const getConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20370,7 +20253,7 @@ const createOrUpdateConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20403,7 +20286,7 @@ const updateConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20436,7 +20319,7 @@ const listConfigurationSnapshotInfoSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20463,7 +20346,7 @@ const getConfigurationSnapshotSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20490,7 +20373,7 @@ const recoverSiteConfigurationSnapshotSlotOperationSpec: msRest.OperationSpec = 
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20514,7 +20397,7 @@ const getWebSiteContainerLogsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20546,7 +20429,7 @@ const getContainerLogsZipSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20578,7 +20461,7 @@ const listContinuousWebJobsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20605,7 +20488,7 @@ const getContinuousWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20633,7 +20516,7 @@ const deleteContinuousWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20659,7 +20542,7 @@ const startContinuousWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20685,7 +20568,7 @@ const stopContinuousWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20710,7 +20593,7 @@ const listDeploymentsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20737,7 +20620,7 @@ const getDeploymentSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20764,7 +20647,7 @@ const createDeploymentSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20798,7 +20681,7 @@ const deleteDeploymentSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20824,7 +20707,7 @@ const listDeploymentLogSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20850,7 +20733,7 @@ const discoverBackupSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20883,7 +20766,7 @@ const listDomainOwnershipIdentifiersSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20910,7 +20793,7 @@ const getDomainOwnershipIdentifierSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20937,7 +20820,7 @@ const createOrUpdateDomainOwnershipIdentifierSlotOperationSpec: msRest.Operation
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20971,7 +20854,7 @@ const deleteDomainOwnershipIdentifierSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -20997,7 +20880,7 @@ const updateDomainOwnershipIdentifierSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21030,7 +20913,7 @@ const getMSDeployStatusSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21056,7 +20939,7 @@ const getMSDeployLogSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21083,7 +20966,7 @@ const listInstanceFunctionsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21110,7 +20993,7 @@ const getFunctionsAdminTokenSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21142,7 +21025,7 @@ const getInstanceFunctionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21170,7 +21053,7 @@ const deleteInstanceFunctionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21196,7 +21079,7 @@ const listFunctionSecretsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21222,7 +21105,7 @@ const listHostNameBindingsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21249,7 +21132,7 @@ const getHostNameBindingSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21276,7 +21159,7 @@ const createOrUpdateHostNameBindingSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21310,7 +21193,7 @@ const deleteHostNameBindingSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21337,7 +21220,7 @@ const getHybridConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21365,7 +21248,7 @@ const createOrUpdateHybridConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21400,7 +21283,7 @@ const deleteHybridConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21427,7 +21310,7 @@ const updateHybridConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21462,7 +21345,7 @@ const listHybridConnectionKeysSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21488,7 +21371,7 @@ const listHybridConnectionsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21514,7 +21397,7 @@ const listRelayServiceConnectionsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21541,7 +21424,7 @@ const getRelayServiceConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21568,7 +21451,7 @@ const createOrUpdateRelayServiceConnectionSlotOperationSpec: msRest.OperationSpe
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21602,7 +21485,7 @@ const deleteRelayServiceConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21628,7 +21511,7 @@ const updateRelayServiceConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21661,7 +21544,7 @@ const listInstanceIdentifiersSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21688,7 +21571,7 @@ const getInstanceMsDeployStatusSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21715,7 +21598,7 @@ const getInstanceMSDeployLogSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21743,7 +21626,7 @@ const listInstanceProcessesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21772,7 +21655,7 @@ const getInstanceProcessSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21801,7 +21684,7 @@ const deleteInstanceProcessSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21828,7 +21711,7 @@ const getInstanceProcessDumpSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21862,7 +21745,7 @@ const listInstanceProcessModulesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21892,7 +21775,7 @@ const getInstanceProcessModuleSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21921,7 +21804,7 @@ const listInstanceProcessThreadsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21951,7 +21834,7 @@ const getInstanceProcessThreadSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -21978,7 +21861,7 @@ const isCloneableSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22004,7 +21887,7 @@ const listSyncFunctionTriggersSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22030,7 +21913,7 @@ const listMetricDefinitionsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22058,7 +21941,7 @@ const listMetricsSlotOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.details,
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22084,7 +21967,7 @@ const getMigrateMySqlStatusSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22092,6 +21975,123 @@ const getMigrateMySqlStatusSlotOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.MigrateMySqlStatus
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectionEnvelope",
+    mapper: {
+      ...Mappers.SwiftVirtualNetwork,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -22111,7 +22111,7 @@ const listNetworkFeaturesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22139,7 +22139,7 @@ const getNetworkTraceOperationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22193,7 +22193,7 @@ const startWebSiteNetworkTraceSlotOperationSpec: msRest.OperationSpec = {
     Parameters.durationInSeconds,
     Parameters.maxFrameLength,
     Parameters.sasUrl,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22224,7 +22224,7 @@ const stopWebSiteNetworkTraceSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22250,7 +22250,7 @@ const getNetworkTracesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22288,7 +22288,7 @@ const getNetworkTraceOperationSlotV2OperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22340,7 +22340,7 @@ const getNetworkTracesSlotV2OperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22377,7 +22377,7 @@ const generateNewSitePublishingPasswordSlotOperationSpec: msRest.OperationSpec =
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22403,7 +22403,7 @@ const listPerfMonCountersSlotOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22429,7 +22429,7 @@ const getSitePhpErrorLogFlagSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22455,7 +22455,7 @@ const listPremierAddOnsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22482,7 +22482,7 @@ const getPremierAddOnSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22509,7 +22509,7 @@ const addPremierAddOnSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22543,7 +22543,7 @@ const deletePremierAddOnSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22568,7 +22568,7 @@ const updatePremierAddOnSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22601,7 +22601,7 @@ const getPrivateAccessSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22627,7 +22627,7 @@ const putPrivateAccessVnetSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22660,7 +22660,7 @@ const listProcessesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22688,7 +22688,7 @@ const getProcessSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22716,7 +22716,7 @@ const deleteProcessSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22742,7 +22742,7 @@ const getProcessDumpSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22775,7 +22775,7 @@ const listProcessModulesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22804,7 +22804,7 @@ const getProcessModuleSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22832,7 +22832,7 @@ const listProcessThreadsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22861,7 +22861,7 @@ const getProcessThreadSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22888,7 +22888,7 @@ const listPublicCertificatesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22915,7 +22915,7 @@ const getPublicCertificateSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22942,7 +22942,7 @@ const createOrUpdatePublicCertificateSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -22976,7 +22976,7 @@ const deletePublicCertificateSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23001,7 +23001,7 @@ const listPublishingProfileXmlWithSecretsSlotOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23039,7 +23039,7 @@ const resetSlotConfigurationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23065,7 +23065,7 @@ const restartSlotOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.softRestart,
     Parameters.synchronous,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23089,7 +23089,7 @@ const listSiteExtensionsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23117,7 +23117,7 @@ const getSiteExtensionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23145,7 +23145,7 @@ const deleteSiteExtensionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23170,7 +23170,7 @@ const listSlotDifferencesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23203,7 +23203,7 @@ const listSnapshotsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23229,7 +23229,7 @@ const listSnapshotsFromDRSecondarySlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23255,7 +23255,7 @@ const getSourceControlSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23287,7 +23287,7 @@ const deleteSourceControlSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23313,7 +23313,7 @@ const updateSourceControlSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23352,7 +23352,7 @@ const startSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23376,7 +23376,7 @@ const stopSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23400,7 +23400,7 @@ const stopNetworkTraceSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23425,7 +23425,7 @@ const syncRepositorySlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23449,7 +23449,7 @@ const syncFunctionTriggersSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23473,7 +23473,7 @@ const listTriggeredWebJobsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23500,7 +23500,7 @@ const getTriggeredWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23528,7 +23528,7 @@ const deleteTriggeredWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23554,7 +23554,7 @@ const listTriggeredWebJobHistorySlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23583,7 +23583,7 @@ const getTriggeredWebJobHistorySlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23611,7 +23611,7 @@ const runTriggeredWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23637,7 +23637,7 @@ const listUsagesSlotOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23663,7 +23663,7 @@ const listVnetConnectionsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23701,7 +23701,7 @@ const getVnetConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23728,7 +23728,7 @@ const createOrUpdateVnetConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23762,7 +23762,7 @@ const deleteVnetConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23788,7 +23788,7 @@ const updateVnetConnectionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23823,7 +23823,7 @@ const getVnetConnectionGatewaySlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23852,7 +23852,7 @@ const createOrUpdateVnetConnectionGatewaySlotOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23887,7 +23887,7 @@ const updateVnetConnectionGatewaySlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23920,7 +23920,7 @@ const listWebJobsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23947,7 +23947,7 @@ const getWebJobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -23972,7 +23972,7 @@ const listSlotDifferencesFromProductionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24004,7 +24004,7 @@ const listSnapshotsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24029,7 +24029,7 @@ const listSnapshotsFromDRSecondaryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24054,7 +24054,7 @@ const getSourceControlOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24085,7 +24085,7 @@ const deleteSourceControlOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24110,7 +24110,7 @@ const updateSourceControlOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24148,7 +24148,7 @@ const startOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24171,7 +24171,7 @@ const stopOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24194,7 +24194,7 @@ const stopNetworkTraceOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24218,7 +24218,7 @@ const syncRepositoryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24241,7 +24241,7 @@ const syncFunctionTriggersOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24264,7 +24264,7 @@ const listTriggeredWebJobsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24290,7 +24290,7 @@ const getTriggeredWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24317,7 +24317,7 @@ const deleteTriggeredWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24342,7 +24342,7 @@ const listTriggeredWebJobHistoryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24370,7 +24370,7 @@ const getTriggeredWebJobHistoryOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24397,7 +24397,7 @@ const runTriggeredWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24422,7 +24422,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24447,7 +24447,7 @@ const listVnetConnectionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24484,7 +24484,7 @@ const getVnetConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24510,7 +24510,7 @@ const createOrUpdateVnetConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24543,7 +24543,7 @@ const deleteVnetConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24568,7 +24568,7 @@ const updateVnetConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24602,7 +24602,7 @@ const getVnetConnectionGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24630,7 +24630,7 @@ const createOrUpdateVnetConnectionGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24664,7 +24664,7 @@ const updateVnetConnectionGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24696,7 +24696,7 @@ const listWebJobsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24722,7 +24722,7 @@ const getWebJobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24747,7 +24747,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24783,7 +24783,7 @@ const beginRestoreOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24814,7 +24814,7 @@ const beginListPublishingCredentialsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24839,7 +24839,7 @@ const beginCreateMSDeployOperationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24873,7 +24873,7 @@ const beginCreateFunctionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24906,7 +24906,7 @@ const beginCreateInstanceMSDeployOperationOperationSpec: msRest.OperationSpec = 
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24940,7 +24940,7 @@ const beginMigrateStorageOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.subscriptionName,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -24972,7 +24972,7 @@ const beginMigrateMySqlOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25007,7 +25007,7 @@ const beginStartWebSiteNetworkTraceOperationOperationSpec: msRest.OperationSpec 
     Parameters.durationInSeconds,
     Parameters.maxFrameLength,
     Parameters.sasUrl,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25057,7 +25057,7 @@ const beginRestoreFromBackupBlobOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25088,7 +25088,7 @@ const beginRestoreFromDeletedAppOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25119,7 +25119,7 @@ const beginRestoreSnapshotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25151,7 +25151,7 @@ const beginInstallSiteExtensionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25181,7 +25181,7 @@ const beginCreateOrUpdateSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25218,7 +25218,7 @@ const beginRestoreSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25250,7 +25250,7 @@ const beginListPublishingCredentialsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25276,7 +25276,7 @@ const beginCreateMSDeployOperationSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25311,7 +25311,7 @@ const beginCreateInstanceFunctionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25345,7 +25345,7 @@ const beginCreateInstanceMSDeployOperationSlotOperationSpec: msRest.OperationSpe
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25382,7 +25382,7 @@ const beginStartWebSiteNetworkTraceOperationSlotOperationSpec: msRest.OperationS
     Parameters.durationInSeconds,
     Parameters.maxFrameLength,
     Parameters.sasUrl,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25433,7 +25433,7 @@ const beginRestoreFromBackupBlobSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25465,7 +25465,7 @@ const beginRestoreFromDeletedAppSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25497,7 +25497,7 @@ const beginRestoreSnapshotSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25530,7 +25530,7 @@ const beginInstallSiteExtensionSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25560,7 +25560,7 @@ const beginSwapSlotSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25592,7 +25592,7 @@ const beginCreateOrUpdateSourceControlSlotOperationSpec: msRest.OperationSpec = 
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25634,7 +25634,7 @@ const beginStartNetworkTraceSlotOperationSpec: msRest.OperationSpec = {
     Parameters.durationInSeconds,
     Parameters.maxFrameLength,
     Parameters.sasUrl,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25684,7 +25684,7 @@ const beginSwapSlotWithProductionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25715,7 +25715,7 @@ const beginCreateOrUpdateSourceControlOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -25756,7 +25756,7 @@ const beginStartNetworkTraceOperationSpec: msRest.OperationSpec = {
     Parameters.durationInSeconds,
     Parameters.maxFrameLength,
     Parameters.sasUrl,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
