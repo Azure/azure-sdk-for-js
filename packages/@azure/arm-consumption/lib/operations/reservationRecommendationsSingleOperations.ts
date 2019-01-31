@@ -31,32 +31,65 @@ export class ReservationRecommendationsSingleOperations {
    * billingProfileId for each subscription within it.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param lookBackPeriod The number of days of usage data to look back into.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationRecommendationsSingleListByBillingProfileResponse>
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationRecommendationsSingleListByBillingProfileResponse>;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, lookBackPeriod: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationRecommendationsSingleListByBillingProfileResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param lookBackPeriod The number of days of usage data to look back into.
    * @param callback The callback
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, callback: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): void;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, lookBackPeriod: string, callback: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param lookBackPeriod The number of days of usage data to look back into.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): void;
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): Promise<Models.ReservationRecommendationsSingleListByBillingProfileResponse> {
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, lookBackPeriod: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): void;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, lookBackPeriod: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): Promise<Models.ReservationRecommendationsSingleListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
         billingProfileId,
+        lookBackPeriod,
         options
       },
       listByBillingProfileOperationSpec,
       callback) as Promise<Models.ReservationRecommendationsSingleListByBillingProfileResponse>;
+  }
+
+  /**
+   * List of recommendations calculated based on past usage for the provided billingAccountId and
+   * billingProfileId for each subscription within it.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ReservationRecommendationsSingleListByBillingProfileNextResponse>
+   */
+  listByBillingProfileNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationRecommendationsSingleListByBillingProfileNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByBillingProfileNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByBillingProfileNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): void;
+  listByBillingProfileNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsSingleListResult>): Promise<Models.ReservationRecommendationsSingleListByBillingProfileNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByBillingProfileNextOperationSpec,
+      callback) as Promise<Models.ReservationRecommendationsSingleListByBillingProfileNextResponse>;
   }
 }
 
@@ -72,6 +105,27 @@ const listByBillingProfileOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.lookBackPeriod
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationRecommendationsSingleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listByBillingProfileNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage

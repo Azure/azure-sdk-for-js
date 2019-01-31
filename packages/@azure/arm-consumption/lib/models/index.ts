@@ -1663,29 +1663,6 @@ export interface ReservationRecommendationsShared extends Resource {
 
 /**
  * @interface
- * An interface representing ReservationRecommendationsSharedListResult.
- * Result of reservation recommendations listing by billing account and billing
- * profile.
- *
- */
-export interface ReservationRecommendationsSharedListResult {
-  /**
-   * @member {ReservationRecommendationsShared[]} [value] The list of
-   * reservation recommendations by billing account and billing profile.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly value?: ReservationRecommendationsShared[];
-  /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing ReservationRecommendationsSingle.
  * Reservation Recommendation for single subscription scope.
  *
@@ -1763,30 +1740,6 @@ export interface ReservationRecommendationsSingle extends Resource {
    * the server.**
    */
   readonly subscriptionId?: string;
-}
-
-/**
- * @interface
- * An interface representing ReservationRecommendationsSingleListResult.
- * Result of reservation recommendations listing by billing account and billing
- * profile for each subscription.
- *
- */
-export interface ReservationRecommendationsSingleListResult {
-  /**
-   * @member {ReservationRecommendationsSingle[]} [value] The list of
-   * reservation recommendations by billing account and billing profile and
-   * subscription.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly value?: ReservationRecommendationsSingle[];
-  /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -2904,6 +2857,40 @@ export interface OperationListResult extends Array<Operation> {
   /**
    * @member {string} [nextLink] URL to get the next set of operation list
    * results if there are any.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ReservationRecommendationsSharedListResult.
+ * Result of reservation recommendations listing by billing account and billing
+ * profile.
+ *
+ * @extends Array<ReservationRecommendationsShared>
+ */
+export interface ReservationRecommendationsSharedListResult extends Array<ReservationRecommendationsShared> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ReservationRecommendationsSingleListResult.
+ * Result of reservation recommendations listing by billing account and billing
+ * profile for each subscription.
+ *
+ * @extends Array<ReservationRecommendationsSingle>
+ */
+export interface ReservationRecommendationsSingleListResult extends Array<ReservationRecommendationsSingle> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4438,9 +4425,47 @@ export type ReservationRecommendationsSharedListByBillingProfileResponse = Reser
 };
 
 /**
+ * Contains response data for the listByBillingProfileNext operation.
+ */
+export type ReservationRecommendationsSharedListByBillingProfileNextResponse = ReservationRecommendationsSharedListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationRecommendationsSharedListResult;
+    };
+};
+
+/**
  * Contains response data for the listByBillingProfile operation.
  */
 export type ReservationRecommendationsSingleListByBillingProfileResponse = ReservationRecommendationsSingleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationRecommendationsSingleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfileNext operation.
+ */
+export type ReservationRecommendationsSingleListByBillingProfileNextResponse = ReservationRecommendationsSingleListResult & {
   /**
    * The underlying HTTP response.
    */

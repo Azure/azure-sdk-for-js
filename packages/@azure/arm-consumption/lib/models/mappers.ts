@@ -1961,36 +1961,6 @@ export const ReservationRecommendationsShared: msRest.CompositeMapper = {
   }
 };
 
-export const ReservationRecommendationsSharedListResult: msRest.CompositeMapper = {
-  serializedName: "ReservationRecommendationsSharedListResult",
-  type: {
-    name: "Composite",
-    className: "ReservationRecommendationsSharedListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReservationRecommendationsShared"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ReservationRecommendationsSingle: msRest.CompositeMapper = {
   serializedName: "ReservationRecommendationsSingle",
   type: {
@@ -2073,36 +2043,6 @@ export const ReservationRecommendationsSingle: msRest.CompositeMapper = {
         serializedName: "properties.subscriptionId",
         type: {
           name: "Uuid"
-        }
-      }
-    }
-  }
-};
-
-export const ReservationRecommendationsSingleListResult: msRest.CompositeMapper = {
-  serializedName: "ReservationRecommendationsSingleListResult",
-  type: {
-    name: "Composite",
-    className: "ReservationRecommendationsSingleListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReservationRecommendationsSingle"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2341,6 +2281,66 @@ export const OperationListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Operation"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationRecommendationsSharedListResult: msRest.CompositeMapper = {
+  serializedName: "ReservationRecommendationsSharedListResult",
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationsSharedListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReservationRecommendationsShared"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationRecommendationsSingleListResult: msRest.CompositeMapper = {
+  serializedName: "ReservationRecommendationsSingleListResult",
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationsSingleListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReservationRecommendationsSingle"
             }
           }
         }

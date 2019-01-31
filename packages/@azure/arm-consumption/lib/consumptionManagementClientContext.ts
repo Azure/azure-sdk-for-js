@@ -19,34 +19,19 @@ export class ConsumptionManagementClientContext extends msRestAzure.AzureService
   credentials: msRest.ServiceClientCredentials;
   apiVersion?: string;
   subscriptionId: string;
-  startDate: Date;
-  endDate: Date;
-  lookBackPeriod: string;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
-   * @param startDate The start of the date time range.
-   * @param endDate The start of the date time range.
-   * @param lookBackPeriod The number of days of usage data to look back into.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, startDate: Date, endDate: Date, lookBackPeriod: string, options?: Models.ConsumptionManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ConsumptionManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
       throw new Error('\'subscriptionId\' cannot be null.');
-    }
-    if (startDate == undefined) {
-      throw new Error('\'startDate\' cannot be null.');
-    }
-    if (endDate == undefined) {
-      throw new Error('\'endDate\' cannot be null.');
-    }
-    if (lookBackPeriod == undefined) {
-      throw new Error('\'lookBackPeriod\' cannot be null.');
     }
 
     if (!options) {
@@ -66,9 +51,6 @@ export class ConsumptionManagementClientContext extends msRestAzure.AzureService
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.lookBackPeriod = lookBackPeriod;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

@@ -31,28 +31,36 @@ export class ReservationsUsageDetails {
    * the provided date range.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param startDate The start of the date time range.
+   * @param endDate The start of the date time range.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationsUsageDetailsListByBillingProfileResponse>
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsUsageDetailsListByBillingProfileResponse>;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsUsageDetailsListByBillingProfileResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param startDate The start of the date time range.
+   * @param endDate The start of the date time range.
    * @param callback The callback
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param startDate The start of the date time range.
+   * @param endDate The start of the date time range.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationDetailsListResult>, callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>): Promise<Models.ReservationsUsageDetailsListByBillingProfileResponse> {
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationDetailsListResult>, callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>): Promise<Models.ReservationsUsageDetailsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
         billingProfileId,
+        startDate,
+        endDate,
         options
       },
       listByBillingProfileOperationSpec,

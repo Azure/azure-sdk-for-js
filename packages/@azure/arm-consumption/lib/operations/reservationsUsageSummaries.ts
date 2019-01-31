@@ -31,31 +31,39 @@ export class ReservationsUsageSummaries {
    * and billingProfileId within the provided date range.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param startDate The start of the date time range.
+   * @param endDate The start of the date time range.
    * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationsUsageSummariesListByBillingProfileResponse>
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, grain: Models.Datagrain, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsUsageSummariesListByBillingProfileResponse>;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, grain: Models.Datagrain, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsUsageSummariesListByBillingProfileResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param startDate The start of the date time range.
+   * @param endDate The start of the date time range.
    * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
    * @param callback The callback
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, grain: Models.Datagrain, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, grain: Models.Datagrain, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId BillingProfile ID
+   * @param startDate The start of the date time range.
+   * @param endDate The start of the date time range.
    * @param grain Can be daily or monthly. Possible values include: 'DailyGrain', 'MonthlyGrain'
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, grain: Models.Datagrain, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
-  listByBillingProfile(billingAccountId: string, billingProfileId: string, grain: Models.Datagrain, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationSummariesListResult>, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsUsageSummariesListByBillingProfileResponse> {
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, grain: Models.Datagrain, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationSummariesListResult>): void;
+  listByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: Date | string, endDate: Date | string, grain: Models.Datagrain, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationSummariesListResult>, callback?: msRest.ServiceCallback<Models.ReservationSummariesListResult>): Promise<Models.ReservationsUsageSummariesListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
         billingProfileId,
+        startDate,
+        endDate,
         grain,
         options
       },
