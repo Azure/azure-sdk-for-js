@@ -41,14 +41,14 @@ export const Point: msRest.CompositeMapper = {
     modelProperties: {
       timestamp: {
         required: true,
-        serializedName: "Timestamp",
+        serializedName: "timestamp",
         type: {
           name: "DateTime"
         }
       },
       value: {
         required: true,
-        serializedName: "Value",
+        serializedName: "value",
         type: {
           name: "Number"
         }
@@ -65,7 +65,7 @@ export const Request: msRest.CompositeMapper = {
     modelProperties: {
       series: {
         required: true,
-        serializedName: "Series",
+        serializedName: "series",
         constraints: {
           MaxItems: 8640,
           MinItems: 12
@@ -82,7 +82,7 @@ export const Request: msRest.CompositeMapper = {
       },
       granularity: {
         required: true,
-        serializedName: "Granularity",
+        serializedName: "granularity",
         type: {
           name: "Enum",
           allowedValues: [
@@ -96,13 +96,13 @@ export const Request: msRest.CompositeMapper = {
         }
       },
       customInterval: {
-        serializedName: "CustomInterval",
+        serializedName: "customInterval",
         type: {
           name: "Number"
         }
       },
       period: {
-        serializedName: "Period",
+        serializedName: "period",
         constraints: {
           InclusiveMinimum: 0
         },
@@ -111,7 +111,7 @@ export const Request: msRest.CompositeMapper = {
         }
       },
       maxAnomalyRatio: {
-        serializedName: "MaxAnomalyRatio",
+        serializedName: "maxAnomalyRatio",
         defaultValue: 0.25,
         constraints: {
           ExclusiveMaximum: 0.5,
@@ -122,7 +122,7 @@ export const Request: msRest.CompositeMapper = {
         }
       },
       sensitivity: {
-        serializedName: "Sensitivity",
+        serializedName: "sensitivity",
         defaultValue: 99,
         constraints: {
           InclusiveMaximum: 99,
@@ -144,14 +144,14 @@ export const EntireDetectResponse: msRest.CompositeMapper = {
     modelProperties: {
       period: {
         required: true,
-        serializedName: "Period",
+        serializedName: "period",
         type: {
           name: "Number"
         }
       },
       expectedValues: {
         required: true,
-        serializedName: "ExpectedValues",
+        serializedName: "expectedValues",
         type: {
           name: "Sequence",
           element: {
@@ -163,7 +163,7 @@ export const EntireDetectResponse: msRest.CompositeMapper = {
       },
       upperMargins: {
         required: true,
-        serializedName: "UpperMargins",
+        serializedName: "upperMargins",
         type: {
           name: "Sequence",
           element: {
@@ -175,7 +175,7 @@ export const EntireDetectResponse: msRest.CompositeMapper = {
       },
       lowerMargins: {
         required: true,
-        serializedName: "LowerMargins",
+        serializedName: "lowerMargins",
         type: {
           name: "Sequence",
           element: {
@@ -187,7 +187,7 @@ export const EntireDetectResponse: msRest.CompositeMapper = {
       },
       isAnomaly: {
         required: true,
-        serializedName: "IsAnomaly",
+        serializedName: "isAnomaly",
         type: {
           name: "Sequence",
           element: {
@@ -199,7 +199,7 @@ export const EntireDetectResponse: msRest.CompositeMapper = {
       },
       isNegativeAnomaly: {
         required: true,
-        serializedName: "IsNegativeAnomaly",
+        serializedName: "isNegativeAnomaly",
         type: {
           name: "Sequence",
           element: {
@@ -211,7 +211,7 @@ export const EntireDetectResponse: msRest.CompositeMapper = {
       },
       isPositiveAnomaly: {
         required: true,
-        serializedName: "IsPositiveAnomaly",
+        serializedName: "isPositiveAnomaly",
         type: {
           name: "Sequence",
           element: {
@@ -232,49 +232,49 @@ export const LastDetectResponse: msRest.CompositeMapper = {
     className: "LastDetectResponse",
     modelProperties: {
       period: {
-        serializedName: "Period",
+        serializedName: "period",
         type: {
           name: "Number"
         }
       },
       suggestedWindow: {
-        serializedName: "SuggestedWindow",
+        serializedName: "suggestedWindow",
         type: {
           name: "Number"
         }
       },
       expectedValue: {
-        serializedName: "ExpectedValue",
+        serializedName: "expectedValue",
         type: {
           name: "Number"
         }
       },
       upperMargin: {
-        serializedName: "UpperMargin",
+        serializedName: "upperMargin",
         type: {
           name: "Number"
         }
       },
       lowerMargin: {
-        serializedName: "LowerMargin",
+        serializedName: "lowerMargin",
         type: {
           name: "Number"
         }
       },
       isAnomaly: {
-        serializedName: "IsAnomaly",
+        serializedName: "isAnomaly",
         type: {
           name: "Boolean"
         }
       },
       isNegativeAnomaly: {
-        serializedName: "IsNegativeAnomaly",
+        serializedName: "isNegativeAnomaly",
         type: {
           name: "Boolean"
         }
       },
       isPositiveAnomaly: {
-        serializedName: "IsPositiveAnomaly",
+        serializedName: "isPositiveAnomaly",
         type: {
           name: "Boolean"
         }

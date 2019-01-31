@@ -68,7 +68,7 @@ export interface Request {
   /**
    * @member {number} [customInterval] Custom Interval is used to set
    * non-standard time interval, for example, if the series is 5 minutes,
-   * request can be set as {"Granularity":"minutely", "CustomInterval":5}.
+   * request can be set as {"granularity":"minutely", "customInterval":5}.
    */
   customInterval?: number;
   /**
