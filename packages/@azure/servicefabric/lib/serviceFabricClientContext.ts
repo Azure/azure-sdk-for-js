@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/servicefabric";
-const packageVersion = "0.1.0";
+const packageVersion = "3.0.1";
 
 export class ServiceFabricClientContext extends msRest.ServiceClient {
 

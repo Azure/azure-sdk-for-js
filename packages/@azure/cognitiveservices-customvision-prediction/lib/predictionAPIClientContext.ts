@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-customvision-prediction";
-const packageVersion = "0.1.0";
+const packageVersion = "2.0.1";
 
 export class PredictionAPIClientContext extends msRest.ServiceClient {
   apiKey: string;

@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-localsearch";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.1";
 
 export class LocalSearchClientContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
