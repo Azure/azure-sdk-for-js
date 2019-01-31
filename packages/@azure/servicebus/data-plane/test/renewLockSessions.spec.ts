@@ -75,7 +75,7 @@ describe("Standard", function(): void {
       it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
         void
       > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient, 10);
+        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
@@ -95,25 +95,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 260,
+          maxSessionAutoRenewLockDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxSessionAutoRenewLockDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -150,7 +150,7 @@ describe("Standard", function(): void {
       it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
         void
       > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient, 10);
+        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
@@ -170,25 +170,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 260,
+          maxSessionAutoRenewLockDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxSessionAutoRenewLockDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -206,7 +206,7 @@ describe("Standard", function(): void {
     process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic";
   const STANDARD_SUBSCRIPTION_SESSION =
     process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-subscription";
-  describe("Unpartitioned Topic/Subscription", function(): void {
+  describe.only("Unpartitioned Topic/Subscription", function(): void {
     const senderClient = namespace.createTopicClient(STANDARD_TOPIC_SESSION);
     const receiverClient = namespace.createSubscriptionClient(
       STANDARD_TOPIC_SESSION,
@@ -231,7 +231,7 @@ describe("Standard", function(): void {
       it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
         void
       > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient, 10);
+        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
@@ -251,25 +251,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 260,
+          maxSessionAutoRenewLockDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxSessionAutoRenewLockDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -311,7 +311,7 @@ describe("Standard", function(): void {
       it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
         void
       > {
-        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient, 10);
+        await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
       });
 
       it("Receives a message using Streaming Receiver renewLock() resets lock duration each time.", async function(): Promise<
@@ -331,25 +331,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 260,
+          maxSessionAutoRenewLockDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxSessionAutoRenewLockDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -412,7 +412,7 @@ async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient):
 }
 
 /**
- * Test renewLock() after receiving a message using Batch Receiver
+ * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
  */
 async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
@@ -420,7 +420,10 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   await senderClient.getSender().send(testMessage);
 
-  const sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
+  const sessionClient = await receiverClient.getSessionReceiver({
+    sessionId: testSessionId,
+    maxSessionAutoRenewLockDurationInSeconds: 0
+  });
   const msgs = await sessionClient.receiveBatch(1);
 
   // Compute expected initial lock expiry time
@@ -441,30 +444,17 @@ async function testBatchReceiverManualLockRenewalHappyCase(
     "Initial"
   );
 
-  await delay(10000);
-  await sessionClient.renewLock();
-
-  // Compute expected lock expiry time after renewing lock after 10 seconds
-  expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
-
-  // Verify lock expiry time after the first renewLock()
-  assertTimestampsAreApproximatelyEqual(
-    sessionClient.sessionLockedUntilUtc,
-    expectedLockExpiryTimeUtc,
-    "After first renewal"
-  );
-
   await delay(5000);
   await sessionClient.renewLock();
 
-  // Compute expected lock expiry time after renewing lock after 5 more seconds
+  // Compute expected lock expiry time after renewing lock after 5 seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
-  // Verify lock expiry time after the second renewLock()
+  // Verify lock expiry time after renewLock()
   assertTimestampsAreApproximatelyEqual(
     sessionClient.sessionLockedUntilUtc,
     expectedLockExpiryTimeUtc,
-    "After second renewal"
+    "After renewlock()"
   );
 
   await msgs[0].complete();
@@ -475,14 +465,13 @@ async function testBatchReceiverManualLockRenewalHappyCase(
  */
 async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
-  receiverClient: QueueClient | SubscriptionClient,
-  maxSessionAutoRenewLockDurationInSeconds: number
+  receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   await senderClient.getSender().send(testMessage);
 
   let sessionClient = await receiverClient.getSessionReceiver({
     sessionId: testSessionId,
-    maxSessionAutoRenewLockDurationInSeconds: maxSessionAutoRenewLockDurationInSeconds
+    maxSessionAutoRenewLockDurationInSeconds: 0
   });
   const msgs = await sessionClient.receiveBatch(1);
 
@@ -492,9 +481,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(msgs[0].messageId, testMessage.messageId);
 
   // Sleeping (maxSessionAutoRenewLockDurationInSeconds + lockDuration + buffer) seconds...
-  await delay(
-    maxSessionAutoRenewLockDurationInSeconds * 1000 + 1.5 * lockDurationInMilliseconds + 1000
-  );
+  await delay(lockDurationInMilliseconds + 1000);
 
   let errorWasThrown: boolean = false;
   await msgs[0].complete().catch((err) => {
@@ -512,7 +499,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 }
 
 /**
- * Test renewLock() after receiving a message using Streaming Receiver with autoLockRenewal disabled
+ * Test manual renewLock() using Streaming Receiver with autoLockRenewal disabled
  */
 async function testStreamingReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
@@ -546,30 +533,17 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
         "Initial"
       );
 
-      await delay(10000);
-      await sessionClient.renewLock();
-
-      // Compute expected lock expiry time after renewing lock after 10 seconds
-      expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
-
-      // Verify actual expiry time on session after first renewal
-      assertTimestampsAreApproximatelyEqual(
-        sessionClient.sessionLockedUntilUtc,
-        expectedLockExpiryTimeUtc,
-        "After first renewal"
-      );
-
       await delay(5000);
       await sessionClient.renewLock();
 
-      // Compute expected lock expiry time after renewing lock after 5 more seconds
+      // Compute expected lock expiry time after renewing lock after 5 seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
-      // Verify actual expiry time on session after second renewal
+      // Verify actual expiry time on session after renewal
       assertTimestampsAreApproximatelyEqual(
         sessionClient.sessionLockedUntilUtc,
         expectedLockExpiryTimeUtc,
-        "After second renewal"
+        "After renewlock()"
       );
 
       await brokeredMessage.complete();
@@ -579,7 +553,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   await sessionClient.receive(onSessionMessage, onError, {
     autoComplete: false
   });
-  await delay(40000);
+  await delay(10000);
   await sessionClient.close();
 
   if (uncaughtErrorFromHandlers) {
@@ -615,21 +589,6 @@ async function testAutoLockRenewalConfigBehavior(
 
         should.equal(brokeredMessage.body, testMessage.body);
         should.equal(brokeredMessage.messageId, testMessage.messageId);
-
-        // Compute expected initial lock expiry time
-        const initialTimeUtc = new Date();
-        const expectedLockExpiryTimeUtc = new Date();
-
-        expectedLockExpiryTimeUtc.setSeconds(
-          initialTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
-        );
-
-        // Verify initial lock expiry time
-        assertTimestampsAreApproximatelyEqual(
-          sessionClient.sessionLockedUntilUtc,
-          expectedLockExpiryTimeUtc,
-          "Initial"
-        );
 
         // Sleeping...
         await delay(

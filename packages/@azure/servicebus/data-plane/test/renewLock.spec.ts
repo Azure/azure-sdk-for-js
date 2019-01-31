@@ -98,25 +98,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 299,
+          maxAutoRenewDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxAutoRenewDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -173,25 +173,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 299,
+          maxAutoRenewDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxAutoRenewDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -253,25 +253,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 299,
+          maxAutoRenewDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxAutoRenewDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -333,25 +333,25 @@ describe("Standard", function(): void {
         // Complete fails as expected
       });
 
-      it("Receive a msg using Streaming Receiver, lock will not expire until 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 299,
+          maxAutoRenewDurationInSeconds: 38,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         });
-      }).timeout(450000);
+      });
 
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after 300 seconds when config value is undefined", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxAutoRenewDurationInSeconds: undefined,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 400,
+          maxAutoRenewDurationInSeconds: 35,
+          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         });
-      }).timeout(450000);
+      }).timeout(80000);
 
       it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
         void
@@ -443,30 +443,17 @@ async function testBatchReceiverManualLockRenewalHappyCase(
     "Initial"
   );
 
-  await delay(10000);
-  await receiver.renewLock(msgs[0]);
-
-  // Compute expected lock expiry time after renewing lock after 10 seconds
-  expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
-
-  // Verify lock expiry time after the first renewLock()
-  assertTimestampsAreApproximatelyEqual(
-    msgs[0].lockedUntilUtc,
-    expectedLockExpiryTimeUtc,
-    "After first renewal"
-  );
-
   await delay(5000);
   await receiver.renewLock(msgs[0]);
 
-  // Compute expected lock expiry time after renewing lock after 5 more seconds
+  // Compute expected lock expiry time after renewing lock after 5 seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
-  // Verify lock expiry time after the second renewLock()
+  // Verify lock expiry time after renewLock()
   assertTimestampsAreApproximatelyEqual(
     msgs[0].lockedUntilUtc,
     expectedLockExpiryTimeUtc,
-    "After second renewal"
+    "After renewlock()"
   );
 
   await msgs[0].complete();
@@ -537,30 +524,17 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
         "Initial"
       );
 
-      await delay(10000);
+      await delay(5000);
       await receiver.renewLock(brokeredMessage);
 
-      // Compute expected lock expiry time after renewing lock after 10 seconds
-      expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 10);
+      // Compute expected lock expiry time after renewing lock after 5 seconds
+      expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
       // Verify actual expiry time on session after first renewal
       assertTimestampsAreApproximatelyEqual(
         brokeredMessage.lockedUntilUtc,
         expectedLockExpiryTimeUtc,
-        "After first renewal"
-      );
-
-      await delay(5000);
-      await receiver.renewLock(brokeredMessage);
-
-      // Compute expected lock expiry time after renewing lock after 5 more seconds
-      expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
-
-      // Verify actual expiry time on session after second renewal
-      assertTimestampsAreApproximatelyEqual(
-        brokeredMessage.lockedUntilUtc,
-        expectedLockExpiryTimeUtc,
-        "After second renewal"
+        "After renewlock"
       );
 
       await brokeredMessage.complete();
@@ -571,7 +545,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     autoComplete: false,
     maxMessageAutoRenewLockDurationInSeconds: 0
   });
-  await delay(40000);
+  await delay(10000);
   await receiver.close();
 
   if (uncaughtErrorFromHandlers) {
@@ -603,21 +577,6 @@ async function testAutoLockRenewalConfigBehavior(
 
       should.equal(brokeredMessage.body, testMessage.body);
       should.equal(brokeredMessage.messageId, testMessage.messageId);
-
-      // Compute expected initial lock lock expiry time
-      const initialTimeUtc = new Date();
-      const expectedLockExpiryTimeUtc = new Date();
-
-      expectedLockExpiryTimeUtc.setSeconds(
-        initialTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
-      );
-
-      // Verify initial lock expiry time
-      assertTimestampsAreApproximatelyEqual(
-        brokeredMessage.lockedUntilUtc,
-        expectedLockExpiryTimeUtc,
-        "Initial"
-      );
 
       // Sleeping...
       await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
