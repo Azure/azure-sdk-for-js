@@ -251,8 +251,8 @@ export class MessageReceiver extends LinkEntity {
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInSeconds =
-      options.maxAutoRenewDurationInSeconds != undefined
-        ? options.maxAutoRenewDurationInSeconds
+      options.maxMessageAutoRenewLockDurationInSeconds != undefined
+        ? options.maxMessageAutoRenewLockDurationInSeconds
         : 300;
     this.autoRenewLock =
       this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;

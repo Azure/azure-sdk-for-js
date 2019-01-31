@@ -25,12 +25,12 @@ export interface MessageHandlerOptions {
    */
   autoComplete?: boolean;
   /**
-   * @property {number} [maxAutoRenewDurationInSeconds] The maximum duration in seconds until which
+   * @property {number} [maxMessageAutoRenewLockDurationInSeconds] The maximum duration in seconds until which
    * the lock on the message will be renewed automatically before the message is settled.
    * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set `maxAutoRenewDurationInSeconds` to `0`.
+   * - **To disable autolock renewal**, set `maxMessageAutoRenewLockDurationInSeconds` to `0`.
    */
-  maxAutoRenewDurationInSeconds?: number;
+  maxMessageAutoRenewLockDurationInSeconds?: number;
   /**
    * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of time the receiver
    * will wait to receive a new message. If no new message is received in this time, then the

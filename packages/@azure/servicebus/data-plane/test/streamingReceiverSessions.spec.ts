@@ -388,7 +388,7 @@ describe("Abandon message(with sessions)", function(): void {
         });
       },
       unExpectedErrorHandler,
-      { maxAutoRenewDurationInSeconds: 0, autoComplete }
+      { autoComplete }
     );
     await delay(4000);
 

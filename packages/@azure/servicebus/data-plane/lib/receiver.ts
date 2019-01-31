@@ -62,7 +62,7 @@ export class Receiver {
       maxConcurrentCalls: 1,
       receiveMode: this._receiveMode,
       autoComplete: options.autoComplete,
-      maxAutoRenewDurationInSeconds: options.maxAutoRenewDurationInSeconds
+      maxMessageAutoRenewLockDurationInSeconds: options.maxMessageAutoRenewLockDurationInSeconds
     };
     const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
     this._context.streamingReceiver = sReceiver;
