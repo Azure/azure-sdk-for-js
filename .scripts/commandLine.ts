@@ -39,6 +39,11 @@ export module Argv {
         azureRestAPISpecsRoot: string;
     }
 
+    export interface FilterOptions {
+        include?: RegExp,
+        exclude?: RegExp
+    }
+
     export const Options: { [key: string]: YargsMapping } = {
         Common: {
             "logging-level": {
@@ -86,6 +91,16 @@ export module Argv {
                 string: true,
                 default: findAzureRestApiSpecsRepositoryPathSync(),
                 description: "Path to the azure-rest-api-specs repository"
+            }
+        },
+        Filter: {
+            "include": {
+                type: "string",
+                coerce: (s: string) => new RegExp(s)
+            },
+            "exclude": {
+                type: "string",
+                coerce: (s: string) => new RegExp(s)
             }
         }
     }

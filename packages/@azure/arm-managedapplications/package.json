@@ -2,7 +2,7 @@
   "name": "@azure/arm-managedapplications",
   "author": "Microsoft Corporation",
   "description": "ManagedApplicationClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.2.0",
     "@azure/ms-rest-js": "^1.2.0",
@@ -53,5 +53,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-managedapplications.js.map'\" -o ./dist/arm-managedapplications.min.js ./dist/arm-managedapplications.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

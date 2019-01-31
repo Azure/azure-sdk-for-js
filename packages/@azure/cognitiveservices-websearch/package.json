@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-websearch",
   "author": "Microsoft Corporation",
   "description": "WebSearchClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
@@ -52,5 +52,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-websearch.js.map'\" -o ./dist/cognitiveservices-websearch.min.js ./dist/cognitiveservices-websearch.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

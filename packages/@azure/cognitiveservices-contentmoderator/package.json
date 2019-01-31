@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-contentmoderator",
   "author": "Microsoft Corporation",
   "description": "ContentModeratorClient Library with typescript type definitions for node.js and browser.",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "dependencies": {
     "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
@@ -52,5 +52,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-contentmoderator.js.map'\" -o ./dist/cognitiveservices-contentmoderator.min.js ./dist/cognitiveservices-contentmoderator.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }
