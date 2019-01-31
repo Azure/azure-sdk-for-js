@@ -22,6 +22,7 @@ export {
   UserDefinedFunctionType
 } from "./documents";
 
+export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
 export { DocumentBase, DocumentBase as AzureDocuments };
 export { Constants, UriFactory } from "./common";
 export { RetryOptions } from "./retry";

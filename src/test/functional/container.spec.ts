@@ -191,6 +191,18 @@ describe("NodeJS CRUD Tests", function() {
 
         await lazyContainer.delete();
 
+        const uniqueKeysContainerDefinition: ContainerDefinition = {
+          id: "uniqueKeysContainer",
+          uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/foo"] }] }
+        };
+
+        const { body: uniqueKeysContainerDef } = await database.containers.create(uniqueKeysContainerDefinition);
+        const uniqueKeysContainer = database.container(uniqueKeysContainerDef.id);
+
+        assert.equal(uniqueKeysContainerDef.uniqueKeyPolicy.uniqueKeys[0].paths, "/foo");
+
+        await uniqueKeysContainer.delete();
+
         const consistentcontainerDefinition: ContainerDefinition = {
           id: "lazy container",
           indexingPolicy: { indexingMode: "consistent" } // tests the type flexibility
