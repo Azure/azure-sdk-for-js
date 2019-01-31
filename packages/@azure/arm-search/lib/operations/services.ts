@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
+import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/servicesMappers";
 import * as Parameters from "../models/parameters";
@@ -194,6 +194,30 @@ export class Services {
   }
 
   /**
+   * Gets a list of all Search services in the given subscription.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServicesListBySubscriptionResponse>
+   */
+  listBySubscription(options?: Models.ServicesListBySubscriptionOptionalParams): Promise<Models.ServicesListBySubscriptionResponse>;
+  /**
+   * @param callback The callback
+   */
+  listBySubscription(callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySubscription(options: Models.ServicesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  listBySubscription(options?: Models.ServicesListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.SearchServiceListResult>, callback?: msRest.ServiceCallback<Models.SearchServiceListResult>): Promise<Models.ServicesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listBySubscriptionOperationSpec,
+      callback) as Promise<Models.ServicesListBySubscriptionResponse>;
+  }
+
+  /**
    * Checks whether or not the given Search service name is available for use. Search service names
    * must be globally unique since they are part of the service URI
    * (https://<name>.search.windows.net).
@@ -349,6 +373,30 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
   urlParameters: [
     Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchServiceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices",
+  urlParameters: [
     Parameters.subscriptionId
   ],
   queryParameters: [

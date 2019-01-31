@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
+import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -505,6 +505,21 @@ export interface ServicesListByResourceGroupOptionalParams extends msRest.Reques
 
 /**
  * @interface
+ * An interface representing ServicesListBySubscriptionOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ServicesListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {SearchManagementRequestOptions} [searchManagementRequestOptions]
+   * Additional parameters for the operation
+   */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+/**
+ * @interface
  * An interface representing ServicesCheckNameAvailabilityOptionalParams.
  * Optional Parameters.
  *
@@ -788,6 +803,25 @@ export type ServicesGetResponse = SearchService & {
  * Contains response data for the listByResourceGroup operation.
  */
 export type ServicesListByResourceGroupResponse = SearchServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ServicesListBySubscriptionResponse = SearchServiceListResult & {
   /**
    * The underlying HTTP response.
    */
