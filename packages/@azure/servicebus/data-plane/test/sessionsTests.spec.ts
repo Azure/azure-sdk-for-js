@@ -22,7 +22,7 @@ import {
   getSenderClient,
   getReceiverClient,
   ClientType,
-  testSessionId,
+  testSessionId1,
   purge,
   testSessionId2
 } from "./testUtils";
@@ -67,8 +67,7 @@ async function beforeEachTest(senderType: ClientType, sessionType: ClientType): 
   senderClient = getSenderClient(ns, senderType);
   receiverClient = getReceiverClient(ns, sessionType);
 
-  await purge(receiverClient, true, testSessionId);
-  await purge(receiverClient, true, testSessionId2);
+  await purge(receiverClient, true, testSessionId1);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -89,7 +88,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await senderClient.getSender().send(testMessagesWithSessions[0]);
 
     let receiver = await receiverClient.getSessionReceiver({
-      sessionId: "non" + testSessionId
+      sessionId: "non" + testSessionId1
     });
     let msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 0);
@@ -149,7 +148,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await senderClient.getSender().send(testMessagesWithSessions[0]);
 
     let receiver = await receiverClient.getSessionReceiver({
-      sessionId: "non" + testSessionId
+      sessionId: "non" + testSessionId1
     });
     let receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
@@ -218,6 +217,10 @@ describe("Accept a session by passing non-existing sessionId receives no message
 });
 
 describe("Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
+  beforeEach(async () => {
+    await purge(receiverClient, true, testSessionId2);
+  });
+
   afterEach(async () => {
     await afterEachTest();
   });
