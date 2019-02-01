@@ -23,8 +23,8 @@ import {
   getReceiverClient,
   ClientType,
   testSessionId1,
-  purge,
-  testSessionId2
+  testSessionId2,
+  purge
 } from "./testUtils";
 
 async function testPeekMsgsLength(
@@ -79,7 +79,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Accept a session by passing non-existing sessionId receives no messages", function(): void {
+describe("SessionTests - Accept a session by passing non-existing sessionId receives no messages", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -216,11 +216,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
   });
 });
 
-describe("Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
-  beforeEach(async () => {
-    await purge(receiverClient, testSessionId2);
-  });
-
+describe("SessionTests - Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -276,6 +272,7 @@ describe("Accept a session without passing sessionId and receive messages from r
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
   });
 
@@ -286,6 +283,7 @@ describe("Accept a session without passing sessionId and receive messages from r
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
   });
 
@@ -296,6 +294,7 @@ describe("Accept a session without passing sessionId and receive messages from r
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
   });
 
@@ -306,6 +305,7 @@ describe("Accept a session without passing sessionId and receive messages from r
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
   });
 });
