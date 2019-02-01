@@ -145,7 +145,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Creates a sessionReceiver with given sessionId from the ServiceBus Queue.
+   * Creates a messageSession with given sessionId from the ServiceBus Queue.
    * When no sessionId is given, a random session among the available sessions is used.
    * This Receiver can be used to receive messages in batches or by registering handlers.
    *
@@ -159,7 +159,7 @@ export class QueueClient extends Client {
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
     if (!options) options = {};
     this._context.isSessionEnabled = true;
-    const sessionReceiver = await MessageSession.create(this._context, options);
-    return new SessionReceiver(this._context, sessionReceiver);
+    const messageSession = await MessageSession.create(this._context, options);
+    return new SessionReceiver(this._context, messageSession);
   }
 }

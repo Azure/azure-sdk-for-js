@@ -252,22 +252,21 @@ export class SessionReceiver {
   private _context: ClientEntityContext;
   private _receiveMode: ReceiveMode;
   private _sessionId: string | undefined;
-
-  private _sessionReceiver: MessageSession;
+  private _messageSession: MessageSession;
 
   public get sessionId(): string {
     return this._sessionId || "";
   }
 
   public get sessionLockedUntilUtc(): Date | undefined {
-    return this._sessionReceiver.sessionLockedUntilUtc;
+    return this._messageSession.sessionLockedUntilUtc;
   }
 
-  constructor(context: ClientEntityContext, sessionReceiver: MessageSession) {
+  constructor(context: ClientEntityContext, messageSession: MessageSession) {
     this._context = context;
-    this._receiveMode = sessionReceiver.receiveMode;
-    this._sessionId = sessionReceiver.sessionId;
-    this._sessionReceiver = sessionReceiver;
+    this._receiveMode = messageSession.receiveMode;
+    this._sessionId = messageSession.sessionId;
+    this._messageSession = messageSession;
   }
 
   /**
@@ -276,10 +275,10 @@ export class SessionReceiver {
    */
 
   async renewLock(): Promise<Date> {
-    this._sessionReceiver.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
+    this._messageSession.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
       this.sessionId!
     );
-    return this._sessionReceiver.sessionLockedUntilUtc;
+    return this._messageSession.sessionLockedUntilUtc;
   }
 
   /**
@@ -350,12 +349,9 @@ export class SessionReceiver {
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-
     return this._context.managementClient!.receiveDeferredMessage(
       sequenceNumber,
-
       this._receiveMode,
-
       this.sessionId
     );
   }
@@ -373,12 +369,9 @@ export class SessionReceiver {
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
-
       this._receiveMode,
-
       this.sessionId
     );
   }
@@ -400,13 +393,13 @@ export class SessionReceiver {
     maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     try {
-      return await this._sessionReceiver.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
+      return await this._messageSession.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
           "max time:\n %O",
         this._context.namespace.connectionId,
-        this._sessionReceiver.name,
+        this._messageSession.name,
         maxMessageCount,
         maxWaitTimeInSeconds,
         err
@@ -431,20 +424,19 @@ export class SessionReceiver {
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
     try {
-      return this._sessionReceiver.receive(onMessage, onError, options);
+      return this._messageSession.receive(onMessage, onError, options);
     } catch (err) {
       const msg =
         `MessageSession with sessionId '${this.sessionId}' and name '${
-          this._sessionReceiver.name
-        }' ` + `has either not been created or is not open.`;
-      log.error("[%s] %s", this._context.namespace.connectionId, msg);
+          this._messageSession.name
+        }' ` + `resulted in an error`;
+      log.error("[%s] %s %O", this._context.namespace.connectionId, msg, err);
       throw err;
     }
   }
-
   async close(): Promise<void> {
     try {
-      return await this._sessionReceiver.close();
+      return await this._messageSession.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the message session with id '%s': %O.",
