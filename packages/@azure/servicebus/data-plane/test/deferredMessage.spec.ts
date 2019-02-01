@@ -20,7 +20,7 @@ import {
 import {
   testSimpleMessages,
   testMessagesWithSessions,
-  testSessionId,
+  testSessionId1,
   getSenderClient,
   getReceiverClient,
   ClientType,
@@ -83,8 +83,8 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, useSessions);
-  await purge(deadLetterClient, false);
+  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -100,7 +100,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId
+        sessionId: testSessionId1
       })
     : receiverClient.getReceiver();
 }

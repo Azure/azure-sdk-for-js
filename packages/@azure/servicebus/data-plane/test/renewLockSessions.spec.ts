@@ -18,7 +18,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
-import { testSessionId, purge } from "./testUtils";
+import { testSessionId1, purge } from "./testUtils";
 
 // describe("Premium", function(): void {
 //   const PREMIUM_SERVICEBUS_CONNECTION_STRING = check(
@@ -401,9 +401,9 @@ async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient):
   testMessage = {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
-    sessionId: testSessionId
+    sessionId: testSessionId1
   };
-  await purge(receiverClient, true);
+  await purge(receiverClient, testSessionId1);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -421,7 +421,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   await senderClient.getSender().send(testMessage);
 
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId,
+    sessionId: testSessionId1,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
   const msgs = await sessionClient.receiveBatch(1);
@@ -470,7 +470,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   await senderClient.getSender().send(testMessage);
 
   let sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId,
+    sessionId: testSessionId1,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
   const msgs = await sessionClient.receiveBatch(1);
@@ -492,7 +492,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
-  sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
+  sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId1 });
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
   await unprocessedMsgs[0].complete();
 }
@@ -508,7 +508,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 
   await senderClient.getSender().send(testMessage);
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId,
+    sessionId: testSessionId1,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
 
@@ -578,7 +578,7 @@ async function testAutoLockRenewalConfigBehavior(
   await senderClient.getSender().send(testMessage);
 
   let sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId,
+    sessionId: testSessionId1,
     maxSessionAutoRenewLockDurationInSeconds: options.maxSessionAutoRenewLockDurationInSeconds
   });
   await sessionClient.receive(
@@ -622,7 +622,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId });
+    sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId1 });
     const unprocessedMsgs = await sessionClient.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }

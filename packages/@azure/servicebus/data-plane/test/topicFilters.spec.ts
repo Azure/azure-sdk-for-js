@@ -14,7 +14,6 @@ import {
   generateUuid,
   TopicClient,
   SendableMessageInfo,
-  delay,
   CorrelationFilter
 } from "../lib";
 import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
@@ -126,30 +125,10 @@ async function sendOrders(): Promise<void> {
 }
 
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
-  let errorFromErrorHandler: Error | undefined;
-  const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = client.getReceiver();
-  receiver.receive(
-    (msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      return Promise.resolve();
-    },
-    (err: Error) => {
-      if (err) {
-        errorFromErrorHandler = err;
-      }
-    }
-  );
-
-  await delay(5000);
+  const msgs = await receiver.receiveBatch(data.length);
   await receiver.close();
-  should.equal(
-    errorFromErrorHandler,
-    undefined,
-    errorFromErrorHandler && errorFromErrorHandler.message
-  );
-
-  return receivedMsgs;
+  return msgs;
 }
 
 async function addRules(
