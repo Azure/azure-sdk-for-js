@@ -703,6 +703,103 @@ export const PolicyEventsQueryResults: msRest.CompositeMapper = {
   }
 };
 
+export const ExpressionEvaluationDetails: msRest.CompositeMapper = {
+  serializedName: "ExpressionEvaluationDetails",
+  type: {
+    name: "Composite",
+    className: "ExpressionEvaluationDetails",
+    modelProperties: {
+      result: {
+        serializedName: "result",
+        type: {
+          name: "String"
+        }
+      },
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "String"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      expressionValue: {
+        serializedName: "expressionValue",
+        type: {
+          name: "String"
+        }
+      },
+      targetValue: {
+        serializedName: "targetValue",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IfNotExistsEvaluationDetails: msRest.CompositeMapper = {
+  serializedName: "IfNotExistsEvaluationDetails",
+  type: {
+    name: "Composite",
+    className: "IfNotExistsEvaluationDetails",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      totalResources: {
+        serializedName: "totalResources",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyEvaluationDetails: msRest.CompositeMapper = {
+  serializedName: "PolicyEvaluationDetails",
+  type: {
+    name: "Composite",
+    className: "PolicyEvaluationDetails",
+    modelProperties: {
+      evaluatedExpressions: {
+        serializedName: "evaluatedExpressions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressionEvaluationDetails"
+            }
+          }
+        }
+      },
+      ifNotExistsDetails: {
+        serializedName: "ifNotExistsDetails",
+        type: {
+          name: "Composite",
+          className: "IfNotExistsEvaluationDetails"
+        }
+      }
+    }
+  }
+};
+
 export const PolicyState: msRest.CompositeMapper = {
   serializedName: "PolicyState",
   type: {
@@ -869,6 +966,19 @@ export const PolicyState: msRest.CompositeMapper = {
         serializedName: "policyDefinitionReferenceId",
         type: {
           name: "String"
+        }
+      },
+      complianceState: {
+        serializedName: "complianceState",
+        type: {
+          name: "String"
+        }
+      },
+      policyEvaluationDetails: {
+        serializedName: "policyEvaluationDetails",
+        type: {
+          name: "Composite",
+          className: "PolicyEvaluationDetails"
         }
       }
     },
@@ -1235,6 +1345,11 @@ export const QueryOptions: msRest.CompositeMapper = {
         }
       },
       apply: {
+        type: {
+          name: "String"
+        }
+      },
+      expand: {
         type: {
           name: "String"
         }

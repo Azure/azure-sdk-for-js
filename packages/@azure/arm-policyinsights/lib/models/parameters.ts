@@ -69,6 +69,19 @@ export const authorizationNamespace: msRest.OperationURLParameter = {
     }
   }
 };
+export const expand: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "queryOptions",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

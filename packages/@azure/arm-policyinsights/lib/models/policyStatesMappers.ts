@@ -11,6 +11,9 @@
 export {
   PolicyStatesQueryResults,
   PolicyState,
+  PolicyEvaluationDetails,
+  ExpressionEvaluationDetails,
+  IfNotExistsEvaluationDetails,
   QueryFailure,
   QueryFailureError,
   SummarizeResults,
