@@ -10,7 +10,6 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  SessionReceiver,
   ServiceBusMessage,
   TopicClient,
   SubscriptionClient,
@@ -28,6 +27,7 @@ import {
   purge
 } from "./testUtils";
 import { Sender } from "../lib/sender";
+import { SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
