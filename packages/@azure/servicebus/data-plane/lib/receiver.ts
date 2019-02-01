@@ -243,6 +243,7 @@ export class Receiver {
 
 /**
  * An abstraction over the underlying session-receiver.
+ * The SessionReceiver class can be used to receive messages in a batch or by registering handlers.
  */
 export class SessionReceiver {
   /**
@@ -273,7 +274,6 @@ export class SessionReceiver {
    * Renews the lock for the Session.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-
   async renewLock(): Promise<Date> {
     this._messageSession.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
       this.sessionId!
@@ -293,39 +293,36 @@ export class SessionReceiver {
    * Gets the state of the MessageSession.
    * @returns Promise<any> The state of that session
    */
-
   async getState(): Promise<any> {
     return this._context.managementClient!.getSessionState(this.sessionId!);
   }
 
   /**
-   * Fetches the next batch of active messages in the current MessageSession. The first call to
-   * `peek()` fetches the first active message for this client. Each subsequent call fetches the
-   * subsequent message in the entity.
-   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
-   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
-   * `receive() | receiveBatch()` this method will also fetch `Deferred` messages, but
-   * **NOT** `Deadlettered` messages.
-   * It is especially important to keep in mind when attempting to recover deferred messages from
-   * the queue. A message for which the `expiresAtUtc` instant has passed is no longer eligible for
-   * regular retrieval by any other means, even when it's being returned by `peek()`. Returning
-   * these messages is deliberate, since `peek()` is a diagnostics tool reflecting the current
-   * state of the log.
+   * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
+   * the current session. The first call to `peek()` fetches the first active message. Each
+   * subsequent call fetches the subsequent message.
+   *
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param messageCount The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    */
-
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
     return this._context.managementClient!.peekMessagesBySession(this.sessionId!, messageCount);
   }
 
-  /** Peeks the desired number of messages in the MessageSession from the specified sequence number.
+  /**
+   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
+   * from the specified sequence number in the current session.
+   *
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
+   *
    * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param messageCount The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedMessageInfo[]>
+   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedSBMessage[]>
    */
-
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     messageCount?: number
@@ -344,7 +341,6 @@ export class SessionReceiver {
    * - Returns `undefined` if no such message is found.
    * - Throws an error if the message has not been deferred.
    */
-
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
@@ -364,7 +360,6 @@ export class SessionReceiver {
    * - Returns an empty list if no messages are found.
    * - Throws an error if the messages have not been deferred.
    */
-
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
@@ -387,7 +382,6 @@ export class SessionReceiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-
   async receiveBatch(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number
@@ -426,6 +420,11 @@ export class SessionReceiver {
     return this._messageSession.receive(onMessage, onError, options);
   }
 
+  /**
+   * Closes the underlying AMQP receiver link.
+   *
+   * @returns {Promise<void>}
+   */
   async close(): Promise<void> {
     try {
       return await this._messageSession.close();

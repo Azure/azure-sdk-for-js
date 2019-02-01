@@ -99,7 +99,7 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Fetches the next batch of active messages (including deferred but not deadlettereed messages).
+   * Fetches the next batch of active messages (including deferred but not deadlettered messages).
    * The first call to `peek()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
    *
@@ -114,7 +114,7 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Peeks the desired number of active messages (including deferred but not deadlettereed messages)
+   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
    * from the specified sequence number.
    *
    * Unlike a `received` message, `peeked` message is a read-only version of the message.
