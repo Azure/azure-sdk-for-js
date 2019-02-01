@@ -75,7 +75,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectorsGetResponse>
    */
@@ -86,7 +86,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param callback The callback
    */
   get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
@@ -96,7 +96,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -121,7 +121,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param dataConnector The data connector
    * @param [options] The optional parameters
    * @returns Promise<Models.DataConnectorsCreateResponse>
@@ -133,7 +133,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param dataConnector The data connector
    * @param callback The callback
    */
@@ -144,7 +144,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param dataConnector The data connector
    * @param options The optional parameters
    * @param callback The callback
@@ -171,7 +171,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -182,7 +182,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, callback: msRest.ServiceCallback<void>): void;
@@ -192,7 +192,7 @@ export class DataConnectors {
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connecto ID
+   * @param dataConnectorId Connector ID
    * @param options The optional parameters
    * @param callback The callback
    */

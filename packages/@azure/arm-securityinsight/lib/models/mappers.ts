@@ -443,7 +443,7 @@ export const TIDataConnectorDataTypes: msRest.CompositeMapper = {
 };
 
 export const TIDataConnector: msRest.CompositeMapper = {
-  serializedName: "ThreatInelegance",
+  serializedName: "ThreatIntelligence",
   type: {
     name: "Composite",
     polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
@@ -521,7 +521,7 @@ export const ASCDataConnector: msRest.CompositeMapper = {
 };
 
 export const MCASDataConnector: msRest.CompositeMapper = {
-  serializedName: "MicrosoftCloudAappSecurity",
+  serializedName: "MicrosoftCloudAppSecurity",
   type: {
     name: "Composite",
     polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
@@ -686,9 +686,9 @@ export const discriminators = {
   'AlertRule.Scheduled' : ScheduledAlertRule,
   'DataConnector' : DataConnector,
   'DataConnector.Office365' : OfficeDataConnector,
-  'DataConnector.ThreatInelegance' : TIDataConnector,
+  'DataConnector.ThreatIntelligence' : TIDataConnector,
   'DataConnector.AzureActiveDirectory' : AADDataConnector,
   'DataConnector.AzureSecurityCenter' : ASCDataConnector,
-  'DataConnector.MicrosoftCloudAappSecurity' : MCASDataConnector,
+  'DataConnector.MicrosoftCloudAppSecurity' : MCASDataConnector,
   'DataConnector.DataConnectorWithAlerts' : DataConnectorWithAlerts
 };

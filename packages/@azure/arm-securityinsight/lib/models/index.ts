@@ -254,7 +254,7 @@ export interface DataConnectorKind1 {
   /**
    * @member {DataConnectorKind} [kind] The kind of the data connector.
    * Possible values include: 'AzureActiveDirectory', 'AzureSecurityCenter',
-   * 'MicrosoftCloudAappSecurity', 'ThreatInelegance', 'Office365'
+   * 'MicrosoftCloudAppSecurity', 'ThreatIntelligence', 'Office365'
    */
   kind?: DataConnectorKind;
 }
@@ -281,7 +281,7 @@ export interface DataConnectorContextId {
  */
 export interface DataConnectorDataTypeCommon {
   /**
-   * @member {DataTypeState} [state] Describe whther this data type connection
+   * @member {DataTypeState} [state] Describe whether this data type connection
    * is enabled or not. Possible values include: 'Enabled', 'Disabled'
    */
   state?: DataTypeState;
@@ -398,14 +398,14 @@ export interface TIDataConnectorDataTypes {
 /**
  * @interface
  * An interface representing TIDataConnector.
- * Represents threat inelegance data connector.
+ * Represents threat intelligence data connector.
  *
  */
 export interface TIDataConnector {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "ThreatInelegance";
+  kind: "ThreatIntelligence";
   /**
    * @member {string} [id] Azure resource Id
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -583,14 +583,14 @@ export interface ASCDataConnector {
 /**
  * @interface
  * An interface representing MCASDataConnector.
- * Represents MCAS (Microsoft Cloud Aapp Security) data connector.
+ * Represents MCAS (Microsoft Cloud App Security) data connector.
  *
  */
 export interface MCASDataConnector {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "MicrosoftCloudAappSecurity";
+  kind: "MicrosoftCloudAppSecurity";
   /**
    * @member {string} [id] Azure resource Id
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -763,11 +763,11 @@ export type TriggerOperator = 'GreaterThan' | 'LessThan' | 'Equal' | 'NotEqual';
 /**
  * Defines values for DataConnectorKind.
  * Possible values include: 'AzureActiveDirectory', 'AzureSecurityCenter',
- * 'MicrosoftCloudAappSecurity', 'ThreatInelegance', 'Office365'
+ * 'MicrosoftCloudAppSecurity', 'ThreatIntelligence', 'Office365'
  * @readonly
  * @enum {string}
  */
-export type DataConnectorKind = 'AzureActiveDirectory' | 'AzureSecurityCenter' | 'MicrosoftCloudAappSecurity' | 'ThreatInelegance' | 'Office365';
+export type DataConnectorKind = 'AzureActiveDirectory' | 'AzureSecurityCenter' | 'MicrosoftCloudAppSecurity' | 'ThreatIntelligence' | 'Office365';
 
 /**
  * Defines values for DataTypeState.
