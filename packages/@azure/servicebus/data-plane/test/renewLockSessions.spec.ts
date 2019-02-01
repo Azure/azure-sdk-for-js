@@ -29,7 +29,7 @@ describe("Standard", function(): void {
 
   const STANDARD_QUEUE_SESSION =
     process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue";
-  describe("Unpartitioned Queues", function(): void {
+  describe("Unpartitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_SESSION);
     const receiverClient = senderClient;
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
@@ -72,7 +72,7 @@ describe("Standard", function(): void {
   });
 
   const STANDARD_QUEUE_PARTITION_SESSION = process.env.QUEUE_NAME_SESSION || "partitioned-queue";
-  describe("Partitioned Queues", function(): void {
+  describe("Partitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION_SESSION);
     const receiverClient = senderClient;
 
@@ -337,7 +337,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   await delay(lockDurationInMilliseconds + 1000);
 
   let errorWasThrown: boolean = false;
-  await msgs[0].complete().catch((err) => {
+  await msgs[0].complete().catch((err: any) => {
     should.equal(err.name, "Error");
     should.equal(!(err.message.search("Cannot find the receiver with name") + 1), false);
     errorWasThrown = true;
