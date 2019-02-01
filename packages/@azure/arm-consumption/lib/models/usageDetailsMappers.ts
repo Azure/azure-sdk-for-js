@@ -30,6 +30,7 @@ export {
   ChargeSummary,
   ProxyResource,
   ReservationRecommendationsShared,
+  Amount,
   ReservationRecommendationsSingle,
   TagsResult,
   Tag,

@@ -13,6 +13,7 @@ export {
   ReservationRecommendationsShared,
   Resource,
   BaseResource,
+  Amount,
   ErrorResponse,
   ErrorDetails,
   UsageDetail,

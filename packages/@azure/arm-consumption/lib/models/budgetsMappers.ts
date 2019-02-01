@@ -23,6 +23,7 @@ export {
   Tag,
   Resource,
   ReservationRecommendationsShared,
+  Amount,
   ReservationRecommendationsSingle,
   UsageDetail,
   MeterDetails,

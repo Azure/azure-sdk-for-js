@@ -30,6 +30,7 @@ export {
   ManagementGroupAggregatedCostResult,
   ProxyResource,
   ReservationRecommendationsShared,
+  Amount,
   ReservationRecommendationsSingle,
   TagsResult,
   Tag,

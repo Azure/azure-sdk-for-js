@@ -1551,12 +1551,10 @@ export interface ReservationRecommendationPropertiesWithAmount {
    */
   readonly term?: string;
   /**
-   * @member {number} [costWithNoRI] The total amount of cost without reserved
+   * @member {Amount} [costWithNoRI] The total amount of cost without reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly costWithNoRI?: number;
+  costWithNoRI?: Amount;
   /**
    * @member {number} [recommendedQuantity] Recommended quality for reserved
    * instances.
@@ -1565,19 +1563,15 @@ export interface ReservationRecommendationPropertiesWithAmount {
    */
   readonly recommendedQuantity?: number;
   /**
-   * @member {number} [totalCostWithRI] The total amount of cost with reserved
+   * @member {Amount} [totalCostWithRI] The total amount of cost with reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly totalCostWithRI?: number;
+  totalCostWithRI?: Amount;
   /**
-   * @member {number} [netSavings] Total estimated savings with reserved
+   * @member {Amount} [netSavings] Total estimated savings with reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly netSavings?: number;
+  netSavings?: Amount;
   /**
    * @member {Date} [firstUsageDate] The usage date for looking back.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1626,12 +1620,10 @@ export interface ReservationRecommendationsShared extends Resource {
    */
   readonly term?: string;
   /**
-   * @member {number} [costWithNoRI] The total amount of cost without reserved
+   * @member {Amount} [costWithNoRI] The total amount of cost without reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly costWithNoRI?: number;
+  costWithNoRI?: Amount;
   /**
    * @member {number} [recommendedQuantity] Recommended quality for reserved
    * instances.
@@ -1640,19 +1632,15 @@ export interface ReservationRecommendationsShared extends Resource {
    */
   readonly recommendedQuantity?: number;
   /**
-   * @member {number} [totalCostWithRI] The total amount of cost with reserved
+   * @member {Amount} [totalCostWithRI] The total amount of cost with reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly totalCostWithRI?: number;
+  totalCostWithRI?: Amount;
   /**
-   * @member {number} [netSavings] Total estimated savings with reserved
+   * @member {Amount} [netSavings] Total estimated savings with reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly netSavings?: number;
+  netSavings?: Amount;
   /**
    * @member {Date} [firstUsageDate] The usage date for looking back.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1701,12 +1689,10 @@ export interface ReservationRecommendationsSingle extends Resource {
    */
   readonly term?: string;
   /**
-   * @member {number} [costWithNoRI] The total amount of cost without reserved
+   * @member {Amount} [costWithNoRI] The total amount of cost without reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly costWithNoRI?: number;
+  costWithNoRI?: Amount;
   /**
    * @member {number} [recommendedQuantity] Recommended quality for reserved
    * instances.
@@ -1715,19 +1701,15 @@ export interface ReservationRecommendationsSingle extends Resource {
    */
   readonly recommendedQuantity?: number;
   /**
-   * @member {number} [totalCostWithRI] The total amount of cost with reserved
+   * @member {Amount} [totalCostWithRI] The total amount of cost with reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly totalCostWithRI?: number;
+  totalCostWithRI?: Amount;
   /**
-   * @member {number} [netSavings] Total estimated savings with reserved
+   * @member {Amount} [netSavings] Total estimated savings with reserved
    * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly netSavings?: number;
+  netSavings?: Amount;
   /**
    * @member {Date} [firstUsageDate] The usage date for looking back.
    * **NOTE: This property will not be serialized. It can only be populated by

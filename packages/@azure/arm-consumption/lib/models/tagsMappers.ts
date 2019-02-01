@@ -22,6 +22,7 @@ export {
   Notification,
   Resource,
   ReservationRecommendationsShared,
+  Amount,
   ReservationRecommendationsSingle,
   UsageDetail,
   MeterDetails,

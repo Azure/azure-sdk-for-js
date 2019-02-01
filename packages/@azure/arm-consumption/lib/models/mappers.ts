@@ -1842,10 +1842,10 @@ export const ReservationRecommendationPropertiesWithAmount: msRest.CompositeMapp
         }
       },
       costWithNoRI: {
-        readOnly: true,
         serializedName: "costWithNoRI",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       recommendedQuantity: {
@@ -1856,17 +1856,17 @@ export const ReservationRecommendationPropertiesWithAmount: msRest.CompositeMapp
         }
       },
       totalCostWithRI: {
-        readOnly: true,
         serializedName: "totalCostWithRI",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       netSavings: {
-        readOnly: true,
         serializedName: "netSavings",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       firstUsageDate: {
@@ -1923,10 +1923,10 @@ export const ReservationRecommendationsShared: msRest.CompositeMapper = {
         }
       },
       costWithNoRI: {
-        readOnly: true,
         serializedName: "properties.costWithNoRI",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       recommendedQuantity: {
@@ -1937,17 +1937,17 @@ export const ReservationRecommendationsShared: msRest.CompositeMapper = {
         }
       },
       totalCostWithRI: {
-        readOnly: true,
         serializedName: "properties.totalCostWithRI",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       netSavings: {
-        readOnly: true,
         serializedName: "properties.netSavings",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       firstUsageDate: {
@@ -2004,10 +2004,10 @@ export const ReservationRecommendationsSingle: msRest.CompositeMapper = {
         }
       },
       costWithNoRI: {
-        readOnly: true,
         serializedName: "properties.costWithNoRI",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       recommendedQuantity: {
@@ -2018,17 +2018,17 @@ export const ReservationRecommendationsSingle: msRest.CompositeMapper = {
         }
       },
       totalCostWithRI: {
-        readOnly: true,
         serializedName: "properties.totalCostWithRI",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       netSavings: {
-        readOnly: true,
         serializedName: "properties.netSavings",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "Amount"
         }
       },
       firstUsageDate: {
