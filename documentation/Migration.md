@@ -86,7 +86,7 @@ class StorageManagementClient
  <tr>
     <td colspan="2">
       <p>
-        All operations are still grouped together by categories. They take a dependency on "Context" object instead of whole client. <a href="#context-types">Read more</a>.
+        Operations are still grouped together by categories. They take a dependency on the client's "Context" object instead of the entire client. <a href="#context-types">Read more</a>.
       </p>
     </td>
   </tr>
@@ -143,7 +143,7 @@ Speaking of size, we also restructed our SDKs to play more nicely with the commo
 
 ## Context Types
 
-Tree-shaking (eliminating not used code) wasn't really possible in our Node.js SDK packages due to the way that we structured our types. For example, the [azure-arm-storage](https://npmjs.com/package/azure-arm-storage) SDK is structured similar to this:
+Tree-shaking (eliminating unused code) wasn't really possible in our Node.js SDK packages due to the way that we structured our types. For example, the [azure-arm-storage](https://npmjs.com/package/azure-arm-storage) SDK is structured similar to this:
 
 ```TypeScript
 class StorageManagementClient {
