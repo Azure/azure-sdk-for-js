@@ -6,7 +6,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/anomalyFinder.js",
+  input: "./esm/anomalyFinderClient.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"

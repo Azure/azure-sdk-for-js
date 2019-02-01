@@ -79,15 +79,13 @@ export interface Request {
   period?: number;
   /**
    * @member {number} [maxAnomalyRatio] Optional argument, advanced model
-   * parameter, max anomaly ratio in a time series. Must be between 0 and 0.5
-   * (exclusive). Default value: 0.25 .
+   * parameter, max anomaly ratio in a time series.
    */
   maxAnomalyRatio?: number;
   /**
    * @member {number} [sensitivity] Optional argument, advanced model
    * parameter, between 0-99, the lower the value is, the larger the margin
-   * value will be which means less anomalies will be accepted. Must be between
-   * 0 and 99 (inclusive). Default value: 99 .
+   * value will be which means less anomalies will be accepted.
    */
   sensitivity?: number;
 }
@@ -172,7 +170,7 @@ export interface LastDetectResponse {
    * @member {number} [upperMargin] Upper margin of the latest point.
    * UpperMargin is used to calculate upperBoundary, which equals to
    * expectedValue + (100 - sensitivity)*upperMargin. If the value of latest
-   * point is between upperBoudary and lowerBoudary, it should be treated as
+   * point is between upperBoundary and lowerBoundary, it should be treated as
    * normal value. By adjusting sensitivity value, anomaly status of latest
    * point can be changed.
    */
@@ -191,7 +189,7 @@ export interface LastDetectResponse {
   isAnomaly?: boolean;
   /**
    * @member {boolean} [isNegativeAnomaly] Anomaly status in negative direction
-   * of the latest point. True means the latest point is an anoamly and its
+   * of the latest point. True means the latest point is an anomaly and its
    * real value is smaller than the expected one.
    */
   isNegativeAnomaly?: boolean;
@@ -212,9 +210,9 @@ export interface LastDetectResponse {
 export type Granularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely';
 
 /**
- * Contains response data for the postTimeseriesEntireDetect operation.
+ * Contains response data for the entireDetect operation.
  */
-export type PostTimeseriesEntireDetectResponse = EntireDetectResponse & {
+export type EntireDetectResponse2 = EntireDetectResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -231,9 +229,9 @@ export type PostTimeseriesEntireDetectResponse = EntireDetectResponse & {
 };
 
 /**
- * Contains response data for the postTimeseriesLastDetect operation.
+ * Contains response data for the lastDetect operation.
  */
-export type PostTimeseriesLastDetectResponse = LastDetectResponse & {
+export type LastDetectResponse2 = LastDetectResponse & {
   /**
    * The underlying HTTP response.
    */

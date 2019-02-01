@@ -66,10 +66,6 @@ export const Request: msRest.CompositeMapper = {
       series: {
         required: true,
         serializedName: "series",
-        constraints: {
-          MaxItems: 8640,
-          MinItems: 12
-        },
         type: {
           name: "Sequence",
           element: {
@@ -103,31 +99,18 @@ export const Request: msRest.CompositeMapper = {
       },
       period: {
         serializedName: "period",
-        constraints: {
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
       },
       maxAnomalyRatio: {
         serializedName: "maxAnomalyRatio",
-        defaultValue: 0.25,
-        constraints: {
-          ExclusiveMaximum: 0.5,
-          ExclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
       },
       sensitivity: {
         serializedName: "sensitivity",
-        defaultValue: 99,
-        constraints: {
-          InclusiveMaximum: 99,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }

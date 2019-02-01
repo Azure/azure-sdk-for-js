@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - AnomalyFinder
+## An isomorphic javascript sdk for - AnomalyFinderClient
 
-This package contains an isomorphic SDK for AnomalyFinder.
+This package contains an isomorphic SDK for AnomalyFinderClient.
 
 ### Currently supported environments
 
@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-anomalyfinder
 
 ### How to use
 
-#### nodejs - Authentication, client creation and postTimeseriesEntireDetect  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and entireDetect  as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -28,11 +28,11 @@ npm install @azure/ms-rest-nodeauth
 ```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AnomalyFinder, AnomalyFinderModels, AnomalyFinderMappers } from "@azure/cognitiveservices-anomalyfinder";
+import { AnomalyFinderClient, AnomalyFinderModels, AnomalyFinderMappers } from "@azure/cognitiveservices-anomalyfinder";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AnomalyFinder(creds, subscriptionId);
+  const client = new AnomalyFinderClient(creds, subscriptionId);
   const body: AnomalyFinderModels.Request = {
     series: [{
       timestamp: new Date().toISOString(),
@@ -44,7 +44,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
     maxAnomalyRatio: 1.01,
     sensitivity: 1.01
   };
-  client.postTimeseriesEntireDetect(body).then((result) => {
+  client.entireDetect(body).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -53,7 +53,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and postTimeseriesEntireDetect  as an example written in JavaScript.
+#### browser - Authentication, client creation and entireDetect  as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -85,7 +85,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesAnomalyfinder.AnomalyFinder(res.creds, subscriptionId);
+        const client = new Azure.CognitiveservicesAnomalyfinder.AnomalyFinderClient(res.creds, subscriptionId);
         const body = {
           series: [{
             timestamp: new Date().toISOString(),
@@ -97,7 +97,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           maxAnomalyRatio: 1.01,
           sensitivity: 1.01
         };
-        client.postTimeseriesEntireDetect(body).then((result) => {
+        client.entireDetect(body).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
