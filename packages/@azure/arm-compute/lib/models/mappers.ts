@@ -4812,6 +4812,12 @@ export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      protectFromScaleIn: {
+        serializedName: "properties.protectFromScaleIn",
+        type: {
+          name: "Boolean"
+        }
+      },
       vmId: {
         readOnly: true,
         serializedName: "properties.vmId",
