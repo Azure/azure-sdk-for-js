@@ -103,7 +103,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queues with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Partitioned Queue with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -113,7 +113,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_batching();
   });
 
-  it("Partitioned Topics and Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Partitioned Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -123,7 +123,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_batching();
   });
 
-  it("Unpartitioned Queues with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Queue with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -133,7 +133,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_batching();
   });
 
-  it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -174,7 +174,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Partitioned Queue with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -184,7 +184,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_streaming();
   });
 
-  it("Partitioned Topics and Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Partitioned Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -194,7 +194,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_streaming();
   });
 
-  it("Unpartitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Queue with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -204,7 +204,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_streaming();
   });
 
-  it("Unpartitioned Topics and Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -264,7 +264,7 @@ describe("Accept a session without passing sessionId and receive messages from r
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Partitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -274,7 +274,7 @@ describe("Accept a session without passing sessionId and receive messages from r
     await testComplete_batching();
   });
 
-  it("Partitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Partitioned Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -284,7 +284,7 @@ describe("Accept a session without passing sessionId and receive messages from r
     await testComplete_batching();
   });
 
-  it("Unpartitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Unpartitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -294,7 +294,7 @@ describe("Accept a session without passing sessionId and receive messages from r
     await testComplete_batching();
   });
 
-  it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
