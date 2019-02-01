@@ -110,7 +110,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
+describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -141,7 +141,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("AutoComplete removes the message from Partitioned Queues(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from Partitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -151,7 +151,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from Partitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from Partitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -161,7 +161,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Queues(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from UnPartitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -171,7 +171,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from UnPartitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -216,7 +216,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
   }
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Queues(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in Partitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -226,7 +226,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in Partitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -236,7 +236,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Queues(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -246,7 +246,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -257,7 +257,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
   });
 });
 
-describe("Complete message(with sessions)", function(): void {
+describe("Streaming Receiver - Complete message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -293,7 +293,7 @@ describe("Complete message(with sessions)", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queues: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Queue: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -303,7 +303,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(false);
   });
 
-  it("Partitioned Topics and Subscription: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -323,7 +323,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(false);
   });
 
-  it("UnPartitioned Topics and Subscription: complete() removes message(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -333,7 +333,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(false);
   });
 
-  it("Partitioned Queues with autoComplete: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Queue with autoComplete: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -343,7 +343,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -363,7 +363,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -374,7 +374,7 @@ describe("Complete message(with sessions)", function(): void {
   });
 });
 
-describe("Abandon message(with sessions)", function(): void {
+describe("Streaming Receiver - Abandon message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -403,7 +403,7 @@ describe("Abandon message(with sessions)", function(): void {
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queues: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -413,7 +413,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(false);
   });
 
-  it("Partitioned Topics and Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -433,7 +433,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(false);
   });
 
-  it("UnPartitioned Topics and Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -443,7 +443,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(false);
   });
 
-  it("Partitioned Queues with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -453,7 +453,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -473,7 +473,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -484,7 +484,7 @@ describe("Abandon message(with sessions)", function(): void {
   });
 });
 
-describe("Defer message(with sessions)", function(): void {
+describe("Streaming Receiver - Defer message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -532,7 +532,7 @@ describe("Defer message(with sessions)", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queues: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -542,7 +542,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(false);
   });
 
-  it("Partitioned Topics and Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -562,7 +562,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(false);
   });
 
-  it("UnPartitioned Topics and Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -572,7 +572,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(false);
   });
 
-  it("Partitioned Queues with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Queue with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -582,7 +582,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -602,7 +602,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -613,7 +613,7 @@ describe("Defer message(with sessions)", function(): void {
   });
 });
 
-describe("Deadletter message(with sessions)", function(): void {
+describe("Streaming Receiver - Deadletter message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -662,7 +662,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(false);
   });
 
-  it("Partitioned Topics and Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -682,7 +682,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(false);
   });
 
-  it("UnPartitioned Topics and Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -702,7 +702,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: deadLetter() moves message to deadletter(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: deadLetter() moves message to deadletter(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -722,7 +722,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -733,7 +733,7 @@ describe("Deadletter message(with sessions)", function(): void {
   });
 });
 
-describe("Multiple Streaming Receivers(with sessions)", function(): void {
+describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -759,7 +759,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     should.equal(errorWasThrown, true);
   }
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queues(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -769,7 +769,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -779,7 +779,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Queues(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -789,7 +789,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -800,7 +800,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
   });
 });
 
-describe("Settle an already Settled message throws error(with sessions)", () => {
+describe("Streaming Receiver - Settle an already Settled message throws error(with sessions)", () => {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -840,7 +840,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     should.equal(errorWasThrown, true);
   }
 
-  it("Partitioned Queues: complete() throws error(with sessions)", async function(): Promise<void> {
+  it("Partitioned Queue: complete() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -848,7 +848,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.complete);
   });
 
-  it("Partitioned Topics and Subscription: complete() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: complete() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -868,7 +868,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.complete);
   });
 
-  it("UnPartitioned Topics and Subscription: complete() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: complete() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -878,7 +878,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.complete);
   });
 
-  it("Partitioned Queues: abandon() throws error(with sessions)", async function(): Promise<void> {
+  it("Partitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -886,7 +886,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.abandon);
   });
 
-  it("Partitioned Topics and Subscription: abandon() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: abandon() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -904,7 +904,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.abandon);
   });
 
-  it("UnPartitioned Topics and Subscription: abandon() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: abandon() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -914,7 +914,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.abandon);
   });
 
-  it("Partitioned Queues: defer() throws error(with sessions)", async function(): Promise<void> {
+  it("Partitioned Queue: defer() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -922,7 +922,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.defer);
   });
 
-  it("Partitioned Topics and Subscription: defer() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: defer() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -940,7 +940,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.defer);
   });
 
-  it("UnPartitioned Topics and Subscription: defer() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: defer() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -950,7 +950,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.defer);
   });
 
-  it("Partitioned Queues: deadLetter() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Queue: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -960,7 +960,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("Partitioned Topics and Subscription: deadLetter()(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -980,7 +980,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("UnPartitioned Topics and Subscription: deadLetter()(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
