@@ -32,7 +32,7 @@ export interface ConnectionContext extends ConnectionContextBase {
 export namespace ConnectionContext {
   /**
    * @property {string} userAgent The user agent string for the ServiceBus client.
-   * Example: azure-sdk-for-js;azure-service-bus/1.0.0-preview.1 (NODE-VERSION v10.15.0; Windows_NT 10.0.17763)
+   * azure-sdk-for-js;azure-<package-name>/<package-version> (NODE-VERSION <node-version>; <os-type> <os-version>)
    */
   export const userAgent: string = `azure-sdk-for-js;azure-service-bus/${
     packageJsonInfo.version
