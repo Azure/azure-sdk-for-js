@@ -25,11 +25,12 @@
   unpartitioned-topic-subscription | Subscription with sessions disabled in the Topic, `unpartitioned-topic` | SUBSCRIPTION_NAME_NO_PARTITION
   partitioned-topic-sessions-subscription | Subscription with sessions enabled in the Topic, `partitioned-topic-sessions` | SUBSCRIPTION_NAME_SESSION
   unpartitioned-topic-sessions-subscription | Subscription with sessions enabled in the Topic, `unpartitioned-topic-sessions` | SUBSCRIPTION_NAME_NO_PARTITION_SESSION
-  topic-filter | Topic for testing topic filters | TOPIC_FILTER>NAME
+  topic-filter | Topic for testing topic filters | TOPIC_FILTER_NAME
   topic-filter-subscription | Subscription in the Topic `topic-filter` | TOPIC_FILTER_SUBSCRIPTION_NAME
   topic-filter-default-subscription | Subscription in the Topic `topic-filter` | TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME
 
 
+    The environment variables can be set by adding a file by the name `.env` in the root folder of this project.
     Following is a sample .env file template that can be re-used for your environment:
     ```
     SERVICEBUS_CONNECTION_STRING=
