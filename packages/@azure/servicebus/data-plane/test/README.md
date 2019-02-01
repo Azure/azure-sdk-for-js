@@ -6,28 +6,31 @@
 
   Note that the tests will empty the messages in these entities to get a clean start before running each test.
 
-  We suggest to name your entities as defined below. If you have these entities with different names, ensure
+  Following is a recommended sample .env template for naming entities. If you have these entities with different names, ensure
   that you have the corresponding environment variables populated with your entity names.
+    ```
+    SERVICEBUS_CONNECTION_STRING=
+    
+    QUEUE_NAME=partitioned-queue
+    QUEUE_NAME_NO_PARTITION=unpartitioned-queue
+    QUEUE_NAME_SESSION=partitioned-sessions-queue
+    QUEUE_NAME_NO_PARTITION_SESSION=unpartitioned-sessions-queue
+    
+    TOPIC_NAME=partitioned-topic
+    TOPIC_NAME_NO_PARTITION=unpartitioned-topic
+    TOPIC_NAME_SESSION=partitioned-sessions-topic
+    TOPIC_NAME_NO_PARTITION_SESSION=unpartitioned-sessions-topic
+    SUBSCRIPTION_NAME=partitioned-subscription
+    SUBSCRIPTION_NAME_NO_PARTITION=unpartitioned-subscription
+    SUBSCRIPTION_NAME_SESSION=partitioned-sessions-subscription
+    SUBSCRIPTION_NAME_NO_PARTITION_SESSION=unpartitioned-sessions-subscription
+    
+    TOPIC_FILTER_NAME=topic-filter
+    TOPIC_FILTER_SUBSCRIPTION_NAME=topic-subscription
+    TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME=topic-subscription-default
 
- 
-  
-  Entitiy Name  | Entity Description | Environment Variable if not using default names
-  ------------- | ------------------|----------
-  partitioned-queue | Queue with partitions enabled and sessions disabled | QUEUE_NAME
-  unpartitioned-queue | Queue with partitions and sessions, both disabled | QUEUE_NAME_NO_PARTITION
-  partitioned-queue-sessions | Queue with partitions and sessions, both enabled | QUEUE_NAME_SESSION
-  unpartitioned-queue-sessions | Queue with partitions disabled and sessions enabled | QUEUE_NAME_NO_PARTITION_SESSION
-  partitioned-topic | Topic with partitions enabled, meant for testing subscriptions with sessions disabled | TOPIC_NAME
-  unpartitioned-topic | Topic with partitions disabled, meant for testing subscriptions with sessions disabled | TOPIC_NAME_NO_PARTITION
-  partitioned-topic-sessions | Topic with partitions enabled, meant for testing subscriptions with sessions enabled | TOPIC_NAME_SESSION
-  unpartitioned-topic-sessions | Topic with partitions disabled, meant for testing subscriptions with sessions enabled | TOPIC_NAME_NO_PARTITION_SESSION
-  partitioned-topic-subscription | Subscription with sessions disabled in the Topic, `partitioned-topic` | SUBSCRIPTION_NAME
-  unpartitioned-topic-subscription | Subscription with sessions disabled in the Topic, `unpartitioned-topic` | SUBSCRIPTION_NAME_NO_PARTITION
-  partitioned-topic-sessions-subscription | Subscription with sessions enabled in the Topic, `partitioned-topic-sessions` | SUBSCRIPTION_NAME_SESSION
-  unpartitioned-topic-sessions-subscription | Subscription with sessions enabled in the Topic, `unpartitioned-topic-sessions` | SUBSCRIPTION_NAME_NO_PARTITION_SESSION
-  topic-filter | Topic for testing topic filters | TOPIC_FILTER
-  topic-filter-subscription | Subscription in the Topic `topic-filter` | TOPIC_FILTER_SUBSCRIPTION
-  topic-filter-default-subscription | Subscription in the Topic `topic-filter` | TOPIC_FILTER_DEFAULT_SUBSCRIPTION
+    ```
+
 
 ## Run all tests
 
