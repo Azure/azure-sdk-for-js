@@ -11,7 +11,7 @@ import { Client } from "./client";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
-import { SessionReceiver } from "./session/messageSession";
+import { MessageSession } from "./session/messageSession";
 import { SessionManager } from "./session/sessionManager";
 
 /**
@@ -55,7 +55,7 @@ export interface ClientEntityContextBase {
    * @property {Dictionary<MessageSession>} messageSessions A dictionary of the MessageSession
    * objects associated with this client.
    */
-  messageSessions: Dictionary<SessionReceiver>;
+  messageSessions: Dictionary<MessageSession>;
   /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
@@ -77,7 +77,7 @@ export interface ClientEntityContextBase {
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
-  getReceiver(name: string, sessionId?: string): MessageReceiver | SessionReceiver | undefined;
+  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession | undefined;
 }
 
 /**
@@ -121,7 +121,7 @@ export namespace ClientEntityContext {
     );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
-      let receiver: MessageReceiver | SessionReceiver | undefined = undefined;
+      let receiver: MessageReceiver | MessageSession | undefined = undefined;
       if (
         sessionId != undefined &&
         entityContext.messageSessions[sessionId] &&

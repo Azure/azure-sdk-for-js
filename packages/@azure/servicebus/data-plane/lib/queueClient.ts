@@ -6,9 +6,9 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
-import { SessionReceiver, SessionReceiverOptions } from "./session/messageSession";
+import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
-import { Receiver, MessageReceiverOptions } from "./receiver";
+import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
 
 export class QueueClient extends Client {
   /**
@@ -93,7 +93,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Fetches the next batch of active messages (including deferred but not deadlettereed messages).
+   * Fetches the next batch of active messages (including deferred but not deadlettered messages).
    * The first call to `peek()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
    *
@@ -108,7 +108,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Peeks the desired number of active messages (including deferred but not deadlettereed messages)
+   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
    * from the specified sequence number.
    *
    * Unlike a `received` message, `peeked` message is a read-only version of the message.
@@ -127,25 +127,25 @@ export class QueueClient extends Client {
     });
   }
 
-  /**
-   * Lists the ids of the sessions on the ServiceBus Queue.
-   * @param maxNumberOfSessions Maximum number of sessions.
-   * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
-   * value is 3 days before the current time.
-   */
-  async listMessageSessions(
-    maxNumberOfSessions: number,
-    lastUpdatedTime?: Date
-  ): Promise<string[]> {
-    return this._context.managementClient!.listMessageSessions(
-      0,
-      maxNumberOfSessions,
-      lastUpdatedTime
-    );
-  }
+  // /**
+  //  * Lists the ids of the sessions on the ServiceBus Queue.
+  //  * @param maxNumberOfSessions Maximum number of sessions.
+  //  * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
+  //  * value is 3 days before the current time.
+  //  */
+  // async listMessageSessions(
+  //   maxNumberOfSessions: number,
+  //   lastUpdatedTime?: Date
+  // ): Promise<string[]> {
+  //   return this._context.managementClient!.listMessageSessions(
+  //     0,
+  //     maxNumberOfSessions,
+  //     lastUpdatedTime
+  //   );
+  // }
 
   /**
-   * Creates a sessionReceiver with given sessionId from the ServiceBus Queue.
+   * Creates a SessionReceiver with given sessionId from the ServiceBus Queue.
    * When no sessionId is given, a random session among the available sessions is used.
    * This Receiver can be used to receive messages in batches or by registering handlers.
    *
@@ -159,6 +159,7 @@ export class QueueClient extends Client {
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
     if (!options) options = {};
     this._context.isSessionEnabled = true;
-    return SessionReceiver.create(this._context, options);
+    const messageSession = await MessageSession.create(this._context, options);
+    return new SessionReceiver(this._context, messageSession);
   }
 }

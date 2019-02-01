@@ -31,11 +31,11 @@ import { purge } from "./testUtils";
 //   const namespace = Namespace.createFromConnectionString(PREMIUM_SERVICEBUS_CONNECTION_STRING);
 
 //   const PREMIUM_QUEUE = check(process.env.PREMIUM_QUEUE, "PREMIUM_QUEUE");
-//   describe("Unpartitioned Queues", function(): void {
+//   describe("Unpartitioned Queue", function(): void {
 //     const senderClient = namespace.createQueueClient(PREMIUM_QUEUE);
 //     const receiverClient = senderClient;
 
-//     // Copy paste tests applicable for Unpartitioned Queues in Premium pricing here from the Standard section
+//     // Copy paste tests applicable for Unpartitioned Queue in Premium pricing here from the Standard section
 //   });
 
 //   const PREMIUM_TOPIC = check(process.env.PREMIUM_TOPIC, "PREMIUM_TOPIC");
@@ -56,7 +56,7 @@ describe("Standard", function(): void {
   const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
 
   const STANDARD_QUEUE = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
-  describe("Unpartitioned Queues", function(): void {
+  describe("Unpartitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE);
     const receiverClient = senderClient;
 
@@ -131,7 +131,7 @@ describe("Standard", function(): void {
   });
 
   const STANDARD_QUEUE_PARTITION = process.env.QUEUE_NAME || "partitioned-queue";
-  describe("Partitioned Queues", function(): void {
+  describe("Partitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION);
     const receiverClient = senderClient;
 
@@ -374,19 +374,19 @@ describe("Standard", function(): void {
 //   const namespace = Namespace.createFromConnectionString(BASIC_SERVICEBUS_CONNECTION_STRING);
 
 //   const BASIC_QUEUE = check(process.env.BASIC_QUEUE, "BASIC_QUEUE");
-//   describe("Unpartitioned Queues", function(): void {
+//   describe("Unpartitioned Queue", function(): void {
 //     const senderClient = namespace.createQueueClient(BASIC_QUEUE);
 //     const receiverClient = senderClient;
 
-//     // Copy paste tests applicable for Unpartitioned Queues in Basic pricing here from the Standard section
+//     // Copy paste tests applicable for Unpartitioned Queue in Basic pricing here from the Standard section
 //   });
 
 //   const BASIC_QUEUE_PARTITION = check(process.env.BASIC_QUEUE_PARTITION, "BASIC_QUEUE_PARTITION");
-//   describe("Partitioned Queues", function(): void {
+//   describe("Partitioned Queue", function(): void {
 //     const senderClient = namespace.createQueueClient(BASIC_QUEUE_PARTITION);
 //     const receiverClient = senderClient;
 
-//     // Copy paste tests applicable for Partitioned Queues in Premium pricing here from the Standard section
+//     // Copy paste tests applicable for Partitioned Queue in Premium pricing here from the Standard section
 //   });
 // });
 
