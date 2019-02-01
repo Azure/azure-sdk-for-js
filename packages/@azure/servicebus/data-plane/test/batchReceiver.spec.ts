@@ -12,7 +12,6 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  SessionReceiver,
   ServiceBusMessage,
   delay,
   SendableMessageInfo
@@ -27,7 +26,7 @@ import {
   ClientType,
   purge
 } from "./testUtils";
-import { Receiver } from "../lib/receiver";
+import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
 async function testPeekMsgsLength(

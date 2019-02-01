@@ -7,14 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import {
-  Namespace,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
-  delay,
-  SessionReceiver
-} from "../lib";
+import { Namespace, QueueClient, TopicClient, SubscriptionClient, delay } from "../lib";
 
 import {
   testSimpleMessages,
@@ -27,7 +20,7 @@ import {
   ClientType,
   purge
 } from "./testUtils";
-import { Receiver } from "../lib/receiver";
+import { Receiver, SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
