@@ -423,17 +423,9 @@ export class SessionReceiver {
    * @returns void
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
-    try {
-      return this._messageSession.receive(onMessage, onError, options);
-    } catch (err) {
-      const msg =
-        `MessageSession with sessionId '${this.sessionId}' and name '${
-          this._messageSession.name
-        }' ` + `resulted in an error`;
-      log.error("[%s] %s %O", this._context.namespace.connectionId, msg, err);
-      throw err;
-    }
+    return this._messageSession.receive(onMessage, onError, options);
   }
+
   async close(): Promise<void> {
     try {
       return await this._messageSession.close();
