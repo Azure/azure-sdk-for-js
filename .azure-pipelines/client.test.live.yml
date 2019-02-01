@@ -31,6 +31,7 @@ steps:
       command: 'custom'
       customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter'
     displayName: 'npm run live-test-client'
+    timeoutInMinutes: 90
     env:
       SERVICEBUS_CONNECTION_STRING: $(js-service-bus-test-connection-string)
 
