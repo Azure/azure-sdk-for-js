@@ -583,6 +583,80 @@ export interface PolicyEventsQueryResults {
 
 /**
  * @interface
+ * An interface representing ExpressionEvaluationDetails.
+ * Evaluation details of policy language expressions.
+ *
+ */
+export interface ExpressionEvaluationDetails {
+  /**
+   * @member {string} [result] Evaluation result.
+   */
+  result?: string;
+  /**
+   * @member {string} [expression] Expression evaluated.
+   */
+  expression?: string;
+  /**
+   * @member {string} [path] Property path if the expression is a field or an
+   * aliase.
+   */
+  path?: string;
+  /**
+   * @member {string} [expressionValue] Value of the expression.
+   */
+  expressionValue?: string;
+  /**
+   * @member {string} [targetValue] Target value to be compared with the
+   * expression value.
+   */
+  targetValue?: string;
+  /**
+   * @member {string} [operator] Operator to compare the expression value and
+   * the target value.
+   */
+  operator?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IfNotExistsEvaluationDetails.
+ * Evaluation details of IfNotExists effect.
+ *
+ */
+export interface IfNotExistsEvaluationDetails {
+  /**
+   * @member {string} [resourceId] ID of the last evaluated resource for
+   * IfNotExists effect.
+   */
+  resourceId?: string;
+  /**
+   * @member {number} [totalResources] Total number of resources to which the
+   * existence condition is applicable.
+   */
+  totalResources?: number;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyEvaluationDetails.
+ * Policy evaluation details.
+ *
+ */
+export interface PolicyEvaluationDetails {
+  /**
+   * @member {ExpressionEvaluationDetails[]} [evaluatedExpressions] Details of
+   * the evaluated expressions.
+   */
+  evaluatedExpressions?: ExpressionEvaluationDetails[];
+  /**
+   * @member {IfNotExistsEvaluationDetails} [ifNotExistsDetails] Evaluation
+   * details of IfNotExists effect.
+   */
+  ifNotExistsDetails?: IfNotExistsEvaluationDetails;
+}
+
+/**
+ * @interface
  * An interface representing PolicyState.
  * Policy state record.
  *
@@ -711,6 +785,15 @@ export interface PolicyState {
    * set.
    */
   policyDefinitionReferenceId?: string;
+  /**
+   * @member {string} [complianceState] Compliance state of the resource.
+   */
+  complianceState?: string;
+  /**
+   * @member {PolicyEvaluationDetails} [policyEvaluationDetails] Policy
+   * evaluation details.
+   */
+  policyEvaluationDetails?: PolicyEvaluationDetails;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
@@ -977,6 +1060,11 @@ export interface QueryOptions {
    * @member {string} [apply] OData apply expression for aggregations.
    */
   apply?: string;
+  /**
+   * @member {string} [expand] The $expand query parameter. For example, to
+   * expand policyEvaluationDetails, use $expand=policyEvaluationDetails
+   */
+  expand?: string;
 }
 
 /**
