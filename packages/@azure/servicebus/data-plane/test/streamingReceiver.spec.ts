@@ -367,28 +367,28 @@ describe("Streaming Receiver - Abandon message", function(): void {
     await testPeekMsgsLength(deadLetterClient, 0);
   }
 
-  it("Partitioned Queue: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
+  it("Partitioned Queue: Multiple abandons until maxDeliveryCount", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testMultipleAbandons();
   });
 
-  it("Partitioned Subscription: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
+  it("Partitioned Subscription: Multiple abandons until maxDeliveryCount", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testMultipleAbandons();
   });
 
-  it("Unpartitioned Queue: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
+  it("Unpartitioned Queue: Multiple abandons until maxDeliveryCount", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testMultipleAbandons();
   });
 
-  it("Unpartitioned Subscription: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
+  it("Unpartitioned Subscription: Multiple abandons until maxDeliveryCount", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
