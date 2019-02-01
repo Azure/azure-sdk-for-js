@@ -20,31 +20,6 @@ import {
 import { delay } from "rhea-promise";
 import { testSessionId1, purge } from "./testUtils";
 
-// describe("Premium", function(): void {
-//   const PREMIUM_SERVICEBUS_CONNECTION_STRING = check(
-//     process.env.PREMIUM_SERVICEBUS_CONNECTION_STRING,
-//     "PREMIUM_SERVICEBUS_CONNECTION_STRING"
-//   );
-//   const namespace = Namespace.createFromConnectionString(PREMIUM_SERVICEBUS_CONNECTION_STRING);
-
-//   const PREMIUM_QUEUE = check(process.env.PREMIUM_QUEUE, "PREMIUM_QUEUE");
-//   describe("Unpartitioned Queues", function(): void {
-//     const senderClient = namespace.createQueueClient(PREMIUM_QUEUE);
-//     const sessionClient = senderClient;
-
-//     // Copy paste tests applicable for Unpartitioned Queues in Premium pricing here from the Standard section
-//   });
-
-//   const PREMIUM_TOPIC = check(process.env.PREMIUM_TOPIC, "PREMIUM_TOPIC");
-//   const PREMIUM_SUBSCRIPTION = check(process.env.PREMIUM_SUBSCRIPTION, "PREMIUM_SUBSCRIPTION");
-//   describe("Unpartitioned Topic/Subscription", function(): void {
-//     const senderClient = namespace.createTopicClient(PREMIUM_TOPIC);
-//     const sessionClient = namespace.createSubscriptionClient(PREMIUM_TOPIC, PREMIUM_SUBSCRIPTION);
-
-//     // Copy paste tests applicable for Unpartitioned Topic/Subscription Premium pricing here from the Standard section
-//   });
-// });
-
 describe("Standard", function(): void {
   const SERVICEBUS_CONNECTION_STRING = check(
     process.env.SERVICEBUS_CONNECTION_STRING,
@@ -93,33 +68,6 @@ describe("Standard", function(): void {
         });
         // Service bus completes the message even when the session lock expires.
       });
-
-      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 38,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 35
-        });
-      });
-
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 35,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 55
-        });
-      }).timeout(80000);
-
-      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 15,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
-        });
-      });
     });
   });
 
@@ -162,34 +110,7 @@ describe("Standard", function(): void {
           maxSessionAutoRenewLockDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31
         });
-        // Complete fails as expected
-      });
-
-      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 38,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 35
-        });
-      });
-
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 35,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 55
-        });
-      }).timeout(80000);
-
-      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 15,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
-        });
+        // Service bus completes the message even when the session lock expires.
       });
     });
   });
@@ -239,34 +160,7 @@ describe("Standard", function(): void {
           maxSessionAutoRenewLockDurationInSeconds: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31
         });
-        // Complete fails as expected
-      });
-
-      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 38,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 35
-        });
-      });
-
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 35,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 55
-        });
-      }).timeout(80000);
-
-      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 15,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
-        });
+        // Service bus completes the message even when the session lock expires.
       });
     });
   });
@@ -347,30 +241,6 @@ describe("Standard", function(): void {
     });
   });
 });
-
-// describe("Basic", function(): void {
-//   const BASIC_SERVICEBUS_CONNECTION_STRING = check(
-//     process.env.BASIC_SERVICEBUS_CONNECTION_STRING,
-//     "BASIC_SERVICEBUS_CONNECTION_STRING"
-//   );
-//   const namespace = Namespace.createFromConnectionString(BASIC_SERVICEBUS_CONNECTION_STRING);
-
-//   const BASIC_QUEUE = check(process.env.BASIC_QUEUE, "BASIC_QUEUE");
-//   describe("Unpartitioned Queues", function(): void {
-//     const senderClient = namespace.createQueueClient(BASIC_QUEUE);
-//     const sessionClient = senderClient;
-
-//     // Copy paste tests applicable for Unpartitioned Queues in Basic pricing here from the Standard section
-//   });
-
-//   const BASIC_QUEUE_PARTITION = check(process.env.BASIC_QUEUE_PARTITION, "BASIC_QUEUE_PARTITION");
-//   describe("Partitioned Queues", function(): void {
-//     const senderClient = namespace.createQueueClient(BASIC_QUEUE_PARTITION);
-//     const sessionClient = senderClient;
-
-//     // Copy paste tests applicable for Partitioned Queues in Premium pricing here from the Standard section
-//   });
-// });
 
 const lockDurationInMilliseconds = 30000;
 // const maxSessionAutoRenewLockDurationInSeconds = 300;
