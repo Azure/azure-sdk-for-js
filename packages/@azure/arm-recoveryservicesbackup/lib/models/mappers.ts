@@ -2104,6 +2104,12 @@ export const BackupStatusResponse: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      vaultId: {
+        serializedName: "vaultId",
+        type: {
+          name: "String"
+        }
+      },
       fabricName: {
         serializedName: "fabricName",
         type: {
@@ -3699,6 +3705,12 @@ export const PreValidateEnableBackupRequest: msRest.CompositeMapper = {
       },
       resourceId: {
         serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      vaultId: {
+        serializedName: "vaultId",
         type: {
           name: "String"
         }
