@@ -113,7 +113,7 @@ async function beforeEachTest(
 async function afterEachTest(): Promise<void> {
   await ns.close();
 }
-describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
+describe("Batch Receiver - Complete/Abandon/Defer/Deadletter normal message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -571,7 +571,7 @@ describe("Complete/Abandon/Defer/Deadletter normal message", function(): void {
   });
 });
 
-describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
+describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -746,7 +746,7 @@ describe("Abandon/Defer/Deadletter deadlettered message", function(): void {
   });
 });
 
-describe("Multiple ReceiveBatch calls", function(): void {
+describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -932,7 +932,7 @@ describe("Multiple ReceiveBatch calls", function(): void {
   });
 });
 
-describe("Batching Receiver Misc Tests", function(): void {
+describe("Batch Receiver - Batching Receiver Misc Tests", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });

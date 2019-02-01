@@ -326,7 +326,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
   });
 });
 
-describe("Topic Filters: Get Rules", function(): void {
+describe("Topic Filters -  Get Rules", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -401,7 +401,7 @@ describe("Topic Filters: Get Rules", function(): void {
   });
 });
 
-describe("Send/Receive messages using default filter of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using default filter of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -421,7 +421,7 @@ describe("Send/Receive messages using default filter of subscription", function(
   });
 });
 
-describe("Send/Receive messages using boolean filters of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using boolean filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -470,7 +470,7 @@ describe("Send/Receive messages using boolean filters of subscription", function
   });
 });
 
-describe("Send/Receive messages using sql filters of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using sql filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -572,7 +572,7 @@ describe("Send/Receive messages using sql filters of subscription", function(): 
   });*/
 });
 
-describe("Send/Receive messages using correlation filters of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using correlation filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });

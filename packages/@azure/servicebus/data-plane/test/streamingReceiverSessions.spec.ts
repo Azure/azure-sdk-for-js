@@ -110,7 +110,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
+describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -257,7 +257,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
   });
 });
 
-describe("Complete message(with sessions)", function(): void {
+describe("Streaming Receiver - Complete message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -374,7 +374,7 @@ describe("Complete message(with sessions)", function(): void {
   });
 });
 
-describe("Abandon message(with sessions)", function(): void {
+describe("Streaming Receiver - Abandon message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -484,7 +484,7 @@ describe("Abandon message(with sessions)", function(): void {
   });
 });
 
-describe("Defer message(with sessions)", function(): void {
+describe("Streaming Receiver - Defer message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -613,7 +613,7 @@ describe("Defer message(with sessions)", function(): void {
   });
 });
 
-describe("Deadletter message(with sessions)", function(): void {
+describe("Streaming Receiver - Deadletter message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -733,7 +733,7 @@ describe("Deadletter message(with sessions)", function(): void {
   });
 });
 
-describe("Multiple Streaming Receivers(with sessions)", function(): void {
+describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -800,7 +800,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
   });
 });
 
-describe("Settle an already Settled message throws error(with sessions)", () => {
+describe("Streaming Receiver - Settle an already Settled message throws error(with sessions)", () => {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -960,7 +960,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("Partitioned Topics and Subscription: deadLetter()(with sessions)", async function(): Promise<
+  it("Partitioned Topics and Subscription: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -980,7 +980,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("UnPartitioned Topics and Subscription: deadLetter()(with sessions)", async function(): Promise<
+  it("UnPartitioned Topics and Subscription: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(

@@ -112,7 +112,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Streaming Receiver Misc Tests", function(): void {
+describe("Streaming Receiver - Misc Tests", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -233,7 +233,7 @@ describe("Streaming Receiver Misc Tests", function(): void {
   });
 });
 
-describe("Complete message", function(): void {
+describe("Streaming Receiver - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -321,7 +321,7 @@ describe("Complete message", function(): void {
   });
 });
 
-describe("Abandon message", function(): void {
+describe("Streaming Receiver - Abandon message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -371,28 +371,28 @@ describe("Abandon message", function(): void {
     await testPeekMsgsLength(deadLetterClient, 0);
   }
 
-  it("Partitioned Queue: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+  it("Partitioned Queue: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testMultipleAbandons();
   });
 
-  it("Partitioned Topics and Subscription: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+  it("Partitioned Topics and Subscription: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testMultipleAbandons();
   });
 
-  it("Unpartitioned Queue: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+  it("Unpartitioned Queue: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testMultipleAbandons();
   });
 
-  it("Unpartitioned Topics and Subscription: Multiple abandons until maxDeliveryCount.", async function(): Promise<
+  it("Unpartitioned Topics and Subscription: Multiple abandons until maxDeliveryCount, abandon() retains message with incremented deliveryCount.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
@@ -400,7 +400,7 @@ describe("Abandon message", function(): void {
   });
 });
 
-describe("Defer message", function(): void {
+describe("Streaming Receiver - Defer message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -514,7 +514,7 @@ describe("Defer message", function(): void {
   });
 });
 
-describe("Deadletter message", function(): void {
+describe("Streaming Receiver - Deadletter message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -605,7 +605,7 @@ describe("Deadletter message", function(): void {
   });
 });
 
-describe("Multiple Streaming Receivers", function(): void {
+describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -662,7 +662,7 @@ describe("Multiple Streaming Receivers", function(): void {
   });
 });
 
-describe("Settle an already Settled message throws error", () => {
+describe("Streaming Receiver - Settle an already Settled message throws error", () => {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -777,7 +777,9 @@ describe("Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("Partitioned Topics and Subscription: deadLetter()", async function(): Promise<void> {
+  it("Partitioned Topics and Subscription: deadLetter() throws error", async function(): Promise<
+    void
+  > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testSettlement(DispositionType.deadletter);
   });
@@ -787,7 +789,9 @@ describe("Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("UnPartitioned Topics and Subscription: deadLetter()", async function(): Promise<void> {
+  it("UnPartitioned Topics and Subscription: deadLetter() throws error", async function(): Promise<
+    void
+  > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
     await testSettlement(DispositionType.deadletter);
   });
