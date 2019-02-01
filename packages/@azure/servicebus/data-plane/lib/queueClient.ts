@@ -145,7 +145,7 @@ export class QueueClient extends Client {
   // }
 
   /**
-   * Creates a messageSession with given sessionId from the ServiceBus Queue.
+   * Creates a SessionReceiver with given sessionId from the ServiceBus Queue.
    * When no sessionId is given, a random session among the available sessions is used.
    * This Receiver can be used to receive messages in batches or by registering handlers.
    *

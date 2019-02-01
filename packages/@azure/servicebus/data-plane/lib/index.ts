@@ -19,11 +19,11 @@ export { TopicClient } from "./topicClient";
 export { SubscriptionClient } from "./subscriptionClient";
 
 export { Sender } from "./sender";
-export { Receiver, MessageReceiverOptions } from "./receiver";
+export { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
 
 export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
-export { MessageSession, SessionReceiverOptions } from "./session/messageSession";
+export { SessionReceiverOptions } from "./session/messageSession";
 
 export { SQLExpression, CorrelationFilter, RuleDescription } from "./core/managementClient";
 

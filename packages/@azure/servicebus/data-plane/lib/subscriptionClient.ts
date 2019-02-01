@@ -191,7 +191,7 @@ export class SubscriptionClient extends Client {
   // }
 
   /**
-   * Creates a session client with given sessionId in the ServiceBus Subscription.
+   * Creates a SessionReceiver with given sessionId in the ServiceBus Subscription.
    * When no sessionId is given, a random session among the available sessions is used.
    * This Receiver can be used to receive messages in batches or by registering handlers.
    *
