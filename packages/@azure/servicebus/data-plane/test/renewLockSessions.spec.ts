@@ -84,7 +84,7 @@ describe("Standard", function(): void {
         await testStreamingReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it.only("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
+      it("Receive a msg using Streaming Receiver, lock expires after 30 sec when auto renewal is disabled", async function(): Promise<
         void
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
