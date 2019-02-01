@@ -68,7 +68,7 @@ export class Namespace {
    * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
    * authentication. Default value: `SasTokenProvider`.
    */
-  constructor(config: ConnectionConfig, options?: NamespaceOptions) {
+  private constructor(config: ConnectionConfig, options?: NamespaceOptions) {
     if (!options) options = {};
     this.name = config.endpoint;
     this._context = ConnectionContext.create(config, options);
@@ -244,10 +244,19 @@ export class Namespace {
     return Namespace.createFromTokenProvider(host, tokenProvider, options);
   }
 
+  /**
+   * Returns the corresponding dead letter queue name for the given queue name.
+   * @param queueName
+   */
   static getDeadLetterQueuePathForQueue(queueName: string): string {
     return `${queueName}/$DeadLetterQueue`;
   }
 
+  /**
+   * Returns the corresponding dead letter subscription name for the given topic and subscription names.
+   * @param topicName
+   * @param subscriptionName
+   */
   static getDeadLetterSubcriptionPathForSubcription(
     topicName: string,
     subscriptionName: string

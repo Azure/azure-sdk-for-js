@@ -10,7 +10,6 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  generateUuid,
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
@@ -254,7 +253,7 @@ let testMessage: any;
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
   testMessage = {
     body: "hello1",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     sessionId: testSessionId1
   };
   await purge(receiverClient, testSessionId1);

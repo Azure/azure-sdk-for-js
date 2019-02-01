@@ -6,9 +6,13 @@ import { ConnectionContext } from "./connectionContext";
 import { Client } from "./client";
 import { Sender } from "./sender";
 
+/**
+ * Describes the client that will maintain an AMQP connection to a ServiceBus Topic.
+ * @class TopicClient
+ */
 export class TopicClient extends Client {
   /**
-   * Instantiates a client that will maintain an AMQP connection to a ServiceBus Topic.
+   * Constructor for TopicClient.
    * This is not meant for the user to call directly.
    * The user should use the `createTopicClient` on the Namespace instead.
    *

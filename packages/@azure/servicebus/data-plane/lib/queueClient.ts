@@ -10,13 +10,18 @@ import { MessageSession, SessionReceiverOptions } from "./session/messageSession
 import { Sender } from "./sender";
 import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
 
+/**
+ * Describes the client that will maintain an AMQP connection to a ServiceBus Queue.
+ * @class QueueClient
+ */
 export class QueueClient extends Client {
   /**
-   * Instantiates a client that will maintain an AMQP connection to a ServiceBus Queue.
+   * Constructor for QueueClient.
    * This is not meant for the user to call directly.
    * The user should use the `createQueueClient` on the Namespace instead.
    *
    * @constructor
+   * @internal
    * @param name The Queue name.
    * @param context The connection context to create the QueueClient.
    */

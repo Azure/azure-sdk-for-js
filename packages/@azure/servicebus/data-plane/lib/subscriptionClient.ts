@@ -9,6 +9,10 @@ import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 
+/**
+ * Describes the client that will maintain an AMQP connection to a ServiceBus Subscription.
+ * @class SubscriptionClient
+ */
 export class SubscriptionClient extends Client {
   /**
    * @property {string} topicPath The topic path.
@@ -29,7 +33,7 @@ export class SubscriptionClient extends Client {
   readonly defaultRuleName: string = "$Default";
 
   /**
-   * Instantiates a client that will maintain an AMQP connection to a Service Bus Subscription.
+   * Constructor for SubscriptionClient.
    * This is not meant for the user to call directly.
    * The user should use the `createSubscriptionClient` on the Namespace instead.
    *

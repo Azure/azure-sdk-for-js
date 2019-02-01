@@ -23,6 +23,7 @@ export interface MessageReceiverOptions {
 /**
  * An abstraction over the underlying receiver link.
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
+ * @class Receiver
  */
 export class Receiver {
   /**
@@ -244,6 +245,7 @@ export class Receiver {
 /**
  * An abstraction over the underlying session-receiver.
  * The SessionReceiver class can be used to receive messages in a batch or by registering handlers.
+ * @class SessionReceiver
  */
 export class SessionReceiver {
   /**
@@ -255,10 +257,16 @@ export class SessionReceiver {
   private _sessionId: string | undefined;
   private _messageSession: MessageSession;
 
+  /**
+   * @property {string} [sessionId] The sessionId for the message session.
+   */
   public get sessionId(): string {
     return this._sessionId || "";
   }
 
+  /**
+   * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
+   */
   public get sessionLockedUntilUtc(): Date | undefined {
     return this._messageSession.sessionLockedUntilUtc;
   }
