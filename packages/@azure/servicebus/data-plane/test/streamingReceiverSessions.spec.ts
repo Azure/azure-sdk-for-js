@@ -10,7 +10,6 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  SessionReceiver,
   ServiceBusMessage,
   TopicClient,
   SubscriptionClient,
@@ -21,13 +20,14 @@ import { DispositionType } from "../lib/serviceBusMessage";
 
 import {
   testMessagesWithSessions,
-  testSessionId,
+  testSessionId1,
   getSenderClient,
   getReceiverClient,
   ClientType,
   purge
 } from "./testUtils";
 import { Sender } from "../lib/sender";
+import { SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -90,8 +90,8 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     );
   }
 
-  await purge(receiverClient, true);
-  await purge(deadLetterClient, false);
+  await purge(receiverClient, testSessionId1);
+  await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -99,7 +99,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
   }
 
   sessionReceiver = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId
+    sessionId: testSessionId1
   });
 
   errorWasThrown = false;
@@ -394,7 +394,7 @@ describe("Abandon message(with sessions)", function(): void {
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     sessionReceiver = await receiverClient.getSessionReceiver({
-      sessionId: testSessionId
+      sessionId: testSessionId1
     });
     const receivedMsgs = await sessionReceiver.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);

@@ -12,7 +12,6 @@ import {
   QueueClient,
   TopicClient,
   SubscriptionClient,
-  SessionReceiver,
   ServiceBusMessage,
   delay,
   SendableMessageInfo
@@ -21,13 +20,13 @@ import {
 import {
   testSimpleMessages,
   testMessagesWithSessions,
-  testSessionId,
+  testSessionId1,
   getSenderClient,
   getReceiverClient,
   ClientType,
   purge
 } from "./testUtils";
-import { Receiver } from "../lib/receiver";
+import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
 async function testPeekMsgsLength(
@@ -88,8 +87,8 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, useSessions);
-  await purge(deadLetterClient, false);
+  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -105,7 +104,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId
+        sessionId: testSessionId1
       })
     : receiverClient.getReceiver();
 }
@@ -847,13 +846,12 @@ describe("Multiple ReceiveBatch calls", function(): void {
     // affect the result from the first one.
     should.equal(Array.isArray(msgs1), true);
     should.equal(msgs1.length, 1);
-    should.equal(msgs1[0].body, testMessages[0].body);
-    should.equal(msgs1[0].messageId, testMessages[0].messageId);
 
     should.equal(Array.isArray(msgs2), true);
     should.equal(msgs2.length, 1);
-    should.equal(msgs2[0].body, testMessages[1].body);
-    should.equal(msgs2[0].messageId, testMessages[1].messageId);
+
+    should.equal(testMessages.some((x) => x.messageId === msgs1[0].messageId), true);
+    should.equal(testMessages.some((x) => x.messageId === msgs2[0].messageId), true);
 
     await msgs1[0].complete();
     await msgs2[0].complete();

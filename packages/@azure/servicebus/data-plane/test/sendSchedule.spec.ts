@@ -7,27 +7,20 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import {
-  Namespace,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
-  delay,
-  SessionReceiver
-} from "../lib";
+import { Namespace, QueueClient, TopicClient, SubscriptionClient, delay } from "../lib";
 
 import {
   testSimpleMessages,
   testMessagesToSamePartitions,
   testMessagesWithSessions,
-  testSessionId,
+  testSessionId1,
   testMessagesToSamePartitionsWithSessions,
   getSenderClient,
   getReceiverClient,
   ClientType,
   purge
 } from "./testUtils";
-import { Receiver } from "../lib/receiver";
+import { Receiver, SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -65,7 +58,7 @@ async function beforeEachTest(
   senderClient = getSenderClient(ns, senderType);
   receiverClient = getReceiverClient(ns, receiverType);
 
-  await purge(receiverClient, useSessions);
+  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -74,7 +67,7 @@ async function beforeEachTest(
 
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId
+        sessionId: testSessionId1
       })
     : receiverClient.getReceiver();
 }

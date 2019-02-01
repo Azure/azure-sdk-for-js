@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import * as Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
+import { MessageSession, SessionMessageHandlerOptions } from "./session/messageSession";
 
 /**
  * Describes the options for creating a Receiver.
@@ -237,6 +237,205 @@ export class Receiver {
         `cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
 
       throw new Error(msg);
+    }
+  }
+}
+
+/**
+ * An abstraction over the underlying session-receiver.
+ * The SessionReceiver class can be used to receive messages in a batch or by registering handlers.
+ */
+export class SessionReceiver {
+  /**
+   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   */
+
+  private _context: ClientEntityContext;
+  private _receiveMode: ReceiveMode;
+  private _sessionId: string | undefined;
+  private _messageSession: MessageSession;
+
+  public get sessionId(): string {
+    return this._sessionId || "";
+  }
+
+  public get sessionLockedUntilUtc(): Date | undefined {
+    return this._messageSession.sessionLockedUntilUtc;
+  }
+
+  constructor(context: ClientEntityContext, messageSession: MessageSession) {
+    this._context = context;
+    this._receiveMode = messageSession.receiveMode;
+    this._sessionId = messageSession.sessionId;
+    this._messageSession = messageSession;
+  }
+
+  /**
+   * Renews the lock for the Session.
+   * @returns Promise<Date> New lock token expiry date and time in UTC format.
+   */
+  async renewLock(): Promise<Date> {
+    this._messageSession.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
+      this.sessionId!
+    );
+    return this._messageSession.sessionLockedUntilUtc;
+  }
+
+  /**
+   * Sets the state of the MessageSession.
+   * @param state The state that needs to be set.
+   */
+  async setState(state: any): Promise<void> {
+    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+  }
+
+  /**
+   * Gets the state of the MessageSession.
+   * @returns Promise<any> The state of that session
+   */
+  async getState(): Promise<any> {
+    return this._context.managementClient!.getSessionState(this.sessionId!);
+  }
+
+  /**
+   * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
+   * the current session. The first call to `peek()` fetches the first active message. Each
+   * subsequent call fetches the subsequent message.
+   *
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
+   *
+   * @param messageCount The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedMessageInfo[]>
+   */
+  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, messageCount);
+  }
+
+  /**
+   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
+   * from the specified sequence number in the current session.
+   *
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
+   *
+   * @param fromSequenceNumber The sequence number from where to read the message.
+   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedSBMessage[]>
+   */
+  async peekBySequenceNumber(
+    fromSequenceNumber: Long,
+    messageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
+      sessionId: this.sessionId!,
+      messageCount: messageCount
+    });
+  }
+
+  /**
+   * Receives a deferred message identified by the given `sequenceNumber`.
+   * @param sequenceNumber The sequence number of the message that will be received.
+   * @returns Promise<ServiceBusMessage | undefined>
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * - Throws an error if the message has not been deferred.
+   */
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return this._context.managementClient!.receiveDeferredMessage(
+      sequenceNumber,
+      this._receiveMode,
+      this.sessionId
+    );
+  }
+
+  /**
+   * Receives a list of deferred messages identified by given `sequenceNumbers`.
+   * @param sequenceNumbers A list containing the sequence numbers to receive.
+   * @returns Promise<ServiceBusMessage[]>
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * - Throws an error if the messages have not been deferred.
+   */
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return this._context.managementClient!.receiveDeferredMessages(
+      sequenceNumbers,
+      this._receiveMode,
+      this.sessionId
+    );
+  }
+
+  /**
+   * Returns a batch of messages based on given count and timeout over an AMQP receiver link
+   * from a Queue/Subscription.
+   *
+   * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
+   * @param maxWaitTimeInSeconds The maximum wait time in seconds for which the Receiver
+   * should wait to receive the first message. If no message is received by this time,
+   * the returned promise gets resolved to an empty array.
+   * - **Default**: `60` seconds.
+   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
+   */
+  async receiveBatch(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number
+  ): Promise<ServiceBusMessage[]> {
+    try {
+      return await this._messageSession.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
+    } catch (err) {
+      log.error(
+        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+          "max time:\n %O",
+        this._context.namespace.connectionId,
+        this._messageSession.name,
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        err
+      );
+      throw err;
+    }
+  }
+
+  /**
+   * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
+   * from a Queue/Subscription.
+   * To stop receiving messages, call `close()` on the SessionReceiver or set the property
+   * `newMessageWaitTimeoutInSeconds` in the options to provide a timeout.
+   *
+   * @param onMessage - Handler for processing each incoming message.
+   * @param onError - Handler for any error that occurs while receiving or processing messages.
+   * @param options - Options to control whether messages should be automatically completed. You can
+   * also provide a timeout in seconds to denote the amount of time to wait for a new message
+   * before closing the receiver.
+   *
+   * @returns void
+   */
+  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+    return this._messageSession.receive(onMessage, onError, options);
+  }
+
+  /**
+   * Closes the underlying AMQP receiver link.
+   *
+   * @returns {Promise<void>}
+   */
+  async close(): Promise<void> {
+    try {
+      return await this._messageSession.close();
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while closing the message session with id '%s': %O.",
+        this._context.namespace.connectionId,
+        this.sessionId,
+        err
+      );
+      throw err;
     }
   }
 }

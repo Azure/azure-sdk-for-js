@@ -7,8 +7,7 @@ import {
   QueueClient,
   TopicClient,
   Namespace,
-  SubscriptionClient,
-  delay
+  SubscriptionClient
 } from "../lib";
 
 export const testSimpleMessages: SendableMessageInfo[] = [
@@ -35,29 +34,30 @@ export const testMessagesToSamePartitions: SendableMessageInfo[] = [
   }
 ];
 
-export const testSessionId = "my-session";
+export const testSessionId1 = "my-session";
+export const testSessionId2 = "my-session2";
 export const testMessagesWithSessions: SendableMessageInfo[] = [
   {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session"
+    sessionId: testSessionId1
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session"
+    sessionId: testSessionId1
   }
 ];
 export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
   {
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session"
+    sessionId: testSessionId1
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
-    sessionId: "my-session2"
+    sessionId: testSessionId2
   }
 ];
 export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
@@ -65,13 +65,13 @@ export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
     body: "hello1",
     messageId: `test message ${generateUuid()}`,
     partitionKey: "dummy",
-    sessionId: "my-session"
+    sessionId: testSessionId1
   },
   {
     body: "hello2",
     messageId: `test message ${generateUuid()}`,
     partitionKey: "dummy",
-    sessionId: "my-session"
+    sessionId: testSessionId1
   }
 ];
 
@@ -192,20 +192,33 @@ export function getReceiverClient(
   throw new Error("Cannot create receiver client for give client type");
 }
 
+/**
+ * Purges the content in the Queue/Subscription corresponding to the receiverClient
+ * @param receiverClient
+ * @param sessionId if passed, session receiver will be used instead of normal receiver
+ */
 export async function purge(
-  recieverClient: QueueClient | SubscriptionClient,
-  useSessions?: boolean
+  receiverClient: QueueClient | SubscriptionClient,
+  sessionId?: string
 ): Promise<void> {
-  const peekedMsgs = await recieverClient.peek();
-  if (!peekedMsgs.length) {
-    return;
+  let isEmpty = false;
+
+  while (!isEmpty) {
+    const peekedMsgs = await receiverClient.peek(10);
+    if (peekedMsgs.length === 0) {
+      isEmpty = true;
+    } else {
+      const receiver = sessionId
+        ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
+        : receiverClient.getReceiver();
+
+      const msgs = await receiver.receiveBatch(peekedMsgs.length);
+      for (let index = 0; index < msgs.length; index++) {
+        if (msgs[index]) {
+          await msgs[index].complete();
+        }
+      }
+      await receiver.close();
+    }
   }
-
-  const receiver = useSessions
-    ? await recieverClient.getSessionReceiver()
-    : recieverClient.getReceiver();
-
-  receiver.receive(() => Promise.resolve(), (err) => console.log(`Error when purging: ${err}`));
-  await delay(5000);
-  await receiver.close();
 }
