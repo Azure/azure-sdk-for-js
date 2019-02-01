@@ -76,7 +76,6 @@
     "binary-search-bounds": "2.0.3",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
-    "stream-http": "^2.8.3",
     "tslib": "^1.9.3"
   },
   "repository": {
