@@ -329,6 +329,39 @@ export class AppServiceEnvironments {
   }
 
   /**
+   * Get the network endpoints of all inbound dependencies of an ase.
+   * @summary Get the network endpoints of all inbound dependencies of an ase.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse>
+   */
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>): void;
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>, callback?: msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getInboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse>;
+  }
+
+  /**
    * Get global metric definitions of an App Service Environment.
    * @summary Get global metric definitions of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -751,6 +784,39 @@ export class AppServiceEnvironments {
       },
       listOperationsOperationSpec,
       callback) as Promise<Models.AppServiceEnvironmentsListOperationsResponse>;
+  }
+
+  /**
+   * Get the network endpoints of all outbound dependencies of an ase.
+   * @summary Get the network endpoints of all outbound dependencies of an ase.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse>
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>): void;
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getOutboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse>;
   }
 
   /**
@@ -2337,6 +2403,42 @@ const getDiagnosticsItemOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getInboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/inboundnetworkdependenciesendpoints",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundEnvironmentEndpoint"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metricdefinitions",
@@ -2659,6 +2761,42 @@ const listOperationsOperationSpec: msRest.OperationSpec = {
             type: {
               name: "Composite",
               className: "Operation"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/outboundnetworkdependenciesendpoints",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OutboundEnvironmentEndpoint"
             }
           }
         }

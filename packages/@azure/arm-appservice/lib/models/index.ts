@@ -8736,7 +8736,7 @@ export interface AppServiceEnvironmentResource extends Resource {
 /**
  * @interface
  * An interface representing AppServiceEnvironmentPatchResource.
- * ARM resource for a app service environment.
+ * ARM resource for a app service enviroment.
  *
  * @extends ProxyOnlyResource
  */
@@ -8976,6 +8976,48 @@ export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
 
 /**
  * @interface
+ * An interface representing EndpointDetail.
+ */
+export interface EndpointDetail {
+  /**
+   * @member {string} [ipAddress] An IP Address that Domain Name currently
+   * resolves to.
+   */
+  ipAddress?: string;
+  /**
+   * @member {number} [port] The port an endpoint is connected to.
+   */
+  port?: number;
+  /**
+   * @member {number} [latency] The time in milliseconds it takes to connect to
+   * this IpAddress at this Port.
+   */
+  latency?: number;
+  /**
+   * @member {boolean} [isAccessable] Whether it is possible to connect to
+   * IpAddress.
+   */
+  isAccessable?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing EndpointDependency.
+ */
+export interface EndpointDependency {
+  /**
+   * @member {string} [domainName] The Domain Name of the dependency.
+   */
+  domainName?: string;
+  /**
+   * @member {EndpointDetail[]} [endpointDetails] The IP Addresses and Ports
+   * used when connecting to DomainName.
+   */
+  endpointDetails?: EndpointDetail[];
+}
+
+/**
+ * @interface
  * An interface representing HostingEnvironmentDiagnostics.
  * Diagnostics for an App Service Environment.
  *
@@ -8989,6 +9031,27 @@ export interface HostingEnvironmentDiagnostics {
    * @member {string} [diagnosicsOutput] Diagnostics output.
    */
   diagnosicsOutput?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InboundEnvironmentEndpoint.
+ * Endpoints for a particular type
+ *
+ */
+export interface InboundEnvironmentEndpoint {
+  /**
+   * @member {string} [description] Text describing the endpoints.
+   */
+  description?: string;
+  /**
+   * @member {string[]} [endpoints] The endpoint ip addresses in cidr notation.
+   */
+  endpoints?: string[];
+  /**
+   * @member {string[]} [ports] The ports
+   */
+  ports?: string[];
 }
 
 /**
@@ -9041,6 +9104,24 @@ export interface MetricDefinition extends ProxyOnlyResource {
    * the server.**
    */
   readonly displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OutboundEnvironmentEndpoint.
+ * Endpoints of a common type.
+ *
+ */
+export interface OutboundEnvironmentEndpoint {
+  /**
+   * @member {string} [category] Short description of the endpoints.
+   */
+  category?: string;
+  /**
+   * @member {EndpointDependency[]} [endpoints] The endpoint's domain name and
+   * the IP Addresses it currently resolves to.
+   */
+  endpoints?: EndpointDependency[];
 }
 
 /**
@@ -21022,6 +21103,25 @@ export type AppServiceEnvironmentsGetDiagnosticsItemResponse = HostingEnvironmen
 };
 
 /**
+ * Contains response data for the getInboundNetworkDependenciesEndpoints operation.
+ */
+export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse = Array<InboundEnvironmentEndpoint> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundEnvironmentEndpoint[];
+    };
+};
+
+/**
  * Contains response data for the listMetricDefinitions operation.
  */
 export type AppServiceEnvironmentsListMetricDefinitionsResponse = MetricDefinition & {
@@ -21265,6 +21365,25 @@ export type AppServiceEnvironmentsListOperationsResponse = Array<Operation> & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Operation[];
+    };
+};
+
+/**
+ * Contains response data for the getOutboundNetworkDependenciesEndpoints operation.
+ */
+export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse = Array<OutboundEnvironmentEndpoint> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundEnvironmentEndpoint[];
     };
 };
 
