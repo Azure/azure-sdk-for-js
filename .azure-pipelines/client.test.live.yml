@@ -1,5 +1,4 @@
 variables:
-  SERVICEBUS_CONNECTION_STRING: $(js-service-bus-test-connection-string)
   os.name: 'Linux'
   os.vmImage: 'ubuntu-16.04'
   node.version: '10.x'
@@ -33,7 +32,7 @@ steps:
       customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter'
     displayName: 'npm run live-test-client'
     env:
-      SERVICEBUS_CONNECTION_STRING: $(SERVICEBUS_CONNECTION_STRING)
+      SERVICEBUS_CONNECTION_STRING: $(js-service-bus-test-connection-string)
 
   - task: PublishTestResults@2
     inputs:
