@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -529,7 +529,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | SapOpenHubLinkedService | AzureFunctionLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * @interface
@@ -601,7 +601,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | SapOpenHubTableDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
 
 /**
  * @interface
@@ -2373,6 +2373,81 @@ export interface ScheduleTrigger {
    * configuration.
    */
   recurrence: ScheduleTriggerRecurrence;
+}
+
+/**
+ * @interface
+ * An interface representing SapOpenHubLinkedService.
+ * SAP Business Warehouse Open Hub Destination Linked Service.
+ *
+ */
+export interface SapOpenHubLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHub";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} server Host name of the SAP BW instance where the open hub
+   * destination is located. Type: string (or Expression with resultType
+   * string).
+   */
+  server: any;
+  /**
+   * @member {any} systemNumber System number of the BW system where the open
+   * hub destination is located. (Usually a two-digit decimal number
+   * represented as a string.) Type: string (or Expression with resultType
+   * string).
+   */
+  systemNumber: any;
+  /**
+   * @member {any} clientId Client ID of the client on the BW system where the
+   * open hub destination is located. (Usually a three-digit decimal number
+   * represented as a string) Type: string (or Expression with resultType
+   * string).
+   */
+  clientId: any;
+  /**
+   * @member {any} [language] Language of the BW system where the open hub
+   * destination is located. The default value is EN. Type: string (or
+   * Expression with resultType string).
+   */
+  language?: any;
+  /**
+   * @member {any} [userName] Username to access the SAP BW server where the
+   * open hub destination is located. Type: string (or Expression with
+   * resultType string).
+   */
+  userName?: any;
+  /**
+   * @member {SecretBaseUnion} [password] Password to access the SAP BW server
+   * where the open hub destination is located.
+   */
+  password?: SecretBaseUnion;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
 }
 
 /**
@@ -7500,6 +7575,74 @@ export interface AzureStorageLinkedService {
 
 /**
  * @interface
+ * An interface representing SapOpenHubTableDataset.
+ * Sap Business Warehouse Open Hub Destination Table properties.
+ *
+ */
+export interface SapOpenHubTableDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHubTable";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} openHubDestinationName The name of the Open Hub Destination
+   * with destination type as Database Table. Type: string (or Expression with
+   * resultType string).
+   */
+  openHubDestinationName: any;
+  /**
+   * @member {any} [excludeLastRequest] Whether to exclude the records of the
+   * last request. The default value is true. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  excludeLastRequest?: any;
+  /**
+   * @member {any} [baseRequestId] The ID of request for delta loading. Once it
+   * is set, only data with requestId larger than the value of this property
+   * will be retrieved. The default value is 0. Type: integer (or Expression
+   * with resultType integer ).
+   */
+  baseRequestId?: any;
+}
+
+/**
+ * @interface
  * An interface representing ResponsysObjectDataset.
  * Responsys dataset.
  *
@@ -11484,34 +11627,9 @@ export interface WebActivity {
 }
 
 /**
- * @interface
- * An interface representing RedshiftUnloadSettings.
- * The Amazon S3 settings needed for the interim Amazon S3 when copying from
- * Amazon Redshift with unload. With this, data from Amazon Redshift source
- * will be unloaded into S3 first and then copied into the targeted sink from
- * the interim S3.
- *
- */
-export interface RedshiftUnloadSettings {
-  /**
-   * @member {LinkedServiceReference} s3LinkedServiceName The name of the
-   * Amazon S3 linked service which will be used for the unload operation when
-   * copying from the Amazon Redshift source.
-   */
-  s3LinkedServiceName: LinkedServiceReference;
-  /**
-   * @member {any} bucketName The bucket of the interim Amazon S3 which will be
-   * used to store the unloaded data from Amazon Redshift source. The bucket
-   * must be in the same region as the Amazon Redshift source. Type: string (or
-   * Expression with resultType string).
-   */
-  bucketName: any;
-}
-
-/**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
+export type CopySourceUnion = CopySource | SapOpenHubSource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
 
 /**
  * @interface
@@ -11540,6 +11658,56 @@ export interface CopySource {
    * can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * @interface
+ * An interface representing SapOpenHubSource.
+ * A copy activity source for SAP Business Warehouse Open Hub Destination
+ * source.
+ *
+ */
+export interface SapOpenHubSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHubSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+}
+
+/**
+ * @interface
+ * An interface representing RedshiftUnloadSettings.
+ * The Amazon S3 settings needed for the interim Amazon S3 when copying from
+ * Amazon Redshift with unload. With this, data from Amazon Redshift source
+ * will be unloaded into S3 first and then copied into the targeted sink from
+ * the interim S3.
+ *
+ */
+export interface RedshiftUnloadSettings {
+  /**
+   * @member {LinkedServiceReference} s3LinkedServiceName The name of the
+   * Amazon S3 linked service which will be used for the unload operation when
+   * copying from the Amazon Redshift source.
+   */
+  s3LinkedServiceName: LinkedServiceReference;
+  /**
+   * @member {any} bucketName The bucket of the interim Amazon S3 which will be
+   * used to store the unloaded data from Amazon Redshift source. The bucket
+   * must be in the same region as the Amazon Redshift source. Type: string (or
+   * Expression with resultType string).
+   */
+  bucketName: any;
 }
 
 /**
@@ -14881,7 +15049,7 @@ export interface CopyActivity {
 /**
  * Contains the possible cases for ControlActivity.
  */
-export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | ValidationActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
+export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
 
 /**
  * @interface
@@ -15026,60 +15194,6 @@ export interface FilterActivity {
    * input.
    */
   condition: Expression;
-}
-
-/**
- * @interface
- * An interface representing ValidationActivity.
- * This activity blocks execution until a file has been validated to exist,
- * with an optional minimum size, or the timeout is reached, whichever is
- * earlier.
- *
- */
-export interface ValidationActivity {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "Validation";
-  /**
-   * @member {string} name Activity name.
-   */
-  name: string;
-  /**
-   * @member {string} [description] Activity description.
-   */
-  description?: string;
-  /**
-   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
-   */
-  dependsOn?: ActivityDependency[];
-  /**
-   * @member {UserProperty[]} [userProperties] Activity user properties.
-   */
-  userProperties?: UserProperty[];
-  /**
-   * @member {any} [timeout] Specifies the timeout for the activity to run. If
-   * there is no value specified, it takes the value of TimeSpan.FromDays(7)
-   * which is 1 week as default. Type: string (or Expression with resultType
-   * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   * Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  timeout?: any;
-  /**
-   * @member {number} [sleep] A delay in seconds between validation attempts.
-   * If no value is specified, 10 seconds will be used as the default.
-   */
-  sleep?: number;
-  /**
-   * @member {number} [minimumSize] Minimum size of a file in byte. If no value
-   * is specified, 0 byte will be used as the default.
-   */
-  minimumSize?: number;
-  /**
-   * @member {DatasetReference} dataset Validation activity dataset reference.
-   */
-  dataset: DatasetReference;
 }
 
 /**
