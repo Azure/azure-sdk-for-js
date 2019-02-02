@@ -3,7 +3,6 @@
 
 import {
   SendableMessageInfo,
-  generateUuid,
   QueueClient,
   TopicClient,
   Namespace,
@@ -13,23 +12,23 @@ import {
 export const testSimpleMessages: SendableMessageInfo[] = [
   {
     body: "hello1",
-    messageId: `test message ${generateUuid()}`
+    messageId: `test message ${Math.random()}`
   },
   {
     body: "hello2",
-    messageId: `test message ${generateUuid()}`
+    messageId: `test message ${Math.random()}`
   }
 ];
 
 export const testMessagesToSamePartitions: SendableMessageInfo[] = [
   {
     body: "hello1",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     partitionKey: "dummy"
   },
   {
     body: "hello2",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     partitionKey: "dummy"
   }
 ];
@@ -39,37 +38,37 @@ export const testSessionId2 = "my-session2";
 export const testMessagesWithSessions: SendableMessageInfo[] = [
   {
     body: "hello1",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     sessionId: testSessionId1
   },
   {
     body: "hello2",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     sessionId: testSessionId1
   }
 ];
 export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
   {
     body: "hello1",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     sessionId: testSessionId1
   },
   {
     body: "hello2",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     sessionId: testSessionId2
   }
 ];
 export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
   {
     body: "hello1",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     partitionKey: "dummy",
     sessionId: testSessionId1
   },
   {
     body: "hello2",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     partitionKey: "dummy",
     sessionId: testSessionId1
   }

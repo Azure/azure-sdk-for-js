@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export { Namespace, NamespaceOptions } from "./namespace";
+export { Namespace, NamespaceOptions, NamespaceOptionsBase } from "./namespace";
 export {
-  ConnectionConfig,
   TokenInfo,
   TokenType,
   TokenProvider,
   DataTransformer,
-  DefaultDataTransformer,
   delay,
-  Timeout,
   MessagingError
 } from "@azure/amqp-common";
 
@@ -23,7 +20,7 @@ export { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
 
 export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
-export { SessionReceiverOptions } from "./session/messageSession";
+export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
 export { SQLExpression, CorrelationFilter, RuleDescription } from "./core/managementClient";
 
@@ -34,4 +31,4 @@ export {
   DeadLetterOptions,
   ReceiveMode
 } from "./serviceBusMessage";
-export { AmqpError, Delivery, Dictionary, generate_uuid as generateUuid } from "rhea-promise";
+export { AmqpError, Delivery, Dictionary } from "rhea-promise";
