@@ -225,7 +225,6 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     const sender = senderClient.getSender();
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
-    await delay(4000);
 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
@@ -318,16 +317,17 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
   async function testGetSetState(): Promise<void> {
     const sender = senderClient.getSender();
     await sender.send(testMessagesWithDifferentSessionIds[0]);
-    await sender.send(testMessagesWithDifferentSessionIds[1]);
-    await delay(4000);
 
-    let receiver = await receiverClient.getSessionReceiver({ sessionId: testSessionId1 });
-    let msgs = await receiver.receiveBatch(3);
+    let receiver = await receiverClient.getSessionReceiver();
+    let msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
     should.equal(
       testMessagesWithDifferentSessionIds.some(
-        (x) => msgs[0].messageId === x.messageId && msgs[0].sessionId === x.sessionId
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
       ),
       true,
       "Received Message doesnt match any of the test messages"
@@ -335,11 +335,11 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
 
     let testState = await receiver.getState();
     should.equal(testState, "");
+    await receiver.setState("new_state");
+    testState = await receiver.getState();
+    should.equal(testState, "new_state");
 
-    await msgs[0].complete();
     await receiver.close();
-
-    await testPeekMsgsLength(receiverClient, 1);
 
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(2);
@@ -347,20 +347,19 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     should.equal(msgs.length, 1);
     should.equal(
       testMessagesWithDifferentSessionIds.some(
-        (x) => msgs[0].messageId === x.messageId && msgs[0].sessionId === x.sessionId
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
       ),
       true,
       "Received Message doesnt match any of the test messages"
     );
-
-    testState = await receiver.getState();
-    should.equal(testState, "");
-    await receiver.setState("new_state");
     testState = await receiver.getState();
     should.equal(testState, "new_state");
 
-    await msgs[0].complete();
     await receiver.setState(""); // clearing the session-state
+    await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
   it("Partitioned Queue with Sessions - Testing getState and setState", async function(): Promise<
