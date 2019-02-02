@@ -77,19 +77,21 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Creates a Sender by establishing an AMQP session and an AMQP sender link on the session.
-   * This Sender can be used to send messages, schedule messages to be sent at a later time
-   * and cancel such scheduled messages.
+   * Gets the Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * and cancelling such scheduled messages.
+   *
+   * The Sender uses an underlying AMQP sender link. If no such link is active, then a new one is
+   * created by establishing an AMQP session and an AMQP sender link on the session.
    */
   getSender(): Sender {
     return new Sender(this._context);
   }
 
   /**
-   * Creates a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
-   * This Receiver can be used to receive messages in batches or by registering handlers.
+   * Gets the Receiver to be used for receiving messages in batches or by registering handlers.
    *
-   * You can have multiple receivers for the same Queue.
+   * The Receiver uses an underlying AMQP receiver link. If no such link is active, then a new one
+   * is created by establishing an AMQP session and an AMQP receiver link on the session.
    *
    * @param options Options for creating the receiver.
    */
@@ -150,11 +152,12 @@ export class QueueClient extends Client {
   // }
 
   /**
-   * Creates a SessionReceiver with given sessionId from the ServiceBus Queue.
-   * When no sessionId is given, a random session among the available sessions is used.
-   * This Receiver can be used to receive messages in batches or by registering handlers.
+   * Gets the SessionReceiver for receiving messages in batches or by registering handlers from a
+   * session enabled Queue. When no sessionId is given, a random session among the available
+   * sessions is used.
    *
-   * Note that you cannot have more than 1 session receiver for the same session.
+   * The Receiver uses an underlying AMQP receiver link. If no such link is active, then a new one
+   * is created by establishing an AMQP session and an AMQP receiver link on the session.
    *
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Queue.
