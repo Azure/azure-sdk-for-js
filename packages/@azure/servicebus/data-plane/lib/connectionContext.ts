@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
+import * as os from "os";
 import { packageJsonInfo } from "./util/constants";
 import {
   ConnectionConfig,
@@ -31,9 +32,11 @@ export interface ConnectionContext extends ConnectionContextBase {
 export namespace ConnectionContext {
   /**
    * @property {string} userAgent The user agent string for the ServiceBus client.
-   * Constant value: "/js-service-bus".
+   * azure-sdk-for-js/azure-<package-name>/<package-version> (NODE-VERSION <node-version>; <os-type> <os-version>)
    */
-  export const userAgent: string = "/js-service-bus";
+  export const userAgent: string = `azure-sdk-for-js/azure-service-bus/${
+    packageJsonInfo.version
+  } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
   export function create(config: ConnectionConfig, options?: NamespaceOptions): ConnectionContext {
     if (!options) options = {};

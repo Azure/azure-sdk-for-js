@@ -9,6 +9,10 @@ import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 
+/**
+ * Describes the client that will maintain an AMQP connection to a ServiceBus Subscription.
+ * @class SubscriptionClient
+ */
 export class SubscriptionClient extends Client {
   /**
    * @property {string} topicPath The topic path.
@@ -29,7 +33,7 @@ export class SubscriptionClient extends Client {
   readonly defaultRuleName: string = "$Default";
 
   /**
-   * Instantiates a client that will maintain an AMQP connection to a Service Bus Subscription.
+   * Constructor for SubscriptionClient.
    * This is not meant for the user to call directly.
    * The user should use the `createSubscriptionClient` on the Namespace instead.
    *
@@ -87,10 +91,10 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Creates a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
-   * This Receiver can be used to receive messages in batches or by registering handlers.
+   * Gets the Receiver to be used for receiving messages in batches or by registering handlers.
    *
-   * You can have multiple receivers for the same Subscription.
+   * The Receiver uses an underlying AMQP receiver link. If no such link is active, then a new one
+   * is created by establishing an AMQP session and an AMQP receiver link on the session.
    *
    * @param options Options for creating the receiver.
    */
@@ -191,11 +195,12 @@ export class SubscriptionClient extends Client {
   // }
 
   /**
-   * Creates a SessionReceiver with given sessionId in the ServiceBus Subscription.
-   * When no sessionId is given, a random session among the available sessions is used.
-   * This Receiver can be used to receive messages in batches or by registering handlers.
+   * Gets the SessionReceiver for receiving messages in batches or by registering handlers from a
+   * session enabled Subscription. When no sessionId is given, a random session among the available
+   * sessions is used.
    *
-   * Note that you cannot have more than 1 session receiver for the same session.
+   * The Receiver uses an underlying AMQP receiver link. If no such link is active, then a new one
+   * is created by establishing an AMQP session and an AMQP receiver link on the session.
    *
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Subscription.

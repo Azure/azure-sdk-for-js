@@ -8,6 +8,12 @@ import { SendableMessageInfo } from "./serviceBusMessage";
 import { ScheduleMessage } from "./core/managementClient";
 import { ClientEntityContext } from "./clientEntityContext";
 
+/**
+ * An abstraction over the underlying sender link.
+ * This Sender can be used to send messages, schedule messages to be sent at a later time
+ * and cancel such scheduled messages.
+ * @class Sender
+ */
 export class Sender {
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the Client.
