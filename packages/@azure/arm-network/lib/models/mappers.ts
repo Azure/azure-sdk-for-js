@@ -4827,6 +4827,12 @@ export const AzureFirewall: msRest.CompositeMapper = {
     className: "AzureFirewall",
     modelProperties: {
       ...Resource.type.modelProperties,
+      threatIntelMode: {
+        serializedName: "properties.threatIntelMode",
+        type: {
+          name: "String"
+        }
+      },
       applicationRuleCollections: {
         serializedName: "properties.applicationRuleCollections",
         type: {

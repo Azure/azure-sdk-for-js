@@ -3242,7 +3242,7 @@ export interface AzureFirewallIPConfiguration extends SubResource {
 export interface AzureFirewallRCAction {
   /**
    * @member {AzureFirewallRCActionType} [type] The type of action. Possible
-   * values include: 'Allow', 'Deny'
+   * values include: 'Allow', 'Deny', 'Alert'
    */
   type?: AzureFirewallRCActionType;
 }
@@ -3532,6 +3532,12 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
  * @extends Resource
  */
 export interface AzureFirewall extends Resource {
+  /**
+   * @member {AzureFirewallThreatIntelMode} [threatIntelMode] The operation
+   * mode for Threat Intelligence. Possible values include: 'Alert', 'Deny',
+   * 'Off'
+   */
+  threatIntelMode?: AzureFirewallThreatIntelMode;
   /**
    * @member {AzureFirewallApplicationRuleCollection[]}
    * [applicationRuleCollections] Collection of application rule collections
@@ -11784,12 +11790,20 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
 export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
 
 /**
- * Defines values for AzureFirewallRCActionType.
- * Possible values include: 'Allow', 'Deny'
+ * Defines values for AzureFirewallThreatIntelMode.
+ * Possible values include: 'Alert', 'Deny', 'Off'
  * @readonly
  * @enum {string}
  */
-export type AzureFirewallRCActionType = 'Allow' | 'Deny';
+export type AzureFirewallThreatIntelMode = 'Alert' | 'Deny' | 'Off';
+
+/**
+ * Defines values for AzureFirewallRCActionType.
+ * Possible values include: 'Allow', 'Deny', 'Alert'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureFirewallRCActionType = 'Allow' | 'Deny' | 'Alert';
 
 /**
  * Defines values for AzureFirewallApplicationRuleProtocolType.
