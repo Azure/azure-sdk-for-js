@@ -6,9 +6,13 @@ import { ConnectionContext } from "./connectionContext";
 import { Client } from "./client";
 import { Sender } from "./sender";
 
+/**
+ * Describes the client that will maintain an AMQP connection to a ServiceBus Topic.
+ * @class TopicClient
+ */
 export class TopicClient extends Client {
   /**
-   * Instantiates a client that will maintain an AMQP connection to a ServiceBus Topic.
+   * Constructor for TopicClient.
    * This is not meant for the user to call directly.
    * The user should use the `createTopicClient` on the Namespace instead.
    *
@@ -44,9 +48,11 @@ export class TopicClient extends Client {
   }
 
   /**
-   * Creates a Sender by establishing an AMQP session and an AMQP sender link on the session.
-   * This Sender can be used to send messages, schedule messages to be sent at a later time
-   * and cancel such scheduled messages.
+   * Gets the Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * and cancelling such scheduled messages.
+   *
+   * The Sender uses an underlying AMQP sender link. If no such link is active, then a new one is
+   * created by establishing an AMQP session and an AMQP sender link on the session.
    */
   getSender(): Sender {
     return new Sender(this._context);

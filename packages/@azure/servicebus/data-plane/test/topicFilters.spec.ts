@@ -11,7 +11,6 @@ import {
   Namespace,
   SubscriptionClient,
   ServiceBusMessage,
-  generateUuid,
   TopicClient,
   SendableMessageInfo,
   CorrelationFilter
@@ -111,7 +110,7 @@ async function sendOrders(): Promise<void> {
     const element = data[index];
     const message: SendableMessageInfo = {
       body: "",
-      messageId: generateUuid(),
+      messageId: Math.random(),
       correlationId: `${element.Priority}`,
       label: `${element.Color}`,
       userProperties: {
