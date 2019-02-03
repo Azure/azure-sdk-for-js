@@ -225,7 +225,6 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     const sender = senderClient.getSender();
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
-    await delay(4000);
 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
@@ -307,5 +306,100 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
+  });
+});
+
+describe("SessionTests - getState and setState in Session enabled Queues/Subscriptions", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testGetSetState(): Promise<void> {
+    const sender = senderClient.getSender();
+    await sender.send(testMessagesWithDifferentSessionIds[0]);
+
+    let receiver = await receiverClient.getSessionReceiver();
+    let msgs = await receiver.receiveBatch(2);
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(
+      testMessagesWithDifferentSessionIds.some(
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
+      ),
+      true,
+      "Received Message doesnt match any of the test messages"
+    );
+
+    let testState = await receiver.getState();
+    should.equal(testState, "");
+    await receiver.setState("new_state");
+    testState = await receiver.getState();
+    should.equal(testState, "new_state");
+
+    await receiver.close();
+
+    receiver = await receiverClient.getSessionReceiver();
+    msgs = await receiver.receiveBatch(2);
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(
+      testMessagesWithDifferentSessionIds.some(
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
+      ),
+      true,
+      "Received Message doesnt match any of the test messages"
+    );
+    testState = await receiver.getState();
+    should.equal(testState, "new_state");
+
+    await receiver.setState(""); // clearing the session-state
+    await msgs[0].complete();
+    await testPeekMsgsLength(receiverClient, 0);
+  }
+  it("Partitioned Queue with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
+  });
+  it("Partitioned Subscription with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
+  });
+  it("Unpartitioned Queue with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
+  });
+  it("Unpartitioned Subscription with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
   });
 });
