@@ -9,6 +9,10 @@ import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 
+/**
+ * Describes the client that will maintain an AMQP connection to a ServiceBus Subscription.
+ * @class SubscriptionClient
+ */
 export class SubscriptionClient extends Client {
   /**
    * @property {string} topicPath The topic path.
@@ -28,8 +32,10 @@ export class SubscriptionClient extends Client {
    */
   readonly defaultRuleName: string = "$Default";
 
+  private _currentReceiver: Receiver | undefined;
+
   /**
-   * Instantiates a client that will maintain an AMQP connection to a Service Bus Subscription.
+   * Constructor for SubscriptionClient.
    * This is not meant for the user to call directly.
    * The user should use the `createSubscriptionClient` on the Namespace instead.
    *
@@ -87,15 +93,15 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Creates a Receiver by establishing an AMQP session and an AMQP receiver link on the session.
-   * This Receiver can be used to receive messages in batches or by registering handlers.
-   *
-   * You can have multiple receivers for the same Subscription.
+   * Gets the Receiver to be used for receiving messages in batches or by registering handlers.
    *
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
-    return new Receiver(this._context, options);
+    if (!this._currentReceiver) {
+      this._currentReceiver = new Receiver(this._context, options);
+    }
+    return this._currentReceiver;
   }
 
   /**
@@ -191,11 +197,9 @@ export class SubscriptionClient extends Client {
   // }
 
   /**
-   * Creates a SessionReceiver with given sessionId in the ServiceBus Subscription.
-   * When no sessionId is given, a random session among the available sessions is used.
-   * This Receiver can be used to receive messages in batches or by registering handlers.
-   *
-   * Note that you cannot have more than 1 session receiver for the same session.
+   * Gets the SessionReceiver for receiving messages in batches or by registering handlers from a
+   * session enabled Subscription. When no sessionId is given, a random session among the available
+   * sessions is used.
    *
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Subscription.
@@ -204,6 +208,17 @@ export class SubscriptionClient extends Client {
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
     if (!options) options = {};
+    if (
+      options.sessionId &&
+      this._context.messageSessions[options.sessionId] &&
+      this._context.messageSessions[options.sessionId].isOpen()
+    ) {
+      throw new Error(
+        `Close the current session receiver for sessionId ${
+          options.sessionId
+        } before using "getSessionReceiver" to create a new one for the same sessionId`
+      );
+    }
     this._context.isSessionEnabled = true;
     const messageSession = await MessageSession.create(this._context, options);
     return new SessionReceiver(this._context, messageSession);

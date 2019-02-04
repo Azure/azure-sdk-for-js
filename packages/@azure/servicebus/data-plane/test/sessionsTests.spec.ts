@@ -23,8 +23,8 @@ import {
   getReceiverClient,
   ClientType,
   testSessionId1,
-  purge,
-  testSessionId2
+  testSessionId2,
+  purge
 } from "./testUtils";
 
 async function testPeekMsgsLength(
@@ -79,7 +79,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Accept a session by passing non-existing sessionId receives no messages", function(): void {
+describe("SessionTests - Accept a session by passing non-existing sessionId receives no messages", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -104,7 +104,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queues with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Partitioned Queue with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -114,7 +114,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_batching();
   });
 
-  it("Partitioned Topics and Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Partitioned Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -124,7 +124,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_batching();
   });
 
-  it("Unpartitioned Queues with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Queue with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -134,7 +134,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_batching();
   });
 
-  it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -175,7 +175,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Partitioned Queue with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -185,7 +185,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_streaming();
   });
 
-  it("Partitioned Topics and Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Partitioned Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -195,7 +195,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_streaming();
   });
 
-  it("Unpartitioned Queues with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Queue with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -205,7 +205,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
     await test_streaming();
   });
 
-  it("Unpartitioned Topics and Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -216,11 +216,7 @@ describe("Accept a session by passing non-existing sessionId receives no message
   });
 });
 
-describe("Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
-  beforeEach(async () => {
-    await purge(receiverClient, testSessionId2);
-  });
-
+describe("SessionTests - Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -229,7 +225,6 @@ describe("Accept a session without passing sessionId and receive messages from r
     const sender = senderClient.getSender();
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
-    await delay(4000);
 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
@@ -269,43 +264,216 @@ describe("Accept a session without passing sessionId and receive messages from r
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Partitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
   });
 
-  it("Partitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Partitioned Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
   });
 
-  it("Unpartitioned Queues with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Unpartitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
   });
 
-  it("Unpartitioned Topics and Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Unpartitioned Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
     );
+    await purge(receiverClient, testSessionId2);
     await testComplete_batching();
+  });
+});
+
+describe("SessionTests - getState and setState in Session enabled Queues/Subscriptions", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testGetSetState(): Promise<void> {
+    const sender = senderClient.getSender();
+    await sender.send(testMessagesWithDifferentSessionIds[0]);
+
+    let receiver = await receiverClient.getSessionReceiver();
+    let msgs = await receiver.receiveBatch(2);
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(
+      testMessagesWithDifferentSessionIds.some(
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
+      ),
+      true,
+      "Received Message doesnt match any of the test messages"
+    );
+
+    let testState = await receiver.getState();
+    should.equal(!!testState, false);
+    await receiver.setState("new_state");
+    testState = await receiver.getState();
+    should.equal(testState, "new_state");
+
+    await receiver.close();
+
+    receiver = await receiverClient.getSessionReceiver();
+    msgs = await receiver.receiveBatch(2);
+    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1);
+    should.equal(
+      testMessagesWithDifferentSessionIds.some(
+        (x) =>
+          msgs[0].body === x.body &&
+          msgs[0].messageId === x.messageId &&
+          msgs[0].sessionId === x.sessionId
+      ),
+      true,
+      "Received Message doesnt match any of the test messages"
+    );
+    testState = await receiver.getState();
+    should.equal(testState, "new_state");
+
+    await receiver.setState(""); // clearing the session-state
+    await msgs[0].complete();
+    await testPeekMsgsLength(receiverClient, 0);
+  }
+  it("Partitioned Queue with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
+  });
+  it("Partitioned Subscription with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
+  });
+  it("Unpartitioned Queue with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
+  });
+  it("Unpartitioned Subscription with Sessions - Testing getState and setState", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await purge(receiverClient, testSessionId2);
+    await testGetSetState();
+  });
+});
+
+describe("SessionTests - Second Session Receiver for same session id", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testSecondSessionReceiverForSameSession(): Promise<void> {
+    const sender = senderClient.getSender();
+    await sender.send(testMessagesWithSessions[0]);
+
+    const firstReceiver = await receiverClient.getSessionReceiver();
+    should.equal(firstReceiver.sessionId, testMessagesWithSessions[0].sessionId);
+
+    let errorWasThrown = false;
+    try {
+      const secondReceiver = await receiverClient.getSessionReceiver({
+        sessionId: testMessagesWithSessions[0].sessionId
+      });
+      if (secondReceiver) {
+        chai.assert.fail("Second receiver for same session id should not have been created");
+      }
+    } catch (error) {
+      errorWasThrown =
+        error &&
+        error.message ===
+          `Close the current session receiver for sessionId ${
+            testMessagesWithSessions[0].sessionId
+          } before using "getSessionReceiver" to create a new one for the same sessionId`;
+    }
+
+    should.equal(errorWasThrown, true);
+  }
+
+  it("Partitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
+  });
+  it("Partitioned Subscription - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
+  });
+  it("Unpartitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
+  });
+  it("Unpartitioned Subscription - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
   });
 });

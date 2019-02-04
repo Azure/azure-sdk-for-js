@@ -10,7 +10,6 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  generateUuid,
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
@@ -28,8 +27,8 @@ describe("Standard", function(): void {
   const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
 
   const STANDARD_QUEUE_SESSION =
-    process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue";
-  describe("Unpartitioned Queues", function(): void {
+    process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
+  describe("Unpartitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_SESSION);
     const receiverClient = senderClient;
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
@@ -71,8 +70,9 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_QUEUE_PARTITION_SESSION = process.env.QUEUE_NAME_SESSION || "partitioned-queue";
-  describe("Partitioned Queues", function(): void {
+  const STANDARD_QUEUE_PARTITION_SESSION =
+    process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
+  describe("Partitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION_SESSION);
     const receiverClient = senderClient;
 
@@ -116,9 +116,10 @@ describe("Standard", function(): void {
   });
 
   const STANDARD_TOPIC_SESSION =
-    process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic";
+    process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions";
   const STANDARD_SUBSCRIPTION_SESSION =
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-subscription";
+    process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
+    "unpartitioned-topic-sessions-subscription";
   describe("Unpartitioned Topic/Subscription", function(): void {
     const senderClient = namespace.createTopicClient(STANDARD_TOPIC_SESSION);
     const receiverClient = namespace.createSubscriptionClient(
@@ -165,9 +166,10 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_TOPIC_PARTITION_SESSION = process.env.TOPIC_NAME_SESSION || "partitioned-topic";
+  const STANDARD_TOPIC_PARTITION_SESSION =
+    process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions";
   const STANDARD_SUBSCRIPTION_PARTITION_SESSION =
-    process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-subscription";
+    process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription";
   describe("Partitioned Topic/Subscription", function(): void {
     const senderClient = namespace.createTopicClient(STANDARD_TOPIC_PARTITION_SESSION);
     const receiverClient = namespace.createSubscriptionClient(
@@ -211,33 +213,6 @@ describe("Standard", function(): void {
         });
         // Complete fails as expected
       });
-
-      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 38,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 35
-        });
-      });
-
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 35,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 55
-        });
-      }).timeout(80000);
-
-      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 15,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
-        });
-      });
     });
   });
 });
@@ -254,7 +229,7 @@ let testMessage: any;
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
   testMessage = {
     body: "hello1",
-    messageId: `test message ${generateUuid()}`,
+    messageId: `test message ${Math.random()}`,
     sessionId: testSessionId1
   };
   await purge(receiverClient, testSessionId1);
@@ -337,7 +312,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   await delay(lockDurationInMilliseconds + 1000);
 
   let errorWasThrown: boolean = false;
-  await msgs[0].complete().catch((err) => {
+  await msgs[0].complete().catch((err: any) => {
     should.equal(err.name, "Error");
     should.equal(!(err.message.search("Cannot find the receiver with name") + 1), false);
     errorWasThrown = true;

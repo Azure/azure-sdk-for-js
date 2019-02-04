@@ -11,7 +11,6 @@ import {
   Namespace,
   SubscriptionClient,
   ServiceBusMessage,
-  generateUuid,
   TopicClient,
   SendableMessageInfo,
   CorrelationFilter
@@ -111,7 +110,7 @@ async function sendOrders(): Promise<void> {
     const element = data[index];
     const message: SendableMessageInfo = {
       body: "",
-      messageId: generateUuid(),
+      messageId: Math.random(),
       correlationId: `${element.Priority}`,
       label: `${element.Color}`,
       userProperties: {
@@ -127,6 +126,9 @@ async function sendOrders(): Promise<void> {
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
   const receiver = client.getReceiver();
   const msgs = await receiver.receiveBatch(data.length);
+  for (let index = 0; index < msgs.length; index++) {
+    await msgs[index].complete();
+  }
   await receiver.close();
   return msgs;
 }
@@ -305,7 +307,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
   });
 });
 
-describe("Topic Filters: Get Rules", function(): void {
+describe("Topic Filters -  Get Rules", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -380,7 +382,7 @@ describe("Topic Filters: Get Rules", function(): void {
   });
 });
 
-describe("Send/Receive messages using default filter of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using default filter of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -400,7 +402,7 @@ describe("Send/Receive messages using default filter of subscription", function(
   });
 });
 
-describe("Send/Receive messages using boolean filters of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using boolean filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -449,7 +451,7 @@ describe("Send/Receive messages using boolean filters of subscription", function
   });
 });
 
-describe("Send/Receive messages using sql filters of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using sql filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -551,7 +553,7 @@ describe("Send/Receive messages using sql filters of subscription", function(): 
   });*/
 });
 
-describe("Send/Receive messages using correlation filters of subscription", function(): void {
+describe("Topic Filters -  Send/Receive messages using correlation filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });

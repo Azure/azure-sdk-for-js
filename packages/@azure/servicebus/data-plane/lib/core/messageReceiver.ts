@@ -92,12 +92,22 @@ export interface ReceiveOptions extends MessageHandlerOptions {
 /**
  * Describes the message handler signature.
  */
-export type OnMessage = (message: ServiceBusMessage) => Promise<void>;
+export interface OnMessage {
+  /**
+   * Handler for processing each incoming message.
+   */
+  (message: ServiceBusMessage): Promise<void>;
+}
 
 /**
  * Describes the error handler signature.
  */
-export type OnError = (error: MessagingError | Error) => void;
+export interface OnError {
+  /**
+   * Handler for any error that occurs while receiving or processing messages.
+   */
+  (error: MessagingError | Error): void;
+}
 
 /**
  * Describes the MessageReceiver that will receive messages from ServiceBus.

@@ -231,6 +231,9 @@ export interface SendableMessageInfo {
   userProperties?: Dictionary<any>;
 }
 
+/**
+ * Describes the message to be sent to ServiceBus.
+ */
 export module SendableMessageInfo {
   export function validate(msg: SendableMessageInfo): void {
     if (!msg) {

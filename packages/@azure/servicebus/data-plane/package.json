@@ -56,7 +56,8 @@
     "rollup-plugin-uglify": "^6.0.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typescript": "^3.2.1"
+    "typescript": "^3.2.1",
+    "@microsoft/api-extractor": "^6.3.0"
   },
   "files": [
     "LICENSE",
@@ -78,6 +79,7 @@
     "build-samples": "cd examples && tsc -p .",
     "test": "npm run build",
     "unit": "npm run build-test && mocha -t 65000 test-dist/index.js",
-    "prepack": "npm i && npm run build"
+    "prepack": "npm i && npm run build",
+    "extract-api": "tsc -p . && api-extractor run --local"
   }
 }
