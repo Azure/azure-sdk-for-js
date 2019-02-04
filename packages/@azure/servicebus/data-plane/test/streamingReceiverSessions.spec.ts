@@ -374,7 +374,7 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
   });
 });
 
-describe("Streaming Receiver - Abandon message(with sessions)", function(): void {
+describe.only("Streaming Receiver - Abandon message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -384,13 +384,19 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
-          return sessionReceiver.close();
+          if (sessionReceiver.isOpen()) {
+            return sessionReceiver.close();
+          }
         });
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
     await delay(4000);
+
+    if (sessionReceiver.isOpen()) {
+      await sessionReceiver.close();
+    }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     sessionReceiver = await receiverClient.getSessionReceiver({

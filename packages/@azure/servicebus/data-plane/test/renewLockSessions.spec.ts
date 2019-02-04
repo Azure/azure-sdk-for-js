@@ -210,33 +210,6 @@ describe("Standard", function(): void {
         });
         // Complete fails as expected
       });
-
-      it("Receive a msg using Streaming Receiver, lock will not expire until configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 38,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 35
-        });
-      });
-
-      it("Receive a msg using Streaming Receiver, lock will expire sometime after the configured time", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 35,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 55
-        });
-      }).timeout(80000);
-
-      it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
-        void
-      > {
-        await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-          maxSessionAutoRenewLockDurationInSeconds: 15,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
-        });
-      });
     });
   });
 });
