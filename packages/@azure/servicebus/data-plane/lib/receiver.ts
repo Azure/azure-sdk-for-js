@@ -446,4 +446,12 @@ export class SessionReceiver {
       throw err;
     }
   }
+
+  /**
+   * Determines whether the underlying AMQP receiver link is open.
+   * When this is true, a new Session Receiver with the same session id cannot be created successfully.
+   */
+  isOpen(): boolean {
+    return this._messageSession.isOpen();
+  }
 }

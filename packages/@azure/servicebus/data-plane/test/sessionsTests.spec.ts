@@ -334,7 +334,7 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     );
 
     let testState = await receiver.getState();
-    should.equal(testState, "");
+    should.equal(!!testState, false);
     await receiver.setState("new_state");
     testState = await receiver.getState();
     should.equal(testState, "new_state");

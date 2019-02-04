@@ -384,13 +384,20 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
-          return sessionReceiver.close();
+          if (sessionReceiver.isOpen()) {
+            return sessionReceiver.close();
+          }
+          return Promise.resolve();
         });
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
     await delay(4000);
+
+    if (sessionReceiver.isOpen()) {
+      await sessionReceiver.close();
+    }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     sessionReceiver = await receiverClient.getSessionReceiver({
