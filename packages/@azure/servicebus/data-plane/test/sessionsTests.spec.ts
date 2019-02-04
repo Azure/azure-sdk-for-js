@@ -403,3 +403,77 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     await testGetSetState();
   });
 });
+
+describe("SessionTests - Second Session Receiver for same session id", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testSecondSessionReceiverForSameSession(): Promise<void> {
+    const sender = senderClient.getSender();
+    await sender.send(testMessagesWithSessions[0]);
+
+    const firstReceiver = await receiverClient.getSessionReceiver();
+    should.equal(firstReceiver.sessionId, testMessagesWithSessions[0].sessionId);
+
+    let errorWasThrown = false;
+    try {
+      const secondReceiver = await receiverClient.getSessionReceiver({
+        sessionId: testMessagesWithSessions[0].sessionId
+      });
+      if (secondReceiver) {
+        chai.assert.fail("Second receiver for same session id should not have been created");
+      }
+    } catch (error) {
+      errorWasThrown =
+        error &&
+        error.message ===
+          `Close the current session receiver for sessionId ${
+            testMessagesWithSessions[0].sessionId
+          } before using "getSessionReceiver" to create a new one for the same sessionId`;
+    }
+
+    should.equal(errorWasThrown, true);
+  }
+
+  it("Partitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
+  });
+  it("Partitioned Subscription - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
+  });
+  it("Unpartitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
+  });
+  it("Unpartitioned Subscription - Second Session Receiver for same session id throws error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+
+    await testSecondSessionReceiverForSameSession();
+  });
+});
