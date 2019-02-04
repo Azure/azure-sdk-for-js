@@ -1174,11 +1174,6 @@ export interface ManagedCluster extends Resource {
    * Directory configuration.
    */
   aadProfile?: ManagedClusterAADProfile;
-  /**
-   * @member {string[]} [apiServerAuthorizedIPRanges] Authorized IP Ranges to
-   * kubernetes API server.
-   */
-  apiServerAuthorizedIPRanges?: string[];
 }
 
 /**
