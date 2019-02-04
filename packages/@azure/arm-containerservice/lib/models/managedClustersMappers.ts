@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   ManagedClusterListResult,
   ManagedCluster,
   Resource,
@@ -28,26 +27,6 @@ export {
   ManagedClusterAccessProfile,
   CredentialResults,
   CredentialResult,
-  TagsObject,
-  OpenShiftManagedCluster,
-  PurchasePlan,
-  NetworkProfile,
-  OpenShiftRouterProfile,
-  OpenShiftManagedClusterMasterPoolProfile,
-  OpenShiftManagedClusterAgentPoolProfile,
-  OpenShiftManagedClusterAuthProfile,
-  OpenShiftManagedClusterIdentityProvider,
-  OpenShiftManagedClusterBaseIdentityProvider,
-  OpenShiftManagedClusterAADIdentityProvider,
-  ContainerService,
-  ContainerServiceOrchestratorProfile,
-  ContainerServiceCustomProfile,
-  ContainerServiceServicePrincipalProfile,
-  KeyVaultSecretRef,
-  ContainerServiceMasterProfile,
-  ContainerServiceAgentPoolProfile,
-  ContainerServiceWindowsProfile,
-  ContainerServiceDiagnosticsProfile,
-  ContainerServiceVMDiagnostics
+  TagsObject
 } from "../models/mappers";
 
