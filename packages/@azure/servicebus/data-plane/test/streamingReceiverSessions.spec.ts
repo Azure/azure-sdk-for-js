@@ -374,7 +374,7 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
   });
 });
 
-describe.only("Streaming Receiver - Abandon message(with sessions)", function(): void {
+describe("Streaming Receiver - Abandon message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -387,6 +387,7 @@ describe.only("Streaming Receiver - Abandon message(with sessions)", function():
           if (sessionReceiver.isOpen()) {
             return sessionReceiver.close();
           }
+          return Promise.resolve();
         });
       },
       unExpectedErrorHandler,
