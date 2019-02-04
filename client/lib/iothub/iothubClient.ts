@@ -1,9 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { translate, MessagingError, IotSasTokenProvider } from "@azure/amqp-common";
+import {
+  translate,
+  MessagingError,
+  IotSasTokenProvider
+} from "@azure/amqp-common";
 import { IotHubConnectionConfig } from "@azure/amqp-common";
-import { ConnectionContext, ConnectionContextOptions } from "../connectionContext";
+import {
+  ConnectionContextOptions,
+  ConnectionContext
+} from "../connectionContext";
 import * as log from "../log";
 
 /**
@@ -43,16 +50,26 @@ export class IotHubClient {
    * the connection context.
    * @return {Promise<string>} Promise<string>
    */
-  async getEventHubConnectionString(options?: ConnectionContextOptions): Promise<string> {
+  async getEventHubConnectionString(
+    options?: ConnectionContextOptions
+  ): Promise<string> {
     const iothubconfig = IotHubConnectionConfig.create(this.connectionString);
-    const config = IotHubConnectionConfig.convertToEventHubConnectionConfig(iothubconfig);
+    const config = IotHubConnectionConfig.convertToEventHubConnectionConfig(
+      iothubconfig
+    );
     let result: string = "";
     if (!options) options = {};
-    options.tokenProvider = new IotSasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
+    options.tokenProvider = new IotSasTokenProvider(
+      config.endpoint,
+      config.sharedAccessKeyName,
+      config.sharedAccessKey
+    );
     options.managementSessionAddress = `/messages/events/$management`;
     const context = ConnectionContext.create(config, options);
     try {
-      log.iotClient("Getting the hub runtime info from the iothub connection string to get the redirect error.");
+      log.iotClient(
+        "Getting the hub runtime info from the iothub connection string to get the redirect error."
+      );
       await context.managementSession!.getHubRuntimeInformation();
     } catch (err) {
       const error = translate(err);
@@ -88,31 +105,46 @@ export class IotHubClient {
         await context.managementSession!.close();
         log.iotClient("IotHub management client closed.");
         await context.connection.close();
-        log.iotClient("Closed the amqp connection '%s' on the iothub client.", context.connectionId);
+        log.iotClient(
+          "Closed the amqp connection '%s' on the iothub client.",
+          context.connectionId
+        );
       }
     } catch (err) {
-      const msg = `An error occurred while closing the connection "${context.connectionId}": ${err.stack}`;
+      const msg = `An error occurred while closing the connection "${
+        context.connectionId
+      }": ${err.stack}`;
       log.error(msg);
     }
   }
 
   private _parseRedirectError(error: MessagingError): ParsedRedirectError {
     if (!error) {
-      throw new Error("'error' is a required parameter and must be of type 'object'.");
+      throw new Error(
+        "'error' is a required parameter and must be of type 'object'."
+      );
     }
     if (error.name !== "LinkRedirectError" || !error.info) {
       throw error;
     }
     if (!error.info.hostname || !error.info.address) {
-      const msg = `The received redirect error from IotHub is malformed. ${error.stack}\n${error.info}`;
+      const msg = `The received redirect error from IotHub is malformed. ${
+        error.stack
+      }\n${error.info}`;
       throw new Error(msg);
     }
 
     const address: string = error.info.address;
     const parsedResult = address.match(/5671\/(.*)\/\$management/i);
-    if (parsedResult == undefined || parsedResult && parsedResult[1] == undefined) {
-      const msg = `Cannot parse the EventHub name from the given address: ${address} in the error: ` +
-        `${error.stack}\n${JSON.stringify(error.info)}.\nThe parsed result is: ${JSON.stringify(parsedResult)}.`;
+    if (
+      parsedResult == undefined ||
+      (parsedResult && parsedResult[1] == undefined)
+    ) {
+      const msg =
+        `Cannot parse the EventHub name from the given address: ${address} in the error: ` +
+        `${error.stack}\n${JSON.stringify(
+          error.info
+        )}.\nThe parsed result is: ${JSON.stringify(parsedResult)}.`;
       throw new Error(msg);
     }
 
@@ -128,6 +160,8 @@ export class IotHubClient {
     parts.set("SharedAccessKeyName", config.sharedAccessKeyName);
     parts.set("SharedAccessKey", config.sharedAccessKey);
     parts.set("EntityPath", config.entityPath);
-    return Array.from(parts).map((part) => `${part[0]}=${part[1]}`).join(";");
+    return Array.from(parts)
+      .map((part) => `${part[0]}=${part[1]}`)
+      .join(";");
   }
 }

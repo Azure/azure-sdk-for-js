@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { EventHubClient } from "../lib";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
@@ -13,9 +13,9 @@ console.log(path);
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
-  let info = await client.getHubRuntimeInformation();
+  const info = await client.getHubRuntimeInformation();
   console.log("RuntimeInfo: ", info);
-  let pInfo = await client.getPartitionInformation("0");
+  const pInfo = await client.getPartitionInformation("0");
   console.log("Partition Information: ", pInfo);
   await client.close();
 }

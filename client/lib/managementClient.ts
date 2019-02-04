@@ -1,12 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as uuid from "uuid/v4";
+import uuid from "uuid/v4";
 import {
-  RequestResponseLink, defaultLock, translate, Constants
+  RequestResponseLink,
+  defaultLock,
+  translate,
+  Constants
 } from "@azure/amqp-common";
 import {
-  Message, EventContext, SenderEvents, ReceiverEvents, SenderOptions, ReceiverOptions
+  Message,
+  EventContext,
+  SenderEvents,
+  ReceiverEvents,
+  SenderOptions,
+  ReceiverOptions
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -85,8 +93,9 @@ export interface ManagementClientOptions {
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient extends LinkEntity {
-
-  readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
+  readonly managementLock: string = `${
+    Constants.managementRequestKey
+  }-${uuid()}`;
   /**
    * @property {string} entityPath - The name/path of the entity (hub name) for which the management
    * request needs to be made.
@@ -112,10 +121,12 @@ export class ManagementClient extends LinkEntity {
    */
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
     super(context, {
-      address: options && options.address ? options.address : Constants.management,
-      audience: options && options.audience
-        ? options.audience
-        : context.config.getManagementAudience()
+      address:
+        options && options.address ? options.address : Constants.management,
+      audience:
+        options && options.audience
+          ? options.audience
+          : context.config.getManagementAudience()
     });
     this._context = context;
     this.entityPath = context.config.entityPath as string;
@@ -136,7 +147,11 @@ export class ManagementClient extends LinkEntity {
       partitionIds: info.partition_ids,
       type: info.type
     };
-    log.mgmt("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
+    log.mgmt(
+      "[%s] The hub runtime info is: %O",
+      this._context.connectionId,
+      runtimeInfo
+    );
     return runtimeInfo;
   }
 
@@ -157,12 +172,19 @@ export class ManagementClient extends LinkEntity {
    * @param {Connection} connection - The established amqp connection
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
-  async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
+  async getPartitionInformation(
+    partitionId: string | number
+  ): Promise<EventHubPartitionRuntimeInformation> {
     if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of " +
-        "type: 'string' | 'number'.");
+      throw new Error(
+        "'partitionId' is a required parameter and must be of " +
+          "type: 'string' | 'number'."
+      );
     }
-    const info: any = await this._makeManagementRequest(Constants.partition, partitionId);
+    const info: any = await this._makeManagementRequest(
+      Constants.partition,
+      partitionId
+    );
     const partitionInfo: EventHubPartitionRuntimeInformation = {
       beginningSequenceNumber: info.begin_sequence_number,
       hubPath: info.name,
@@ -172,7 +194,11 @@ export class ManagementClient extends LinkEntity {
       partitionId: info.partition,
       type: info.type
     };
-    log.mgmt("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
+    log.mgmt(
+      "[%s] The partition info is: %O.",
+      this._context.connectionId,
+      partitionInfo
+    );
     return partitionInfo;
   }
 
@@ -209,34 +235,66 @@ export class ManagementClient extends LinkEntity {
           onSessionError: (context: EventContext) => {
             const id = context.connection.options.id;
             const ehError = translate(context.session!.error!);
-            log.error("[%s] An error occurred on the session for request/response links for " +
-              "$management: %O", id, ehError);
+            log.error(
+              "[%s] An error occurred on the session for request/response links for " +
+                "$management: %O",
+              id,
+              ehError
+            );
           }
         };
         const sropt: SenderOptions = { target: { address: this.address } };
-        log.mgmt("[%s] Creating sender/receiver links on a session for $management endpoint with " +
-          "srOpts: %o, receiverOpts: %O.", this._context.connectionId, sropt, rxopt);
-        this._mgmtReqResLink =
-          await RequestResponseLink.create(this._context.connection, sropt, rxopt);
-        this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
-          const id = context.connection.options.id;
-          const ehError = translate(context.sender!.error!);
-          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
-        });
-        this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-          const id = context.connection.options.id;
-          const ehError = translate(context.receiver!.error!);
-          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
-        });
-        log.mgmt("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
-          this._context.connectionId, this._mgmtReqResLink.sender.name,
-          this._mgmtReqResLink.receiver.name);
+        log.mgmt(
+          "[%s] Creating sender/receiver links on a session for $management endpoint with " +
+            "srOpts: %o, receiverOpts: %O.",
+          this._context.connectionId,
+          sropt,
+          rxopt
+        );
+        this._mgmtReqResLink = await RequestResponseLink.create(
+          this._context.connection,
+          sropt,
+          rxopt
+        );
+        this._mgmtReqResLink.sender.on(
+          SenderEvents.senderError,
+          (context: EventContext) => {
+            const id = context.connection.options.id;
+            const ehError = translate(context.sender!.error!);
+            log.error(
+              "[%s] An error occurred on the $management sender link.. %O",
+              id,
+              ehError
+            );
+          }
+        );
+        this._mgmtReqResLink.receiver.on(
+          ReceiverEvents.receiverError,
+          (context: EventContext) => {
+            const id = context.connection.options.id;
+            const ehError = translate(context.receiver!.error!);
+            log.error(
+              "[%s] An error occurred on the $management receiver link.. %O",
+              id,
+              ehError
+            );
+          }
+        );
+        log.mgmt(
+          "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
+          this._context.connectionId,
+          this._mgmtReqResLink.sender.name,
+          this._mgmtReqResLink.receiver.name
+        );
         await this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
-      log.error("[%s] An error occured while establishing the $management links: %O",
-        this._context.connectionId, err);
+      log.error(
+        "[%s] An error occured while establishing the $management links: %O",
+        this._context.connectionId,
+        err
+      );
       throw err;
     }
   }
@@ -248,9 +306,17 @@ export class ManagementClient extends LinkEntity {
    * @param {string} type - The type of entity requested for. Valid values are "eventhub", "partition"
    * @param {string | number} [partitionId] - The partitionId. Required only when type is "partition".
    */
-  private async _makeManagementRequest(type: "eventhub" | "partition", partitionId?: string | number): Promise<any> {
-    if (partitionId != undefined && (typeof partitionId !== "string" && typeof partitionId !== "number")) {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+  private async _makeManagementRequest(
+    type: "eventhub" | "partition",
+    partitionId?: string | number
+  ): Promise<any> {
+    if (
+      partitionId != undefined &&
+      (typeof partitionId !== "string" && typeof partitionId !== "number")
+    ) {
+      throw new Error(
+        "'partitionId' is a required parameter and must be of type: 'string' | 'number'."
+      );
     }
     try {
       const request: Message = {
@@ -266,12 +332,20 @@ export class ManagementClient extends LinkEntity {
       if (partitionId != undefined && type === Constants.partition) {
         request.application_properties!.partition = `${partitionId}`;
       }
-      log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
-      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      log.mgmt(
+        "[%s] Acquiring lock to get the management req res link.",
+        this._context.connectionId
+      );
+      await defaultLock.acquire(this.managementLock, () => {
+        return this._init();
+      });
       return (await this._mgmtReqResLink!.sendRequest(request)).body;
     } catch (err) {
       err = translate(err);
-      log.error("An error occurred while making the request to $management endpoint: %O", err);
+      log.error(
+        "An error occurred while making the request to $management endpoint: %O",
+        err
+      );
       throw err;
     }
   }

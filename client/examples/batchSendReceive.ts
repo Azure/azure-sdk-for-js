@@ -1,15 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { EventHubClient, EventData, EventPosition, OnMessage, OnError, MessagingError } from "../lib";
-import * as dotenv from "dotenv";
+import {
+  EventHubClient,
+  EventData,
+  EventPosition,
+  OnMessage,
+  OnError,
+  MessagingError
+} from "../lib";
+import dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
 const str = process.env[connectionString] || "";
 const path = process.env[entityPath] || "";
-
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
@@ -18,22 +24,29 @@ async function main(): Promise<void> {
   let count = 0;
   const onMessage: OnMessage = (eventData: any) => {
     console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
+    console.log(
+      "### Actual message:",
+      eventData.body ? eventData.body.toString() : undefined
+    );
     count++;
     if (count >= 5) {
-      client.close();
+      client.close().catch((err) => {
+        console.log(">>>>> Error closing the client: ", err);
+      });
     }
-  }
+  };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  client.receive("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  client.receive("0", onMessage, onError, {
+    eventPosition: EventPosition.fromEnqueuedTime(Date.now())
+  });
   console.log("Created Receiver for partition 0 and CG $default.");
 
   const messageCount = 5;
-  let datas: EventData[] = [];
+  const datas: EventData[] = [];
   for (let i = 0; i < messageCount; i++) {
-    let obj: EventData = { body: `Hello foo ${i}` };
+    const obj: EventData = { body: `Hello foo ${i}` };
     datas.push(obj);
   }
   console.log("Sending batch message...");

@@ -46,7 +46,7 @@
             "name": "Client Example",
             "program": "${workspaceFolder}/client/examples/simpleSender.ts",
             "outFiles": [
-                "${workspaceFolder}/client/dist/**/*.js"
+                "${workspaceFolder}/client/dist-esm/**/*.js"
             ],
             "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
         },

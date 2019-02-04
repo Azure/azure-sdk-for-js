@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
+import {
+  ReceiverEvents,
+  EventContext,
+  OnAmqpEvent,
+  SessionEvents
+} from "rhea-promise";
 import { translate, Func, Constants, MessagingError } from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
@@ -16,7 +21,6 @@ import * as log from "./log";
  * @ignore
  */
 export class BatchingReceiver extends EventHubReceiver {
-
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
@@ -25,7 +29,11 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {string} partitionId                               Partition ID from which to receive.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
+  constructor(
+    context: ConnectionContext,
+    partitionId: string | number,
+    options?: ReceiveOptions
+  ) {
     super(context, partitionId, options);
   }
 
@@ -39,9 +47,17 @@ export class BatchingReceiver extends EventHubReceiver {
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<EventData[]> {
-    if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== 'number')) {
-      throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
+  receive(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number
+  ): Promise<EventData[]> {
+    if (
+      !maxMessageCount ||
+      (maxMessageCount && typeof maxMessageCount !== "number")
+    ) {
+      throw new Error(
+        "'maxMessageCount' is a required parameter of type number with a value greater than 0."
+      );
     }
 
     if (maxWaitTimeInSeconds == undefined) {
@@ -62,11 +78,19 @@ export class BatchingReceiver extends EventHubReceiver {
       const finalAction = (timeOver: boolean, data?: EventData) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
         if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          this._receiver.removeListener(
+            ReceiverEvents.receiverError,
+            onReceiveError
+          );
+          this._receiver.removeListener(
+            ReceiverEvents.message,
+            onReceiveMessage
+          );
         }
         if (!data) {
-          data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
+          data = eventDatas.length
+            ? eventDatas[eventDatas.length - 1]
+            : undefined;
         }
         if (!timeOver) {
           clearTimeout(waitTimer);
@@ -83,8 +107,12 @@ export class BatchingReceiver extends EventHubReceiver {
       // Action to be performed after the max wait time is over.
       actionAfterWaitTimeout = () => {
         timeOver = true;
-        log.batching("[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
-          this._context.connectionId, this.name, maxWaitTimeInSeconds);
+        log.batching(
+          "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
+          this._context.connectionId,
+          this.name,
+          maxWaitTimeInSeconds
+        );
         return finalAction(timeOver);
       };
 
@@ -105,14 +133,23 @@ export class BatchingReceiver extends EventHubReceiver {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+        receiver.session.removeListener(
+          SessionEvents.sessionError,
+          onSessionError
+        );
 
         const receiverError = context.receiver && context.receiver.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
+        let error = new MessagingError(
+          "An error occuured while receiving messages."
+        );
         if (receiverError) {
           error = translate(receiverError);
-          log.error("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId,
-            this.name, error);
+          log.error(
+            "[%s] Receiver '%s' received an error:\n%O",
+            this._context.connectionId,
+            this.name,
+            error
+          );
         }
         if (waitTimer) {
           clearTimeout(waitTimer);
@@ -123,16 +160,23 @@ export class BatchingReceiver extends EventHubReceiver {
       onReceiveClose = async (context: EventContext) => {
         const receiverError = context.receiver && context.receiver.error;
         if (receiverError) {
-          log.error("[%s] 'receiver_close' event occurred. The associated error is: %O",
-            this._context.connectionId, receiverError);
+          log.error(
+            "[%s] 'receiver_close' event occurred. The associated error is: %O",
+            this._context.connectionId,
+            receiverError
+          );
         }
       };
 
       onSessionClose = async (context: EventContext) => {
         const sessionError = context.session && context.session.error;
         if (sessionError) {
-          log.error("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
-            this._context.connectionId, this.name, sessionError);
+          log.error(
+            "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
+            this._context.connectionId,
+            this.name,
+            sessionError
+          );
         }
       };
 
@@ -140,13 +184,22 @@ export class BatchingReceiver extends EventHubReceiver {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
+        receiver.session.removeListener(
+          SessionEvents.sessionError,
+          onReceiveError
+        );
         const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occuured while receiving messages.");
+        let error = new MessagingError(
+          "An error occuured while receiving messages."
+        );
         if (sessionError) {
           error = translate(sessionError);
-          log.error("[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-            this._context.connectionId, this.name, error);
+          log.error(
+            "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+            this._context.connectionId,
+            this.name,
+            error
+          );
         }
         if (waitTimer) {
           clearTimeout(waitTimer);
@@ -155,17 +208,34 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       const addCreditAndSetTimer = (reuse?: boolean) => {
-        log.batching("[%s] Receiver '%s', adding credit for receiving %d messages.",
-          this._context.connectionId, this.name, maxMessageCount);
+        log.batching(
+          "[%s] Receiver '%s', adding credit for receiving %d messages.",
+          this._context.connectionId,
+          this.name,
+          maxMessageCount
+        );
         this._receiver!.addCredit(maxMessageCount);
-        let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+        let msg: string =
+          "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
-        waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
+        log.batching(
+          msg,
+          this._context.connectionId,
+          maxWaitTimeInSeconds,
+          this.name
+        );
+        waitTimer = setTimeout(
+          actionAfterWaitTimeout,
+          (maxWaitTimeInSeconds as number) * 1000
+        );
       };
 
       if (!this.isOpen()) {
-        log.batching("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
+        log.batching(
+          "[%s] Receiver '%s', setting the prefetch count to 0.",
+          this._context.connectionId,
+          this.name
+        );
         this.prefetchCount = 0;
         const rcvrOptions = this._createReceiverOptions({
           onMessage: onReceiveMessage,
@@ -174,7 +244,9 @@ export class BatchingReceiver extends EventHubReceiver {
           onSessionError: onSessionError,
           onSessionClose: onSessionClose
         });
-        this._init(rcvrOptions).then(() => addCreditAndSetTimer()).catch(reject);
+        this._init(rcvrOptions)
+          .then(() => addCreditAndSetTimer())
+          .catch(reject);
       } else {
         addCreditAndSetTimer(true);
         this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
@@ -192,7 +264,11 @@ export class BatchingReceiver extends EventHubReceiver {
    * @param {string | number} partitionId  The partitionId to receive events from.
    * @param {ReceiveOptions} [options]     Receive options.
    */
-  static create(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions): BatchingReceiver {
+  static create(
+    context: ConnectionContext,
+    partitionId: string | number,
+    options?: ReceiveOptions
+  ): BatchingReceiver {
     const bReceiver = new BatchingReceiver(context, partitionId, options);
     context.receivers[bReceiver.name] = bReceiver;
     return bReceiver;

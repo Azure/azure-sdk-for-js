@@ -4,7 +4,12 @@
 import { Constants } from "@azure/amqp-common";
 import { ReceiverEvents } from "rhea-promise";
 import { ReceiveOptions } from "./eventHubClient";
-import { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
+import {
+  EventHubReceiver,
+  ReceiverRuntimeInfo,
+  OnMessage,
+  OnError
+} from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 
@@ -121,7 +126,6 @@ export class ReceiveHandler {
  * @extends EventHubReceiver
  */
 export class StreamingReceiver extends EventHubReceiver {
-
   receiveHandler: ReceiveHandler;
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -131,7 +135,11 @@ export class StreamingReceiver extends EventHubReceiver {
    * @param {string} partitionId             Partition ID from which to receive.
    * @param {ReceiveOptions} [options]       Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
+  constructor(
+    context: ConnectionContext,
+    partitionId: string | number,
+    options?: ReceiveOptions
+  ) {
     super(context, partitionId, options);
     this.receiveHandler = new ReceiveHandler(this);
   }
@@ -144,10 +152,14 @@ export class StreamingReceiver extends EventHubReceiver {
    */
   receive(onMessage: OnMessage, onError: OnError): ReceiveHandler {
     if (!onMessage || typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
+      throw new Error(
+        "'onMessage' is a required parameter and must be of type 'function'."
+      );
     }
     if (!onError || typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+      throw new Error(
+        "'onError' is a required parameter and must be of type 'function'."
+      );
     }
     this._onMessage = onMessage;
     this._onError = onError;
@@ -159,14 +171,22 @@ export class StreamingReceiver extends EventHubReceiver {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
       // these handlers will be automatically removed.
-      log.streaming("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
-        "Hence reusing it and attaching message and error handlers.", this._context.connectionId, this.name);
+      log.streaming(
+        "[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
+          "Hence reusing it and attaching message and error handlers.",
+        this._context.connectionId,
+        this.name
+      );
       this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
       this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
-      log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +
-        "providing a credit of the same amount.", this._context.connectionId, this.name);
+      log.streaming(
+        "[%s] Receiver '%s', set the prefetch count to 1000 and " +
+          "providing a credit of the same amount.",
+        this._context.connectionId,
+        this.name
+      );
     }
     return this.receiveHandler;
   }
@@ -179,7 +199,11 @@ export class StreamingReceiver extends EventHubReceiver {
    * @param {string | number} partitionId  The partitionId to receive events from.
    * @param {ReceiveOptions} [options]     Receive options.
    */
-  static create(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions): StreamingReceiver {
+  static create(
+    context: ConnectionContext,
+    partitionId: string | number,
+    options?: ReceiveOptions
+  ): StreamingReceiver {
     const sReceiver = new StreamingReceiver(context, partitionId, options);
     context.receivers[sReceiver.name] = sReceiver;
     return sReceiver;

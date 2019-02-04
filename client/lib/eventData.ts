@@ -2,8 +2,14 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import {
-  Message, MessageProperties, MessageHeader, Dictionary, messageHeader, messageProperties,
-  MessageAnnotations, DeliveryAnnotations
+  Message,
+  MessageProperties,
+  MessageHeader,
+  Dictionary,
+  messageHeader,
+  messageProperties,
+  MessageAnnotations,
+  DeliveryAnnotations
 } from "rhea-promise";
 import { Constants } from "@azure/amqp-common";
 
@@ -130,7 +136,6 @@ export interface EventData {
  * @module EventData
  */
 export namespace EventData {
-
   /**
    * Converts the AMQP message to an EventData.
    * @param {AmqpMessage} msg The AMQP message that needs to be converted to EventData.
@@ -142,10 +147,20 @@ export namespace EventData {
     };
     if (msg.message_annotations) {
       data.annotations = msg.message_annotations;
-      if (msg.message_annotations[Constants.partitionKey] != undefined) data.partitionKey = msg.message_annotations[Constants.partitionKey];
-      if (msg.message_annotations[Constants.sequenceNumber] != undefined) data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
-      if (msg.message_annotations[Constants.enqueuedTime] != undefined) data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      if (msg.message_annotations[Constants.offset] != undefined) data.offset = msg.message_annotations[Constants.offset];
+      if (msg.message_annotations[Constants.partitionKey] != undefined) {
+        data.partitionKey = msg.message_annotations[Constants.partitionKey];
+      }
+      if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
+        data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
+      }
+      if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
+        data.enqueuedTimeUtc = new Date(msg.message_annotations[
+          Constants.enqueuedTime
+        ] as number);
+      }
+      if (msg.message_annotations[Constants.offset] != undefined) {
+        data.offset = msg.message_annotations[Constants.offset];
+      }
     }
     // Since rhea expects message properties as top level properties we will look for them and unflatten them inside properties.
     for (const prop of messageProperties) {
@@ -170,9 +185,12 @@ export namespace EventData {
     }
     if (msg.delivery_annotations) {
       data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
-      data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
-      data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
-      data.retrievalTime = new Date(msg.delivery_annotations.runtime_info_retrieval_time_utc as number);
+      data.lastSequenceNumber =
+        msg.delivery_annotations.last_enqueued_sequence_number;
+      data.lastEnqueuedTime = new Date(msg.delivery_annotations
+        .last_enqueued_time_utc as number);
+      data.retrievalTime = new Date(msg.delivery_annotations
+        .runtime_info_retrieval_time_utc as number);
     }
     return data;
   }
@@ -183,7 +201,7 @@ export namespace EventData {
    */
   export function toAmqpMessage(data: EventData): Message {
     const msg: Message = {
-      body: data.body,
+      body: data.body
     };
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
     // it is equivalent to a message-annotations section containing anempty map of annotations.
@@ -212,7 +230,9 @@ export namespace EventData {
       msg.message_annotations[Constants.sequenceNumber] = data.sequenceNumber;
     }
     if (data.enqueuedTimeUtc != undefined) {
-      msg.message_annotations[Constants.enqueuedTime] = data.enqueuedTimeUtc.getTime();
+      msg.message_annotations[
+        Constants.enqueuedTime
+      ] = data.enqueuedTimeUtc.getTime();
     }
     if (data.offset != undefined) {
       msg.message_annotations[Constants.offset] = data.offset;
@@ -221,7 +241,8 @@ export namespace EventData {
       msg.delivery_annotations.last_enqueued_offset = data.lastEnqueuedOffset;
     }
     if (data.lastSequenceNumber != undefined) {
-      msg.delivery_annotations.last_enqueued_sequence_number = data.lastSequenceNumber;
+      msg.delivery_annotations.last_enqueued_sequence_number =
+        data.lastSequenceNumber;
     }
     if (data.lastEnqueuedTime != undefined) {
       msg.delivery_annotations.last_enqueued_time_utc = data.lastEnqueuedTime.getTime();
