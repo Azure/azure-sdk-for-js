@@ -13,7 +13,8 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter
+  CorrelationFilter,
+  delay
 } from "../lib";
 import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
 
@@ -124,13 +125,30 @@ async function sendOrders(): Promise<void> {
 }
 
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
+  let errorFromErrorHandler: Error | undefined;
+  const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = client.getReceiver();
-  const msgs = await receiver.receiveBatch(data.length);
-  for (let index = 0; index < msgs.length; index++) {
-    await msgs[index].complete();
-  }
+  receiver.receive(
+    (msg: ServiceBusMessage) => {
+      receivedMsgs.push(msg);
+      return Promise.resolve();
+    },
+    (err: Error) => {
+      if (err) {
+        errorFromErrorHandler = err;
+      }
+    }
+  );
+
+  await delay(5000);
   await receiver.close();
-  return msgs;
+  should.equal(
+    errorFromErrorHandler,
+    undefined,
+    errorFromErrorHandler && errorFromErrorHandler.message
+  );
+
+  return receivedMsgs;
 }
 
 async function addRules(
@@ -153,7 +171,7 @@ async function addRules(
   }
 }
 
-describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
+describe.only("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -209,7 +227,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   });
 });
 
-describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
+describe.only("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -270,7 +288,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   });
 });
 
-describe("Topic Filters -  Remove Rule", function(): void {
+describe.only("Topic Filters -  Remove Rule", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -307,7 +325,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
   });
 });
 
-describe("Topic Filters -  Get Rules", function(): void {
+describe.only("Topic Filters -  Get Rules", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -382,7 +400,7 @@ describe("Topic Filters -  Get Rules", function(): void {
   });
 });
 
-describe("Topic Filters -  Send/Receive messages using default filter of subscription", function(): void {
+describe.only("Topic Filters -  Send/Receive messages using default filter of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -402,7 +420,7 @@ describe("Topic Filters -  Send/Receive messages using default filter of subscri
   });
 });
 
-describe("Topic Filters -  Send/Receive messages using boolean filters of subscription", function(): void {
+describe.only("Topic Filters -  Send/Receive messages using boolean filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
@@ -451,15 +469,12 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   });
 });
 
-describe("Topic Filters -  Send/Receive messages using sql filters of subscription", function(): void {
+describe.only("Topic Filters -  Send/Receive messages using sql filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
-
     await afterEachTest();
   });
 
@@ -553,15 +568,12 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
   });*/
 });
 
-describe("Topic Filters -  Send/Receive messages using correlation filters of subscription", function(): void {
+describe.only("Topic Filters -  Send/Receive messages using correlation filters of subscription", function(): void {
   beforeEach(async () => {
     await beforeEachTest();
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
-
     await afterEachTest();
   });
 
