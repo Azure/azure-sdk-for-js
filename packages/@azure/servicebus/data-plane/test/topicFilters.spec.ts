@@ -126,6 +126,9 @@ async function sendOrders(): Promise<void> {
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
   const receiver = client.getReceiver();
   const msgs = await receiver.receiveBatch(data.length);
+  for (let index = 0; index < msgs.length; index++) {
+    await msgs[index].complete();
+  }
   await receiver.close();
   return msgs;
 }

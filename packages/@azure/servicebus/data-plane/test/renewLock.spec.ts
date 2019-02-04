@@ -402,7 +402,7 @@ let testMessage: any;
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
   testMessage = {
     body: `hello-world-1 : ${Math.random()}`,
-    messageId: Math.random()
+    messageId: `test message ${Math.random()}`
   };
   await purge(receiverClient);
   const peekedMsgs = await receiverClient.peek();
