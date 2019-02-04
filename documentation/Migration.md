@@ -44,10 +44,12 @@ import * as msRestAzure from "ms-rest-azure";
     </td>
     <td>
       <pre lang="typescript">
-import * as msRestAzureJs from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import * as msRestAzureJs
+         from "@azure/ms-rest-azure-js";
+import * as msRestNodeAuth
+         from "@azure/ms-rest-nodeauth";
 import * as msRestBrowserAuth
-                        from "@azure/ms-rest-browserauth";
+         from "@azure/ms-rest-browserauth";
       </pre>
     </td>
   </tr>
