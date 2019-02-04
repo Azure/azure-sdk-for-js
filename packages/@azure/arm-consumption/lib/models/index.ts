@@ -1494,7 +1494,7 @@ export interface ResourceAttributes {
 /**
  * @interface
  * An interface representing QueryOptions.
- * Additional parameters for a set of operations.
+ * Additional parameters for list operation.
  *
  */
 export interface QueryOptions {
@@ -1551,407 +1551,6 @@ export interface UsageDetailsListOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
- * An interface representing UsageDetailsListByBillingPeriodOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByBillingPeriodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
  * An interface representing MarketplacesListOptionalParams.
  * Optional Parameters.
  *
@@ -1983,281 +1582,20 @@ export interface MarketplacesListOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
- * An interface representing MarketplacesListByBillingPeriodOptionalParams.
+ * An interface representing ChargesListByScopeOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface MarketplacesListByBillingPeriodOptionalParams extends msRest.RequestOptionsBase {
+export interface ChargesListByScopeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
+   * @member {string} [filter] May be used to filter charges by
+   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
+   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
+   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
+   * string where key and value is separated by a colon (:).
    */
   filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
 }
 
 /**
@@ -2402,78 +1740,6 @@ export interface AggregatedCostGetByManagementGroupOptionalParams extends msRest
 
 /**
  * @interface
- * An interface representing ChargesListByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ChargesListForBillingPeriodByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ChargesListByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ChargesListForBillingPeriodByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
  * An interface representing ConsumptionManagementClientOptions.
  * @extends AzureServiceClientOptions
  */
@@ -2511,6 +1777,23 @@ export interface UsageDetailsListResult extends Array<UsageDetail> {
  * @extends Array<Marketplace>
  */
 export interface MarketplacesListResult extends Array<Marketplace> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the BudgetsListResult.
+ * Result of listing budgets. It contains a list of available budgets in the
+ * scope provided.
+ *
+ * @extends Array<Budget>
+ */
+export interface BudgetsListResult extends Array<Budget> {
   /**
    * @member {string} [nextLink] The link (url) to the next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -2559,23 +1842,6 @@ export interface ReservationDetailsListResult extends Array<ReservationDetail> {
  * @extends Array<ReservationRecommendation>
  */
 export interface ReservationRecommendationsListResult extends Array<ReservationRecommendation> {
-  /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the BudgetsListResult.
- * Result of listing budgets. It contains a list of available budgets in the
- * scope provided.
- *
- * @extends Array<Budget>
- */
-export interface BudgetsListResult extends Array<Budget> {
   /**
    * @member {string} [nextLink] The link (url) to the next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -2696,351 +1962,9 @@ export type UsageDetailsListResponse = UsageDetailsListResult & {
 };
 
 /**
- * Contains response data for the listByBillingPeriod operation.
- */
-export type UsageDetailsListByBillingPeriodResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingAccount operation.
- */
-export type UsageDetailsListByBillingAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByBillingAccount operation.
- */
-export type UsageDetailsListForBillingPeriodByBillingAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDepartment operation.
- */
-export type UsageDetailsListByDepartmentResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartment operation.
- */
-export type UsageDetailsListForBillingPeriodByDepartmentResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccount operation.
- */
-export type UsageDetailsListByEnrollmentAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccount operation.
- */
-export type UsageDetailsListForBillingPeriodByEnrollmentAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroup operation.
- */
-export type UsageDetailsListByManagementGroupResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroup operation.
- */
-export type UsageDetailsListForBillingPeriodByManagementGroupResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
  * Contains response data for the listNext operation.
  */
 export type UsageDetailsListNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingPeriodNext operation.
- */
-export type UsageDetailsListByBillingPeriodNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingAccountNext operation.
- */
-export type UsageDetailsListByBillingAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByBillingAccountNext operation.
- */
-export type UsageDetailsListForBillingPeriodByBillingAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDepartmentNext operation.
- */
-export type UsageDetailsListByDepartmentNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartmentNext operation.
- */
-export type UsageDetailsListForBillingPeriodByDepartmentNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccountNext operation.
- */
-export type UsageDetailsListByEnrollmentAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccountNext operation.
- */
-export type UsageDetailsListForBillingPeriodByEnrollmentAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroupNext operation.
- */
-export type UsageDetailsListByManagementGroupNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroupNext operation.
- */
-export type UsageDetailsListForBillingPeriodByManagementGroupNextResponse = UsageDetailsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3076,177 +2000,6 @@ export type MarketplacesListResponse = MarketplacesListResult & {
 };
 
 /**
- * Contains response data for the listByBillingPeriod operation.
- */
-export type MarketplacesListByBillingPeriodResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingAccount operation.
- */
-export type MarketplacesListByBillingAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByBillingAccount operation.
- */
-export type MarketplacesListForBillingPeriodByBillingAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDepartment operation.
- */
-export type MarketplacesListByDepartmentResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartment operation.
- */
-export type MarketplacesListForBillingPeriodByDepartmentResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccount operation.
- */
-export type MarketplacesListByEnrollmentAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccount operation.
- */
-export type MarketplacesListForBillingPeriodByEnrollmentAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroup operation.
- */
-export type MarketplacesListByManagementGroupResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroup operation.
- */
-export type MarketplacesListForBillingPeriodByManagementGroupResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
  * Contains response data for the listNext operation.
  */
 export type MarketplacesListNextResponse = MarketplacesListResult & {
@@ -3266,9 +2019,9 @@ export type MarketplacesListNextResponse = MarketplacesListResult & {
 };
 
 /**
- * Contains response data for the listByBillingPeriodNext operation.
+ * Contains response data for the list operation.
  */
-export type MarketplacesListByBillingPeriodNextResponse = MarketplacesListResult & {
+export type BudgetsListResponse = BudgetsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3280,14 +2033,14 @@ export type MarketplacesListByBillingPeriodNextResponse = MarketplacesListResult
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: MarketplacesListResult;
+      parsedBody: BudgetsListResult;
     };
 };
 
 /**
- * Contains response data for the listByBillingAccountNext operation.
+ * Contains response data for the get operation.
  */
-export type MarketplacesListByBillingAccountNextResponse = MarketplacesListResult & {
+export type BudgetsGetResponse = Budget & {
   /**
    * The underlying HTTP response.
    */
@@ -3299,14 +2052,14 @@ export type MarketplacesListByBillingAccountNextResponse = MarketplacesListResul
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: MarketplacesListResult;
+      parsedBody: Budget;
     };
 };
 
 /**
- * Contains response data for the listForBillingPeriodByBillingAccountNext operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type MarketplacesListForBillingPeriodByBillingAccountNextResponse = MarketplacesListResult & {
+export type BudgetsCreateOrUpdateResponse = Budget & {
   /**
    * The underlying HTTP response.
    */
@@ -3318,14 +2071,14 @@ export type MarketplacesListForBillingPeriodByBillingAccountNextResponse = Marke
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: MarketplacesListResult;
+      parsedBody: Budget;
     };
 };
 
 /**
- * Contains response data for the listByDepartmentNext operation.
+ * Contains response data for the listNext operation.
  */
-export type MarketplacesListByDepartmentNextResponse = MarketplacesListResult & {
+export type BudgetsListNextResponse = BudgetsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3337,14 +2090,14 @@ export type MarketplacesListByDepartmentNextResponse = MarketplacesListResult & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: MarketplacesListResult;
+      parsedBody: BudgetsListResult;
     };
 };
 
 /**
- * Contains response data for the listForBillingPeriodByDepartmentNext operation.
+ * Contains response data for the get operation.
  */
-export type MarketplacesListForBillingPeriodByDepartmentNextResponse = MarketplacesListResult & {
+export type TagsGetResponse = TagsResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3356,14 +2109,14 @@ export type MarketplacesListForBillingPeriodByDepartmentNextResponse = Marketpla
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: MarketplacesListResult;
+      parsedBody: TagsResult;
     };
 };
 
 /**
- * Contains response data for the listByEnrollmentAccountNext operation.
+ * Contains response data for the listByScope operation.
  */
-export type MarketplacesListByEnrollmentAccountNextResponse = MarketplacesListResult & {
+export type ChargesListByScopeResponse = ChargeSummary & {
   /**
    * The underlying HTTP response.
    */
@@ -3375,64 +2128,7 @@ export type MarketplacesListByEnrollmentAccountNextResponse = MarketplacesListRe
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccountNext operation.
- */
-export type MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroupNext operation.
- */
-export type MarketplacesListByManagementGroupNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroupNext operation.
- */
-export type MarketplacesListForBillingPeriodByManagementGroupNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
+      parsedBody: ChargeSummary;
     };
 };
 
@@ -3665,158 +2361,6 @@ export type ReservationRecommendationsListNextResponse = ReservationRecommendati
 };
 
 /**
- * Contains response data for the list operation.
- */
-export type BudgetsListResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupName operation.
- */
-export type BudgetsListByResourceGroupNameResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type BudgetsGetResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type BudgetsCreateOrUpdateResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the getByResourceGroupName operation.
- */
-export type BudgetsGetByResourceGroupNameResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateByResourceGroupName operation.
- */
-export type BudgetsCreateOrUpdateByResourceGroupNameResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type BudgetsListNextResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNameNext operation.
- */
-export type BudgetsListByResourceGroupNameNextResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type PriceSheetGetResponse = PriceSheetResult & {
@@ -3851,25 +2395,6 @@ export type PriceSheetGetByBillingPeriodResponse = PriceSheetResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PriceSheetResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type TagsGetResponse = TagsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagsResult;
     };
 };
 
@@ -3965,81 +2490,5 @@ export type AggregatedCostGetForBillingPeriodByManagementGroupResponse = Managem
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagementGroupAggregatedCostResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccount operation.
- */
-export type ChargesListByEnrollmentAccountResponse = ChargesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccount operation.
- */
-export type ChargesListForBillingPeriodByEnrollmentAccountResponse = ChargeSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargeSummary;
-    };
-};
-
-/**
- * Contains response data for the listByDepartment operation.
- */
-export type ChargesListByDepartmentResponse = ChargesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartment operation.
- */
-export type ChargesListForBillingPeriodByDepartmentResponse = ChargeSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargeSummary;
     };
 };

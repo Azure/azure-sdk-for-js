@@ -19,17 +19,17 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   // Operation groups
   usageDetails: operations.UsageDetails;
   marketplaces: operations.Marketplaces;
+  budgets: operations.Budgets;
+  tags: operations.Tags;
+  charges: operations.Charges;
   balances: operations.Balances;
   reservationsSummaries: operations.ReservationsSummaries;
   reservationsDetails: operations.ReservationsDetails;
   reservationRecommendations: operations.ReservationRecommendations;
-  budgets: operations.Budgets;
   priceSheet: operations.PriceSheet;
-  tags: operations.Tags;
   forecasts: operations.Forecasts;
   operations: operations.Operations;
   aggregatedCost: operations.AggregatedCost;
-  charges: operations.Charges;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
@@ -41,17 +41,17 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
     super(credentials, subscriptionId, options);
     this.usageDetails = new operations.UsageDetails(this);
     this.marketplaces = new operations.Marketplaces(this);
+    this.budgets = new operations.Budgets(this);
+    this.tags = new operations.Tags(this);
+    this.charges = new operations.Charges(this);
     this.balances = new operations.Balances(this);
     this.reservationsSummaries = new operations.ReservationsSummaries(this);
     this.reservationsDetails = new operations.ReservationsDetails(this);
     this.reservationRecommendations = new operations.ReservationRecommendations(this);
-    this.budgets = new operations.Budgets(this);
     this.priceSheet = new operations.PriceSheet(this);
-    this.tags = new operations.Tags(this);
     this.forecasts = new operations.Forecasts(this);
     this.operations = new operations.Operations(this);
     this.aggregatedCost = new operations.AggregatedCost(this);
-    this.charges = new operations.Charges(this);
   }
 }
 

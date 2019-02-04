@@ -1850,6 +1850,36 @@ export const MarketplacesListResult: msRest.CompositeMapper = {
   }
 };
 
+export const BudgetsListResult: msRest.CompositeMapper = {
+  serializedName: "BudgetsListResult",
+  type: {
+    name: "Composite",
+    className: "BudgetsListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Budget"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ReservationSummariesListResult: msRest.CompositeMapper = {
   serializedName: "ReservationSummariesListResult",
   type: {
@@ -1925,36 +1955,6 @@ export const ReservationRecommendationsListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ReservationRecommendation"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BudgetsListResult: msRest.CompositeMapper = {
-  serializedName: "BudgetsListResult",
-  type: {
-    name: "Composite",
-    className: "BudgetsListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Budget"
             }
           }
         }

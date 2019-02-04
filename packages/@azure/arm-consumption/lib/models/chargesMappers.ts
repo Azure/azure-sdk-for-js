@@ -9,7 +9,6 @@
  */
 
 export {
-  ChargesListResult,
   ChargeSummary,
   Resource,
   BaseResource,
