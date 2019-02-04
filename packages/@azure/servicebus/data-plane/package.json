@@ -44,6 +44,7 @@
     "dotenv": "^6.1.0",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
+    "nyc": "13.1.0",
     "prettier": "^1.15.3",
     "rimraf": "^2.6.2",
     "rollup": "^0.66.6",
@@ -79,6 +80,7 @@
     "build-samples": "cd examples && tsc -p .",
     "test": "npm run build",
     "unit": "npm run build-test && mocha -t 65000 test-dist/index.js",
+    "coverage": "npm run build-test && nyc --reporter=lcov mocha -t 65000 test-dist/index.js",
     "prepack": "npm i && npm run build",
     "extract-api": "tsc -p . && api-extractor run --local"
   }
