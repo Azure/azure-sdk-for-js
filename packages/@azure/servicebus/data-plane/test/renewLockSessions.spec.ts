@@ -27,7 +27,7 @@ describe("Standard", function(): void {
   const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
 
   const STANDARD_QUEUE_SESSION =
-    process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue";
+    process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
   describe("Unpartitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_SESSION);
     const receiverClient = senderClient;
@@ -70,7 +70,8 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_QUEUE_PARTITION_SESSION = process.env.QUEUE_NAME_SESSION || "partitioned-queue";
+  const STANDARD_QUEUE_PARTITION_SESSION =
+    process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
   describe("Partitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION_SESSION);
     const receiverClient = senderClient;
@@ -115,9 +116,10 @@ describe("Standard", function(): void {
   });
 
   const STANDARD_TOPIC_SESSION =
-    process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic";
+    process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions";
   const STANDARD_SUBSCRIPTION_SESSION =
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-subscription";
+    process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
+    "unpartitioned-topic-sessions-subscription";
   describe("Unpartitioned Topic/Subscription", function(): void {
     const senderClient = namespace.createTopicClient(STANDARD_TOPIC_SESSION);
     const receiverClient = namespace.createSubscriptionClient(
@@ -164,9 +166,10 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_TOPIC_PARTITION_SESSION = process.env.TOPIC_NAME_SESSION || "partitioned-topic";
+  const STANDARD_TOPIC_PARTITION_SESSION =
+    process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions";
   const STANDARD_SUBSCRIPTION_PARTITION_SESSION =
-    process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-subscription";
+    process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription";
   describe("Partitioned Topic/Subscription", function(): void {
     const senderClient = namespace.createTopicClient(STANDARD_TOPIC_PARTITION_SESSION);
     const receiverClient = namespace.createSubscriptionClient(
