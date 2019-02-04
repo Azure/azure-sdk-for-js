@@ -16,6 +16,8 @@ import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
  */
 export class QueueClient extends Client {
   private _currentReceiver: Receiver | undefined;
+  private _currentSender: Sender | undefined;
+
   /**
    * Constructor for QueueClient.
    * This is not meant for the user to call directly.
@@ -80,12 +82,12 @@ export class QueueClient extends Client {
   /**
    * Gets the Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
-   *
-   * The Sender uses an underlying AMQP sender link. If no such link is active, then a new one is
-   * created by establishing an AMQP session and an AMQP sender link on the session.
    */
   getSender(): Sender {
-    return new Sender(this._context);
+    if (!this._currentSender) {
+      this._currentSender = new Sender(this._context);
+    }
+    return this._currentSender;
   }
 
   /**

@@ -404,7 +404,7 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
   });
 });
 
-describe.only("SessionTests - Second Session Receiver for same session id", function(): void {
+describe("SessionTests - Second Session Receiver for same session id", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -414,7 +414,7 @@ describe.only("SessionTests - Second Session Receiver for same session id", func
     await sender.send(testMessagesWithSessions[0]);
 
     const firstReceiver = await receiverClient.getSessionReceiver();
-    should.equal(firstReceiver.sessionId, testMessagesWithSessions[0]);
+    should.equal(firstReceiver.sessionId, testMessagesWithSessions[0].sessionId);
 
     let errorWasThrown = false;
     try {
