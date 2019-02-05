@@ -39,8 +39,13 @@ describe("Standard", function(): void {
         await beforeEachTest(receiverClient);
       });
 
-      afterEach(async () => {
+      after(async () => {
         await namespace.close();
+      });
+
+      afterEach(async () => {
+        await senderClient.close();
+        await receiverClient.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -86,8 +91,13 @@ describe("Standard", function(): void {
         await beforeEachTest(receiverClient);
       });
 
-      afterEach(async () => {
+      after(async () => {
         await namespace.close();
+      });
+
+      afterEach(async () => {
+        await senderClient.close();
+        await receiverClient.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -139,8 +149,13 @@ describe("Standard", function(): void {
         await beforeEachTest(receiverClient);
       });
 
-      afterEach(async () => {
+      after(async () => {
         await namespace.close();
+      });
+
+      afterEach(async () => {
+        await senderClient.close();
+        await receiverClient.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -191,8 +206,13 @@ describe("Standard", function(): void {
         await beforeEachTest(receiverClient);
       });
 
-      afterEach(async () => {
+      after(async () => {
         await namespace.close();
+      });
+
+      afterEach(async () => {
+        await senderClient.close();
+        await receiverClient.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
