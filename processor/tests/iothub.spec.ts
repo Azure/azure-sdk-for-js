@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import "mocha";
-import * as dotenv from "dotenv";
-import * as chai from "chai";
+import dotenv from "dotenv";
+import chai from "chai";
 const should = chai.should();
-import * as chaiAsPromised from "chai-as-promised";
+import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import * as debugModule from "debug";
+import debugModule from "debug";
 const debug = debugModule("azure:eph:iothub-spec");
 import {
   EventPosition, OnReceivedError, PartitionContext, EventData, OnReceivedMessage, EventProcessorHost
@@ -15,18 +14,17 @@ import {
 import { delay } from "@azure/event-hubs";
 dotenv.config();
 
-describe("EPH with iothub connection string", function () {
-  this.timeout(60000);
+describe("EPH with iothub connection string", function (): void {
   const iothubConnString = process.env.IOTHUB_CONNECTION_STRING;
   const storageConnString = process.env.STORAGE_CONNECTION_STRING;
   const hostName = EventProcessorHost.createHostName();
   let host: EventProcessorHost;
-  before("validate environment", async function () {
+  before("validate environment", async function (): Promise<void> {
     should.exist(process.env.IOTHUB_CONNECTION_STRING,
       "define IOTHUB_CONNECTION_STRING in your environment before running integration tests.");
   });
 
-  it("should be able to receive messages from the event hub associated with an iothub.", function (done) {
+  it("should be able to receive messages from the event hub associated with an iothub.", function (done: Mocha.Done): void {
     const test = async () => {
       try {
         host = await EventProcessorHost.createFromIotHubConnectionString(
@@ -49,6 +47,7 @@ describe("EPH with iothub connection string", function () {
         };
         const runtimeInfo = await host.getHubRuntimeInformation();
         debug(">>>> runtimeInfo: %O", runtimeInfo);
+        // tslint:disable-next-line: no-unused-expression
         runtimeInfo.createdAt.should.exist;
         (typeof runtimeInfo.partitionCount).should.equal("number");
         await host.start(onMessage, onError);
@@ -57,7 +56,7 @@ describe("EPH with iothub connection string", function () {
       } catch (err) {
         throw err;
       }
-    }
+    };
     test().then(() => { done(); }).catch((err) => { done(err); });
   });
-});
+}).timeout(60000);

@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import "mocha";
-import * as chai from "chai";
+import chai from "chai";
 import { retry, RetryConfig } from "../lib/util/utils";
-import * as chaiAsPromised from "chai-as-promised";
+import chaiAsPromised from "chai-as-promised";
 import { delay } from "@azure/event-hubs";
 chai.use(chaiAsPromised);
-import * as debugModule from "debug";
+import debugModule from "debug";
 const should = chai.should();
 const debug = debugModule("azure:eph:retry-spec");
 
-describe("retry function", function () {
-  it("should succeed if the operation succeeds.", function (done) {
+describe("retry function", function (): void {
+  it("should succeed if the operation succeeds.", function (done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {
@@ -23,7 +22,7 @@ describe("retry function", function () {
             return {
               code: 200,
               description: "OK"
-            }
+            };
           },
           hostName: "eph-1",
           action: "Succeed",
@@ -43,7 +42,7 @@ describe("retry function", function () {
     test().then(() => { done(); }).catch((err) => { done(err); });
   });
 
-  it("should succeed if the operation initially fails and then succeeds.", function (done) {
+  it("should succeed if the operation initially fails and then succeeds.", function (done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {
@@ -51,7 +50,7 @@ describe("retry function", function () {
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               throw new Error("The server is busy right now. Retry later.");
             } else {
               return ["0", "1"];
@@ -75,7 +74,7 @@ describe("retry function", function () {
     test().then(() => { done(); }).catch((err) => { done(err); });
   });
 
-  it("should succeed in the last attempt.", function (done) {
+  it("should succeed in the last attempt.", function (done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {
@@ -83,10 +82,10 @@ describe("retry function", function () {
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               const e = new Error("Error in attempt 1.");
               throw e;
-            } else if (counter == 2) {
+            } else if (counter === 2) {
               const e = new Error("Error in attempt 2.");
               throw e;
             } else {
@@ -114,7 +113,7 @@ describe("retry function", function () {
     test().then(() => { done(); }).catch((err) => { done(err); });
   });
 
-  it("should fail if all attempts return an error", function (done) {
+  it("should fail if all attempts return an error", function (done: Mocha.Done): void {
     const test = async () => {
       let counter = 0;
       try {

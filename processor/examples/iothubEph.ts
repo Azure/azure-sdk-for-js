@@ -4,7 +4,7 @@
 import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
 } from "../lib";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
@@ -17,7 +17,7 @@ const ephName = "my-iothub-eph";
 /**
  * The main function that executes the sample.
  */
-async function main() {
+async function main(): Promise<void> {
   // 1. Start eph.
   const eph = await startEph(ephName);
   // 2. Sleeeping for 90 seconds. This will give time for eph to receive messages.
@@ -60,7 +60,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   );
   // Message handler
-  let partionCount: { [x: string]: number } = {};
+  const partionCount: { [x: string]: number } = {};
   const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
     (!partionCount[context.partitionId])
       ? partionCount[context.partitionId] = 1

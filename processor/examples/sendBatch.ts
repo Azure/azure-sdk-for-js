@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { EventHubClient, EventData, delay } from "@azure/event-hubs";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
@@ -18,9 +18,9 @@ async function main(): Promise<void> {
 
   const partitionIds = await client.getPartitionIds();
   const messageCount = 300;
-  let datas: EventData[] = [];
+  const datas: EventData[] = [];
   for (let i = 0; i < messageCount; i++) {
-    let obj: EventData = { body: `Hello foo ${i}` };
+    const obj: EventData = { body: `Hello foo ${i}` };
     datas.push(obj);
   }
   console.log("Sending batch message...");
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
   //   { body: { "message": "Hello World 3" } }
   // ];
   const sendPromises: Promise<any>[] = [];
-  for (let id of partitionIds) {
+  for (const id of partitionIds) {
     sendPromises.push(client.sendBatch(datas, id));
   }
 

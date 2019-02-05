@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import * as uuid from "uuid/v4";
+import uuid from "uuid/v4";
 import { CheckpointInfo } from "./checkpointInfo";
 import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
@@ -19,7 +19,7 @@ import {
   leaseIdMismatchWithLeaseOperation, leaseIdMismatchWithBlobOperation
 } from "./util/constants";
 import * as log from "./log";
-const path = require("path-browserify");
+import path from "path-browserify";
 
 /**
  * @ignore
@@ -77,7 +77,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   }
 
   async leaseStoreExists(): Promise<boolean> {
-    return await this._context.blobService!.doesContainerExist(this._context.storageContainerName!);
+    return this._context.blobService!.doesContainerExist(this._context.storageContainerName!);
   }
 
   async createLeaseStoreIfNotExists(): Promise<void> {
@@ -353,7 +353,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
 
   async checkpointStoreExists(): Promise<boolean> {
     log.checkpointLeaseMgr(this._context.withHost("Checking whether the checkpoint store exists."));
-    return await this.leaseStoreExists();
+    return this.leaseStoreExists();
   }
 
   async deleteCheckpointStore(): Promise<void> {

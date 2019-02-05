@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import "mocha";
-import * as chai from "chai";
-import * as chaiAsPromised from "chai-as-promised";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import * as debugModule from "debug";
+import debugModule from "debug";
 const should = chai.should();
 const debug = debugModule("azure:eph:negative-spec");
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import {
   EventPosition, OnReceivedError, PartitionContext, EventData, OnReceivedMessage, EventProcessorHost
 } from "../lib";
 dotenv.config();
 
-describe("negative", function () {
-  before("validate environment", function () {
+describe("negative", function (): void {
+  before("validate environment", function (): void {
     should.exist(process.env.STORAGE_CONNECTION_STRING,
       "define STORAGE_CONNECTION_STRING in your environment before running integration tests.");
     should.exist(process.env.EVENTHUB_CONNECTION_STRING,
@@ -28,7 +27,7 @@ describe("negative", function () {
   const hubName = process.env.EVENTHUB_NAME;
   const hostName = EventProcessorHost.createHostName();
   let host: EventProcessorHost;
-  it("should fail when trying to start an EPH that is already started.", function (done) {
+  it("should fail when trying to start an EPH that is already started.", function (done: Mocha.Done): void {
     const test = async () => {
       host = EventProcessorHost.createFromConnectionString(
         hostName,
@@ -62,7 +61,7 @@ describe("negative", function () {
     test().then(() => { done(); }).catch((err) => { done(err); });
   });
 
-  it("should fail when the eventhub name is incorrect.", function (done) {
+  it("should fail when the eventhub name is incorrect.", function (done: Mocha.Done): void {
     host = EventProcessorHost.createFromConnectionString(
       hostName,
       storageConnString!,
@@ -89,7 +88,7 @@ describe("negative", function () {
     });
   });
 
-  it("should fail when the eventhub namesapce is incorrect.", function (done) {
+  it("should fail when the eventhub namesapce is incorrect.", function (done: Mocha.Done): void {
     host = EventProcessorHost.createFromConnectionString(
       hostName,
       storageConnString!,
@@ -116,7 +115,7 @@ describe("negative", function () {
     });
   });
 
-  it("should fail when the storage connection string is incorrect.", function (done) {
+  it("should fail when the storage connection string is incorrect.", function (done: Mocha.Done): void {
     try {
       host = EventProcessorHost.createFromConnectionString(
         hostName,

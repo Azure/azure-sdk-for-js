@@ -4,7 +4,7 @@
 import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
 } from "../lib";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const path = process.env.EVENTHUB_NAME;
@@ -18,7 +18,7 @@ const ephName = "my-eph";
 /**
  * The main function that executes the sample.
  */
-async function main() {
+async function main(): Promise<void> {
   // Please feel free to use the `./sendBatch.ts` sample to send messages to an EventHub.
   // Post that you can run this sample to start the EPH and see it in action.
   // 1. Start eph.
@@ -63,7 +63,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   );
   // Message handler
-  let partionCount: { [x: string]: number } = {};
+  const partionCount: { [x: string]: number } = {};
   const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
     (!partionCount[context.partitionId])
       ? partionCount[context.partitionId] = 1
