@@ -8,5 +8,7 @@
  * regenerated.
  */
 
+export * from "./openShiftManagedClusters";
+export * from "./containerServices";
 export * from "./operations";
 export * from "./managedClusters";

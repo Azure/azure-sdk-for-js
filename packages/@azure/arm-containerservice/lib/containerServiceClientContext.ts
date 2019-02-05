@@ -18,7 +18,6 @@ const packageVersion = "6.1.0";
 export class ContainerServiceClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the ContainerServiceClient class.
@@ -45,7 +44,6 @@ export class ContainerServiceClientContext extends msRestAzure.AzureServiceClien
 
     super(credentials, options);
 
-    this.apiVersion = '2019-02-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

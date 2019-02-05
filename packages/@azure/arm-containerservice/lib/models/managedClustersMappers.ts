@@ -9,11 +9,13 @@
  */
 
 export {
+  discriminators,
   ManagedClusterListResult,
   ManagedCluster,
   Resource,
   BaseResource,
   ManagedClusterAgentPoolProfile,
+  ManagedClusterAgentPoolProfileProperties,
   ContainerServiceLinuxProfile,
   ContainerServiceSshConfiguration,
   ContainerServiceSshPublicKey,
@@ -27,6 +29,28 @@ export {
   ManagedClusterAccessProfile,
   CredentialResults,
   CredentialResult,
-  TagsObject
+  TagsObject,
+  OpenShiftManagedCluster,
+  PurchasePlan,
+  NetworkProfile,
+  OpenShiftRouterProfile,
+  OpenShiftManagedClusterMasterPoolProfile,
+  OpenShiftManagedClusterAgentPoolProfile,
+  OpenShiftManagedClusterAuthProfile,
+  OpenShiftManagedClusterIdentityProvider,
+  OpenShiftManagedClusterBaseIdentityProvider,
+  OpenShiftManagedClusterAADIdentityProvider,
+  ContainerService,
+  ContainerServiceOrchestratorProfile,
+  ContainerServiceCustomProfile,
+  ContainerServiceServicePrincipalProfile,
+  KeyVaultSecretRef,
+  ContainerServiceMasterProfile,
+  ContainerServiceAgentPoolProfile,
+  ContainerServiceWindowsProfile,
+  ContainerServiceDiagnosticsProfile,
+  ContainerServiceVMDiagnostics,
+  SubResource,
+  AgentPool
 } from "../models/mappers";
 
