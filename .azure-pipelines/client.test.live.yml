@@ -1,42 +1,47 @@
 variables:
-  os.name: 'Linux'
-  os.vmImage: 'ubuntu-16.04'
+  os.name: 'Windows'
+  os.vmImage: 'vs2017-win2016'
   node.version: '10.x'
 
-pool:
-  vmImage: '$(os.vmImage)'
+jobs:
+  - job: 'Test'
 
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '$(node.version)'
-    displayName: 'Install Node.js $(node.version)'
+    pool:
+      vmImage: '$(os.vmImage)'
 
-  # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-  # which is the minimum required to run the composite script commands.
-  - task: Npm@1
-    inputs:
-      command: 'custom'
-      customCommand: 'install npm-run-all'
-    displayName: 'npm install npm-run-all'
+    timeoutInMinutes: 240
 
-  - task: Npm@1
-    inputs:
-      command: 'custom'
-      customCommand: 'run install-client'
-    displayName: 'npm run install-client'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(node.version)'
+        displayName: 'Install Node.js $(node.version)'
 
-  - task: Npm@1
-    inputs:
-      command: 'custom'
-      customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter'
-    displayName: 'npm run live-test-client'
-    env:
-      SERVICEBUS_CONNECTION_STRING: $(js-service-bus-test-connection-string)
+      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
+      # which is the minimum required to run the composite script commands.
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'install npm-run-all'
+        displayName: 'npm install npm-run-all'
 
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFiles: '**/test-results.xml'
-      testRunTitle: '$(os.name) Node $(node.version)'
-    condition: succeededOrFailed()
-    displayName: 'Publish test results'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run install-client'
+        displayName: 'npm run install-client'
+
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter'
+        displayName: 'npm run live-test-client'
+        env:
+          SERVICEBUS_CONNECTION_STRING: $(js-service-bus-test-connection-string)
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/test-results.xml'
+          testRunTitle: '$(os.name) Node $(node.version)'
+        condition: succeededOrFailed()
+        displayName: 'Publish test results'
