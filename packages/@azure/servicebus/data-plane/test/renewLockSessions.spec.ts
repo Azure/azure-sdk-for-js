@@ -26,6 +26,10 @@ describe("Standard", function(): void {
   );
   const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
 
+  after(async () => {
+    await namespace.close();
+  });
+
   const STANDARD_QUEUE_SESSION =
     process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
   describe("Unpartitioned Queue", function(): void {
@@ -37,10 +41,6 @@ describe("Standard", function(): void {
         senderClient = namespace.createQueueClient(STANDARD_QUEUE_SESSION);
         receiverClient = senderClient;
         await beforeEachTest(receiverClient);
-      });
-
-      after(async () => {
-        await namespace.close();
       });
 
       afterEach(async () => {
@@ -89,10 +89,6 @@ describe("Standard", function(): void {
         senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION_SESSION);
         receiverClient = senderClient;
         await beforeEachTest(receiverClient);
-      });
-
-      after(async () => {
-        await namespace.close();
       });
 
       afterEach(async () => {
@@ -149,10 +145,6 @@ describe("Standard", function(): void {
         await beforeEachTest(receiverClient);
       });
 
-      after(async () => {
-        await namespace.close();
-      });
-
       afterEach(async () => {
         await senderClient.close();
         await receiverClient.close();
@@ -204,10 +196,6 @@ describe("Standard", function(): void {
           STANDARD_SUBSCRIPTION_PARTITION_SESSION
         );
         await beforeEachTest(receiverClient);
-      });
-
-      after(async () => {
-        await namespace.close();
       });
 
       afterEach(async () => {
