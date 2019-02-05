@@ -13,7 +13,8 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter
+  CorrelationFilter,
+  delay
 } from "../lib";
 import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
 
@@ -124,13 +125,30 @@ async function sendOrders(): Promise<void> {
 }
 
 async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
+  let errorFromErrorHandler: Error | undefined;
+  const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = client.getReceiver();
-  const msgs = await receiver.receiveBatch(data.length);
-  for (let index = 0; index < msgs.length; index++) {
-    await msgs[index].complete();
-  }
+  receiver.receive(
+    (msg: ServiceBusMessage) => {
+      receivedMsgs.push(msg);
+      return Promise.resolve();
+    },
+    (err: Error) => {
+      if (err) {
+        errorFromErrorHandler = err;
+      }
+    }
+  );
+
+  await delay(5000);
   await receiver.close();
-  return msgs;
+  should.equal(
+    errorFromErrorHandler,
+    undefined,
+    errorFromErrorHandler && errorFromErrorHandler.message
+  );
+
+  return receivedMsgs;
 }
 
 async function addRules(
@@ -457,9 +475,6 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
-
     await afterEachTest();
   });
 
@@ -559,9 +574,6 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
-
     await afterEachTest();
   });
 
