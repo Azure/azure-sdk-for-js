@@ -117,7 +117,6 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
 
   async function testAutoComplete(): Promise<void> {
     await sender.sendBatch(testMessagesWithSessions);
-    await testPeekMsgsLength(receiverClient, testMessagesWithSessions.length);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.receive((msg: ServiceBusMessage) => {
@@ -137,7 +136,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       }
     }
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-
+    should.equal(receivedMsgs.length, testMessagesWithSessions.length);
     await testPeekMsgsLength(receiverClient, 0);
   }
 
@@ -627,7 +626,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     await sender.sendBatch(testMessagesWithSessions);
-    await testPeekMsgsLength(receiverClient, 2);
+
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         return msg.deadLetter();
