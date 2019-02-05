@@ -627,7 +627,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     await sender.sendBatch(testMessagesWithSessions);
-    await testPeekMsgsLength(receiverClient, 2);
+
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         return msg.deadLetter();
