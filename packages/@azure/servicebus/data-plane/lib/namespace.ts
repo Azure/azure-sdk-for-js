@@ -246,18 +246,21 @@ export class Namespace {
 
   /**
    * Returns the corresponding dead letter queue name for the given queue name.
+   * Use this in the `createQueueClient` function to receive messages from dead letter queue.
    * @param queueName
    */
-  static getDeadLetterQueuePathForQueue(queueName: string): string {
+  static getDeadLetterQueuePath(queueName: string): string {
     return `${queueName}/$DeadLetterQueue`;
   }
 
   /**
    * Returns the corresponding dead letter topic name for the given topic and subscription names.
+   * Use this in the `createSubscriptionClient` function to receive messages from dead letter
+   * subscription corresponding to given subscription
    * @param topicName
    * @param subscriptionName
    */
-  static getDeadLetterTopicPathForSubcription(topicName: string, subscriptionName: string): string {
+  static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string {
     return `${topicName}/Subscriptions/${subscriptionName}/$DeadLetterQueue`;
   }
 }
