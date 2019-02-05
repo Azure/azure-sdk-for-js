@@ -9,7 +9,7 @@ jobs:
     pool:
       vmImage: '$(os.vmImage)'
 
-    timeoutInMinutes: 120
+    timeoutInMinutes: 240
 
     steps:
       - task: NodeTool@0
