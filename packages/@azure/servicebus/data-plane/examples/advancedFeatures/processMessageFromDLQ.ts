@@ -33,7 +33,7 @@ async function processDeadletterMessageQueue(): Promise<void> {
   const message = await receiver.receiveBatch(1);
 
   if (message.length > 0) {
-    console.log(">>>>> Reprocessing the message in DLQ - ", message[0].body);
+    console.log(">>>>> Received the message from DLQ - ", message[0].body);
 
     // Do something with the message retrieved from DLQ
     await fixAndResendMessage(message[0]);
@@ -55,6 +55,8 @@ async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void>
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = oldMessage.clone();
+
+  console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
   await sender.send(repairedMessage);
   await client.close();
