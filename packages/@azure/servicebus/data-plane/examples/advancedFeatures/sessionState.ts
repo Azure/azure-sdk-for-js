@@ -16,7 +16,7 @@
   to learn about session state.
 */
 
-import { Namespace } from "../../lib";
+import { Namespace } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -133,9 +133,9 @@ async function processMessageFromSession(sessionId: string): Promise<void> {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}' did '${
-        messages[0].body.event_name
-      } ${messages[0].body.event_details}'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
+        messages[0].body.event_details
+      }'`
     );
     await messages[0].complete();
   } else {
