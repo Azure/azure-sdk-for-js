@@ -31,25 +31,29 @@ export class AgentPools {
    * Gets a list of agent pools in the specified managed cluster. The operation returns properties of
    * each agent pool.
    * @summary Gets a list of agent pools in the specified managed cluster.
+   * @param resourceGroupName The name of the resource group.
    * @param managedClusterName The name of the managed cluster resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsListResponse>
    */
-  list(managedClusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListResponse>;
+  list(resourceGroupName: string, managedClusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListResponse>;
   /**
+   * @param resourceGroupName The name of the resource group.
    * @param managedClusterName The name of the managed cluster resource.
    * @param callback The callback
    */
-  list(managedClusterName: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  list(resourceGroupName: string, managedClusterName: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
   /**
+   * @param resourceGroupName The name of the resource group.
    * @param managedClusterName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(managedClusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
-  list(managedClusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListResponse> {
+  list(resourceGroupName: string, managedClusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  list(resourceGroupName: string, managedClusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListResponse> {
     return this.client.sendOperationRequest(
       {
+        resourceGroupName,
         managedClusterName,
         options
       },
@@ -202,9 +206,10 @@ export class AgentPools {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters/{managedClusterName}/agentPools",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{managedClusterName}/agentPools",
   urlParameters: [
     Parameters.subscriptionId,
+    Parameters.resourceGroupName0,
     Parameters.managedClusterName
   ],
   queryParameters: [
