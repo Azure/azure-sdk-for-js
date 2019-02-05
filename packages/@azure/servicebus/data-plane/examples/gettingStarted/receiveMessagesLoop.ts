@@ -5,7 +5,7 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { Namespace } from "../../lib";
+import { Namespace } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
