@@ -29,10 +29,13 @@ describe("Standard", function(): void {
   const STANDARD_QUEUE_SESSION =
     process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
   describe("Unpartitioned Queue", function(): void {
-    const senderClient = namespace.createQueueClient(STANDARD_QUEUE_SESSION);
-    const receiverClient = senderClient;
+    let senderClient: QueueClient;
+    let receiverClient: QueueClient;
+
     describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
+        senderClient = namespace.createQueueClient(STANDARD_QUEUE_SESSION);
+        receiverClient = senderClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -73,11 +76,13 @@ describe("Standard", function(): void {
   const STANDARD_QUEUE_PARTITION_SESSION =
     process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
   describe("Partitioned Queue", function(): void {
-    const senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION_SESSION);
-    const receiverClient = senderClient;
+    let senderClient: QueueClient;
+    let receiverClient: QueueClient;
 
     describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
+        senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION_SESSION);
+        receiverClient = senderClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -121,14 +126,16 @@ describe("Standard", function(): void {
     process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
     "unpartitioned-topic-sessions-subscription";
   describe("Unpartitioned Topic/Subscription", function(): void {
-    const senderClient = namespace.createTopicClient(STANDARD_TOPIC_SESSION);
-    const receiverClient = namespace.createSubscriptionClient(
-      STANDARD_TOPIC_SESSION,
-      STANDARD_SUBSCRIPTION_SESSION
-    );
+    let senderClient: TopicClient;
+    let receiverClient: SubscriptionClient;
 
     describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
+        senderClient = namespace.createTopicClient(STANDARD_TOPIC_SESSION);
+        receiverClient = namespace.createSubscriptionClient(
+          STANDARD_TOPIC_SESSION,
+          STANDARD_SUBSCRIPTION_SESSION
+        );
         await beforeEachTest(receiverClient);
       });
 
@@ -171,14 +178,16 @@ describe("Standard", function(): void {
   const STANDARD_SUBSCRIPTION_PARTITION_SESSION =
     process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription";
   describe("Partitioned Topic/Subscription", function(): void {
-    const senderClient = namespace.createTopicClient(STANDARD_TOPIC_PARTITION_SESSION);
-    const receiverClient = namespace.createSubscriptionClient(
-      STANDARD_TOPIC_PARTITION_SESSION,
-      STANDARD_SUBSCRIPTION_PARTITION_SESSION
-    );
+    let senderClient: TopicClient;
+    let receiverClient: SubscriptionClient;
 
     describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
+        senderClient = namespace.createTopicClient(STANDARD_TOPIC_PARTITION_SESSION);
+        receiverClient = namespace.createSubscriptionClient(
+          STANDARD_TOPIC_PARTITION_SESSION,
+          STANDARD_SUBSCRIPTION_PARTITION_SESSION
+        );
         await beforeEachTest(receiverClient);
       });
 
