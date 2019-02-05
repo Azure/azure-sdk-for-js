@@ -24,12 +24,13 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ConsumptionManagementClient(creds, subscriptionId);
+  const scope = "testscope";
   const expand = "testexpand";
   const filter = "testfilter";
   const skiptoken = "testskiptoken";
   const top = 1;
   const apply = "testapply";
-  client.usageDetails.list(expand, filter, skiptoken, top, apply).then((result) => {
+  client.usageDetails.list(scope, expand, filter, skiptoken, top, apply).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -63,12 +64,13 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmConsumption.ConsumptionManagementClient(res.creds, subscriptionId);
+        const scope = "testscope";
         const expand = "testexpand";
         const filter = "testfilter";
         const skiptoken = "testskiptoken";
         const top = 1;
         const apply = "testapply";
-        client.usageDetails.list(expand, filter, skiptoken, top, apply).then((result) => {
+        client.usageDetails.list(scope, expand, filter, skiptoken, top, apply).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
