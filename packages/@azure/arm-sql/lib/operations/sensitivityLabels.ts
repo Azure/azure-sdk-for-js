@@ -365,7 +365,6 @@ const listRecommendedByDatabaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.skipToken,
-    Parameters.includeDisabledRecommendations,
     Parameters.filter1,
     Parameters.apiVersion3
   ],

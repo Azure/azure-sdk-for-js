@@ -394,18 +394,6 @@ export const include: msRest.OperationQueryParameter = {
     }
   }
 };
-export const includeDisabledRecommendations: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeDisabledRecommendations"
-  ],
-  mapper: {
-    serializedName: "includeDisabledRecommendations",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
 export const isActive: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

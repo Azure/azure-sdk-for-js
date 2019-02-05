@@ -4946,14 +4946,6 @@ export interface SensitivityLabel extends ProxyResource {
    * @member {string} [informationTypeId] The information type ID.
    */
   informationTypeId?: string;
-  /**
-   * @member {boolean} [isDisabled] Is sensitivity recommendation disabled.
-   * Applicable for recommended sensitivity label only. Specifies whether the
-   * sensitivity recommendation on this column is disabled (dismissed) or not.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isDisabled?: boolean;
 }
 
 /**
@@ -7158,11 +7150,6 @@ export interface SensitivityLabelsListRecommendedByDatabaseOptionalParams extend
    * @member {string} [skipToken]
    */
   skipToken?: string;
-  /**
-   * @member {boolean} [includeDisabledRecommendations] Specifies whether to
-   * include disabled recommendations or not.
-   */
-  includeDisabledRecommendations?: boolean;
   /**
    * @member {string} [filter] An OData filter expression that filters elements
    * in the collection.
