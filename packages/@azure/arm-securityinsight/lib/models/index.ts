@@ -205,6 +205,451 @@ export interface ScheduledAlertRule {
 }
 
 /**
+ * Contains the possible cases for DataConnector.
+ */
+export type DataConnectorUnion = DataConnector | OfficeDataConnector | TIDataConnector | DataConnectorWithAlertsUnion;
+
+/**
+ * @interface
+ * An interface representing DataConnector.
+ * Data connector.
+ *
+ */
+export interface DataConnector {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "DataConnector";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the data connector.
+   */
+  etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DataConnectorKind1.
+ * Describes an Azure resource with kind.
+ *
+ */
+export interface DataConnectorKind1 {
+  /**
+   * @member {DataConnectorKind} [kind] The kind of the data connector.
+   * Possible values include: 'AzureActiveDirectory', 'AzureSecurityCenter',
+   * 'MicrosoftCloudAppSecurity', 'ThreatIntelligence', 'Office365'
+   */
+  kind?: DataConnectorKind;
+}
+
+/**
+ * @interface
+ * An interface representing DataConnectorContextId.
+ * Describes an Azure resource with kind.
+ *
+ */
+export interface DataConnectorContextId {
+  /**
+   * @member {string} [contextId] The context id of the origin data source
+   * (Like tenantID, SubscriptionID etc.).
+   */
+  contextId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DataConnectorDataTypeCommon.
+ * Common field for data type in data connectors.
+ *
+ */
+export interface DataConnectorDataTypeCommon {
+  /**
+   * @member {DataTypeState} [state] Describe whether this data type connection
+   * is enabled or not. Possible values include: 'Enabled', 'Disabled'
+   */
+  state?: DataTypeState;
+}
+
+/**
+ * @interface
+ * An interface representing OfficeDataConnectorDataTypesSharePoint.
+ * SharePoint data type connection.
+ *
+ * @extends DataConnectorDataTypeCommon
+ */
+export interface OfficeDataConnectorDataTypesSharePoint extends DataConnectorDataTypeCommon {
+}
+
+/**
+ * @interface
+ * An interface representing OfficeDataConnectorDataTypesExchange.
+ * Exchange data type connection.
+ *
+ * @extends DataConnectorDataTypeCommon
+ */
+export interface OfficeDataConnectorDataTypesExchange extends DataConnectorDataTypeCommon {
+}
+
+/**
+ * @interface
+ * An interface representing OfficeDataConnectorDataTypes.
+ * The available data types for office data connector.
+ *
+ */
+export interface OfficeDataConnectorDataTypes {
+  /**
+   * @member {OfficeDataConnectorDataTypesSharePoint} [sharePoint] SharePoint
+   * data type connection.
+   */
+  sharePoint?: OfficeDataConnectorDataTypesSharePoint;
+  /**
+   * @member {OfficeDataConnectorDataTypesExchange} [exchange] Exchange data
+   * type connection.
+   */
+  exchange?: OfficeDataConnectorDataTypesExchange;
+}
+
+/**
+ * @interface
+ * An interface representing OfficeDataConnector.
+ * Represents office data connector.
+ *
+ */
+export interface OfficeDataConnector {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Office365";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the data connector.
+   */
+  etag?: string;
+  /**
+   * @member {string} [contextId] The context id of the origin data source
+   * (Like tenantID, SubscriptionID etc.).
+   */
+  contextId?: string;
+  /**
+   * @member {OfficeDataConnectorDataTypes} [dataTypes] The available data
+   * types for the connector.
+   */
+  dataTypes?: OfficeDataConnectorDataTypes;
+}
+
+/**
+ * @interface
+ * An interface representing TIDataConnectorDataTypesIndicators.
+ * Data type for indicators connection.
+ *
+ * @extends DataConnectorDataTypeCommon
+ */
+export interface TIDataConnectorDataTypesIndicators extends DataConnectorDataTypeCommon {
+}
+
+/**
+ * @interface
+ * An interface representing TIDataConnectorDataTypes.
+ * The available data types for TI data connector.
+ *
+ */
+export interface TIDataConnectorDataTypes {
+  /**
+   * @member {TIDataConnectorDataTypesIndicators} [indicators] Data type for
+   * indicators connection.
+   */
+  indicators?: TIDataConnectorDataTypesIndicators;
+}
+
+/**
+ * @interface
+ * An interface representing TIDataConnector.
+ * Represents threat intelligence data connector.
+ *
+ */
+export interface TIDataConnector {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "ThreatIntelligence";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the data connector.
+   */
+  etag?: string;
+  /**
+   * @member {string} [contextId] The context id of the origin data source
+   * (Like tenantID, SubscriptionID etc.).
+   */
+  contextId?: string;
+  /**
+   * @member {TIDataConnectorDataTypes} [dataTypes] The available data types
+   * for the connector.
+   */
+  dataTypes?: TIDataConnectorDataTypes;
+}
+
+/**
+ * Contains the possible cases for DataConnectorWithAlerts.
+ */
+export type DataConnectorWithAlertsUnion = DataConnectorWithAlerts | AADDataConnector | ASCDataConnector | MCASDataConnector;
+
+/**
+ * @interface
+ * An interface representing DataConnectorWithAlerts.
+ * Data connector with alerts data type.
+ *
+ */
+export interface DataConnectorWithAlerts {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "DataConnectorWithAlerts";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the data connector.
+   */
+  etag?: string;
+  /**
+   * @member {string} [contextId] The context id of the origin data source
+   * (Like tenantID, SubscriptionID etc.).
+   */
+  contextId?: string;
+  /**
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
+   */
+  dataTypes?: AlertsDataTypeOfDataConnector;
+}
+
+/**
+ * @interface
+ * An interface representing AADDataConnector.
+ * Represents AAD (Azure Active Directory) data connector.
+ *
+ */
+export interface AADDataConnector {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AzureActiveDirectory";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the data connector.
+   */
+  etag?: string;
+  /**
+   * @member {string} [contextId] The context id of the origin data source
+   * (Like tenantID, SubscriptionID etc.).
+   */
+  contextId?: string;
+  /**
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
+   */
+  dataTypes?: AlertsDataTypeOfDataConnector;
+}
+
+/**
+ * @interface
+ * An interface representing ASCDataConnector.
+ * Represents ASC (Azure Security Center) data connector.
+ *
+ */
+export interface ASCDataConnector {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AzureSecurityCenter";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the data connector.
+   */
+  etag?: string;
+  /**
+   * @member {string} [contextId] The context id of the origin data source
+   * (Like tenantID, SubscriptionID etc.).
+   */
+  contextId?: string;
+  /**
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
+   */
+  dataTypes?: AlertsDataTypeOfDataConnector;
+}
+
+/**
+ * @interface
+ * An interface representing MCASDataConnector.
+ * Represents MCAS (Microsoft Cloud App Security) data connector.
+ *
+ */
+export interface MCASDataConnector {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "MicrosoftCloudAppSecurity";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [etag] Etag of the data connector.
+   */
+  etag?: string;
+  /**
+   * @member {string} [contextId] The context id of the origin data source
+   * (Like tenantID, SubscriptionID etc.).
+   */
+  contextId?: string;
+  /**
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
+   */
+  dataTypes?: AlertsDataTypeOfDataConnector;
+}
+
+/**
+ * @interface
+ * An interface representing AlertsDataTypeOfDataConnectorAlerts.
+ * Alerts data type connection.
+ *
+ * @extends DataConnectorDataTypeCommon
+ */
+export interface AlertsDataTypeOfDataConnectorAlerts extends DataConnectorDataTypeCommon {
+}
+
+/**
+ * @interface
+ * An interface representing AlertsDataTypeOfDataConnector.
+ * Alerts data type for data connectors.
+ *
+ */
+export interface AlertsDataTypeOfDataConnector {
+  /**
+   * @member {AlertsDataTypeOfDataConnectorAlerts} [alerts] Alerts data type
+   * connection.
+   */
+  alerts?: AlertsDataTypeOfDataConnectorAlerts;
+}
+
+/**
  * @interface
  * An interface representing Resource.
  * An azure resource object
@@ -276,6 +721,22 @@ export interface AlertRulesList extends Array<AlertRuleUnion> {
 }
 
 /**
+ * @interface
+ * An interface representing the DataConnectorList.
+ * List all the data connectors.
+ *
+ * @extends Array<DataConnectorUnion>
+ */
+export interface DataConnectorList extends Array<DataConnectorUnion> {
+  /**
+   * @member {string} [nextLink] URL to fetch the next set of data connectors.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for AlertRuleKind.
  * Possible values include: 'Scheduled'
  * @readonly
@@ -298,6 +759,23 @@ export type Severity = 'Low' | 'Medium' | 'High' | 'Informational';
  * @enum {string}
  */
 export type TriggerOperator = 'GreaterThan' | 'LessThan' | 'Equal' | 'NotEqual';
+
+/**
+ * Defines values for DataConnectorKind.
+ * Possible values include: 'AzureActiveDirectory', 'AzureSecurityCenter',
+ * 'MicrosoftCloudAppSecurity', 'ThreatIntelligence', 'Office365'
+ * @readonly
+ * @enum {string}
+ */
+export type DataConnectorKind = 'AzureActiveDirectory' | 'AzureSecurityCenter' | 'MicrosoftCloudAppSecurity' | 'ThreatIntelligence' | 'Office365';
+
+/**
+ * Defines values for DataTypeState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type DataTypeState = 'Enabled' | 'Disabled';
 
 /**
  * Contains response data for the list operation.
@@ -410,5 +888,81 @@ export type AlertRulesListNextResponse = AlertRulesList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AlertRulesList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DataConnectorsListResponse = DataConnectorList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectorList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DataConnectorsGetResponse = DataConnectorUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectorUnion;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type DataConnectorsCreateResponse = DataConnectorUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectorUnion;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DataConnectorsListNextResponse = DataConnectorList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectorList;
     };
 };

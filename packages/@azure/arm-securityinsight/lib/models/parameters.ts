@@ -32,6 +32,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const dataConnectorId: msRest.OperationURLParameter = {
+  parameterPath: "dataConnectorId",
+  mapper: {
+    required: true,
+    serializedName: "dataConnectorId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
