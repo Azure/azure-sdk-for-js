@@ -119,7 +119,6 @@ describe("Streaming Receiver - Misc Tests", function(): void {
 
   async function testAutoComplete(): Promise<void> {
     await sender.sendBatch(testSimpleMessages);
-    await testPeekMsgsLength(receiverClient, testSimpleMessages.length);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
@@ -142,7 +141,7 @@ describe("Streaming Receiver - Misc Tests", function(): void {
     await receiver.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-
+    should.equal(receivedMsgs.length, 2);
     await testPeekMsgsLength(receiverClient, 0);
   }
 
@@ -515,7 +514,7 @@ describe("Streaming Receiver - Deadletter message", function(): void {
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     await sender.sendBatch(testSimpleMessages);
-    await testPeekMsgsLength(receiverClient, 2);
+
     receiver.receive(
       (msg: ServiceBusMessage) => {
         return msg.deadLetter();
