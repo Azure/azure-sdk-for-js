@@ -253,14 +253,11 @@ export class Namespace {
   }
 
   /**
-   * Returns the corresponding dead letter subscription name for the given topic and subscription names.
+   * Returns the corresponding dead letter topic name for the given topic and subscription names.
    * @param topicName
    * @param subscriptionName
    */
-  static getDeadLetterSubcriptionPathForSubcription(
-    topicName: string,
-    subscriptionName: string
-  ): string {
+  static getDeadLetterTopicPathForSubcription(topicName: string, subscriptionName: string): string {
     return `${topicName}/Subscriptions/${subscriptionName}/$DeadLetterQueue`;
   }
 }

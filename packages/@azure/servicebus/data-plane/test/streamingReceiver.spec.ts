@@ -79,7 +79,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
 
   if (receiverClient instanceof SubscriptionClient) {
     deadLetterClient = ns.createSubscriptionClient(
-      Namespace.getDeadLetterSubcriptionPathForSubcription(
+      Namespace.getDeadLetterTopicPathForSubcription(
         senderClient.name,
         receiverClient.subscriptionName
       ),
