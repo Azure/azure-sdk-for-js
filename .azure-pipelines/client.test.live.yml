@@ -1,6 +1,6 @@
 variables:
-  os.name: 'Linux'
-  os.vmImage: 'ubuntu-16.04'
+  os.name: 'Windows'
+  os.vmImage: 'vs2017-win2016'
   node.version: '10.x'
 
 jobs:
