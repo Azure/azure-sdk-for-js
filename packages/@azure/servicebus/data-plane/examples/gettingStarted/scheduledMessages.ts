@@ -6,7 +6,7 @@
   to learn about scheduling messages.
 */
 
-import { Namespace, SendableMessageInfo, OnMessage, OnError } from "../../lib";
+import { Namespace, SendableMessageInfo, OnMessage, OnError } from "@azure/service-bus";
 import { delay } from "rhea-promise";
 
 // Define connection string and related Service Bus entity names here
@@ -50,9 +50,9 @@ async function sendScheduledMessages(ns: Namespace): Promise<void> {
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
-  console.log(`>>>> Time now in UTC: ${timeNowUtc}`);
+  console.log(`Time now in UTC: ${timeNowUtc}`);
   console.log(
-    `>>>> Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
+    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
   );
 
   await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
@@ -73,23 +73,22 @@ async function receiveMessages(ns: Namespace): Promise<void> {
     console.log("Error occurred: ", err);
   };
 
+  console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
+
   let receiver = client.getReceiver();
   receiver.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
-  console.log(
-    `\nWhen receiver was started immediately, received ${numOfMessagesReceived} messages.`
-  );
+  console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
 
-  receiver = client.getReceiver();
+  console.log(`\nStarting receiver at ${new Date(Date.now())}`);
+
   receiver.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
-  console.log(
-    `\nWhen receiver was started after 10 seconds, received ${numOfMessagesReceived} messages.`
-  );
+  console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await client.close();
 }
