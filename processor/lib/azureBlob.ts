@@ -34,72 +34,72 @@ export class AzureBlob {
     }
   }
 
-  async ensureContainerExists(): Promise<CreateContainerResult> {
-    return await this._blobService.ensureContainerExists(this._containerName);
+  ensureContainerExists(): Promise<CreateContainerResult> {
+    return this._blobService.ensureContainerExists(this._containerName);
   }
 
-  async doesContainerExist(): Promise<boolean> {
-    return await this._blobService.doesContainerExist(this._containerName);
+  doesContainerExist(): Promise<boolean> {
+    return this._blobService.doesContainerExist(this._containerName);
   }
 
-  async doesBlobExist(): Promise<boolean> {
-    return await this._blobService.doesBlobExist(this._containerName, this._blobPath);
+  doesBlobExist(): Promise<boolean> {
+    return this._blobService.doesBlobExist(this._containerName, this._blobPath);
   }
 
-  async ensureBlobExists(text: string): Promise<void> {
-    return await this._blobService.ensureBlobExists(this._containerName, this._blobPath, text);
+  ensureBlobExists(text: string): Promise<void> {
+    return this._blobService.ensureBlobExists(this._containerName, this._blobPath, text);
   }
 
-  async renewLease(leaseId: string,
+  renewLease(leaseId: string,
     options: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
-    return await this._blobService.renewLease(this._containerName, this._blobPath, leaseId, options);
+    return this._blobService.renewLease(this._containerName, this._blobPath, leaseId, options);
   }
 
-  async releaseLease(leaseId: string,
+  releaseLease(leaseId: string,
     options?: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
-    return await this._blobService.releaseLease(this._containerName, this._blobPath, leaseId, options);
+    return this._blobService.releaseLease(this._containerName, this._blobPath, leaseId, options);
   }
 
-  async updateContent(text: string,
+  updateContent(text: string,
     options?: StorageBlobService.CreateBlobRequestOptions): Promise<StorageBlobService.BlobResult> {
-    return await this._blobService.updateContent(this._containerName, this._blobPath, text, options);
+    return this._blobService.updateContent(this._containerName, this._blobPath, text, options);
   }
 
-  async getContent(options?: StorageBlobService.GetBlobRequestOptions): Promise<string> {
-    return await this._blobService.getContent(this._containerName, this._blobPath, options);
+  getContent(options?: StorageBlobService.GetBlobRequestOptions): Promise<string> {
+    return this._blobService.getContent(this._containerName, this._blobPath, options);
   }
 
-  async changeLease(currentLeaseId: string,
+  changeLease(currentLeaseId: string,
     proposedLeaseId: string): Promise<StorageBlobService.LeaseResult> {
-    return await this._blobService.changeLease(this._containerName,
+    return this._blobService.changeLease(this._containerName,
       this._blobPath, currentLeaseId, proposedLeaseId);
   }
 
-  async getBlobProperties(): Promise<StorageBlobService.BlobResult> {
-    return await this._blobService.getBlobProperties(this._containerName, this._blobPath);
+  getBlobProperties(): Promise<StorageBlobService.BlobResult> {
+    return this._blobService.getBlobProperties(this._containerName, this._blobPath);
   }
 
-  async getBlobMetadata(): Promise<StorageBlobService.BlobResult> {
-    return await this._blobService.getBlobMetadata(this._containerName, this._blobPath);
+  getBlobMetadata(): Promise<StorageBlobService.BlobResult> {
+    return this._blobService.getBlobMetadata(this._containerName, this._blobPath);
   }
 
-  async setBlobMetadata(metadata: Dictionary<string>,
+  setBlobMetadata(metadata: Dictionary<string>,
     options?: StorageBlobService.BlobRequestOptions): Promise<StorageBlobService.BlobResult> {
-    return await this._blobService.setBlobMetadata(this._containerName, this._blobPath,
+    return this._blobService.setBlobMetadata(this._containerName, this._blobPath,
       metadata, options);
   }
 
-  async listBlobsSegmented(options?: StorageBlobService.ListBlobsSegmentedRequestOptions):
+  listBlobsSegmented(options?: StorageBlobService.ListBlobsSegmentedRequestOptions):
     Promise<StorageBlobService.ListBlobsResult> {
-    return await this._blobService.listBlobsSegmented(this._containerName, options);
+    return this._blobService.listBlobsSegmented(this._containerName, options);
   }
 
-  async acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions):
+  acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions):
     Promise<StorageBlobService.LeaseResult> {
-    return await this._blobService.acquireLease(this._containerName, this._blobPath, options);
+    return this._blobService.acquireLease(this._containerName, this._blobPath, options);
   }
 
-  async deleteBlobIfExists(): Promise<void> {
-    return await this._blobService.deleteBlobIfExists(this._containerName, this._blobPath);
+  deleteBlobIfExists(): Promise<void> {
+    return this._blobService.deleteBlobIfExists(this._containerName, this._blobPath);
   }
 }

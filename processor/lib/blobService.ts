@@ -6,7 +6,7 @@ import { createBlobService, BlobService as StorageBlobService, ServiceResponse }
 import * as log from "./log";
 import { validateType, getStorageError } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
-const path = require("path-browserify");
+import path from "path";
 /**
  * @ignore
  */

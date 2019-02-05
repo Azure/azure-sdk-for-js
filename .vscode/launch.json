@@ -7,34 +7,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "EPH Tests",
-            "program": "${workspaceFolder}/processor/node_modules/mocha/bin/_mocha",
-            "args": [
-                "-u",
-                "tdd",
-                "-r",
-                "ts-node/register",
-                "-t",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/processor/tests/eph.spec.ts"
-            ],
-            "internalConsoleOptions": "openOnSessionStart",
-            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "EPH Example",
-            "program": "${workspaceFolder}/processor/examples/singleEph.ts",
-            "outFiles": [
-                "${workspaceFolder}/processor/dist/**/*.js"
-            ],
-            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "testhub",
             "program": "${workspaceFolder}/testhub/dist/testhub/cli.js",
             "args": [
