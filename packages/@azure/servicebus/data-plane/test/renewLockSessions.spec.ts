@@ -31,7 +31,7 @@ describe("Standard", function(): void {
   describe("Unpartitioned Queue", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_SESSION);
     const receiverClient = senderClient;
-    describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
+    describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
         await beforeEachTest(receiverClient);
       });
@@ -76,7 +76,7 @@ describe("Standard", function(): void {
     const senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION_SESSION);
     const receiverClient = senderClient;
 
-    describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
+    describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
         await beforeEachTest(receiverClient);
       });
@@ -127,7 +127,7 @@ describe("Standard", function(): void {
       STANDARD_SUBSCRIPTION_SESSION
     );
 
-    describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
+    describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
         await beforeEachTest(receiverClient);
       });
@@ -177,7 +177,7 @@ describe("Standard", function(): void {
       STANDARD_SUBSCRIPTION_PARTITION_SESSION
     );
 
-    describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
+    describe("Tests - Lock Renewal for Sessions- Peeklock Mode", function(): void {
       beforeEach(async () => {
         await beforeEachTest(receiverClient);
       });
