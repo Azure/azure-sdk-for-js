@@ -4,7 +4,7 @@
 import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
 } from "../lib";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const path = process.env.EVENTHUB_NAME;
