@@ -12,8 +12,8 @@ import { ServiceBusMessage, Namespace } from "@azure/service-bus";
 const connectionString = "";
 const queueName = "";
 
-const deadLetterQueueName = Namespace.getDeadLetterQueuePathForQueue(queueName);
-// const deadLetterQueueName = Namespace.getDeadLetterSubcriptionPathForSubcription(topicName, subscriptionName);
+const deadLetterQueueName = Namespace.getDeadLetterQueuePath(queueName);
+// const deadLetterQueueName = Namespace.getDeadLetterTopicPath(topicName, subscriptionName);
 
 let ns: Namespace;
 
