@@ -19,6 +19,7 @@ import {
 import {
   testMessagesWithSessions,
   testMessagesWithDifferentSessionIds,
+  testMessagesToSamePartitionsWithDifferentSessions,
   getSenderClient,
   getReceiverClient,
   ClientType,
@@ -223,8 +224,8 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
 
   async function testComplete_batching(): Promise<void> {
     const sender = senderClient.getSender();
-    await sender.send(testMessagesWithDifferentSessionIds[0]);
-    await sender.send(testMessagesWithDifferentSessionIds[1]);
+    await sender.send(testMessagesToSamePartitionsWithDifferentSessions[0]);
+    await sender.send(testMessagesToSamePartitionsWithDifferentSessions[1]);
 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
@@ -233,7 +234,7 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     should.equal(msgs.length, 1);
 
     should.equal(
-      testMessagesWithDifferentSessionIds.some(
+      testMessagesToSamePartitionsWithDifferentSessions.some(
         (x) =>
           msgs[0].body === x.body &&
           msgs[0].messageId === x.messageId &&
@@ -251,7 +252,7 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
     should.equal(
-      testMessagesWithDifferentSessionIds.some(
+      testMessagesToSamePartitionsWithDifferentSessions.some(
         (x) =>
           msgs[0].body === x.body &&
           msgs[0].messageId === x.messageId &&

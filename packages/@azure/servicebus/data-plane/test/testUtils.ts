@@ -73,6 +73,20 @@ export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
     sessionId: testSessionId1
   }
 ];
+export const testMessagesToSamePartitionsWithDifferentSessions: SendableMessageInfo[] = [
+  {
+    body: "hello1",
+    messageId: `test message ${Math.random()}`,
+    sessionId: testSessionId1,
+    partitionKey: "dummy"
+  },
+  {
+    body: "hello2",
+    messageId: `test message ${Math.random()}`,
+    sessionId: testSessionId2,
+    partitionKey: "dummy"
+  }
+];
 
 export enum ClientType {
   PartitionedQueue,

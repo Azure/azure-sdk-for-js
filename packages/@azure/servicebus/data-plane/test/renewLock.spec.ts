@@ -416,7 +416,8 @@ let testMessage: any;
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
   testMessage = {
     body: `hello-world-1 : ${Math.random()}`,
-    messageId: `test message ${Math.random()}`
+    messageId: `test message ${Math.random()}`,
+    partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
   };
   await purge(receiverClient);
   const peekedMsgs = await receiverClient.peek();
