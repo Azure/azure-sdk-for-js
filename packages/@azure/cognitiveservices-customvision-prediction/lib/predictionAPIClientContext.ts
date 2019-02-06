@@ -20,7 +20,7 @@ export class PredictionAPIClientContext extends msRest.ServiceClient {
   /**
    * Initializes a new instance of the PredictionAPIClientContext class.
    * @param apiKey
-   * @param endpoint Supported Cognitive Services endpoints
+   * @param endpoint Supported Cognitive Services endpoints.
    * @param [options] The parameter options
    */
   constructor(apiKey: string, endpoint: string, options?: msRest.ServiceClientOptions) {

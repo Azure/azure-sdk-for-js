@@ -55,16 +55,14 @@ export const imageData: msRest.OperationParameter = {
     }
   }
 };
-export const iterationId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "iterationId"
-  ],
+export const name: msRest.OperationURLParameter = {
+  parameterPath: "name",
   mapper: {
+    required: true,
     nullable: true,
-    serializedName: "iterationId",
+    serializedName: "name",
     type: {
-      name: "Uuid"
+      name: "String"
     }
   }
 };
