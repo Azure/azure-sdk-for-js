@@ -7,7 +7,7 @@ npm install @azure/service-bus
 ```
  If you plan to clone this repo and run the samples directly rather than copying them to your project,
 then install the above package globally by using the `-g` flag. This is because the package cannot be 
-installed in the same folder that contains the package.json file for its source code.
+installed under the same folder that contains its source code.
 
 - Install typescript, ts-node globally (required for running the samples)
 ```bash
