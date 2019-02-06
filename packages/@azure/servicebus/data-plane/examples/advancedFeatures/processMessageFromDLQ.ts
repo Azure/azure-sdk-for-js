@@ -6,14 +6,14 @@
   to the Dead Letter Queue
 */
 
-import { ServiceBusMessage, Namespace } from "../../lib";
+import { ServiceBusMessage, Namespace } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
 
-const deadLetterQueueName = Namespace.getDeadLetterQueuePathForQueue(queueName);
-// const deadLetterQueueName = Namespace.getDeadLetterSubcriptionPathForSubcription(topicName, subscriptionName);
+const deadLetterQueueName = Namespace.getDeadLetterQueuePath(queueName);
+// const deadLetterQueueName = Namespace.getDeadLetterTopicPath(topicName, subscriptionName);
 
 let ns: Namespace;
 
@@ -33,7 +33,7 @@ async function processDeadletterMessageQueue(): Promise<void> {
   const message = await receiver.receiveBatch(1);
 
   if (message.length > 0) {
-    console.log(">>>>> Reprocessing the message in DLQ - ", message[0].body);
+    console.log(">>>>> Received the message from DLQ - ", message[0].body);
 
     // Do something with the message retrieved from DLQ
     await fixAndResendMessage(message[0]);
@@ -55,6 +55,8 @@ async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void>
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = oldMessage.clone();
+
+  console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
   await sender.send(repairedMessage);
   await client.close();

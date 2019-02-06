@@ -1,23 +1,14 @@
 ## Getting started with samples ##
 
-## Building the library
-- Clone the repo and cd to the repo directory
+## Installing the library
+- Run the below to install the npm package for Azure Service Bus library
 ```bash
-git clone https://github.com/azure/azure-service-bus-node.git
-cd azure-service-bus-node
+npm install @azure/service-bus@1.0.0-preview.1
 ```
 - Install typescript, ts-node globally (required for running the samples)
 ```bash
 npm i -g typescript
 npm i -g ts-node
-```
-- NPM install from the root of the package
-```bash
-npm i
-```
-- Build the project
-```bash
-npm run build
 ```
 
 ## Before executing a sample
