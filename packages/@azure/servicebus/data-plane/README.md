@@ -1,7 +1,7 @@
 @azure/service-bus
 ================
 
-This library provides a convenient way to interact with Azure Service Bus.
+This library provides a convenient way to interact with [Azure Service Bus](https://azure.microsoft.com/en-us/services/service-bus/).
 
 ## Status ##
 
@@ -17,11 +17,13 @@ npm install @azure/service-bus
 
 ## Examples 
 
-Please take a look at the [examples](https://github.com/Azure/azure-service-bus-node/tree/master/examples) directory for detailed examples.
+Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane/examples) 
+directory for detailed examples on how to use this library to send and receive messages to/from 
+[Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview).
 
 ## Debug logs ##
 
-You can set the following environment variable to get the debug logs.
+You can set the following environment variable to get the debug logs when using this library.
 
 - Getting debug logs from the Service Bus SDK
 ```bash
