@@ -552,6 +552,7 @@ export class MessageSession extends LinkEntity {
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
         resetTimerOnNewMessageReceived();
+        this._receiver!.addCredit(1);
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
@@ -624,7 +625,6 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      // this._receiver!.setCreditWindow(this.maxConcurrentCallsPerSession);
       this._receiver!.addCredit(this.maxConcurrentCallsPerSession);
     } else {
       this._isReceivingMessages = false;
