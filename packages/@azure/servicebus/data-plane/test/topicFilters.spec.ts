@@ -124,7 +124,10 @@ async function sendOrders(): Promise<void> {
   }
 }
 
-async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
+async function receiveOrders(
+  client: SubscriptionClient,
+  dataLength?: number
+): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = client.getReceiver();
@@ -140,7 +143,17 @@ async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMess
     }
   );
 
-  await delay(5000);
+  if (dataLength) {
+    for (let i = 0; i < data.length; i++) {
+      await delay(1000);
+      if (receivedMsgs.length === dataLength) {
+        break;
+      }
+    }
+  } else {
+    await delay(5000);
+  }
+
   await receiver.close();
   should.equal(
     errorFromErrorHandler,
@@ -482,8 +495,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SQLMsgPropertyRule", "sys.label = 'red'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -495,8 +508,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SQLCustomRule", "color = 'red'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -508,8 +521,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithAND", "color = 'blue' and quantity = 10");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue" && x.Quantity === 10).length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -521,8 +534,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithOR", "color = 'blue' OR quantity = 10");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue" || x.Quantity === 10).length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -534,8 +547,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithAction", "color='blue'", "SET priority = 'High'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -554,8 +567,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithAction", "color='blue'", "SET sys.label = 'color blue'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -583,8 +596,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     });
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -600,8 +613,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     });
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -621,8 +634,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     );
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
