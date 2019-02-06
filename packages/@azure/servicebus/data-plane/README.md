@@ -17,13 +17,13 @@ npm install @azure/service-bus
 
 ## Examples 
 
-Please take a look at the [examples]((https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane/examples) 
+Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane/examples) 
 directory for detailed examples on how to use this library to send and receive messages to/from 
 [Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview).
 
 ## Debug logs ##
 
-You can set the following environment variable to get the debug logs.
+You can set the following environment variable to get the debug logs when using this library.
 
 - Getting debug logs from the Service Bus SDK
 ```bash
