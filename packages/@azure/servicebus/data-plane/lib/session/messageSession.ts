@@ -624,7 +624,7 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this._receiver!.setCreditWindow(this.maxConcurrentCallsPerSession);
+      // this._receiver!.setCreditWindow(this.maxConcurrentCallsPerSession);
       this._receiver!.addCredit(this.maxConcurrentCallsPerSession);
     } else {
       this._isReceivingMessages = false;
