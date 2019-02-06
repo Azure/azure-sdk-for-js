@@ -126,7 +126,7 @@ async function sendOrders(): Promise<void> {
 
 async function receiveOrders(
   client: SubscriptionClient,
-  dataLength?: number
+  expectedMessageCount?: number
 ): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
@@ -143,12 +143,9 @@ async function receiveOrders(
     }
   );
 
-  if (dataLength) {
-    for (let i = 0; i < data.length; i++) {
+  if (expectedMessageCount) {
+    for (let i = 0; i < 10 && receivedMsgs.length < expectedMessageCount; i++) {
       await delay(1000);
-      if (receivedMsgs.length === dataLength) {
-        break;
-      }
     }
   } else {
     await delay(5000);
