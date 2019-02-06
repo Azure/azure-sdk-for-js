@@ -27,10 +27,10 @@ Before running a sample, update it with the connection string and the queue/topi
 
 ```bash
 cd examples
-ts-node samples\<sample>.ts
+ts-node <sample>.ts
 ```
 - For debugging:
 [VS Code - Debugging](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations) -  Update the `Debug sample` configuration in `launch.json` by changing the `program` attrbute to point to the sample you want to debug.
 ```bash
-"program": "${workspaceFolder}/examples/samples/<sample>.ts"
+"program": "${workspaceFolder}/examples/<sample>.ts"
 ```
