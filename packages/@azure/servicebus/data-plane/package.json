@@ -3,13 +3,14 @@
   "author": "Microsoft Corporation",
   "version": "1.0.0-preview.1",
   "license": "MIT",
-  "description": "Azure ServiceBus SDK for JS",
-  "homepage": "http://github.com/azure/azure-sdk-for-js",
+  "description": "Azure Service Bus SDK for Node.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "cloud",
-    "service bus"
+    "service bus",
+    "AMQP"
   ],
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
