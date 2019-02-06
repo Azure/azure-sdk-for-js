@@ -188,7 +188,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
 
     client.getReceiver().receive(onMessage, testError);
 
-    await delay(1000);
+    await delay(3000);
     await client.close();
     should.equal(errorWasThrown, true);
   });
@@ -298,7 +298,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     };
     client.getReceiver().receive(onMessage, (err) => testError(err, "some-name"));
 
-    await delay(1000);
+    await delay(3000);
     await client.close();
     should.equal(errorWasThrown, true);
   });
@@ -316,7 +316,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
         testError(err, "some-topic-name/Subscriptions/some-subscription-name")
       );
 
-    await delay(1000);
+    await delay(3000);
     await client.close();
     should.equal(errorWasThrown, true);
   });
