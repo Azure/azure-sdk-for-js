@@ -54,7 +54,7 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
+      it.only(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
         void
       > {
         await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
@@ -329,9 +329,8 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   await delay(lockDurationInMilliseconds + 1000);
 
   let errorWasThrown: boolean = false;
-  await msgs[0].complete().catch((err: any) => {
-    should.equal(err.name, "Error");
-    should.equal(!(err.message.search("Cannot find the receiver with name") + 1), false);
+  await msgs[0].complete().catch((err) => {
+    should.equal(err.name, "SessionLockLostError");
     errorWasThrown = true;
   });
 
@@ -438,14 +437,18 @@ async function testAutoLockRenewalConfigBehavior(
         await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
 
         let errorWasThrown: boolean = false;
-        await brokeredMessage.complete().catch((err) => {
-          errorWasThrown = true; // Service bus completes the message even when the session lock expires.
+        await brokeredMessage.complete().catch(() => {
+          errorWasThrown = true;
         });
 
-        should.equal(errorWasThrown, false, "Error Thrown flag value mismatch");
+        should.equal(errorWasThrown, true, "Error Thrown flag value mismatch");
       }
     },
-    onError,
+    (err: MessagingError | Error) => {
+      if (err.name !== "SessionLockLostError") {
+        onError(err);
+      }
+    },
     {
       autoComplete: false
     }
