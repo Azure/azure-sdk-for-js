@@ -96,8 +96,8 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     await receiver.close();
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(1);
-    should.equal(msgs.length, 1);
-    should.equal(Array.isArray(msgs), true);
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs[0].body, testMessagesWithSessions[0].body);
     should.equal(msgs[0].messageId, testMessagesWithSessions[0].messageId);
     await msgs[0].complete();
@@ -229,8 +229,8 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
 
     should.equal(
       testMessagesWithDifferentSessionIds.some(
@@ -248,8 +248,8 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(2);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -320,8 +320,8 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -343,8 +343,8 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
 
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
