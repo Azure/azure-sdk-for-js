@@ -411,8 +411,6 @@ const onError: OnError = (err: MessagingError | Error) => {
   uncaughtErrorFromHandlers = err;
 };
 
-// let testMessage: any;
-
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
   await purge(receiverClient);
   const peekedMsgs = await receiverClient.peek();
