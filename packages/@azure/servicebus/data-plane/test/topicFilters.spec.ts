@@ -126,7 +126,7 @@ async function sendOrders(): Promise<void> {
 
 async function receiveOrders(
   client: SubscriptionClient,
-  expectedMessageCount?: number
+  expectedMessageCount: number
 ): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
@@ -143,12 +143,8 @@ async function receiveOrders(
     }
   );
 
-  if (expectedMessageCount) {
-    for (let i = 0; i < 10 && receivedMsgs.length < expectedMessageCount; i++) {
-      await delay(1000);
-    }
-  } else {
-    await delay(5000);
+  for (let i = 0; i < 10 && receivedMsgs.length < expectedMessageCount; i++) {
+    await delay(1000);
   }
 
   await receiver.close();
@@ -421,7 +417,7 @@ describe("Topic Filters -  Send/Receive messages using default filter of subscri
 
   it("Subscription with default filter receives all messages", async function(): Promise<void> {
     await sendOrders();
-    const receivedMsgs = await receiveOrders(defaultSubscriptionClient);
+    const receivedMsgs = await receiveOrders(defaultSubscriptionClient, data.length);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, data.length);
@@ -436,14 +432,13 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
     await afterEachTest();
   });
 
   async function addFilterAndReceiveOrders(
     bool: boolean,
-    client: SubscriptionClient
+    client: SubscriptionClient,
+    expectedMessageCount: number
   ): Promise<ServiceBusMessage[]> {
     await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
@@ -451,7 +446,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
     should.equal(rules[0].name, "BooleanFilter");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(client);
+    const receivedMsgs = await receiveOrders(client, expectedMessageCount);
 
     return receivedMsgs;
   }
@@ -459,7 +454,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   it("Subscription with true boolean filter receives all messages", async function(): Promise<
     void
   > {
-    const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient);
+    const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient, data.length);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, data.length);
@@ -470,7 +465,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   it("Subscription with false boolean filter does not receive any messages", async function(): Promise<
     void
   > {
-    const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient);
+    const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient, 0);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, 0);
