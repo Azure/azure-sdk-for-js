@@ -20,6 +20,16 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const actionId: msRest.OperationURLParameter = {
+  parameterPath: "actionId",
+  mapper: {
+    required: true,
+    serializedName: "actionId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {

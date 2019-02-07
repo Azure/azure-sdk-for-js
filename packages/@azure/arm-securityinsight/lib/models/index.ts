@@ -205,6 +205,58 @@ export interface ScheduledAlertRule {
 }
 
 /**
+ * @interface
+ * An interface representing Resource.
+ * An azure resource object
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Action.
+ * Action for alert rule.
+ *
+ * @extends Resource
+ */
+export interface Action extends Resource {
+  /**
+   * @member {string} [etag] Etag of the action.
+   */
+  etag?: string;
+  /**
+   * @member {string} [triggerUri] The uri for the action to trigger.
+   */
+  triggerUri?: string;
+  /**
+   * @member {string} [ruleId] The unique identifier of the rule.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ruleId?: string;
+}
+
+/**
  * Contains the possible cases for DataConnector.
  */
 export type DataConnectorUnion = DataConnector | OfficeDataConnector | TIDataConnector | DataConnectorWithAlertsUnion;
@@ -651,34 +703,6 @@ export interface AlertsDataTypeOfDataConnector {
 
 /**
  * @interface
- * An interface representing Resource.
- * An azure resource object
- *
- * @extends BaseResource
- */
-export interface Resource extends BaseResource {
-  /**
-   * @member {string} [id] Azure resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [type] Azure resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [name] Azure resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-}
-
-/**
- * @interface
  * An interface representing SecurityInsightsOptions.
  * @extends AzureServiceClientOptions
  */
@@ -714,6 +738,22 @@ export interface OperationsList extends Array<Operation> {
 export interface AlertRulesList extends Array<AlertRuleUnion> {
   /**
    * @member {string} [nextLink] URL to fetch the next set of alert rules.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ActionsList.
+ * List all the actions.
+ *
+ * @extends Array<Action>
+ */
+export interface ActionsList extends Array<Action> {
+  /**
+   * @member {string} [nextLink] URL to fetch the next set of actions.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -873,6 +913,44 @@ export type AlertRulesCreateResponse = AlertRuleUnion & {
 };
 
 /**
+ * Contains response data for the getAction operation.
+ */
+export type AlertRulesGetActionResponse = Action & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Action;
+    };
+};
+
+/**
+ * Contains response data for the createAction operation.
+ */
+export type AlertRulesCreateActionResponse = Action & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Action;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type AlertRulesListNextResponse = AlertRulesList & {
@@ -888,6 +966,82 @@ export type AlertRulesListNextResponse = AlertRulesList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AlertRulesList;
+    };
+};
+
+/**
+ * Contains response data for the listByAlertRule operation.
+ */
+export type ActionsListByAlertRuleResponse = ActionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActionsList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ActionsListResponse = ActionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActionsList;
+    };
+};
+
+/**
+ * Contains response data for the listByAlertRuleNext operation.
+ */
+export type ActionsListByAlertRuleNextResponse = ActionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActionsList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ActionsListNextResponse = ActionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActionsList;
     };
 };
 

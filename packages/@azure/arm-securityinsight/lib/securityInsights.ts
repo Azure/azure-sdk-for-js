@@ -19,6 +19,7 @@ class SecurityInsights extends SecurityInsightsContext {
   // Operation groups
   operations: operations.Operations;
   alertRules: operations.AlertRules;
+  actions: operations.Actions;
   dataConnectors: operations.DataConnectors;
 
   /**
@@ -31,6 +32,7 @@ class SecurityInsights extends SecurityInsightsContext {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.alertRules = new operations.AlertRules(this);
+    this.actions = new operations.Actions(this);
     this.dataConnectors = new operations.DataConnectors(this);
   }
 }

@@ -245,6 +245,67 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
   }
 };
 
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Action: msRest.CompositeMapper = {
+  serializedName: "Action",
+  type: {
+    name: "Composite",
+    className: "Action",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      triggerUri: {
+        serializedName: "properties.triggerUri",
+        type: {
+          name: "String"
+        }
+      },
+      ruleId: {
+        readOnly: true,
+        serializedName: "properties.ruleId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataConnector: msRest.CompositeMapper = {
   serializedName: "DataConnector",
   type: {
@@ -561,37 +622,6 @@ export const AlertsDataTypeOfDataConnector: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const OperationsList: msRest.CompositeMapper = {
   serializedName: "operationsList",
   type: {
@@ -643,6 +673,36 @@ export const AlertRulesList: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "AlertRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ActionsList: msRest.CompositeMapper = {
+  serializedName: "ActionsList",
+  type: {
+    name: "Composite",
+    className: "ActionsList",
+    modelProperties: {
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Action"
             }
           }
         }

@@ -10,12 +10,10 @@
 
 export {
   discriminators,
-  AlertRulesList,
-  AlertRule,
-  CloudError,
+  ActionsList,
   Action,
   Resource,
   BaseResource,
-  ScheduledAlertRule
+  CloudError
 } from "../models/mappers";
 

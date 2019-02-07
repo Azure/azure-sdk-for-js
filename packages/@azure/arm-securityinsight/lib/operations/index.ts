@@ -10,4 +10,5 @@
 
 export * from "./operations";
 export * from "./alertRules";
+export * from "./actions";
 export * from "./dataConnectors";
