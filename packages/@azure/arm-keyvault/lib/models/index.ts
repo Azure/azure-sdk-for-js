@@ -168,7 +168,9 @@ export interface VaultProperties {
   /**
    * @member {AccessPolicyEntry[]} [accessPolicies] An array of 0 to 16
    * identities that have access to the key vault. All identities in the array
-   * must use the same tenant ID as the key vault's tenant ID.
+   * must use the same tenant ID as the key vault's tenant ID. When
+   * `createMode` is set to `recover`, access policies are not required.
+   * Otherwise, access policies are required.
    */
   accessPolicies?: AccessPolicyEntry[];
   /**
