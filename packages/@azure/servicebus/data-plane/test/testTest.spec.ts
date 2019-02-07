@@ -39,7 +39,9 @@ async function testPeekMsgsLength(
     "Unexpected number of msgs found when peeking"
   );
 }
-import { ServiceBusManagementClient } from "@azure/arm-servicebus";
+import { createServiceBusService } from "azure-sb";
+const serviceBusService = createServiceBusService();
+
 let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
@@ -140,14 +142,21 @@ describe("Streaming Receiver - Misc Tests", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("AutoComplete removes the message from Partitioned Queue", async function(): Promise<void> {
-    const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-    const client = new ServiceBusManagementClient(creds, subscriptionId);
-    await client.operations.list().then((result) => {
-      console.log("The result is:");
-      console.log(result);
+  it.only("AutoComplete removes the message from Partitioned Queue", async function(): Promise<
+    void
+  > {
+    // const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+    // const client = new ServiceBusManagementClient(creds, subscriptionId);
+    // await client.operations.list().then((result) => {
+    //   console.log("The result is:");
+    //   console.log(result);
+    // });
+    await serviceBusService.createQueueIfNotExists("myqueue", function(error: any): void {
+      if (!error) {
+        console.log("hello inside");
+        // Queue exists
+      }
     });
-
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testAutoComplete();
   });
