@@ -19,7 +19,7 @@ Before running any of the samples, update it with the connection string and the 
 
 ## Running a Javascript sample
 
-In your samples folder use `node` to run the sample.
+Copy the sample to your samples folder and use `node` to run it.
 ```bash
 node sample.js
 ```
@@ -31,7 +31,7 @@ One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run
 npm install ts-node
 ```
 
-To run the sample, simply use `ts-node`
+Copy the sample to your samples folder and use `ts-node` to run it.
 ```bash
 ts-node sample.ts
 ```
