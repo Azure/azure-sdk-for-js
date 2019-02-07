@@ -222,7 +222,7 @@ describe("EventHubClient on ", function () {
         } catch (err) {
           debug(`>>>> Received error - `, err);
           should.exist(err);
-          should.equal(err.name, "InvalidOperationError");
+          err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
         }
       });
     });
