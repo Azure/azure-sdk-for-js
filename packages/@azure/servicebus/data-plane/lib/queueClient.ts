@@ -177,6 +177,7 @@ export class QueueClient extends Client {
         } before using "getSessionReceiver" to create a new one for the same sessionId`
       );
     }
+    this._context.expiredMessageSessions = {};
     this._context.isSessionEnabled = true;
     const messageSession = await MessageSession.create(this._context, options);
     return new SessionReceiver(this._context, messageSession);

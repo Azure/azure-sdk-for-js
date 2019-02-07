@@ -926,7 +926,6 @@ export class MessageSession extends LinkEntity {
   private _deleteFromCache(): void {
     this._receiver = undefined;
     delete this._context.messageSessions[this.sessionId!];
-    delete this._context.expiredMessageSessions[this.sessionId!];
     log.error(
       "[%s] Deleted the receiver '%s' with sessionId '%s' from the client cache.",
       this._context.namespace.connectionId,
