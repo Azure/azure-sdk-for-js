@@ -193,9 +193,8 @@ describe("EventHub Sender", function () {
     });
 
     describe("on invalid partition ids like", function () {
-      const invalidIds = ["XYZ", "-1", "1000", "-", "", " ", null];
+      const invalidIds = ["XYZ", "-1", "1000", "-", null];
       invalidIds.forEach(function (id) {
-        //const id = invalidIds[5];
         it(`"${id}" should throw an error`, async function () {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
@@ -204,7 +203,22 @@ describe("EventHub Sender", function () {
           } catch (err) {
             debug(`>>>> Received error for invalid partition id "${id}" - `, err);
             should.exist(err);
-            should.equal(true, err.name === "ArgumentOutOfRangeError" || err.name === "InvalidOperationError");
+            err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
+          }
+        });
+      });
+
+      const invalidIds2 = ["", " "];
+      invalidIds2.forEach(function (id) {
+        it(`"${id}" should throw an invalid EventHub address error`, async function () {
+          try {
+            debug("Created sender and will be sending a message to partition id ...", id);
+            await client.send({ body: "Hello world!" }, id as any);
+            debug("sent the message.");
+          } catch (err) {
+            debug(`>>>> Received invalid EventHub address error for partition id "${id}" - `, err);
+            should.exist(err);
+            err.message.should.match(/.*Invalid EventHub address. It must be either of the following.*/ig);
           }
         });
       });
