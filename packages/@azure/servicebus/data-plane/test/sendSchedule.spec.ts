@@ -7,7 +7,14 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { Namespace, QueueClient, TopicClient, SubscriptionClient, delay } from "../lib";
+import {
+  Namespace,
+  QueueClient,
+  TopicClient,
+  SubscriptionClient,
+  delay,
+  SendableMessageInfo
+} from "../lib";
 
 import {
   testSimpleMessages,
@@ -81,13 +88,13 @@ describe("Send to Queue/Subscription", function(): void {
 
   async function testSimpleSend(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    await senderClient.getSender().send(testMessages[0]);
+    await senderClient.getSender().send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages[0].body);
-    should.equal(msgs[0].messageId, testMessages[0].messageId);
+    should.equal(msgs[0].body, testMessages.body);
+    should.equal(msgs[0].messageId, testMessages.messageId);
     should.equal(msgs[0].deliveryCount, 0);
 
     await msgs[0].complete();
@@ -160,7 +167,7 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
   async function testScheduleMessage(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await senderClient.getSender().scheduleMessage(scheduleTime, testMessages[0]);
+    await senderClient.getSender().scheduleMessage(scheduleTime, testMessages);
 
     const msgs = await receiver.receiveBatch(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -168,8 +175,8 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
     should.equal(msgEnqueueTime - scheduleTime.valueOf() >= 0, true); // checking received message enqueue time is greater or equal to the scheduled time.
-    should.equal(msgs[0].body, testMessages[0].body);
-    should.equal(msgs[0].messageId, testMessages[0].messageId);
+    should.equal(msgs[0].body, testMessages.body);
+    should.equal(msgs[0].messageId, testMessages.messageId);
 
     await msgs[0].complete();
 
@@ -246,8 +253,33 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
     await afterEachTest();
   });
 
+  const messages: SendableMessageInfo[] = [
+    {
+      body: "hello1",
+      messageId: `test message ${Math.random()}`,
+      partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+    },
+    {
+      body: "hello2",
+      messageId: `test message ${Math.random()}`,
+      partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+    }
+  ];
+  const messageWithSessions: SendableMessageInfo[] = [
+    {
+      body: "hello1",
+      messageId: `test message ${Math.random()}`,
+      sessionId: testSessionId1
+    },
+    {
+      body: "hello2",
+      messageId: `test message ${Math.random()}`,
+      sessionId: testSessionId1
+    }
+  ];
+
   async function testScheduleMessages(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? messageWithSessions : messages;
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
     await senderClient.getSender().scheduleMessages(scheduleTime, testMessages);
 
@@ -337,7 +369,7 @@ describe("Cancel a single Scheduled message for sending to Queue/Subscription", 
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
     const sequenceNumber = await senderClient
       .getSender()
-      .scheduleMessage(scheduleTime, testMessages[0]);
+      .scheduleMessage(scheduleTime, testMessages);
 
     await delay(2000);
 
@@ -432,8 +464,8 @@ describe("Cancel multiple Scheduled messages for sending to Queue/Subscription",
     }
     const sender = senderClient.getSender();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const sequenceNumber1 = await sender.scheduleMessage(scheduleTime, testMessages[0]);
-    const sequenceNumber2 = await sender.scheduleMessage(scheduleTime, testMessages[1]);
+    const sequenceNumber1 = await sender.scheduleMessage(scheduleTime, testMessages);
+    const sequenceNumber2 = await sender.scheduleMessage(scheduleTime, testMessages);
 
     await delay(2000);
 

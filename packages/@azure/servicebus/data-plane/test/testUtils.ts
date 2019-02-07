@@ -9,45 +9,18 @@ import {
   SubscriptionClient
 } from "../lib";
 
-export const testSimpleMessages: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
-  }
-];
+export const testSimpleMessages: SendableMessageInfo = {
+  body: "hello1",
+  messageId: `test message ${Math.random()}`,
+  partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+};
 
 export const testSessionId1 = "my-session";
-export const testSessionId2 = "my-session2";
-export const testMessagesWithSessions: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
-  }
-];
-export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId2
-  }
-];
+export const testMessagesWithSessions: SendableMessageInfo = {
+  body: "hello1",
+  messageId: `test message ${Math.random()}`,
+  sessionId: testSessionId1
+};
 
 export enum ClientType {
   PartitionedQueue,

@@ -111,13 +111,13 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
   });
 
   async function testAutoComplete(): Promise<void> {
-    await sender.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(msg.body, testMessagesWithSessions[0].body);
-      should.equal(msg.messageId, testMessagesWithSessions[0].messageId);
+      should.equal(msg.body, testMessagesWithSessions.body);
+      should.equal(msg.messageId, testMessagesWithSessions.messageId);
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
@@ -173,14 +173,14 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
   });
 
   async function testManualComplete(): Promise<void> {
-    await sender.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(msg.body, testMessagesWithSessions[0].body);
-        should.equal(msg.messageId, testMessagesWithSessions[0].messageId);
+        should.equal(msg.body, testMessagesWithSessions.body);
+        should.equal(msg.messageId, testMessagesWithSessions.messageId);
         return Promise.resolve();
       },
       unExpectedErrorHandler,
@@ -248,14 +248,14 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
   });
 
   async function testComplete(autoComplete: boolean): Promise<void> {
-    await sender.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(msg.body, testMessagesWithSessions[0].body);
-        should.equal(msg.messageId, testMessagesWithSessions[0].messageId);
+        should.equal(msg.body, testMessagesWithSessions.body);
+        should.equal(msg.messageId, testMessagesWithSessions.messageId);
         return msg.complete();
       },
       unExpectedErrorHandler,
@@ -360,7 +360,7 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
   });
 
   async function testAbandon(autoComplete: boolean): Promise<void> {
-    await sender.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
 
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
@@ -386,7 +386,7 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
     });
     const receivedMsgs = await sessionReceiver.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions[0].messageId);
+    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
     should.equal(receivedMsgs[0].deliveryCount, 1);
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
@@ -478,7 +478,7 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
   });
 
   async function testDefer(autoComplete: boolean): Promise<void> {
-    await sender.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
 
     let sequenceNum: any = 0;
     await sessionReceiver.receive(
@@ -499,8 +499,8 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
       throw "No message received for sequence number";
     }
 
-    should.equal(deferredMsg.body, testMessagesWithSessions[0].body);
-    should.equal(deferredMsg.messageId, testMessagesWithSessions[0].messageId);
+    should.equal(deferredMsg.body, testMessagesWithSessions.body);
+    should.equal(deferredMsg.messageId, testMessagesWithSessions.messageId);
     should.equal(deferredMsg.deliveryCount, 1);
 
     await deferredMsg.complete();
@@ -594,7 +594,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
   });
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
-    await sender.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
 
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
@@ -612,7 +612,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true);
     should.equal(deadLetterMsgs.length, 1);
-    should.equal(deadLetterMsgs[0].messageId, testMessagesWithSessions[0].messageId);
+    should.equal(deadLetterMsgs[0].messageId, testMessagesWithSessions.messageId);
 
     await deadLetterMsgs[0].complete();
     await testPeekMsgsLength(deadLetterClient, 0);
@@ -777,7 +777,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
   };
 
   async function testSettlement(operation: DispositionType): Promise<void> {
-    await sender.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.receive((msg: ServiceBusMessage) => {
@@ -789,8 +789,8 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessagesWithSessions[0].body);
-    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions[0].messageId);
+    should.equal(receivedMsgs[0].body, testMessagesWithSessions.body);
+    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
 
     await testPeekMsgsLength(receiverClient, 0);
 
