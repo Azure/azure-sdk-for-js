@@ -11,16 +11,16 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
-import * as Mappers from "../models/eventHubConnectionsMappers";
+import * as Mappers from "../models/dataConnectionsMappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClientContext } from "../kustoManagementClientContext";
 
-/** Class representing a EventHubConnections. */
-export class EventHubConnections {
+/** Class representing a DataConnections. */
+export class DataConnections {
   private readonly client: KustoManagementClientContext;
 
   /**
-   * Create a EventHubConnections.
+   * Create a DataConnections.
    * @param {KustoManagementClientContext} client Reference to the service client.
    */
   constructor(client: KustoManagementClientContext) {
@@ -28,21 +28,21 @@ export class EventHubConnections {
   }
 
   /**
-   * Returns the list of Event Hub connections of the given Kusto database.
+   * Returns the list of data connections of the given Kusto database.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubConnectionsListByDatabaseResponse>
+   * @returns Promise<Models.DataConnectionsListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubConnectionsListByDatabaseResponse>;
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, callback: msRest.ServiceCallback<Models.EventHubConnectionListResult>): void;
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DataConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -50,8 +50,8 @@ export class EventHubConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConnectionListResult>): void;
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConnectionListResult>, callback?: msRest.ServiceCallback<Models.EventHubConnectionListResult>): Promise<Models.EventHubConnectionsListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectionListResult>): void;
+  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionListResult>, callback?: msRest.ServiceCallback<Models.DataConnectionListResult>): Promise<Models.DataConnectionsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,37 +60,37 @@ export class EventHubConnections {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.EventHubConnectionsListByDatabaseResponse>;
+      callback) as Promise<Models.DataConnectionsListByDatabaseResponse>;
   }
 
   /**
-   * Checks that the Event Hub data connection parameters are valid.
+   * Checks that the data connection parameters are valid.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param parameters The Event Hub connection parameters supplied to the CreateOrUpdate operation.
+   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubConnectionsEventhubConnectionValidationResponse>
+   * @returns Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>
    */
-  eventhubConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.EventHubConnectionValidation, options?: msRest.RequestOptionsBase): Promise<Models.EventHubConnectionsEventhubConnectionValidationResponse>;
+  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param parameters The Event Hub connection parameters supplied to the CreateOrUpdate operation.
+   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
    * @param callback The callback
    */
-  eventhubConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.EventHubConnectionValidation, callback: msRest.ServiceCallback<Models.EventHubConnectionValidationListResult>): void;
+  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, callback: msRest.ServiceCallback<Models.DataConnectionValidationListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param parameters The Event Hub connection parameters supplied to the CreateOrUpdate operation.
+   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  eventhubConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.EventHubConnectionValidation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConnectionValidationListResult>): void;
-  eventhubConnectionValidation(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.EventHubConnectionValidation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConnectionValidationListResult>, callback?: msRest.ServiceCallback<Models.EventHubConnectionValidationListResult>): Promise<Models.EventHubConnectionsEventhubConnectionValidationResponse> {
+  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectionValidationListResult>): void;
+  dataConnectionValidationMethod(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DataConnectionValidation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionValidationListResult>, callback?: msRest.ServiceCallback<Models.DataConnectionValidationListResult>): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,111 +99,111 @@ export class EventHubConnections {
         parameters,
         options
       },
-      eventhubConnectionValidationOperationSpec,
-      callback) as Promise<Models.EventHubConnectionsEventhubConnectionValidationResponse>;
+      dataConnectionValidationMethodOperationSpec,
+      callback) as Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>;
   }
 
   /**
-   * Returns an Event Hub connection.
+   * Returns a data connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
+   * @param dataConnectionName The name of the data connection.
    * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubConnectionsGetResponse>
+   * @returns Promise<Models.DataConnectionsGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubConnectionsGetResponse>;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
+   * @param dataConnectionName The name of the data connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, callback: msRest.ServiceCallback<Models.EventHubConnection>): void;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, callback: msRest.ServiceCallback<Models.DataConnectionUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
+   * @param dataConnectionName The name of the data connection.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConnection>): void;
-  get(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConnection>, callback?: msRest.ServiceCallback<Models.EventHubConnection>): Promise<Models.EventHubConnectionsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectionUnion>): void;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionUnion>, callback?: msRest.ServiceCallback<Models.DataConnectionUnion>): Promise<Models.DataConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         databaseName,
-        eventHubConnectionName,
+        dataConnectionName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EventHubConnectionsGetResponse>;
+      callback) as Promise<Models.DataConnectionsGetResponse>;
   }
 
   /**
-   * Creates or updates a Event Hub connection.
+   * Creates or updates a data connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
-   * @param parameters The Event Hub connection parameters supplied to the CreateOrUpdate operation.
+   * @param dataConnectionName The name of the data connection.
+   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubConnectionsCreateOrUpdateResponse>
+   * @returns Promise<Models.DataConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, parameters: Models.EventHubConnection, options?: msRest.RequestOptionsBase): Promise<Models.EventHubConnectionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,clusterName,databaseName,eventHubConnectionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EventHubConnectionsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,clusterName,databaseName,dataConnectionName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataConnectionsCreateOrUpdateResponse>;
   }
 
   /**
-   * Updates a Event Hub connection.
+   * Updates a data connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
-   * @param parameters The Event Hub connection parameters supplied to the Update operation.
+   * @param dataConnectionName The name of the data connection.
+   * @param parameters The data connection parameters supplied to the Update operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubConnectionsUpdateResponse>
+   * @returns Promise<Models.DataConnectionsUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, parameters: Models.EventHubConnectionUpdate, options?: msRest.RequestOptionsBase): Promise<Models.EventHubConnectionsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,clusterName,databaseName,eventHubConnectionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EventHubConnectionsUpdateResponse>;
+  update(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectionsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,clusterName,databaseName,dataConnectionName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataConnectionsUpdateResponse>;
   }
 
   /**
-   * Deletes the Event Hub connection with the given name.
+   * Deletes the data connection with the given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
+   * @param dataConnectionName The name of the data connection.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,databaseName,eventHubConnectionName,options)
+  deleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,clusterName,databaseName,dataConnectionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
-   * Creates or updates a Event Hub connection.
+   * Creates or updates a data connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
-   * @param parameters The Event Hub connection parameters supplied to the CreateOrUpdate operation.
+   * @param dataConnectionName The name of the data connection.
+   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, parameters: Models.EventHubConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         clusterName,
         databaseName,
-        eventHubConnectionName,
+        dataConnectionName,
         parameters,
         options
       },
@@ -212,22 +212,22 @@ export class EventHubConnections {
   }
 
   /**
-   * Updates a Event Hub connection.
+   * Updates a data connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
-   * @param parameters The Event Hub connection parameters supplied to the Update operation.
+   * @param dataConnectionName The name of the data connection.
+   * @param parameters The data connection parameters supplied to the Update operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, parameters: Models.EventHubConnectionUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, parameters: Models.DataConnectionUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         clusterName,
         databaseName,
-        eventHubConnectionName,
+        dataConnectionName,
         parameters,
         options
       },
@@ -236,21 +236,21 @@ export class EventHubConnections {
   }
 
   /**
-   * Deletes the Event Hub connection with the given name.
+   * Deletes the data connection with the given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param eventHubConnectionName The name of the event hub connection.
+   * @param dataConnectionName The name of the data connection.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, eventHubConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         clusterName,
         databaseName,
-        eventHubConnectionName,
+        dataConnectionName,
         options
       },
       beginDeleteMethodOperationSpec,
@@ -262,7 +262,7 @@ export class EventHubConnections {
 const serializer = new msRest.Serializer(Mappers);
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/eventhubconnections",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
@@ -277,7 +277,7 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.EventHubConnectionListResult
+      bodyMapper: Mappers.DataConnectionListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -286,9 +286,9 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const eventhubConnectionValidationOperationSpec: msRest.OperationSpec = {
+const dataConnectionValidationMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/eventhubConnectionValidation",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
@@ -304,13 +304,13 @@ const eventhubConnectionValidationOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.EventHubConnectionValidation,
+      ...Mappers.DataConnectionValidation,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.EventHubConnectionValidationListResult
+      bodyMapper: Mappers.DataConnectionValidationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -321,12 +321,12 @@ const eventhubConnectionValidationOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/eventhubconnections/{eventHubConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
-    Parameters.eventHubConnectionName,
+    Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -337,7 +337,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.EventHubConnection
+      bodyMapper: Mappers.DataConnection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -348,12 +348,12 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/eventhubconnections/{eventHubConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
-    Parameters.eventHubConnectionName,
+    Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -365,16 +365,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.EventHubConnection,
+      ...Mappers.DataConnection,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.EventHubConnection
+      bodyMapper: Mappers.DataConnection
     },
     201: {
-      bodyMapper: Mappers.EventHubConnection
+      bodyMapper: Mappers.DataConnection
     },
     202: {},
     default: {
@@ -386,12 +386,12 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/eventhubconnections/{eventHubConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
-    Parameters.eventHubConnectionName,
+    Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -403,16 +403,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.EventHubConnectionUpdate,
+      ...Mappers.DataConnection,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.EventHubConnection
+      bodyMapper: Mappers.DataConnection
     },
     201: {
-      bodyMapper: Mappers.EventHubConnection
+      bodyMapper: Mappers.DataConnection
     },
     202: {},
     default: {
@@ -424,12 +424,12 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/eventhubconnections/{eventHubConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
-    Parameters.eventHubConnectionName,
+    Parameters.dataConnectionName,
     Parameters.subscriptionId
   ],
   queryParameters: [
