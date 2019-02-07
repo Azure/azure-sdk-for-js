@@ -11,10 +11,8 @@ import { Namespace, QueueClient, TopicClient, SubscriptionClient, delay } from "
 
 import {
   testSimpleMessages,
-  testMessagesToSamePartitions,
   testMessagesWithSessions,
   testSessionId1,
-  testMessagesToSamePartitionsWithSessions,
   getSenderClient,
   getReceiverClient,
   ClientType,
@@ -430,9 +428,7 @@ describe("Cancel multiple Scheduled messages for sending to Queue/Subscription",
   ): Promise<void> {
     let testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     if (usePartitions) {
-      testMessages = useSessions
-        ? testMessagesToSamePartitionsWithSessions
-        : testMessagesToSamePartitions;
+      testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     }
     const sender = senderClient.getSender();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling

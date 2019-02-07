@@ -12,24 +12,13 @@ import {
 export const testSimpleMessages: SendableMessageInfo[] = [
   {
     body: "hello1",
-    messageId: `test message ${Math.random()}`
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`
-  }
-];
-
-export const testMessagesToSamePartitions: SendableMessageInfo[] = [
-  {
-    body: "hello1",
     messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy"
+    partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
   },
   {
     body: "hello2",
     messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy"
+    partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
   }
 ];
 
@@ -57,34 +46,6 @@ export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
     body: "hello2",
     messageId: `test message ${Math.random()}`,
     sessionId: testSessionId2
-  }
-];
-export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy",
-    sessionId: testSessionId1
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy",
-    sessionId: testSessionId1
-  }
-];
-export const testMessagesToSamePartitionsWithDifferentSessions: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1,
-    partitionKey: "dummy"
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId2,
-    partitionKey: "dummy"
   }
 ];
 

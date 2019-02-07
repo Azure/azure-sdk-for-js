@@ -19,8 +19,6 @@ import {
 
 import {
   testSimpleMessages,
-  testMessagesToSamePartitions,
-  testMessagesToSamePartitionsWithSessions,
   testMessagesWithSessions,
   testSessionId1,
   getSenderClient,
@@ -828,9 +826,7 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
   // We test for mutilple receiveBatch specifically to ensure that batchingRecevier on a client is reused
   // See https://github.com/Azure/azure-service-bus-node/issues/31
   async function testSequentialReceiveBatchCalls(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions
-      ? testMessagesToSamePartitionsWithSessions
-      : testMessagesToSamePartitions;
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     await sender.sendBatch(testMessages);
     const msgs1 = await receiver.receiveBatch(1);
     const msgs2 = await receiver.receiveBatch(1);
