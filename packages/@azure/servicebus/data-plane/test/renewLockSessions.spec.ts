@@ -54,7 +54,7 @@ describe("Standard", function(): void {
         await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
       });
 
-      it.only(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
+      it(`Receive a msg using Batch Receiver, wait until its lock expires, completing it now results in error`, async function(): Promise<
         void
       > {
         await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
