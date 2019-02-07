@@ -93,6 +93,7 @@ export {
   RestorableDroppedManagedDatabase,
   ManagedDatabaseSecurityAlertPolicy,
   ManagedServerSecurityAlertPolicy,
+  SensitivityLabel,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,
