@@ -89,8 +89,12 @@ describe("Send to Queue/Subscription", function(): void {
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
-    should.equal(msgs[0].messageId, testMessages[0].messageId);
-    should.equal(msgs[0].deliveryCount, 0);
+    should.equal(
+      msgs[0].messageId,
+      testMessages[0].messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     await msgs[0].complete();
 
@@ -171,7 +175,11 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgEnqueueTime - scheduleTime.valueOf() >= 0, true); // checking received message enqueue time is greater or equal to the scheduled time.
     should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
-    should.equal(msgs[0].messageId, testMessages[0].messageId);
+    should.equal(
+      msgs[0].messageId,
+      testMessages[0].messageId,
+      "MessageId is different than expected"
+    );
 
     await msgs[0].complete();
 
