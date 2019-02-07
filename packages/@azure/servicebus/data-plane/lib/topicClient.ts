@@ -52,6 +52,7 @@ export class TopicClient extends Client {
   /**
    * Gets the Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
+   * Sending a message without `sessionId` goes to the `deadletter` in case of session-enabled Subscriptions of the Topic.
    */
   getSender(): Sender {
     if (!this._currentSender) {
