@@ -444,8 +444,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
     expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
   );
 
-  should.equal(Array.isArray(msgs), true);
-  should.equal(msgs.length, 1);
+  should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+  should.equal(msgs.length, 1, "Unexpected number of messages");
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);
 
@@ -484,7 +484,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
 
-  should.equal(Array.isArray(msgs), true);
+  should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
   should.equal(msgs[0].body, testMessage.body);
   should.equal(msgs[0].messageId, testMessage.messageId);

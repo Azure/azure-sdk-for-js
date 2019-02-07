@@ -86,9 +86,9 @@ describe("Send to Queue/Subscription", function(): void {
     await senderClient.getSender().send(testMessages[0]);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessages[0].messageId);
     should.equal(msgs[0].deliveryCount, 0);
 
@@ -167,10 +167,10 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
     const msgs = await receiver.receiveBatch(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgEnqueueTime - scheduleTime.valueOf() >= 0, true); // checking received message enqueue time is greater or equal to the scheduled time.
-    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessages[0].messageId);
 
     await msgs[0].complete();
@@ -254,7 +254,7 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
     await senderClient.getSender().scheduleMessages(scheduleTime, testMessages);
 
     const msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 2);
 
     const msgEnqueueTime1 = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;

@@ -104,9 +104,9 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     await sender.send(testMessages[0]);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessages[0].messageId);
     should.equal(msgs[0].deliveryCount, 0);
   }
@@ -396,9 +396,9 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
     await sender.send(testMessages[0]);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages[0].body);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessages[0].messageId);
     should.equal(msgs[0].deliveryCount, 0);
 
