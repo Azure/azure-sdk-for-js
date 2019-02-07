@@ -594,7 +594,9 @@ export class MessageSession extends LinkEntity {
           }
           return;
         } finally {
-          this._receiver!.addCredit(1);
+          if (this._receiver) {
+            this._receiver!.addCredit(1);
+          }
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
