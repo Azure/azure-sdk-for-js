@@ -1,4 +1,4 @@
-## Getting started with samples ##
+# Getting started with samples #
 
 ## Install the library
 
