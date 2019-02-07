@@ -57,6 +57,11 @@ export interface ClientEntityContextBase {
    */
   messageSessions: Dictionary<MessageSession>;
   /**
+   * @property {Dictionary<MessageSession>} messageSessions A dictionary of the MessageSession
+   * objects associated with this client.
+   */
+  expiredMessageSessions: Dictionary<Boolean>;
+  /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
   sender?: MessageSender;
@@ -113,7 +118,8 @@ export namespace ClientEntityContext {
       entityPath: entityPath,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
       isSessionEnabled: !!options.isSessionEnabled,
-      messageSessions: {}
+      messageSessions: {},
+      expiredMessageSessions: {}
     };
 
     (entityContext as ClientEntityContext).sessionManager = new SessionManager(
@@ -121,6 +127,14 @@ export namespace ClientEntityContext {
     );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
+      if (sessionId != undefined && entityContext.expiredMessageSessions[sessionId] === true) {
+        // TODO: Use an error constructor utility which could also serve as interface documentation for all types of errors thrown
+        const error = new Error();
+        error.name = "SessionLockLostError";
+        error.message = `Session Lock is lost for: ${sessionId}. Open a new Session using getSessionReceiver()`;
+        throw error;
+      }
+
       let receiver: MessageReceiver | MessageSession | undefined = undefined;
       if (
         sessionId != undefined &&

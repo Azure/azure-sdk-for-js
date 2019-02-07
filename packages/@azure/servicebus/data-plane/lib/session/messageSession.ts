@@ -309,6 +309,9 @@ export class MessageSession extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError);
+        if (sbError.name === "SessionLockLostError") {
+          this._context.expiredMessageSessions[this.sessionId!] = true;
+        }
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
           connectionId,
@@ -552,7 +555,6 @@ export class MessageSession extends LinkEntity {
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
         resetTimerOnNewMessageReceived();
-        this._receiver!.addCredit(1);
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
@@ -591,6 +593,8 @@ export class MessageSession extends LinkEntity {
             }
           }
           return;
+        } finally {
+          this._receiver!.addCredit(1);
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -920,6 +924,7 @@ export class MessageSession extends LinkEntity {
   private _deleteFromCache(): void {
     this._receiver = undefined;
     delete this._context.messageSessions[this.sessionId!];
+    delete this._context.expiredMessageSessions[this.sessionId!];
     log.error(
       "[%s] Deleted the receiver '%s' with sessionId '%s' from the client cache.",
       this._context.namespace.connectionId,
