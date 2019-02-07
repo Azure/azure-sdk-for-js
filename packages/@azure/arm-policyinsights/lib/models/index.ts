@@ -598,7 +598,7 @@ export interface ExpressionEvaluationDetails {
   expression?: string;
   /**
    * @member {string} [path] Property path if the expression is a field or an
-   * aliase.
+   * alias.
    */
   path?: string;
   /**
