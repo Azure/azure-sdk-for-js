@@ -6,7 +6,7 @@
   to learn about Queues, Topics and Subscriptions.
 */
 
-const Namespace = require("@azure/service-bus").Namespace;
+const { Namespace } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

@@ -6,8 +6,7 @@
   to learn about scheduling messages.
 */
 
-const Namespace = require("@azure/service-bus").Namespace;
-const delay = require("@azure/service-bus").delay;
+const { Namespace, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -75,7 +74,7 @@ async function receiveMessages(ns) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  let receiver = client.getReceiver();
+  const receiver = client.getReceiver();
   receiver.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();

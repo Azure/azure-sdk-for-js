@@ -6,7 +6,7 @@
     Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */
 
-const Namespace = require("@azure/service-bus").Namespace;
+const { Namespace } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

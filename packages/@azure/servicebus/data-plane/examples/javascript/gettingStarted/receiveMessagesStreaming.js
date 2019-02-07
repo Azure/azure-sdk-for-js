@@ -5,8 +5,7 @@
   Setup: Please run "sendMessages.js" sample before running this to populate the queue/topic
 */
 
-const Namespace = require("@azure/service-bus").Namespace;
-const delay = require("@azure/service-bus").delay;
+const { Namespace, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

@@ -8,8 +8,7 @@
   sessions in Service Bus.
 */
 
-const Namespace = require("@azure/service-bus").Namespace;
-const delay = require("@azure/service-bus").delay;
+const { Namespace, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled

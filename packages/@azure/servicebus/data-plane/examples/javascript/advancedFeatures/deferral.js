@@ -8,8 +8,7 @@
   message deferral.
 */
 
-const Namespace = require("@azure/service-bus").Namespace;
-const delay = require("@azure/service-bus").delay;
+const { Namespace, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -102,7 +101,7 @@ async function receiveMessage() {
     let receiver = receiveClient.getReceiver();
     receiver.receive(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
-    receiver.close();
+    await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
     receiver = receiveClient.getReceiver();
