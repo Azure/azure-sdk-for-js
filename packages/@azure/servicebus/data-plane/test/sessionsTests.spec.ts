@@ -264,7 +264,7 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it.only("Partitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Partitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
     void
   > {
     await beforeEachTest(
