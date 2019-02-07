@@ -595,7 +595,7 @@ export class MessageSession extends LinkEntity {
           return;
         } finally {
           if (this._receiver) {
-            this._receiver!.addCredit(this.maxConcurrentCallsPerSession!);
+            this._receiver!.addCredit(1);
           }
         }
 
