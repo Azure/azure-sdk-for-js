@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-kusto";
-const packageVersion = "0.1.0";
+const packageVersion = "2.0.0";
 
 export class KustoManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -45,7 +45,7 @@ export class KustoManagementClientContext extends msRestAzure.AzureServiceClient
 
     super(credentials, options);
 
-    this.apiVersion = '2018-09-07-preview';
+    this.apiVersion = '2019-01-21';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
