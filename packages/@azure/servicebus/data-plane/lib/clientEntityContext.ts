@@ -57,8 +57,7 @@ export interface ClientEntityContextBase {
    */
   messageSessions: Dictionary<MessageSession>;
   /**
-   * @property {Dictionary<MessageSession>} messageSessions A dictionary of the MessageSession
-   * objects associated with this client.
+   * @property {Dictionary<MessageSession>} expiredMessageSessions A dictionary that stores expired message sessions IDs.
    */
   expiredMessageSessions: Dictionary<Boolean>;
   /**
@@ -127,8 +126,7 @@ export namespace ClientEntityContext {
     );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
-      if (sessionId != undefined && entityContext.expiredMessageSessions[sessionId] === true) {
-        // TODO: Use an error constructor utility which could also serve as interface documentation for all types of errors thrown
+      if (sessionId && entityContext.expiredMessageSessions[sessionId]) {
         const error = new Error();
         error.name = "SessionLockLostError";
         error.message = `Session Lock is lost for: ${sessionId}. Open a new Session using getSessionReceiver()`;
