@@ -894,8 +894,6 @@ export class ServiceBusMessage implements ReceivedMessage {
         throw new Error("This message has been already settled.");
       }
       return receiver.settleMessage(this, DispositionType.complete);
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
   /**
@@ -934,8 +932,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       return receiver.settleMessage(this, DispositionType.abandon, {
         propertiesToModify: propertiesToModify
       });
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
 
@@ -976,8 +972,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       return receiver.settleMessage(this, DispositionType.defer, {
         propertiesToModify: propertiesToModify
       });
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
 
@@ -1028,8 +1022,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       return receiver.settleMessage(this, DispositionType.deadletter, {
         error: error
       });
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
     }
   }
 

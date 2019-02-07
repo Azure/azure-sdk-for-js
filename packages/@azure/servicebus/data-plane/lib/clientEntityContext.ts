@@ -127,9 +127,10 @@ export namespace ClientEntityContext {
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
       if (sessionId && entityContext.expiredMessageSessions[sessionId]) {
-        const error = new Error();
+        const error = new Error(
+          `Session Lock is lost for: ${sessionId}. Open a new Session using getSessionReceiver()`
+        );
         error.name = "SessionLockLostError";
-        error.message = `Session Lock is lost for: ${sessionId}. Open a new Session using getSessionReceiver()`;
         throw error;
       }
 
@@ -144,6 +145,8 @@ export namespace ClientEntityContext {
         receiver = entityContext.streamingReceiver;
       } else if (entityContext.batchingReceiver && entityContext.batchingReceiver.name === name) {
         receiver = entityContext.batchingReceiver;
+      } else {
+        throw new Error(`Cannot find the receiver with name '${name}'.`);
       }
       return receiver;
     };
