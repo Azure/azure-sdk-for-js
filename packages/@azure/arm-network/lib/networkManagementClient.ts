@@ -24,7 +24,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   availableResourceGroupDelegations: operations.AvailableResourceGroupDelegations;
   azureFirewalls: operations.AzureFirewalls;
   azureFirewallFqdnTags: operations.AzureFirewallFqdnTags;
-  ddosCustomPolicies: operations.DdosCustomPolicies;
   ddosProtectionPlans: operations.DdosProtectionPlans;
   availableEndpointServices: operations.AvailableEndpointServices;
   expressRouteCircuitAuthorizations: operations.ExpressRouteCircuitAuthorizations;
@@ -102,7 +101,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.availableResourceGroupDelegations = new operations.AvailableResourceGroupDelegations(this);
     this.azureFirewalls = new operations.AzureFirewalls(this);
     this.azureFirewallFqdnTags = new operations.AzureFirewallFqdnTags(this);
-    this.ddosCustomPolicies = new operations.DdosCustomPolicies(this);
     this.ddosProtectionPlans = new operations.DdosProtectionPlans(this);
     this.availableEndpointServices = new operations.AvailableEndpointServices(this);
     this.expressRouteCircuitAuthorizations = new operations.ExpressRouteCircuitAuthorizations(this);
