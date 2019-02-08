@@ -17,7 +17,7 @@ export { BaseResource, CloudError };
 /**
  * @interface
  * An interface representing TransferProductProperties.
- * The properties of the product to initiate itansfer.
+ * The properties of the product to initiate a transfer.
  *
  */
 export interface TransferProductProperties {
