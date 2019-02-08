@@ -78,6 +78,7 @@ class SqlManagementClient extends SqlManagementClientContext {
   restorePoints: operations.RestorePoints;
   managedDatabaseSecurityAlertPolicies: operations.ManagedDatabaseSecurityAlertPolicies;
   managedServerSecurityAlertPolicies: operations.ManagedServerSecurityAlertPolicies;
+  sensitivityLabels: operations.SensitivityLabels;
   databaseOperations: operations.DatabaseOperations;
   elasticPoolOperations: operations.ElasticPoolOperations;
   capabilities: operations.Capabilities;
@@ -94,6 +95,7 @@ class SqlManagementClient extends SqlManagementClientContext {
   recoverableManagedDatabases: operations.RecoverableManagedDatabases;
   managedInstanceVulnerabilityAssessments: operations.ManagedInstanceVulnerabilityAssessments;
   serverVulnerabilityAssessments: operations.ServerVulnerabilityAssessments;
+  managedDatabaseSensitivityLabels: operations.ManagedDatabaseSensitivityLabels;
 
   /**
    * Initializes a new instance of the SqlManagementClient class.
@@ -164,6 +166,7 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.restorePoints = new operations.RestorePoints(this);
     this.managedDatabaseSecurityAlertPolicies = new operations.ManagedDatabaseSecurityAlertPolicies(this);
     this.managedServerSecurityAlertPolicies = new operations.ManagedServerSecurityAlertPolicies(this);
+    this.sensitivityLabels = new operations.SensitivityLabels(this);
     this.databaseOperations = new operations.DatabaseOperations(this);
     this.elasticPoolOperations = new operations.ElasticPoolOperations(this);
     this.capabilities = new operations.Capabilities(this);
@@ -180,6 +183,7 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.recoverableManagedDatabases = new operations.RecoverableManagedDatabases(this);
     this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(this);
     this.serverVulnerabilityAssessments = new operations.ServerVulnerabilityAssessments(this);
+    this.managedDatabaseSensitivityLabels = new operations.ManagedDatabaseSensitivityLabels(this);
   }
 }
 

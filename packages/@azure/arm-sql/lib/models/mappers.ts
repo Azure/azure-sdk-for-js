@@ -5580,6 +5580,41 @@ export const ManagedServerSecurityAlertPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const SensitivityLabel: msRest.CompositeMapper = {
+  serializedName: "SensitivityLabel",
+  type: {
+    name: "Composite",
+    className: "SensitivityLabel",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      labelName: {
+        serializedName: "properties.labelName",
+        type: {
+          name: "String"
+        }
+      },
+      labelId: {
+        serializedName: "properties.labelId",
+        type: {
+          name: "String"
+        }
+      },
+      informationType: {
+        serializedName: "properties.informationType",
+        type: {
+          name: "String"
+        }
+      },
+      informationTypeId: {
+        serializedName: "properties.informationTypeId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DatabaseOperation: msRest.CompositeMapper = {
   serializedName: "DatabaseOperation",
   type: {
@@ -9124,6 +9159,36 @@ export const RestorePointListResult: msRest.CompositeMapper = {
               className: "RestorePoint"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const SensitivityLabelListResult: msRest.CompositeMapper = {
+  serializedName: "SensitivityLabelListResult",
+  type: {
+    name: "Composite",
+    className: "SensitivityLabelListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SensitivityLabel"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
