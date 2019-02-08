@@ -16,7 +16,15 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import { TestMessage, getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
+import {
+  testSimpleMessages,
+  testMessagesWithSessions,
+  testSessionId1,
+  getSenderClient,
+  getReceiverClient,
+  ClientType,
+  purge
+} from "./testUtils";
 import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -69,7 +77,7 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
+  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
   await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -86,7 +94,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: TestMessage.sessionId
+        sessionId: testSessionId1
       })
     : receiverClient.getReceiver();
 }
@@ -149,7 +157,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   });
 
   async function testAbandon(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     const deferredMsg = await deferMessage(testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
@@ -238,7 +246,7 @@ describe("Deferring a deferred message puts it back to the deferred queue.", fun
   });
 
   async function testDefer(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     const deferredMsg = await deferMessage(testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
@@ -327,7 +335,7 @@ describe("Deadlettering a deferred message moves it to dead letter queue.", func
   });
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     const deferredMsg = await deferMessage(testMessages);
 
     await deferredMsg.deadLetter();

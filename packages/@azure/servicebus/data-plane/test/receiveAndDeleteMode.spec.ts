@@ -20,7 +20,15 @@ import {
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
-import { TestMessage, getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
+import {
+  testSimpleMessages,
+  testMessagesWithSessions,
+  testSessionId1,
+  getSenderClient,
+  getReceiverClient,
+  ClientType,
+  purge
+} from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
@@ -65,7 +73,7 @@ async function beforeEachTest(
   senderClient = getSenderClient(ns, senderType);
   receiverClient = getReceiverClient(ns, receiverType);
 
-  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
+  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -75,7 +83,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: TestMessage.sessionId,
+        sessionId: testSessionId1,
         receiveMode: ReceiveMode.receiveAndDelete
       })
     : receiverClient.getReceiver({ receiveMode: ReceiveMode.receiveAndDelete });
@@ -104,7 +112,7 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
   }
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     await sendReceiveMsg(testMessages);
 
     await testPeekMsgsLength(receiverClient, 0);
@@ -229,7 +237,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   }
 
   async function testNoSettlement(autoCompleteFlag: boolean, useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     await sendReceiveMsg(testMessages, autoCompleteFlag, useSessions);
 
     await testPeekMsgsLength(receiverClient, 0);
@@ -403,7 +411,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   };
 
   async function testSettlement(operation: DispositionType, useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
+    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
     const msg = await sendReceiveMsg(testMessages);
 
     if (operation === DispositionType.complete) {
@@ -672,7 +680,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   });
 
   async function testRenewLock(): Promise<void> {
-    const msg = await sendReceiveMsg(TestMessage.sample);
+    const msg = await sendReceiveMsg(testSimpleMessages);
 
     await receiver.renewLock(msg).catch((err) => testError(err));
 
