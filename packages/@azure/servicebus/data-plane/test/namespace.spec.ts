@@ -16,7 +16,7 @@ function testFalsyValues(testFn: Function): void {
 }
 
 describe("Create Namespace", function(): void {
-  it("throws when there is no connection string", function(): void {
+  it("throws error when there is no connection string", function(): void {
     testFalsyValues(function(value: any): void {
       const test = function(): void {
         Namespace.createFromConnectionString(value);
@@ -48,7 +48,7 @@ describe("Create Queue/Topic/Subscription Clients with no name", function(): voi
     return namespace.close();
   });
 
-  it("throws when creating queue client with no name", function(): void {
+  it("throws error when creating queue client with no name", function(): void {
     testFalsyValues(function(value: any): void {
       const test = function(): void {
         namespace.createQueueClient(value);
@@ -57,7 +57,7 @@ describe("Create Queue/Topic/Subscription Clients with no name", function(): voi
     });
   });
 
-  it("throws when creating topic client with no name", function(): void {
+  it("throws error when creating topic client with no name", function(): void {
     testFalsyValues(function(value: any): void {
       const test = function(): void {
         namespace.createTopicClient(value);
@@ -66,7 +66,7 @@ describe("Create Queue/Topic/Subscription Clients with no name", function(): voi
     });
   });
 
-  it("throws when creating subscription client with no topic name", function(): void {
+  it("throws error when creating subscription client with no topic name", function(): void {
     testFalsyValues(function(value: any): void {
       const test = function(): void {
         namespace.createSubscriptionClient(value, "some-name");
@@ -75,7 +75,7 @@ describe("Create Queue/Topic/Subscription Clients with no name", function(): voi
     });
   });
 
-  it("throws when creating subscription client with no subscription name", function(): void {
+  it("throws error when creating subscription client with no subscription name", function(): void {
     testFalsyValues(function(value: any): void {
       const test = function(): void {
         namespace.createSubscriptionClient("some-name", value);
@@ -107,60 +107,78 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
     errorWasThrown = true;
   };
 
-  it("throws when sending data via a queueClient to a non existing namespace", async function(): Promise<
+  it("throws error when sending data via a queueClient to a non existing namespace", async function(): Promise<
     void
   > {
     const client = namespace.createQueueClient("some-name");
-    await client.send({ body: "hello" }).catch(testError);
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch(testError);
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when sending data via a topicClient to a non existing namespace", async function(): Promise<
+  it("throws error when sending data via a topicClient to a non existing namespace", async function(): Promise<
     void
   > {
     const client = namespace.createTopicClient("some-name");
-    await client.send({ body: "hello" }).catch(testError);
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch(testError);
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when sending batch data via a queueClient to a non existing namespace", async function(): Promise<
+  it("throws error when sending batch data via a queueClient to a non existing namespace", async function(): Promise<
     void
   > {
     const client = namespace.createQueueClient("some-name");
-    await client.sendBatch([{ body: "hello" }]).catch(testError);
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch(testError);
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when sending batch data via a topicClient to a non existing namespace", async function(): Promise<
+  it("throws error when sending batch data via a topicClient to a non existing namespace", async function(): Promise<
     void
   > {
     const client = namespace.createTopicClient("some-name");
-    await client.sendBatch([{ body: "hello" }]).catch(testError);
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch(testError);
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when receving batch data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receving batch data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = namespace.createQueueClient("some-name");
-    await client.receiveBatch(10).catch(testError);
+    await client
+      .getReceiver()
+      .receiveBatch(10)
+      .catch(testError);
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when receving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
+  it("throws error when receving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
-    await client.receiveBatch(10).catch(testError);
+    await client
+      .getReceiver()
+      .receiveBatch(10)
+      .catch(testError);
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when receving streaming data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receving streaming data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = namespace.createQueueClient("some-name");
@@ -168,11 +186,11 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
 
-    const receiveHandler = client.receive(onMessage, testError);
+    client.getReceiver().receive(onMessage, testError);
 
-    await delay(1000);
+    await delay(3000);
+    await client.close();
     should.equal(errorWasThrown, true);
-    await receiveHandler.stop();
   });
 });
 
@@ -203,79 +221,103 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     errorWasThrown = true;
   };
 
-  it("throws when sending data to a non existing queue", async function(): Promise<void> {
+  it("throws error when sending data to a non existing queue", async function(): Promise<void> {
     const client = namespace.createQueueClient("some-name");
-    await client.send({ body: "hello" }).catch((err) => testError(err, "some-name"));
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when sending data to a non existing topic", async function(): Promise<void> {
+  it("throws error when sending data to a non existing topic", async function(): Promise<void> {
     const client = namespace.createTopicClient("some-name");
-    await client.send({ body: "hello" }).catch((err) => testError(err, "some-name"));
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when sending batch data to a non existing queue", async function(): Promise<void> {
+  it("throws error when sending batch data to a non existing queue", async function(): Promise<
+    void
+  > {
     const client = namespace.createQueueClient("some-name");
-    await client.sendBatch([{ body: "hello" }]).catch((err) => testError(err, "some-name"));
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when sending batch data to a non existing topic", async function(): Promise<void> {
+  it("throws error when sending batch data to a non existing topic", async function(): Promise<
+    void
+  > {
     const client = namespace.createTopicClient("some-name");
-    await client.sendBatch([{ body: "hello" }]).catch((err) => testError(err, "some-name"));
+    await client
+      .getSender()
+      .send({ body: "hello" })
+      .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when receiving batch data from a non existing queue", async function(): Promise<void> {
+  it("throws error when receiving batch data from a non existing queue", async function(): Promise<
+    void
+  > {
     const client = namespace.createQueueClient("some-name");
-    await client.receiveBatch(1).catch((err) => testError(err, "some-name"));
+    await client
+      .getReceiver()
+      .receiveBatch(1)
+      .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when receiving batch data from a non existing subscription", async function(): Promise<
+  it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
     void
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
     await client
+      .getReceiver()
       .receiveBatch(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
     should.equal(errorWasThrown, true);
   });
 
-  it("throws when receving streaming data from a non existing queue", async function(): Promise<
+  it("throws error when receving streaming data from a non existing queue", async function(): Promise<
     void
   > {
     const client = namespace.createQueueClient("some-name");
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
-    const receiveHandler = client.receive(onMessage, (err) => testError(err, "some-name"));
+    client.getReceiver().receive(onMessage, (err) => testError(err, "some-name"));
 
-    await delay(1000);
+    await delay(3000);
+    await client.close();
     should.equal(errorWasThrown, true);
-    await receiveHandler.stop();
   });
 
-  it("throws when receving streaming data from a non existing subscription", async function(): Promise<
+  it("throws error when receving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
-    const receiveHandler = client.receive(onMessage, (err) =>
-      testError(err, "some-topic-name/Subscriptions/some-subscription-name")
-    );
+    client
+      .getReceiver()
+      .receive(onMessage, (err) =>
+        testError(err, "some-topic-name/Subscriptions/some-subscription-name")
+      );
 
-    await delay(1000);
+    await delay(3000);
+    await client.close();
     should.equal(errorWasThrown, true);
-    await receiveHandler.stop();
   });
 });

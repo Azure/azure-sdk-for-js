@@ -2,7 +2,7 @@
   "name": "@azure/arm-logic",
   "author": "Microsoft Corporation",
   "description": "LogicManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.3.1",
     "@azure/ms-rest-js": "^1.2.6",
@@ -53,5 +53,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-logic.js.map'\" -o ./dist/arm-logic.min.js ./dist/arm-logic.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

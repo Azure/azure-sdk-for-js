@@ -9,7 +9,7 @@ import {
   MSITokenCredentials
 } from "ms-rest-azure";
 import { ConnectionContext } from "./connectionContext";
-import { QueueClientOptions, QueueClient } from "./queueClient";
+import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
 import {
   ConnectionConfig,
@@ -17,7 +17,7 @@ import {
   TokenProvider,
   AadTokenProvider
 } from "@azure/amqp-common";
-import { SubscriptionClient, SubscriptionClientOptions } from "./subscriptionClient";
+import { SubscriptionClient } from "./subscriptionClient";
 
 /**
  * Describes the base namespace options.
@@ -68,7 +68,7 @@ export class Namespace {
    * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
    * authentication. Default value: `SasTokenProvider`.
    */
-  constructor(config: ConnectionConfig, options?: NamespaceOptions) {
+  private constructor(config: ConnectionConfig, options?: NamespaceOptions) {
     if (!options) options = {};
     this.name = config.endpoint;
     this._context = ConnectionContext.create(config, options);
@@ -78,14 +78,13 @@ export class Namespace {
    * Creates a QueueClient for the given Queue name. It assumes that the queue has already been
    * created.
    * @param {string} queueName The queue name.
-   * @param {QueueClientOptions} options The queue client options.
    * @returns QueueClient.
    */
-  createQueueClient(queueName: string, options?: QueueClientOptions): QueueClient {
+  createQueueClient(queueName: string): QueueClient {
     if (!queueName || typeof queueName !== "string") {
       throw new Error("'queueName' is a required parameter and must be of type 'string'.");
     }
-    const client = new QueueClient(queueName, this._context, options);
+    const client = new QueueClient(queueName, this._context);
     this._context.clients[client.id] = client;
     log.ns("Created the QueueClient for Queue: %s", queueName);
     return client;
@@ -112,22 +111,16 @@ export class Namespace {
    * It assumes that the topic has already been created.
    * @param {string} topicName The topic name.
    * @param {string} subscriptionName The subscription name.
-   * @param {SubscriptionClientOptions} [options] Optional parameters that can be provided while
-   * creating a SubscriptionClient.
    * @returns SubscriptionClient.
    */
-  createSubscriptionClient(
-    topicName: string,
-    subscriptionName: string,
-    options?: SubscriptionClientOptions
-  ): SubscriptionClient {
+  createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {
     if (!topicName || typeof topicName !== "string") {
       throw new Error("'topicName' is a required parameter and must be of type 'string'.");
     }
     if (!subscriptionName || typeof subscriptionName !== "string") {
       throw new Error("'subscriptionName' is a required parameter and must be of type 'string'.");
     }
-    const client = new SubscriptionClient(topicName, subscriptionName, this._context, options);
+    const client = new SubscriptionClient(topicName, subscriptionName, this._context);
     this._context.clients[client.id] = client;
     log.ns(
       "Created the SubscriptionClient for Topic: %s and Subscription: %s",
@@ -251,14 +244,23 @@ export class Namespace {
     return Namespace.createFromTokenProvider(host, tokenProvider, options);
   }
 
-  static getDeadLetterQueuePathForQueue(queueName: string): string {
+  /**
+   * Returns the corresponding dead letter queue name for the given queue name.
+   * Use this in the `createQueueClient` function to receive messages from dead letter queue.
+   * @param queueName
+   */
+  static getDeadLetterQueuePath(queueName: string): string {
     return `${queueName}/$DeadLetterQueue`;
   }
 
-  static getDeadLetterSubcriptionPathForSubcription(
-    topicName: string,
-    subscriptionName: string
-  ): string {
+  /**
+   * Returns the corresponding dead letter topic name for the given topic and subscription names.
+   * Use this in the `createSubscriptionClient` function to receive messages from dead letter
+   * subscription corresponding to given subscription
+   * @param topicName
+   * @param subscriptionName
+   */
+  static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string {
     return `${topicName}/Subscriptions/${subscriptionName}/$DeadLetterQueue`;
   }
 }

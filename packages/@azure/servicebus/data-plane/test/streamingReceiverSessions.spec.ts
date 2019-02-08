@@ -10,7 +10,6 @@ chai.use(chaiAsPromised);
 import {
   Namespace,
   QueueClient,
-  SessionClient,
   ServiceBusMessage,
   TopicClient,
   SubscriptionClient,
@@ -21,14 +20,17 @@ import { DispositionType } from "../lib/serviceBusMessage";
 
 import {
   testMessagesWithSessions,
-  testSessionId,
+  testSessionId1,
   getSenderClient,
   getReceiverClient,
-  ClientType
+  ClientType,
+  purge
 } from "./testUtils";
+import { Sender } from "../lib/sender";
+import { SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient | SessionClient,
+  client: QueueClient | SubscriptionClient,
   expectedPeekLength: number
 ): Promise<void> {
   const peekedMsgs = await client.peek(expectedPeekLength + 1);
@@ -44,7 +46,8 @@ let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
-let sessionClient: SessionClient;
+let sessionReceiver: SessionReceiver;
+let sender: Sender;
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
 
@@ -67,31 +70,33 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   senderClient = getSenderClient(ns, senderType);
+  sender = senderClient.getSender();
+
   receiverClient = getReceiverClient(ns, receiverType);
 
   if (receiverClient instanceof QueueClient) {
-    deadLetterClient = ns.createQueueClient(
-      Namespace.getDeadLetterQueuePathForQueue(receiverClient.name)
-    );
+    deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.name));
   }
 
   if (receiverClient instanceof SubscriptionClient) {
     deadLetterClient = ns.createSubscriptionClient(
-      Namespace.getDeadLetterSubcriptionPathForSubcription(
-        senderClient.name,
-        receiverClient.subscriptionName
-      ),
+      Namespace.getDeadLetterTopicPath(senderClient.name, receiverClient.subscriptionName),
       receiverClient.subscriptionName
     );
   }
-  sessionClient = await receiverClient.createSessionClient({
-    sessionId: testSessionId
-  });
+
+  await purge(receiverClient, testSessionId1);
+  await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
-    throw new Error(`Please use an empty ${receiverEntityType} for integration testing`);
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
+
+  sessionReceiver = await receiverClient.getSessionReceiver({
+    sessionId: testSessionId1
+  });
+
   errorWasThrown = false;
   unexpectedError = undefined;
 }
@@ -100,38 +105,34 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
+describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testAutoComplete(): Promise<void> {
-    await senderClient.sendBatch(testMessagesWithSessions);
-    await testPeekMsgsLength(sessionClient, testMessagesWithSessions.length);
+    await sender.send(testMessagesWithSessions);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionClient.receive((msgSession: SessionClient, msg: ServiceBusMessage) => {
+    sessionReceiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(
-        testMessagesWithSessions.some((x) => msg.body === x.body && msg.messageId === x.messageId),
-        true,
-        "Received Message doesn't match any of the test messages"
-      );
+      should.equal(msg.body, testMessagesWithSessions.body);
+      should.equal(msg.messageId, testMessagesWithSessions.messageId);
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testMessagesWithSessions.length) {
+      if (receivedMsgs.length === 1) {
         break;
       }
     }
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-
-    await testPeekMsgsLength(sessionClient, 0);
+    should.equal(receivedMsgs.length, 1);
+    await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("AutoComplete removes the message from Partitioned Queues(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from Partitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -141,7 +142,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from Partitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from Partitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -151,7 +152,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Queues(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from UnPartitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -161,7 +162,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("AutoComplete removes the message from UnPartitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -172,19 +173,14 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
   });
 
   async function testManualComplete(): Promise<void> {
-    await senderClient.sendBatch(testMessagesWithSessions);
+    await sender.send(testMessagesWithSessions);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionClient.receive(
-      (msgSession: SessionClient, msg: ServiceBusMessage) => {
+    sessionReceiver.receive(
+      (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(
-          testMessagesWithSessions.some(
-            (x) => msg.body === x.body && msg.messageId === x.messageId
-          ),
-          true,
-          "Received Message doesnt match any of the test messages"
-        );
+        should.equal(msg.body, testMessagesWithSessions.body);
+        should.equal(msg.messageId, testMessagesWithSessions.messageId);
         return Promise.resolve();
       },
       unExpectedErrorHandler,
@@ -193,20 +189,19 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testMessagesWithSessions.length) {
+      if (receivedMsgs.length === 1) {
         break;
       }
     }
 
-    await testPeekMsgsLength(sessionClient, 2);
+    await testPeekMsgsLength(receiverClient, 1);
 
     await receivedMsgs[0].complete();
-    await receivedMsgs[1].complete();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
   }
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Queues(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in Partitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -216,7 +211,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in Partitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -226,7 +221,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Queues(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -236,7 +231,7 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -247,25 +242,20 @@ describe("Streaming Receiver Misc Tests(with sessions)", function(): void {
   });
 });
 
-describe("Complete message(with sessions)", function(): void {
+describe("Streaming Receiver - Complete message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testComplete(autoComplete: boolean): Promise<void> {
-    await senderClient.sendBatch(testMessagesWithSessions);
+    await sender.send(testMessagesWithSessions);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionClient.receive(
-      (msgSession: SessionClient, msg: ServiceBusMessage) => {
+    sessionReceiver.receive(
+      (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(
-          testMessagesWithSessions.some(
-            (x) => msg.body === x.body && msg.messageId === x.messageId
-          ),
-          true,
-          "Received Message doesnt match any of the test messages"
-        );
+        should.equal(msg.body, testMessagesWithSessions.body);
+        should.equal(msg.messageId, testMessagesWithSessions.messageId);
         return msg.complete();
       },
       unExpectedErrorHandler,
@@ -274,16 +264,16 @@ describe("Complete message(with sessions)", function(): void {
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testMessagesWithSessions.length) {
+      if (receivedMsgs.length === 1) {
         break;
       }
     }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    await testPeekMsgsLength(sessionClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queues: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Queue: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -293,7 +283,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(false);
   });
 
-  it("Partitioned Topics and Subscription: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -313,7 +303,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(false);
   });
 
-  it("UnPartitioned Topics and Subscription: complete() removes message(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -323,7 +313,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(false);
   });
 
-  it("Partitioned Queues with autoComplete: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Queue with autoComplete: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -333,7 +323,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -353,7 +343,7 @@ describe("Complete message(with sessions)", function(): void {
     await testComplete(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: complete() removes message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -364,36 +354,44 @@ describe("Complete message(with sessions)", function(): void {
   });
 });
 
-describe("Abandon message(with sessions)", function(): void {
+describe("Streaming Receiver - Abandon message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testAbandon(autoComplete: boolean): Promise<void> {
-    await senderClient.send(testMessagesWithSessions[0]);
-    await sessionClient.receive(
-      (msgSession: SessionClient, msg: ServiceBusMessage) => {
+    await sender.send(testMessagesWithSessions);
+
+    await sessionReceiver.receive(
+      (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
-          return sessionClient.close();
+          if (sessionReceiver.isOpen()) {
+            return sessionReceiver.close();
+          }
+          return Promise.resolve();
         });
       },
       unExpectedErrorHandler,
-      { maxAutoRenewDurationInSeconds: 0, autoComplete }
+      { autoComplete }
     );
     await delay(4000);
 
+    if (sessionReceiver.isOpen()) {
+      await sessionReceiver.close();
+    }
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    sessionClient = await receiverClient.createSessionClient({
-      sessionId: testSessionId
+    sessionReceiver = await receiverClient.getSessionReceiver({
+      sessionId: testSessionId1
     });
-    const receivedMsgs = await sessionClient.receiveBatch(1);
+    const receivedMsgs = await sessionReceiver.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions[0].messageId);
+    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
     should.equal(receivedMsgs[0].deliveryCount, 1);
     await receivedMsgs[0].complete();
-    await testPeekMsgsLength(sessionClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queues: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -403,7 +401,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(false);
   });
 
-  it("Partitioned Topics and Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -423,7 +421,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(false);
   });
 
-  it("UnPartitioned Topics and Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -433,7 +431,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(false);
   });
 
-  it("Partitioned Queues with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -443,7 +441,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -463,7 +461,7 @@ describe("Abandon message(with sessions)", function(): void {
     await testAbandon(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -474,23 +472,18 @@ describe("Abandon message(with sessions)", function(): void {
   });
 });
 
-describe("Defer message(with sessions)", function(): void {
+describe("Streaming Receiver - Defer message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testDefer(autoComplete: boolean): Promise<void> {
-    await senderClient.sendBatch(testMessagesWithSessions);
+    await sender.send(testMessagesWithSessions);
 
-    let seq0: any = 0;
-    let seq1: any = 0;
-    await sessionClient.receive(
-      (msgSession: SessionClient, msg: ServiceBusMessage) => {
-        if (msg.messageId === testMessagesWithSessions[0].messageId) {
-          seq0 = msg.sequenceNumber;
-        } else if (msg.messageId === testMessagesWithSessions[1].messageId) {
-          seq1 = msg.sequenceNumber;
-        }
+    let sequenceNum: any = 0;
+    await sessionReceiver.receive(
+      (msg: ServiceBusMessage) => {
+        sequenceNum = msg.sequenceNumber;
         return msg.defer();
       },
       unExpectedErrorHandler,
@@ -501,28 +494,20 @@ describe("Defer message(with sessions)", function(): void {
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    const deferredMsg0 = await sessionClient.receiveDeferredMessage(seq0);
-    const deferredMsg1 = await sessionClient.receiveDeferredMessage(seq1);
-    if (!deferredMsg0) {
+    const deferredMsg = await sessionReceiver.receiveDeferredMessage(sequenceNum);
+    if (!deferredMsg) {
       throw "No message received for sequence number";
     }
-    if (!deferredMsg1) {
-      throw "No message received for sequence number";
-    }
-    should.equal(deferredMsg0.body, testMessagesWithSessions[0].body);
-    should.equal(deferredMsg0.messageId, testMessagesWithSessions[0].messageId);
-    should.equal(deferredMsg0.deliveryCount, 1);
 
-    should.equal(deferredMsg1.body, testMessagesWithSessions[1].body);
-    should.equal(deferredMsg1.messageId, testMessagesWithSessions[1].messageId);
-    should.equal(deferredMsg1.deliveryCount, 1);
+    should.equal(deferredMsg.body, testMessagesWithSessions.body);
+    should.equal(deferredMsg.messageId, testMessagesWithSessions.messageId);
+    should.equal(deferredMsg.deliveryCount, 1);
 
-    await deferredMsg0.complete();
-    await deferredMsg1.complete();
+    await deferredMsg.complete();
 
-    await testPeekMsgsLength(sessionClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queues: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -532,7 +517,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(false);
   });
 
-  it("Partitioned Topics and Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -552,7 +537,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(false);
   });
 
-  it("UnPartitioned Topics and Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -562,7 +547,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(false);
   });
 
-  it("Partitioned Queues with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Queue with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -572,7 +557,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -592,7 +577,7 @@ describe("Defer message(with sessions)", function(): void {
     await testDefer(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: defer() moves message to deferred queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -603,16 +588,16 @@ describe("Defer message(with sessions)", function(): void {
   });
 });
 
-describe("Deadletter message(with sessions)", function(): void {
+describe("Streaming Receiver - Deadletter message(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
-    await senderClient.sendBatch(testMessagesWithSessions);
-    await testPeekMsgsLength(sessionClient, 2);
-    await sessionClient.receive(
-      (msgSession: SessionClient, msg: ServiceBusMessage) => {
+    await sender.send(testMessagesWithSessions);
+
+    await sessionReceiver.receive(
+      (msg: ServiceBusMessage) => {
         return msg.deadLetter();
       },
       unExpectedErrorHandler,
@@ -622,23 +607,14 @@ describe("Deadletter message(with sessions)", function(): void {
     await delay(4000);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    await testPeekMsgsLength(sessionClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.receiveBatch(2);
+    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true);
-    should.equal(deadLetterMsgs.length, testMessagesWithSessions.length);
-    should.equal(
-      testMessagesWithSessions.some((x) => deadLetterMsgs[0].messageId === x.messageId),
-      true
-    );
-    should.equal(
-      testMessagesWithSessions.some((x) => deadLetterMsgs[1].messageId === x.messageId),
-      true
-    );
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].messageId, testMessagesWithSessions.messageId);
 
     await deadLetterMsgs[0].complete();
-    await deadLetterMsgs[1].complete();
-
     await testPeekMsgsLength(deadLetterClient, 0);
   }
 
@@ -652,7 +628,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(false);
   });
 
-  it("Partitioned Topics and Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -672,7 +648,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(false);
   });
 
-  it("UnPartitioned Topics and Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -692,7 +668,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(true);
   });
 
-  it("Partitioned Topics and Subscription with autoComplete: deadLetter() moves message to deadletter(with sessions)", async function(): Promise<
+  it("Partitioned Subscription with autoComplete: deadLetter() moves message to deadletter(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -712,7 +688,7 @@ describe("Deadletter message(with sessions)", function(): void {
     await testDeadletter(true);
   });
 
-  it("UnPartitioned Topics and Subscription with autoComplete: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription with autoComplete: deadLetter() moves message to deadletter queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -723,19 +699,19 @@ describe("Deadletter message(with sessions)", function(): void {
   });
 });
 
-describe("Multiple Streaming Receivers(with sessions)", function(): void {
+describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testMultipleReceiveCalls(): Promise<void> {
-    await sessionClient.receive((msgSession: SessionClient, msg: ServiceBusMessage) => {
+    await sessionReceiver.receive((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
     await delay(5000);
     try {
-      await sessionClient.receive(
-        (msgSession: SessionClient, msg: ServiceBusMessage) => {
+      await sessionReceiver.receive(
+        (msg: ServiceBusMessage) => {
           return Promise.resolve();
         },
         (err: Error) => {
@@ -749,7 +725,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     should.equal(errorWasThrown, true);
   }
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queues(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -759,7 +735,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -769,7 +745,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Queues(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Queue(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -779,7 +755,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Topics and Subscription(with sessions)", async function(): Promise<
+  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Subscription(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -790,7 +766,7 @@ describe("Multiple Streaming Receivers(with sessions)", function(): void {
   });
 });
 
-describe("Settle an already Settled message throws error(with sessions)", () => {
+describe("Streaming Receiver - Settle an already Settled message throws error(with sessions)", () => {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -801,9 +777,10 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
   };
 
   async function testSettlement(operation: DispositionType): Promise<void> {
-    await senderClient.send(testMessagesWithSessions[0]);
+    await sender.send(testMessagesWithSessions);
+
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionClient.receive((msgSession: SessionClient, msg: ServiceBusMessage) => {
+    sessionReceiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -812,10 +789,10 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessagesWithSessions[0].body);
-    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions[0].messageId);
+    should.equal(receivedMsgs[0].body, testMessagesWithSessions.body);
+    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
 
-    await testPeekMsgsLength(sessionClient, 0);
+    await testPeekMsgsLength(receiverClient, 0);
 
     if (operation === DispositionType.complete) {
       await receivedMsgs[0].complete().catch((err) => testError(err));
@@ -830,7 +807,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     should.equal(errorWasThrown, true);
   }
 
-  it("Partitioned Queues: complete() throws error(with sessions)", async function(): Promise<void> {
+  it("Partitioned Queue: complete() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -838,7 +815,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.complete);
   });
 
-  it("Partitioned Topics and Subscription: complete() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: complete() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -858,7 +835,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.complete);
   });
 
-  it("UnPartitioned Topics and Subscription: complete() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: complete() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -868,7 +845,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.complete);
   });
 
-  it("Partitioned Queues: abandon() throws error(with sessions)", async function(): Promise<void> {
+  it("Partitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -876,7 +853,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.abandon);
   });
 
-  it("Partitioned Topics and Subscription: abandon() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: abandon() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -894,7 +871,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.abandon);
   });
 
-  it("UnPartitioned Topics and Subscription: abandon() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: abandon() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -904,7 +881,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.abandon);
   });
 
-  it("Partitioned Queues: defer() throws error(with sessions)", async function(): Promise<void> {
+  it("Partitioned Queue: defer() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -912,7 +889,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.defer);
   });
 
-  it("Partitioned Topics and Subscription: defer() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: defer() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -930,7 +907,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.defer);
   });
 
-  it("UnPartitioned Topics and Subscription: defer() throws error(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: defer() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -940,7 +917,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.defer);
   });
 
-  it("Partitioned Queues: deadLetter() throws error(with sessions)", async function(): Promise<
+  it("Partitioned Queue: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -950,7 +927,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("Partitioned Topics and Subscription: deadLetter()(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -970,7 +947,7 @@ describe("Settle an already Settled message throws error(with sessions)", () => 
     await testSettlement(DispositionType.deadletter);
   });
 
-  it("UnPartitioned Topics and Subscription: deadLetter()(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: deadLetter() throws error(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(

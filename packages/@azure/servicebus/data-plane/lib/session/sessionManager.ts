@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { OnSessionMessage, SessionManagerOptions, SessionClient, Callee } from "./messageSession";
-import { OnError } from "../core/messageReceiver";
+import { SessionManagerOptions, MessageSession, Callee } from "./messageSession";
+import { OnError, OnMessage } from "../core/messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
 import { getProcessorCount } from "../util/utils";
 import * as log from "../log";
@@ -60,14 +60,14 @@ export class SessionManager {
   }
   /**
    * Manages MessageSessions based on the provided parameters.
-   * @param onSessionMessage The message handler to receive service bus messages from a session
+   * @param onMessage The message handler to receive service bus messages from a session
    * enabled entity.
    * @param onError The error handler to receive an error that occurs while receiving messages
    * from a session enabled entity.
    */
   async manageMessageSessions(
     entityType: EntityType,
-    onSessionMessage: OnSessionMessage,
+    onMessage: OnMessage,
     onError: OnError,
     options?: SessionManagerOptions
   ): Promise<void> {
@@ -84,8 +84,8 @@ export class SessionManager {
     if (options.maxConcurrentSessions) this.maxConcurrentSessions = options.maxConcurrentSessions;
     // We are explicitly configuring the messageSession to timeout in 60 seconds (if not provided
     // by the user) when no new messages are received.
-    if (!options.maxMessageWaitTimeoutInSeconds) {
-      options.maxMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+    if (!options.newMessageWaitTimeoutInSeconds) {
+      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
     this._maxConcurrentSessionsSemaphore = new Semaphore(this.maxConcurrenSessions);
     this._maxPendingAcceptSessionsSemaphore = new Semaphore(
@@ -93,7 +93,7 @@ export class SessionManager {
     );
 
     for (let i = 0; i < this._maxConcurrentAcceptSessionRequests; i++) {
-      this._acceptSessionAndReceiveMessages(onSessionMessage, onError, options).catch((err) => {
+      this._acceptSessionAndReceiveMessages(onMessage, onError, options).catch((err) => {
         log.error(err);
       });
     }
@@ -103,18 +103,23 @@ export class SessionManager {
    * Close the session manager.
    */
   close(): void {
+    log.sessionManager(
+      "[%s] Closing the SessionMaanger for entity '%s'.",
+      this._context.namespace.connectionId,
+      this._context.entityPath
+    );
     this._isCancelRequested = true;
     this._isManagingSessions = false;
   }
 
   /**
    * Accept a new session and start receiving messages.
-   * @param onSessionMessage Handler for receiving messages from a session enabled entity.
+   * @param onMessage Handler for receiving messages from a session enabled entity.
    * @param onError Handler for receiving errors.
    * @param options Optional parameters for handling sessions.
    */
   private async _acceptSessionAndReceiveMessages(
-    onSessionMessage: OnSessionMessage,
+    onMessage: OnMessage,
     onError: OnError,
     options?: SessionManagerOptions
   ): Promise<void> {
@@ -138,7 +143,7 @@ export class SessionManager {
           this._maxPendingAcceptSessionsSemaphore.awaitedTaskCount()
         );
 
-        const closeMessageSession = async (messageSession: SessionClient) => {
+        const closeMessageSession = async (messageSession: MessageSession) => {
           try {
             await this._maxConcurrentSessionsSemaphore.release();
             log.sessionManager(
@@ -161,7 +166,7 @@ export class SessionManager {
           }
         };
         // Create the MessageSession.
-        const messageSession = await SessionClient.create(this._context, {
+        const messageSession = await MessageSession.create(this._context, {
           callee: Callee.sessionManager,
           ...options
         });
@@ -190,7 +195,7 @@ export class SessionManager {
             onError(error);
           }
         };
-        messageSession.receive(onSessionMessage, onSessionError, options);
+        messageSession.receive(onMessage, onSessionError, options);
       } catch (err) {
         log.error("[%s] An error occurred while accepting a MessageSession: %O", connectionId, err);
         this._maxConcurrentSessionsSemaphore.release();

@@ -2,7 +2,7 @@
   "name": "@azure/arm-sqlvirtualmachine",
   "author": "Microsoft Corporation",
   "description": "SqlVirtualMachineManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.2.0",
     "@azure/ms-rest-js": "^1.2.0",
@@ -53,5 +53,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-sqlvirtualmachine.js.map'\" -o ./dist/arm-sqlvirtualmachine.min.js ./dist/arm-sqlvirtualmachine.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }

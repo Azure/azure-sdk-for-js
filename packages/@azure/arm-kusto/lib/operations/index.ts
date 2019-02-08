@@ -10,5 +10,5 @@
 
 export * from "./clusters";
 export * from "./databases";
-export * from "./eventHubConnections";
+export * from "./dataConnections";
 export * from "./operations";

@@ -2,7 +2,7 @@
   "name": "@azure/arm-storage",
   "author": "Microsoft Corporation",
   "description": "StorageManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.2.4",
     "@azure/ms-rest-js": "^1.2.6",
@@ -53,5 +53,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-storage.js.map'\" -o ./dist/arm-storage.min.js ./dist/arm-storage.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "authPublish": true
 }
