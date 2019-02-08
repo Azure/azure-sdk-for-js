@@ -70,8 +70,8 @@ async function beforeEachTest(
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, receiverType);
+  senderClient = await getSenderClient(ns, senderType);
+  receiverClient = await getReceiverClient(ns, receiverType);
 
   await purge(receiverClient, useSessions ? testSessionId1 : undefined);
   const peekedMsgs = await receiverClient.peek();

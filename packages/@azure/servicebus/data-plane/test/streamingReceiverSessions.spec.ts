@@ -69,10 +69,10 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
+  senderClient = await getSenderClient(ns, senderType);
   sender = senderClient.getSender();
 
-  receiverClient = getReceiverClient(ns, receiverType);
+  receiverClient = await getReceiverClient(ns, receiverType);
 
   if (receiverClient instanceof QueueClient) {
     deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.name));

@@ -8,6 +8,8 @@ import {
   Namespace,
   SubscriptionClient
 } from "../lib";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 
 export const testSimpleMessages: SendableMessageInfo[] = [
   {
@@ -92,13 +94,50 @@ export enum ClientType {
   TopicFilterTestSubscription
 }
 
-export function getSenderClient(
+export async function getSenderClient(
   namespace: Namespace,
   clientType: ClientType
-): QueueClient | TopicClient {
+): Promise<QueueClient | TopicClient> {
   switch (clientType) {
     case ClientType.PartitionedQueue:
-      return namespace.createQueueClient(process.env.QUEUE_NAME || "partitioned-queue");
+      const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "";
+      const queueName = process.env.QUEUE_NAME || "partitioned-queue";
+      await msRestNodeAuth
+        .loginWithServicePrincipalSecret(
+          process.env.ARM_SERVICEBUS_CLIENT_ID || "",
+          process.env.ARM_SERVICEBUS_SECRET || "",
+          process.env.ARM_SERVICEBUS_TENANT_ID || ""
+        )
+        .then(async (creds) => {
+          const client = await new ServiceBusManagementClient(creds, subscriptionId);
+          await client.queues.deleteMethod(
+            process.env.RESOURCE_GROUP || "",
+            process.env.SERVICEBUS_NAMESPACE || "",
+            queueName,
+            function(error: any): void {
+              if (error) {
+                console.log(error.message);
+              }
+            }
+          );
+          await client.queues.createOrUpdate(
+            process.env.RESOURCE_GROUP || "",
+            process.env.SERVICEBUS_NAMESPACE || "",
+            queueName,
+            {
+              enablePartitioning: true
+            },
+            function(error: any): void {
+              if (error) {
+                console.log(error.message);
+              }
+            }
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      return namespace.createQueueClient(queueName);
     case ClientType.PartitionedTopic:
       return namespace.createTopicClient(process.env.TOPIC_NAME || "partitioned-topic");
     case ClientType.UnpartitionedQueue:
@@ -134,13 +173,50 @@ export function getSenderClient(
   throw new Error("Cannot create sender client for give client type");
 }
 
-export function getReceiverClient(
+export async function getReceiverClient(
   namespace: Namespace,
   clientType: ClientType
-): QueueClient | SubscriptionClient {
+): Promise<QueueClient | SubscriptionClient> {
   switch (clientType) {
     case ClientType.PartitionedQueue:
-      return namespace.createQueueClient(process.env.QUEUE_NAME || "partitioned-queue");
+      const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "";
+      const queueName = process.env.QUEUE_NAME || "partitioned-queue";
+      await msRestNodeAuth
+        .loginWithServicePrincipalSecret(
+          process.env.ARM_SERVICEBUS_CLIENT_ID || "",
+          process.env.ARM_SERVICEBUS_SECRET || "",
+          process.env.ARM_SERVICEBUS_TENANT_ID || ""
+        )
+        .then(async (creds) => {
+          const client = await new ServiceBusManagementClient(creds, subscriptionId);
+          await client.queues.deleteMethod(
+            process.env.RESOURCE_GROUP || "",
+            process.env.SERVICEBUS_NAMESPACE || "",
+            queueName,
+            function(error: any): void {
+              if (error) {
+                console.log(error.message);
+              }
+            }
+          );
+          await client.queues.createOrUpdate(
+            process.env.RESOURCE_GROUP || "",
+            process.env.SERVICEBUS_NAMESPACE || "",
+            queueName,
+            {
+              enablePartitioning: true
+            },
+            function(error: any): void {
+              if (error) {
+                console.log(error.message);
+              }
+            }
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      return namespace.createQueueClient(queueName);
     case ClientType.PartitionedSubscription:
       return namespace.createSubscriptionClient(
         process.env.TOPIC_NAME || "partitioned-topic",

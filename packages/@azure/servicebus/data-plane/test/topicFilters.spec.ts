@@ -55,15 +55,15 @@ async function beforeEachTest(): Promise<void> {
   }
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  topicClient = getSenderClient(ns, ClientType.TopicFilterTestTopic) as TopicClient;
-  subscriptionClient = getReceiverClient(
+  topicClient = (await getSenderClient(ns, ClientType.TopicFilterTestTopic)) as TopicClient;
+  subscriptionClient = (await getReceiverClient(
     ns,
     ClientType.TopicFilterTestSubscription
-  ) as SubscriptionClient;
-  defaultSubscriptionClient = getReceiverClient(
+  )) as SubscriptionClient;
+  defaultSubscriptionClient = (await getReceiverClient(
     ns,
     ClientType.TopicFilterTestDefaultSubscription
-  ) as SubscriptionClient;
+  )) as SubscriptionClient;
 
   await purge(defaultSubscriptionClient);
   await purge(subscriptionClient);
