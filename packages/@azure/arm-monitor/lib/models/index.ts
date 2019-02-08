@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -3037,9 +3037,9 @@ export interface AlertingAction {
    */
   severity: AlertSeverity;
   /**
-   * @member {AzNsActionGroup} aznsAction Azure action group reference.
+   * @member {AzNsActionGroup} [aznsAction] Azure action group reference.
    */
-  aznsAction: AzNsActionGroup;
+  aznsAction?: AzNsActionGroup;
   /**
    * @member {number} [throttlingInMin] time (in minutes) for which Alerts
    * should be throttled or suppressed.
