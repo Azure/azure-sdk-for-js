@@ -75,7 +75,7 @@ async function receiveMessages(ns: Namespace): Promise<void> {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  let receiver = client.getReceiver();
+  const receiver = client.getReceiver();
   receiver.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
