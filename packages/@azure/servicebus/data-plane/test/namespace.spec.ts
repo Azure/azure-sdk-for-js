@@ -137,7 +137,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
     const client = namespace.createQueueClient("some-name");
     await client
       .getSender()
-      .sendBatch([{ body: "hello" }])
+      .send({ body: "hello" })
       .catch(testError);
     should.equal(errorWasThrown, true);
   });
@@ -148,7 +148,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
     const client = namespace.createTopicClient("some-name");
     await client
       .getSender()
-      .sendBatch([{ body: "hello" }])
+      .send({ body: "hello" })
       .catch(testError);
 
     should.equal(errorWasThrown, true);
@@ -247,7 +247,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     const client = namespace.createQueueClient("some-name");
     await client
       .getSender()
-      .sendBatch([{ body: "hello" }])
+      .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true);
@@ -259,7 +259,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     const client = namespace.createTopicClient("some-name");
     await client
       .getSender()
-      .sendBatch([{ body: "hello" }])
+      .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true);
