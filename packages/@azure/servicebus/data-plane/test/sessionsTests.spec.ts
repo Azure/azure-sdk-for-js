@@ -169,7 +169,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     }, unExpectedErrorHandler);
 
     await delay(2000);
-    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
