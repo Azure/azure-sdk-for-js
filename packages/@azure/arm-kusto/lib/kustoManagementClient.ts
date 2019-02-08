@@ -19,7 +19,7 @@ class KustoManagementClient extends KustoManagementClientContext {
   // Operation groups
   clusters: operations.Clusters;
   databases: operations.Databases;
-  eventHubConnections: operations.EventHubConnections;
+  dataConnections: operations.DataConnections;
   operations: operations.Operations;
 
   /**
@@ -33,7 +33,7 @@ class KustoManagementClient extends KustoManagementClientContext {
     super(credentials, subscriptionId, options);
     this.clusters = new operations.Clusters(this);
     this.databases = new operations.Databases(this);
-    this.eventHubConnections = new operations.EventHubConnections(this);
+    this.dataConnections = new operations.DataConnections(this);
     this.operations = new operations.Operations(this);
   }
 }

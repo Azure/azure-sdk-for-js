@@ -101,7 +101,7 @@ async function receiveMessage(): Promise<void> {
     let receiver = receiveClient.getReceiver();
     receiver.receive(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
-    receiver.close();
+    await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
     receiver = receiveClient.getReceiver();
