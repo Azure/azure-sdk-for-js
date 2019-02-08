@@ -14,6 +14,23 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const TransferProductProperties: msRest.CompositeMapper = {
+  serializedName: "TransferProductProperties",
+  type: {
+    name: "Composite",
+    className: "TransferProductProperties",
+    modelProperties: {
+      destinationInvoiceSectionId: {
+        readOnly: true,
+        serializedName: "destinationInvoiceSectionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -265,6 +282,34 @@ export const Operation: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OperationDisplay"
+        }
+      }
+    }
+  }
+};
+
+export const ProductsTransferHeaders: msRest.CompositeMapper = {
+  serializedName: "products-transfer-headers",
+  type: {
+    name: "Composite",
+    className: "ProductsTransferHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
         }
       }
     }

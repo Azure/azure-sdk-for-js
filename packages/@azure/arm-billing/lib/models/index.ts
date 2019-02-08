@@ -16,6 +16,22 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing TransferProductProperties.
+ * The properties of the product to initiate itansfer.
+ *
+ */
+export interface TransferProductProperties {
+  /**
+   * @member {string} [destinationInvoiceSectionId] Destination invoice section
+   * id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly destinationInvoiceSectionId?: string;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The Resource model definition.
  *
@@ -315,6 +331,29 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
   baseUri?: string;
 }
 
+/**
+ * @interface
+ * An interface representing ProductsTransferHeaders.
+ * Defines headers for Transfer operation.
+ *
+ */
+export interface ProductsTransferHeaders {
+  /**
+   * @member {string} [location] Location URI to poll for result
+   */
+  location: string;
+  /**
+   * @member {number} [retryAfter] Recommends the retryable time after
+   * receiving this.
+   */
+  retryAfter: number;
+  /**
+   * @member {string} [azureAsyncOperation] URI to poll for the operation
+   * status
+   */
+  azureAsyncOperation: string;
+}
+
 
 /**
  * @interface
@@ -571,6 +610,21 @@ export type InvoicesListNextResponse = InvoicesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: InvoicesListResult;
+    };
+};
+
+/**
+ * Contains response data for the transfer operation.
+ */
+export type ProductsTransferResponse = ProductsTransferHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ProductsTransferHeaders;
     };
 };
 

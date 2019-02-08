@@ -30,6 +30,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const billingAccountId: msRest.OperationURLParameter = {
+  parameterPath: "billingAccountId",
+  mapper: {
+    required: true,
+    serializedName: "billingAccountId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const billingPeriodName: msRest.OperationURLParameter = {
   parameterPath: "billingPeriodName",
   mapper: {
@@ -74,6 +84,16 @@ export const invoiceName: msRest.OperationURLParameter = {
     }
   }
 };
+export const invoiceSectionId: msRest.OperationURLParameter = {
+  parameterPath: "invoiceSectionId",
+  mapper: {
+    required: true,
+    serializedName: "invoiceSectionId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const name: msRest.OperationURLParameter = {
   parameterPath: "name",
   mapper: {
@@ -94,6 +114,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const productName: msRest.OperationURLParameter = {
+  parameterPath: "productName",
+  mapper: {
+    required: true,
+    serializedName: "productName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const skiptoken: msRest.OperationQueryParameter = {
   parameterPath: [
