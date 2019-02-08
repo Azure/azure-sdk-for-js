@@ -398,9 +398,9 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
       sessionId: testSessionId1
     });
     const receivedMsgs = await sessionReceiver.receiveBatch(1);
-    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].messageId, testMessagesWithSessions[0].messageId);
-    should.equal(receivedMsgs[0].deliveryCount, 1);
+    should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -636,7 +636,11 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(2);
-    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(
+      Array.isArray(deadLetterMsgs),
+      true,
+      "`ReceivedMessages` from Deadletter is not an array"
+    );
     should.equal(deadLetterMsgs.length, testMessagesWithSessions.length);
     should.equal(
       testMessagesWithSessions.some((x) => deadLetterMsgs[0].messageId === x.messageId),
@@ -822,7 +826,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
     await delay(5000);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testMessagesWithSessions[0].body);
     should.equal(receivedMsgs[0].messageId, testMessagesWithSessions[0].messageId);
 

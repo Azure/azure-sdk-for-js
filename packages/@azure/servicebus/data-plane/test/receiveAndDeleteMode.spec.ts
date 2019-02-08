@@ -225,11 +225,27 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
 
     await delay(2000);
 
-    should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessages[0].body);
-    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
-    should.equal(receivedMsgs[0].body, testMessages[0].body);
-    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+    should.equal(
+      receivedMsgs[0].body,
+      testMessages[0].body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      receivedMsgs[0].messageId,
+      testMessages[0].messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(
+      receivedMsgs[0].body,
+      testMessages[0].body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      receivedMsgs[0].messageId,
+      testMessages[0].messageId,
+      "MessageId is different than expected"
+    );
 
     should.equal(
       errorFromErrorHandler,

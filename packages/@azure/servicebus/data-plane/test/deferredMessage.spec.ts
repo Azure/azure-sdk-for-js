@@ -107,10 +107,18 @@ async function deferMessage(testMessages: SendableMessageInfo[]): Promise<Servic
   await sender.send(testMessages[0]);
   const receivedMsgs = await receiver.receiveBatch(1);
 
-  should.equal(receivedMsgs.length, 1);
-  should.equal(receivedMsgs[0].body, testMessages[0].body);
+  should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+  should.equal(
+    receivedMsgs[0].body,
+    testMessages[0].body,
+    "MessageBody is different than expected"
+  );
   should.equal(receivedMsgs[0].deliveryCount, 0);
-  should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+  should.equal(
+    receivedMsgs[0].messageId,
+    testMessages[0].messageId,
+    "MessageId is different than expected"
+  );
 
   if (!receivedMsgs[0].sequenceNumber) {
     throw "Sequence Number can not be null";

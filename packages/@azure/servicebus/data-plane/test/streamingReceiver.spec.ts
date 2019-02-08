@@ -348,7 +348,11 @@ describe("Streaming Receiver - Abandon message", function(): void {
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(2);
-    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(
+      Array.isArray(deadLetterMsgs),
+      true,
+      "`ReceivedMessages` from Deadletter is not an array"
+    );
     should.equal(deadLetterMsgs.length, testSimpleMessages.length);
     should.equal(deadLetterMsgs[0].deliveryCount, maxDeliveryCount);
     should.equal(deadLetterMsgs[1].deliveryCount, maxDeliveryCount);
@@ -525,7 +529,11 @@ describe("Streaming Receiver - Deadletter message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(2);
-    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(
+      Array.isArray(deadLetterMsgs),
+      true,
+      "`ReceivedMessages` from Deadletter is not an array"
+    );
     should.equal(deadLetterMsgs.length, testSimpleMessages.length);
     should.equal(testSimpleMessages.some((x) => deadLetterMsgs[0].messageId === x.messageId), true);
     should.equal(testSimpleMessages.some((x) => deadLetterMsgs[1].messageId === x.messageId), true);
@@ -671,7 +679,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error", 
     await delay(5000);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testSimpleMessages[0].body);
     should.equal(receivedMsgs[0].messageId, testSimpleMessages[0].messageId);
 
