@@ -16,15 +16,7 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
-  getSenderClient,
-  getReceiverClient,
-  ClientType,
-  purge
-} from "./testUtils";
+import { TestMessage, getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
@@ -63,7 +55,7 @@ async function beforeEachTest(
   senderClient = getSenderClient(ns, senderType);
   receiverClient = getReceiverClient(ns, receiverType);
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -72,7 +64,7 @@ async function beforeEachTest(
 
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1
+        sessionId: TestMessage.sessionId
       })
     : receiverClient.getReceiver();
 }
@@ -87,7 +79,7 @@ describe("Send to Queue/Subscription", function(): void {
   });
 
   async function testSimpleSend(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     await senderClient.getSender().send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
@@ -165,7 +157,7 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
   });
 
   async function testScheduleMessage(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
     await senderClient.getSender().scheduleMessage(scheduleTime, testMessages);
 
@@ -269,12 +261,12 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
     {
       body: "hello1",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     },
     {
       body: "hello2",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     }
   ];
 
@@ -365,7 +357,7 @@ describe("Cancel a single Scheduled message for sending to Queue/Subscription", 
   });
 
   async function testCancelScheduleMessage(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
     const sequenceNumber = await senderClient
       .getSender()
@@ -458,9 +450,9 @@ describe("Cancel multiple Scheduled messages for sending to Queue/Subscription",
     usePartitions?: boolean,
     useSessions?: boolean
   ): Promise<void> {
-    let testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    let testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     if (usePartitions) {
-      testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+      testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     }
     const sender = senderClient.getSender();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling

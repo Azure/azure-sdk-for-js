@@ -17,14 +17,7 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import {
-  testMessagesWithSessions,
-  getSenderClient,
-  getReceiverClient,
-  ClientType,
-  testSessionId1,
-  purge
-} from "./testUtils";
+import { TestMessage, getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -57,7 +50,7 @@ const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
   {
     body: "hello1",
     messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
+    sessionId: TestMessage.sessionId
   },
   {
     body: "hello2",
@@ -81,7 +74,7 @@ async function beforeEachTest(senderType: ClientType, sessionType: ClientType): 
   senderClient = getSenderClient(ns, senderType);
   receiverClient = getReceiverClient(ns, sessionType);
 
-  await purge(receiverClient, testSessionId1);
+  await purge(receiverClient, TestMessage.sessionId);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -99,10 +92,10 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
   });
 
   async function test_batching(): Promise<void> {
-    await senderClient.getSender().send(testMessagesWithSessions);
+    await senderClient.getSender().send(TestMessage.sessionSample);
 
     let receiver = await receiverClient.getSessionReceiver({
-      sessionId: "non" + testSessionId1
+      sessionId: "non" + TestMessage.sessionId
     });
     let msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 0);
@@ -112,8 +105,8 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     msgs = await receiver.receiveBatch(1);
     should.equal(msgs.length, 1);
     should.equal(Array.isArray(msgs), true);
-    should.equal(msgs[0].body, testMessagesWithSessions.body);
-    should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+    should.equal(msgs[0].body, TestMessage.sessionSample.body);
+    should.equal(msgs[0].messageId, TestMessage.sessionSample.messageId);
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -159,10 +152,10 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
   });
 
   async function test_streaming(): Promise<void> {
-    await senderClient.getSender().send(testMessagesWithSessions);
+    await senderClient.getSender().send(TestMessage.sessionSample);
 
     let receiver = await receiverClient.getSessionReceiver({
-      sessionId: "non" + testSessionId1
+      sessionId: "non" + TestMessage.sessionId
     });
     let receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
@@ -177,8 +170,8 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     receivedMsgs = [];
     receiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(msg.body, testMessagesWithSessions.body);
-      should.equal(msg.messageId, testMessagesWithSessions.messageId);
+      should.equal(msg.body, TestMessage.sessionSample.body);
+      should.equal(msg.messageId, TestMessage.sessionSample.messageId);
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
@@ -425,15 +418,15 @@ describe("SessionTests - Second Session Receiver for same session id", function(
 
   async function testSecondSessionReceiverForSameSession(): Promise<void> {
     const sender = senderClient.getSender();
-    await sender.send(testMessagesWithSessions);
+    await sender.send(TestMessage.sessionSample);
 
     const firstReceiver = await receiverClient.getSessionReceiver();
-    should.equal(firstReceiver.sessionId, testMessagesWithSessions.sessionId);
+    should.equal(firstReceiver.sessionId, TestMessage.sessionSample.sessionId);
 
     let errorWasThrown = false;
     try {
       const secondReceiver = await receiverClient.getSessionReceiver({
-        sessionId: testMessagesWithSessions.sessionId
+        sessionId: TestMessage.sessionSample.sessionId
       });
       if (secondReceiver) {
         chai.assert.fail("Second receiver for same session id should not have been created");
@@ -443,7 +436,7 @@ describe("SessionTests - Second Session Receiver for same session id", function(
         error &&
         error.message ===
           `Close the current session receiver for sessionId ${
-            testMessagesWithSessions.sessionId
+            TestMessage.sessionSample.sessionId
           } before using "getSessionReceiver" to create a new one for the same sessionId`;
     }
 

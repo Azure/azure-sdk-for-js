@@ -17,15 +17,7 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
-  getSenderClient,
-  getReceiverClient,
-  ClientType,
-  purge
-} from "./testUtils";
+import { TestMessage, getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -82,7 +74,7 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -99,7 +91,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1
+        sessionId: TestMessage.sessionId
       })
     : receiverClient.getReceiver();
 }
@@ -126,7 +118,7 @@ describe("Batch Receiver - Complete/Abandon/Defer/Deadletter normal message", fu
   }
 
   async function testComplete(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     const msg = await sendReceiveMsg(testMessages);
 
     await msg.complete();
@@ -199,7 +191,7 @@ describe("Batch Receiver - Complete/Abandon/Defer/Deadletter normal message", fu
   });
 
   async function testAbandon(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     const msg = await sendReceiveMsg(testMessages);
     await msg.abandon();
 
@@ -289,7 +281,7 @@ describe("Batch Receiver - Complete/Abandon/Defer/Deadletter normal message", fu
   });
 
   async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     await sender.send(testMessages);
     let abandonMsgCount = 0;
 
@@ -375,7 +367,7 @@ describe("Batch Receiver - Complete/Abandon/Defer/Deadletter normal message", fu
   });
 
   async function testDefer(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     const msg = await sendReceiveMsg(testMessages);
 
     if (!msg.sequenceNumber) {
@@ -468,7 +460,7 @@ describe("Batch Receiver - Complete/Abandon/Defer/Deadletter normal message", fu
   });
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     const msg = await sendReceiveMsg(testMessages);
     await msg.deadLetter();
 
@@ -565,12 +557,12 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
   });
 
   async function deadLetterMessage(): Promise<ServiceBusMessage> {
-    await sender.send(testSimpleMessages);
+    await sender.send(TestMessage.sample);
     const receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testSimpleMessages.body);
-    should.equal(receivedMsgs[0].messageId, testSimpleMessages.messageId);
+    should.equal(receivedMsgs[0].body, TestMessage.sample.body);
+    should.equal(receivedMsgs[0].messageId, TestMessage.sample.messageId);
     should.equal(receivedMsgs[0].deliveryCount, 0);
 
     await receivedMsgs[0].deadLetter();
@@ -580,8 +572,8 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1);
-    should.equal(deadLetterMsgs[0].body, testSimpleMessages.body);
-    should.equal(deadLetterMsgs[0].messageId, testSimpleMessages.messageId);
+    should.equal(deadLetterMsgs[0].body, TestMessage.sample.body);
+    should.equal(deadLetterMsgs[0].messageId, TestMessage.sample.messageId);
     should.equal(deadLetterMsgs[0].deliveryCount, 0);
 
     return deadLetterMsgs[0];
@@ -594,8 +586,8 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     const deadLetterMsgs = await deadletterClient.getReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1);
-    should.equal(deadLetterMsgs[0].body, testSimpleMessages.body);
-    should.equal(deadLetterMsgs[0].messageId, testSimpleMessages.messageId);
+    should.equal(deadLetterMsgs[0].body, TestMessage.sample.body);
+    should.equal(deadLetterMsgs[0].messageId, TestMessage.sample.messageId);
     should.equal(deadLetterMsgs[0].deliveryCount, expectedDeliverCount);
 
     await deadLetterMsgs[0].complete();
@@ -695,8 +687,8 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
-    should.equal(deferredMsgs.body, testSimpleMessages.body);
-    should.equal(deferredMsgs.messageId, testSimpleMessages.messageId);
+    should.equal(deferredMsgs.body, TestMessage.sample.body);
+    should.equal(deferredMsgs.messageId, TestMessage.sample.messageId);
 
     await deferredMsgs.complete();
 
@@ -839,12 +831,12 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
     {
       body: "hello1",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     },
     {
       body: "hello2",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     }
   ];
 
@@ -948,7 +940,7 @@ describe("Batch Receiver - Batching Receiver Misc Tests", function(): void {
   });
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     await sender.send(testMessages);
 
     let receivedMsgs = await receiver.receiveBatch(1);
@@ -1041,7 +1033,7 @@ describe("Batch Receiver - Batching Receiver Misc Tests", function(): void {
   // });
 
   async function testAskForMore(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.sessionSample : TestMessage.sample;
     await sender.send(testMessages);
     const receivedMsgs = await receiver.receiveBatch(2);
 

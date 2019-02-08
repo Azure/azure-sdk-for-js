@@ -9,18 +9,29 @@ import {
   SubscriptionClient
 } from "../lib";
 
-export const testSimpleMessages: SendableMessageInfo = {
-  body: "hello1",
-  messageId: `test message ${Math.random()}`,
-  partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
-};
+export class TestMessage {
+  static get sample(): SendableMessageInfo {
+    const randomId = Math.random();
+    return {
+      body: `message body ${randomId}`,
+      messageId: `message id ${randomId}`,
+      // `partitionKey` is required for `peek(n)` to work for partitioned queue/subscrptions.
+      // Its presence doesnt affect unpartitioned queue/subscrption in any way.
+      partitionKey: "dummy"
+    };
+  }
 
-export const testSessionId1 = "my-session";
-export const testMessagesWithSessions: SendableMessageInfo = {
-  body: "hello1",
-  messageId: `test message ${Math.random()}`,
-  sessionId: testSessionId1
-};
+  static get sessionSample(): SendableMessageInfo {
+    const randomId = Math.random();
+    return {
+      body: `message body ${randomId}`,
+      messageId: `message id ${randomId}`,
+      sessionId: TestMessage.sessionId
+    };
+  }
+
+  static sessionId: string = "my-session";
+}
 
 export enum ClientType {
   PartitionedQueue,

@@ -17,7 +17,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
-import { testSessionId1, purge, testMessagesWithSessions } from "./testUtils";
+import { TestMessage, purge } from "./testUtils";
 
 describe("Standard", function(): void {
   const SERVICEBUS_CONNECTION_STRING = check(
@@ -243,7 +243,7 @@ const onError: OnError = (err: MessagingError | Error) => {
 };
 
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
-  await purge(receiverClient, testSessionId1);
+  await purge(receiverClient, TestMessage.sessionId);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -258,10 +258,10 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessagesWithSessions);
+  await senderClient.getSender().send(TestMessage.sessionSample);
 
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
   const msgs = await sessionClient.receiveBatch(1);
@@ -274,8 +274,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1);
-  should.equal(msgs[0].body, testMessagesWithSessions.body);
-  should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+  should.equal(msgs[0].body, TestMessage.sessionSample.body);
+  should.equal(msgs[0].messageId, TestMessage.sessionSample.messageId);
 
   // Verify initial lock expiry time on the session
   assertTimestampsAreApproximatelyEqual(
@@ -307,18 +307,18 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessagesWithSessions);
+  await senderClient.getSender().send(TestMessage.sessionSample);
 
   let sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
   const msgs = await sessionClient.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testMessagesWithSessions.body);
-  should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+  should.equal(msgs[0].body, TestMessage.sessionSample.body);
+  should.equal(msgs[0].messageId, TestMessage.sessionSample.messageId);
 
   await delay(lockDurationInMilliseconds + 1000);
 
@@ -332,7 +332,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
-  sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId1 });
+  sessionClient = await receiverClient.getSessionReceiver({ sessionId: TestMessage.sessionId });
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
   await unprocessedMsgs[0].complete();
 }
@@ -346,9 +346,9 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.getSender().send(testMessagesWithSessions);
+  await senderClient.getSender().send(TestMessage.sessionSample);
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
 
@@ -356,8 +356,8 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testMessagesWithSessions.body);
-      should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
+      should.equal(brokeredMessage.body, TestMessage.sessionSample.body);
+      should.equal(brokeredMessage.messageId, TestMessage.sessionSample.messageId);
 
       // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
@@ -414,10 +414,10 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.getSender().send(testMessagesWithSessions);
+  await senderClient.getSender().send(TestMessage.sessionSample);
 
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: options.maxSessionAutoRenewLockDurationInSeconds
   });
   await sessionClient.receive(
@@ -425,8 +425,8 @@ async function testAutoLockRenewalConfigBehavior(
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
-        should.equal(brokeredMessage.body, testMessagesWithSessions.body);
-        should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
+        should.equal(brokeredMessage.body, TestMessage.sessionSample.body);
+        should.equal(brokeredMessage.messageId, TestMessage.sessionSample.messageId);
 
         // Sleeping...
         await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
