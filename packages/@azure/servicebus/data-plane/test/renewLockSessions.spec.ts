@@ -454,7 +454,7 @@ async function testAutoLockRenewalConfigBehavior(
       autoComplete: false
     }
   );
-  await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);
+  await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 4000);
   await sessionClient.close();
 
   if (uncaughtErrorFromHandlers) {
