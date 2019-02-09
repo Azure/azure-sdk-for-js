@@ -1219,6 +1219,23 @@ export interface Permissions {
 
 /**
  * @interface
+ * An interface representing PermissionsListResult.
+ * Server response for get permissions grants
+ *
+ */
+export interface PermissionsListResult {
+  /**
+   * @member {Permissions[]} [value] the list of permissions grants
+   */
+  value?: Permissions[];
+  /**
+   * @member {string} [odatanextLink] the URL to get the next set of results.
+   */
+  odatanextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing ApplicationsListOptionalParams.
  * Optional Parameters.
  *
@@ -2254,7 +2271,7 @@ export type DomainsGetResponse = Domain & {
 /**
  * Contains response data for the get operation.
  */
-export type OAuth2GetResponse = Permissions & {
+export type OAuth2GetResponse = PermissionsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -2266,7 +2283,7 @@ export type OAuth2GetResponse = Permissions & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Permissions;
+      parsedBody: PermissionsListResult;
     };
 };
 
