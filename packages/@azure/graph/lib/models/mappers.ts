@@ -1685,6 +1685,12 @@ export const Permissions: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      },
       consentType: {
         serializedName: "consentType",
         type: {

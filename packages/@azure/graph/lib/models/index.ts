@@ -1191,6 +1191,10 @@ export interface Permissions {
    */
   clientId?: string;
   /**
+   * @member {string} [objectId] The objectId of the permission grant
+   */
+  objectId?: string;
+  /**
    * @member {string} [consentType] Typically set to AllPrincipals
    */
   consentType?: string;
