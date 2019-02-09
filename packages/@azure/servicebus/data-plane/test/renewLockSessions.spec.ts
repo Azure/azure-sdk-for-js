@@ -436,10 +436,14 @@ async function testAutoLockRenewalConfigBehavior(
           errorWasThrown = true; // Service bus completes the message even when the session lock expires.
         });
 
-        should.equal(errorWasThrown, false, "Error Thrown flag value mismatch");
+        should.equal(errorWasThrown, true, "Error Thrown flag value mismatch");
       }
     },
-    onError,
+    (err: MessagingError | Error) => {
+      if (err.name !== "SessionLockLostError") {
+        onError(err);
+      }
+    },
     {
       autoComplete: false
     }
