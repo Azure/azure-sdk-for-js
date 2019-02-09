@@ -71,9 +71,9 @@ describe("Standard", function(): void {
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxSessionAutoRenewLockDurationInSeconds: 0,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
+          delayBeforeAttemptingToCompleteMessageInSeconds: 31,
+          expectSessionLockLostErrorToBeThrown: true
         });
-        // Service bus completes the message even when the session lock expires.
       });
     });
   });
@@ -119,9 +119,9 @@ describe("Standard", function(): void {
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxSessionAutoRenewLockDurationInSeconds: 0,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
+          delayBeforeAttemptingToCompleteMessageInSeconds: 31,
+          expectSessionLockLostErrorToBeThrown: true
         });
-        // Service bus completes the message even when the session lock expires.
       });
     });
   });
@@ -173,9 +173,9 @@ describe("Standard", function(): void {
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxSessionAutoRenewLockDurationInSeconds: 0,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
+          delayBeforeAttemptingToCompleteMessageInSeconds: 31,
+          expectSessionLockLostErrorToBeThrown: true
         });
-        // Service bus completes the message even when the session lock expires.
       });
     });
   });
@@ -226,9 +226,9 @@ describe("Standard", function(): void {
       > {
         await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
           maxSessionAutoRenewLockDurationInSeconds: 0,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31
+          delayBeforeAttemptingToCompleteMessageInSeconds: 31,
+          expectSessionLockLostErrorToBeThrown: true
         });
-        // Complete fails as expected
       });
     });
   });
@@ -329,7 +329,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     errorWasThrown = true;
   });
 
-  should.equal(errorWasThrown, false, "Error thrown flag must be true");
+  should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
   sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId1 });
@@ -405,6 +405,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 interface AutoLockRenewalTestOptions {
   maxSessionAutoRenewLockDurationInSeconds: number | undefined;
   delayBeforeAttemptingToCompleteMessageInSeconds: number;
+  expectSessionLockLostErrorToBeThrown: boolean;
 }
 
 async function testAutoLockRenewalConfigBehavior(
@@ -420,6 +421,8 @@ async function testAutoLockRenewalConfigBehavior(
     sessionId: testSessionId1,
     maxSessionAutoRenewLockDurationInSeconds: options.maxSessionAutoRenewLockDurationInSeconds
   });
+
+  let sessionLockLostErrorThrown = false;
   await sessionClient.receive(
     async (brokeredMessage: ServiceBusMessage) => {
       if (numOfMessagesReceived < 1) {
@@ -446,7 +449,9 @@ async function testAutoLockRenewalConfigBehavior(
       }
     },
     (err: MessagingError | Error) => {
-      if (err.name !== "SessionLockLostError") {
+      if (err.name === "SessionLockLostError") {
+        sessionLockLostErrorThrown = true;
+      } else {
         onError(err);
       }
     },
@@ -455,6 +460,11 @@ async function testAutoLockRenewalConfigBehavior(
     }
   );
   await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 4000);
+  should.equal(
+    sessionLockLostErrorThrown,
+    options.expectSessionLockLostErrorToBeThrown,
+    "SessionLockLostErrorThrown flag must match"
+  );
   await sessionClient.close();
 
   if (uncaughtErrorFromHandlers) {
