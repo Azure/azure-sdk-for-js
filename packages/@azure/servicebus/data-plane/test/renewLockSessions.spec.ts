@@ -438,7 +438,7 @@ async function testAutoLockRenewalConfigBehavior(
 
         let errorWasThrown: boolean = false;
         await brokeredMessage.complete().catch(() => {
-          errorWasThrown = true;
+          errorWasThrown = true; // Service bus completes the message even when the session lock expires.
         });
 
         should.equal(errorWasThrown, false, "Error Thrown flag value mismatch");
