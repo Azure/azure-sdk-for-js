@@ -81,7 +81,7 @@ export interface ClientEntityContextBase {
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
-  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession | undefined;
+  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession;
 }
 
 /**

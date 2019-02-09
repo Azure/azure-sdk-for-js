@@ -441,14 +441,10 @@ async function testAutoLockRenewalConfigBehavior(
           errorWasThrown = true;
         });
 
-        should.equal(errorWasThrown, true, "Error Thrown flag value mismatch");
+        should.equal(errorWasThrown, false, "Error Thrown flag value mismatch");
       }
     },
-    (err: MessagingError | Error) => {
-      if (err.name !== "SessionLockLostError") {
-        onError(err);
-      }
-    },
+    onError,
     {
       autoComplete: false
     }

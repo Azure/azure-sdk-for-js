@@ -593,10 +593,6 @@ export class MessageSession extends LinkEntity {
             }
           }
           return;
-        } finally {
-          if (this._receiver) {
-            this._receiver!.addCredit(1);
-          }
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -631,6 +627,7 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
+      this._receiver!.setCreditWindow(this.maxConcurrentCallsPerSession);
       this._receiver!.addCredit(this.maxConcurrentCallsPerSession);
     } else {
       this._isReceivingMessages = false;
