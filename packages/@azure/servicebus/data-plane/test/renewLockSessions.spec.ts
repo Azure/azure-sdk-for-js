@@ -329,7 +329,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     errorWasThrown = true;
   });
 
-  should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  should.equal(errorWasThrown, false, "Error thrown flag must be true");
 
   // Clean up any left over messages
   sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId1 });
@@ -431,20 +431,30 @@ async function testAutoLockRenewalConfigBehavior(
         // Sleeping...
         await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
 
+        // Following code gets executed in background but since session link is closed,
+        // errors from here if any don't get surfaced.
+        // So the code below gets executed without errors but is not useful for tests
+
         let errorWasThrown: boolean = false;
         await brokeredMessage.complete().catch((err) => {
-          errorWasThrown = true; // Service bus completes the message even when the session lock expires.
+          should.equal(err.name, "Error");
+          should.equal(!(err.message.search("Cannot find the receiver with name") + 1), false);
+          errorWasThrown = true;
         });
 
-        should.equal(errorWasThrown, false, "Error Thrown flag value mismatch");
+        should.equal(errorWasThrown, true, "Error Thrown flag value mismatch");
       }
     },
-    onError,
+    (err: MessagingError | Error) => {
+      if (err.name !== "SessionLockLostError") {
+        onError(err);
+      }
+    },
     {
       autoComplete: false
     }
   );
-  await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 4000);
+  await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);
   await sessionClient.close();
 
   if (uncaughtErrorFromHandlers) {
