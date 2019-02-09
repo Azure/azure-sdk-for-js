@@ -21,7 +21,6 @@ export const TransferProductProperties: msRest.CompositeMapper = {
     className: "TransferProductProperties",
     modelProperties: {
       destinationInvoiceSectionId: {
-        readOnly: true,
         serializedName: "destinationInvoiceSectionId",
         type: {
           name: "String"

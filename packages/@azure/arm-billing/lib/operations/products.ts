@@ -34,7 +34,7 @@ export class Products {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductsTransferResponse>
    */
-  transfer(billingAccountId: string, invoiceSectionId: string, productName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductsTransferResponse>;
+  transfer(billingAccountId: string, invoiceSectionId: string, productName: string, options?: Models.ProductsTransferOptionalParams): Promise<Models.ProductsTransferResponse>;
   /**
    * @param billingAccountId billing Account Id.
    * @param invoiceSectionId Invoice Id.
@@ -49,8 +49,8 @@ export class Products {
    * @param options The optional parameters
    * @param callback The callback
    */
-  transfer(billingAccountId: string, invoiceSectionId: string, productName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  transfer(billingAccountId: string, invoiceSectionId: string, productName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ProductsTransferResponse> {
+  transfer(billingAccountId: string, invoiceSectionId: string, productName: string, options: Models.ProductsTransferOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  transfer(billingAccountId: string, invoiceSectionId: string, productName: string, options?: Models.ProductsTransferOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ProductsTransferResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -80,7 +80,12 @@ const transferOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "parameters",
+    parameterPath: {
+      destinationInvoiceSectionId: [
+        "options",
+        "destinationInvoiceSectionId"
+      ]
+    },
     mapper: {
       ...Mappers.TransferProductProperties,
       required: true

@@ -24,10 +24,8 @@ export interface TransferProductProperties {
   /**
    * @member {string} [destinationInvoiceSectionId] Destination invoice section
    * id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly destinationInvoiceSectionId?: string;
+  destinationInvoiceSectionId?: string;
 }
 
 /**
@@ -317,6 +315,21 @@ export interface InvoicesListOptionalParams extends msRest.RequestOptionsBase {
    * most recent N invoices.
    */
   top?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ProductsTransferOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ProductsTransferOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [destinationInvoiceSectionId] Destination invoice section
+   * id.
+   */
+  destinationInvoiceSectionId?: string;
 }
 
 /**
