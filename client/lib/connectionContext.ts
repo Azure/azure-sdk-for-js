@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
+import os from "os";
 import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
@@ -59,7 +60,13 @@ export interface ConnectionContextOptions extends ClientOptions {
 }
 
 export namespace ConnectionContext {
-  const userAgent: string = "/js-event-hubs";
+  /**
+   * @property {string} userAgent The user agent string for the EventHubs client.
+   * azure-sdk-for-js/azure-<package-name>/<package-version> (NODE-VERSION <node-version>; <os-type> <os-version>)
+   */
+  const userAgent: string = `azure-sdk-for-js/azure-event-hubs/${
+    packageJsonInfo.version
+  } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent

@@ -4,11 +4,14 @@
 import chai from "chai";
 import os from "os";
 const should = chai.should();
+const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
+import chaiString from "chai-string";
+chai.use(chaiString);
 import debugModule from "debug";
 import dotenv from "dotenv";
 dotenv.config();
-chai.use(chaiAsPromised);
 const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../lib";
 import { packageJsonInfo } from "../lib/util/constants";
@@ -132,7 +135,7 @@ describe("EventHubClient on ", function(): void {
       );
       const packageVersion = packageJsonInfo.version;
       const properties = client["_context"].connection.options.properties;
-      should.equal(properties!["user-agent"], "/js-event-hubs");
+      expect(properties!["user-agent"]).to.startWith("azure-sdk-for-js/azure-event-hubs/");
       should.equal(properties!.product, "MSJSClient");
       should.equal(properties!.version, packageVersion);
       should.equal(properties!.framework, `Node/${process.version}`);
@@ -152,7 +155,8 @@ describe("EventHubClient on ", function(): void {
       );
       const packageVersion = packageJsonInfo.version;
       const properties = client["_context"].connection.options.properties;
-      should.equal(properties!["user-agent"], `/js-event-hubs,${customua}`);
+      expect(properties!["user-agent"]).to.startWith("azure-sdk-for-js/azure-event-hubs/");
+      expect(properties!["user-agent"]).to.endWith(customua);
       should.equal(properties!.product, "MSJSClient");
       should.equal(properties!.version, packageVersion);
       should.equal(properties!.framework, `Node/${process.version}`);
