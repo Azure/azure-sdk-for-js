@@ -8,13 +8,10 @@
  * regenerated.
  */
 
-export * from "./signedInUser";
-export * from "./applications";
-export * from "./deletedApplications";
-export * from "./groups";
-export * from "./servicePrincipals";
-export * from "./users";
-export * from "./objects";
-export * from "./domains";
-export * from "./oAuth2";
-export * from "./permissionsGrants";
+export {
+  discriminators,
+  PermissionsListResult,
+  Permissions,
+  CloudError
+} from "../models/mappers";
+

@@ -27,7 +27,7 @@ export class OAuth2 {
   }
 
   /**
-   * Queries OAuth2 permissions for the relevant SP ObjectId of an app.
+   * Queries OAuth2 permissions grants for the relevant SP ObjectId of an app.
    * @param [options] The optional parameters
    * @returns Promise<Models.OAuth2GetResponse>
    */

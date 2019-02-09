@@ -1725,34 +1725,6 @@ export const Permissions: msRest.CompositeMapper = {
   }
 };
 
-export const PermissionsListResult: msRest.CompositeMapper = {
-  serializedName: "PermissionsListResult",
-  type: {
-    name: "Composite",
-    className: "PermissionsListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Permissions"
-            }
-          }
-        }
-      },
-      odatanextLink: {
-        serializedName: "odata\\.nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DirectoryObjectListResult: msRest.CompositeMapper = {
   serializedName: "DirectoryObjectListResult",
   type: {
@@ -2032,6 +2004,34 @@ export const DomainListResult: msRest.CompositeMapper = {
               }
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const PermissionsListResult: msRest.CompositeMapper = {
+  serializedName: "PermissionsListResult",
+  type: {
+    name: "Composite",
+    className: "PermissionsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permissions"
+            }
+          }
+        }
+      },
+      odatanextLink: {
+        serializedName: "odata\\.nextLink",
+        type: {
+          name: "String"
         }
       }
     }

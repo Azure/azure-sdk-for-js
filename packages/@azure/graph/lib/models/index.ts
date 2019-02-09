@@ -1219,23 +1219,6 @@ export interface Permissions {
 
 /**
  * @interface
- * An interface representing PermissionsListResult.
- * Server response for get permissions grants
- *
- */
-export interface PermissionsListResult {
-  /**
-   * @member {Permissions[]} [value] the list of permissions grants
-   */
-  value?: Permissions[];
-  /**
-   * @member {string} [odatanextLink] the URL to get the next set of results.
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing ApplicationsListOptionalParams.
  * Optional Parameters.
  *
@@ -1479,6 +1462,20 @@ export interface UserGetMemberGroupsResult extends Array<string> {
  * @extends Array<Domain>
  */
 export interface DomainListResult extends Array<Domain> {
+}
+
+/**
+ * @interface
+ * An interface representing the PermissionsListResult.
+ * Server response for get permissions grants
+ *
+ * @extends Array<Permissions>
+ */
+export interface PermissionsListResult extends Array<Permissions> {
+  /**
+   * @member {string} [odatanextLink] the URL to get the next set of results.
+   */
+  odatanextLink?: string;
 }
 
 /**
@@ -2303,5 +2300,24 @@ export type OAuth2GrantResponse = Permissions & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Permissions;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PermissionsGrantsListNextResponse = PermissionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionsListResult;
     };
 };
