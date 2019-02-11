@@ -3910,69 +3910,6 @@ export const ApplicationGateway: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationGatewayAvailableServerVariablesResult: msRest.CompositeMapper = {
-  serializedName: "ApplicationGatewayAvailableServerVariablesResult",
-  type: {
-    name: "Composite",
-    className: "ApplicationGatewayAvailableServerVariablesResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ApplicationGatewayAvailableRequestHeadersResult: msRest.CompositeMapper = {
-  serializedName: "ApplicationGatewayAvailableRequestHeadersResult",
-  type: {
-    name: "Composite",
-    className: "ApplicationGatewayAvailableRequestHeadersResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ApplicationGatewayAvailableResponseHeadersResult: msRest.CompositeMapper = {
-  serializedName: "ApplicationGatewayAvailableResponseHeadersResult",
-  type: {
-    name: "Composite",
-    className: "ApplicationGatewayAvailableResponseHeadersResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ApplicationGatewayFirewallRule: msRest.CompositeMapper = {
   serializedName: "ApplicationGatewayFirewallRule",
   type: {
@@ -4827,12 +4764,6 @@ export const AzureFirewall: msRest.CompositeMapper = {
     className: "AzureFirewall",
     modelProperties: {
       ...Resource.type.modelProperties,
-      threatIntelMode: {
-        serializedName: "properties.threatIntelMode",
-        type: {
-          name: "String"
-        }
-      },
       applicationRuleCollections: {
         serializedName: "properties.applicationRuleCollections",
         type: {
@@ -4883,6 +4814,12 @@ export const AzureFirewall: msRest.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      threatIntelMode: {
+        serializedName: "properties.threatIntelMode",
         type: {
           name: "String"
         }

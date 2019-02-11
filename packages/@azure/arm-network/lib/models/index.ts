@@ -2913,48 +2913,6 @@ export interface ApplicationGateway extends Resource {
 
 /**
  * @interface
- * An interface representing ApplicationGatewayAvailableServerVariablesResult.
- * Response for ApplicationGatewayAvailableServerVariables API service call.
- *
- */
-export interface ApplicationGatewayAvailableServerVariablesResult {
-  /**
-   * @member {string[]} [value] The list of supported server variables in
-   * application gateway.
-   */
-  value?: string[];
-}
-
-/**
- * @interface
- * An interface representing ApplicationGatewayAvailableRequestHeadersResult.
- * Response for ApplicationGatewayAvailableRequestHeaders API service call.
- *
- */
-export interface ApplicationGatewayAvailableRequestHeadersResult {
-  /**
-   * @member {string[]} [value] The list of supported request headers in
-   * application gateway.
-   */
-  value?: string[];
-}
-
-/**
- * @interface
- * An interface representing ApplicationGatewayAvailableResponseHeadersResult.
- * Response for ApplicationGatewayAvailableResponeHeaders API service call.
- *
- */
-export interface ApplicationGatewayAvailableResponseHeadersResult {
-  /**
-   * @member {string[]} [value] The list of supported response header in
-   * application gateway.
-   */
-  value?: string[];
-}
-
-/**
- * @interface
  * An interface representing ApplicationGatewayFirewallRule.
  * A web application firewall rule.
  *
@@ -3533,12 +3491,6 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
  */
 export interface AzureFirewall extends Resource {
   /**
-   * @member {AzureFirewallThreatIntelMode} [threatIntelMode] The operation
-   * mode for Threat Intelligence. Possible values include: 'Alert', 'Deny',
-   * 'Off'
-   */
-  threatIntelMode?: AzureFirewallThreatIntelMode;
-  /**
    * @member {AzureFirewallApplicationRuleCollection[]}
    * [applicationRuleCollections] Collection of application rule collections
    * used by Azure Firewall.
@@ -3565,6 +3517,12 @@ export interface AzureFirewall extends Resource {
    * 'Deleting', 'Failed'
    */
   provisioningState?: ProvisioningState;
+  /**
+   * @member {AzureFirewallThreatIntelMode} [threatIntelMode] The operation
+   * mode for Threat Intelligence. Possible values include: 'Alert', 'Deny',
+   * 'Off'
+   */
+  threatIntelMode?: AzureFirewallThreatIntelMode;
   /**
    * @member {string} [etag] Gets a unique read-only string that changes
    * whenever the resource is updated.
@@ -7520,7 +7478,7 @@ export interface ConnectionStateSnapshot {
 export interface ConnectionMonitorQueryResult {
   /**
    * @member {ConnectionMonitorSourceStatus} [sourceStatus] Status of
-   * connection monitor source. Possible values include: 'Uknown', 'Active',
+   * connection monitor source. Possible values include: 'Unknown', 'Active',
    * 'Inactive'
    */
   sourceStatus?: ConnectionMonitorSourceStatus;
@@ -11790,14 +11748,6 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
 export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
 
 /**
- * Defines values for AzureFirewallThreatIntelMode.
- * Possible values include: 'Alert', 'Deny', 'Off'
- * @readonly
- * @enum {string}
- */
-export type AzureFirewallThreatIntelMode = 'Alert' | 'Deny' | 'Off';
-
-/**
  * Defines values for AzureFirewallRCActionType.
  * Possible values include: 'Allow', 'Deny', 'Alert'
  * @readonly
@@ -11828,6 +11778,14 @@ export type AzureFirewallNatRCActionType = 'Snat' | 'Dnat';
  * @enum {string}
  */
 export type AzureFirewallNetworkRuleProtocol = 'TCP' | 'UDP' | 'Any' | 'ICMP';
+
+/**
+ * Defines values for AzureFirewallThreatIntelMode.
+ * Possible values include: 'Alert', 'Deny', 'Off'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureFirewallThreatIntelMode = 'Alert' | 'Deny' | 'Off';
 
 /**
  * Defines values for DdosCustomPolicyProtocol.
@@ -12122,11 +12080,11 @@ export type ConnectionStatus = 'Unknown' | 'Connected' | 'Disconnected' | 'Degra
 
 /**
  * Defines values for ConnectionMonitorSourceStatus.
- * Possible values include: 'Uknown', 'Active', 'Inactive'
+ * Possible values include: 'Unknown', 'Active', 'Inactive'
  * @readonly
  * @enum {string}
  */
-export type ConnectionMonitorSourceStatus = 'Uknown' | 'Active' | 'Inactive';
+export type ConnectionMonitorSourceStatus = 'Unknown' | 'Active' | 'Inactive';
 
 /**
  * Defines values for ConnectionState.
@@ -12490,7 +12448,7 @@ export type ApplicationGatewaysBackendHealthResponse = ApplicationGatewayBackend
 /**
  * Contains response data for the listAvailableServerVariables operation.
  */
-export type ApplicationGatewaysListAvailableServerVariablesResponse = ApplicationGatewayAvailableServerVariablesResult & {
+export type ApplicationGatewaysListAvailableServerVariablesResponse = Array<string> & {
   /**
    * The underlying HTTP response.
    */
@@ -12502,14 +12460,14 @@ export type ApplicationGatewaysListAvailableServerVariablesResponse = Applicatio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationGatewayAvailableServerVariablesResult;
+      parsedBody: string[];
     };
 };
 
 /**
  * Contains response data for the listAvailableRequestHeaders operation.
  */
-export type ApplicationGatewaysListAvailableRequestHeadersResponse = ApplicationGatewayAvailableRequestHeadersResult & {
+export type ApplicationGatewaysListAvailableRequestHeadersResponse = Array<string> & {
   /**
    * The underlying HTTP response.
    */
@@ -12521,14 +12479,14 @@ export type ApplicationGatewaysListAvailableRequestHeadersResponse = Application
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationGatewayAvailableRequestHeadersResult;
+      parsedBody: string[];
     };
 };
 
 /**
  * Contains response data for the listAvailableResponseHeaders operation.
  */
-export type ApplicationGatewaysListAvailableResponseHeadersResponse = ApplicationGatewayAvailableResponseHeadersResult & {
+export type ApplicationGatewaysListAvailableResponseHeadersResponse = Array<string> & {
   /**
    * The underlying HTTP response.
    */
@@ -12540,7 +12498,7 @@ export type ApplicationGatewaysListAvailableResponseHeadersResponse = Applicatio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationGatewayAvailableResponseHeadersResult;
+      parsedBody: string[];
     };
 };
 
