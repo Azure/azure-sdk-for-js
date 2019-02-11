@@ -2913,48 +2913,6 @@ export interface ApplicationGateway extends Resource {
 
 /**
  * @interface
- * An interface representing ApplicationGatewayAvailableServerVariablesResult.
- * Response for ApplicationGatewayAvailableServerVariables API service call.
- *
- */
-export interface ApplicationGatewayAvailableServerVariablesResult {
-  /**
-   * @member {string[]} [value] The list of supported server variables in
-   * application gateway.
-   */
-  value?: string[];
-}
-
-/**
- * @interface
- * An interface representing ApplicationGatewayAvailableRequestHeadersResult.
- * Response for ApplicationGatewayAvailableRequestHeaders API service call.
- *
- */
-export interface ApplicationGatewayAvailableRequestHeadersResult {
-  /**
-   * @member {string[]} [value] The list of supported request headers in
-   * application gateway.
-   */
-  value?: string[];
-}
-
-/**
- * @interface
- * An interface representing ApplicationGatewayAvailableResponseHeadersResult.
- * Response for ApplicationGatewayAvailableResponeHeaders API service call.
- *
- */
-export interface ApplicationGatewayAvailableResponseHeadersResult {
-  /**
-   * @member {string[]} [value] The list of supported response header in
-   * application gateway.
-   */
-  value?: string[];
-}
-
-/**
- * @interface
  * An interface representing ApplicationGatewayFirewallRule.
  * A web application firewall rule.
  *
@@ -3380,7 +3338,7 @@ export interface AzureFirewallNatRule {
   sourceAddresses?: string[];
   /**
    * @member {string[]} [destinationAddresses] List of destination IP addresses
-   * for this rule.
+   * for this rule. Supports IP ranges, prefixes, and service tags.
    */
   destinationAddresses?: string[];
   /**
@@ -12476,7 +12434,7 @@ export type ApplicationGatewaysBackendHealthResponse = ApplicationGatewayBackend
 /**
  * Contains response data for the listAvailableServerVariables operation.
  */
-export type ApplicationGatewaysListAvailableServerVariablesResponse = ApplicationGatewayAvailableServerVariablesResult & {
+export type ApplicationGatewaysListAvailableServerVariablesResponse = Array<string> & {
   /**
    * The underlying HTTP response.
    */
@@ -12488,14 +12446,14 @@ export type ApplicationGatewaysListAvailableServerVariablesResponse = Applicatio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationGatewayAvailableServerVariablesResult;
+      parsedBody: string[];
     };
 };
 
 /**
  * Contains response data for the listAvailableRequestHeaders operation.
  */
-export type ApplicationGatewaysListAvailableRequestHeadersResponse = ApplicationGatewayAvailableRequestHeadersResult & {
+export type ApplicationGatewaysListAvailableRequestHeadersResponse = Array<string> & {
   /**
    * The underlying HTTP response.
    */
@@ -12507,14 +12465,14 @@ export type ApplicationGatewaysListAvailableRequestHeadersResponse = Application
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationGatewayAvailableRequestHeadersResult;
+      parsedBody: string[];
     };
 };
 
 /**
  * Contains response data for the listAvailableResponseHeaders operation.
  */
-export type ApplicationGatewaysListAvailableResponseHeadersResponse = ApplicationGatewayAvailableResponseHeadersResult & {
+export type ApplicationGatewaysListAvailableResponseHeadersResponse = Array<string> & {
   /**
    * The underlying HTTP response.
    */
@@ -12526,7 +12484,7 @@ export type ApplicationGatewaysListAvailableResponseHeadersResponse = Applicatio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplicationGatewayAvailableResponseHeadersResult;
+      parsedBody: string[];
     };
 };
 
