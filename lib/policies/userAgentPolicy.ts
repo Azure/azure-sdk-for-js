@@ -26,6 +26,8 @@ function getUserAgentString(telemetryInfo: TelemetryInfo[], keySeparator = " ", 
     }).join(keySeparator);
 }
 
+export const getDefaultUserAgentHeaderName = getDefaultUserAgentKey;
+
 export function getDefaultUserAgentValue(): string {
     const runtimeInfo = getRuntimeInfo();
     const platformSpecificData = getPlatformSpecificData();

@@ -12,7 +12,7 @@ import { isStreamOperation, OperationSpec } from "./operationSpec";
 import { deserializationPolicy, DeserializationContentTypes } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-import { userAgentPolicy, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
+import { userAgentPolicy, getDefaultUserAgentHeaderName, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
@@ -84,6 +84,12 @@ export interface ServiceClientOptions {
    * The content-types that will be associated with JSON or XML serialization.
    */
   deserializationContentTypes?: DeserializationContentTypes;
+  /**
+   * The header name to use for the telemetry header while sending the request. If this is not
+   * specified, then "User-Agent" will be used when running on Node.js and "x-ms-command-name" will
+   * be used when running in a browser.
+   */
+  userAgentHeaderName?: string | ((defaultUserAgentHeaderName: string) => string);
   /**
    * The string to be set to the telemetry header while sending the request, or a function that
    * takes in the default user-agent string and returns the user-agent string that will be used.
@@ -374,6 +380,19 @@ function isRequestPolicyFactory(instance: any): instance is RequestPolicyFactory
   return typeof instance.create === "function";
 }
 
+function getValueOrFunctionResult(value: undefined | string | ((defaultValue: string) => string), defaultValueCreator: (() => string)): string {
+  let result: string;
+  if (typeof value === "string") {
+    result = value;
+  } else {
+    result = defaultValueCreator();
+    if (typeof value === "function") {
+      result = value(result);
+    }
+  }
+  return result;
+}
+
 function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
@@ -389,16 +408,11 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
     }
   }
 
-  let userAgentString: string;
-  if (typeof options.userAgent === "string") {
-    userAgentString = options.userAgent;
-  } else {
-    userAgentString = getDefaultUserAgentValue();
-    if (typeof options.userAgent === "function") {
-      userAgentString = options.userAgent(userAgentString);
-    }
+  const userAgentHeaderName: string = getValueOrFunctionResult(options.userAgentHeaderName, getDefaultUserAgentHeaderName);
+  const userAgentHeaderValue: string = getValueOrFunctionResult(options.userAgent, getDefaultUserAgentValue);
+  if (userAgentHeaderName && userAgentHeaderValue) {
+    factories.push(userAgentPolicy({ key: userAgentHeaderName, value: userAgentHeaderValue }));
   }
-  factories.push(userAgentPolicy({ value: userAgentString }));
   factories.push(redirectPolicy());
   factories.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 
