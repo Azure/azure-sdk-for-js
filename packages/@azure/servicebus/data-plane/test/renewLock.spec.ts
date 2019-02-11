@@ -18,7 +18,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
-import { purge } from "./testUtils";
+import { testSimpleMessages, purge } from "./testUtils";
 
 // Template starts
 
@@ -411,13 +411,7 @@ const onError: OnError = (err: MessagingError | Error) => {
   uncaughtErrorFromHandlers = err;
 };
 
-let testMessage: any;
-
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
-  testMessage = {
-    body: `hello-world-1 : ${Math.random()}`,
-    messageId: `test message ${Math.random()}`
-  };
   await purge(receiverClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -433,7 +427,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
 
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
@@ -446,8 +440,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1);
-  should.equal(msgs[0].body, testMessage.body);
-  should.equal(msgs[0].messageId, testMessage.messageId);
+  should.equal(msgs[0].body, testSimpleMessages.body);
+  should.equal(msgs[0].messageId, testSimpleMessages.messageId);
 
   // Verify initial lock expiry time on the message
   assertTimestampsAreApproximatelyEqual(
@@ -479,15 +473,15 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
 
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testMessage.body);
-  should.equal(msgs[0].messageId, testMessage.messageId);
+  should.equal(msgs[0].body, testSimpleMessages.body);
+  should.equal(msgs[0].messageId, testSimpleMessages.messageId);
 
   // Sleeping 30 seconds...
   await delay(lockDurationInMilliseconds + 1000);
@@ -514,15 +508,15 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
   const receiver = receiverClient.getReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testMessage.body);
-      should.equal(brokeredMessage.messageId, testMessage.messageId);
+      should.equal(brokeredMessage.body, testSimpleMessages.body);
+      should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
 
       // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
@@ -581,15 +575,15 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
   const receiver = receiverClient.getReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testMessage.body);
-      should.equal(brokeredMessage.messageId, testMessage.messageId);
+      should.equal(brokeredMessage.body, testSimpleMessages.body);
+      should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
 
       // Sleeping...
       await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);

@@ -50,11 +50,11 @@ export const databaseName: msRest.OperationURLParameter = {
     }
   }
 };
-export const eventHubConnectionName: msRest.OperationURLParameter = {
-  parameterPath: "eventHubConnectionName",
+export const dataConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "dataConnectionName",
   mapper: {
     required: true,
-    serializedName: "eventHubConnectionName",
+    serializedName: "dataConnectionName",
     type: {
       name: "String"
     }

@@ -13,70 +13,18 @@ import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
 import { delay } from "rhea-promise";
 
-export const testSimpleMessages: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`
-  }
-];
-
-export const testMessagesToSamePartitions: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy"
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy"
-  }
-];
+export const testSimpleMessages: SendableMessageInfo = {
+  body: "hello1",
+  messageId: `test message ${Math.random()}`,
+  partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+};
 
 export const testSessionId1 = "my-session";
-export const testSessionId2 = "my-session2";
-export const testMessagesWithSessions: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
-  }
-];
-export const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId2
-  }
-];
-export const testMessagesToSamePartitionsWithSessions: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy",
-    sessionId: testSessionId1
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    partitionKey: "dummy",
-    sessionId: testSessionId1
-  }
-];
+export const testMessagesWithSessions: SendableMessageInfo = {
+  body: "hello1",
+  messageId: `test message ${Math.random()}`,
+  sessionId: testSessionId1
+};
 
 export enum ClientType {
   PartitionedQueue,
