@@ -2314,6 +2314,17 @@ export interface ManagedInstance extends TrackedResource {
    * instance whose DNS zone this managed instance will share after creation.
    */
   dnsZonePartner?: string;
+  /**
+   * @member {boolean} [publicDataEndpointEnabled] Whether or not the public
+   * data endpoint is enabled.
+   */
+  publicDataEndpointEnabled?: boolean;
+  /**
+   * @member {ManagedInstanceProxyOverride} [proxyOverride] Connection type
+   * used for connecting to the instance. Possible values include: 'Proxy',
+   * 'Redirect', 'Default'
+   */
+  proxyOverride?: ManagedInstanceProxyOverride;
 }
 
 /**
@@ -2383,6 +2394,17 @@ export interface ManagedInstanceUpdate {
    * instance whose DNS zone this managed instance will share after creation.
    */
   dnsZonePartner?: string;
+  /**
+   * @member {boolean} [publicDataEndpointEnabled] Whether or not the public
+   * data endpoint is enabled.
+   */
+  publicDataEndpointEnabled?: boolean;
+  /**
+   * @member {ManagedInstanceProxyOverride} [proxyOverride] Connection type
+   * used for connecting to the instance. Possible values include: 'Proxy',
+   * 'Redirect', 'Default'
+   */
+  proxyOverride?: ManagedInstanceProxyOverride;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
@@ -4906,6 +4928,32 @@ export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing SensitivityLabel.
+ * A sensitivity label.
+ *
+ * @extends ProxyResource
+ */
+export interface SensitivityLabel extends ProxyResource {
+  /**
+   * @member {string} [labelName] The label name.
+   */
+  labelName?: string;
+  /**
+   * @member {string} [labelId] The label ID.
+   */
+  labelId?: string;
+  /**
+   * @member {string} [informationType] The information type.
+   */
+  informationType?: string;
+  /**
+   * @member {string} [informationTypeId] The information type ID.
+   */
+  informationTypeId?: string;
+}
+
+/**
+ * @interface
  * An interface representing DatabaseOperation.
  * A database operation.
  *
@@ -7081,6 +7129,40 @@ export interface LongTermRetentionBackupsListByServerOptionalParams extends msRe
 
 /**
  * @interface
+ * An interface representing SensitivityLabelsListCurrentByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SensitivityLabelsListCurrentByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SensitivityLabelsListRecommendedByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [skipToken]
+   */
+  skipToken?: string;
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
  * An interface representing CapabilitiesListByLocationOptionalParams.
  * Optional Parameters.
  *
@@ -7104,6 +7186,40 @@ export interface CapabilitiesListByLocationOptionalParams extends msRest.Request
  * @extends RequestOptionsBase
  */
 export interface ManagedInstanceKeysListByInstanceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [skipToken]
+   */
+  skipToken?: string;
   /**
    * @member {string} [filter] An OData filter expression that filters elements
    * in the collection.
@@ -7813,6 +7929,22 @@ export interface RestorePointListResult extends Array<RestorePoint> {
 
 /**
  * @interface
+ * An interface representing the SensitivityLabelListResult.
+ * A list of sensitivity labels.
+ *
+ * @extends Array<SensitivityLabel>
+ */
+export interface SensitivityLabelListResult extends Array<SensitivityLabel> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the DatabaseOperationListResult.
  * The response to a list database operations request
  *
@@ -8247,6 +8379,14 @@ export type FailoverGroupReplicationRole = 'Primary' | 'Secondary';
 export type IdentityType = 'SystemAssigned';
 
 /**
+ * Defines values for ManagedInstanceProxyOverride.
+ * Possible values include: 'Proxy', 'Redirect', 'Default'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedInstanceProxyOverride = 'Proxy' | 'Redirect' | 'Default';
+
+/**
  * Defines values for OperationOrigin.
  * Possible values include: 'user', 'system'
  * @readonly
@@ -8593,6 +8733,14 @@ export type LongTermRetentionDatabaseState = 'All' | 'Live' | 'Deleted';
  * @enum {string}
  */
 export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
+
+/**
+ * Defines values for SensitivityLabelSource.
+ * Possible values include: 'current', 'recommended'
+ * @readonly
+ * @enum {string}
+ */
+export type SensitivityLabelSource = 'current' | 'recommended';
 
 /**
  * Defines values for CapabilityGroup.
@@ -13780,6 +13928,120 @@ export type ManagedServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = Mana
 };
 
 /**
+ * Contains response data for the listCurrentByDatabase operation.
+ */
+export type SensitivityLabelsListCurrentByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabase operation.
+ */
+export type SensitivityLabelsListRecommendedByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SensitivityLabelsGetResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SensitivityLabelsCreateOrUpdateResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the listCurrentByDatabaseNext operation.
+ */
+export type SensitivityLabelsListCurrentByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabaseNext operation.
+ */
+export type SensitivityLabelsListRecommendedByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
  * Contains response data for the listByDatabase operation.
  */
 export type DatabaseOperationsListByDatabaseResponse = DatabaseOperationListResult & {
@@ -14840,5 +15102,119 @@ export type ServerVulnerabilityAssessmentsListByServerNextResponse = ServerVulne
        * The response body as parsed JSON or XML
        */
       parsedBody: ServerVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedDatabaseSensitivityLabelsGetResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the listCurrentByDatabase operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabase operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCurrentByDatabaseNext operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabaseNext operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
     };
 };
