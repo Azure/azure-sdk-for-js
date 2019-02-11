@@ -341,8 +341,12 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this._receiver || context.receiver!;
+      let clearExpiredSessionFlag = true;
       if (receiverError) {
         const sbError = translate(receiverError);
+        if (sbError.name === "SessionLockLostError") {
+          clearExpiredSessionFlag = false;
+        }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
             "The associated error is: %O",
@@ -381,6 +385,10 @@ export class MessageSession extends LinkEntity {
           this.name,
           this.sessionId
         );
+      }
+
+      if (this.sessionId && clearExpiredSessionFlag) {
+        delete this._context.expiredMessageSessions[this.sessionId];
       }
     };
 
