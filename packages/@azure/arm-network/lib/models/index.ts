@@ -7472,7 +7472,7 @@ export interface ConnectionStateSnapshot {
 export interface ConnectionMonitorQueryResult {
   /**
    * @member {ConnectionMonitorSourceStatus} [sourceStatus] Status of
-   * connection monitor source. Possible values include: 'Uknown', 'Active',
+   * connection monitor source. Possible values include: 'Unknown', 'Active',
    * 'Inactive'
    */
   sourceStatus?: ConnectionMonitorSourceStatus;
@@ -12066,11 +12066,11 @@ export type ConnectionStatus = 'Unknown' | 'Connected' | 'Disconnected' | 'Degra
 
 /**
  * Defines values for ConnectionMonitorSourceStatus.
- * Possible values include: 'Uknown', 'Active', 'Inactive'
+ * Possible values include: 'Unknown', 'Active', 'Inactive'
  * @readonly
  * @enum {string}
  */
-export type ConnectionMonitorSourceStatus = 'Uknown' | 'Active' | 'Inactive';
+export type ConnectionMonitorSourceStatus = 'Unknown' | 'Active' | 'Inactive';
 
 /**
  * Defines values for ConnectionState.
