@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import os from "os";
 import uuid from "uuid/v4";
 import {
   EventHubClient, EventPosition, TokenProvider, DefaultDataTransformer, Dictionary,
@@ -24,7 +25,7 @@ import {
 } from "./modelTypes";
 import {
   maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
-  defaultLeaseDurationInSeconds, defaultStartupScanDelayInSeconds, packageInfo, userAgentPrefix,
+  defaultLeaseDurationInSeconds, defaultStartupScanDelayInSeconds, packageInfo,
   defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds, defaultConsumerGroup
 } from "./util/constants";
 
@@ -270,11 +271,18 @@ export namespace HostContext {
   }
 
   /**
+   * @property {string} userAgent The user agent string for the EventHubs client.
+   * azure-sdk-for-js/azure-<package-name>/<package-version> (NODE-VERSION <node-version>; <os-type> <os-version>)
+   */
+  const userAgent: string = `azure-sdk-for-js/azure-event-processor-host/${
+    packageInfo.version
+    } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
+
+  /**
    * @ignore
    */
   export function getUserAgent(options: EventProcessorHostOptions): string {
-    const userAgentForEPH = `${userAgentPrefix}=${packageInfo.version}`;
-    const finalUserAgent = options.userAgent ? `${userAgentForEPH},${options.userAgent}` : userAgentForEPH;
+    const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
     return finalUserAgent;
   }
 

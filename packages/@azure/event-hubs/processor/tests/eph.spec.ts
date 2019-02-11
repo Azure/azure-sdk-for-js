@@ -5,6 +5,8 @@ import chai from "chai";
 import uuid from "uuid/v4";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
+import chaiString from "chai-string";
+chai.use(chaiString);
 import debugModule from "debug";
 const should = chai.should();
 const debug = debugModule("azure:eph:eph-spec");
@@ -40,11 +42,11 @@ describe("EPH", function (): void {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.5";
-      context.userAgent.should.equal(ua);
+      const uaPrefix = "azure-sdk-for-js/azure-event-processor-host/";
+      context.userAgent.should.include(uaPrefix);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
-      should.equal(properties["user-agent"], `/js-event-hubs,${ua}`);
+      properties["user-agent"].should.include(uaPrefix);
       should.equal(properties.product, "MSJSClient");
       done();
     });
@@ -62,11 +64,13 @@ describe("EPH", function (): void {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.5";
-      context.userAgent.should.equal(`${ua},${customua}`);
+      const uaPrefix = "azure-sdk-for-js/azure-event-processor-host/";
+      context.userAgent.should.include(uaPrefix);
+      context.userAgent.should.endWith(customua);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
-      should.equal(properties["user-agent"], `/js-event-hubs,${ua},${customua}`);
+      properties["user-agent"].userAgent.should.include(uaPrefix);
+      properties["user-agent"].userAgent.should.endWith(customua);
       should.equal(properties.product, "MSJSClient");
       done();
     });

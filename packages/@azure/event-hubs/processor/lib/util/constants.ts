@@ -15,9 +15,8 @@ export const metadataOwnerName = "owninghost";
 export const leaseLost = "leaselost";
 export const leaseIdMismatchWithLeaseOperation = "leaseidmismatchwithleaseoperation";
 export const leaseIdMismatchWithBlobOperation = "leaseidmismatchwithbloboperation";
-export const userAgentPrefix = "/js-event-processor-host";
 export const defaultConsumerGroup = "$default";
 export const packageInfo = {
   name: "@azure/event-processor-host",
-  version: "1.0.5"
+  version: "2.0.0-preview.1"
 };
