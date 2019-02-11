@@ -19,7 +19,13 @@ class SecurityInsights extends SecurityInsightsContext {
   // Operation groups
   operations: operations.Operations;
   alertRules: operations.AlertRules;
+  actions: operations.Actions;
+  cases: operations.Cases;
+  bookmarks: operations.Bookmarks;
   dataConnectors: operations.DataConnectors;
+  entities: operations.Entities;
+  officeConsents: operations.OfficeConsents;
+  productSettings: operations.ProductSettings;
 
   /**
    * Initializes a new instance of the SecurityInsights class.
@@ -31,7 +37,13 @@ class SecurityInsights extends SecurityInsightsContext {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.alertRules = new operations.AlertRules(this);
+    this.actions = new operations.Actions(this);
+    this.cases = new operations.Cases(this);
+    this.bookmarks = new operations.Bookmarks(this);
     this.dataConnectors = new operations.DataConnectors(this);
+    this.entities = new operations.Entities(this);
+    this.officeConsents = new operations.OfficeConsents(this);
+    this.productSettings = new operations.ProductSettings(this);
   }
 }
 

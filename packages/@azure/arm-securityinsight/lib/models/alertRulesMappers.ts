@@ -13,6 +13,14 @@ export {
   AlertRulesList,
   AlertRule,
   CloudError,
-  ScheduledAlertRule
+  Action,
+  Resource,
+  BaseResource,
+  ScheduledAlertRule,
+  CaseModel,
+  UserInfo,
+  Bookmark,
+  BookmarkPropertiesUpdatedBy,
+  OfficeConsent
 } from "../models/mappers";
 
