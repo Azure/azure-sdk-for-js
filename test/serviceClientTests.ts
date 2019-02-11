@@ -231,32 +231,7 @@ describe("ServiceClient", function () {
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
   });
 
-  it("should use userAgent string from options", async function () {
-    const httpClient: HttpClient = {
-      sendRequest: (request: WebResource) => {
-        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
-    };
-
-    const client1 = new ServiceClient(undefined, {
-      httpClient,
-      userAgent: "blah blah"
-    });
-
-    const response: RestResponse = await client1.sendOperationRequest(
-      {},
-      {
-        serializer: new Serializer(),
-        httpMethod: "GET",
-        baseUrl: "httpbin.org",
-        responses: {}
-      });
-
-    assert.strictEqual(response._response.status, 200);
-    assert.strictEqual(response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"), "blah blah");
-  });
-
-  it("should use userAgent header name from options", async function () {
+  it("should use userAgent header name value from options", async function () {
     const httpClient: HttpClient = {
       sendRequest: (request: WebResource) => {
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
@@ -280,6 +255,57 @@ describe("ServiceClient", function () {
 
     assert.strictEqual(response._response.status, 200);
     assert.strictEqual(response._response.request.headers.get("my-user-agent-key"), "blah blah");
+  });
+
+  it("should use userAgent header name function from options", async function () {
+    const httpClient: HttpClient = {
+      sendRequest: (request: WebResource) => {
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      }
+    };
+
+    const client1 = new ServiceClient(undefined, {
+      httpClient,
+      userAgentHeaderName: () => "my-user-agent-key-2",
+      userAgent: "blah blah"
+    });
+
+    const response: RestResponse = await client1.sendOperationRequest(
+      {},
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: {}
+      });
+
+    assert.strictEqual(response._response.status, 200);
+    assert.strictEqual(response._response.request.headers.get("my-user-agent-key-2"), "blah blah");
+  });
+
+  it("should use userAgent string from options", async function () {
+    const httpClient: HttpClient = {
+      sendRequest: (request: WebResource) => {
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      }
+    };
+
+    const client1 = new ServiceClient(undefined, {
+      httpClient,
+      userAgent: "blah blah"
+    });
+
+    const response: RestResponse = await client1.sendOperationRequest(
+      {},
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: {}
+      });
+
+    assert.strictEqual(response._response.status, 200);
+    assert.strictEqual(response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"), "blah blah");
   });
 
   it("should use userAgent function from options that appends to defaultUserAgent", async function () {
