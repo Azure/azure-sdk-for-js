@@ -11,7 +11,6 @@ import {
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
-import { delay } from "rhea-promise";
 
 export const testSimpleMessages: SendableMessageInfo = {
   body: "hello1",
@@ -44,7 +43,8 @@ export enum ClientType {
   TopicFilterTestSubscription
 }
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
-async function recreateQueue(queueName: string, parameters: SBQueue): Promise<void> {
+
+async function getEnvVars(): Promise<any> {
   if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
     throw new Error(
       "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
@@ -60,45 +60,46 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
       "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
     );
   }
-  let deleteFlag = 0;
+  if (!process.env.AZURE_SUBSCRIPTION_ID) {
+    throw new Error(
+      "Define AZURE_SUBSCRIPTION_ID in your environment before running integration tests."
+    );
+  }
+  if (!process.env.RESOURCE_GROUP) {
+    throw new Error("Define RESOURCE_GROUP in your environment before running integration tests.");
+  }
+  if (!process.env.SERVICEBUS_NAMESPACE) {
+    throw new Error(
+      "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
+    );
+  }
+  return {
+    clientId: process.env.ARM_SERVICEBUS_CLIENT_ID,
+    tenantId: process.env.ARM_SERVICEBUS_TENANT_ID,
+    secret: process.env.ARM_SERVICEBUS_SECRET,
+    subscriptionId: process.env.AZURE_SUBSCRIPTION_ID,
+    resourceGroup: process.env.RESOURCE_GROUP,
+    servicebusNamespace: process.env.SERVICEBUS_NAMESPACE
+  };
+}
+
+async function recreateQueue(queueName: string, parameters: SBQueue): Promise<void> {
+  const env = await getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(
-      process.env.ARM_SERVICEBUS_CLIENT_ID,
-      process.env.ARM_SERVICEBUS_SECRET,
-      process.env.ARM_SERVICEBUS_TENANT_ID
-    )
+    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
     .then(async (creds) => {
-      if (!process.env.AZURE_SUBSCRIPTION_ID) {
-        throw new Error(
-          "Define AZURE_SUBSCRIPTION_ID in your environment before running integration tests."
-        );
-      }
-      const client = await new ServiceBusManagementClient(creds, process.env.AZURE_SUBSCRIPTION_ID);
-      if (!process.env.RESOURCE_GROUP) {
-        throw new Error(
-          "Define RESOURCE_GROUP in your environment before running integration tests."
-        );
-      }
-      if (!process.env.SERVICEBUS_NAMESPACE) {
-        throw new Error(
-          "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
-        );
-      }
+      const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       await client.queues.deleteMethod(
-        process.env.RESOURCE_GROUP,
-        process.env.SERVICEBUS_NAMESPACE,
+        env.resourceGroup,
+        env.servicebusNamespace,
         queueName,
         function(error: any): void {
           if (error) throw error.message;
-          else deleteFlag = 1;
         }
       );
-      while (!deleteFlag) {
-        await delay(10);
-      }
       await client.queues.createOrUpdate(
-        process.env.RESOURCE_GROUP,
-        process.env.SERVICEBUS_NAMESPACE,
+        env.resourceGroup,
+        env.servicebusNamespace,
         queueName,
         parameters,
         function(error: any): void {
@@ -110,56 +111,24 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
       console.log(err.message);
     });
 }
+
 async function recreateTopic(topicName: string, parameters: SBTopic): Promise<void> {
-  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_SECRET) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
-    );
-  }
+  const env = await getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(
-      process.env.ARM_SERVICEBUS_CLIENT_ID,
-      process.env.ARM_SERVICEBUS_SECRET,
-      process.env.ARM_SERVICEBUS_TENANT_ID
-    )
+    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
     .then(async (creds) => {
-      if (!process.env.AZURE_SUBSCRIPTION_ID) {
-        throw new Error(
-          "Define AZURE_SUBSCRIPTION_ID in your environment before running integration tests."
-        );
-      }
-      const client = await new ServiceBusManagementClient(creds, process.env.AZURE_SUBSCRIPTION_ID);
-      if (!process.env.RESOURCE_GROUP) {
-        throw new Error(
-          "Define RESOURCE_GROUP in your environment before running integration tests."
-        );
-      }
-      if (!process.env.SERVICEBUS_NAMESPACE) {
-        throw new Error(
-          "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
-        );
-      }
+      const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       await client.topics.deleteMethod(
-        process.env.RESOURCE_GROUP,
-        process.env.SERVICEBUS_NAMESPACE,
+        env.resourceGroup,
+        env.servicebusNamespace,
         topicName,
         function(error: any): void {
           if (error) throw error.message;
         }
       );
       await client.topics.createOrUpdate(
-        process.env.RESOURCE_GROUP,
-        process.env.SERVICEBUS_NAMESPACE,
+        env.resourceGroup,
+        env.servicebusNamespace,
         topicName,
         parameters,
         function(error: any): void {
@@ -171,122 +140,58 @@ async function recreateTopic(topicName: string, parameters: SBTopic): Promise<vo
       console.log(err.message);
     });
 }
+
 async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
   parameters: SBSubscription
 ): Promise<void> {
-  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_SECRET) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
-    );
-  }
-  let deleteFlag = 0;
-  let createFlag = 0;
+  const env = await getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(
-      process.env.ARM_SERVICEBUS_CLIENT_ID,
-      process.env.ARM_SERVICEBUS_SECRET,
-      process.env.ARM_SERVICEBUS_TENANT_ID
-    )
+    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
     .then(async (creds) => {
-      if (!process.env.AZURE_SUBSCRIPTION_ID) {
-        throw new Error(
-          "Define AZURE_SUBSCRIPTION_ID in your environment before running integration tests."
-        );
-      }
-      const client = await new ServiceBusManagementClient(creds, process.env.AZURE_SUBSCRIPTION_ID);
-      if (!process.env.RESOURCE_GROUP) {
-        throw new Error(
-          "Define RESOURCE_GROUP in your environment before running integration tests."
-        );
-      }
-      if (!process.env.SERVICEBUS_NAMESPACE) {
-        throw new Error(
-          "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
-        );
-      }
-      console.log("before sub delete");
-      await client.subscriptions.deleteMethod(
-        process.env.RESOURCE_GROUP,
-        process.env.SERVICEBUS_NAMESPACE,
+      const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
+      await client.topics.deleteMethod(
+        env.resourceGroup,
+        env.servicebusNamespace,
+        topicName,
+        function(error: any): void {
+          if (error) throw error.message;
+        }
+      );
+      await client.topics.createOrUpdate(
+        env.resourceGroup,
+        env.servicebusNamespace,
+        topicName,
+        parameters,
+        function(error: any): void {
+          if (error) throw error.message;
+        }
+      );
+      await client.subscriptions.createOrUpdate(
+        env.resourceGroup,
+        env.servicebusNamespace,
         topicName,
         subscriptionName,
-        async function(error: any): Promise<void> {
+        parameters,
+        function(error: any): void {
           if (error) {
-            throw error.message;
-          } else {
-            deleteFlag = 1;
+            console.log(error.message);
           }
         }
       );
-      while (!deleteFlag) {
-        console.log("inside while for delete");
-        await delay(10);
-      }
-      console.log("after sub delete");
-      let errMsg: any = "Resource Conflict Occurred.";
-      let count = 1;
-      while (errMsg.search("Resource Conflict Occurred.") + 1) {
-        console.log("Create iteration : ", count);
-        if (!process.env.RESOURCE_GROUP) {
-          throw new Error(
-            "Define RESOURCE_GROUP in your environment before running integration tests."
-          );
-        }
-        if (!process.env.SERVICEBUS_NAMESPACE) {
-          throw new Error(
-            "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
-          );
-        }
-        try {
-          await client.subscriptions.createOrUpdate(
-            process.env.RESOURCE_GROUP,
-            process.env.SERVICEBUS_NAMESPACE,
-            topicName,
-            subscriptionName,
-            parameters,
-            function(error: any): void {
-              if (error) {
-                console.log("############");
-                console.log(error.message);
-                errMsg = error.message;
-                console.log("############");
-              } else {
-                errMsg = "";
-                createFlag = 1;
-              }
-            }
-          );
-        } catch (error) {
-          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        }
-        count++;
-      }
-      while (!createFlag) {
-        console.log("inside while for create");
-        await delay(10);
-      }
     });
 }
-
+let queueName: string;
+let topicName: string;
+let subscriptionName: string;
 export async function getSenderClient(
   namespace: Namespace,
   clientType: ClientType
 ): Promise<QueueClient | TopicClient> {
   switch (clientType) {
     case ClientType.PartitionedQueue:
-      let queueName = process.env.QUEUE_NAME || "partitioned-queue";
+      queueName = process.env.QUEUE_NAME || "partitioned-queue";
       await recreateQueue(queueName, {
         lockDuration: defaultLockDuration,
         enablePartitioning: true,
@@ -294,7 +199,7 @@ export async function getSenderClient(
       });
       return namespace.createQueueClient(queueName);
     case ClientType.PartitionedTopic:
-      let topicName = process.env.TOPIC_NAME || "partitioned-topic";
+      topicName = process.env.TOPIC_NAME || "partitioned-topic";
       await recreateTopic(topicName, {
         enablePartitioning: true,
         enableBatchedOperations: true
@@ -362,7 +267,7 @@ export async function getReceiverClient(
 ): Promise<QueueClient | SubscriptionClient> {
   switch (clientType) {
     case ClientType.PartitionedQueue:
-      let queueName = process.env.QUEUE_NAME || "partitioned-queue";
+      queueName = process.env.QUEUE_NAME || "partitioned-queue";
       await recreateQueue(queueName, {
         lockDuration: defaultLockDuration,
         enablePartitioning: true,
@@ -370,14 +275,12 @@ export async function getReceiverClient(
       });
       return namespace.createQueueClient(queueName);
     case ClientType.PartitionedSubscription:
-      console.log("before creating sub");
-      let topicName = process.env.TOPIC_NAME || "partitioned-topic";
-      let subscriptionName = process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
+      topicName = process.env.TOPIC_NAME || "partitioned-topic";
+      subscriptionName = process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
       await recreateSubscription(topicName, subscriptionName, {
         lockDuration: defaultLockDuration,
         enableBatchedOperations: true
       });
-      console.log("after creating sub");
       return namespace.createSubscriptionClient(topicName, subscriptionName);
     case ClientType.UnpartitionedQueue:
       queueName = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
