@@ -100,7 +100,37 @@ export async function getSenderClient(
 ): Promise<QueueClient | TopicClient> {
   switch (clientType) {
     case ClientType.PartitionedQueue:
-      const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "";
+      if (!process.env.AZURE_SUBSCRIPTION_ID) {
+        throw new Error(
+          "Define AZURE_SUBSCRIPTION_ID in your environment before running integration tests."
+        );
+      }
+      if (!process.env.RESOURCE_GROUP) {
+        throw new Error(
+          "Define RESOURCE_GROUP in your environment before running integration tests."
+        );
+      }
+      if (!process.env.SERVICEBUS_NAMESPACE) {
+        throw new Error(
+          "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
+        );
+      }
+      if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
+        throw new Error(
+          "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
+        );
+      }
+      if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
+        throw new Error(
+          "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
+        );
+      }
+      if (!process.env.ARM_SERVICEBUS_SECRET) {
+        throw new Error(
+          "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
+        );
+      }
+      const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID || "";
       const queueName = process.env.QUEUE_NAME || "partitioned-queue";
       await msRestNodeAuth
         .loginWithServicePrincipalSecret(
