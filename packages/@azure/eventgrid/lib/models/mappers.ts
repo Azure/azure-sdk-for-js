@@ -2689,6 +2689,135 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: msRest.Composite
   }
 };
 
+export const MapsGeofenceEventProperties: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceEventProperties",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceEventProperties",
+    modelProperties: {
+      expiredGeofenceGeometryId: {
+        serializedName: "expiredGeofenceGeometryId",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      geometries: {
+        serializedName: "geometries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MapsGeofenceGeometry"
+            }
+          }
+        }
+      },
+      invalidPeriodGeofenceGeometryId: {
+        serializedName: "invalidPeriodGeofenceGeometryId",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      isEventPublished: {
+        serializedName: "isEventPublished",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const MapsGeofenceEnteredEventData: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceEnteredEventData",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceEnteredEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceExitedEventData: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceExitedEventData",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceExitedEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceResultEventData: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceResultEventData",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceResultEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceGeometry: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceGeometry",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceGeometry",
+    modelProperties: {
+      deviceId: {
+        serializedName: "deviceId",
+        type: {
+          name: "String"
+        }
+      },
+      distance: {
+        serializedName: "distance",
+        type: {
+          name: "Number"
+        }
+      },
+      geometryId: {
+        serializedName: "geometryId",
+        type: {
+          name: "String"
+        }
+      },
+      nearestLat: {
+        serializedName: "nearestLat",
+        type: {
+          name: "Number"
+        }
+      },
+      nearestLon: {
+        serializedName: "nearestLon",
+        type: {
+          name: "Number"
+        }
+      },
+      udId: {
+        serializedName: "udId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'MediaJobOutput' : MediaJobOutput,
   'MediaJobOutput.#Microsoft.Media.JobOutputAsset' : MediaJobOutputAsset

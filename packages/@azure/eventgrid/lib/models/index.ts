@@ -2206,6 +2206,117 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
   readonly discontinuityGap?: string;
 }
 
+/**
+ * @interface
+ * An interface representing MapsGeofenceEventProperties.
+ * Schema of the Data property of an EventGridEvent for a Geofence event
+ * (GeofenceEntered, GeofenceExited, GeofenceResult).
+ *
+ */
+export interface MapsGeofenceEventProperties {
+  /**
+   * @member {string[]} [expiredGeofenceGeometryId] Lists of the geometry ID of
+   * the geofence which is expired relative to the user time in the request.
+   */
+  expiredGeofenceGeometryId?: string[];
+  /**
+   * @member {MapsGeofenceGeometry[]} [geometries] Lists the fence geometries
+   * that either fully contain the coordinate position or have an overlap with
+   * the searchBuffer around the fence.
+   */
+  geometries?: MapsGeofenceGeometry[];
+  /**
+   * @member {string[]} [invalidPeriodGeofenceGeometryId] Lists of the geometry
+   * ID of the geofence which is in invalid period relative to the user time in
+   * the request.
+   */
+  invalidPeriodGeofenceGeometryId?: string[];
+  /**
+   * @member {boolean} [isEventPublished] True if at least one event is
+   * published to the Azure Maps event subscriber, false if no event is
+   * published to the Azure Maps event subscriber.
+   */
+  isEventPublished?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MapsGeofenceEnteredEventData.
+ * Schema of the Data property of an EventGridEvent for a
+ * Microsoft.Maps.GeofenceEntered event.
+ *
+ * @extends MapsGeofenceEventProperties
+ */
+export interface MapsGeofenceEnteredEventData extends MapsGeofenceEventProperties {
+}
+
+/**
+ * @interface
+ * An interface representing MapsGeofenceExitedEventData.
+ * Schema of the Data property of an EventGridEvent for a
+ * Microsoft.Maps.GeofenceExited event.
+ *
+ * @extends MapsGeofenceEventProperties
+ */
+export interface MapsGeofenceExitedEventData extends MapsGeofenceEventProperties {
+}
+
+/**
+ * @interface
+ * An interface representing MapsGeofenceResultEventData.
+ * Schema of the Data property of an EventGridEvent for a
+ * Microsoft.Maps.GeofenceResult event.
+ *
+ * @extends MapsGeofenceEventProperties
+ */
+export interface MapsGeofenceResultEventData extends MapsGeofenceEventProperties {
+}
+
+/**
+ * @interface
+ * An interface representing MapsGeofenceGeometry.
+ * The geofence geometry.
+ *
+ */
+export interface MapsGeofenceGeometry {
+  /**
+   * @member {string} [deviceId] ID of the device.
+   */
+  deviceId?: string;
+  /**
+   * @member {number} [distance] Distance from the coordinate to the closest
+   * border of the geofence. Positive means the coordinate is outside of the
+   * geofence. If the coordinate is outside of the geofence, but more than the
+   * value of searchBuffer away from the closest geofence border, then the
+   * value is 999. Negative means the coordinate is inside of the geofence. If
+   * the coordinate is inside the polygon, but more than the value of
+   * searchBuffer away from the closest geofencing border,then the value is
+   * -999. A value of 999 means that there is great confidence the coordinate
+   * is well outside the geofence. A value of -999 means that there is great
+   * confidence the coordinate is well within the geofence.
+   */
+  distance?: number;
+  /**
+   * @member {string} [geometryId] The unique ID for the geofence geometry.
+   */
+  geometryId?: string;
+  /**
+   * @member {number} [nearestLat] Latitude of the nearest point of the
+   * geometry.
+   */
+  nearestLat?: number;
+  /**
+   * @member {number} [nearestLon] Longitude of the nearest point of the
+   * geometry.
+   */
+  nearestLon?: number;
+  /**
+   * @member {string} [udId] The unique id returned from user upload service
+   * when uploading a geofence. Will not be included in geofencing post API.
+   */
+  udId?: string;
+}
+
 
 /**
  * Defines values for MediaJobState.
