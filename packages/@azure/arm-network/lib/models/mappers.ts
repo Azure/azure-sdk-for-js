@@ -4818,6 +4818,12 @@ export const AzureFirewall: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      threatIntelMode: {
+        serializedName: "properties.threatIntelMode",
+        type: {
+          name: "String"
+        }
+      },
       etag: {
         readOnly: true,
         serializedName: "etag",

@@ -3200,7 +3200,7 @@ export interface AzureFirewallIPConfiguration extends SubResource {
 export interface AzureFirewallRCAction {
   /**
    * @member {AzureFirewallRCActionType} [type] The type of action. Possible
-   * values include: 'Allow', 'Deny'
+   * values include: 'Allow', 'Deny', 'Alert'
    */
   type?: AzureFirewallRCActionType;
 }
@@ -3517,6 +3517,12 @@ export interface AzureFirewall extends Resource {
    * 'Deleting', 'Failed'
    */
   provisioningState?: ProvisioningState;
+  /**
+   * @member {AzureFirewallThreatIntelMode} [threatIntelMode] The operation
+   * mode for Threat Intelligence. Possible values include: 'Alert', 'Deny',
+   * 'Off'
+   */
+  threatIntelMode?: AzureFirewallThreatIntelMode;
   /**
    * @member {string} [etag] Gets a unique read-only string that changes
    * whenever the resource is updated.
@@ -11743,11 +11749,11 @@ export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed'
 
 /**
  * Defines values for AzureFirewallRCActionType.
- * Possible values include: 'Allow', 'Deny'
+ * Possible values include: 'Allow', 'Deny', 'Alert'
  * @readonly
  * @enum {string}
  */
-export type AzureFirewallRCActionType = 'Allow' | 'Deny';
+export type AzureFirewallRCActionType = 'Allow' | 'Deny' | 'Alert';
 
 /**
  * Defines values for AzureFirewallApplicationRuleProtocolType.
@@ -11772,6 +11778,14 @@ export type AzureFirewallNatRCActionType = 'Snat' | 'Dnat';
  * @enum {string}
  */
 export type AzureFirewallNetworkRuleProtocol = 'TCP' | 'UDP' | 'Any' | 'ICMP';
+
+/**
+ * Defines values for AzureFirewallThreatIntelMode.
+ * Possible values include: 'Alert', 'Deny', 'Off'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureFirewallThreatIntelMode = 'Alert' | 'Deny' | 'Off';
 
 /**
  * Defines values for DdosCustomPolicyProtocol.
