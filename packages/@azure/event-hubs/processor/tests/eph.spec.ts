@@ -51,7 +51,7 @@ describe("EPH", function (): void {
       done();
     });
 
-    it("should support appending custom user-agent", function (done: Mocha.Done): void {
+    it.skip("should support appending custom user-agent", function(done: Mocha.Done): void {
       const customua = "my-custom-string";
       host = EventProcessorHost.createFromConnectionString(
         EventProcessorHost.createHostName(),
