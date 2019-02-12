@@ -16,7 +16,7 @@ npm install @azure/cognitiveservices-textanalytics
 
 ## How to use
 
-### nodejs - Authentication, client creation and 56f30ceeeda5650db055a3c7  as an example written in TypeScript.
+### nodejs - Authentication, client creation and detectLanguage  as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -34,7 +34,7 @@ const languageBatchInput = {
     text: "testtext"
   }]
 };
-client.56f30ceeeda5650db055a3c7(showStats, languageBatchInput).then((result) => {
+client.detectLanguage(showStats, languageBatchInput).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -42,7 +42,7 @@ client.56f30ceeeda5650db055a3c7(showStats, languageBatchInput).then((result) => 
 });
 ```
 
-### browser - Authentication, client creation and 56f30ceeeda5650db055a3c7  as an example written in javascript.
+### browser - Authentication, client creation and detectLanguage  as an example written in javascript.
 
 - index.html
 ```html
@@ -65,7 +65,7 @@ client.56f30ceeeda5650db055a3c7(showStats, languageBatchInput).then((result) => 
           text: "testtext"
         }]
       };
-      client.56f30ceeeda5650db055a3c7(showStats, languageBatchInput).then((result) => {
+      client.detectLanguage(showStats, languageBatchInput).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {

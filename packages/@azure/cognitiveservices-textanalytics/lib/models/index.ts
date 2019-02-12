@@ -492,12 +492,12 @@ export interface SentimentBatchResult {
 
 /**
  * @interface
- * An interface representing TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams.
+ * An interface representing TextAnalyticsClientDetectLanguageOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientDetectLanguageOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {boolean} [showStats] (optional) if set to true, response will
    * contain input and document level statistics.
@@ -512,12 +512,12 @@ export interface TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams exten
 
 /**
  * @interface
- * An interface representing TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams.
+ * An interface representing TextAnalyticsClientEntitiesOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientEntitiesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {boolean} [showStats] (optional) if set to true, response will
    * contain input and document level statistics.
@@ -532,12 +532,12 @@ export interface TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams exten
 
 /**
  * @interface
- * An interface representing TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams.
+ * An interface representing TextAnalyticsClientKeyPhrasesOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientKeyPhrasesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {boolean} [showStats] (optional) if set to true, response will
    * contain input and document level statistics.
@@ -553,12 +553,12 @@ export interface TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams exten
 
 /**
  * @interface
- * An interface representing TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams.
+ * An interface representing TextAnalyticsClientSentimentOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams extends msRest.RequestOptionsBase {
+export interface TextAnalyticsClientSentimentOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {boolean} [showStats] (optional) if set to true, response will
    * contain input and document level statistics.
@@ -572,9 +572,9 @@ export interface TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams exten
 }
 
 /**
- * Contains response data for the 56f30ceeeda5650db055a3c7 operation.
+ * Contains response data for the detectLanguage operation.
  */
-export type 56f30ceeeda5650db055a3c7Response = LanguageBatchResult & {
+export type DetectLanguageResponse = LanguageBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -591,9 +591,9 @@ export type 56f30ceeeda5650db055a3c7Response = LanguageBatchResult & {
 };
 
 /**
- * Contains response data for the 5ac4251d5b4ccd1554da7634 operation.
+ * Contains response data for the entities operation.
  */
-export type 5ac4251d5b4ccd1554da7634Response = EntitiesBatchResult & {
+export type EntitiesResponse = EntitiesBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -610,9 +610,9 @@ export type 5ac4251d5b4ccd1554da7634Response = EntitiesBatchResult & {
 };
 
 /**
- * Contains response data for the 56f30ceeeda5650db055a3c6 operation.
+ * Contains response data for the keyPhrases operation.
  */
-export type 56f30ceeeda5650db055a3c6Response = KeyPhraseBatchResult & {
+export type KeyPhrasesResponse = KeyPhraseBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -629,9 +629,9 @@ export type 56f30ceeeda5650db055a3c6Response = KeyPhraseBatchResult & {
 };
 
 /**
- * Contains response data for the 56f30ceeeda5650db055a3c9 operation.
+ * Contains response data for the sentiment operation.
  */
-export type 56f30ceeeda5650db055a3c9Response = {
+export type SentimentResponse = {
   /**
    * The parsed response body.
    */

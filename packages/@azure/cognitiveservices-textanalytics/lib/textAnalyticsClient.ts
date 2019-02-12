@@ -27,127 +27,120 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
   }
 
   /**
-   * The API returns the detected language and a numeric score between 0 and 1. Scores close to 1
-   * indicate 100% certainty that the identified language is true. A total of 120 languages are
-   * supported.
-   * @summary Detect Language
+   * Scores close to 1 indicate 100% certainty that the identified language is true. A total of 120
+   * languages are supported.
+   * @summary The API returns the detected language and a numeric score between 0 and 1.
    * @param [options] The optional parameters
-   * @returns Promise<Models.56f30ceeeda5650db055a3c7Response>
+   * @returns Promise<Models.DetectLanguageResponse>
    */
-  56f30ceeeda5650db055a3c7(options?: Models.TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams): Promise<Models.56f30ceeeda5650db055a3c7Response>;
+  detectLanguage(options?: Models.TextAnalyticsClientDetectLanguageOptionalParams): Promise<Models.DetectLanguageResponse>;
   /**
    * @param callback The callback
    */
-  56f30ceeeda5650db055a3c7(callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
+  detectLanguage(callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  56f30ceeeda5650db055a3c7(options: Models.TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams, callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
-  56f30ceeeda5650db055a3c7(options?: Models.TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams, callback?: msRest.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.56f30ceeeda5650db055a3c7Response> {
+  detectLanguage(options: Models.TextAnalyticsClientDetectLanguageOptionalParams, callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
+  detectLanguage(options?: Models.TextAnalyticsClientDetectLanguageOptionalParams, callback?: msRest.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.DetectLanguageResponse> {
     return this.sendOperationRequest(
       {
         options
       },
-      56f30ceeeda5650db055a3c7OperationSpec,
-      callback) as Promise<Models.56f30ceeeda5650db055a3c7Response>;
+      detectLanguageOperationSpec,
+      callback) as Promise<Models.DetectLanguageResponse>;
   }
 
   /**
-   * The API returns a list of known entities and general named entities (\"Person\", \"Location\",
-   * \"Organization\" etc) in a given document. Known entities are returned with Wikipedia Id and
-   * Wikipedia link, and also Bing Id which can be used in Bing Entity Search API. General named
-   * entities are returned with entity types. If a general named entity is also a known entity, then
-   * all information regarding it (Wikipedia Id, Bing Id, entity type etc) will be returned. See the
-   * <a
-   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-entity-linking#supported-types-for-named-entity-recognition">Supported
-   * Entity Types in Text Analytics API</a> for the list of supported Entity Types. See the <a
+   * To get even more information on each recognized entity we recommend using the Bing Entity Search
+   * API by querying for the recognized entities names. See the <a
    * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages">Supported
    * languages in Text Analytics API</a> for the list of enabled languages.
-   *
-   * @summary Entities
+   * @summary The API returns a list of recognized entities in a given document.
    * @param [options] The optional parameters
-   * @returns Promise<Models.5ac4251d5b4ccd1554da7634Response>
+   * @returns Promise<Models.EntitiesResponse>
    */
-  5ac4251d5b4ccd1554da7634(options?: Models.TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams): Promise<Models.5ac4251d5b4ccd1554da7634Response>;
+  entities(options?: Models.TextAnalyticsClientEntitiesOptionalParams): Promise<Models.EntitiesResponse>;
   /**
    * @param callback The callback
    */
-  5ac4251d5b4ccd1554da7634(callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
+  entities(callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  5ac4251d5b4ccd1554da7634(options: Models.TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
-  5ac4251d5b4ccd1554da7634(options?: Models.TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.5ac4251d5b4ccd1554da7634Response> {
+  entities(options: Models.TextAnalyticsClientEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
+  entities(options?: Models.TextAnalyticsClientEntitiesOptionalParams, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
     return this.sendOperationRequest(
       {
         options
       },
-      5ac4251d5b4ccd1554da7634OperationSpec,
-      callback) as Promise<Models.5ac4251d5b4ccd1554da7634Response>;
+      entitiesOperationSpec,
+      callback) as Promise<Models.EntitiesResponse>;
   }
 
   /**
-   * The API returns a list of strings denoting the key talking points in the input text. See the <a
-   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages">Supported
-   * languages in Text Analytics API</a> for the list of enabled languages.
-   * @summary Key Phrases
+   * See the <a
+   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview#supported-languages">Text
+   * Analytics Documentation</a> for details about the languages that are supported by key phrase
+   * extraction.
+   * @summary The API returns a list of strings denoting the key talking points in the input text.
    * @param [options] The optional parameters
-   * @returns Promise<Models.56f30ceeeda5650db055a3c6Response>
+   * @returns Promise<Models.KeyPhrasesResponse>
    */
-  56f30ceeeda5650db055a3c6(options?: Models.TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams): Promise<Models.56f30ceeeda5650db055a3c6Response>;
+  keyPhrases(options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams): Promise<Models.KeyPhrasesResponse>;
   /**
    * @param callback The callback
    */
-  56f30ceeeda5650db055a3c6(callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
+  keyPhrases(callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  56f30ceeeda5650db055a3c6(options: Models.TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams, callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
-  56f30ceeeda5650db055a3c6(options?: Models.TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams, callback?: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.56f30ceeeda5650db055a3c6Response> {
+  keyPhrases(options: Models.TextAnalyticsClientKeyPhrasesOptionalParams, callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
+  keyPhrases(options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams, callback?: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.KeyPhrasesResponse> {
     return this.sendOperationRequest(
       {
         options
       },
-      56f30ceeeda5650db055a3c6OperationSpec,
-      callback) as Promise<Models.56f30ceeeda5650db055a3c6Response>;
+      keyPhrasesOperationSpec,
+      callback) as Promise<Models.KeyPhrasesResponse>;
   }
 
   /**
-   * The API returns a numeric score between 0 and 1. Scores close to 1 indicate positive sentiment,
-   * while scores close to 0 indicate negative sentiment. A score of 0.5 indicates the lack of
-   * sentiment (e.g. a factoid statement). See the <a
-   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages">Supported
-   * languages in Text Analytics API</a> for the list of enabled languages.
-   * @summary Sentiment
+   * Scores close to 1 indicate positive sentiment, while scores close to 0 indicate negative
+   * sentiment. A score of 0.5 indicates the lack of sentiment (e.g. a factoid statement). See the <a
+   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview#supported-languages">Text
+   * Analytics Documentation</a> for details about the languages that are supported by sentiment
+   * analysis.
+   * @summary The API returns a numeric score between 0 and 1.
    * @param [options] The optional parameters
-   * @returns Promise<Models.56f30ceeeda5650db055a3c9Response>
+   * @returns Promise<Models.SentimentResponse>
    */
-  56f30ceeeda5650db055a3c9(options?: Models.TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams): Promise<Models.56f30ceeeda5650db055a3c9Response>;
+  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams): Promise<Models.SentimentResponse>;
   /**
    * @param callback The callback
    */
-  56f30ceeeda5650db055a3c9(callback: msRest.ServiceCallback<any>): void;
+  sentiment(callback: msRest.ServiceCallback<any>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  56f30ceeeda5650db055a3c9(options: Models.TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams, callback: msRest.ServiceCallback<any>): void;
-  56f30ceeeda5650db055a3c9(options?: Models.TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams, callback?: msRest.ServiceCallback<any>): Promise<Models.56f30ceeeda5650db055a3c9Response> {
+  sentiment(options: Models.TextAnalyticsClientSentimentOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams, callback?: msRest.ServiceCallback<any>): Promise<Models.SentimentResponse> {
     return this.sendOperationRequest(
       {
         options
       },
-      56f30ceeeda5650db055a3c9OperationSpec,
-      callback) as Promise<Models.56f30ceeeda5650db055a3c9Response>;
+      sentimentOperationSpec,
+      callback) as Promise<Models.SentimentResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const 56f30ceeeda5650db055a3c7OperationSpec: msRest.OperationSpec = {
+const detectLanguageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "languages",
   urlParameters: [
@@ -174,7 +167,7 @@ const 56f30ceeeda5650db055a3c7OperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const 5ac4251d5b4ccd1554da7634OperationSpec: msRest.OperationSpec = {
+const entitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "entities",
   urlParameters: [
@@ -201,7 +194,7 @@ const 5ac4251d5b4ccd1554da7634OperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const 56f30ceeeda5650db055a3c6OperationSpec: msRest.OperationSpec = {
+const keyPhrasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "keyPhrases",
   urlParameters: [
@@ -228,7 +221,7 @@ const 56f30ceeeda5650db055a3c6OperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const 56f30ceeeda5650db055a3c9OperationSpec: msRest.OperationSpec = {
+const sentimentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "sentiment",
   urlParameters: [
