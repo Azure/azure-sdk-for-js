@@ -136,7 +136,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       }
     }
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
   }
 
@@ -409,7 +409,7 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
       sessionId: testSessionId1
     });
     const receivedMsgs = await sessionReceiver.receiveBatch(1);
-    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       receivedMsgs[0].messageId,
       testMessagesWithSessions.messageId,
@@ -828,7 +828,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
     await delay(5000);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       receivedMsgs[0].body,
       testMessagesWithSessions.body,

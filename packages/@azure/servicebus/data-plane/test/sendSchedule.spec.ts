@@ -285,7 +285,7 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
 
     const msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs.length, 2);
+    should.equal(msgs.length, 2,"Unexpected number of messages");
 
     const msgEnqueueTime1 = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
     const msgEnqueueTime2 = msgs[1].enqueuedTimeUtc ? msgs[1].enqueuedTimeUtc.valueOf() : 0;

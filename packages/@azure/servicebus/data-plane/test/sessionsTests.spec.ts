@@ -105,12 +105,12 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
       sessionId: "non" + testSessionId1
     });
     let msgs = await receiver.receiveBatch(1, 10);
-    should.equal(msgs.length, 0);
+    should.equal(msgs.length, 0, "Unexpected number of messages");
 
     await receiver.close();
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(1);
-    should.equal(msgs.length, 1);
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(Array.isArray(msgs), true);
     should.equal(
       msgs[0].body,
@@ -178,7 +178,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
       return Promise.resolve();
     }, unExpectedErrorHandler);
     await delay(2000);
-    should.equal(receivedMsgs.length, 0);
+    should.equal(receivedMsgs.length, 0, "Unexpected number of messages");
     await receiver.close();
 
     receiver = await receiverClient.getSessionReceiver();
