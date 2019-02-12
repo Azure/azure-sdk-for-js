@@ -10,7 +10,7 @@ This package contains an isomorphic SDK for DataBoxEdgeManagementClient.
 ### How to Install
 
 ```bash
-npm install @azure/arm-edgegateway
+npm install @azure/arm-edgedateway
 ```
 
 ### How to use
@@ -29,7 +29,7 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { DataBoxEdgeManagementClient, DataBoxEdgeManagementModels, DataBoxEdgeManagementMappers } from "@azure/arm-edgegateway";
+import { DataBoxEdgeManagementClient, DataBoxEdgeManagementModels, DataBoxEdgeManagementMappers } from "@azure/arm-edgedateway";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -60,11 +60,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-edgegateway sample</title>
+    <title>@azure/arm-edgedateway sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-edgegateway/dist/arm-edgegateway.js"></script>
+    <script src="node_modules/@azure/arm-edgedateway/dist/arm-edgedateway.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -76,7 +76,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmEdgegateway.DataBoxEdgeManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmEdgedateway.DataBoxEdgeManagementClient(res.creds, subscriptionId);
         client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);

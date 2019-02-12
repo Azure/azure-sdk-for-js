@@ -12,9 +12,9 @@ const config = {
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/arm-edgegateway.js",
+    file: "./dist/arm-edgedateway.js",
     format: "umd",
-    name: "Azure.ArmEdgegateway",
+    name: "Azure.ArmEdgedateway",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",
