@@ -441,7 +441,11 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1);
   should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
-  should.equal(msgs[0].messageId, testSimpleMessages.messageId);
+  should.equal(
+    msgs[0].messageId,
+    testSimpleMessages.messageId,
+    "MessageId is different than expected"
+  );
 
   // Verify initial lock expiry time on the message
   assertTimestampsAreApproximatelyEqual(
@@ -481,7 +485,11 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
   should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
-  should.equal(msgs[0].messageId, testSimpleMessages.messageId);
+  should.equal(
+    msgs[0].messageId,
+    testSimpleMessages.messageId,
+    "MessageId is different than expected"
+  );
 
   // Sleeping 30 seconds...
   await delay(lockDurationInMilliseconds + 1000);
@@ -520,7 +528,11 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
         testSimpleMessages.body,
         "MessageBody is different than expected"
       );
-      should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
+      should.equal(
+        brokeredMessage.messageId,
+        testSimpleMessages.messageId,
+        "MessageId is different than expected"
+      );
 
       // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
@@ -591,7 +603,11 @@ async function testAutoLockRenewalConfigBehavior(
         testSimpleMessages.body,
         "MessageBody is different than expected"
       );
-      should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
+      should.equal(
+        brokeredMessage.messageId,
+        testSimpleMessages.messageId,
+        "MessageId is different than expected"
+      );
 
       // Sleeping...
       await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);

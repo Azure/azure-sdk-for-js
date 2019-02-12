@@ -412,8 +412,12 @@ describe("Batch Receiver - Complete/Abandon/Defer/Deadletter normal message", fu
       throw "No message received for sequence number";
     }
     should.equal(deferredMsgs.body, testMessages.body, "MessageBody is different than expected");
-    should.equal(deferredMsgs.messageId, testMessages.messageId);
-    should.equal(deferredMsgs.deliveryCount, 1);
+    should.equal(
+      deferredMsgs.messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
 
     await deferredMsgs.complete();
 
@@ -604,9 +608,17 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     const receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-    should.equal(receivedMsgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
-    should.equal(receivedMsgs[0].messageId, testSimpleMessages.body, "MessageBody is different than expected");
-    should.equal(receivedMsgs[0].deliveryCount, 0);
+    should.equal(
+      receivedMsgs[0].body,
+      testSimpleMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      receivedMsgs[0].messageId,
+      testSimpleMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(receivedMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     await receivedMsgs[0].deadLetter();
 
@@ -615,9 +627,17 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-    should.equal(deadLetterMsgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
-    should.equal(deadLetterMsgs[0].messageId, testSimpleMessages.messageId);
-    should.equal(deadLetterMsgs[0].deliveryCount, 0);
+    should.equal(
+      deadLetterMsgs[0].body,
+      testSimpleMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      deadLetterMsgs[0].messageId,
+      testSimpleMessages.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(deadLetterMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     return deadLetterMsgs[0];
   }
@@ -629,9 +649,21 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     const deadLetterMsgs = await deadletterClient.getReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-    should.equal(deadLetterMsgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
-    should.equal(deadLetterMsgs[0].messageId, testSimpleMessages.messageId);
-    should.equal(deadLetterMsgs[0].deliveryCount, expectedDeliverCount);
+    should.equal(
+      deadLetterMsgs[0].body,
+      testSimpleMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      deadLetterMsgs[0].messageId,
+      testSimpleMessages.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(
+      deadLetterMsgs[0].deliveryCount,
+      expectedDeliverCount,
+      "DeliveryCount is different than expected"
+    );
 
     await deadLetterMsgs[0].complete();
     await testPeekMsgsLength(deadletterClient, 0);
@@ -730,8 +762,16 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
-    should.equal(deferredMsgs.body, testSimpleMessages.body, "MessageBody is different than expected");
-    should.equal(deferredMsgs.messageId, testSimpleMessages.messageId);
+    should.equal(
+      deferredMsgs.body,
+      testSimpleMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      deferredMsgs.messageId,
+      testSimpleMessages.messageId,
+      "MessageId is different than expected"
+    );
 
     await deferredMsgs.complete();
 
@@ -989,7 +1029,7 @@ describe("Batch Receiver - Batching Receiver Misc Tests", function(): void {
     let receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-    should.equal(receivedMsgs[0].deliveryCount, 0);
+    should.equal(receivedMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
     should.equal(
       receivedMsgs[0].messageId,
       testMessages.messageId,

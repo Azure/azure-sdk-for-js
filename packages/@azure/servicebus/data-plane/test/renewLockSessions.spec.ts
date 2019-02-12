@@ -389,7 +389,11 @@ async function testBatchReceiverManualLockRenewalHappyCase(
     testMessagesWithSessions.body,
     "MessageBody is different than expected"
   );
-  should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+  should.equal(
+    msgs[0].messageId,
+    testMessagesWithSessions.messageId,
+    "MessageId is different than expected"
+  );
 
   // Verify initial lock expiry time on the session
   assertTimestampsAreApproximatelyEqual(
@@ -436,7 +440,11 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     testMessagesWithSessions.body,
     "MessageBody is different than expected"
   );
-  should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+  should.equal(
+    msgs[0].messageId,
+    testMessagesWithSessions.messageId,
+    "MessageId is different than expected"
+  );
 
   await delay(lockDurationInMilliseconds + 1000);
 
@@ -478,7 +486,11 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
         testMessagesWithSessions.body,
         "MessageBody is different than expected"
       );
-      should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
+      should.equal(
+        brokeredMessage.messageId,
+        testMessagesWithSessions.messageId,
+        "MessageId is different than expected"
+      );
 
       // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
@@ -555,7 +567,11 @@ async function testAutoLockRenewalConfigBehavior(
           testMessagesWithSessions.body,
           "MessageBody is different than expected"
         );
-        should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
+        should.equal(
+          brokeredMessage.messageId,
+          testMessagesWithSessions.messageId,
+          "MessageId is different than expected"
+        );
 
         messagesReceived.push(brokeredMessage);
 

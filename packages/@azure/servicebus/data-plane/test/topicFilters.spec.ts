@@ -379,7 +379,7 @@ describe("Topic Filters -  Get Rules", function(): void {
     };
     should.equal(rules.length, 1);
     rules.forEach((rule) => {
-      should.equal((<CorrelationFilter>rule.filter).correlationId, expectedFilter.correlationId);
+      should.equal((<CorrelationFilter>rule.filter).correlationId, expectedFilter.correlationId, "MessageId is different than expected");
       should.equal((<CorrelationFilter>rule.filter).label, expectedFilter.label);
       const userProperties = (<CorrelationFilter>rule.filter).userProperties;
       should.equal(Array.isArray(userProperties), true);
