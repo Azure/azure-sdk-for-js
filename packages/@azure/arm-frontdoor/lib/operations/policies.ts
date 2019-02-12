@@ -88,7 +88,7 @@ export class Policies {
   }
 
   /**
-   * Creates or update policy with specified ruleset name within a resource group.
+   * Creates or update policy with specified rule set name within a resource group.
    * @param resourceGroupName The name of the resource group.
    * @param policyName The name of the resource group.
    * @param parameters Policy to be created.
