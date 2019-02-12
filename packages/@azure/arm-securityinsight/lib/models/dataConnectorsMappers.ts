@@ -22,9 +22,8 @@ export {
   TIDataConnector,
   TIDataConnectorDataTypes,
   AlertsDataTypeOfDataConnectorAlerts,
-  DataConnectorWithAlerts,
-  AlertsDataTypeOfDataConnector,
   AADDataConnector,
+  AlertsDataTypeOfDataConnector,
   ASCDataConnector,
   MCASDataConnector
 } from "../models/mappers";

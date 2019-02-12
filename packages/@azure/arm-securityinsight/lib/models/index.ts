@@ -389,7 +389,7 @@ export interface Bookmark extends Resource {
 /**
  * Contains the possible cases for DataConnector.
  */
-export type DataConnectorUnion = DataConnector | OfficeDataConnector | TIDataConnector | DataConnectorWithAlertsUnion;
+export type DataConnectorUnion = DataConnector | OfficeDataConnector | TIDataConnector | AADDataConnector | ASCDataConnector | MCASDataConnector;
 
 /**
  * @interface
@@ -443,16 +443,16 @@ export interface DataConnectorKind1 {
 
 /**
  * @interface
- * An interface representing DataConnectorContextId.
- * Describes an Azure resource with kind.
+ * An interface representing DataConnectorTenantId.
+ * Properties data connector on tenant level.
  *
  */
-export interface DataConnectorContextId {
+export interface DataConnectorTenantId {
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
 }
 
 /**
@@ -542,10 +542,10 @@ export interface OfficeDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {OfficeDataConnectorDataTypes} [dataTypes] The available data
    * types for the connector.
@@ -611,10 +611,10 @@ export interface TIDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {TIDataConnectorDataTypes} [dataTypes] The available data types
    * for the connector.
@@ -623,53 +623,27 @@ export interface TIDataConnector {
 }
 
 /**
- * Contains the possible cases for DataConnectorWithAlerts.
+ * @interface
+ * An interface representing AlertsDataTypeOfDataConnectorAlerts.
+ * Alerts data type connection.
+ *
+ * @extends DataConnectorDataTypeCommon
  */
-export type DataConnectorWithAlertsUnion = DataConnectorWithAlerts | AADDataConnector | ASCDataConnector | MCASDataConnector;
+export interface AlertsDataTypeOfDataConnectorAlerts extends DataConnectorDataTypeCommon {
+}
 
 /**
  * @interface
- * An interface representing DataConnectorWithAlerts.
- * Data connector with alerts data type.
+ * An interface representing AlertsDataTypeOfDataConnector.
+ * Alerts data type for data connectors.
  *
  */
-export interface DataConnectorWithAlerts {
+export interface AlertsDataTypeOfDataConnector {
   /**
-   * @member {string} kind Polymorphic Discriminator
+   * @member {AlertsDataTypeOfDataConnectorAlerts} [alerts] Alerts data type
+   * connection.
    */
-  kind: "DataConnectorWithAlerts";
-  /**
-   * @member {string} [id] Azure resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [type] Azure resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [name] Azure resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [etag] Etag of the data connector.
-   */
-  etag?: string;
-  /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
-   */
-  contextId?: string;
-  /**
-   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
-   * types for the connector.
-   */
-  dataTypes?: AlertsDataTypeOfDataConnector;
+  alerts?: AlertsDataTypeOfDataConnectorAlerts;
 }
 
 /**
@@ -706,10 +680,10 @@ export interface AADDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
    * types for the connector.
@@ -751,15 +725,15 @@ export interface ASCDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
-   */
-  contextId?: string;
-  /**
    * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
    * types for the connector.
    */
   dataTypes?: AlertsDataTypeOfDataConnector;
+  /**
+   * @member {string} [subscriptionId] The subscription id to connect to, and
+   * get the data from.
+   */
+  subscriptionId?: string;
 }
 
 /**
@@ -796,10 +770,10 @@ export interface MCASDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
    * types for the connector.
@@ -809,26 +783,16 @@ export interface MCASDataConnector {
 
 /**
  * @interface
- * An interface representing AlertsDataTypeOfDataConnectorAlerts.
- * Alerts data type connection.
- *
- * @extends DataConnectorDataTypeCommon
- */
-export interface AlertsDataTypeOfDataConnectorAlerts extends DataConnectorDataTypeCommon {
-}
-
-/**
- * @interface
- * An interface representing AlertsDataTypeOfDataConnector.
- * Alerts data type for data connectors.
+ * An interface representing DataConnectorWithAlertsProperties.
+ * Data connector properties.
  *
  */
-export interface AlertsDataTypeOfDataConnector {
+export interface DataConnectorWithAlertsProperties {
   /**
-   * @member {AlertsDataTypeOfDataConnectorAlerts} [alerts] Alerts data type
-   * connection.
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
    */
-  alerts?: AlertsDataTypeOfDataConnectorAlerts;
+  dataTypes?: AlertsDataTypeOfDataConnector;
 }
 
 /**

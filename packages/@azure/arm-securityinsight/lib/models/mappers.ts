@@ -565,14 +565,14 @@ export const DataConnectorKind1: msRest.CompositeMapper = {
   }
 };
 
-export const DataConnectorContextId: msRest.CompositeMapper = {
-  serializedName: "DataConnectorContextId",
+export const DataConnectorTenantId: msRest.CompositeMapper = {
+  serializedName: "DataConnectorTenantId",
   type: {
     name: "Composite",
-    className: "DataConnectorContextId",
+    className: "DataConnectorTenantId",
     modelProperties: {
-      contextId: {
-        serializedName: "contextId",
+      tenantId: {
+        serializedName: "tenantId",
         type: {
           name: "String"
         }
@@ -652,8 +652,8 @@ export const OfficeDataConnector: msRest.CompositeMapper = {
     className: "OfficeDataConnector",
     modelProperties: {
       ...DataConnector.type.modelProperties,
-      contextId: {
-        serializedName: "properties.contextId",
+      tenantId: {
+        serializedName: "properties.tenantId",
         type: {
           name: "String"
         }
@@ -706,8 +706,8 @@ export const TIDataConnector: msRest.CompositeMapper = {
     className: "TIDataConnector",
     modelProperties: {
       ...DataConnector.type.modelProperties,
-      contextId: {
-        serializedName: "properties.contextId",
+      tenantId: {
+        serializedName: "properties.tenantId",
         type: {
           name: "String"
         }
@@ -719,71 +719,6 @@ export const TIDataConnector: msRest.CompositeMapper = {
           className: "TIDataConnectorDataTypes"
         }
       }
-    }
-  }
-};
-
-export const DataConnectorWithAlerts: msRest.CompositeMapper = {
-  serializedName: "DataConnectorWithAlerts",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
-    uberParent: "DataConnector",
-    className: "DataConnectorWithAlerts",
-    modelProperties: {
-      ...DataConnector.type.modelProperties,
-      contextId: {
-        serializedName: "properties.contextId",
-        type: {
-          name: "String"
-        }
-      },
-      dataTypes: {
-        serializedName: "properties.dataTypes",
-        type: {
-          name: "Composite",
-          className: "AlertsDataTypeOfDataConnector"
-        }
-      }
-    }
-  }
-};
-
-export const AADDataConnector: msRest.CompositeMapper = {
-  serializedName: "AzureActiveDirectory",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
-    uberParent: "DataConnector",
-    className: "AADDataConnector",
-    modelProperties: {
-      ...DataConnectorWithAlerts.type.modelProperties
-    }
-  }
-};
-
-export const ASCDataConnector: msRest.CompositeMapper = {
-  serializedName: "AzureSecurityCenter",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
-    uberParent: "DataConnector",
-    className: "ASCDataConnector",
-    modelProperties: {
-      ...DataConnectorWithAlerts.type.modelProperties
-    }
-  }
-};
-
-export const MCASDataConnector: msRest.CompositeMapper = {
-  serializedName: "MicrosoftCloudAppSecurity",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
-    uberParent: "DataConnector",
-    className: "MCASDataConnector",
-    modelProperties: {
-      ...DataConnectorWithAlerts.type.modelProperties
     }
   }
 };
@@ -810,6 +745,101 @@ export const AlertsDataTypeOfDataConnector: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AlertsDataTypeOfDataConnectorAlerts"
+        }
+      }
+    }
+  }
+};
+
+export const AADDataConnector: msRest.CompositeMapper = {
+  serializedName: "AzureActiveDirectory",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "AADDataConnector",
+    modelProperties: {
+      ...DataConnector.type.modelProperties,
+      tenantId: {
+        serializedName: "properties.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      dataTypes: {
+        serializedName: "properties.dataTypes",
+        type: {
+          name: "Composite",
+          className: "AlertsDataTypeOfDataConnector"
+        }
+      }
+    }
+  }
+};
+
+export const ASCDataConnector: msRest.CompositeMapper = {
+  serializedName: "AzureSecurityCenter",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "ASCDataConnector",
+    modelProperties: {
+      ...DataConnector.type.modelProperties,
+      dataTypes: {
+        serializedName: "properties.dataTypes",
+        type: {
+          name: "Composite",
+          className: "AlertsDataTypeOfDataConnector"
+        }
+      },
+      subscriptionId: {
+        serializedName: "properties.subscriptionId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MCASDataConnector: msRest.CompositeMapper = {
+  serializedName: "MicrosoftCloudAppSecurity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    className: "MCASDataConnector",
+    modelProperties: {
+      ...DataConnector.type.modelProperties,
+      tenantId: {
+        serializedName: "properties.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      dataTypes: {
+        serializedName: "properties.dataTypes",
+        type: {
+          name: "Composite",
+          className: "AlertsDataTypeOfDataConnector"
+        }
+      }
+    }
+  }
+};
+
+export const DataConnectorWithAlertsProperties: msRest.CompositeMapper = {
+  serializedName: "DataConnectorWithAlertsProperties",
+  type: {
+    name: "Composite",
+    className: "DataConnectorWithAlertsProperties",
+    modelProperties: {
+      dataTypes: {
+        serializedName: "dataTypes",
+        type: {
+          name: "Composite",
+          className: "AlertsDataTypeOfDataConnector"
         }
       }
     }
@@ -1445,7 +1475,6 @@ export const discriminators = {
   'DataConnector.AzureActiveDirectory' : AADDataConnector,
   'DataConnector.AzureSecurityCenter' : ASCDataConnector,
   'DataConnector.MicrosoftCloudAppSecurity' : MCASDataConnector,
-  'DataConnector.DataConnectorWithAlerts' : DataConnectorWithAlerts,
   'Entity' : Entity,
   'Entity.Account' : AccountEntity,
   'Entity.Host' : HostEntity,
