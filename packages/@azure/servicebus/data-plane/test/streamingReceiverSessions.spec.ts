@@ -760,7 +760,11 @@ describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", fun
       );
     } catch (err) {
       errorWasThrown = true;
-      should.equal(!err.message.search("has already been created for the Subscription"), false);
+      should.equal(
+        !err.message.search("has already been created for the Subscription"),
+        false,
+        "ErrorMessage is different than expected"
+      );
     }
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
@@ -812,7 +816,11 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
   });
 
   const testError = (err: Error) => {
-    should.equal(err.message, "This message has been already settled.");
+    should.equal(
+      err.message,
+      "This message has been already settled.",
+      "ErrorMessage is different than expected"
+    );
     errorWasThrown = true;
   };
 

@@ -364,10 +364,10 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     );
 
     let testState = await receiver.getState();
-    should.equal(!!testState, false);
+    should.equal(!!testState, false, "SessionState is different than expected");
     await receiver.setState("new_state");
     testState = await receiver.getState();
-    should.equal(testState, "new_state");
+    should.equal(testState, "new_state", "SessionState is different than expected");
 
     await receiver.close();
 
@@ -386,7 +386,7 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
       "Received Message doesnt match any of the test messages"
     );
     testState = await receiver.getState();
-    should.equal(testState, "new_state");
+    should.equal(testState, "new_state", "SessionState is different than expected");
 
     await receiver.setState(""); // clearing the session-state
     await msgs[0].complete();
