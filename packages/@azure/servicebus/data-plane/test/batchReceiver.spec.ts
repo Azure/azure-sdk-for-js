@@ -673,7 +673,7 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     const deadLetterMsg = await deadLetterMessage();
 
     await deadLetterMsg.deadLetter().catch((err) => {
-      should.equal(err.name, "InvalidOperationError");
+      should.equal(err.name, "InvalidOperationError", "ErrorName is different than expected");
       errorWasThrown = true;
     });
 
@@ -939,8 +939,16 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
     should.equal(Array.isArray(msgs2), true, "`ReceivedMessages` is not an array");
     should.equal(msgs2.length, 1, "Unexpected number of messages");
 
-    should.equal(testMessages.some((x) => x.messageId === msgs1[0].messageId), true);
-    should.equal(testMessages.some((x) => x.messageId === msgs2[0].messageId), true);
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs1[0].messageId),
+      true,
+      "MessageId is different than expected"
+    );
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs2[0].messageId),
+      true,
+      "MessageId is different than expected"
+    );
 
     await msgs1[0].complete();
     await msgs2[0].complete();

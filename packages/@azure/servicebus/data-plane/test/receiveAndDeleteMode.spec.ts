@@ -408,7 +408,11 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   }
 
   const testError = (err: Error) => {
-    should.equal(err.message, "The operation is only supported in 'PeekLock' receive mode.");
+    should.equal(
+      err.message,
+      "The operation is only supported in 'PeekLock' receive mode.",
+      "ErrorMessage is different than expected"
+    );
     errorWasThrown = true;
   };
 

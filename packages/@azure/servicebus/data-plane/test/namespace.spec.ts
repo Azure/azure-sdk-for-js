@@ -33,7 +33,7 @@ describe("Create Namespace", function(): void {
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     namespace.should.be.an.instanceof(Namespace);
-    should.equal(namespace.name, "sb://a/");
+    should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
   });
 });
 
@@ -102,8 +102,12 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
   });
 
   const testError = (err: Error) => {
-    should.equal(err.name, "ServiceCommunicationError");
-    should.equal(err.message, "getaddrinfo ENOTFOUND a a:5671");
+    should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
+    should.equal(
+      err.message,
+      "getaddrinfo ENOTFOUND a a:5671",
+      "ErrorMessage is different than expected"
+    );
     errorWasThrown = true;
   };
 
@@ -211,7 +215,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
   });
 
   const testError = (err: Error, entityPath: string) => {
-    should.equal(err.name, "MessagingEntityNotFoundError");
+    should.equal(err.name, "MessagingEntityNotFoundError", "ErrorName is different than expected");
     should.equal(
       err.message.startsWith(
         `The messaging entity '${namespace.name}${entityPath}' could not be found.`
