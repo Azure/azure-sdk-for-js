@@ -192,67 +192,85 @@ export async function getSenderClient(
   switch (clientType) {
     case ClientType.PartitionedQueue:
       queueName = process.env.QUEUE_NAME || "partitioned-queue";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enablePartitioning: true,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enablePartitioning: true,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.PartitionedTopic:
       topicName = process.env.TOPIC_NAME || "partitioned-topic";
-      await recreateTopic(topicName, {
-        enablePartitioning: true,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateTopic(topicName, {
+          enablePartitioning: true,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createTopicClient(topicName);
     case ClientType.UnpartitionedQueue:
       queueName = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.UnpartitionedTopic:
       topicName = process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic";
-      await recreateTopic(topicName, {
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateTopic(topicName, {
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createTopicClient(topicName);
     case ClientType.PartitionedQueueWithSessions:
       queueName = process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enablePartitioning: true,
-        enableBatchedOperations: true,
-        requiresSession: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enablePartitioning: true,
+          enableBatchedOperations: true,
+          requiresSession: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.PartitionedTopicWithSessions:
       topicName = process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions";
-      await recreateTopic(topicName, {
-        enablePartitioning: true,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateTopic(topicName, {
+          enablePartitioning: true,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createTopicClient(topicName);
     case ClientType.UnpartitionedQueueWithSessions:
       queueName = process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
-        requiresSession: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true,
+          requiresSession: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.UnpartitionedTopicWithSessions:
       topicName = process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions";
-      await recreateTopic(topicName, {
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateTopic(topicName, {
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createTopicClient(topicName);
     case ClientType.TopicFilterTestTopic:
       topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
-      await recreateTopic(topicName, {
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateTopic(topicName, {
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createTopicClient(topicName);
     default:
       break;
@@ -268,90 +286,110 @@ export async function getReceiverClient(
   switch (clientType) {
     case ClientType.PartitionedQueue:
       queueName = process.env.QUEUE_NAME || "partitioned-queue";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enablePartitioning: true,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enablePartitioning: true,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.PartitionedSubscription:
       topicName = process.env.TOPIC_NAME || "partitioned-topic";
       subscriptionName = process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
-      await recreateSubscription(topicName, subscriptionName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateSubscription(topicName, subscriptionName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createSubscriptionClient(topicName, subscriptionName);
     case ClientType.UnpartitionedQueue:
       queueName = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.UnpartitionedSubscription:
       topicName = process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic";
       subscriptionName =
         process.env.SUBSCRIPTION_NAME_NO_PARTITION || "unpartitioned-topic-subscription";
-      await recreateSubscription(topicName, subscriptionName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateSubscription(topicName, subscriptionName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createSubscriptionClient(topicName, subscriptionName);
     case ClientType.PartitionedQueueWithSessions:
       queueName = process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enablePartitioning: true,
-        enableBatchedOperations: true,
-        requiresSession: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enablePartitioning: true,
+          enableBatchedOperations: true,
+          requiresSession: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.PartitionedSubscriptionWithSessions:
       topicName = process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions";
       subscriptionName =
         process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription";
-      await recreateSubscription(topicName, subscriptionName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
-        requiresSession: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateSubscription(topicName, subscriptionName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true,
+          requiresSession: true
+        });
+      }
       return namespace.createSubscriptionClient(topicName, subscriptionName);
     case ClientType.UnpartitionedQueueWithSessions:
       queueName = process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
-        requiresSession: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateQueue(queueName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true,
+          requiresSession: true
+        });
+      }
       return namespace.createQueueClient(queueName);
     case ClientType.UnpartitionedSubscriptionWithSessions:
       topicName = process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions";
       subscriptionName =
         process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
         "unpartitioned-topic-sessions-subscription";
-      await recreateSubscription(topicName, subscriptionName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
-        requiresSession: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateSubscription(topicName, subscriptionName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true,
+          requiresSession: true
+        });
+      }
       return namespace.createSubscriptionClient(topicName, subscriptionName);
     case ClientType.TopicFilterTestDefaultSubscription:
       topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
       subscriptionName =
         process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
-      await recreateSubscription(topicName, subscriptionName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateSubscription(topicName, subscriptionName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createSubscriptionClient(topicName, subscriptionName);
     case ClientType.TopicFilterTestSubscription:
       topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
       subscriptionName = process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
-      await recreateSubscription(topicName, subscriptionName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true
-      });
+      if (process.env.CLEAN_NAMESPACE) {
+        await recreateSubscription(topicName, subscriptionName, {
+          lockDuration: defaultLockDuration,
+          enableBatchedOperations: true
+        });
+      }
       return namespace.createSubscriptionClient(topicName, subscriptionName);
     default:
       break;
