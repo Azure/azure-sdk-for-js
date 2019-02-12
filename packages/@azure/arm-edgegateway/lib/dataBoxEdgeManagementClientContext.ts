@@ -12,7 +12,7 @@ import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
-const packageName = "@azure/arm-edgedateway";
+const packageName = "@azure/arm-edgegateway";
 const packageVersion = "1.0.0";
 
 export class DataBoxEdgeManagementClientContext extends msRestAzure.AzureServiceClient {

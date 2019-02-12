@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-edgedateway",
+  "name": "@azure/arm-edgegateway",
   "author": "Microsoft Corporation",
   "description": "DataBoxEdgeManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0",
@@ -16,7 +16,7 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-edgedateway.js",
+  "main": "./dist/arm-edgegateway.js",
   "module": "./esm/dataBoxEdgeManagementClient.js",
   "types": "./esm/dataBoxEdgeManagementClient.d.ts",
   "devDependencies": {
@@ -49,7 +49,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-edgedateway.js.map'\" -o ./dist/arm-edgedateway.min.js ./dist/arm-edgedateway.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-edgegateway.js.map'\" -o ./dist/arm-edgegateway.min.js ./dist/arm-edgegateway.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false
