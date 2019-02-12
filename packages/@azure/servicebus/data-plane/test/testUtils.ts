@@ -154,7 +154,7 @@ async function recreateSubscription(
       /*
         Unlike Queues/Topics, there is no need to delete the subscription because
         `recreateTopic` is called before `recreateSubscription` which would
-        delete the topic and the subscriptions, creates a new topic.
+        delete the topic and the subscriptions before creating a new topic.
       */
       await client.subscriptions.createOrUpdate(
         env.resourceGroup,
