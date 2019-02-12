@@ -121,7 +121,11 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
         testMessagesWithSessions.body,
         "MessageBody is different than expected"
       );
-      should.equal(msg.messageId, testMessagesWithSessions.messageId);
+      should.equal(
+        msg.messageId,
+        testMessagesWithSessions.messageId,
+        "MessageId is different than expected"
+      );
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
@@ -188,7 +192,11 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
           testMessagesWithSessions.body,
           "MessageBody is different than expected"
         );
-        should.equal(msg.messageId, testMessagesWithSessions.messageId);
+        should.equal(
+          msg.messageId,
+          testMessagesWithSessions.messageId,
+          "MessageId is different than expected"
+        );
         return Promise.resolve();
       },
       unExpectedErrorHandler,
@@ -267,7 +275,11 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
           testMessagesWithSessions.body,
           "MessageBody is different than expected"
         );
-        should.equal(msg.messageId, testMessagesWithSessions.messageId);
+        should.equal(
+          msg.messageId,
+          testMessagesWithSessions.messageId,
+          "MessageId is different than expected"
+        );
         return msg.complete();
       },
       unExpectedErrorHandler,
@@ -398,8 +410,12 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
     });
     const receivedMsgs = await sessionReceiver.receiveBatch(1);
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
-    should.equal(receivedMsgs[0].deliveryCount, 1);
+    should.equal(
+      receivedMsgs[0].messageId,
+      testMessagesWithSessions.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(receivedMsgs[0].deliveryCount, 1,"DeliveryCount is different than expected");
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -516,8 +532,12 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
       testMessagesWithSessions.body,
       "MessageBody is different than expected"
     );
-    should.equal(deferredMsg.messageId, testMessagesWithSessions.messageId);
-    should.equal(deferredMsg.deliveryCount, 1);
+    should.equal(
+      deferredMsg.messageId,
+      testMessagesWithSessions.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(deferredMsg.deliveryCount, 1,"DeliveryCount is different than expected");
 
     await deferredMsg.complete();
 
@@ -628,7 +648,11 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true);
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-    should.equal(deadLetterMsgs[0].messageId, testMessagesWithSessions.messageId);
+    should.equal(
+      deadLetterMsgs[0].messageId,
+      testMessagesWithSessions.messageId,
+      "MessageId is different than expected"
+    );
 
     await deadLetterMsgs[0].complete();
     await testPeekMsgsLength(deadLetterClient, 0);
@@ -810,7 +834,11 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
       testMessagesWithSessions.body,
       "MessageBody is different than expected"
     );
-    should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
+    should.equal(
+      receivedMsgs[0].messageId,
+      testMessagesWithSessions.messageId,
+      "MessageId is different than expected"
+    );
 
     await testPeekMsgsLength(receiverClient, 0);
 

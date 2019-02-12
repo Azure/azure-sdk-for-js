@@ -117,7 +117,11 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
       testMessagesWithSessions.body,
       "MessageBody is different than expected"
     );
-    should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+    should.equal(
+      msgs[0].messageId,
+      testMessagesWithSessions.messageId,
+      "MessageId is different than expected"
+    );
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -186,7 +190,11 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
         testMessagesWithSessions.body,
         "MessageBody is different than expected"
       );
-      should.equal(msg.messageId, testMessagesWithSessions.messageId);
+      should.equal(
+        msg.messageId,
+        testMessagesWithSessions.messageId,
+        "MessageId is different than expected"
+      );
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
@@ -436,7 +444,11 @@ describe("SessionTests - Second Session Receiver for same session id", function(
     await sender.send(testMessagesWithSessions);
 
     const firstReceiver = await receiverClient.getSessionReceiver();
-    should.equal(firstReceiver.sessionId, testMessagesWithSessions.sessionId);
+    should.equal(
+      firstReceiver.sessionId,
+      testMessagesWithSessions.sessionId,
+      "MessageId is different than expected"
+    );
 
     let errorWasThrown = false;
     try {
