@@ -100,18 +100,14 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     await afterEachTest();
   });
 
-  async function sendReceiveMsg(testMessages: SendableMessageInfo[]): Promise<void> {
-    await sender.send(testMessages[0]);
+  async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
+    await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
-    should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
-    should.equal(
-      msgs[0].messageId,
-      testMessages[0].messageId,
-      "MessageId is different than expected"
-    );
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
   }
 
@@ -203,11 +199,11 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   });
 
   async function sendReceiveMsg(
-    testMessages: SendableMessageInfo[],
+    testMessages: SendableMessageInfo,
     autoCompleteFlag: boolean,
     useSessions?: boolean
   ): Promise<void> {
-    await sender.send(testMessages[0]);
+    await sender.send(testMessages);
     const receivedMsgs: ServiceBusMessage[] = [];
 
     receiver.receive(
@@ -226,24 +222,10 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     await delay(2000);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-    should.equal(
-      receivedMsgs[0].body,
-      testMessages[0].body,
-      "MessageBody is different than expected"
-    );
+    should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
     should.equal(
       receivedMsgs[0].messageId,
-      testMessages[0].messageId,
-      "MessageId is different than expected"
-    );
-    should.equal(
-      receivedMsgs[0].body,
-      testMessages[0].body,
-      "MessageBody is different than expected"
-    );
-    should.equal(
-      receivedMsgs[0].messageId,
-      testMessages[0].messageId,
+      testMessages.messageId,
       "MessageId is different than expected"
     );
 
@@ -412,18 +394,14 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   afterEach(async () => {
     await afterEachTest();
   });
-  async function sendReceiveMsg(testMessages: SendableMessageInfo[]): Promise<ServiceBusMessage> {
-    await sender.send(testMessages[0]);
+  async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
+    await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
-    should.equal(msgs[0].body, testMessages[0].body, "MessageBody is different than expected");
-    should.equal(
-      msgs[0].messageId,
-      testMessages[0].messageId,
-      "MessageId is different than expected"
-    );
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     return msgs[0];

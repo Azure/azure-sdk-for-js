@@ -103,20 +103,16 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-async function deferMessage(testMessages: SendableMessageInfo[]): Promise<ServiceBusMessage> {
-  await sender.send(testMessages[0]);
+async function deferMessage(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
+  await sender.send(testMessages);
   const receivedMsgs = await receiver.receiveBatch(1);
 
   should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-  should.equal(
-    receivedMsgs[0].body,
-    testMessages[0].body,
-    "MessageBody is different than expected"
-  );
+  should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
   should.equal(receivedMsgs[0].deliveryCount, 0);
   should.equal(
     receivedMsgs[0].messageId,
-    testMessages[0].messageId,
+    testMessages.messageId,
     "MessageId is different than expected"
   );
 
@@ -130,8 +126,8 @@ async function deferMessage(testMessages: SendableMessageInfo[]): Promise<Servic
   if (!deferredMsgs) {
     throw "No message received for sequence number";
   }
-  should.equal(deferredMsgs.body, testMessages[0].body);
-  should.equal(deferredMsgs.messageId, testMessages[0].messageId);
+  should.equal(deferredMsgs.body, testMessages.body);
+  should.equal(deferredMsgs.messageId, testMessages.messageId);
   should.equal(deferredMsgs.deliveryCount, 1);
 
   return deferredMsgs;
@@ -140,7 +136,7 @@ async function deferMessage(testMessages: SendableMessageInfo[]): Promise<Servic
 async function completeDeferredMessage(
   sequenceNumber: Long,
   expectedDeliverCount: number,
-  testMessages: SendableMessageInfo[],
+  testMessages: SendableMessageInfo,
   useSessions?: boolean
 ): Promise<void> {
   await testPeekMsgsLength(receiverClient, 1);
@@ -150,9 +146,9 @@ async function completeDeferredMessage(
     throw "No message received for sequence number";
   }
 
-  should.equal(deferredMsg.body, testMessages[0].body);
+  should.equal(deferredMsg.body, testMessages.body);
   should.equal(deferredMsg.deliveryCount, expectedDeliverCount);
-  should.equal(deferredMsg.messageId, testMessages[0].messageId);
+  should.equal(deferredMsg.messageId, testMessages.messageId);
 
   await deferredMsg.complete();
 
@@ -353,9 +349,9 @@ describe("Deadlettering a deferred message moves it to dead letter queue.", func
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1);
-    should.equal(deadLetterMsgs[0].body, testMessages[0].body);
+    should.equal(deadLetterMsgs[0].body, testMessages.body);
     should.equal(deadLetterMsgs[0].deliveryCount, 1);
-    should.equal(deadLetterMsgs[0].messageId, testMessages[0].messageId);
+    should.equal(deadLetterMsgs[0].messageId, testMessages.messageId);
 
     await deadLetterMsgs[0].complete();
 
