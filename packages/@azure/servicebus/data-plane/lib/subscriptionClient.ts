@@ -208,16 +208,18 @@ export class SubscriptionClient extends Client {
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
     if (!options) options = {};
-    if (
-      options.sessionId &&
-      this._context.messageSessions[options.sessionId] &&
-      this._context.messageSessions[options.sessionId].isOpen()
-    ) {
-      throw new Error(
-        `Close the current session receiver for sessionId ${
-          options.sessionId
-        } before using "getSessionReceiver" to create a new one for the same sessionId`
-      );
+    if (options.sessionId) {
+      if (
+        this._context.messageSessions[options.sessionId] &&
+        this._context.messageSessions[options.sessionId].isOpen()
+      ) {
+        throw new Error(
+          `Close the current session receiver for sessionId ${
+            options.sessionId
+          } before using "getSessionReceiver" to create a new one for the same sessionId`
+        );
+      }
+      delete this._context.expiredMessageSessions[options.sessionId];
     }
     this._context.isSessionEnabled = true;
     const messageSession = await MessageSession.create(this._context, options);
