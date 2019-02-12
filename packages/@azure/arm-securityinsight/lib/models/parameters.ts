@@ -47,9 +47,6 @@ export const bookmarkId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "bookmarkId",
-    constraints: {
-      Pattern: /^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$/
-    },
     type: {
       name: "String"
     }
@@ -60,9 +57,6 @@ export const caseId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "caseId",
-    constraints: {
-      Pattern: /^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$/
-    },
     type: {
       name: "String"
     }
@@ -139,9 +133,6 @@ export const ruleId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "ruleId",
-    constraints: {
-      Pattern: /^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$/
-    },
     type: {
       name: "String"
     }

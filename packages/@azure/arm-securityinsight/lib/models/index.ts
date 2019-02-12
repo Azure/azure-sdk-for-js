@@ -144,9 +144,10 @@ export interface ScheduledAlertRule {
    */
   etag?: string;
   /**
-   * @member {string} ruleName The name for alerts created by this alert rule.
+   * @member {string} [displayName] The display name for alerts created by this
+   * alert rule.
    */
-  ruleName: string;
+  displayName?: string;
   /**
    * @member {string} description The description of the alert rule.
    */
@@ -249,12 +250,6 @@ export interface Action extends Resource {
    * @member {string} [triggerUri] The uri for the action to trigger.
    */
   triggerUri?: string;
-  /**
-   * @member {string} [ruleId] The unique identifier of the rule.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly ruleId?: string;
 }
 
 /**
@@ -1637,47 +1632,9 @@ export type ActionsListByAlertRuleResponse = ActionsList & {
 };
 
 /**
- * Contains response data for the list operation.
- */
-export type ActionsListResponse = ActionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ActionsList;
-    };
-};
-
-/**
  * Contains response data for the listByAlertRuleNext operation.
  */
 export type ActionsListByAlertRuleNextResponse = ActionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ActionsList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ActionsListNextResponse = ActionsList & {
   /**
    * The underlying HTTP response.
    */

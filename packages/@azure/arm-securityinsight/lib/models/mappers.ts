@@ -145,9 +145,8 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
     className: "ScheduledAlertRule",
     modelProperties: {
       ...AlertRule.type.modelProperties,
-      ruleName: {
-        required: true,
-        serializedName: "properties.ruleName",
+      displayName: {
+        serializedName: "properties.displayName",
         type: {
           name: "String"
         }
@@ -291,13 +290,6 @@ export const Action: msRest.CompositeMapper = {
       },
       triggerUri: {
         serializedName: "properties.triggerUri",
-        type: {
-          name: "String"
-        }
-      },
-      ruleId: {
-        readOnly: true,
-        serializedName: "properties.ruleId",
         type: {
           name: "String"
         }
@@ -973,11 +965,8 @@ export const AccountEntity: msRest.CompositeMapper = {
       objectGuid: {
         readOnly: true,
         serializedName: "properties.objectGuid",
-        constraints: {
-          Pattern: /^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$/
-        },
         type: {
-          name: "String"
+          name: "Uuid"
         }
       }
     }

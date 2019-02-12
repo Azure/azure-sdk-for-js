@@ -73,48 +73,6 @@ export class Actions {
   }
 
   /**
-   * Gets all actions.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
-   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
-   * Microsoft.OperationalInsights.
-   * @param workspaceName The name of the workspace.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ActionsListResponse>
-   */
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ActionsListResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
-   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
-   * Microsoft.OperationalInsights.
-   * @param workspaceName The name of the workspace.
-   * @param callback The callback
-   */
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ActionsList>): void;
-  /**
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name
-   * is case insensitive.
-   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
-   * Microsoft.OperationalInsights.
-   * @param workspaceName The name of the workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActionsList>): void;
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionsList>, callback?: msRest.ServiceCallback<Models.ActionsList>): Promise<Models.ActionsListResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        operationalInsightsResourceProvider,
-        workspaceName,
-        options
-      },
-      listOperationSpec,
-      callback) as Promise<Models.ActionsListResponse>;
-  }
-
-  /**
    * Gets all actions of alert rule.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -140,34 +98,6 @@ export class Actions {
       },
       listByAlertRuleNextOperationSpec,
       callback) as Promise<Models.ActionsListByAlertRuleNextResponse>;
-  }
-
-  /**
-   * Gets all actions.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ActionsListNextResponse>
-   */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ActionsListNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ActionsList>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActionsList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionsList>, callback?: msRest.ServiceCallback<Models.ActionsList>): Promise<Models.ActionsListNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listNextOperationSpec,
-      callback) as Promise<Models.ActionsListNextResponse>;
   }
 }
 
@@ -200,54 +130,7 @@ const listByAlertRuleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/actions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.operationalInsightsResourceProvider,
-    Parameters.workspaceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ActionsList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listByAlertRuleNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ActionsList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
