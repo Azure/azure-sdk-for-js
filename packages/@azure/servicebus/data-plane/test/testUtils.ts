@@ -44,7 +44,7 @@ export enum ClientType {
 }
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
-async function getEnvVars(): Promise<any> {
+function getEnvVars(): { [key: string]: string } {
   if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
     throw new Error(
       "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
@@ -84,7 +84,7 @@ async function getEnvVars(): Promise<any> {
 }
 
 async function recreateQueue(queueName: string, parameters: SBQueue): Promise<void> {
-  const env = await getEnvVars();
+  const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
     .then(async (creds) => {
@@ -108,12 +108,12 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
       );
     })
     .catch((err) => {
-      console.log(err.message);
+      throw err.message;
     });
 }
 
 async function recreateTopic(topicName: string, parameters: SBTopic): Promise<void> {
-  const env = await getEnvVars();
+  const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
     .then(async (creds) => {
@@ -137,7 +137,7 @@ async function recreateTopic(topicName: string, parameters: SBTopic): Promise<vo
       );
     })
     .catch((err) => {
-      console.log(err.message);
+      throw err.message;
     });
 }
 
@@ -146,11 +146,16 @@ async function recreateSubscription(
   subscriptionName: string,
   parameters: SBSubscription
 ): Promise<void> {
-  const env = await getEnvVars();
+  const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
+      /*
+        Unlike Queues/Topics, there is no need to delete the subscription because
+        `recreateTopic` is called before `recreateSubscription` which would
+        delete the topic and the subscriptions, creates a new topic.
+      */
       await client.subscriptions.createOrUpdate(
         env.resourceGroup,
         env.servicebusNamespace,
@@ -159,16 +164,13 @@ async function recreateSubscription(
         parameters,
         function(error: any): void {
           if (error) {
-            console.log(error.message);
+            throw error.message;
           }
         }
       );
     });
 }
-let queueName: string;
-let topicName: string;
-let subscriptionName: string;
-let queueClient: QueueClient;
+
 export async function getSenderReceiverClients(
   namespace: Namespace,
   senderClientType: ClientType,
@@ -177,6 +179,10 @@ export async function getSenderReceiverClients(
   senderClient: QueueClient | TopicClient;
   receiverClient: QueueClient | SubscriptionClient;
 }> {
+  let queueName: string;
+  let topicName: string;
+  let subscriptionName: string;
+  let queueClient: QueueClient;
   switch (receiverClientType) {
     case ClientType.PartitionedQueue:
       queueName = process.env.QUEUE_NAME || "partitioned-queue";
@@ -327,6 +333,9 @@ export async function getSenderReceiverClients(
       topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
       subscriptionName = process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
       if (process.env.CLEAN_NAMESPACE) {
+        await recreateTopic(topicName, {
+          enableBatchedOperations: true
+        });
         await recreateSubscription(topicName, subscriptionName, {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true
