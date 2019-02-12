@@ -819,7 +819,7 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
     const firstBatchPromise = receiver.receiveBatch(1, 10);
     await delay(5000);
     const secondBatchPromise = receiver.receiveBatch(1, 10).catch((err) => {
-      should.equal(err.name, "Error");
+      should.equal(err.name, "Error", "Unexpected error name");
       errorWasThrown = true;
     });
     await Promise.all([firstBatchPromise, secondBatchPromise]);
