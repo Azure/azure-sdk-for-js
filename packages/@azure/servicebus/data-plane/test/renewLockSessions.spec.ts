@@ -35,10 +35,6 @@ describe("Standard", function(): void {
   );
   const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
 
-  after(async () => {
-    await namespace.close();
-  });
-
   describe("Unpartitioned Queue", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
@@ -53,8 +49,7 @@ describe("Standard", function(): void {
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -131,8 +126,7 @@ describe("Standard", function(): void {
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -209,8 +203,7 @@ describe("Standard", function(): void {
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -287,8 +280,7 @@ describe("Standard", function(): void {
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
