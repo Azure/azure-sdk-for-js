@@ -606,7 +606,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
       errorWasThrown = true;
       should.equal(!err.message.search("has already been created for the Subscription"), false);
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queue", async function(): Promise<
@@ -683,7 +683,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error", 
       await receivedMsgs[0].defer().catch((err) => testError(err));
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue: complete() throws error", async function(): Promise<void> {

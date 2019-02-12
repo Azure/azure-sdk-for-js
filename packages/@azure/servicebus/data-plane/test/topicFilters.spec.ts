@@ -242,7 +242,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       should.equal(!error.message.search("Priority_1' already exists."), false);
       should.equal(error.name, "MessagingEntityAlreadyExistsError");
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Adding a rule with no name", async function(): Promise<void> {
@@ -254,7 +254,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       should.equal(!error.message.search("Rule name is missing"), false);
       should.equal(error.name, "Error");
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Adding a rule with no filter", async function(): Promise<void> {
@@ -266,7 +266,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       should.equal(!error.message.search("Filter is missing"), false);
       should.equal(error.name, "Error");
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   // TODO: Update error message after fixing https://github.com/Azure/azure-service-bus-node/issues/184
@@ -280,7 +280,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       errorWasThrown = true;
       should.equal(error.name, "InternalServerError");
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
@@ -304,7 +304,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
       should.equal(error.name, "MessagingEntityNotFoundError");
       errorWasThrown = true;
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Removing non existing rule on a subscription that has other rules should throw error", async function(): Promise<
@@ -317,7 +317,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
     } catch (error) {
       errorWasThrown = true;
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
@@ -379,7 +379,11 @@ describe("Topic Filters -  Get Rules", function(): void {
     };
     should.equal(rules.length, 1);
     rules.forEach((rule) => {
-      should.equal((<CorrelationFilter>rule.filter).correlationId, expectedFilter.correlationId, "MessageId is different than expected");
+      should.equal(
+        (<CorrelationFilter>rule.filter).correlationId,
+        expectedFilter.correlationId,
+        "MessageId is different than expected"
+      );
       should.equal((<CorrelationFilter>rule.filter).label, expectedFilter.label);
       const userProperties = (<CorrelationFilter>rule.filter).userProperties;
       should.equal(Array.isArray(userProperties), true);

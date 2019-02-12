@@ -467,7 +467,7 @@ describe("SessionTests - Second Session Receiver for same session id", function(
           } before using "getSessionReceiver" to create a new one for the same sessionId`;
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<

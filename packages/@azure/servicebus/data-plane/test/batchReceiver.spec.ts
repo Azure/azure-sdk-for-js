@@ -677,7 +677,7 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
       errorWasThrown = true;
     });
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
     await completeDeadLetteredMessage(deadLetterClient, 0);
   }
@@ -823,7 +823,7 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
       errorWasThrown = true;
     });
     await Promise.all([firstBatchPromise, secondBatchPromise]);
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<

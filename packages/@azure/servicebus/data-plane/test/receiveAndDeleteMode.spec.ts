@@ -426,7 +426,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
       await msg.defer().catch((err) => testError(err));
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -686,7 +686,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
 
     await receiver.renewLock(msg).catch((err) => testError(err));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue: Renew message lock throws error", async function(): Promise<void> {
