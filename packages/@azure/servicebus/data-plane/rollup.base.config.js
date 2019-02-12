@@ -47,7 +47,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("assert", "fs", "path", "@azure/arm-servicebus", "@azure/ms-rest-nodeauth");
 
     baseConfig.onwarn = (warning) => {
       if (warning.code === "THIS_IS_UNDEFINED") {

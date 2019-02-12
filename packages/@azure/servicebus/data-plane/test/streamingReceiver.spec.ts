@@ -18,13 +18,7 @@ import {
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
-import {
-  testSimpleMessages,
-  getSenderClient,
-  getReceiverClient,
-  ClientType,
-  purge
-} from "./testUtils";
+import { testSimpleMessages, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -68,8 +62,9 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, receiverType);
+  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
 
   if (receiverClient instanceof QueueClient) {
     deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.name));
