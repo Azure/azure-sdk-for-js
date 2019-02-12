@@ -379,7 +379,11 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1);
-  should.equal(msgs[0].body, testMessagesWithSessions.body);
+  should.equal(
+    msgs[0].body,
+    testMessagesWithSessions.body,
+    "MessageBody is different than expected"
+  );
   should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
 
   // Verify initial lock expiry time on the session
@@ -422,7 +426,11 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testMessagesWithSessions.body);
+  should.equal(
+    msgs[0].body,
+    testMessagesWithSessions.body,
+    "MessageBody is different than expected"
+  );
   should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
 
   await delay(lockDurationInMilliseconds + 1000);
@@ -460,7 +468,11 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testMessagesWithSessions.body);
+      should.equal(
+        brokeredMessage.body,
+        testMessagesWithSessions.body,
+        "MessageBody is different than expected"
+      );
       should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
 
       // Compute expected initial lock expiry time
@@ -533,7 +545,11 @@ async function testAutoLockRenewalConfigBehavior(
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
-        should.equal(brokeredMessage.body, testMessagesWithSessions.body);
+        should.equal(
+          brokeredMessage.body,
+          testMessagesWithSessions.body,
+          "MessageBody is different than expected"
+        );
         should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
 
         messagesReceived.push(brokeredMessage);

@@ -440,7 +440,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1);
-  should.equal(msgs[0].body, testSimpleMessages.body);
+  should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
   should.equal(msgs[0].messageId, testSimpleMessages.messageId);
 
   // Verify initial lock expiry time on the message
@@ -480,7 +480,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testSimpleMessages.body);
+  should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
   should.equal(msgs[0].messageId, testSimpleMessages.messageId);
 
   // Sleeping 30 seconds...
@@ -515,7 +515,11 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testSimpleMessages.body);
+      should.equal(
+        brokeredMessage.body,
+        testSimpleMessages.body,
+        "MessageBody is different than expected"
+      );
       should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
 
       // Compute expected initial lock expiry time
@@ -582,7 +586,11 @@ async function testAutoLockRenewalConfigBehavior(
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testSimpleMessages.body);
+      should.equal(
+        brokeredMessage.body,
+        testSimpleMessages.body,
+        "MessageBody is different than expected"
+      );
       should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
 
       // Sleeping...
