@@ -111,7 +111,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(1);
     should.equal(msgs.length, 1, "Unexpected number of messages");
-    should.equal(Array.isArray(msgs), true);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(
       msgs[0].body,
       testMessagesWithSessions.body,

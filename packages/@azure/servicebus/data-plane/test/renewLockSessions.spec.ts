@@ -382,7 +382,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
     expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
   );
 
-  should.equal(Array.isArray(msgs), true);
+  should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Unexpected number of messages");
   should.equal(
     msgs[0].body,

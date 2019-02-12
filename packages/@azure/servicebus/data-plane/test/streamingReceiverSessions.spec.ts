@@ -646,7 +646,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
-    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       deadLetterMsgs[0].messageId,
