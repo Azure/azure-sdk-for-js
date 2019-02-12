@@ -886,17 +886,14 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (receiver) {
-      if (receiver.receiveMode !== ReceiveMode.peekLock) {
-        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-      }
-      if (this.delivery.remote_settled) {
-        throw new Error("This message has been already settled.");
-      }
-      return receiver.settleMessage(this, DispositionType.complete);
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
+
+    if (receiver.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
+    if (this.delivery.remote_settled) {
+      throw new Error("This message has been already settled.");
+    }
+    return receiver.settleMessage(this, DispositionType.complete);
   }
   /**
    * Abandons a message using it's lock token. This will make the message available again in
@@ -924,19 +921,16 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (receiver) {
-      if (receiver.receiveMode !== ReceiveMode.peekLock) {
-        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-      }
-      if (this.delivery.remote_settled) {
-        throw new Error("This message has been already settled.");
-      }
-      return receiver.settleMessage(this, DispositionType.abandon, {
-        propertiesToModify: propertiesToModify
-      });
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
+
+    if (receiver.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
+    if (this.delivery.remote_settled) {
+      throw new Error("This message has been already settled.");
+    }
+    return receiver.settleMessage(this, DispositionType.abandon, {
+      propertiesToModify: propertiesToModify
+    });
   }
 
   /**
@@ -966,19 +960,16 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (receiver) {
-      if (receiver.receiveMode !== ReceiveMode.peekLock) {
-        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-      }
-      if (this.delivery.remote_settled) {
-        throw new Error("This message has been already settled.");
-      }
-      return receiver.settleMessage(this, DispositionType.defer, {
-        propertiesToModify: propertiesToModify
-      });
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
+
+    if (receiver.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
+    if (this.delivery.remote_settled) {
+      throw new Error("This message has been already settled.");
+    }
+    return receiver.settleMessage(this, DispositionType.defer, {
+      propertiesToModify: propertiesToModify
+    });
   }
 
   /**
@@ -1018,19 +1009,16 @@ export class ServiceBusMessage implements ReceivedMessage {
       return;
     }
     const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (receiver) {
-      if (receiver.receiveMode !== ReceiveMode.peekLock) {
-        throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-      }
-      if (this.delivery.remote_settled) {
-        throw new Error("This message has been already settled.");
-      }
-      return receiver.settleMessage(this, DispositionType.deadletter, {
-        error: error
-      });
-    } else {
-      throw new Error(`Cannot find the receiver with name '${this.delivery.link.name}'.`);
+
+    if (receiver.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
+    if (this.delivery.remote_settled) {
+      throw new Error("This message has been already settled.");
+    }
+    return receiver.settleMessage(this, DispositionType.deadletter, {
+      error: error
+    });
   }
 
   /**

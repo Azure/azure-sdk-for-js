@@ -113,22 +113,20 @@ describe("Streaming Receiver - Misc Tests", function(): void {
   });
 
   async function testAutoComplete(): Promise<void> {
-    await sender.sendBatch(testSimpleMessages);
+    await sender.send(testSimpleMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(
-        testSimpleMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
-        true,
-        "Received Message doesnt match any of the test messages"
-      );
+      should.equal(msg.body, testSimpleMessages.body);
+      should.equal(msg.messageId, testSimpleMessages.messageId);
+
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testSimpleMessages.length) {
+      if (receivedMsgs.length === 1) {
         break;
       }
     }
@@ -136,7 +134,7 @@ describe("Streaming Receiver - Misc Tests", function(): void {
     await receiver.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    should.equal(receivedMsgs.length, 2);
+    should.equal(receivedMsgs.length, 1);
     await testPeekMsgsLength(receiverClient, 0);
   }
 
@@ -165,17 +163,14 @@ describe("Streaming Receiver - Misc Tests", function(): void {
   });
 
   async function testManualComplete(): Promise<void> {
-    await sender.sendBatch(testSimpleMessages);
+    await sender.send(testSimpleMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(
-          testSimpleMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
-          true,
-          "Received Message doesnt match any of the test messages"
-        );
+        should.equal(msg.body, testSimpleMessages.body);
+        should.equal(msg.messageId, testSimpleMessages.messageId);
         return Promise.resolve();
       },
       unExpectedErrorHandler,
@@ -184,15 +179,14 @@ describe("Streaming Receiver - Misc Tests", function(): void {
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testSimpleMessages.length) {
+      if (receivedMsgs.length === 1) {
         break;
       }
     }
 
-    await testPeekMsgsLength(receiverClient, 2);
+    await testPeekMsgsLength(receiverClient, 1);
 
     await receivedMsgs[0].complete();
-    await receivedMsgs[1].complete();
     await receiver.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -233,17 +227,14 @@ describe("Streaming Receiver - Complete message", function(): void {
   });
 
   async function testComplete(autoComplete: boolean): Promise<void> {
-    await sender.sendBatch(testSimpleMessages);
+    await sender.send(testSimpleMessages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(
-          testSimpleMessages.some((x) => msg.body === x.body && msg.messageId === x.messageId),
-          true,
-          "Received Message doesnt match any of the test messages"
-        );
+        should.equal(msg.body, testSimpleMessages.body);
+        should.equal(msg.messageId, testSimpleMessages.messageId);
         return msg.complete();
       },
       unExpectedErrorHandler,
@@ -252,7 +243,7 @@ describe("Streaming Receiver - Complete message", function(): void {
 
     for (let i = 0; i < 5; i++) {
       await delay(1000);
-      if (receivedMsgs.length === testSimpleMessages.length) {
+      if (receivedMsgs.length === 1) {
         break;
       }
     }
@@ -317,20 +308,14 @@ describe("Streaming Receiver - Abandon message", function(): void {
   });
 
   async function testMultipleAbandons(): Promise<void> {
-    await sender.sendBatch(testSimpleMessages);
+    await sender.send(testSimpleMessages);
 
-    let checkDeliveryCount0 = 0;
-    let checkDeliveryCount1 = 0;
+    let checkDeliveryCount = 0;
 
     receiver.receive(
       (msg: ServiceBusMessage) => {
-        if (msg.messageId === testSimpleMessages[0].messageId) {
-          should.equal(msg.deliveryCount, checkDeliveryCount0, "Unexpected deliveryCount.");
-          checkDeliveryCount0++;
-        } else if (msg.messageId === testSimpleMessages[1].messageId) {
-          should.equal(msg.deliveryCount, checkDeliveryCount1, "Unexpected deliveryCount.");
-          checkDeliveryCount1++;
-        }
+        should.equal(msg.deliveryCount, checkDeliveryCount);
+        checkDeliveryCount++;
         return msg.abandon();
       },
       unExpectedErrorHandler,
@@ -342,25 +327,17 @@ describe("Streaming Receiver - Abandon message", function(): void {
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    should.equal(checkDeliveryCount0, maxDeliveryCount);
-    should.equal(checkDeliveryCount1, maxDeliveryCount);
+    should.equal(checkDeliveryCount, maxDeliveryCount);
 
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(2);
-    should.equal(
-      Array.isArray(deadLetterMsgs),
-      true,
-      "`ReceivedMessages` from Deadletter is not an array"
-    );
-    should.equal(deadLetterMsgs.length, testSimpleMessages.length);
+    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
     should.equal(deadLetterMsgs[0].deliveryCount, maxDeliveryCount);
-    should.equal(deadLetterMsgs[1].deliveryCount, maxDeliveryCount);
-    should.equal(testSimpleMessages.some((x) => deadLetterMsgs[0].messageId === x.messageId), true);
-    should.equal(testSimpleMessages.some((x) => deadLetterMsgs[1].messageId === x.messageId), true);
+    should.equal(deadLetterMsgs[0].messageId, testSimpleMessages.messageId);
 
     await deadLetterMsgs[0].complete();
-    await deadLetterMsgs[1].complete();
 
     await testPeekMsgsLength(deadLetterClient, 0);
   }
@@ -400,16 +377,11 @@ describe("Streaming Receiver - Defer message", function(): void {
   });
 
   async function testDefer(autoComplete: boolean): Promise<void> {
-    await sender.sendBatch(testSimpleMessages);
-    let seq0: any = 0;
-    let seq1: any = 0;
+    await sender.send(testSimpleMessages);
+    let sequenceNum: any = 0;
     receiver.receive(
       (msg: ServiceBusMessage) => {
-        if (msg.messageId === testSimpleMessages[0].messageId) {
-          seq0 = msg.sequenceNumber;
-        } else if (msg.messageId === testSimpleMessages[1].messageId) {
-          seq1 = msg.sequenceNumber;
-        }
+        sequenceNum = msg.sequenceNumber;
         return msg.defer();
       },
       unExpectedErrorHandler,
@@ -420,33 +392,16 @@ describe("Streaming Receiver - Defer message", function(): void {
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     receiver = receiverClient.getReceiver();
-    const deferredMsgs = await receiver.receiveDeferredMessages([seq0, seq1]);
+    const deferredMsgs = await receiver.receiveDeferredMessages([sequenceNum]);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
 
-    should.equal(
-      testSimpleMessages.some(
-        (x) =>
-          deferredMsgs[0].body === x.body &&
-          deferredMsgs[0].messageId === x.messageId &&
-          deferredMsgs[0].deliveryCount === 1
-      ),
-      true,
-      "Received Message doesnt match any of the test messages or the deliveryCount is not equal to 1"
-    );
+    should.equal(deferredMsgs[0].body, testSimpleMessages.body);
+    should.equal(deferredMsgs[0].messageId, testSimpleMessages.messageId);
+    should.equal(deferredMsgs[0].deliveryCount, 1);
+
     await deferredMsgs[0].complete();
-    should.equal(
-      testSimpleMessages.some(
-        (x) =>
-          deferredMsgs[1].body === x.body &&
-          deferredMsgs[1].messageId === x.messageId &&
-          deferredMsgs[1].deliveryCount === 1
-      ),
-      true,
-      "Received Message doesnt match any of the test messages or the deliveryCount is not equal to 1"
-    );
-    await deferredMsgs[1].complete();
     await delay(10000);
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -512,7 +467,7 @@ describe("Streaming Receiver - Deadletter message", function(): void {
   });
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
-    await sender.sendBatch(testSimpleMessages);
+    await sender.send(testSimpleMessages);
 
     receiver.receive(
       (msg: ServiceBusMessage) => {
@@ -528,18 +483,12 @@ describe("Streaming Receiver - Deadletter message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(2);
-    should.equal(
-      Array.isArray(deadLetterMsgs),
-      true,
-      "`ReceivedMessages` from Deadletter is not an array"
-    );
-    should.equal(deadLetterMsgs.length, testSimpleMessages.length);
-    should.equal(testSimpleMessages.some((x) => deadLetterMsgs[0].messageId === x.messageId), true);
-    should.equal(testSimpleMessages.some((x) => deadLetterMsgs[1].messageId === x.messageId), true);
+    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    should.equal(Array.isArray(deadLetterMsgs), true);
+    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs[0].messageId, testSimpleMessages.messageId);
 
     await deadLetterMsgs[0].complete();
-    await deadLetterMsgs[1].complete();
 
     await testPeekMsgsLength(deadLetterClient, 0);
   }
@@ -669,7 +618,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error", 
   };
 
   async function testSettlement(operation: DispositionType): Promise<void> {
-    await sender.send(testSimpleMessages[0]);
+    await sender.send(testSimpleMessages);
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
@@ -679,9 +628,9 @@ describe("Streaming Receiver - Settle an already Settled message throws error", 
     await delay(5000);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-    should.equal(receivedMsgs[0].body, testSimpleMessages[0].body);
-    should.equal(receivedMsgs[0].messageId, testSimpleMessages[0].messageId);
+    should.equal(receivedMsgs.length, 1);
+    should.equal(receivedMsgs[0].body, testSimpleMessages.body);
+    should.equal(receivedMsgs[0].messageId, testSimpleMessages.messageId);
 
     await testPeekMsgsLength(receiverClient, 0);
 
