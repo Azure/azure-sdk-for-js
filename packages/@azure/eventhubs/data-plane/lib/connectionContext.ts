@@ -74,10 +74,10 @@ export namespace ConnectionContext {
       : userAgent;
     if (finalUserAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
+        `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
           `The given user-agent string is: ${finalUserAgent} with length: ${
             finalUserAgent.length
           }`
-        `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
       );
     }
     return finalUserAgent;
