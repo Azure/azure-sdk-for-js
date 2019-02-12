@@ -16,7 +16,7 @@ import {
   CorrelationFilter,
   delay
 } from "../lib";
-import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -55,15 +55,22 @@ async function beforeEachTest(): Promise<void> {
   }
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  topicClient = (await getSenderClient(ns, ClientType.TopicFilterTestTopic)) as TopicClient;
-  subscriptionClient = (await getReceiverClient(
+
+  let clients = await getSenderReceiverClients(
     ns,
+    ClientType.TopicFilterTestTopic,
     ClientType.TopicFilterTestSubscription
-  )) as SubscriptionClient;
-  defaultSubscriptionClient = (await getReceiverClient(
+  );
+  topicClient = clients.senderClient as TopicClient;
+  subscriptionClient = clients.receiverClient as SubscriptionClient;
+
+  clients = await getSenderReceiverClients(
     ns,
+    ClientType.TopicFilterTestTopic,
     ClientType.TopicFilterTestDefaultSubscription
-  )) as SubscriptionClient;
+  );
+  topicClient = clients.senderClient as TopicClient;
+  defaultSubscriptionClient = clients.receiverClient as SubscriptionClient;
 
   await purge(defaultSubscriptionClient);
   await purge(subscriptionClient);
