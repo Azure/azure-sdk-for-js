@@ -415,7 +415,7 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
       testMessagesWithSessions.messageId,
       "MessageId is different than expected"
     );
-    should.equal(receivedMsgs[0].deliveryCount, 1,"DeliveryCount is different than expected");
+    should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
     await receivedMsgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -537,7 +537,7 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
       testMessagesWithSessions.messageId,
       "MessageId is different than expected"
     );
-    should.equal(deferredMsg.deliveryCount, 1,"DeliveryCount is different than expected");
+    should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
     await deferredMsg.complete();
 
@@ -762,7 +762,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", fun
       errorWasThrown = true;
       should.equal(!err.message.search("has already been created for the Subscription"), false);
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queue(with sessions)", async function(): Promise<
@@ -852,7 +852,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
       await receivedMsgs[0].defer().catch((err) => testError(err));
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue: complete() throws error(with sessions)", async function(): Promise<void> {
