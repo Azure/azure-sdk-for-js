@@ -13,9 +13,10 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter
+  CorrelationFilter,
+  delay
 } from "../lib";
-import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -40,10 +41,9 @@ async function testPeekMsgsLength(
 
 let ns: Namespace;
 let subscriptionClient: SubscriptionClient;
-let defaultSubscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
-async function beforeEachTest(): Promise<void> {
+async function beforeEachTest(receiverType: ClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -54,28 +54,19 @@ async function beforeEachTest(): Promise<void> {
   }
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  topicClient = getSenderClient(ns, ClientType.TopicFilterTestTopic) as TopicClient;
-  subscriptionClient = getReceiverClient(
-    ns,
-    ClientType.TopicFilterTestSubscription
-  ) as SubscriptionClient;
-  defaultSubscriptionClient = getReceiverClient(
-    ns,
-    ClientType.TopicFilterTestDefaultSubscription
-  ) as SubscriptionClient;
 
-  await purge(defaultSubscriptionClient);
+  const clients = await getSenderReceiverClients(ns, ClientType.TopicFilterTestTopic, receiverType);
+  topicClient = clients.senderClient as TopicClient;
+  subscriptionClient = clients.receiverClient as SubscriptionClient;
+
   await purge(subscriptionClient);
-  const peekedDefaultSubscriptionMsg = await defaultSubscriptionClient.peek();
-  if (peekedDefaultSubscriptionMsg.length) {
-    chai.assert.fail("Please use an empty Default Subscription for integration testing");
-  }
-
   const peekedSubscriptionMsg = await subscriptionClient.peek();
   if (peekedSubscriptionMsg.length) {
     chai.assert.fail("Please use an empty Subscription for integration testing");
   }
-  await removeAllRules(subscriptionClient);
+  if (receiverType === ClientType.TopicFilterTestSubscription) {
+    await removeAllRules(subscriptionClient);
+  }
 }
 
 async function afterEachTest(): Promise<void> {
@@ -123,14 +114,37 @@ async function sendOrders(): Promise<void> {
   }
 }
 
-async function receiveOrders(client: SubscriptionClient): Promise<ServiceBusMessage[]> {
+async function receiveOrders(
+  client: SubscriptionClient,
+  expectedMessageCount: number
+): Promise<ServiceBusMessage[]> {
+  let errorFromErrorHandler: Error | undefined;
+  const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = client.getReceiver();
-  const msgs = await receiver.receiveBatch(data.length);
-  for (let index = 0; index < msgs.length; index++) {
-    await msgs[index].complete();
+  receiver.receive(
+    (msg: ServiceBusMessage) => {
+      receivedMsgs.push(msg);
+      return Promise.resolve();
+    },
+    (err: Error) => {
+      if (err) {
+        errorFromErrorHandler = err;
+      }
+    }
+  );
+
+  for (let i = 0; i < 10 && receivedMsgs.length < expectedMessageCount; i++) {
+    await delay(1000);
   }
+
   await receiver.close();
-  return msgs;
+  should.equal(
+    errorFromErrorHandler,
+    undefined,
+    errorFromErrorHandler && errorFromErrorHandler.message
+  );
+
+  return receivedMsgs;
 }
 
 async function addRules(
@@ -155,7 +169,7 @@ async function addRules(
 
 describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -211,7 +225,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
 
 describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -272,7 +286,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
 
 describe("Topic Filters -  Remove Rule", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -309,7 +323,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
 
 describe("Topic Filters -  Get Rules", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -337,14 +351,6 @@ describe("Topic Filters -  Get Rules", function(): void {
     should.equal(JSON.stringify(rules[0].filter), JSON.stringify({ expression: expr1 }));
     should.equal(rules[1].name, "Priority_2");
     should.equal(JSON.stringify(rules[1].filter), JSON.stringify({ expression: expr2 }));
-  });
-
-  it("Default rule is returned for the subscription for which no rules were added", async function(): Promise<
-    void
-  > {
-    const rules = await defaultSubscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "$Default");
   });
 
   it("Rule with SQL filter and action returns expected filter and action expression", async function(): Promise<
@@ -382,9 +388,27 @@ describe("Topic Filters -  Get Rules", function(): void {
   });
 });
 
+describe("Topic Filters -  Get Rules - Default Rule", function(): void {
+  beforeEach(async () => {
+    await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
+  });
+
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("Default rule is returned for the subscription for which no rules were added", async function(): Promise<
+    void
+  > {
+    const rules = await subscriptionClient.getRules();
+    should.equal(rules.length, 1);
+    should.equal(rules[0].name, "$Default");
+  });
+});
+
 describe("Topic Filters -  Send/Receive messages using default filter of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
   });
 
   afterEach(async () => {
@@ -393,29 +417,28 @@ describe("Topic Filters -  Send/Receive messages using default filter of subscri
 
   it("Subscription with default filter receives all messages", async function(): Promise<void> {
     await sendOrders();
-    const receivedMsgs = await receiveOrders(defaultSubscriptionClient);
+    const receivedMsgs = await receiveOrders(subscriptionClient, data.length);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, data.length);
 
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
+    await testPeekMsgsLength(subscriptionClient, 0);
   });
 });
 
 describe("Topic Filters -  Send/Receive messages using boolean filters of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
     await afterEachTest();
   });
 
   async function addFilterAndReceiveOrders(
     bool: boolean,
-    client: SubscriptionClient
+    client: SubscriptionClient,
+    expectedMessageCount: number
   ): Promise<ServiceBusMessage[]> {
     await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
@@ -423,7 +446,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
     should.equal(rules[0].name, "BooleanFilter");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(client);
+    const receivedMsgs = await receiveOrders(client, expectedMessageCount);
 
     return receivedMsgs;
   }
@@ -431,7 +454,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   it("Subscription with true boolean filter receives all messages", async function(): Promise<
     void
   > {
-    const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient);
+    const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient, data.length);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, data.length);
@@ -442,7 +465,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   it("Subscription with false boolean filter does not receive any messages", async function(): Promise<
     void
   > {
-    const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient);
+    const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient, 0);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, 0);
@@ -453,13 +476,10 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
 
 describe("Topic Filters -  Send/Receive messages using sql filters of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
-
     await afterEachTest();
   });
 
@@ -467,8 +487,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SQLMsgPropertyRule", "sys.label = 'red'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -480,8 +500,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SQLCustomRule", "color = 'red'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -493,8 +513,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithAND", "color = 'blue' and quantity = 10");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue" && x.Quantity === 10).length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -506,8 +526,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithOR", "color = 'blue' OR quantity = 10");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue" || x.Quantity === 10).length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -519,8 +539,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithAction", "color='blue'", "SET priority = 'High'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -539,8 +559,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     await addRules("SqlRuleWithAction", "color='blue'", "SET sys.label = 'color blue'");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -555,13 +575,10 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
 
 describe("Topic Filters -  Send/Receive messages using correlation filters of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
-    await receiveOrders(defaultSubscriptionClient);
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
-
     await afterEachTest();
   });
 
@@ -571,8 +588,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     });
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -588,8 +605,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     });
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "red").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);
@@ -609,8 +626,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     );
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient);
     const dataLength = data.filter((x) => x.Color === "blue").length;
+    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, dataLength);

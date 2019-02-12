@@ -8,7 +8,7 @@
   sessions in Service Bus.
 */
 
-import { OnError, delay, Namespace, ServiceBusMessage } from "../../lib";
+const { Namespace, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
@@ -28,7 +28,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(): Promise<void> {
+async function main() {
   const ns = Namespace.createFromConnectionString(connectionString);
 
   try {
@@ -51,7 +51,7 @@ async function main(): Promise<void> {
   }
 }
 
-async function sendMessage(ns: Namespace, scientist: any, sessionId: string): Promise<void> {
+async function sendMessage(ns, scientist, sessionId) {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
   const sender = client.getSender();
@@ -68,15 +68,15 @@ async function sendMessage(ns: Namespace, scientist: any, sessionId: string): Pr
   await client.close();
 }
 
-async function receiveMessages(ns: Namespace, sessionId: string): Promise<void> {
+async function receiveMessages(ns, sessionId) {
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(queueName);
   const receiver = await client.getSessionReceiver({ sessionId: sessionId });
 
-  const onMessage = async (brokeredMessage: ServiceBusMessage) => {
+  const onMessage = async (brokeredMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
   };
-  const onError: OnError = (err) => {
+  const onError = (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
   receiver.receive(onMessage, onError);

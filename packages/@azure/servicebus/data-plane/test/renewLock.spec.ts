@@ -18,7 +18,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
-import { purge } from "./testUtils";
+import { testSimpleMessages, purge, getSenderReceiverClients, ClientType } from "./testUtils";
 
 // Template starts
 
@@ -54,13 +54,19 @@ describe("Standard", function(): void {
   );
   const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
 
-  const STANDARD_QUEUE = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
   describe("Unpartitioned Queue", function(): void {
-    const senderClient = namespace.createQueueClient(STANDARD_QUEUE);
-    const receiverClient = senderClient;
+    let senderClient: QueueClient;
+    let receiverClient: QueueClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.UnpartitionedQueue,
+          ClientType.UnpartitionedQueue
+        );
+        senderClient = clients.senderClient as QueueClient;
+        receiverClient = clients.receiverClient as QueueClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -129,13 +135,19 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_QUEUE_PARTITION = process.env.QUEUE_NAME || "partitioned-queue";
   describe("Partitioned Queue", function(): void {
-    const senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION);
-    const receiverClient = senderClient;
+    let senderClient: QueueClient;
+    let receiverClient: QueueClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.PartitionedQueue,
+          ClientType.PartitionedQueue
+        );
+        senderClient = clients.senderClient as QueueClient;
+        receiverClient = clients.receiverClient as QueueClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -204,18 +216,19 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_TOPIC = process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic";
-  const STANDARD_SUBSCRIPTION =
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION || "unpartitioned-topic-subscription";
   describe("Unpartitioned Topic/Subscription", function(): void {
-    const senderClient = namespace.createTopicClient(STANDARD_TOPIC);
-    const receiverClient = namespace.createSubscriptionClient(
-      STANDARD_TOPIC,
-      STANDARD_SUBSCRIPTION
-    );
+    let senderClient: TopicClient;
+    let receiverClient: SubscriptionClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.UnpartitionedTopic,
+          ClientType.UnpartitionedSubscription
+        );
+        senderClient = clients.senderClient as TopicClient;
+        receiverClient = clients.receiverClient as SubscriptionClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -284,18 +297,19 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_TOPIC_PARTITION = process.env.TOPIC_NAME || "partitioned-topic";
-  const STANDARD_SUBSCRIPTION_PARTITION =
-    process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
   describe("Partitioned Topic/Subscription", function(): void {
-    const senderClient = namespace.createTopicClient(STANDARD_TOPIC_PARTITION);
-    const receiverClient = namespace.createSubscriptionClient(
-      STANDARD_TOPIC_PARTITION,
-      STANDARD_SUBSCRIPTION_PARTITION
-    );
+    let senderClient: TopicClient;
+    let receiverClient: SubscriptionClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.PartitionedTopic,
+          ClientType.PartitionedSubscription
+        );
+        senderClient = clients.senderClient as TopicClient;
+        receiverClient = clients.receiverClient as SubscriptionClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -397,13 +411,7 @@ const onError: OnError = (err: MessagingError | Error) => {
   uncaughtErrorFromHandlers = err;
 };
 
-let testMessage: any;
-
 async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
-  testMessage = {
-    body: `hello-world-1 : ${Math.random()}`,
-    messageId: `test message ${Math.random()}`
-  };
   await purge(receiverClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -419,7 +427,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
 
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
@@ -432,8 +440,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1);
-  should.equal(msgs[0].body, testMessage.body);
-  should.equal(msgs[0].messageId, testMessage.messageId);
+  should.equal(msgs[0].body, testSimpleMessages.body);
+  should.equal(msgs[0].messageId, testSimpleMessages.messageId);
 
   // Verify initial lock expiry time on the message
   assertTimestampsAreApproximatelyEqual(
@@ -465,15 +473,15 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
 
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true);
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testMessage.body);
-  should.equal(msgs[0].messageId, testMessage.messageId);
+  should.equal(msgs[0].body, testSimpleMessages.body);
+  should.equal(msgs[0].messageId, testSimpleMessages.messageId);
 
   // Sleeping 30 seconds...
   await delay(lockDurationInMilliseconds + 1000);
@@ -500,15 +508,15 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
   const receiver = receiverClient.getReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testMessage.body);
-      should.equal(brokeredMessage.messageId, testMessage.messageId);
+      should.equal(brokeredMessage.body, testSimpleMessages.body);
+      should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
 
       // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
@@ -567,15 +575,15 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
 
-  await senderClient.getSender().send(testMessage);
+  await senderClient.getSender().send(testSimpleMessages);
   const receiver = receiverClient.getReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testMessage.body);
-      should.equal(brokeredMessage.messageId, testMessage.messageId);
+      should.equal(brokeredMessage.body, testSimpleMessages.body);
+      should.equal(brokeredMessage.messageId, testSimpleMessages.messageId);
 
       // Sleeping...
       await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);

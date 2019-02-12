@@ -1,13 +1,11 @@
 /*
-  This sample demonstrates how the peek() function can be used to browse a Service Bus message.
-
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
-  about message browsing.
+  This sample demonstrates how the receiveBatch() function can be used to receive Service Bus
+  messages in a loop.
 
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { Namespace } from "../../lib";
+import { Namespace } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -16,17 +14,19 @@ const queueName = "";
 async function main(): Promise<void> {
   const ns = Namespace.createFromConnectionString(connectionString);
 
-  // If using Topics, use createSubscriptionClient to peek from a topic subscription
+  // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(queueName);
+  const receiver = client.getReceiver();
 
   try {
-    for (let i = 0; i < 20; i++) {
-      const messages = await client.peek();
+    for (let i = 0; i < 10; i++) {
+      const messages = await receiver.receiveBatch(1, 5);
       if (!messages.length) {
-        console.log("No more messages to peek");
+        console.log("No more messages to receive");
         break;
       }
-      console.log(`Peeking message #${i}: ${messages[0].body}`);
+      console.log(`Received message #${i}: ${messages[0].body}`);
+      await messages[0].complete();
     }
     await client.close();
   } finally {

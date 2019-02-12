@@ -16,16 +16,15 @@
   to learn about session state.
 */
 
-import { Namespace } from "../../lib";
+const { Namespace } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const userEventsQueueName = "";
 
-let ns: Namespace;
+const ns = Namespace.createFromConnectionString(connectionString);
 
-async function main(): Promise<void> {
-  ns = Namespace.createFromConnectionString(connectionString);
+async function main() {
   try {
     await runScenario();
   } finally {
@@ -33,7 +32,7 @@ async function main(): Promise<void> {
   }
 }
 
-async function runScenario(): Promise<void> {
+async function runScenario() {
   // User activity data for Alice and Bob
   const shoppingEventsDataAlice = [
     { event_name: "Add Item", event_details: "Milk" },
@@ -73,7 +72,7 @@ async function runScenario(): Promise<void> {
   await getSessionState("bob");
 }
 
-async function getSessionState(sessionId: string): Promise<void> {
+async function getSessionState(sessionId) {
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(userEventsQueueName);
 
@@ -91,7 +90,7 @@ async function getSessionState(sessionId: string): Promise<void> {
   await client.close();
 }
 
-async function sendMessagesForSession(shoppingEvents: any[], sessionId: string): Promise<void> {
+async function sendMessagesForSession(shoppingEvents, sessionId) {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(userEventsQueueName);
   const sender = client.getSender();
@@ -107,7 +106,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string):
   await client.close();
 }
 
-async function processMessageFromSession(sessionId: string): Promise<void> {
+async function processMessageFromSession(sessionId) {
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
   const client = ns.createQueueClient(userEventsQueueName);
 
@@ -124,7 +123,7 @@ async function processMessageFromSession(sessionId: string): Promise<void> {
     } else if (messages[0].body.event_name === "Add Item") {
       // Update cart if customer adds items and store it in session state.
       const currentSessionState = await sessionReceiver.getState();
-      let newSessionState: string[] = [];
+      let newSessionState = [];
       if (currentSessionState) {
         newSessionState = JSON.parse(currentSessionState);
       }
@@ -133,9 +132,9 @@ async function processMessageFromSession(sessionId: string): Promise<void> {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}' did '${
-        messages[0].body.event_name
-      } ${messages[0].body.event_details}'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
+        messages[0].body.event_details
+      }'`
     );
     await messages[0].complete();
   } else {

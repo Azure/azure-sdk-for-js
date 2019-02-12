@@ -5,13 +5,13 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { Namespace } from "../../lib";
+const { Namespace } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
 
-async function main(): Promise<void> {
+async function main(){
   const ns = Namespace.createFromConnectionString(connectionString);
 
   // If using Topics, use createSubscriptionClient to receive from a topic subscription
@@ -20,7 +20,11 @@ async function main(): Promise<void> {
 
   try {
     for (let i = 0; i < 10; i++) {
-      const messages = await receiver.receiveBatch(1);
+      const messages = await receiver.receiveBatch(1, 5);
+      if (!messages.length) {
+        console.log("No more messages to receive");
+        break;
+      }
       console.log(`Received message #${i}: ${messages[0].body}`);
       await messages[0].complete();
     }

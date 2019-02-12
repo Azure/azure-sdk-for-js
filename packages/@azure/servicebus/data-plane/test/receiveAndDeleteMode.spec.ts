@@ -24,8 +24,7 @@ import {
   testSimpleMessages,
   testMessagesWithSessions,
   testSessionId1,
-  getSenderClient,
-  getReceiverClient,
+  getSenderReceiverClients,
   ClientType,
   purge
 } from "./testUtils";
@@ -70,8 +69,9 @@ async function beforeEachTest(
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, receiverType);
+  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
 
   await purge(receiverClient, useSessions ? testSessionId1 : undefined);
   const peekedMsgs = await receiverClient.peek();
@@ -100,14 +100,14 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     await afterEachTest();
   });
 
-  async function sendReceiveMsg(testMessages: SendableMessageInfo[]): Promise<void> {
-    await sender.send(testMessages[0]);
+  async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
+    await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages[0].body);
-    should.equal(msgs[0].messageId, testMessages[0].messageId);
+    should.equal(msgs[0].body, testMessages.body);
+    should.equal(msgs[0].messageId, testMessages.messageId);
     should.equal(msgs[0].deliveryCount, 0);
   }
 
@@ -199,11 +199,11 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   });
 
   async function sendReceiveMsg(
-    testMessages: SendableMessageInfo[],
+    testMessages: SendableMessageInfo,
     autoCompleteFlag: boolean,
     useSessions?: boolean
   ): Promise<void> {
-    await sender.send(testMessages[0]);
+    await sender.send(testMessages);
     const receivedMsgs: ServiceBusMessage[] = [];
 
     receiver.receive(
@@ -222,10 +222,10 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     await delay(2000);
 
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessages[0].body);
-    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
-    should.equal(receivedMsgs[0].body, testMessages[0].body);
-    should.equal(receivedMsgs[0].messageId, testMessages[0].messageId);
+    should.equal(receivedMsgs[0].body, testMessages.body);
+    should.equal(receivedMsgs[0].messageId, testMessages.messageId);
+    should.equal(receivedMsgs[0].body, testMessages.body);
+    should.equal(receivedMsgs[0].messageId, testMessages.messageId);
 
     should.equal(
       errorFromErrorHandler,
@@ -392,14 +392,14 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   afterEach(async () => {
     await afterEachTest();
   });
-  async function sendReceiveMsg(testMessages: SendableMessageInfo[]): Promise<ServiceBusMessage> {
-    await sender.send(testMessages[0]);
+  async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
+    await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true);
     should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages[0].body);
-    should.equal(msgs[0].messageId, testMessages[0].messageId);
+    should.equal(msgs[0].body, testMessages.body);
+    should.equal(msgs[0].messageId, testMessages.messageId);
     should.equal(msgs[0].deliveryCount, 0);
 
     return msgs[0];

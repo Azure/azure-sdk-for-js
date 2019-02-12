@@ -8,7 +8,7 @@
   message deferral.
 */
 
-import { Namespace, OnMessage, OnError, delay } from "../../lib";
+import { Namespace, OnMessage, OnError, delay } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -74,7 +74,7 @@ async function receiveMessage(): Promise<void> {
         const message = brokeredMessage.body;
         // now let's check whether the step we received is the step we expect at this stage of the workflow
         if (message.step === lastProcessedRecipeStep + 1) {
-          console.log("Message Received:", message);
+          console.log("Process received message:", message);
           lastProcessedRecipeStep++;
           await brokeredMessage.complete();
         } else {
@@ -82,6 +82,7 @@ async function receiveMessage(): Promise<void> {
           // the delivery order. We put it aside. To retrieve it later, we remeber its sequence number
           const sequenceNumber = brokeredMessage.sequenceNumber;
           deferredSteps.set(message.step, sequenceNumber);
+          console.log("Defer received message:", message);
           await brokeredMessage.defer();
         }
       } else {
@@ -100,8 +101,8 @@ async function receiveMessage(): Promise<void> {
     let receiver = receiveClient.getReceiver();
     receiver.receive(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
-    receiver.close();
-    console.log("Deferred Messages count:", deferredSteps.size);
+    await receiver.close();
+    console.log("Total number of deferred messages:", deferredSteps.size);
 
     receiver = receiveClient.getReceiver();
     // Now we process the deferred messages
@@ -110,7 +111,7 @@ async function receiveMessage(): Promise<void> {
       const sequenceNumber = deferredSteps.get(step);
       const message = await receiver.receiveDeferredMessage(sequenceNumber);
       if (message) {
-        console.log("Received Deferral Message:", message.body);
+        console.log("Process deferred message:", message.body);
         await message.complete();
       } else {
         console.log("No message found for step number ", step);

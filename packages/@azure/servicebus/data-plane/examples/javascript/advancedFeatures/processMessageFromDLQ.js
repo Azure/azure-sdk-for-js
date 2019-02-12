@@ -2,23 +2,23 @@
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
   sending it back to the main queue.
 
-  Prior to running this sample, run the sample in movingMessagesToDLQ.ts file to move a message
+  Prior to running this sample, run the sample in movingMessagesToDLQ.js file to move a message
   to the Dead Letter Queue
 */
 
-import { ServiceBusMessage, Namespace } from "../../lib";
+const { Namespace } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
 
-const deadLetterQueueName = Namespace.getDeadLetterQueuePathForQueue(queueName);
-// const deadLetterQueueName = Namespace.getDeadLetterSubcriptionPathForSubcription(topicName, subscriptionName);
+const ns = Namespace.createFromConnectionString(connectionString);
+const deadLetterQueueName = Namespace.getDeadLetterQueuePath(queueName);
+// const deadLetterQueueName = Namespace.getDeadLetterTopicPath(topicName, subscriptionName);
 
-let ns: Namespace;
 
-async function main(): Promise<void> {
-  ns = Namespace.createFromConnectionString(connectionString);
+
+async function main() {
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -26,14 +26,14 @@ async function main(): Promise<void> {
   }
 }
 
-async function processDeadletterMessageQueue(): Promise<void> {
+async function processDeadletterMessageQueue() {
   const client = ns.createQueueClient(deadLetterQueueName);
   const receiver = client.getReceiver();
 
   const message = await receiver.receiveBatch(1);
 
   if (message.length > 0) {
-    console.log(">>>>> Reprocessing the message in DLQ - ", message[0].body);
+    console.log(">>>>> Received the message from DLQ - ", message[0].body);
 
     // Do something with the message retrieved from DLQ
     await fixAndResendMessage(message[0]);
@@ -48,13 +48,15 @@ async function processDeadletterMessageQueue(): Promise<void> {
 }
 
 // Send repaired message back to the current queue / topic
-async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void> {
+async function fixAndResendMessage(oldMessage) {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
   const sender = client.getSender();
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = oldMessage.clone();
+
+  console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
   await sender.send(repairedMessage);
   await client.close();
