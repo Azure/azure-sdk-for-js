@@ -141,7 +141,7 @@ import * as msRestBrowserAuth from "@azure/ms-rest-browserauth";
 
 Have we mentioned that our new set of Azure SDK packages are isomorphic (work in Node.js as well as browsers)? This builds on the work we did with our imports so that now you can choose only the packages you need so that your browser JavaScript application can still be as small as possible.
 
-Speaking of size, we also restructed our SDKs to play more nicely with the common bundlers that exist out there. Some of you have mentioned in the past that our Node.js SDKs didn't work very well with bundlers (such as [here](https://github.com/Azure/azure-sdk-for-node/issues/2398) and [here](https://github.com/Azure/azure-sdk-for-node/issues/1631)). We heard you and put in extra effort to make sure that our packages are tree-shakeable with both [webpack](https://webpack.js.org/) and [rollup](https://rollupjs.org/guide/en).
+Speaking of size, we also restricted our SDKs to play more nicely with the common bundlers that exist out there. Some of you have mentioned in the past that our Node.js SDKs didn't work very well with bundlers (such as [here](https://github.com/Azure/azure-sdk-for-node/issues/2398) and [here](https://github.com/Azure/azure-sdk-for-node/issues/1631)). We heard you and put in extra effort to make sure that our packages are tree-shakeable with both [webpack](https://webpack.js.org/) and [rollup](https://rollupjs.org/guide/en).
 
 ## Context Types
 
