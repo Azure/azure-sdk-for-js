@@ -934,10 +934,10 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
     // Results are checked after both receiveBatches are done to ensure that the second call doesnt
     // affect the result from the first one.
     should.equal(Array.isArray(msgs1), true);
-    should.equal(msgs1.length, 1);
+    should.equal(msgs1.length, 1,"Unexpected number of messages");
 
     should.equal(Array.isArray(msgs2), true);
-    should.equal(msgs2.length, 1);
+    should.equal(msgs2.length, 1,"Unexpected number of messages");
 
     should.equal(testMessages.some((x) => x.messageId === msgs1[0].messageId), true);
     should.equal(testMessages.some((x) => x.messageId === msgs2[0].messageId), true);

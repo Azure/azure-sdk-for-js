@@ -383,7 +383,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   );
 
   should.equal(Array.isArray(msgs), true);
-  should.equal(msgs.length, 1);
+  should.equal(msgs.length, 1, "Unexpected number of messages");
   should.equal(
     msgs[0].body,
     testMessagesWithSessions.body,
