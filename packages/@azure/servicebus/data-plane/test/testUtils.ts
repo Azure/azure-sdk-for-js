@@ -179,13 +179,9 @@ export async function getSenderReceiverClients(
   senderClient: QueueClient | TopicClient;
   receiverClient: QueueClient | SubscriptionClient;
 }> {
-  let queueName: string;
-  let topicName: string;
-  let subscriptionName: string;
-  let queueClient: QueueClient;
   switch (receiverClientType) {
-    case ClientType.PartitionedQueue:
-      queueName = process.env.QUEUE_NAME || "partitioned-queue";
+    case ClientType.PartitionedQueue: {
+      const queueName = process.env.QUEUE_NAME || "partitioned-queue";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateQueue(queueName, {
           lockDuration: defaultLockDuration,
@@ -193,14 +189,15 @@ export async function getSenderReceiverClients(
           enableBatchedOperations: true
         });
       }
-      queueClient = namespace.createQueueClient(queueName);
+      const queueClient = namespace.createQueueClient(queueName);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
       };
-    case ClientType.PartitionedSubscription:
-      topicName = process.env.TOPIC_NAME || "partitioned-topic";
-      subscriptionName = process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
+    }
+    case ClientType.PartitionedSubscription: {
+      const topicName = process.env.TOPIC_NAME || "partitioned-topic";
+      const subscriptionName = process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateTopic(topicName, {
           enablePartitioning: true,
@@ -215,22 +212,24 @@ export async function getSenderReceiverClients(
         senderClient: namespace.createTopicClient(topicName),
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
-    case ClientType.UnpartitionedQueue:
-      queueName = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
+    }
+    case ClientType.UnpartitionedQueue: {
+      const queueName = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateQueue(queueName, {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true
         });
       }
-      queueClient = namespace.createQueueClient(queueName);
+      const queueClient = namespace.createQueueClient(queueName);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
       };
-    case ClientType.UnpartitionedSubscription:
-      topicName = process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic";
-      subscriptionName =
+    }
+    case ClientType.UnpartitionedSubscription: {
+      const topicName = process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic";
+      const subscriptionName =
         process.env.SUBSCRIPTION_NAME_NO_PARTITION || "unpartitioned-topic-subscription";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateTopic(topicName, {
@@ -245,8 +244,9 @@ export async function getSenderReceiverClients(
         senderClient: namespace.createTopicClient(topicName),
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
-    case ClientType.PartitionedQueueWithSessions:
-      queueName = process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
+    }
+    case ClientType.PartitionedQueueWithSessions: {
+      const queueName = process.env.QUEUE_NAME_SESSION || "partitioned-queue-sessions";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateQueue(queueName, {
           lockDuration: defaultLockDuration,
@@ -255,14 +255,15 @@ export async function getSenderReceiverClients(
           requiresSession: true
         });
       }
-      queueClient = namespace.createQueueClient(queueName);
+      const queueClient = namespace.createQueueClient(queueName);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
       };
-    case ClientType.PartitionedSubscriptionWithSessions:
-      topicName = process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions";
-      subscriptionName =
+    }
+    case ClientType.PartitionedSubscriptionWithSessions: {
+      const topicName = process.env.TOPIC_NAME_SESSION || "partitioned-topic-sessions";
+      const subscriptionName =
         process.env.SUBSCRIPTION_NAME_SESSION || "partitioned-topic-sessions-subscription";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateTopic(topicName, {
@@ -279,8 +280,10 @@ export async function getSenderReceiverClients(
         senderClient: namespace.createTopicClient(topicName),
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
-    case ClientType.UnpartitionedQueueWithSessions:
-      queueName = process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
+    }
+    case ClientType.UnpartitionedQueueWithSessions: {
+      const queueName =
+        process.env.QUEUE_NAME_NO_PARTITION_SESSION || "unpartitioned-queue-sessions";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateQueue(queueName, {
           lockDuration: defaultLockDuration,
@@ -288,14 +291,16 @@ export async function getSenderReceiverClients(
           requiresSession: true
         });
       }
-      queueClient = namespace.createQueueClient(queueName);
+      const queueClient = namespace.createQueueClient(queueName);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
       };
-    case ClientType.UnpartitionedSubscriptionWithSessions:
-      topicName = process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions";
-      subscriptionName =
+    }
+    case ClientType.UnpartitionedSubscriptionWithSessions: {
+      const topicName =
+        process.env.TOPIC_NAME_NO_PARTITION_SESSION || "unpartitioned-topic-sessions";
+      const subscriptionName =
         process.env.SUBSCRIPTION_NAME_NO_PARTITION_SESSION ||
         "unpartitioned-topic-sessions-subscription";
       if (process.env.CLEAN_NAMESPACE) {
@@ -312,9 +317,10 @@ export async function getSenderReceiverClients(
         senderClient: namespace.createTopicClient(topicName),
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
-    case ClientType.TopicFilterTestDefaultSubscription:
-      topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
-      subscriptionName =
+    }
+    case ClientType.TopicFilterTestDefaultSubscription: {
+      const topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
+      const subscriptionName =
         process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateTopic(topicName, {
@@ -329,9 +335,11 @@ export async function getSenderReceiverClients(
         senderClient: namespace.createTopicClient(topicName),
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
-    case ClientType.TopicFilterTestSubscription:
-      topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
-      subscriptionName = process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
+    }
+    case ClientType.TopicFilterTestSubscription: {
+      const topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
+      const subscriptionName =
+        process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
       if (process.env.CLEAN_NAMESPACE) {
         await recreateTopic(topicName, {
           enableBatchedOperations: true
@@ -345,6 +353,7 @@ export async function getSenderReceiverClients(
         senderClient: namespace.createTopicClient(topicName),
         receiverClient: namespace.createSubscriptionClient(topicName, subscriptionName)
       };
+    }
     default:
       break;
   }
