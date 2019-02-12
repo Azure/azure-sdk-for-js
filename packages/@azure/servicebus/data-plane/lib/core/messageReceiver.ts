@@ -81,10 +81,11 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    */
   receiveMode?: ReceiveMode;
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   * - **Default**: `1` (message at a time).
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that can be
+   * fetched over the network concurrently while in peek lock mode.
+   * This setting can be customized to take a higher number if the Service Bus client is
+   * running on a multi-core platform.
+   * - **Default**: `1`
    */
   maxConcurrentCalls?: number;
 }

@@ -86,6 +86,14 @@ export interface SessionMessageHandlerOptions {
    * If this option is not provided, then receiver link will stay open until manually closed.
    */
   newMessageWaitTimeoutInSeconds?: number;
+  /**
+   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that can be
+   * fetched over the network concurrently for a session while in peek lock mode.
+   * This setting can be customized to take a higher number if the Service Bus client is
+   * running on a multi-core platform.
+   * - **Default**: `1`
+   */
+  maxConcurrentCallsPerSession?: number;
 }
 /**
  * Describes the options for creating a Session Manager.
@@ -126,10 +134,11 @@ export class MessageSession extends LinkEntity {
    */
   maxConcurrentSessions?: number;
   /**
-   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that should be
-   * processed concurrently in a session while in peek lock mode. Once this limit has been reached,
-   * more messages will not be received until messages currently being processed have been settled.
-   * - **Default**: `1` (message in a session at a time).
+   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that can be
+   * fetched over the network concurrently for a session while in peek lock mode.
+   * This setting can be customized to take a higher number if the Service Bus client is
+   * running on a multi-core platform.
+   * - **Default**: `1`
    */
   maxConcurrentCallsPerSession?: number;
   /**
@@ -523,7 +532,7 @@ export class MessageSession extends LinkEntity {
     }
     if (!options) options = {};
     this._isReceivingMessages = true;
-    this.maxConcurrentCallsPerSession = 1;
+    this.maxConcurrentCallsPerSession = options.maxConcurrentCallsPerSession != undefined ? options.maxConcurrentCallsPerSession : 1;
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).
