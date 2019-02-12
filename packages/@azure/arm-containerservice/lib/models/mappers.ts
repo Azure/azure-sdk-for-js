@@ -1112,6 +1112,17 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
         type: {
           name: "String"
         }
+      },
+      availabilityZones: {
+        serializedName: "availabilityZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1221,6 +1232,17 @@ export const AgentPool: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      availabilityZones: {
+        serializedName: "properties.availabilityZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

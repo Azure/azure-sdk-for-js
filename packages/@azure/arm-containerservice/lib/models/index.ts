@@ -1047,6 +1047,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {string[]} [availabilityZones] Availability zones for nodes
+   */
+  availabilityZones?: string[];
 }
 
 /**
@@ -1185,6 +1189,10 @@ export interface AgentPool extends SubResource {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {string[]} [availabilityZones] Availability zones for nodes
+   */
+  availabilityZones?: string[];
 }
 
 /**
