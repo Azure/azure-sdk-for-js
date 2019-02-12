@@ -18,7 +18,6 @@ export {
   CaseModel,
   UserInfo,
   Bookmark,
-  BookmarkPropertiesUpdatedBy,
   OfficeConsent
 } from "../models/mappers";
 

@@ -307,9 +307,9 @@ export interface CaseModel extends Resource {
    */
   startTimeUtc?: Date;
   /**
-   * @member {string[]} [tags] List of tags
+   * @member {string[]} [labels] List of labels relevant to this case
    */
-  tags?: string[];
+  labels?: string[];
   /**
    * @member {string} [description] The description of the case
    */
@@ -342,27 +342,6 @@ export interface CaseModel extends Resource {
 
 /**
  * @interface
- * An interface representing BookmarkPropertiesUpdatedBy.
- * Describes a user that updated the bookmark
- *
- */
-export interface BookmarkPropertiesUpdatedBy {
-  /**
-   * @member {string} [objectId] The object id of the user.
-   */
-  objectId?: string;
-  /**
-   * @member {string} [email] The email of the user.
-   */
-  email?: string;
-  /**
-   * @member {string} [name] The name of the user.
-   */
-  name?: string;
-}
-
-/**
- * @interface
  * An interface representing Bookmark.
  * Represents a bookmark in Azure Security Insights.
  *
@@ -390,22 +369,21 @@ export interface Bookmark extends Resource {
    */
   createdBy?: UserInfo;
   /**
-   * @member {BookmarkPropertiesUpdatedBy} [updatedBy] Describes a user that
-   * updated the bookmark
+   * @member {UserInfo} [updatedBy] Describes a user that updated the bookmark
    */
-  updatedBy?: BookmarkPropertiesUpdatedBy;
+  updatedBy?: UserInfo;
   /**
    * @member {string} [notes] The notes of the bookmark
    */
   notes?: string;
   /**
-   * @member {string[]} [tags] List of tags
+   * @member {string[]} [labels] List of labels relevant to this bookmark
    */
-  tags?: string[];
+  labels?: string[];
   /**
-   * @member {string} [query] The query of the bookmark.
+   * @member {string} query The query of the bookmark.
    */
-  query?: string;
+  query: string;
 }
 
 /**
@@ -588,7 +566,7 @@ export interface TIDataConnectorDataTypesIndicators extends DataConnectorDataTyp
 /**
  * @interface
  * An interface representing TIDataConnectorDataTypes.
- * The available data types for TI data connector.
+ * The available data types for TI (Threat Intelligence) data connector.
  *
  */
 export interface TIDataConnectorDataTypes {
@@ -933,13 +911,12 @@ export interface AccountEntity {
    */
   readonly name?: string;
   /**
-   * @member {string} [accountEntityName] The name of the account. This field
-   * should hold only the name without any domain added to it, i.e.
-   * administrator.
+   * @member {string} [accountName] The name of the account. This field should
+   * hold only the name without any domain added to it, i.e. administrator.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly accountEntityName?: string;
+  readonly accountName?: string;
   /**
    * @member {string} [ntDomain] The NETBIOS domain name as it appears in the
    * alert format – domain\username. Examples: NT AUTHORITY.
@@ -961,19 +938,19 @@ export interface AccountEntity {
    */
   readonly sid?: string;
   /**
-   * @member {string} [aadTenantId] The AAD tenant id.
+   * @member {string} [aadTenantId] The Azure Active Directory tenant id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly aadTenantId?: string;
   /**
-   * @member {string} [aadUserId] The AAD user id.
+   * @member {string} [aadUserId] The Azure Active Directory user id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly aadUserId?: string;
   /**
-   * @member {string} [puid] The AAD Passport User ID.
+   * @member {string} [puid] The Azure Active Directory Passport User ID.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1121,12 +1098,12 @@ export interface FileEntity {
    */
   readonly directory?: string;
   /**
-   * @member {string} [fileEntityName] The file name without path (some alerts
-   * might not include path).
+   * @member {string} [fileName] The file name without path (some alerts might
+   * not include path).
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly fileEntityName?: string;
+  readonly fileName?: string;
 }
 
 /**
@@ -1204,7 +1181,7 @@ export interface SettingsKind {
 /**
  * @interface
  * An interface representing UebaSettings.
- * Represents settings for UEBA enablement.
+ * Represents settings for User and Entity Behavior Analytics enablement.
  *
  */
 export interface UebaSettings {
@@ -1231,19 +1208,21 @@ export interface UebaSettings {
    */
   readonly name?: string;
   /**
-   * @member {boolean} [isEnabled] Determines whether UEBA is enabled for this
-   * workspace.
+   * @member {boolean} [isEnabled] Determines whether User and Entity Behavior
+   * Analytics is enabled for this workspace.
    */
   isEnabled?: boolean;
   /**
-   * @member {StatusInMcas} [statusInMcas] Determines whether UEBA is enabled
-   * from MCAS. Possible values include: 'Enabled', 'Disabled'
+   * @member {StatusInMcas} [statusInMcas] Determines whether User and Entity
+   * Behavior Analytics is enabled from MCAS (Microsoft Cloud App Security).
+   * Possible values include: 'Enabled', 'Disabled'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly statusInMcas?: StatusInMcas;
   /**
-   * @member {boolean} [atpLicenseStatus] Determines whether the tenant .
+   * @member {boolean} [atpLicenseStatus] Determines whether the tenant has ATP
+   * (Advanced Threat Protection) license.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */

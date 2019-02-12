@@ -18,7 +18,6 @@ export {
   CloudError,
   Action,
   Bookmark,
-  BookmarkPropertiesUpdatedBy,
   OfficeConsent
 } from "../models/mappers";
 

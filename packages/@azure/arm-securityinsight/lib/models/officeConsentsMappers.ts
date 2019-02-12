@@ -18,7 +18,6 @@ export {
   Action,
   CaseModel,
   UserInfo,
-  Bookmark,
-  BookmarkPropertiesUpdatedBy
+  Bookmark
 } from "../models/mappers";
 

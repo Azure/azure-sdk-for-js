@@ -15,7 +15,6 @@ export {
   Resource,
   BaseResource,
   UserInfo,
-  BookmarkPropertiesUpdatedBy,
   CloudError,
   Action,
   CaseModel,

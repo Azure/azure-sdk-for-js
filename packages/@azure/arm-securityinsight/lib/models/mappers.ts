@@ -371,8 +371,8 @@ export const CaseModel: msRest.CompositeMapper = {
           name: "DateTime"
         }
       },
-      tags: {
-        serializedName: "properties.tags",
+      labels: {
+        serializedName: "properties.labels",
         type: {
           name: "Sequence",
           element: {
@@ -426,34 +426,6 @@ export const CaseModel: msRest.CompositeMapper = {
   }
 };
 
-export const BookmarkPropertiesUpdatedBy: msRest.CompositeMapper = {
-  serializedName: "BookmarkProperties_updatedBy",
-  type: {
-    name: "Composite",
-    className: "BookmarkPropertiesUpdatedBy",
-    modelProperties: {
-      objectId: {
-        serializedName: "objectId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      email: {
-        serializedName: "email",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Bookmark: msRest.CompositeMapper = {
   serializedName: "Bookmark",
   type: {
@@ -497,7 +469,7 @@ export const Bookmark: msRest.CompositeMapper = {
         serializedName: "properties.updatedBy",
         type: {
           name: "Composite",
-          className: "BookmarkPropertiesUpdatedBy"
+          className: "UserInfo"
         }
       },
       notes: {
@@ -506,8 +478,8 @@ export const Bookmark: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      tags: {
-        serializedName: "properties.tags",
+      labels: {
+        serializedName: "properties.labels",
         type: {
           name: "Sequence",
           element: {
@@ -518,6 +490,7 @@ export const Bookmark: msRest.CompositeMapper = {
         }
       },
       query: {
+        required: true,
         serializedName: "properties.query",
         type: {
           name: "String"
@@ -911,9 +884,9 @@ export const AccountEntity: msRest.CompositeMapper = {
     className: "AccountEntity",
     modelProperties: {
       ...Entity.type.modelProperties,
-      accountEntityName: {
+      accountName: {
         readOnly: true,
-        serializedName: "properties.name",
+        serializedName: "properties.accountName",
         type: {
           name: "String"
         }
@@ -1078,9 +1051,9 @@ export const FileEntity: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      fileEntityName: {
+      fileName: {
         readOnly: true,
-        serializedName: "properties.name",
+        serializedName: "properties.fileName",
         type: {
           name: "String"
         }
