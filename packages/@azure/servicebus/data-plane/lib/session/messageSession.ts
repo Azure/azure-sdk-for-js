@@ -309,6 +309,12 @@ export class MessageSession extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError);
+        if (sbError.name === "SessionLockLostError") {
+          this._context.expiredMessageSessions[this.sessionId!] = true;
+          sbError.message = `The session lock has expired on the session with id ${
+            this.sessionId
+          }.`;
+        }
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
           connectionId,
@@ -338,8 +344,12 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this._receiver || context.receiver!;
+      let clearExpiredSessionFlag = true;
       if (receiverError) {
         const sbError = translate(receiverError);
+        if (sbError.name === "SessionLockLostError") {
+          clearExpiredSessionFlag = false;
+        }
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
             "The associated error is: %O",
@@ -378,6 +388,10 @@ export class MessageSession extends LinkEntity {
           this.name,
           this.sessionId
         );
+      }
+
+      if (this.sessionId && clearExpiredSessionFlag) {
+        delete this._context.expiredMessageSessions[this.sessionId];
       }
     };
 
@@ -590,6 +604,10 @@ export class MessageSession extends LinkEntity {
             }
           }
           return;
+        } finally {
+          if (this._receiver) {
+            this._receiver!.addCredit(1);
+          }
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -624,7 +642,6 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this._receiver!.setCreditWindow(this.maxConcurrentCallsPerSession);
       this._receiver!.addCredit(this.maxConcurrentCallsPerSession);
     } else {
       this._isReceivingMessages = false;
@@ -1076,7 +1093,12 @@ export class MessageSession extends LinkEntity {
    * @ignore
    */
   private _ensureSessionLockRenewal(): void {
-    if (this.autoRenewLock && Date.now() < this._totalAutoLockRenewDuration && this.isOpen()) {
+    if (
+      this.autoRenewLock &&
+      new Date(this._totalAutoLockRenewDuration) > this.sessionLockedUntilUtc! &&
+      Date.now() < this._totalAutoLockRenewDuration &&
+      this.isOpen()
+    ) {
       const connectionId = this._context.namespace.connectionId;
       const nextRenewalTimeout = calculateRenewAfterDuration(this.sessionLockedUntilUtc!);
       this._sessionLockRenewalTimer = setTimeout(async () => {
