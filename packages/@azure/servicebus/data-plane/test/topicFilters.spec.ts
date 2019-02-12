@@ -16,7 +16,7 @@ import {
   CorrelationFilter,
   delay
 } from "../lib";
-import { getSenderClient, getReceiverClient, ClientType, purge } from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -41,10 +41,9 @@ async function testPeekMsgsLength(
 
 let ns: Namespace;
 let subscriptionClient: SubscriptionClient;
-let defaultSubscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
-async function beforeEachTest(): Promise<void> {
+async function beforeEachTest(receiverType: ClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -55,28 +54,19 @@ async function beforeEachTest(): Promise<void> {
   }
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
-  topicClient = getSenderClient(ns, ClientType.TopicFilterTestTopic) as TopicClient;
-  subscriptionClient = getReceiverClient(
-    ns,
-    ClientType.TopicFilterTestSubscription
-  ) as SubscriptionClient;
-  defaultSubscriptionClient = getReceiverClient(
-    ns,
-    ClientType.TopicFilterTestDefaultSubscription
-  ) as SubscriptionClient;
 
-  await purge(defaultSubscriptionClient);
+  const clients = await getSenderReceiverClients(ns, ClientType.TopicFilterTestTopic, receiverType);
+  topicClient = clients.senderClient as TopicClient;
+  subscriptionClient = clients.receiverClient as SubscriptionClient;
+
   await purge(subscriptionClient);
-  const peekedDefaultSubscriptionMsg = await defaultSubscriptionClient.peek();
-  if (peekedDefaultSubscriptionMsg.length) {
-    chai.assert.fail("Please use an empty Default Subscription for integration testing");
-  }
-
   const peekedSubscriptionMsg = await subscriptionClient.peek();
   if (peekedSubscriptionMsg.length) {
     chai.assert.fail("Please use an empty Subscription for integration testing");
   }
-  await removeAllRules(subscriptionClient);
+  if (receiverType === ClientType.TopicFilterTestSubscription) {
+    await removeAllRules(subscriptionClient);
+  }
 }
 
 async function afterEachTest(): Promise<void> {
@@ -179,7 +169,7 @@ async function addRules(
 
 describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -235,7 +225,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
 
 describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -296,7 +286,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
 
 describe("Topic Filters -  Remove Rule", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -333,7 +323,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
 
 describe("Topic Filters -  Get Rules", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -361,14 +351,6 @@ describe("Topic Filters -  Get Rules", function(): void {
     should.equal(JSON.stringify(rules[0].filter), JSON.stringify({ expression: expr1 }));
     should.equal(rules[1].name, "Priority_2");
     should.equal(JSON.stringify(rules[1].filter), JSON.stringify({ expression: expr2 }));
-  });
-
-  it("Default rule is returned for the subscription for which no rules were added", async function(): Promise<
-    void
-  > {
-    const rules = await defaultSubscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "$Default");
   });
 
   it("Rule with SQL filter and action returns expected filter and action expression", async function(): Promise<
@@ -406,9 +388,27 @@ describe("Topic Filters -  Get Rules", function(): void {
   });
 });
 
+describe("Topic Filters -  Get Rules - Default Rule", function(): void {
+  beforeEach(async () => {
+    await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
+  });
+
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("Default rule is returned for the subscription for which no rules were added", async function(): Promise<
+    void
+  > {
+    const rules = await subscriptionClient.getRules();
+    should.equal(rules.length, 1);
+    should.equal(rules[0].name, "$Default");
+  });
+});
+
 describe("Topic Filters -  Send/Receive messages using default filter of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
   });
 
   afterEach(async () => {
@@ -417,18 +417,18 @@ describe("Topic Filters -  Send/Receive messages using default filter of subscri
 
   it("Subscription with default filter receives all messages", async function(): Promise<void> {
     await sendOrders();
-    const receivedMsgs = await receiveOrders(defaultSubscriptionClient, data.length);
+    const receivedMsgs = await receiveOrders(subscriptionClient, data.length);
 
     should.equal(Array.isArray(receivedMsgs), true);
     should.equal(receivedMsgs.length, data.length);
 
-    await testPeekMsgsLength(defaultSubscriptionClient, 0);
+    await testPeekMsgsLength(subscriptionClient, 0);
   });
 });
 
 describe("Topic Filters -  Send/Receive messages using boolean filters of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -476,7 +476,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
 
 describe("Topic Filters -  Send/Receive messages using sql filters of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -575,7 +575,7 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
 
 describe("Topic Filters -  Send/Receive messages using correlation filters of subscription", function(): void {
   beforeEach(async () => {
-    await beforeEachTest();
+    await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
