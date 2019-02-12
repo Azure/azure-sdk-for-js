@@ -75,7 +75,7 @@ async function afterEachTest(): Promise<void> {
 
   const rules = await subscriptionClient.getRules();
   should.equal(rules.length, 1, "Unexpected number of rules");
-  should.equal(rules[0].name, "DefaultFilter");
+  should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
 
   await ns.close();
 }
@@ -180,7 +180,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
-    should.equal(rules[0].name, "BooleanFilter");
+    should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
   }
 
   it("Add Rule with Boolean filter - True Filter", async function(): Promise<void> {
@@ -198,7 +198,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     );
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
-    should.equal(rules[0].name, "Priority_1");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
   it("Add Rule with SQL filter and action", async function(): Promise<void> {
@@ -209,7 +209,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     );
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
-    should.equal(rules[0].name, "Priority_1");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
   it("Add Rule with Correlation filter", async function(): Promise<void> {
@@ -219,7 +219,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     });
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
-    should.equal(rules[0].name, "Correlationfilter");
+    should.equal(rules[0].name, "Correlationfilter", "RuleName is different than expected");
   });
 });
 
@@ -364,17 +364,29 @@ describe("Topic Filters -  Get Rules", function(): void {
     await subscriptionClient.addRule("Priority_1", expr1);
     rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
-    should.equal(rules[0].name, "Priority_1");
-    should.equal(JSON.stringify(rules[0].filter), JSON.stringify({ expression: expr1 }));
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
+    should.equal(
+      JSON.stringify(rules[0].filter),
+      JSON.stringify({ expression: expr1 }),
+      "Filter-expression is different than expected"
+    );
 
     const expr2 = "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')";
     await subscriptionClient.addRule("Priority_2", expr2);
     rules = await subscriptionClient.getRules();
     should.equal(rules.length, 2, "Unexpected number of rules");
-    should.equal(rules[0].name, "Priority_1");
-    should.equal(JSON.stringify(rules[0].filter), JSON.stringify({ expression: expr1 }));
-    should.equal(rules[1].name, "Priority_2");
-    should.equal(JSON.stringify(rules[1].filter), JSON.stringify({ expression: expr2 }));
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
+    should.equal(
+      JSON.stringify(rules[0].filter),
+      JSON.stringify({ expression: expr1 }),
+      "Filter-expression is different than expected"
+    );
+    should.equal(rules[1].name, "Priority_2", "RuleName is different than expected");
+    should.equal(
+      JSON.stringify(rules[1].filter),
+      JSON.stringify({ expression: expr2 }),
+      "Filter-expression is different than expected"
+    );
   });
 
   it("Rule with SQL filter and action returns expected filter and action expression", async function(): Promise<
@@ -386,7 +398,7 @@ describe("Topic Filters -  Get Rules", function(): void {
       "SET sys.label = 'MessageX'"
     );
     const rules = await subscriptionClient.getRules();
-    should.equal(rules[0].name, "Priority_1");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
   it("Rule with Correlation filter returns expected filter", async function(): Promise<void> {
@@ -395,7 +407,7 @@ describe("Topic Filters -  Get Rules", function(): void {
       correlationId: "high"
     });
     const rules = await subscriptionClient.getRules();
-    should.equal(rules[0].name, "Correlationfilter");
+    should.equal(rules[0].name, "Correlationfilter", "RuleName is different than expected");
     const expectedFilter = {
       correlationId: "high",
       label: "red",
@@ -408,7 +420,11 @@ describe("Topic Filters -  Get Rules", function(): void {
         expectedFilter.correlationId,
         "MessageId is different than expected"
       );
-      should.equal((<CorrelationFilter>rule.filter).label, expectedFilter.label);
+      should.equal(
+        (<CorrelationFilter>rule.filter).label,
+        expectedFilter.label,
+        "Filter-label is different than expected"
+      );
       const userProperties = (<CorrelationFilter>rule.filter).userProperties;
       should.equal(Array.isArray(userProperties), true, "`ReceivedMessages` is not an array");
       should.equal(userProperties.length, 0, "Unexpected number of messages");
@@ -430,7 +446,7 @@ describe("Topic Filters -  Get Rules - Default Rule", function(): void {
   > {
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
-    should.equal(rules[0].name, "$Default");
+    should.equal(rules[0].name, "$Default", "RuleName is different than expected");
   });
 });
 
@@ -471,7 +487,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
     await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
-    should.equal(rules[0].name, "BooleanFilter");
+    should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
 
     await sendOrders();
     const receivedMsgs = await receiveOrders(client, expectedMessageCount);
@@ -573,7 +589,11 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
     if (receivedMsgs[0].userProperties) {
-      should.equal(receivedMsgs[0].userProperties.priority, "High");
+      should.equal(
+        receivedMsgs[0].userProperties.priority,
+        "High",
+        "Priority of the receivedMessage is different than expected"
+      );
     } else {
       chai.assert.fail("Received message doesnt have user properties");
     }
@@ -593,7 +613,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(receivedMsgs.length, dataLength,"Unexpected number of messages");
     if (receivedMsgs[0].userProperties) {
-      should.equal(receivedMsgs[0].userProperties.priority, "High");
+      should.equal(receivedMsgs[0].userProperties.priority, "High",
+        "Priority of the receivedMessage is different than expected");
     } else {
       chai.assert.fail("Received message doesnt have user properties");
     }
@@ -661,7 +682,11 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     if (receivedMsgs[0].userProperties) {
-      should.equal(receivedMsgs[0].userProperties.priority, "High");
+      should.equal(
+        receivedMsgs[0].userProperties.priority,
+        "High",
+        "Priority of the receivedMessage is different than expected"
+      );
     } else {
       chai.assert.fail("Received message doesnt have user properties");
     }
