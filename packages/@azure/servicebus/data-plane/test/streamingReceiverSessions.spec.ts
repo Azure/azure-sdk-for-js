@@ -116,7 +116,11 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     const receivedMsgs: ServiceBusMessage[] = [];
     sessionReceiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(msg.body, testMessagesWithSessions.body);
+      should.equal(
+        msg.body,
+        testMessagesWithSessions.body,
+        "MessageBody is different than expected"
+      );
       should.equal(msg.messageId, testMessagesWithSessions.messageId);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -179,7 +183,11 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(msg.body, testMessagesWithSessions.body);
+        should.equal(
+          msg.body,
+          testMessagesWithSessions.body,
+          "MessageBody is different than expected"
+        );
         should.equal(msg.messageId, testMessagesWithSessions.messageId);
         return Promise.resolve();
       },
@@ -254,7 +262,11 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
     sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(msg.body, testMessagesWithSessions.body);
+        should.equal(
+          msg.body,
+          testMessagesWithSessions.body,
+          "MessageBody is different than expected"
+        );
         should.equal(msg.messageId, testMessagesWithSessions.messageId);
         return msg.complete();
       },
@@ -499,7 +511,11 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
       throw "No message received for sequence number";
     }
 
-    should.equal(deferredMsg.body, testMessagesWithSessions.body);
+    should.equal(
+      deferredMsg.body,
+      testMessagesWithSessions.body,
+      "MessageBody is different than expected"
+    );
     should.equal(deferredMsg.messageId, testMessagesWithSessions.messageId);
     should.equal(deferredMsg.deliveryCount, 1);
 
@@ -611,7 +627,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true);
-    should.equal(deadLetterMsgs.length, 1);
+    should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(deadLetterMsgs[0].messageId, testMessagesWithSessions.messageId);
 
     await deadLetterMsgs[0].complete();
@@ -789,7 +805,11 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessagesWithSessions.body);
+    should.equal(
+      receivedMsgs[0].body,
+      testMessagesWithSessions.body,
+      "MessageBody is different than expected"
+    );
     should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
 
     await testPeekMsgsLength(receiverClient, 0);

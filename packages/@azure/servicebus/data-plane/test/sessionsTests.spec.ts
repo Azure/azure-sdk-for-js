@@ -112,7 +112,11 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     msgs = await receiver.receiveBatch(1);
     should.equal(msgs.length, 1);
     should.equal(Array.isArray(msgs), true);
-    should.equal(msgs[0].body, testMessagesWithSessions.body);
+    should.equal(
+      msgs[0].body,
+      testMessagesWithSessions.body,
+      "MessageBody is different than expected"
+    );
     should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
@@ -177,7 +181,11 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     receivedMsgs = [];
     receiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(msg.body, testMessagesWithSessions.body);
+      should.equal(
+        msg.body,
+        testMessagesWithSessions.body,
+        "MessageBody is different than expected"
+      );
       should.equal(msg.messageId, testMessagesWithSessions.messageId);
       return Promise.resolve();
     }, unExpectedErrorHandler);
