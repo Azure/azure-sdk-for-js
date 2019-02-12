@@ -340,7 +340,7 @@ export async function getSenderReceiverClients(
       break;
   }
 
-  throw new Error("Cannot create sender client for give client type");
+  throw new Error("Cannot create sender/receiver clients for given client types");
 }
 
 /**
