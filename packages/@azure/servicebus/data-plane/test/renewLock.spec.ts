@@ -18,7 +18,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
-import { testSimpleMessages, purge } from "./testUtils";
+import { testSimpleMessages, purge, getSenderReceiverClients, ClientType } from "./testUtils";
 
 // Template starts
 
@@ -54,25 +54,24 @@ describe("Standard", function(): void {
   );
   const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
 
-  after(async () => {
-    await namespace.close();
-  });
-
-  const STANDARD_QUEUE = process.env.QUEUE_NAME_NO_PARTITION || "unpartitioned-queue";
   describe("Unpartitioned Queue", function(): void {
     let senderClient: QueueClient;
     let receiverClient: QueueClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = namespace.createQueueClient(STANDARD_QUEUE);
-        receiverClient = senderClient;
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.UnpartitionedQueue,
+          ClientType.UnpartitionedQueue
+        );
+        senderClient = clients.senderClient as QueueClient;
+        receiverClient = clients.receiverClient as QueueClient;
         await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -136,22 +135,24 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_QUEUE_PARTITION = process.env.QUEUE_NAME || "partitioned-queue";
   describe("Partitioned Queue", function(): void {
     let senderClient: QueueClient;
     let receiverClient: QueueClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = namespace.createQueueClient(STANDARD_QUEUE_PARTITION);
-        receiverClient = senderClient;
-
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.PartitionedQueue,
+          ClientType.PartitionedQueue
+        );
+        senderClient = clients.senderClient as QueueClient;
+        receiverClient = clients.receiverClient as QueueClient;
         await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -215,23 +216,24 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_TOPIC = process.env.TOPIC_NAME_NO_PARTITION || "unpartitioned-topic";
-  const STANDARD_SUBSCRIPTION =
-    process.env.SUBSCRIPTION_NAME_NO_PARTITION || "unpartitioned-topic-subscription";
   describe("Unpartitioned Topic/Subscription", function(): void {
     let senderClient: TopicClient;
     let receiverClient: SubscriptionClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = namespace.createTopicClient(STANDARD_TOPIC);
-        receiverClient = namespace.createSubscriptionClient(STANDARD_TOPIC, STANDARD_SUBSCRIPTION);
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.UnpartitionedTopic,
+          ClientType.UnpartitionedSubscription
+        );
+        senderClient = clients.senderClient as TopicClient;
+        receiverClient = clients.receiverClient as SubscriptionClient;
         await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -295,26 +297,24 @@ describe("Standard", function(): void {
     });
   });
 
-  const STANDARD_TOPIC_PARTITION = process.env.TOPIC_NAME || "partitioned-topic";
-  const STANDARD_SUBSCRIPTION_PARTITION =
-    process.env.SUBSCRIPTION_NAME || "partitioned-topic-subscription";
   describe("Partitioned Topic/Subscription", function(): void {
     let senderClient: TopicClient;
     let receiverClient: SubscriptionClient;
 
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = namespace.createTopicClient(STANDARD_TOPIC_PARTITION);
-        receiverClient = namespace.createSubscriptionClient(
-          STANDARD_TOPIC_PARTITION,
-          STANDARD_SUBSCRIPTION_PARTITION
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.PartitionedTopic,
+          ClientType.PartitionedSubscription
         );
+        senderClient = clients.senderClient as TopicClient;
+        receiverClient = clients.receiverClient as SubscriptionClient;
         await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await senderClient.close();
-        await receiverClient.close();
+        await namespace.close();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<

@@ -19,8 +19,7 @@ import {
 
 import {
   testMessagesWithSessions,
-  getSenderClient,
-  getReceiverClient,
+  getSenderReceiverClients,
   ClientType,
   testSessionId1,
   purge
@@ -78,8 +77,9 @@ async function beforeEachTest(senderType: ClientType, sessionType: ClientType): 
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, sessionType);
+  const clients = await getSenderReceiverClients(ns, senderType, sessionType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
 
   await purge(receiverClient, testSessionId1);
   const peekedMsgs = await receiverClient.peek();

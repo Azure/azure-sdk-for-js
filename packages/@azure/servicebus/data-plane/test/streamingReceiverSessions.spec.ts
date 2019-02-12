@@ -21,8 +21,7 @@ import { DispositionType } from "../lib/serviceBusMessage";
 import {
   testMessagesWithSessions,
   testSessionId1,
-  getSenderClient,
-  getReceiverClient,
+  getSenderReceiverClients,
   ClientType,
   purge
 } from "./testUtils";
@@ -69,10 +68,11 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  sender = senderClient.getSender();
+  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
 
-  receiverClient = getReceiverClient(ns, receiverType);
+  sender = senderClient.getSender();
 
   if (receiverClient instanceof QueueClient) {
     deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.name));
