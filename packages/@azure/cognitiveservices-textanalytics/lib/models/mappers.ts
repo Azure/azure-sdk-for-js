@@ -61,29 +61,163 @@ export const MultiLanguageBatchInput: msRest.CompositeMapper = {
   }
 };
 
-export const KeyPhraseBatchResultItem: msRest.CompositeMapper = {
-  serializedName: "KeyPhraseBatchResultItem",
+export const MatchRecord: msRest.CompositeMapper = {
+  serializedName: "MatchRecord",
   type: {
     name: "Composite",
-    className: "KeyPhraseBatchResultItem",
+    className: "MatchRecord",
     modelProperties: {
-      keyPhrases: {
-        readOnly: true,
-        serializedName: "keyPhrases",
+      wikipediaScore: {
+        serializedName: "wikipediaScore",
+        type: {
+          name: "Number"
+        }
+      },
+      entityTypeScore: {
+        serializedName: "entityTypeScore",
+        type: {
+          name: "Number"
+        }
+      },
+      text: {
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EntityRecord: msRest.CompositeMapper = {
+  serializedName: "EntityRecord",
+  type: {
+    name: "Composite",
+    className: "EntityRecord",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      matches: {
+        serializedName: "matches",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "MatchRecord"
             }
           }
         }
       },
-      id: {
+      wikipediaLanguage: {
+        serializedName: "wikipediaLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      wikipediaId: {
+        serializedName: "wikipediaId",
+        type: {
+          name: "String"
+        }
+      },
+      wikipediaUrl: {
         readOnly: true,
+        serializedName: "wikipediaUrl",
+        type: {
+          name: "String"
+        }
+      },
+      bingId: {
+        serializedName: "bingId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      subType: {
+        serializedName: "subType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentStatistics: msRest.CompositeMapper = {
+  serializedName: "DocumentStatistics",
+  type: {
+    name: "Composite",
+    className: "DocumentStatistics",
+    modelProperties: {
+      charactersCount: {
+        serializedName: "charactersCount",
+        type: {
+          name: "Number"
+        }
+      },
+      transactionsCount: {
+        serializedName: "transactionsCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EntitiesBatchResultItem: msRest.CompositeMapper = {
+  serializedName: "EntitiesBatchResultItem",
+  type: {
+    name: "Composite",
+    className: "EntitiesBatchResultItem",
+    modelProperties: {
+      id: {
         serializedName: "id",
         type: {
           name: "String"
+        }
+      },
+      entities: {
+        readOnly: true,
+        serializedName: "entities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntityRecord"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "DocumentStatistics"
         }
       }
     }
@@ -112,11 +246,45 @@ export const ErrorRecord: msRest.CompositeMapper = {
   }
 };
 
-export const KeyPhraseBatchResult: msRest.CompositeMapper = {
-  serializedName: "KeyPhraseBatchResult",
+export const RequestStatistics: msRest.CompositeMapper = {
+  serializedName: "RequestStatistics",
   type: {
     name: "Composite",
-    className: "KeyPhraseBatchResult",
+    className: "RequestStatistics",
+    modelProperties: {
+      documentsCount: {
+        serializedName: "documentsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      validDocumentsCount: {
+        serializedName: "validDocumentsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      erroneousDocumentsCount: {
+        serializedName: "erroneousDocumentsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      transactionsCount: {
+        serializedName: "transactionsCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EntitiesBatchResult: msRest.CompositeMapper = {
+  serializedName: "EntitiesBatchResult",
+  type: {
+    name: "Composite",
+    className: "EntitiesBatchResult",
     modelProperties: {
       documents: {
         readOnly: true,
@@ -126,7 +294,7 @@ export const KeyPhraseBatchResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "KeyPhraseBatchResultItem"
+              className: "EntitiesBatchResultItem"
             }
           }
         }
@@ -142,6 +310,14 @@ export const KeyPhraseBatchResult: msRest.CompositeMapper = {
               className: "ErrorRecord"
             }
           }
+        }
+      },
+      statistics: {
+        readOnly: true,
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "RequestStatistics"
         }
       }
     }
@@ -212,12 +388,97 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const Input: msRest.CompositeMapper = {
-  serializedName: "Input",
+export const KeyPhraseBatchResultItem: msRest.CompositeMapper = {
+  serializedName: "KeyPhraseBatchResultItem",
   type: {
     name: "Composite",
-    className: "Input",
+    className: "KeyPhraseBatchResultItem",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      keyPhrases: {
+        readOnly: true,
+        serializedName: "keyPhrases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "DocumentStatistics"
+        }
+      }
+    }
+  }
+};
+
+export const KeyPhraseBatchResult: msRest.CompositeMapper = {
+  serializedName: "KeyPhraseBatchResult",
+  type: {
+    name: "Composite",
+    className: "KeyPhraseBatchResult",
+    modelProperties: {
+      documents: {
+        readOnly: true,
+        serializedName: "documents",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyPhraseBatchResultItem"
+            }
+          }
+        }
+      },
+      errors: {
+        readOnly: true,
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorRecord"
+            }
+          }
+        }
+      },
+      statistics: {
+        readOnly: true,
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "RequestStatistics"
+        }
+      }
+    }
+  }
+};
+
+export const LanguageInput: msRest.CompositeMapper = {
+  serializedName: "LanguageInput",
+  type: {
+    name: "Composite",
+    className: "LanguageInput",
+    modelProperties: {
+      countryHint: {
+        serializedName: "countryHint",
+        type: {
+          name: "String"
+        }
+      },
       id: {
         serializedName: "id",
         type: {
@@ -234,11 +495,11 @@ export const Input: msRest.CompositeMapper = {
   }
 };
 
-export const BatchInput: msRest.CompositeMapper = {
-  serializedName: "BatchInput",
+export const LanguageBatchInput: msRest.CompositeMapper = {
+  serializedName: "LanguageBatchInput",
   type: {
     name: "Composite",
-    className: "BatchInput",
+    className: "LanguageBatchInput",
     modelProperties: {
       documents: {
         serializedName: "documents",
@@ -247,7 +508,7 @@ export const BatchInput: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Input"
+              className: "LanguageInput"
             }
           }
         }
@@ -291,14 +552,12 @@ export const LanguageBatchResultItem: msRest.CompositeMapper = {
     className: "LanguageBatchResultItem",
     modelProperties: {
       id: {
-        readOnly: true,
         serializedName: "id",
         type: {
           name: "String"
         }
       },
       detectedLanguages: {
-        readOnly: true,
         serializedName: "detectedLanguages",
         type: {
           name: "Sequence",
@@ -308,6 +567,13 @@ export const LanguageBatchResultItem: msRest.CompositeMapper = {
               className: "DetectedLanguage"
             }
           }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "DocumentStatistics"
         }
       }
     }
@@ -345,6 +611,14 @@ export const LanguageBatchResult: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      statistics: {
+        readOnly: true,
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "RequestStatistics"
+        }
       }
     }
   }
@@ -356,18 +630,23 @@ export const SentimentBatchResultItem: msRest.CompositeMapper = {
     name: "Composite",
     className: "SentimentBatchResultItem",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
       score: {
-        readOnly: true,
         serializedName: "score",
         type: {
           name: "Number"
         }
       },
-      id: {
-        readOnly: true,
-        serializedName: "id",
+      statistics: {
+        serializedName: "statistics",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "DocumentStatistics"
         }
       }
     }
@@ -405,164 +684,13 @@ export const SentimentBatchResult: msRest.CompositeMapper = {
             }
           }
         }
-      }
-    }
-  }
-};
-
-export const MatchRecordV2dot1: msRest.CompositeMapper = {
-  serializedName: "MatchRecordV2dot1",
-  type: {
-    name: "Composite",
-    className: "MatchRecordV2dot1",
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        type: {
-          name: "String"
-        }
       },
-      offset: {
-        serializedName: "offset",
-        type: {
-          name: "Number"
-        }
-      },
-      length: {
-        serializedName: "length",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const EntityRecordV2dot1: msRest.CompositeMapper = {
-  serializedName: "EntityRecordV2dot1",
-  type: {
-    name: "Composite",
-    className: "EntityRecordV2dot1",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      matches: {
-        serializedName: "matches",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MatchRecordV2dot1"
-            }
-          }
-        }
-      },
-      wikipediaLanguage: {
-        serializedName: "wikipediaLanguage",
-        type: {
-          name: "String"
-        }
-      },
-      wikipediaId: {
-        serializedName: "wikipediaId",
-        type: {
-          name: "String"
-        }
-      },
-      wikipediaUrl: {
+      statistics: {
         readOnly: true,
-        serializedName: "wikipediaUrl",
+        serializedName: "statistics",
         type: {
-          name: "String"
-        }
-      },
-      bingId: {
-        serializedName: "bingId",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      subType: {
-        serializedName: "subType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EntitiesBatchResultItemV2dot1: msRest.CompositeMapper = {
-  serializedName: "EntitiesBatchResultItemV2dot1",
-  type: {
-    name: "Composite",
-    className: "EntitiesBatchResultItemV2dot1",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      entities: {
-        readOnly: true,
-        serializedName: "entities",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EntityRecordV2dot1"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const EntitiesBatchResultV2dot1: msRest.CompositeMapper = {
-  serializedName: "EntitiesBatchResultV2dot1",
-  type: {
-    name: "Composite",
-    className: "EntitiesBatchResultV2dot1",
-    modelProperties: {
-      documents: {
-        readOnly: true,
-        serializedName: "documents",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EntitiesBatchResultItemV2dot1"
-            }
-          }
-        }
-      },
-      errors: {
-        readOnly: true,
-        serializedName: "errors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorRecord"
-            }
-          }
+          name: "Composite",
+          className: "RequestStatistics"
         }
       }
     }

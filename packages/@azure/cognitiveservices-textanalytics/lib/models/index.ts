@@ -18,7 +18,8 @@ import * as msRest from "ms-rest-js";
 export interface MultiLanguageInput {
   /**
    * @member {string} [language] This is the 2 letter ISO 639-1 representation
-   * of a language. For example, use "en" for English; "es" for Spanish etc.,
+   * of a language.
+   * For example, use "en" for English; "es" for Spanish etc.,
    */
   language?: string;
   /**
@@ -44,23 +45,124 @@ export interface MultiLanguageBatchInput {
 
 /**
  * @interface
- * An interface representing KeyPhraseBatchResultItem.
+ * An interface representing MatchRecord.
  */
-export interface KeyPhraseBatchResultItem {
+export interface MatchRecord {
   /**
-   * @member {string[]} [keyPhrases] A list of representative words or phrases.
-   * The number of key phrases returned is proportional to the number of words
-   * in the input document.
+   * @member {number} [wikipediaScore] (optional) If a well-known item with
+   * Wikipedia link is recognized,
+   * a decimal number denoting the confidence level of the Wikipedia info will
+   * be returned.
+   */
+  wikipediaScore?: number;
+  /**
+   * @member {number} [entityTypeScore] (optional) If an entity type is
+   * recognized,
+   * a decimal number denoting the confidence level of the entity type will be
+   * returned.
+   */
+  entityTypeScore?: number;
+  /**
+   * @member {string} [text] Entity text as appears in the request.
+   */
+  text?: string;
+  /**
+   * @member {number} [offset] Start position (in Unicode characters) for the
+   * entity match text.
+   */
+  offset?: number;
+  /**
+   * @member {number} [length] Length (in Unicode characters) for the entity
+   * match text.
+   */
+  length?: number;
+}
+
+/**
+ * @interface
+ * An interface representing EntityRecord.
+ */
+export interface EntityRecord {
+  /**
+   * @member {string} [name] Entity formal name.
+   */
+  name?: string;
+  /**
+   * @member {MatchRecord[]} [matches] List of instances this entity appears in
+   * the text.
+   */
+  matches?: MatchRecord[];
+  /**
+   * @member {string} [wikipediaLanguage] Wikipedia language for which the
+   * WikipediaId and WikipediaUrl refers to.
+   */
+  wikipediaLanguage?: string;
+  /**
+   * @member {string} [wikipediaId] Wikipedia unique identifier of the
+   * recognized entity.
+   */
+  wikipediaId?: string;
+  /**
+   * @member {string} [wikipediaUrl] URL for the entity's Wikipedia page.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly keyPhrases?: string[];
+  readonly wikipediaUrl?: string;
   /**
-   * @member {string} [id] Unique document identifier.
+   * @member {string} [bingId] Bing unique identifier of the recognized entity.
+   * Use in conjunction with the Bing Entity Search API to fetch additional
+   * relevant information.
+   */
+  bingId?: string;
+  /**
+   * @member {string} [type] Entity type from Named Entity Recognition model
+   */
+  type?: string;
+  /**
+   * @member {string} [subType] Entity sub type from Named Entity Recognition
+   * model
+   */
+  subType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DocumentStatistics.
+ */
+export interface DocumentStatistics {
+  /**
+   * @member {number} [charactersCount] Number of text elements recognized in
+   * the document.
+   */
+  charactersCount?: number;
+  /**
+   * @member {number} [transactionsCount] Number of transactions for the
+   * document.
+   */
+  transactionsCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing EntitiesBatchResultItem.
+ */
+export interface EntitiesBatchResultItem {
+  /**
+   * @member {string} [id] Unique, non-empty document identifier.
+   */
+  id?: string;
+  /**
+   * @member {EntityRecord[]} [entities] Recognized entities in the document.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id?: string;
+  readonly entities?: EntityRecord[];
+  /**
+   * @member {DocumentStatistics} [statistics] (Optional) if showStats=true was
+   * specified in the request this field will contain information about the
+   * document payload.
+   */
+  statistics?: DocumentStatistics;
 }
 
 /**
@@ -81,19 +183,58 @@ export interface ErrorRecord {
 
 /**
  * @interface
- * An interface representing KeyPhraseBatchResult.
+ * An interface representing RequestStatistics.
  */
-export interface KeyPhraseBatchResult {
+export interface RequestStatistics {
   /**
-   * @member {KeyPhraseBatchResultItem[]} [documents] **NOTE: This property
-   * will not be serialized. It can only be populated by the server.**
+   * @member {number} [documentsCount] Number of documents submitted in the
+   * request.
    */
-  readonly documents?: KeyPhraseBatchResultItem[];
+  documentsCount?: number;
   /**
-   * @member {ErrorRecord[]} [errors] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {number} [validDocumentsCount] Number of valid documents. This
+   * excludes empty, over-size limit or non-supported languages documents.
+   */
+  validDocumentsCount?: number;
+  /**
+   * @member {number} [erroneousDocumentsCount] Number of invalid documents.
+   * This includes empty, over-size limit or non-supported languages documents.
+   */
+  erroneousDocumentsCount?: number;
+  /**
+   * @member {number} [transactionsCount] Number of transactions for the
+   * request.
+   */
+  transactionsCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing EntitiesBatchResult.
+ */
+export interface EntitiesBatchResult {
+  /**
+   * @member {EntitiesBatchResultItem[]} [documents] Response by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly documents?: EntitiesBatchResultItem[];
+  /**
+   * @member {ErrorRecord[]} [errors] Errors and Warnings by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly errors?: ErrorRecord[];
+  /**
+   * @member {RequestStatistics} [statistics] /// <summary>
+   * (Optional) if showStats=true was specified in the request this field will
+   * contain information about the
+   * request payload.
+   * </summary>
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statistics?: RequestStatistics;
 }
 
 /**
@@ -140,9 +281,67 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing Input.
+ * An interface representing KeyPhraseBatchResultItem.
  */
-export interface Input {
+export interface KeyPhraseBatchResultItem {
+  /**
+   * @member {string} [id] Unique, non-empty document identifier.
+   */
+  id?: string;
+  /**
+   * @member {string[]} [keyPhrases] A list of representative words or phrases.
+   * The number of key phrases returned is proportional to the number of words
+   * in the input document.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly keyPhrases?: string[];
+  /**
+   * @member {DocumentStatistics} [statistics] (Optional) if showStats=true was
+   * specified in the request this field will contain information about the
+   * document payload.
+   */
+  statistics?: DocumentStatistics;
+}
+
+/**
+ * @interface
+ * An interface representing KeyPhraseBatchResult.
+ */
+export interface KeyPhraseBatchResult {
+  /**
+   * @member {KeyPhraseBatchResultItem[]} [documents] Response by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly documents?: KeyPhraseBatchResultItem[];
+  /**
+   * @member {ErrorRecord[]} [errors] Errors and Warnings by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errors?: ErrorRecord[];
+  /**
+   * @member {RequestStatistics} [statistics] /// <summary>
+   * (Optional) if showStats=true was specified in the request this field will
+   * contain information about the
+   * request payload.
+   * </summary>
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statistics?: RequestStatistics;
+}
+
+/**
+ * @interface
+ * An interface representing LanguageInput.
+ */
+export interface LanguageInput {
+  /**
+   * @member {string} [countryHint]
+   */
+  countryHint?: string;
   /**
    * @member {string} [id] Unique, non-empty document identifier.
    */
@@ -155,13 +354,13 @@ export interface Input {
 
 /**
  * @interface
- * An interface representing BatchInput.
+ * An interface representing LanguageBatchInput.
  */
-export interface BatchInput {
+export interface LanguageBatchInput {
   /**
-   * @member {Input[]} [documents]
+   * @member {LanguageInput[]} [documents]
    */
-  documents?: Input[];
+  documents?: LanguageInput[];
 }
 
 /**
@@ -192,18 +391,20 @@ export interface DetectedLanguage {
  */
 export interface LanguageBatchResultItem {
   /**
-   * @member {string} [id] Unique document identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [id] Unique, non-empty document identifier.
    */
-  readonly id?: string;
+  id?: string;
   /**
    * @member {DetectedLanguage[]} [detectedLanguages] A list of extracted
    * languages.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly detectedLanguages?: DetectedLanguage[];
+  detectedLanguages?: DetectedLanguage[];
+  /**
+   * @member {DocumentStatistics} [statistics] (Optional) if showStats=true was
+   * specified in the request this field will contain information about the
+   * document payload.
+   */
+  statistics?: DocumentStatistics;
 }
 
 /**
@@ -212,15 +413,27 @@ export interface LanguageBatchResultItem {
  */
 export interface LanguageBatchResult {
   /**
-   * @member {LanguageBatchResultItem[]} [documents] **NOTE: This property will
-   * not be serialized. It can only be populated by the server.**
+   * @member {LanguageBatchResultItem[]} [documents] Response by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly documents?: LanguageBatchResultItem[];
   /**
-   * @member {ErrorRecord[]} [errors] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {ErrorRecord[]} [errors] Errors and Warnings by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly errors?: ErrorRecord[];
+  /**
+   * @member {RequestStatistics} [statistics] /// <summary>
+   * (Optional) if showStats=true was specified in the request this field will
+   * contain information about the
+   * request payload.
+   * </summary>
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statistics?: RequestStatistics;
 }
 
 /**
@@ -229,20 +442,23 @@ export interface LanguageBatchResult {
  */
 export interface SentimentBatchResultItem {
   /**
-   * @member {number} [score] A decimal number between 0 and 1 denoting the
-   * sentiment of the document. A score above 0.7 usually refers to a positive
-   * document while a score below 0.3 normally has a negative connotation. Mid
-   * values refer to neutral text.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [id] Unique, non-empty document identifier.
    */
-  readonly score?: number;
+  id?: string;
   /**
-   * @member {string} [id] Unique document identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {number} [score] A decimal number between 0 and 1 denoting the
+   * sentiment of the document.
+   * A score above 0.7 usually refers to a positive document while a score
+   * below 0.3 normally has a negative connotation.
+   * Mid values refer to neutral text.
    */
-  readonly id?: string;
+  score?: number;
+  /**
+   * @member {DocumentStatistics} [statistics] (Optional) if showStats=true was
+   * specified in the request this field will contain information about the
+   * document payload.
+   */
+  statistics?: DocumentStatistics;
 }
 
 /**
@@ -251,146 +467,114 @@ export interface SentimentBatchResultItem {
  */
 export interface SentimentBatchResult {
   /**
-   * @member {SentimentBatchResultItem[]} [documents] **NOTE: This property
-   * will not be serialized. It can only be populated by the server.**
+   * @member {SentimentBatchResultItem[]} [documents] Response by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly documents?: SentimentBatchResultItem[];
   /**
-   * @member {ErrorRecord[]} [errors] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {ErrorRecord[]} [errors] Errors and Warnings by document
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly errors?: ErrorRecord[];
-}
-
-/**
- * @interface
- * An interface representing MatchRecordV2dot1.
- */
-export interface MatchRecordV2dot1 {
   /**
-   * @member {string} [text] Entity text as appears in the request.
-   */
-  text?: string;
-  /**
-   * @member {number} [offset] Start position (in Unicode characters) for the
-   * entity match text.
-   */
-  offset?: number;
-  /**
-   * @member {number} [length] Length (in Unicode characters) for the entity
-   * match text.
-   */
-  length?: number;
-}
-
-/**
- * @interface
- * An interface representing EntityRecordV2dot1.
- */
-export interface EntityRecordV2dot1 {
-  /**
-   * @member {string} [name] Entity formal name.
-   */
-  name?: string;
-  /**
-   * @member {MatchRecordV2dot1[]} [matches] List of instances this entity
-   * appears in the text.
-   */
-  matches?: MatchRecordV2dot1[];
-  /**
-   * @member {string} [wikipediaLanguage] Wikipedia language for which the
-   * WikipediaId and WikipediaUrl refers to.
-   */
-  wikipediaLanguage?: string;
-  /**
-   * @member {string} [wikipediaId] Wikipedia unique identifier of the
-   * recognized entity.
-   */
-  wikipediaId?: string;
-  /**
-   * @member {string} [wikipediaUrl] URL for the entity's English Wikipedia
-   * page.
+   * @member {RequestStatistics} [statistics] /// <summary>
+   * (Optional) if showStats=true was specified in the request this field will
+   * contain information about the
+   * request payload.
+   * </summary>
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly wikipediaUrl?: string;
-  /**
-   * @member {string} [bingId] Bing unique identifier of the recognized entity.
-   * Use in conjunction with the Bing Entity Search API to fetch additional
-   * relevant information.
-   */
-  bingId?: string;
-  /**
-   * @member {string} [type] Entity type from Named Entity Recognition model
-   */
-  type?: string;
-  /**
-   * @member {string} [subType] Entity sub type from Named Entity Recognition
-   * model
-   */
-  subType?: string;
+  readonly statistics?: RequestStatistics;
 }
 
 /**
  * @interface
- * An interface representing EntitiesBatchResultItemV2dot1.
+ * An interface representing TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
  */
-export interface EntitiesBatchResultItemV2dot1 {
+export interface TextAnalyticsClient56f30ceeeda5650db055a3c7OptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [id] Unique document identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {boolean} [showStats] (optional) if set to true, response will
+   * contain input and document level statistics.
    */
-  readonly id?: string;
+  showStats?: boolean;
   /**
-   * @member {EntityRecordV2dot1[]} [entities] Recognized entities in the
-   * document.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {LanguageBatchInput} [languageBatchInput] Collection of documents
+   * to analyze.
    */
-  readonly entities?: EntityRecordV2dot1[];
+  languageBatchInput?: LanguageBatchInput;
 }
 
 /**
  * @interface
- * An interface representing EntitiesBatchResultV2dot1.
+ * An interface representing TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
  */
-export interface EntitiesBatchResultV2dot1 {
+export interface TextAnalyticsClient5ac4251d5b4ccd1554da7634OptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {EntitiesBatchResultItemV2dot1[]} [documents] **NOTE: This
-   * property will not be serialized. It can only be populated by the server.**
+   * @member {boolean} [showStats] (optional) if set to true, response will
+   * contain input and document level statistics.
    */
-  readonly documents?: EntitiesBatchResultItemV2dot1[];
+  showStats?: boolean;
   /**
-   * @member {ErrorRecord[]} [errors] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {MultiLanguageBatchInput} [multiLanguageBatchInput] Collection of
+   * documents to analyze.
    */
-  readonly errors?: ErrorRecord[];
+  multiLanguageBatchInput?: MultiLanguageBatchInput;
 }
 
 /**
- * Contains response data for the keyPhrases operation.
+ * @interface
+ * An interface representing TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
  */
-export type KeyPhrasesResponse = KeyPhraseBatchResult & {
+export interface TextAnalyticsClient56f30ceeeda5650db055a3c6OptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The underlying HTTP response.
+   * @member {boolean} [showStats] (optional) if set to true, response will
+   * contain input and document level statistics.
    */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyPhraseBatchResult;
-    };
-};
+  showStats?: boolean;
+  /**
+   * @member {MultiLanguageBatchInput} [multiLanguageBatchInput] Collection of
+   * documents to analyze. Documents can now contain a language field to
+   * indicate the text language
+   */
+  multiLanguageBatchInput?: MultiLanguageBatchInput;
+}
 
 /**
- * Contains response data for the detectLanguage operation.
+ * @interface
+ * An interface representing TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
  */
-export type DetectLanguageResponse = LanguageBatchResult & {
+export interface TextAnalyticsClient56f30ceeeda5650db055a3c9OptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [showStats] (optional) if set to true, response will
+   * contain input and document level statistics.
+   */
+  showStats?: boolean;
+  /**
+   * @member {MultiLanguageBatchInput} [multiLanguageBatchInput] Collection of
+   * documents to analyze.
+   */
+  multiLanguageBatchInput?: MultiLanguageBatchInput;
+}
+
+/**
+ * Contains response data for the 56f30ceeeda5650db055a3c7 operation.
+ */
+export type 56f30ceeeda5650db055a3c7Response = LanguageBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -407,9 +591,9 @@ export type DetectLanguageResponse = LanguageBatchResult & {
 };
 
 /**
- * Contains response data for the sentiment operation.
+ * Contains response data for the 5ac4251d5b4ccd1554da7634 operation.
  */
-export type SentimentResponse = SentimentBatchResult & {
+export type 5ac4251d5b4ccd1554da7634Response = EntitiesBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -421,14 +605,14 @@ export type SentimentResponse = SentimentBatchResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SentimentBatchResult;
+      parsedBody: EntitiesBatchResult;
     };
 };
 
 /**
- * Contains response data for the entities operation.
+ * Contains response data for the 56f30ceeeda5650db055a3c6 operation.
  */
-export type EntitiesResponse = EntitiesBatchResultV2dot1 & {
+export type 56f30ceeeda5650db055a3c6Response = KeyPhraseBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -440,6 +624,29 @@ export type EntitiesResponse = EntitiesBatchResultV2dot1 & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EntitiesBatchResultV2dot1;
+      parsedBody: KeyPhraseBatchResult;
+    };
+};
+
+/**
+ * Contains response data for the 56f30ceeeda5650db055a3c9 operation.
+ */
+export type 56f30ceeeda5650db055a3c9Response = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };

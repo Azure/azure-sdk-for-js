@@ -16,7 +16,7 @@ npm install @azure/cognitiveservices-textanalytics
 
 ## How to use
 
-### nodejs - Authentication, client creation and keyPhrases  as an example written in TypeScript.
+### nodejs - Authentication, client creation and 56f30ceeeda5650db055a3c7  as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -26,14 +26,15 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 const token = "<access_token>";
 const creds = new msRest.TokenCredentials(token);
 const client = new TextAnalyticsClient(creds, subscriptionId);
-const input = {
+const showStats = true;
+const languageBatchInput = {
   documents: [{
-    language: "testlanguage",
+    countryHint: "testcountryHint",
     id: "testid",
     text: "testtext"
   }]
 };
-client.keyPhrases(input).then((result) => {
+client.56f30ceeeda5650db055a3c7(showStats, languageBatchInput).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -41,7 +42,7 @@ client.keyPhrases(input).then((result) => {
 });
 ```
 
-### browser - Authentication, client creation and keyPhrases  as an example written in javascript.
+### browser - Authentication, client creation and 56f30ceeeda5650db055a3c7  as an example written in javascript.
 
 - index.html
 ```html
@@ -56,14 +57,15 @@ client.keyPhrases(input).then((result) => {
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);
       const client = new Azure.CognitiveservicesTextanalytics.TextAnalyticsClient(creds, subscriptionId);
-      const input = {
+      const showStats = true;
+      const languageBatchInput = {
         documents: [{
-          language: "testlanguage",
+          countryHint: "testcountryHint",
           id: "testid",
           text: "testtext"
         }]
       };
-      client.keyPhrases(input).then((result) => {
+      client.56f30ceeeda5650db055a3c7(showStats, languageBatchInput).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
