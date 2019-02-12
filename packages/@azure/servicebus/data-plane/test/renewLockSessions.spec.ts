@@ -21,8 +21,7 @@ import {
   testMessagesWithSessions,
   testSessionId1,
   purge,
-  getSenderClient,
-  getReceiverClient,
+  getSenderReceiverClients,
   ClientType
 } from "./testUtils";
 
@@ -43,8 +42,13 @@ describe("Standard", function(): void {
   describe("Unpartitioned Queue", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = getSenderClient(namespace, ClientType.UnpartitionedQueueWithSessions);
-        receiverClient = getReceiverClient(namespace, ClientType.UnpartitionedQueueWithSessions);
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.UnpartitionedQueueWithSessions,
+          ClientType.UnpartitionedQueueWithSessions
+        );
+        senderClient = clients.senderClient;
+        receiverClient = clients.receiverClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -116,8 +120,13 @@ describe("Standard", function(): void {
   describe("Partitioned Queue", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = getSenderClient(namespace, ClientType.PartitionedQueueWithSessions);
-        receiverClient = getReceiverClient(namespace, ClientType.PartitionedQueueWithSessions);
+        const clients = await getSenderReceiverClients(
+          namespace,
+          ClientType.PartitionedQueueWithSessions,
+          ClientType.PartitionedQueueWithSessions
+        );
+        senderClient = clients.senderClient;
+        receiverClient = clients.receiverClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -189,11 +198,13 @@ describe("Standard", function(): void {
   describe("Unpartitioned Topic/Subscription", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = getSenderClient(namespace, ClientType.UnpartitionedTopicWithSessions);
-        receiverClient = getReceiverClient(
+        const clients = await getSenderReceiverClients(
           namespace,
+          ClientType.UnpartitionedTopicWithSessions,
           ClientType.UnpartitionedSubscriptionWithSessions
         );
+        senderClient = clients.senderClient;
+        receiverClient = clients.receiverClient;
         await beforeEachTest(receiverClient);
       });
 
@@ -265,11 +276,13 @@ describe("Standard", function(): void {
   describe("Partitioned Topic/Subscription", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        senderClient = getSenderClient(namespace, ClientType.PartitionedTopicWithSessions);
-        receiverClient = getReceiverClient(
+        const clients = await getSenderReceiverClients(
           namespace,
+          ClientType.PartitionedTopicWithSessions,
           ClientType.PartitionedSubscriptionWithSessions
         );
+        senderClient = clients.senderClient;
+        receiverClient = clients.receiverClient;
         await beforeEachTest(receiverClient);
       });
 
