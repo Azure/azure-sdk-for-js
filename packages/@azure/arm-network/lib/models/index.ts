@@ -2784,35 +2784,44 @@ export interface ApplicationGateway extends Resource {
   readonly operationalState?: ApplicationGatewayOperationalState;
   /**
    * @member {ApplicationGatewayIPConfiguration[]} [gatewayIPConfigurations]
-   * Subnets of application the gateway resource.
+   * Subnets of the application gateway resource. For default limits, see
+   * [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   gatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
   /**
    * @member {ApplicationGatewayAuthenticationCertificate[]}
    * [authenticationCertificates] Authentication certificates of the
-   * application gateway resource.
+   * application gateway resource. For default limits, see [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
   /**
    * @member {ApplicationGatewayTrustedRootCertificate[]}
    * [trustedRootCertificates] Trusted Root certificates of the application
-   * gateway resource.
+   * gateway resource. For default limits, see [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   trustedRootCertificates?: ApplicationGatewayTrustedRootCertificate[];
   /**
    * @member {ApplicationGatewaySslCertificate[]} [sslCertificates] SSL
-   * certificates of the application gateway resource.
+   * certificates of the application gateway resource. For default limits, see
+   * [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   sslCertificates?: ApplicationGatewaySslCertificate[];
   /**
    * @member {ApplicationGatewayFrontendIPConfiguration[]}
    * [frontendIPConfigurations] Frontend IP addresses of the application
-   * gateway resource.
+   * gateway resource. For default limits, see [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   frontendIPConfigurations?: ApplicationGatewayFrontendIPConfiguration[];
   /**
    * @member {ApplicationGatewayFrontendPort[]} [frontendPorts] Frontend ports
-   * of the application gateway resource.
+   * of the application gateway resource. For default limits, see [Application
+   * Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   frontendPorts?: ApplicationGatewayFrontendPort[];
   /**
@@ -2822,23 +2831,29 @@ export interface ApplicationGateway extends Resource {
   probes?: ApplicationGatewayProbe[];
   /**
    * @member {ApplicationGatewayBackendAddressPool[]} [backendAddressPools]
-   * Backend address pool of the application gateway resource.
+   * Backend address pool of the application gateway resource. For default
+   * limits, see [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   backendAddressPools?: ApplicationGatewayBackendAddressPool[];
   /**
    * @member {ApplicationGatewayBackendHttpSettings[]}
    * [backendHttpSettingsCollection] Backend http settings of the application
-   * gateway resource.
+   * gateway resource. For default limits, see [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   backendHttpSettingsCollection?: ApplicationGatewayBackendHttpSettings[];
   /**
    * @member {ApplicationGatewayHttpListener[]} [httpListeners] Http listeners
-   * of the application gateway resource.
+   * of the application gateway resource. For default limits, see [Application
+   * Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   httpListeners?: ApplicationGatewayHttpListener[];
   /**
    * @member {ApplicationGatewayUrlPathMap[]} [urlPathMaps] URL path map of the
-   * application gateway resource.
+   * application gateway resource. For default limits, see [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   urlPathMaps?: ApplicationGatewayUrlPathMap[];
   /**
@@ -2854,7 +2869,8 @@ export interface ApplicationGateway extends Resource {
   /**
    * @member {ApplicationGatewayRedirectConfiguration[]}
    * [redirectConfigurations] Redirect configurations of the application
-   * gateway resource.
+   * gateway resource. For default limits, see [Application Gateway
+   * limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
    */
   redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
   /**
