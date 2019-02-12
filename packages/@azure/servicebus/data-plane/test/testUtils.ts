@@ -106,9 +106,6 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
           if (error) throw error.message;
         }
       );
-    })
-    .catch((err) => {
-      throw err.message;
     });
 }
 
@@ -135,9 +132,6 @@ async function recreateTopic(topicName: string, parameters: SBTopic): Promise<vo
           if (error) throw error.message;
         }
       );
-    })
-    .catch((err) => {
-      throw err.message;
     });
 }
 
@@ -163,9 +157,7 @@ async function recreateSubscription(
         subscriptionName,
         parameters,
         function(error: any): void {
-          if (error) {
-            throw error.message;
-          }
+          if (error) throw error.message;
         }
       );
     });
