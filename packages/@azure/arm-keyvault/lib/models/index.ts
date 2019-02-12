@@ -89,7 +89,7 @@ export interface AccessPolicyEntry {
 /**
  * @interface
  * An interface representing IPRule.
- * A rule governing the accesibility of a vault from a specific ip address or
+ * A rule governing the accessibility of a vault from a specific ip address or
  * ip range.
  *
  */
@@ -105,7 +105,7 @@ export interface IPRule {
 /**
  * @interface
  * An interface representing VirtualNetworkRule.
- * A rule governing the accesibility of a vault from a specific virtual
+ * A rule governing the accessibility of a vault from a specific virtual
  * network.
  *
  */
@@ -168,7 +168,9 @@ export interface VaultProperties {
   /**
    * @member {AccessPolicyEntry[]} [accessPolicies] An array of 0 to 16
    * identities that have access to the key vault. All identities in the array
-   * must use the same tenant ID as the key vault's tenant ID.
+   * must use the same tenant ID as the key vault's tenant ID. When
+   * `createMode` is set to `recover`, access policies are not required.
+   * Otherwise, access policies are required.
    */
   accessPolicies?: AccessPolicyEntry[];
   /**
@@ -417,7 +419,7 @@ export interface VaultAccessPolicyParameters extends BaseResource {
    */
   readonly type?: string;
   /**
-   * @member {string} [location] The resource type of the the access policy.
+   * @member {string} [location] The resource type of the access policy.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -516,7 +518,7 @@ export interface DeletedVault {
 /**
  * @interface
  * An interface representing VaultCheckNameAvailabilityParameters.
- * The parameters used to check the availabity of the vault name.
+ * The parameters used to check the availability of the vault name.
  *
  */
 export interface VaultCheckNameAvailabilityParameters {
@@ -579,7 +581,7 @@ export interface OperationDisplay {
    */
   operation?: string;
   /**
-   * @member {string} [description] Decription of operation.
+   * @member {string} [description] Description of operation.
    */
   description?: string;
 }
