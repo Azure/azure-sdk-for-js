@@ -465,7 +465,7 @@ export interface FaceAttributes {
   age?: number;
   /**
    * @member {Gender} [gender] Possible gender of the face. Possible values
-   * include: 'male', 'female', 'genderless'
+   * include: 'male', 'female'
    */
   gender?: Gender;
   /**
@@ -2023,11 +2023,11 @@ export interface SnapshotApplyHeaders {
 
 /**
  * Defines values for Gender.
- * Possible values include: 'male', 'female', 'genderless'
+ * Possible values include: 'male', 'female'
  * @readonly
  * @enum {string}
  */
-export type Gender = 'male' | 'female' | 'genderless';
+export type Gender = 'male' | 'female';
 
 /**
  * Defines values for GlassesType.

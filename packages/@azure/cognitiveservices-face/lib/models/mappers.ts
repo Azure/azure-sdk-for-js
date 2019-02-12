@@ -698,8 +698,7 @@ export const FaceAttributes: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "male",
-            "female",
-            "genderless"
+            "female"
           ]
         }
       },
