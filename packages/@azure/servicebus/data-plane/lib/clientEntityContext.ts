@@ -57,6 +57,10 @@ export interface ClientEntityContextBase {
    */
   messageSessions: Dictionary<MessageSession>;
   /**
+   * @property {Dictionary<MessageSession>} expiredMessageSessions A dictionary that stores expired message sessions IDs.
+   */
+  expiredMessageSessions: Dictionary<Boolean>;
+  /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
   sender?: MessageSender;
@@ -77,7 +81,7 @@ export interface ClientEntityContextBase {
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
-  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession | undefined;
+  getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession;
 }
 
 /**
@@ -113,7 +117,8 @@ export namespace ClientEntityContext {
       entityPath: entityPath,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
       isSessionEnabled: !!options.isSessionEnabled,
-      messageSessions: {}
+      messageSessions: {},
+      expiredMessageSessions: {}
     };
 
     (entityContext as ClientEntityContext).sessionManager = new SessionManager(
@@ -121,6 +126,14 @@ export namespace ClientEntityContext {
     );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
+      if (sessionId && entityContext.expiredMessageSessions[sessionId]) {
+        const error = new Error(
+          `Session Lock is lost for: ${sessionId}. Open a new Session using getSessionReceiver()`
+        );
+        error.name = "SessionLockLostError";
+        throw error;
+      }
+
       let receiver: MessageReceiver | MessageSession | undefined = undefined;
       if (
         sessionId != undefined &&
@@ -132,6 +145,8 @@ export namespace ClientEntityContext {
         receiver = entityContext.streamingReceiver;
       } else if (entityContext.batchingReceiver && entityContext.batchingReceiver.name === name) {
         receiver = entityContext.batchingReceiver;
+      } else {
+        throw new Error(`Cannot find the receiver with name '${name}'.`);
       }
       return receiver;
     };
