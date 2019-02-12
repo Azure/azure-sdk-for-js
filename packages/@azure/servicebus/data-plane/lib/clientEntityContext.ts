@@ -128,7 +128,7 @@ export namespace ClientEntityContext {
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
       if (sessionId && entityContext.expiredMessageSessions[sessionId]) {
         const error = new Error(
-          `Session Lock is lost for: ${sessionId}. Open a new Session using getSessionReceiver()`
+          `The session lock has expired on the session with id ${sessionId}.`
         );
         error.name = "SessionLockLostError";
         throw error;

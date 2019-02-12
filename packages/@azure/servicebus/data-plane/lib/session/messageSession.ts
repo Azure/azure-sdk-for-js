@@ -311,6 +311,9 @@ export class MessageSession extends LinkEntity {
         const sbError = translate(receiverError);
         if (sbError.name === "SessionLockLostError") {
           this._context.expiredMessageSessions[this.sessionId!] = true;
+          sbError.message = `The session lock has expired on the session with id ${
+            this.sessionId
+          }.`;
         }
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
