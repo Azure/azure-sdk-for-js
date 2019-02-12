@@ -18,8 +18,7 @@ import * as msRest from "ms-rest-js";
 export interface MultiLanguageInput {
   /**
    * @member {string} [language] This is the 2 letter ISO 639-1 representation
-   * of a language.
-   * For example, use "en" for English; "es" for Spanish etc.,
+   * of a language. For example, use "en" for English; "es" for Spanish etc.,
    */
   language?: string;
   /**
@@ -50,16 +49,14 @@ export interface MultiLanguageBatchInput {
 export interface MatchRecord {
   /**
    * @member {number} [wikipediaScore] (optional) If a well-known item with
-   * Wikipedia link is recognized,
-   * a decimal number denoting the confidence level of the Wikipedia info will
-   * be returned.
+   * Wikipedia link is recognized, a decimal number denoting the confidence
+   * level of the Wikipedia info will be returned.
    */
   wikipediaScore?: number;
   /**
    * @member {number} [entityTypeScore] (optional) If an entity type is
-   * recognized,
-   * a decimal number denoting the confidence level of the entity type will be
-   * returned.
+   * recognized, a decimal number denoting the confidence level of the entity
+   * type will be returned.
    */
   entityTypeScore?: number;
   /**
@@ -226,11 +223,9 @@ export interface EntitiesBatchResult {
    */
   readonly errors?: ErrorRecord[];
   /**
-   * @member {RequestStatistics} [statistics] /// <summary>
-   * (Optional) if showStats=true was specified in the request this field will
-   * contain information about the
+   * @member {RequestStatistics} [statistics] (Optional) if showStats=true was
+   * specified in the request this field will contain information about the
    * request payload.
-   * </summary>
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -322,11 +317,9 @@ export interface KeyPhraseBatchResult {
    */
   readonly errors?: ErrorRecord[];
   /**
-   * @member {RequestStatistics} [statistics] /// <summary>
-   * (Optional) if showStats=true was specified in the request this field will
-   * contain information about the
+   * @member {RequestStatistics} [statistics] =(Optional) if showStats=true was
+   * specified in the request this field will contain information about the
    * request payload.
-   * </summary>
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -425,11 +418,9 @@ export interface LanguageBatchResult {
    */
   readonly errors?: ErrorRecord[];
   /**
-   * @member {RequestStatistics} [statistics] /// <summary>
-   * (Optional) if showStats=true was specified in the request this field will
-   * contain information about the
+   * @member {RequestStatistics} [statistics] (Optional) if showStats=true was
+   * specified in the request this field will contain information about the
    * request payload.
-   * </summary>
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -447,10 +438,9 @@ export interface SentimentBatchResultItem {
   id?: string;
   /**
    * @member {number} [score] A decimal number between 0 and 1 denoting the
-   * sentiment of the document.
-   * A score above 0.7 usually refers to a positive document while a score
-   * below 0.3 normally has a negative connotation.
-   * Mid values refer to neutral text.
+   * sentiment of the document. A score above 0.7 usually refers to a positive
+   * document while a score below 0.3 normally has a negative connotation. Mid
+   * values refer to neutral text.
    */
   score?: number;
   /**
@@ -479,11 +469,9 @@ export interface SentimentBatchResult {
    */
   readonly errors?: ErrorRecord[];
   /**
-   * @member {RequestStatistics} [statistics] /// <summary>
-   * (Optional) if showStats=true was specified in the request this field will
-   * contain information about the
+   * @member {RequestStatistics} [statistics] (Optional) if showStats=true was
+   * specified in the request this field will contain information about the
    * request payload.
-   * </summary>
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
