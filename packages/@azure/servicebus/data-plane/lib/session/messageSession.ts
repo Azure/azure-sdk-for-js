@@ -88,7 +88,7 @@ export interface SessionMessageHandlerOptions {
   newMessageWaitTimeoutInSeconds?: number;
   /**
    * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that can be
-   * fetched over the network concurrently for a session while in peek lock mode.
+   * fetched over the network concurrently for a session.
    * This setting can be customized to take a higher number if the Service Bus client is
    * running on a multi-core platform.
    * - **Default**: `1`
@@ -135,7 +135,7 @@ export class MessageSession extends LinkEntity {
   maxConcurrentSessions?: number;
   /**
    * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that can be
-   * fetched over the network concurrently for a session while in peek lock mode.
+   * fetched over the network concurrently for a session.
    * This setting can be customized to take a higher number if the Service Bus client is
    * running on a multi-core platform.
    * - **Default**: `1`
@@ -532,7 +532,10 @@ export class MessageSession extends LinkEntity {
     }
     if (!options) options = {};
     this._isReceivingMessages = true;
-    this.maxConcurrentCallsPerSession = options.maxConcurrentCallsPerSession != undefined ? options.maxConcurrentCallsPerSession : 1;
+    this.maxConcurrentCallsPerSession = 
+      (options.maxConcurrentCallsPerSession != undefined 
+        && typeof options.maxConcurrentCallsPerSession == "number"
+        && options.maxConcurrentCallsPerSession > 0) ? options.maxConcurrentCallsPerSession : 1;
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).

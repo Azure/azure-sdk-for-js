@@ -43,6 +43,14 @@ export interface MessageHandlerOptions {
    * If this option is not provided, then receiver link will stay open until manually closed.
    */
   newMessageWaitTimeoutInSeconds?: number;
+  /**
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that can be
+   * fetched over the network concurrently.
+   * This setting can be customized to take a higher number if the Service Bus client is
+   * running on a multi-core platform.
+   * - **Default**: `1`
+   */
+  maxConcurrentCalls?: number;
 }
 
 /**

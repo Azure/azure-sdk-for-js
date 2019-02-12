@@ -80,14 +80,6 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    * Default: ReceiveMode.peekLock
    */
   receiveMode?: ReceiveMode;
-  /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that can be
-   * fetched over the network concurrently while in peek lock mode.
-   * This setting can be customized to take a higher number if the Service Bus client is
-   * running on a multi-core platform.
-   * - **Default**: `1`
-   */
-  maxConcurrentCalls?: number;
 }
 
 /**
@@ -253,8 +245,6 @@ export class MessageReceiver extends LinkEntity {
     if (!options) options = {};
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this.maxConcurrentCalls =
-      options.maxConcurrentCalls != undefined ? options.maxConcurrentCalls : 1;
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
     this.resetTimerOnNewMessageReceived = () => {
       /** */
