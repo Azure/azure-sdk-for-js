@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
 // Licensed under the MIT License.
 
-import { EventHubClient, aadEventHubsAudience, EventPosition } from "../lib";
+import { EventHubClient, EventData, aadEventHubsAudience, EventPosition } from "../lib";
 import * as msrestAzure from "ms-rest-azure";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -20,9 +21,13 @@ const domain = process.env[doma] || "";
 async function main(): Promise<void> {
   const credentials = await msrestAzure.loginWithServicePrincipalSecret(clientId, secret, domain, { tokenAudience: aadEventHubsAudience });
   const client = EventHubClient.createFromAadTokenCredentials(address, path, credentials);
-  await client.send({ body: "Hello awesome world!!" }, 0);
-  const datas = await client.receiveBatch("0", 2, 5, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-  console.log(">>> EventDataObjects: ", datas);
+  const partitionIds = await client.getPartitionIds();
+  await client.send({ body: "Hello awesome world!!" }, partitionIds[0]);
+  const result: EventData[] = await client.receiveBatch(partitionIds[0], 2, 5, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  let i = 0;
+  for (const data of result) {
+    console.log("### Actual message (%d):", ++i, data.body);
+  }
   await client.close();
 }
 

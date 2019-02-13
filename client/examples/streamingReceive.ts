@@ -15,10 +15,10 @@ const path = process.env[entityPath] || "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
+  const partitionIds = await client.getPartitionIds();
   const onMessage: OnMessage = async (eventData: any) => {
-    console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  }
+    console.log("### Actual message:", eventData.body);
+  };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
@@ -26,8 +26,8 @@ async function main(): Promise<void> {
     // Receive messages starting from the last 1 hour.
     eventPosition: EventPosition.fromEnqueuedTime(Date.now() - (60 * 60 * 1000)),
     enableReceiverRuntimeMetric: true
-  }
-  const rcvHandler = client.receive("0", onMessage, onError, options);
+  };
+  const rcvHandler = client.receive(partitionIds[0], onMessage, onError, options);
   console.log("rcvHandler: ", rcvHandler.name);
   await delay(10000);
   await rcvHandler.stop();

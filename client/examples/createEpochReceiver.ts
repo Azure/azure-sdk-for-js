@@ -13,31 +13,32 @@ const path = process.env[entityPath] || "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
+  const partitionIds = await client.getPartitionIds();
   console.log("Created EH client from connection string");
   const onMessage: OnMessage = (eventData: any) => {
-    console.log("@@@@ receiver with epoch 2.");
-    console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  }
+    console.log("@@@@ receiver with epoch 2.\n ### Actual message:", eventData.body);
+  };
   const onError: OnError = (err: MessagingError | Error) => {
-    console.log("@@@@ receiver with epoch 2.");
     console.log(">>>>> Error occurred for receiver with epoch 2: ", err);
   };
-  client.receive("0", onMessage, onError, { epoch: 2 });
+  const rcvHandler1 = client.receive(partitionIds[0], onMessage, onError, { epoch: 2 });
+  await delay(10000);
+  await rcvHandler1.stop();
 
-  console.log("$$$$ Waiting for 8 seconds to let receiver 1 set up and start receiving messages...");
-  await delay(8000);
+  console.log("\n $$$$ Waiting for 10 seconds to let receiver 1 set up and start receiving messages...");
+
   const onMessage2: OnMessage = (eventData: any) => {
-    console.log("@@@@ receiver with epoch 1.");
-    console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  }
+    console.log("@@@@ receiver with epoch 1. \n ### Actual message:", eventData.body );
+  };
   const onError2: OnError = (err: MessagingError | Error) => {
-    console.log("@@@@ receiver with epoch 1.");
     console.log(">>>>> Error occurred for receiver with epoch 1: ", err);
   };
   console.log("$$$$ Will start receiving messages from receiver with epoch value 1...");
-  client.receive("0", onMessage2, onError2, { epoch: 1 });
+  const rcvHandler2 = client.receive(partitionIds[0], onMessage2, onError2, { epoch: 1 });
+  await delay(10000);
+  await rcvHandler2.stop();
+
+  await client.close();
 }
 
 main().catch((err) => {

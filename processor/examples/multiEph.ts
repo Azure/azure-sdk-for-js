@@ -26,7 +26,7 @@ const ephName2 = "eph-2";
 /**
  * The main function that executes the sample.
  */
-async function main() {
+async function main(): Promise<void> {
   // 1. Start eph-1.
   const eph1 = await startEph(ephName1);
   await sleep(20);
@@ -77,7 +77,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   );
   // Message handler
-  let partionCount: { [x: string]: number } = {};
+  const partionCount: { [x: string]: number } = {};
   const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
     (!partionCount[context.partitionId])
       ? partionCount[context.partitionId] = 1

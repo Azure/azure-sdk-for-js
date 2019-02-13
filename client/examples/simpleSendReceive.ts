@@ -13,18 +13,14 @@ let client: EventHubClient;
 async function main(): Promise<void> {
   client = EventHubClient.createFromConnectionString(str, path);
   const ids = await client.getPartitionIds();
-  const hub = await client.getHubRuntimeInformation();
-  console.log(">>>> Hub: \n", hub);
   for (let i = 0; i < 1; i++) {
     const onMessage: OnMessage = (eventData: any) => {
-      console.log(">>> EventDataObject: ", eventData);
-      console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-    }
+      console.log("### Actual message:", eventData.body);
+    };
     const onError: OnError = (err: MessagingError | Error) => {
       console.log(">>>>> Error occurred: ", err);
     };
-    //console.log(onMessage, onError);
-    client.receive(ids[i], onMessage, onError, {
+   const rcvrHandler = client.receive(ids[i], onMessage, onError, {
       enableReceiverRuntimeMetric: true,
       eventPosition: EventPosition.fromEnqueuedTime(Date.now())
     });
@@ -39,7 +35,7 @@ async function main(): Promise<void> {
     console.log("***********Created sender %d and sent the message...", i);
     // Giving enough time for the receiver to receive the message...
     await delay(6000);
-    //await rcvrHandler.stop();
+    await rcvrHandler.stop();
   }
 }
 

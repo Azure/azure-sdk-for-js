@@ -13,28 +13,28 @@ const path = process.env[entityPath] || "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
+  const partitionIds = await client.getPartitionIds();
   console.log("Created EH client from connection string");
   console.log("Created Sender for partition 0.");
   let count = 0;
   const onMessage: OnMessage = (eventData: any) => {
-    console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
+    console.log("### Actual message:", eventData.body);
     count++;
     if (count >= 5) {
       client.close();
     }
-  }
+  };
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  client.receive("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  client.receive(partitionIds[0], onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
   console.log("Created Receiver for partition 0 and CG $default.");
 
   const messageCount = 5;
-  let datas: EventData[] = [];
+  const data: EventData[] = [];
   for (let i = 0; i < messageCount; i++) {
-    let obj: EventData = { body: `Hello foo ${i}` };
-    datas.push(obj);
+    const obj: EventData = { body: `Hello foo ${i}` };
+    data.push(obj);
   }
   console.log("Sending batch message...");
   // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
@@ -44,7 +44,7 @@ async function main(): Promise<void> {
   //   { body: { "message": "Hello World 2" } },
   //   { body: { "message": "Hello World 3" } }
   // ];
-  await client.sendBatch(datas, "0");
+  await client.sendBatch(data, partitionIds[0]);
   console.log("message sent");
 }
 

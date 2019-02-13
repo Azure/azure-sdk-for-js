@@ -19,9 +19,9 @@ async function main(): Promise<void> {
   // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
   // where the body is a JSON object/array.
   // const data = { body: { "message": "Hello World" } };
-  const delivery = await client.send(data, "0");
-  console.log(">>> Sent the message successfully: ", delivery.tag.toString());
-  console.log(delivery);
+  const partitionIds = await client.getPartitionIds();
+  await client.send(data, partitionIds[0]);
+  console.log(">>> Sent the message successfully: ", data.body.toString());
   await client.close();
 }
 

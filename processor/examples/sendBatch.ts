@@ -18,10 +18,10 @@ async function main(): Promise<void> {
 
   const partitionIds = await client.getPartitionIds();
   const messageCount = 300;
-  let datas: EventData[] = [];
+  const data: EventData[] = [];
   for (let i = 0; i < messageCount; i++) {
-    let obj: EventData = { body: `Hello foo ${i}` };
-    datas.push(obj);
+    const obj: EventData = { body: `Hello foo ${i}` };
+    data.push(obj);
   }
   console.log("Sending batch message...");
   // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
@@ -32,8 +32,8 @@ async function main(): Promise<void> {
   //   { body: { "message": "Hello World 3" } }
   // ];
   const sendPromises: Promise<any>[] = [];
-  for (let id of partitionIds) {
-    sendPromises.push(client.sendBatch(datas, id));
+  for (const id of partitionIds) {
+    sendPromises.push(client.sendBatch(data, id));
   }
 
   // Will concurrently send batched messages to all the partitions.
