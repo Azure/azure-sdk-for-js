@@ -58,12 +58,9 @@ export class Receiver {
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
     this.validateNewReceiveCall(ReceiverType.streaming);
     if (!options) options = {};
-    const _maxConcurrentCalls =
-      typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0
-        ? options.maxConcurrentCalls
-        : 1;
+
     const rcvOptions: ReceiveOptions = {
-      maxConcurrentCalls: _maxConcurrentCalls,
+      maxConcurrentCalls: options.maxConcurrentCalls,
       receiveMode: this._receiveMode,
       autoComplete: options.autoComplete,
       maxMessageAutoRenewLockDurationInSeconds: options.maxMessageAutoRenewLockDurationInSeconds

@@ -251,6 +251,10 @@ export class MessageReceiver extends LinkEntity {
     };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
+    this.maxConcurrentCalls =
+      typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0
+        ? options.maxConcurrentCalls
+        : 1;
     this.maxAutoRenewDurationInSeconds =
       options.maxMessageAutoRenewLockDurationInSeconds != undefined
         ? options.maxMessageAutoRenewLockDurationInSeconds
