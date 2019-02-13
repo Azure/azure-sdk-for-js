@@ -48,7 +48,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Unpartitioned Queue - Lock Renewal Tests - Peeklock Mode", function(): void {
+describe("Unpartitioned Queue - Lock Renewal Tests", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
   });
@@ -117,7 +117,7 @@ describe("Unpartitioned Queue - Lock Renewal Tests - Peeklock Mode", function():
   });
 });
 
-describe("Partitioned Queue - Lock Renewal Tests - Peeklock Mode", function(): void {
+describe("Partitioned Queue - Lock Renewal Tests", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
   });
@@ -186,7 +186,7 @@ describe("Partitioned Queue - Lock Renewal Tests - Peeklock Mode", function(): v
   });
 });
 
-describe("Unpartitioned Topic/Subscription - Lock Renewal Tests - Peeklock Mode", function(): void {
+describe("Unpartitioned Subscription - Lock Renewal Tests", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
   });
@@ -255,7 +255,7 @@ describe("Unpartitioned Topic/Subscription - Lock Renewal Tests - Peeklock Mode"
   });
 });
 
-describe("Partitioned Topic/Subscription - Lock Renewal Tests - Peeklock Mode", function(): void {
+describe("Partitioned Subscription - Lock Renewal Tests", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
   });

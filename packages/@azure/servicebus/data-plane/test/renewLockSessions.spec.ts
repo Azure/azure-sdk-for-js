@@ -53,7 +53,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Unpartitioned Queue - Lock Renewal Tests for Sessions - Peeklock Mode", function(): void {
+describe("Unpartitioned Queue - Lock Renewal Tests for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
       ClientType.UnpartitionedQueueWithSessions,
@@ -124,7 +124,7 @@ describe("Unpartitioned Queue - Lock Renewal Tests for Sessions - Peeklock Mode"
   });
 });
 
-describe("Partitioned Queue - Lock Renewal Tests for Sessions - Peeklock Mode", function(): void {
+describe("Partitioned Queue - Lock Renewal Tests for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
@@ -195,7 +195,7 @@ describe("Partitioned Queue - Lock Renewal Tests for Sessions - Peeklock Mode", 
   });
 });
 
-describe("Unpartitioned Topic/Subscription - Lock Renewal Tests for Sessions - Peeklock Mode", function(): void {
+describe("Unpartitioned Subscription - Lock Renewal Tests for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
       ClientType.UnpartitionedTopicWithSessions,
@@ -266,7 +266,7 @@ describe("Unpartitioned Topic/Subscription - Lock Renewal Tests for Sessions - P
   });
 });
 
-describe("Partitioned Topic/Subscription - Lock Renewal Tests for Sessions - Peeklock Mode", function(): void {
+describe("Partitioned Subscription - Lock Renewal Tests for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
