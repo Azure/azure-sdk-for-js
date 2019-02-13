@@ -169,7 +169,7 @@ export class EventHubClient {
    */
   async send(data: EventData, partitionId?: string | number): Promise<Delivery> {
     const sender = EventHubSender.create(this._context, partitionId);
-    return await sender.send(data);
+    return sender.send(data);
   }
 
   /**
@@ -185,7 +185,7 @@ export class EventHubClient {
    */
   async sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery> {
     const sender = EventHubSender.create(this._context, partitionId);
-    return await sender.sendBatch(datas);
+    return sender.sendBatch(datas);
   }
 
   /**
