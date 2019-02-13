@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as uuid from "uuid/v4";
+import uuid from "uuid/v4";
 import * as log from "./log";
 import {
   Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError

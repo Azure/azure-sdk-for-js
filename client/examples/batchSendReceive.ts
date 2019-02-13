@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventHubClient, EventData, EventPosition, OnMessage, OnError, MessagingError } from "../lib";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
@@ -21,7 +21,9 @@ async function main(): Promise<void> {
     console.log("### Actual message:", eventData.body);
     count++;
     if (count >= 5) {
-      client.close();
+      client.close().catch((err) => {
+        console.log(">>>>> Error closing the client: ", err);
+      });
     }
   };
   const onError: OnError = (err: MessagingError | Error) => {

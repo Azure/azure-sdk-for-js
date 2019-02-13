@@ -23,5 +23,8 @@
       "editor.detectIndentation": false
     },
     "editor.rulers": [100],
-    "typescript.tsdk": "./client/node_modules/typescript/lib"
+    "typescript.preferences.quoteStyle": "double",
+    "javascript.preferences.quoteStyle": "double",
+    "typescript.tsdk": "./client/node_modules/typescript/lib",
+    "prettier.arrowParens": "always"
   }
