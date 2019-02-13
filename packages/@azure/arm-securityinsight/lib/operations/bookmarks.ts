@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/dataConnectorsMappers";
+import * as Mappers from "../models/bookmarksMappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsightsContext } from "../securityInsightsContext";
 
-/** Class representing a DataConnectors. */
-export class DataConnectors {
+/** Class representing a Bookmarks. */
+export class Bookmarks {
   private readonly client: SecurityInsightsContext;
 
   /**
-   * Create a DataConnectors.
+   * Create a Bookmarks.
    * @param {SecurityInsightsContext} client Reference to the service client.
    */
   constructor(client: SecurityInsightsContext) {
@@ -27,16 +27,16 @@ export class DataConnectors {
   }
 
   /**
-   * Gets all data connectors.
+   * Gets all bookmarks.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectorsListResponse>
+   * @returns Promise<Models.BookmarksListResponse>
    */
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectorsListResponse>;
+  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.BookmarksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -45,7 +45,7 @@ export class DataConnectors {
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, callback: msRest.ServiceCallback<Models.DataConnectorList>): void;
+  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, callback: msRest.ServiceCallback<Models.BookmarkList>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -55,8 +55,8 @@ export class DataConnectors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectorList>): void;
-  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectorList>, callback?: msRest.ServiceCallback<Models.DataConnectorList>): Promise<Models.DataConnectorsListResponse> {
+  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BookmarkList>): void;
+  list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BookmarkList>, callback?: msRest.ServiceCallback<Models.BookmarkList>): Promise<Models.BookmarksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,145 +65,145 @@ export class DataConnectors {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DataConnectorsListResponse>;
+      callback) as Promise<Models.BookmarksListResponse>;
   }
 
   /**
-   * Gets a data connector.
+   * Gets a bookmark.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param bookmarkId Bookmark ID
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectorsGetResponse>
+   * @returns Promise<Models.BookmarksGetResponse>
    */
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectorsGetResponse>;
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, options?: msRest.RequestOptionsBase): Promise<Models.BookmarksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param bookmarkId Bookmark ID
    * @param callback The callback
    */
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, callback: msRest.ServiceCallback<Models.Bookmark>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param bookmarkId Bookmark ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
-  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectorUnion>, callback?: msRest.ServiceCallback<Models.DataConnectorUnion>): Promise<Models.DataConnectorsGetResponse> {
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Bookmark>): void;
+  get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Bookmark>, callback?: msRest.ServiceCallback<Models.Bookmark>): Promise<Models.BookmarksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         operationalInsightsResourceProvider,
         workspaceName,
-        dataConnectorId,
+        bookmarkId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DataConnectorsGetResponse>;
+      callback) as Promise<Models.BookmarksGetResponse>;
   }
 
   /**
-   * Creates or updates the data connector.
+   * Creates or updates the bookmark.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param dataConnector The data connector
+   * @param bookmarkId Bookmark ID
+   * @param bookmark The bookmark
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectorsCreateOrUpdateResponse>
+   * @returns Promise<Models.BookmarksCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectorsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, bookmark: Models.Bookmark, options?: msRest.RequestOptionsBase): Promise<Models.BookmarksCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param dataConnector The data connector
+   * @param bookmarkId Bookmark ID
+   * @param bookmark The bookmark
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, bookmark: Models.Bookmark, callback: msRest.ServiceCallback<Models.Bookmark>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
-   * @param dataConnector The data connector
+   * @param bookmarkId Bookmark ID
+   * @param bookmark The bookmark
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
-  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectorUnion>, callback?: msRest.ServiceCallback<Models.DataConnectorUnion>): Promise<Models.DataConnectorsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, bookmark: Models.Bookmark, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Bookmark>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, bookmark: Models.Bookmark, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Bookmark>, callback?: msRest.ServiceCallback<Models.Bookmark>): Promise<Models.BookmarksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         operationalInsightsResourceProvider,
         workspaceName,
-        dataConnectorId,
-        dataConnector,
+        bookmarkId,
+        bookmark,
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DataConnectorsCreateOrUpdateResponse>;
+      callback) as Promise<Models.BookmarksCreateOrUpdateResponse>;
   }
 
   /**
-   * Delete the data connector.
+   * Delete the bookmark.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param bookmarkId Bookmark ID
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param bookmarkId Bookmark ID
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
    * Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param dataConnectorId Connector ID
+   * @param bookmarkId Bookmark ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, bookmarkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         operationalInsightsResourceProvider,
         workspaceName,
-        dataConnectorId,
+        bookmarkId,
         options
       },
       deleteMethodOperationSpec,
@@ -211,31 +211,31 @@ export class DataConnectors {
   }
 
   /**
-   * Gets all data connectors.
+   * Gets all bookmarks.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectorsListNextResponse>
+   * @returns Promise<Models.BookmarksListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectorsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BookmarksListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DataConnectorList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BookmarkList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectorList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectorList>, callback?: msRest.ServiceCallback<Models.DataConnectorList>): Promise<Models.DataConnectorsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BookmarkList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BookmarkList>, callback?: msRest.ServiceCallback<Models.BookmarkList>): Promise<Models.BookmarksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DataConnectorsListNextResponse>;
+      callback) as Promise<Models.BookmarksListNextResponse>;
   }
 }
 
@@ -243,7 +243,7 @@ export class DataConnectors {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -258,7 +258,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList
+      bodyMapper: Mappers.BookmarkList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -269,13 +269,13 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.bookmarkId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -285,7 +285,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.Bookmark
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -296,13 +296,13 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.bookmarkId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -311,18 +311,18 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "dataConnector",
+    parameterPath: "bookmark",
     mapper: {
-      ...Mappers.DataConnector,
+      ...Mappers.Bookmark,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.Bookmark
     },
     201: {
-      bodyMapper: Mappers.DataConnector
+      bodyMapper: Mappers.Bookmark
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -333,13 +333,13 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
-    Parameters.dataConnectorId
+    Parameters.bookmarkId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -369,7 +369,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectorList
+      bodyMapper: Mappers.BookmarkList
     },
     default: {
       bodyMapper: Mappers.CloudError

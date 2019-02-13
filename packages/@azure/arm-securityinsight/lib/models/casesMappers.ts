@@ -8,12 +8,16 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./alertRules";
-export * from "./actions";
-export * from "./cases";
-export * from "./bookmarks";
-export * from "./dataConnectors";
-export * from "./entities";
-export * from "./officeConsents";
-export * from "./productSettings";
+export {
+  discriminators,
+  CaseList,
+  CaseModel,
+  Resource,
+  BaseResource,
+  UserInfo,
+  CloudError,
+  Action,
+  Bookmark,
+  OfficeConsent
+} from "../models/mappers";
+

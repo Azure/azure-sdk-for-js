@@ -20,6 +20,16 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const actionId: msRest.OperationURLParameter = {
+  parameterPath: "actionId",
+  mapper: {
+    required: true,
+    serializedName: "actionId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -32,11 +42,51 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const bookmarkId: msRest.OperationURLParameter = {
+  parameterPath: "bookmarkId",
+  mapper: {
+    required: true,
+    serializedName: "bookmarkId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const caseId: msRest.OperationURLParameter = {
+  parameterPath: "caseId",
+  mapper: {
+    required: true,
+    serializedName: "caseId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const consentId: msRest.OperationURLParameter = {
+  parameterPath: "consentId",
+  mapper: {
+    required: true,
+    serializedName: "consentId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const dataConnectorId: msRest.OperationURLParameter = {
   parameterPath: "dataConnectorId",
   mapper: {
     required: true,
     serializedName: "dataConnectorId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const entityId: msRest.OperationURLParameter = {
+  parameterPath: "entityId",
+  mapper: {
+    required: true,
+    serializedName: "entityId",
     type: {
       name: "String"
     }
@@ -83,9 +133,16 @@ export const ruleId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "ruleId",
-    constraints: {
-      Pattern: /^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$/
-    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const settingsName: msRest.OperationURLParameter = {
+  parameterPath: "settingsName",
+  mapper: {
+    required: true,
+    serializedName: "settingsName",
     type: {
       name: "String"
     }

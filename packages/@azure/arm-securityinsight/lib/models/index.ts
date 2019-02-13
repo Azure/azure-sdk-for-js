@@ -144,18 +144,20 @@ export interface ScheduledAlertRule {
    */
   etag?: string;
   /**
-   * @member {string} ruleName The name for alerts created by this alert rule.
+   * @member {string} displayName The display name for alerts created by this
+   * alert rule.
    */
-  ruleName: string;
+  displayName: string;
   /**
    * @member {string} description The description of the alert rule.
    */
   description: string;
   /**
-   * @member {Severity} severity The severity for alerts created by this alert
-   * rule. Possible values include: 'Low', 'Medium', 'High', 'Informational'
+   * @member {AlertSeverity} severity The severity for alerts created by this
+   * alert rule. Possible values include: 'High', 'Medium', 'Low',
+   * 'Informational'
    */
-  severity: Severity;
+  severity: AlertSeverity;
   /**
    * @member {boolean} enabled Determines whether this alert rule is enabled or
    * disabled.
@@ -205,9 +207,184 @@ export interface ScheduledAlertRule {
 }
 
 /**
+ * @interface
+ * An interface representing Resource.
+ * An azure resource object
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Action.
+ * Action for alert rule.
+ *
+ * @extends Resource
+ */
+export interface Action extends Resource {
+  /**
+   * @member {string} [etag] Etag of the action.
+   */
+  etag?: string;
+  /**
+   * @member {string} [triggerUri] The uri for the action to trigger.
+   */
+  triggerUri?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserInfo.
+ * User information that made some action
+ *
+ */
+export interface UserInfo {
+  /**
+   * @member {string} [objectId] The object id of the user.
+   */
+  objectId?: string;
+  /**
+   * @member {string} [email] The email of the user.
+   */
+  email?: string;
+  /**
+   * @member {string} [name] The name of the user.
+   */
+  name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CaseModel.
+ * Represents a case in Azure Security Insights.
+ *
+ * @extends Resource
+ */
+export interface CaseModel extends Resource {
+  /**
+   * @member {string} [etag] Etag of the alert rule.
+   */
+  etag?: string;
+  /**
+   * @member {Date} [lastUpdatedTimeUtc] The last time the case was updated
+   */
+  lastUpdatedTimeUtc?: Date;
+  /**
+   * @member {Date} [createdTimeUtc] The time the case was created
+   */
+  createdTimeUtc?: Date;
+  /**
+   * @member {Date} [endTimeUtc] The end time of the case
+   */
+  endTimeUtc?: Date;
+  /**
+   * @member {Date} [startTimeUtc] The start time of the case
+   */
+  startTimeUtc?: Date;
+  /**
+   * @member {string[]} [labels] List of labels relevant to this case
+   */
+  labels?: string[];
+  /**
+   * @member {string} [description] The description of the case
+   */
+  description?: string;
+  /**
+   * @member {string} title The title of the case
+   */
+  title: string;
+  /**
+   * @member {UserInfo} [assignedTo] Describes a user that the case is assigned
+   * to
+   */
+  assignedTo?: UserInfo;
+  /**
+   * @member {CaseSeverity} severity The severity of the case. Possible values
+   * include: 'Critical', 'High', 'Medium', 'Low', 'Informational'
+   */
+  severity: CaseSeverity;
+  /**
+   * @member {CaseStatus} status The status of the case. Possible values
+   * include: 'Draft', 'Open', 'InProgress', 'Closed'
+   */
+  status: CaseStatus;
+  /**
+   * @member {CloseReason} [closeReason] The reason the case was closed.
+   * Possible values include: 'Resolved', 'Dismissed', 'Other'
+   */
+  closeReason?: CloseReason;
+}
+
+/**
+ * @interface
+ * An interface representing Bookmark.
+ * Represents a bookmark in Azure Security Insights.
+ *
+ * @extends Resource
+ */
+export interface Bookmark extends Resource {
+  /**
+   * @member {string} [etag] Etag of the bookmark.
+   */
+  etag?: string;
+  /**
+   * @member {string} displayName The display name of the bookmark
+   */
+  displayName: string;
+  /**
+   * @member {Date} [lastUpdatedTimeUtc] The last time the bookmark was updated
+   */
+  lastUpdatedTimeUtc?: Date;
+  /**
+   * @member {Date} [createdTimeUtc] The time the bookmark was created
+   */
+  createdTimeUtc?: Date;
+  /**
+   * @member {UserInfo} [createdBy] Describes a user that created the bookmark
+   */
+  createdBy?: UserInfo;
+  /**
+   * @member {UserInfo} [updatedBy] Describes a user that updated the bookmark
+   */
+  updatedBy?: UserInfo;
+  /**
+   * @member {string} [notes] The notes of the bookmark
+   */
+  notes?: string;
+  /**
+   * @member {string[]} [labels] List of labels relevant to this bookmark
+   */
+  labels?: string[];
+  /**
+   * @member {string} query The query of the bookmark.
+   */
+  query: string;
+}
+
+/**
  * Contains the possible cases for DataConnector.
  */
-export type DataConnectorUnion = DataConnector | OfficeDataConnector | TIDataConnector | DataConnectorWithAlertsUnion;
+export type DataConnectorUnion = DataConnector | OfficeDataConnector | TIDataConnector | AADDataConnector | ASCDataConnector | MCASDataConnector;
 
 /**
  * @interface
@@ -261,16 +438,16 @@ export interface DataConnectorKind1 {
 
 /**
  * @interface
- * An interface representing DataConnectorContextId.
- * Describes an Azure resource with kind.
+ * An interface representing DataConnectorTenantId.
+ * Properties data connector on tenant level.
  *
  */
-export interface DataConnectorContextId {
+export interface DataConnectorTenantId {
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
 }
 
 /**
@@ -360,10 +537,10 @@ export interface OfficeDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {OfficeDataConnectorDataTypes} [dataTypes] The available data
    * types for the connector.
@@ -384,7 +561,7 @@ export interface TIDataConnectorDataTypesIndicators extends DataConnectorDataTyp
 /**
  * @interface
  * An interface representing TIDataConnectorDataTypes.
- * The available data types for TI data connector.
+ * The available data types for TI (Threat Intelligence) data connector.
  *
  */
 export interface TIDataConnectorDataTypes {
@@ -429,10 +606,10 @@ export interface TIDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {TIDataConnectorDataTypes} [dataTypes] The available data types
    * for the connector.
@@ -441,53 +618,27 @@ export interface TIDataConnector {
 }
 
 /**
- * Contains the possible cases for DataConnectorWithAlerts.
+ * @interface
+ * An interface representing AlertsDataTypeOfDataConnectorAlerts.
+ * Alerts data type connection.
+ *
+ * @extends DataConnectorDataTypeCommon
  */
-export type DataConnectorWithAlertsUnion = DataConnectorWithAlerts | AADDataConnector | ASCDataConnector | MCASDataConnector;
+export interface AlertsDataTypeOfDataConnectorAlerts extends DataConnectorDataTypeCommon {
+}
 
 /**
  * @interface
- * An interface representing DataConnectorWithAlerts.
- * Data connector with alerts data type.
+ * An interface representing AlertsDataTypeOfDataConnector.
+ * Alerts data type for data connectors.
  *
  */
-export interface DataConnectorWithAlerts {
+export interface AlertsDataTypeOfDataConnector {
   /**
-   * @member {string} kind Polymorphic Discriminator
+   * @member {AlertsDataTypeOfDataConnectorAlerts} [alerts] Alerts data type
+   * connection.
    */
-  kind: "DataConnectorWithAlerts";
-  /**
-   * @member {string} [id] Azure resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [type] Azure resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [name] Azure resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [etag] Etag of the data connector.
-   */
-  etag?: string;
-  /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
-   */
-  contextId?: string;
-  /**
-   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
-   * types for the connector.
-   */
-  dataTypes?: AlertsDataTypeOfDataConnector;
+  alerts?: AlertsDataTypeOfDataConnectorAlerts;
 }
 
 /**
@@ -524,10 +675,10 @@ export interface AADDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
    * types for the connector.
@@ -569,15 +720,15 @@ export interface ASCDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
-   */
-  contextId?: string;
-  /**
    * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
    * types for the connector.
    */
   dataTypes?: AlertsDataTypeOfDataConnector;
+  /**
+   * @member {string} [subscriptionId] The subscription id to connect to, and
+   * get the data from.
+   */
+  subscriptionId?: string;
 }
 
 /**
@@ -614,10 +765,10 @@ export interface MCASDataConnector {
    */
   etag?: string;
   /**
-   * @member {string} [contextId] The context id of the origin data source
-   * (Like tenantID, SubscriptionID etc.).
+   * @member {string} [tenantId] The tenant id to connect to, and get the data
+   * from.
    */
-  contextId?: string;
+  tenantId?: string;
   /**
    * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
    * types for the connector.
@@ -627,36 +778,34 @@ export interface MCASDataConnector {
 
 /**
  * @interface
- * An interface representing AlertsDataTypeOfDataConnectorAlerts.
- * Alerts data type connection.
- *
- * @extends DataConnectorDataTypeCommon
- */
-export interface AlertsDataTypeOfDataConnectorAlerts extends DataConnectorDataTypeCommon {
-}
-
-/**
- * @interface
- * An interface representing AlertsDataTypeOfDataConnector.
- * Alerts data type for data connectors.
+ * An interface representing DataConnectorWithAlertsProperties.
+ * Data connector properties.
  *
  */
-export interface AlertsDataTypeOfDataConnector {
+export interface DataConnectorWithAlertsProperties {
   /**
-   * @member {AlertsDataTypeOfDataConnectorAlerts} [alerts] Alerts data type
-   * connection.
+   * @member {AlertsDataTypeOfDataConnector} [dataTypes] The available data
+   * types for the connector.
    */
-  alerts?: AlertsDataTypeOfDataConnectorAlerts;
+  dataTypes?: AlertsDataTypeOfDataConnector;
 }
 
 /**
- * @interface
- * An interface representing Resource.
- * An azure resource object
- *
- * @extends BaseResource
+ * Contains the possible cases for Entity.
  */
-export interface Resource extends BaseResource {
+export type EntityUnion = Entity | AccountEntity | HostEntity | FileEntity;
+
+/**
+ * @interface
+ * An interface representing Entity.
+ * Specific entity.
+ *
+ */
+export interface Entity {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Entity";
   /**
    * @member {string} [id] Azure resource Id
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -675,6 +824,404 @@ export interface Resource extends BaseResource {
    * the server.**
    */
   readonly name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EntityKind1.
+ * Describes an Azure resource with kind.
+ *
+ */
+export interface EntityKind1 {
+  /**
+   * @member {EntityKind} [kind] The kind of the entity. Possible values
+   * include: 'Account', 'Host', 'File'
+   */
+  kind?: EntityKind;
+}
+
+/**
+ * @interface
+ * An interface representing AccountEntity.
+ * Represents an account entity.
+ *
+ */
+export interface AccountEntity {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Account";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [accountName] The name of the account. This field should
+   * hold only the name without any domain added to it, i.e. administrator.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accountName?: string;
+  /**
+   * @member {string} [ntDomain] The NETBIOS domain name as it appears in the
+   * alert format – domain\username. Examples: NT AUTHORITY.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ntDomain?: string;
+  /**
+   * @member {string} [upnSuffix] The user principal name suffix for the
+   * account, in some cases it is also the domain name. Examples: contoso.com.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly upnSuffix?: string;
+  /**
+   * @member {string} [sid] The account security identifier, e.g. S-1-5-18.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sid?: string;
+  /**
+   * @member {string} [aadTenantId] The Azure Active Directory tenant id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly aadTenantId?: string;
+  /**
+   * @member {string} [aadUserId] The Azure Active Directory user id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly aadUserId?: string;
+  /**
+   * @member {string} [puid] The Azure Active Directory Passport User ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly puid?: string;
+  /**
+   * @member {boolean} [isDomainJoined] Determines whether this is a domain
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isDomainJoined?: boolean;
+  /**
+   * @member {string} [objectGuid] The objectGUID attribute is a single-value
+   * attribute that is the unique identifier for the object, assigned by active
+   * directory.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly objectGuid?: string;
+}
+
+/**
+ * @interface
+ * An interface representing HostEntity.
+ * Represents a host entity.
+ *
+ */
+export interface HostEntity {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Host";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [dnsDomain] The DNS domain that this host belongs to.
+   * Should contain the compete DNS suffix for the domain
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly dnsDomain?: string;
+  /**
+   * @member {string} [ntDomain] The NT domain that this host belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ntDomain?: string;
+  /**
+   * @member {string} [hostName] The hostname without the domain suffix.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hostName?: string;
+  /**
+   * @member {string} [netBiosName] The host name (pre-windows2000).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly netBiosName?: string;
+  /**
+   * @member {string} [azureID] The azure resource id of the VM.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly azureID?: string;
+  /**
+   * @member {string} [omsAgentID] The OMS agent id, if the host has OMS agent
+   * installed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly omsAgentID?: string;
+  /**
+   * @member {OSFamily} [osFamily] The operartion system type. Possible values
+   * include: 'Linux', 'Windows', 'Android', 'IOS'
+   */
+  osFamily?: OSFamily;
+  /**
+   * @member {string} [osVersion] A free text representation of the operating
+   * system. This field is meant to hold specific versions the are more fine
+   * grained than OSFamily or future values not supported by OSFamily
+   * enumeration
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly osVersion?: string;
+  /**
+   * @member {boolean} [isDomainJoined] Determines whether this host belongs to
+   * a domain.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isDomainJoined?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing FileEntity.
+ * Represents a file entity.
+ *
+ */
+export interface FileEntity {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "File";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [directory] The full path to the file.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly directory?: string;
+  /**
+   * @member {string} [fileName] The file name without path (some alerts might
+   * not include path).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly fileName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OfficeConsent.
+ * Consent for Office365 tenant that already made.
+ *
+ * @extends Resource
+ */
+export interface OfficeConsent extends Resource {
+  /**
+   * @member {string} [tenantId] The tenantId of the Office365 with the
+   * concesnt.
+   */
+  tenantId?: string;
+  /**
+   * @member {string} [tenantName] The tenant name of the Office365 with the
+   * concesnt.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantName?: string;
+}
+
+/**
+ * Contains the possible cases for Settings.
+ */
+export type SettingsUnion = Settings | UebaSettings | ToggleSettings;
+
+/**
+ * @interface
+ * An interface representing Settings.
+ * The Setting.
+ *
+ */
+export interface Settings {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Settings";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SettingsKind.
+ * Describes an Azure resource with kind.
+ *
+ */
+export interface SettingsKind {
+  /**
+   * @member {SettingKind} [kind] The kind of the setting. Possible values
+   * include: 'UebaSettings', 'ToggleSettings'
+   */
+  kind?: SettingKind;
+}
+
+/**
+ * @interface
+ * An interface representing UebaSettings.
+ * Represents settings for User and Entity Behavior Analytics enablement.
+ *
+ */
+export interface UebaSettings {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "UebaSettings";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {boolean} [isEnabled] Determines whether User and Entity Behavior
+   * Analytics is enabled for this workspace.
+   */
+  isEnabled?: boolean;
+  /**
+   * @member {StatusInMcas} [statusInMcas] Determines whether User and Entity
+   * Behavior Analytics is enabled from MCAS (Microsoft Cloud App Security).
+   * Possible values include: 'Enabled', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusInMcas?: StatusInMcas;
+  /**
+   * @member {boolean} [atpLicenseStatus] Determines whether the tenant has ATP
+   * (Advanced Threat Protection) license.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly atpLicenseStatus?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ToggleSettings.
+ * Settings with single toggle.
+ *
+ */
+export interface ToggleSettings {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "ToggleSettings";
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {boolean} [isEnabled] Determines whether the setting is enable or
+   * disabled.
+   */
+  isEnabled?: boolean;
 }
 
 /**
@@ -722,6 +1269,54 @@ export interface AlertRulesList extends Array<AlertRuleUnion> {
 
 /**
  * @interface
+ * An interface representing the ActionsList.
+ * List all the actions.
+ *
+ * @extends Array<Action>
+ */
+export interface ActionsList extends Array<Action> {
+  /**
+   * @member {string} [nextLink] URL to fetch the next set of actions.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the CaseList.
+ * List all the cases.
+ *
+ * @extends Array<CaseModel>
+ */
+export interface CaseList extends Array<CaseModel> {
+  /**
+   * @member {string} [nextLink] URL to fetch the next set of cases.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the BookmarkList.
+ * List all the bookmarks.
+ *
+ * @extends Array<Bookmark>
+ */
+export interface BookmarkList extends Array<Bookmark> {
+  /**
+   * @member {string} [nextLink] URL to fetch the next set of cases.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the DataConnectorList.
  * List all the data connectors.
  *
@@ -737,6 +1332,38 @@ export interface DataConnectorList extends Array<DataConnectorUnion> {
 }
 
 /**
+ * @interface
+ * An interface representing the EntityList.
+ * List of all the entities.
+ *
+ * @extends Array<EntityUnion>
+ */
+export interface EntityList extends Array<EntityUnion> {
+  /**
+   * @member {string} [nextLink] URL to fetch the next set of entities.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the OfficeConsentList.
+ * List of all the office365 consents.
+ *
+ * @extends Array<OfficeConsent>
+ */
+export interface OfficeConsentList extends Array<OfficeConsent> {
+  /**
+   * @member {string} [nextLink] URL to fetch the next set of office consents.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for AlertRuleKind.
  * Possible values include: 'Scheduled'
  * @readonly
@@ -745,12 +1372,12 @@ export interface DataConnectorList extends Array<DataConnectorUnion> {
 export type AlertRuleKind = 'Scheduled';
 
 /**
- * Defines values for Severity.
- * Possible values include: 'Low', 'Medium', 'High', 'Informational'
+ * Defines values for AlertSeverity.
+ * Possible values include: 'High', 'Medium', 'Low', 'Informational'
  * @readonly
  * @enum {string}
  */
-export type Severity = 'Low' | 'Medium' | 'High' | 'Informational';
+export type AlertSeverity = 'High' | 'Medium' | 'Low' | 'Informational';
 
 /**
  * Defines values for TriggerOperator.
@@ -759,6 +1386,30 @@ export type Severity = 'Low' | 'Medium' | 'High' | 'Informational';
  * @enum {string}
  */
 export type TriggerOperator = 'GreaterThan' | 'LessThan' | 'Equal' | 'NotEqual';
+
+/**
+ * Defines values for CaseSeverity.
+ * Possible values include: 'Critical', 'High', 'Medium', 'Low', 'Informational'
+ * @readonly
+ * @enum {string}
+ */
+export type CaseSeverity = 'Critical' | 'High' | 'Medium' | 'Low' | 'Informational';
+
+/**
+ * Defines values for CaseStatus.
+ * Possible values include: 'Draft', 'Open', 'InProgress', 'Closed'
+ * @readonly
+ * @enum {string}
+ */
+export type CaseStatus = 'Draft' | 'Open' | 'InProgress' | 'Closed';
+
+/**
+ * Defines values for CloseReason.
+ * Possible values include: 'Resolved', 'Dismissed', 'Other'
+ * @readonly
+ * @enum {string}
+ */
+export type CloseReason = 'Resolved' | 'Dismissed' | 'Other';
 
 /**
  * Defines values for DataConnectorKind.
@@ -776,6 +1427,38 @@ export type DataConnectorKind = 'AzureActiveDirectory' | 'AzureSecurityCenter' |
  * @enum {string}
  */
 export type DataTypeState = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for EntityKind.
+ * Possible values include: 'Account', 'Host', 'File'
+ * @readonly
+ * @enum {string}
+ */
+export type EntityKind = 'Account' | 'Host' | 'File';
+
+/**
+ * Defines values for OSFamily.
+ * Possible values include: 'Linux', 'Windows', 'Android', 'IOS'
+ * @readonly
+ * @enum {string}
+ */
+export type OSFamily = 'Linux' | 'Windows' | 'Android' | 'IOS';
+
+/**
+ * Defines values for SettingKind.
+ * Possible values include: 'UebaSettings', 'ToggleSettings'
+ * @readonly
+ * @enum {string}
+ */
+export type SettingKind = 'UebaSettings' | 'ToggleSettings';
+
+/**
+ * Defines values for StatusInMcas.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type StatusInMcas = 'Enabled' | 'Disabled';
 
 /**
  * Contains response data for the list operation.
@@ -854,9 +1537,9 @@ export type AlertRulesGetResponse = AlertRuleUnion & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type AlertRulesCreateResponse = AlertRuleUnion & {
+export type AlertRulesCreateOrUpdateResponse = AlertRuleUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -869,6 +1552,44 @@ export type AlertRulesCreateResponse = AlertRuleUnion & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AlertRuleUnion;
+    };
+};
+
+/**
+ * Contains response data for the getAction operation.
+ */
+export type AlertRulesGetActionResponse = Action & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Action;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAction operation.
+ */
+export type AlertRulesCreateOrUpdateActionResponse = Action & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Action;
     };
 };
 
@@ -888,6 +1609,196 @@ export type AlertRulesListNextResponse = AlertRulesList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AlertRulesList;
+    };
+};
+
+/**
+ * Contains response data for the listByAlertRule operation.
+ */
+export type ActionsListByAlertRuleResponse = ActionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActionsList;
+    };
+};
+
+/**
+ * Contains response data for the listByAlertRuleNext operation.
+ */
+export type ActionsListByAlertRuleNextResponse = ActionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActionsList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type CasesListResponse = CaseList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CaseList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CasesGetResponse = CaseModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CaseModel;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type CasesCreateOrUpdateResponse = CaseModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CaseModel;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type CasesListNextResponse = CaseList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CaseList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BookmarksListResponse = BookmarkList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BookmarkList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BookmarksGetResponse = Bookmark & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Bookmark;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type BookmarksCreateOrUpdateResponse = Bookmark & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Bookmark;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type BookmarksListNextResponse = BookmarkList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BookmarkList;
     };
 };
 
@@ -930,9 +1841,9 @@ export type DataConnectorsGetResponse = DataConnectorUnion & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type DataConnectorsCreateResponse = DataConnectorUnion & {
+export type DataConnectorsCreateOrUpdateResponse = DataConnectorUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -964,5 +1875,157 @@ export type DataConnectorsListNextResponse = DataConnectorList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DataConnectorList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type EntitiesListResponse = EntityList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EntityList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type EntitiesGetResponse = EntityUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EntityUnion;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type EntitiesListNextResponse = EntityList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EntityList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OfficeConsentsListResponse = OfficeConsentList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OfficeConsentList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OfficeConsentsGetResponse = OfficeConsent & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OfficeConsent;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OfficeConsentsListNextResponse = OfficeConsentList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OfficeConsentList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ProductSettingsGetResponse = SettingsUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SettingsUnion;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ProductSettingsUpdateResponse = SettingsUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SettingsUnion;
     };
 };

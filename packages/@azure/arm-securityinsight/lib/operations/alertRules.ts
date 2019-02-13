@@ -69,7 +69,7 @@ export class AlertRules {
   }
 
   /**
-   * Gets a alert rule.
+   * Gets the alert rule.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
@@ -124,9 +124,9 @@ export class AlertRules {
    * @param ruleId Alert rule ID
    * @param alertRule The alert rule
    * @param [options] The optional parameters
-   * @returns Promise<Models.AlertRulesCreateResponse>
+   * @returns Promise<Models.AlertRulesCreateOrUpdateResponse>
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateResponse>;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -137,7 +137,7 @@ export class AlertRules {
    * @param alertRule The alert rule
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -149,8 +149,8 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleUnion>, callback?: msRest.ServiceCallback<Models.AlertRuleUnion>): Promise<Models.AlertRulesCreateResponse> {
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleUnion>, callback?: msRest.ServiceCallback<Models.AlertRuleUnion>): Promise<Models.AlertRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,8 +160,8 @@ export class AlertRules {
         alertRule,
         options
       },
-      createOperationSpec,
-      callback) as Promise<Models.AlertRulesCreateResponse>;
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.AlertRulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -207,6 +207,160 @@ export class AlertRules {
         options
       },
       deleteMethodOperationSpec,
+      callback);
+  }
+
+  /**
+   * Gets the action of alert rule.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AlertRulesGetActionResponse>
+   */
+  getAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesGetActionResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param callback The callback
+   */
+  getAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, callback: msRest.ServiceCallback<Models.Action>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Action>): void;
+  getAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Action>, callback?: msRest.ServiceCallback<Models.Action>): Promise<Models.AlertRulesGetActionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        ruleId,
+        actionId,
+        options
+      },
+      getActionOperationSpec,
+      callback) as Promise<Models.AlertRulesGetActionResponse>;
+  }
+
+  /**
+   * Creates or updates the action of alert rule.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param action The action
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AlertRulesCreateOrUpdateActionResponse>
+   */
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateOrUpdateActionResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param action The action
+   * @param callback The callback
+   */
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, callback: msRest.ServiceCallback<Models.Action>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param action The action
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Action>): void;
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Action>, callback?: msRest.ServiceCallback<Models.Action>): Promise<Models.AlertRulesCreateOrUpdateActionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        ruleId,
+        actionId,
+        action,
+        options
+      },
+      createOrUpdateActionOperationSpec,
+      callback) as Promise<Models.AlertRulesCreateOrUpdateActionResponse>;
+  }
+
+  /**
+   * Delete the action of alert rule.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param callback The callback
+   */
+  deleteAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   * Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param ruleId Alert rule ID
+   * @param actionId Action ID
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        ruleId,
+        actionId,
+        options
+      },
+      deleteActionOperationSpec,
       callback);
   }
 
@@ -294,7 +448,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}",
   urlParameters: [
@@ -340,6 +494,99 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
     Parameters.ruleId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getActionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}/actions/{actionId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
+    Parameters.workspaceName,
+    Parameters.ruleId,
+    Parameters.actionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Action
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const createOrUpdateActionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}/actions/{actionId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
+    Parameters.workspaceName,
+    Parameters.ruleId,
+    Parameters.actionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "action",
+    mapper: {
+      ...Mappers.Action,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Action
+    },
+    201: {
+      bodyMapper: Mappers.Action
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const deleteActionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}/actions/{actionId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
+    Parameters.workspaceName,
+    Parameters.ruleId,
+    Parameters.actionId
   ],
   queryParameters: [
     Parameters.apiVersion
