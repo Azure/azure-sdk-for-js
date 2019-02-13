@@ -13,9 +13,9 @@ console.log(path);
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
-  let info = await client.getHubRuntimeInformation();
+  const info = await client.getHubRuntimeInformation();
   console.log("RuntimeInfo: ", info);
-  let pInfo = await client.getPartitionInformation("0");
+  const pInfo = await client.getPartitionInformation(info.partitionIds[0]);
   console.log("Partition Information: ", pInfo);
   await client.close();
 }
