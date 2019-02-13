@@ -1045,6 +1045,23 @@ export interface ManagedServiceIdentity {
 
 /**
  * @interface
+ * An interface representing GeoDistribution.
+ * A global distribution definition.
+ *
+ */
+export interface GeoDistribution {
+  /**
+   * @member {string} [location] Location.
+   */
+  location?: string;
+  /**
+   * @member {number} [numberOfWorkers] NumberOfWorkers.
+   */
+  numberOfWorkers?: number;
+}
+
+/**
+ * @interface
  * An interface representing SlotSwapStatus.
  * The status of the last successful slot swap operation.
  *
@@ -1175,18 +1192,30 @@ export interface HostingEnvironmentProfile {
  */
 export interface IpSecurityRestriction {
   /**
-   * @member {string} ipAddress IP address the security restriction is valid
+   * @member {string} [ipAddress] IP address the security restriction is valid
    * for.
    * It can be in form of pure ipv4 address (required SubnetMask property) or
    * CIDR notation such as ipv4/mask (leading bit match). For CIDR,
    * SubnetMask property must not be specified.
    */
-  ipAddress: string;
+  ipAddress?: string;
   /**
    * @member {string} [subnetMask] Subnet mask for the range of IP addresses
    * the restriction is valid for.
    */
   subnetMask?: string;
+  /**
+   * @member {string} [vnetSubnetResourceId] Virtual network resource id
+   */
+  vnetSubnetResourceId?: string;
+  /**
+   * @member {number} [vnetTrafficTag] (internal) Vnet traffic tag
+   */
+  vnetTrafficTag?: number;
+  /**
+   * @member {number} [subnetTrafficTag] (internal) Subnet traffic tag
+   */
+  subnetTrafficTag?: number;
   /**
    * @member {string} [action] Allow or Deny access for this IP range.
    */
@@ -2089,6 +2118,11 @@ export interface Site extends Resource {
    */
   clientCertEnabled?: boolean;
   /**
+   * @member {string} [clientCertExclusionPaths] client certificate
+   * authentication comma-separated exclusion paths
+   */
+  clientCertExclusionPaths?: string;
+  /**
    * @member {boolean} [hostNamesDisabled] <code>true</code> to disable the
    * public hostnames of the app; otherwise, <code>false</code>.
    * If <code>true</code>, the app is only accessible via API management
@@ -2172,6 +2206,24 @@ export interface Site extends Resource {
    * http requests
    */
   httpsOnly?: boolean;
+  /**
+   * @member {RedundancyMode} [redundancyMode] Site redundancy mode. Possible
+   * values include: 'None', 'Manual', 'Failover', 'ActiveActive',
+   * 'GeoRedundant'
+   */
+  redundancyMode?: RedundancyMode;
+  /**
+   * @member {string} [inProgressOperationId] Specifies an operation id if this
+   * site has a pending operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly inProgressOperationId?: string;
+  /**
+   * @member {GeoDistribution[]} [geoDistributions] GeoDistributions for this
+   * site
+   */
+  geoDistributions?: GeoDistribution[];
   /**
    * @member {ManagedServiceIdentity} [identity]
    */
@@ -2298,10 +2350,6 @@ export interface AppServicePlan extends Resource {
    * the server.**
    */
   readonly subscription?: string;
-  /**
-   * @member {string} [adminSiteName] App Service plan administration site.
-   */
-  adminSiteName?: string;
   /**
    * @member {HostingEnvironmentProfile} [hostingEnvironmentProfile]
    * Specification for the App Service Environment to use for the App Service
@@ -4741,6 +4789,11 @@ export interface StackMinorVersion {
    * minor version; otherwise, <code>false</code>.
    */
   isDefault?: boolean;
+  /**
+   * @member {boolean} [isRemoteDebuggingEnabled] <code>true</code> if this
+   * supports Remote Debugging, otherwise <code>false</code>.
+   */
+  isRemoteDebuggingEnabled?: boolean;
 }
 
 /**
@@ -5315,6 +5368,39 @@ export interface SourceControl extends ProxyOnlyResource {
    * @member {Date} [expirationTime] OAuth token expiration.
    */
   expirationTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ValidateContainerSettingsRequest.
+ * Container settings validation request context
+ *
+ */
+export interface ValidateContainerSettingsRequest {
+  /**
+   * @member {string} [baseUrl] Base URL of the container registry
+   */
+  baseUrl?: string;
+  /**
+   * @member {string} [username] Username for to access the container registry
+   */
+  username?: string;
+  /**
+   * @member {string} [password] Password for to access the container registry
+   */
+  password?: string;
+  /**
+   * @member {string} [repository] Repository name (image name)
+   */
+  repository?: string;
+  /**
+   * @member {string} [tag] Image tag
+   */
+  tag?: string;
+  /**
+   * @member {string} [platform] Platform (windows or linux)
+   */
+  platform?: string;
 }
 
 /**
@@ -7929,6 +8015,11 @@ export interface SitePatchResource extends ProxyOnlyResource {
    */
   clientCertEnabled?: boolean;
   /**
+   * @member {string} [clientCertExclusionPaths] client certificate
+   * authentication comma-separated exclusion paths
+   */
+  clientCertExclusionPaths?: string;
+  /**
    * @member {boolean} [hostNamesDisabled] <code>true</code> to disable the
    * public hostnames of the app; otherwise, <code>false</code>.
    * If <code>true</code>, the app is only accessible via API management
@@ -8012,6 +8103,24 @@ export interface SitePatchResource extends ProxyOnlyResource {
    * http requests
    */
   httpsOnly?: boolean;
+  /**
+   * @member {RedundancyMode} [redundancyMode] Site redundancy mode. Possible
+   * values include: 'None', 'Manual', 'Failover', 'ActiveActive',
+   * 'GeoRedundant'
+   */
+  redundancyMode?: RedundancyMode;
+  /**
+   * @member {string} [inProgressOperationId] Specifies an operation id if this
+   * site has a pending operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly inProgressOperationId?: string;
+  /**
+   * @member {GeoDistribution[]} [geoDistributions] GeoDistributions for this
+   * site
+   */
+  geoDistributions?: GeoDistribution[];
 }
 
 /**
@@ -9190,10 +9299,6 @@ export interface AppServicePlanPatchResource extends ProxyOnlyResource {
    */
   readonly subscription?: string;
   /**
-   * @member {string} [adminSiteName] App Service plan administration site.
-   */
-  adminSiteName?: string;
-  /**
    * @member {HostingEnvironmentProfile} [hostingEnvironmentProfile]
    * Specification for the App Service Environment to use for the App Service
    * plan.
@@ -9580,6 +9685,72 @@ export interface RecommendationsListOptionalParams extends msRest.RequestOptions
    * timeGrain eq duration'[PT1H|PT1M|P1D]
    */
   filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecommendationsListHistoryForHostingEnvironmentOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RecommendationsListHistoryForHostingEnvironmentOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [expiredOnly] Specify <code>false</code> to return all
+   * recommendations. The default is <code>true</code>, which returns only
+   * expired recommendations.
+   */
+  expiredOnly?: boolean;
+  /**
+   * @member {string} [filter] Filter is specified by using OData syntax.
+   * Example: $filter=channel eq 'Api' or channel eq 'Notification' and
+   * startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and
+   * timeGrain eq duration'[PT1H|PT1M|P1D]
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [featured] Specify <code>true</code> to return only the
+   * most critical recommendations. The default is <code>false</code>, which
+   * returns all recommendations.
+   */
+  featured?: boolean;
+  /**
+   * @member {string} [filter] Return only channels specified in the filter.
+   * Filter is specified by using OData syntax. Example: $filter=channel eq
+   * 'Api' or channel eq 'Notification'
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [updateSeen] Specify <code>true</code> to update the
+   * last-seen timestamp of the recommendation object.
+   */
+  updateSeen?: boolean;
+  /**
+   * @member {string} [recommendationId] The GUID of the recommendation object
+   * if you query an expired one. You don't need to specify it to query an
+   * active entry.
+   */
+  recommendationId?: string;
 }
 
 /**
@@ -11531,6 +11702,14 @@ export type UsageState = 'Normal' | 'Exceeded';
  * @enum {string}
  */
 export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode';
+
+/**
+ * Defines values for RedundancyMode.
+ * Possible values include: 'None', 'Manual', 'Failover', 'ActiveActive', 'GeoRedundant'
+ * @readonly
+ * @enum {string}
+ */
+export type RedundancyMode = 'None' | 'Manual' | 'Failover' | 'ActiveActive' | 'GeoRedundant';
 
 /**
  * Defines values for StatusOptions.
@@ -13641,6 +13820,63 @@ export type RecommendationsListResponse = RecommendationCollection & {
 };
 
 /**
+ * Contains response data for the listHistoryForHostingEnvironment operation.
+ */
+export type RecommendationsListHistoryForHostingEnvironmentResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedRulesForHostingEnvironment operation.
+ */
+export type RecommendationsListRecommendedRulesForHostingEnvironmentResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the getRuleDetailsByHostingEnvironment operation.
+ */
+export type RecommendationsGetRuleDetailsByHostingEnvironmentResponse = RecommendationRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationRule;
+    };
+};
+
+/**
  * Contains response data for the listHistoryForWebApp operation.
  */
 export type RecommendationsListHistoryForWebAppResponse = RecommendationCollection & {
@@ -13701,6 +13937,44 @@ export type RecommendationsGetRuleDetailsByWebAppResponse = RecommendationRule &
  * Contains response data for the listNext operation.
  */
 export type RecommendationsListNextResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the listHistoryForHostingEnvironmentNext operation.
+ */
+export type RecommendationsListHistoryForHostingEnvironmentNextResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedRulesForHostingEnvironmentNext operation.
+ */
+export type RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse = RecommendationCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -14017,6 +14291,29 @@ export type ValidateResponse2 = ValidateResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ValidateResponse;
+    };
+};
+
+/**
+ * Contains response data for the validateContainerSettings operation.
+ */
+export type ValidateContainerSettingsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };
 
@@ -14682,63 +14979,6 @@ export type WebAppsUpdateSlotConfigurationNamesResponse = SlotConfigNamesResourc
        * The response body as parsed JSON or XML
        */
       parsedBody: SlotConfigNamesResource;
-    };
-};
-
-/**
- * Contains response data for the getSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
     };
 };
 
@@ -15826,6 +16066,63 @@ export type WebAppsGetMigrateMySqlStatusResponse = MigrateMySqlStatus & {
 };
 
 /**
+ * Contains response data for the getSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the updateSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
  * Contains response data for the listNetworkFeatures operation.
  */
 export type WebAppsListNetworkFeaturesResponse = NetworkFeatures & {
@@ -16904,63 +17201,6 @@ export type WebAppsListSitePushSettingsSlotResponse = PushSettings & {
 };
 
 /**
- * Contains response data for the getSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
  * Contains response data for the getConfigurationSlot operation.
  */
 export type WebAppsGetConfigurationSlotResponse = SiteConfigResource & {
@@ -18002,6 +18242,63 @@ export type WebAppsGetMigrateMySqlStatusSlotResponse = MigrateMySqlStatus & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MigrateMySqlStatus;
+    };
+};
+
+/**
+ * Contains response data for the getSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the updateSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
     };
 };
 

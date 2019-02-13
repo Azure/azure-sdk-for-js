@@ -63,6 +63,7 @@ export {
   IpSecurityRestriction,
   CloningInfo,
   SlotSwapStatus,
+  GeoDistribution,
   ManagedServiceIdentity,
   CsmUsageQuotaCollection,
   CsmUsageQuota,

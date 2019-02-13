@@ -30,11 +30,25 @@ export const analysisName: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2018-02-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-11-01',
     type: {
       name: "String"
     }
@@ -239,6 +253,16 @@ export const entityName: msRest.OperationURLParameter = {
     }
   }
 };
+export const environmentName: msRest.OperationQueryParameter = {
+  parameterPath: "environmentName",
+  mapper: {
+    required: true,
+    serializedName: "environmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const expiredOnly: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -315,6 +339,16 @@ export const gatewayName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "gatewayName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const hostingEnvironmentName: msRest.OperationURLParameter = {
+  parameterPath: "hostingEnvironmentName",
+  mapper: {
+    required: true,
+    serializedName: "hostingEnvironmentName",
     type: {
       name: "String"
     }
