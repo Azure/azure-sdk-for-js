@@ -50,6 +50,22 @@ function unExpectedErrorHandler(err: Error): void {
   }
 }
 
+const maxDelayForStreamingReceiver = 10000;
+const delayBetweenRetriesForStreamingReceiver = 1000;
+
+async function DelayStreaming(
+  boolCheck: () => boolean,
+  delayBetweenRetries: number,
+  maxWaitTime: number
+): Promise<boolean> {
+  const maxTime = new Date().getTime() + maxWaitTime;
+  while (new Date().getTime() < maxTime) {
+    if (boolCheck()) return true;
+    await delay(delayBetweenRetries);
+  }
+  return false;
+}
+
 async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
@@ -102,7 +118,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Streaming Receiver - Misc Tests", function(): void {
+describe.only("Streaming Receiver - Misc Tests", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -119,17 +135,16 @@ describe("Streaming Receiver - Misc Tests", function(): void {
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await DelayStreaming(
+      () => receivedMsgs.length === 1,
+      delayBetweenRetriesForStreamingReceiver,
+      maxDelayForStreamingReceiver
+    );
 
+    should.equal(msgsCheck, true, "Did not receive messages in time");
     await receiver.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    should.equal(receivedMsgs.length, 1);
     await testPeekMsgsLength(receiverClient, 0);
   }
 
@@ -172,13 +187,13 @@ describe("Streaming Receiver - Misc Tests", function(): void {
       { autoComplete: false }
     );
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await DelayStreaming(
+      () => receivedMsgs.length === 1,
+      delayBetweenRetriesForStreamingReceiver,
+      maxDelayForStreamingReceiver
+    );
 
+    should.equal(msgsCheck, true, "Did not receive messages in time");
     await testPeekMsgsLength(receiverClient, 1);
 
     await receivedMsgs[0].complete();
@@ -216,7 +231,7 @@ describe("Streaming Receiver - Misc Tests", function(): void {
   });
 });
 
-describe("Streaming Receiver - Complete message", function(): void {
+describe.only("Streaming Receiver - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -236,12 +251,13 @@ describe("Streaming Receiver - Complete message", function(): void {
       { autoComplete }
     );
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await DelayStreaming(
+      () => receivedMsgs.length === 1,
+      delayBetweenRetriesForStreamingReceiver,
+      maxDelayForStreamingReceiver
+    );
+
+    should.equal(msgsCheck, true, "Did not receive messages in time");
 
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -297,7 +313,7 @@ describe("Streaming Receiver - Complete message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Abandon message", function(): void {
+describe.only("Streaming Receiver - Abandon message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -366,7 +382,7 @@ describe("Streaming Receiver - Abandon message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Defer message", function(): void {
+describe.only("Streaming Receiver - Defer message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -456,7 +472,7 @@ describe("Streaming Receiver - Defer message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Deadletter message", function(): void {
+describe.only("Streaming Receiver - Deadletter message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -545,7 +561,7 @@ describe("Streaming Receiver - Deadletter message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
+describe.only("Streaming Receiver - Multiple Streaming Receivers", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -602,7 +618,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
   });
 });
 
-describe("Streaming Receiver - Settle an already Settled message throws error", () => {
+describe.only("Streaming Receiver - Settle an already Settled message throws error", () => {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -620,10 +636,15 @@ describe("Streaming Receiver - Settle an already Settled message throws error", 
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    await delay(5000);
+    const msgsCheck = await DelayStreaming(
+      () => receivedMsgs.length === 1,
+      delayBetweenRetriesForStreamingReceiver,
+      maxDelayForStreamingReceiver
+    );
+
+    should.equal(msgsCheck, true, "Did not receive messages in time");
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].body, testSimpleMessages.body);
     should.equal(receivedMsgs[0].messageId, testSimpleMessages.messageId);
 
