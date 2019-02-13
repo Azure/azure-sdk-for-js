@@ -144,10 +144,10 @@ export interface ScheduledAlertRule {
    */
   etag?: string;
   /**
-   * @member {string} [displayName] The display name for alerts created by this
+   * @member {string} displayName The display name for alerts created by this
    * alert rule.
    */
-  displayName?: string;
+  displayName: string;
   /**
    * @member {string} description The description of the alert rule.
    */

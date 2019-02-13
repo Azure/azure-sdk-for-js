@@ -146,6 +146,7 @@ export const ScheduledAlertRule: msRest.CompositeMapper = {
     modelProperties: {
       ...AlertRule.type.modelProperties,
       displayName: {
+        required: true,
         serializedName: "properties.displayName",
         type: {
           name: "String"
