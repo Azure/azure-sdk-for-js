@@ -124,9 +124,9 @@ export class AlertRules {
    * @param ruleId Alert rule ID
    * @param alertRule The alert rule
    * @param [options] The optional parameters
-   * @returns Promise<Models.AlertRulesCreateResponse>
+   * @returns Promise<Models.AlertRulesCreateOrUpdateResponse>
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateResponse>;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -137,7 +137,7 @@ export class AlertRules {
    * @param alertRule The alert rule
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -149,8 +149,8 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleUnion>, callback?: msRest.ServiceCallback<Models.AlertRuleUnion>): Promise<Models.AlertRulesCreateResponse> {
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleUnion>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, alertRule: Models.AlertRuleUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleUnion>, callback?: msRest.ServiceCallback<Models.AlertRuleUnion>): Promise<Models.AlertRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,8 +160,8 @@ export class AlertRules {
         alertRule,
         options
       },
-      createOperationSpec,
-      callback) as Promise<Models.AlertRulesCreateResponse>;
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.AlertRulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -271,9 +271,9 @@ export class AlertRules {
    * @param actionId Action ID
    * @param action The action
    * @param [options] The optional parameters
-   * @returns Promise<Models.AlertRulesCreateActionResponse>
+   * @returns Promise<Models.AlertRulesCreateOrUpdateActionResponse>
    */
-  createAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateActionResponse>;
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateOrUpdateActionResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -285,7 +285,7 @@ export class AlertRules {
    * @param action The action
    * @param callback The callback
    */
-  createAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, callback: msRest.ServiceCallback<Models.Action>): void;
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, callback: msRest.ServiceCallback<Models.Action>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -298,8 +298,8 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Action>): void;
-  createAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Action>, callback?: msRest.ServiceCallback<Models.Action>): Promise<Models.AlertRulesCreateActionResponse> {
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Action>): void;
+  createOrUpdateAction(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, ruleId: string, actionId: string, action: Models.Action, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Action>, callback?: msRest.ServiceCallback<Models.Action>): Promise<Models.AlertRulesCreateOrUpdateActionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -310,8 +310,8 @@ export class AlertRules {
         action,
         options
       },
-      createActionOperationSpec,
-      callback) as Promise<Models.AlertRulesCreateActionResponse>;
+      createOrUpdateActionOperationSpec,
+      callback) as Promise<Models.AlertRulesCreateOrUpdateActionResponse>;
   }
 
   /**
@@ -448,7 +448,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}",
   urlParameters: [
@@ -539,7 +539,7 @@ const getActionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createActionOperationSpec: msRest.OperationSpec = {
+const createOrUpdateActionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}/actions/{actionId}",
   urlParameters: [

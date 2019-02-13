@@ -324,10 +324,10 @@ export interface CaseModel extends Resource {
    */
   severity: CaseSeverity;
   /**
-   * @member {Status} status The status of the case. Possible values include:
-   * 'Draft', 'Open', 'InProgress', 'Closed'
+   * @member {CaseStatus} status The status of the case. Possible values
+   * include: 'Draft', 'Open', 'InProgress', 'Closed'
    */
-  status: Status;
+  status: CaseStatus;
   /**
    * @member {CloseReason} [closeReason] The reason the case was closed.
    * Possible values include: 'Resolved', 'Dismissed', 'Other'
@@ -1396,12 +1396,12 @@ export type TriggerOperator = 'GreaterThan' | 'LessThan' | 'Equal' | 'NotEqual';
 export type CaseSeverity = 'Critical' | 'High' | 'Medium' | 'Low' | 'Informational';
 
 /**
- * Defines values for Status.
+ * Defines values for CaseStatus.
  * Possible values include: 'Draft', 'Open', 'InProgress', 'Closed'
  * @readonly
  * @enum {string}
  */
-export type Status = 'Draft' | 'Open' | 'InProgress' | 'Closed';
+export type CaseStatus = 'Draft' | 'Open' | 'InProgress' | 'Closed';
 
 /**
  * Defines values for CloseReason.
@@ -1537,9 +1537,9 @@ export type AlertRulesGetResponse = AlertRuleUnion & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type AlertRulesCreateResponse = AlertRuleUnion & {
+export type AlertRulesCreateOrUpdateResponse = AlertRuleUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1575,9 +1575,9 @@ export type AlertRulesGetActionResponse = Action & {
 };
 
 /**
- * Contains response data for the createAction operation.
+ * Contains response data for the createOrUpdateAction operation.
  */
-export type AlertRulesCreateActionResponse = Action & {
+export type AlertRulesCreateOrUpdateActionResponse = Action & {
   /**
    * The underlying HTTP response.
    */
@@ -1689,9 +1689,9 @@ export type CasesGetResponse = CaseModel & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type CasesCreateResponse = CaseModel & {
+export type CasesCreateOrUpdateResponse = CaseModel & {
   /**
    * The underlying HTTP response.
    */
@@ -1765,9 +1765,9 @@ export type BookmarksGetResponse = Bookmark & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type BookmarksCreateResponse = Bookmark & {
+export type BookmarksCreateOrUpdateResponse = Bookmark & {
   /**
    * The underlying HTTP response.
    */
@@ -1841,9 +1841,9 @@ export type DataConnectorsGetResponse = DataConnectorUnion & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type DataConnectorsCreateResponse = DataConnectorUnion & {
+export type DataConnectorsCreateOrUpdateResponse = DataConnectorUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -2012,9 +2012,9 @@ export type ProductSettingsGetResponse = SettingsUnion & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the update operation.
  */
-export type ProductSettingsCreateResponse = SettingsUnion & {
+export type ProductSettingsUpdateResponse = SettingsUnion & {
   /**
    * The underlying HTTP response.
    */

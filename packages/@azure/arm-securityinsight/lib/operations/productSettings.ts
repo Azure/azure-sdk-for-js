@@ -73,7 +73,7 @@ export class ProductSettings {
   }
 
   /**
-   * Creates or updates the setting.
+   * Updates the setting.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
@@ -82,9 +82,9 @@ export class ProductSettings {
    * @param settingsName The setting name. Supports- Fusion, UEBA
    * @param settings The setting
    * @param [options] The optional parameters
-   * @returns Promise<Models.ProductSettingsCreateResponse>
+   * @returns Promise<Models.ProductSettingsUpdateResponse>
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, options?: msRest.RequestOptionsBase): Promise<Models.ProductSettingsCreateResponse>;
+  update(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, options?: msRest.RequestOptionsBase): Promise<Models.ProductSettingsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -95,7 +95,7 @@ export class ProductSettings {
    * @param settings The setting
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, callback: msRest.ServiceCallback<Models.SettingsUnion>): void;
+  update(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, callback: msRest.ServiceCallback<Models.SettingsUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -107,8 +107,8 @@ export class ProductSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingsUnion>): void;
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsUnion>, callback?: msRest.ServiceCallback<Models.SettingsUnion>): Promise<Models.ProductSettingsCreateResponse> {
+  update(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingsUnion>): void;
+  update(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, settingsName: string, settings: Models.SettingsUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsUnion>, callback?: msRest.ServiceCallback<Models.SettingsUnion>): Promise<Models.ProductSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,8 +118,8 @@ export class ProductSettings {
         settings,
         options
       },
-      createOperationSpec,
-      callback) as Promise<Models.ProductSettingsCreateResponse>;
+      updateOperationSpec,
+      callback) as Promise<Models.ProductSettingsUpdateResponse>;
   }
 }
 
@@ -152,7 +152,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOperationSpec: msRest.OperationSpec = {
+const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}",
   urlParameters: [

@@ -124,9 +124,9 @@ export class Cases {
    * @param caseId Case ID
    * @param caseParameter The case
    * @param [options] The optional parameters
-   * @returns Promise<Models.CasesCreateResponse>
+   * @returns Promise<Models.CasesCreateOrUpdateResponse>
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, options?: msRest.RequestOptionsBase): Promise<Models.CasesCreateResponse>;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, options?: msRest.RequestOptionsBase): Promise<Models.CasesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -137,7 +137,7 @@ export class Cases {
    * @param caseParameter The case
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, callback: msRest.ServiceCallback<Models.CaseModel>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, callback: msRest.ServiceCallback<Models.CaseModel>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -149,8 +149,8 @@ export class Cases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CaseModel>): void;
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CaseModel>, callback?: msRest.ServiceCallback<Models.CaseModel>): Promise<Models.CasesCreateResponse> {
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CaseModel>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, caseId: string, caseParameter: Models.CaseModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CaseModel>, callback?: msRest.ServiceCallback<Models.CaseModel>): Promise<Models.CasesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,8 +160,8 @@ export class Cases {
         caseParameter,
         options
       },
-      createOperationSpec,
-      callback) as Promise<Models.CasesCreateResponse>;
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.CasesCreateOrUpdateResponse>;
   }
 
   /**
@@ -294,7 +294,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/cases/{caseId}",
   urlParameters: [

@@ -124,9 +124,9 @@ export class DataConnectors {
    * @param dataConnectorId Connector ID
    * @param dataConnector The data connector
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectorsCreateResponse>
+   * @returns Promise<Models.DataConnectorsCreateOrUpdateResponse>
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectorsCreateResponse>;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options?: msRest.RequestOptionsBase): Promise<Models.DataConnectorsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -137,7 +137,7 @@ export class DataConnectors {
    * @param dataConnector The data connector
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -149,8 +149,8 @@ export class DataConnectors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
-  create(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectorUnion>, callback?: msRest.ServiceCallback<Models.DataConnectorUnion>): Promise<Models.DataConnectorsCreateResponse> {
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataConnectorUnion>): void;
+  createOrUpdate(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, dataConnectorId: string, dataConnector: Models.DataConnectorUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectorUnion>, callback?: msRest.ServiceCallback<Models.DataConnectorUnion>): Promise<Models.DataConnectorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,8 +160,8 @@ export class DataConnectors {
         dataConnector,
         options
       },
-      createOperationSpec,
-      callback) as Promise<Models.DataConnectorsCreateResponse>;
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.DataConnectorsCreateOrUpdateResponse>;
   }
 
   /**
@@ -294,7 +294,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}",
   urlParameters: [
