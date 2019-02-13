@@ -1227,12 +1227,12 @@ export class ManagementClient extends LinkEntity {
       throw new Error("Cannot add rule. Filter is missing.");
     }
     if (typeof filter !== "boolean" && typeof filter !== "string") {
-      if (validCorrelationProperties.every((prop) => !filter.hasOwnProperty(prop))) {
+      const filterProperties = Object.keys(filter);
+      if (!filterProperties.length) {
         throw new Error(
           "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
         );
       }
-      const filterProperties = Object.keys(filter);
       for (let i = 0; i < filterProperties.length; i++) {
         const filterProperty = filterProperties[i];
         if (validCorrelationProperties.indexOf(filterProperty) === -1) {
