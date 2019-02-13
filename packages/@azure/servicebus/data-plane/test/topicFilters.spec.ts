@@ -279,7 +279,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       errorWasThrown = true;
       should.equal(
         error.message,
-        "Cannot add rule. Filter should be either a boolean, string or should have one of the Correation filter properties."
+        "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
       );
     }
     should.equal(errorWasThrown, true);

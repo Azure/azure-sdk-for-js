@@ -110,6 +110,18 @@ export interface CorrelationFilter {
   userProperties?: any;
 }
 
+const validCorrelationProperties = [
+  "correlationId",
+  "messageId",
+  "to",
+  "replyTo",
+  "label",
+  "sessionId",
+  "replyToSessionId",
+  "contentType",
+  "userProperties"
+];
+
 /**
  * Describes the options that can be provided while peeking a message.
  * @interface PeekOptions
@@ -1215,26 +1227,15 @@ export class ManagementClient extends LinkEntity {
       throw new Error("Cannot add rule. Filter is missing.");
     }
     if (typeof filter !== "boolean" && typeof filter !== "string") {
-      const validProperties = [
-        "correlationId",
-        "messageId",
-        "to",
-        "replyTo",
-        "label",
-        "sessionId",
-        "replyToSessionId",
-        "contentType",
-        "userProperties"
-      ];
-      if (validProperties.every((prop) => !filter.hasOwnProperty(prop))) {
+      if (validCorrelationProperties.every((prop) => !filter.hasOwnProperty(prop))) {
         throw new Error(
-          "Cannot add rule. Filter should be either a boolean, string or should have one of the Correation filter properties."
+          "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
         );
       }
       const filterProperties = Object.keys(filter);
       for (let i = 0; i < filterProperties.length; i++) {
         const filterProperty = filterProperties[i];
-        if (validProperties.indexOf(filterProperty) === -1) {
+        if (validCorrelationProperties.indexOf(filterProperty) === -1) {
           throw new Error(
             `Cannot add rule. Given filter object has unexpected property "${filterProperty}".`
           );
