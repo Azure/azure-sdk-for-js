@@ -50,7 +50,9 @@ function unExpectedErrorHandler(err: Error): void {
   }
 }
 
+// Maximum wait duration for the Streaming Receiver to receive the messages = `10000 ms`(10 seconds)
 const maxDelayForStreamingReceiver = 10000;
+// Keep checking whether the boolCheck is true after every `1000 ms`(1 second)
 const delayBetweenRetriesForStreamingReceiver = 1000;
 
 async function DelayStreaming(
