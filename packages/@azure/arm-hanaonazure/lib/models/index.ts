@@ -241,6 +241,12 @@ export interface HanaInstance extends Resource {
    * the server.**
    */
   readonly proximityPlacementGroup?: string;
+  /**
+   * @member {string} [hwRevision] Hardware revision of a HANA instance
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hwRevision?: string;
 }
 
 /**

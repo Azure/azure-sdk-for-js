@@ -278,6 +278,13 @@ export const HanaInstance: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      hwRevision: {
+        readOnly: true,
+        serializedName: "properties.hwRevision",
+        type: {
+          name: "String"
+        }
       }
     }
   }
