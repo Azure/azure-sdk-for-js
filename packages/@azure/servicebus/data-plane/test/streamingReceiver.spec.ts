@@ -118,7 +118,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe.only("Streaming Receiver - Misc Tests", function(): void {
+describe("Streaming Receiver - Misc Tests", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -231,7 +231,7 @@ describe.only("Streaming Receiver - Misc Tests", function(): void {
   });
 });
 
-describe.only("Streaming Receiver - Complete message", function(): void {
+describe("Streaming Receiver - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -313,7 +313,7 @@ describe.only("Streaming Receiver - Complete message", function(): void {
   });
 });
 
-describe.only("Streaming Receiver - Abandon message", function(): void {
+describe("Streaming Receiver - Abandon message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -382,7 +382,7 @@ describe.only("Streaming Receiver - Abandon message", function(): void {
   });
 });
 
-describe.only("Streaming Receiver - Defer message", function(): void {
+describe("Streaming Receiver - Defer message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -472,7 +472,7 @@ describe.only("Streaming Receiver - Defer message", function(): void {
   });
 });
 
-describe.only("Streaming Receiver - Deadletter message", function(): void {
+describe("Streaming Receiver - Deadletter message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -561,7 +561,7 @@ describe.only("Streaming Receiver - Deadletter message", function(): void {
   });
 });
 
-describe.only("Streaming Receiver - Multiple Streaming Receivers", function(): void {
+describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -618,7 +618,7 @@ describe.only("Streaming Receiver - Multiple Streaming Receivers", function(): v
   });
 });
 
-describe.only("Streaming Receiver - Settle an already Settled message throws error", () => {
+describe("Streaming Receiver - Settle an already Settled message throws error", () => {
   afterEach(async () => {
     await afterEachTest();
   });
