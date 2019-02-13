@@ -87,13 +87,13 @@ export interface SessionMessageHandlerOptions {
    */
   newMessageWaitTimeoutInSeconds?: number;
   /**
-   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that can be
-   * fetched over the network concurrently for a session.
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that can be
+   * fetched over the network concurrently.
    * This setting can be customized to take a higher number if the Service Bus client is
    * running on a multi-core platform.
    * - **Default**: `1`
    */
-  maxConcurrentCallsPerSession?: number;
+  maxConcurrentCalls?: number;
 }
 /**
  * Describes the options for creating a Session Manager.
@@ -134,13 +134,13 @@ export class MessageSession extends LinkEntity {
    */
   maxConcurrentSessions?: number;
   /**
-   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that can be
-   * fetched over the network concurrently for a session.
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that can be
+   * fetched over the network concurrently.
    * This setting can be customized to take a higher number if the Service Bus client is
    * running on a multi-core platform.
    * - **Default**: `1`
    */
-  maxConcurrentCallsPerSession?: number;
+  maxConcurrentCalls?: number;
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
@@ -532,10 +532,10 @@ export class MessageSession extends LinkEntity {
     }
     if (!options) options = {};
     this._isReceivingMessages = true;
-    this.maxConcurrentCallsPerSession = 
-      (options.maxConcurrentCallsPerSession != undefined 
-        && typeof options.maxConcurrentCallsPerSession == "number"
-        && options.maxConcurrentCallsPerSession > 0) ? options.maxConcurrentCallsPerSession : 1;
+    this.maxConcurrentCalls =
+      typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0
+        ? options.maxConcurrentCalls
+        : 1;
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).
@@ -654,7 +654,7 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this._receiver!.addCredit(this.maxConcurrentCallsPerSession);
+      this._receiver!.addCredit(this.maxConcurrentCalls);
     } else {
       this._isReceivingMessages = false;
       const msg =

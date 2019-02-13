@@ -57,13 +57,11 @@ export class Receiver {
    */
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
     this.validateNewReceiveCall(ReceiverType.streaming);
-
-    const _maxConcurrentCalls =
-      (options != undefined && options.maxConcurrentCalls != undefined
-        && typeof options.maxConcurrentCalls == "number" 
-        && options.maxConcurrentCalls > 0) ? options.maxConcurrentCalls : 1;
-        
     if (!options) options = {};
+    const _maxConcurrentCalls =
+      typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0
+        ? options.maxConcurrentCalls
+        : 1;
     const rcvOptions: ReceiveOptions = {
       maxConcurrentCalls: _maxConcurrentCalls,
       receiveMode: this._receiveMode,
