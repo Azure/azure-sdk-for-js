@@ -8,8 +8,8 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
-import * as msRest from "ms-rest-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
@@ -529,7 +529,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * @interface
@@ -601,7 +601,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | RestServiceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
 
 /**
  * @interface
@@ -5599,6 +5599,166 @@ export interface AmazonS3LinkedService {
 
 /**
  * @interface
+ * An interface representing RestServiceLinkedService.
+ * Rest Service linked service.
+ *
+ */
+export interface RestServiceLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "RestService";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} url The base URL of the REST service.
+   */
+  url: any;
+  /**
+   * @member {any} [enableServerCertificateValidation] Whether to validate
+   * server side SSL certificate when connecting to the endpoint.The default
+   * value is true. Type: boolean (or Expression with resultType boolean).
+   */
+  enableServerCertificateValidation?: any;
+  /**
+   * @member {RestServiceAuthenticationType} authenticationType Type of
+   * authentication used to connect to the REST service. Possible values
+   * include: 'Anonymous', 'Basic', 'AadServicePrincipal',
+   * 'ManagedServiceIdentity'
+   */
+  authenticationType: RestServiceAuthenticationType;
+  /**
+   * @member {any} [userName] The user name used in Basic authentication type.
+   */
+  userName?: any;
+  /**
+   * @member {SecretBaseUnion} [password] The password used in Basic
+   * authentication type.
+   */
+  password?: SecretBaseUnion;
+  /**
+   * @member {any} [servicePrincipalId] The application's client ID used in
+   * AadServicePrincipal authentication type.
+   */
+  servicePrincipalId?: any;
+  /**
+   * @member {SecretBaseUnion} [servicePrincipalKey] The application's key used
+   * in AadServicePrincipal authentication type.
+   */
+  servicePrincipalKey?: SecretBaseUnion;
+  /**
+   * @member {any} [tenant] The tenant information (domain name or tenant ID)
+   * used in AadServicePrincipal authentication type under which your
+   * application resides.
+   */
+  tenant?: any;
+  /**
+   * @member {any} [aadResourceId] The resource you are requesting
+   * authorization to use.
+   */
+  aadResourceId?: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing SapOpenHubLinkedService.
+ * SAP Business Warehouse Open Hub Destination Linked Service.
+ *
+ */
+export interface SapOpenHubLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHub";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} server Host name of the SAP BW instance where the open hub
+   * destination is located. Type: string (or Expression with resultType
+   * string).
+   */
+  server: any;
+  /**
+   * @member {any} systemNumber System number of the BW system where the open
+   * hub destination is located. (Usually a two-digit decimal number
+   * represented as a string.) Type: string (or Expression with resultType
+   * string).
+   */
+  systemNumber: any;
+  /**
+   * @member {any} clientId Client ID of the client on the BW system where the
+   * open hub destination is located. (Usually a three-digit decimal number
+   * represented as a string) Type: string (or Expression with resultType
+   * string).
+   */
+  clientId: any;
+  /**
+   * @member {any} [language] Language of the BW system where the open hub
+   * destination is located. The default value is EN. Type: string (or
+   * Expression with resultType string).
+   */
+  language?: any;
+  /**
+   * @member {any} [userName] Username to access the SAP BW server where the
+   * open hub destination is located. Type: string (or Expression with
+   * resultType string).
+   */
+  userName?: any;
+  /**
+   * @member {SecretBaseUnion} [password] Password to access the SAP BW server
+   * where the open hub destination is located.
+   */
+  password?: SecretBaseUnion;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
  * An interface representing SapEccLinkedService.
  * Linked service for SAP ERP Central Component(SAP ECC).
  *
@@ -9643,6 +9803,83 @@ export interface WebTableDataset {
 
 /**
  * @interface
+ * An interface representing RestServiceDataset.
+ * A Rest service dataset.
+ *
+ */
+export interface RestServiceDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "RestResource";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} [relativeUrl] The relative URL to the resource that the
+   * RESTful API provides. Type: string (or Expression with resultType string).
+   */
+  relativeUrl?: any;
+  /**
+   * @member {any} [requestMethod] The HTTP method used to call the RESTful
+   * API. The default is GET. Type: string (or Expression with resultType
+   * string).
+   */
+  requestMethod?: any;
+  /**
+   * @member {any} [requestBody] The HTTP request body to the RESTful API if
+   * requestMethod is POST. Type: string (or Expression with resultType
+   * string).
+   */
+  requestBody?: any;
+  /**
+   * @member {any} [additionalHeaders] The additional HTTP headers in the
+   * request to the RESTful API. Type: string (or Expression with resultType
+   * string).
+   */
+  additionalHeaders?: any;
+  /**
+   * @member {any} [paginationRules] The pagination rules to compose next page
+   * requests.
+   */
+  paginationRules?: any;
+}
+
+/**
+ * @interface
  * An interface representing SqlServerTableDataset.
  * The on-premises SQL Server dataset.
  *
@@ -9693,6 +9930,74 @@ export interface SqlServerTableDataset {
    * string (or Expression with resultType string).
    */
   tableName: any;
+}
+
+/**
+ * @interface
+ * An interface representing SapOpenHubTableDataset.
+ * Sap Business Warehouse Open Hub Destination Table properties.
+ *
+ */
+export interface SapOpenHubTableDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHubTable";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} openHubDestinationName The name of the Open Hub Destination
+   * with destination type as Database Table. Type: string (or Expression with
+   * resultType string).
+   */
+  openHubDestinationName: any;
+  /**
+   * @member {any} [excludeLastRequest] Whether to exclude the records of the
+   * last request. The default value is true. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  excludeLastRequest?: any;
+  /**
+   * @member {any} [baseRequestId] The ID of request for delta loading. Once it
+   * is set, only data with requestId larger than the value of this property
+   * will be retrieved. The default value is 0. Type: integer (or Expression
+   * with resultType integer ).
+   */
+  baseRequestId?: any;
 }
 
 /**
@@ -11511,7 +11816,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | RestSource | SapOpenHubSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
 
 /**
  * @interface
@@ -12865,6 +13170,68 @@ export interface SqlSource {
 
 /**
  * @interface
+ * An interface representing RestSource.
+ * A copy activity Rest service source.
+ *
+ */
+export interface RestSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "RestSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [httpRequestTimeout] The timeout (TimeSpan) to get an HTTP
+   * response. It is the timeout to get a response, not the timeout to read
+   * response data. Default value: 00:01:40. Type: string (or Expression with
+   * resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
+  /**
+   * @member {any} [requestInterval] The time to await before sending next page
+   * request.
+   */
+  requestInterval?: any;
+}
+
+/**
+ * @interface
+ * An interface representing SapOpenHubSource.
+ * A copy activity source for SAP Business Warehouse Open Hub Destination
+ * source.
+ *
+ */
+export interface SapOpenHubSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHubSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+}
+
+/**
+ * @interface
  * An interface representing SapEccSource.
  * A copy activity source for SAP ECC source.
  *
@@ -14065,6 +14432,12 @@ export interface TabularTranslator {
    * Expression with resultType object).
    */
   schemaMapping?: any;
+  /**
+   * @member {any} [collectionReference] The JSON Path of the Nested Array that
+   * is going to do cross-apply. Type: object (or Expression with resultType
+   * object).
+   */
+  collectionReference?: any;
 }
 
 /**
@@ -14881,7 +15254,7 @@ export interface CopyActivity {
 /**
  * Contains the possible cases for ControlActivity.
  */
-export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | ValidationActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
+export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
 
 /**
  * @interface
@@ -15026,60 +15399,6 @@ export interface FilterActivity {
    * input.
    */
   condition: Expression;
-}
-
-/**
- * @interface
- * An interface representing ValidationActivity.
- * This activity blocks execution until a file has been validated to exist,
- * with an optional minimum size, or the timeout is reached, whichever is
- * earlier.
- *
- */
-export interface ValidationActivity {
-  /**
-   * @member {string} type Polymorphic Discriminator
-   */
-  type: "Validation";
-  /**
-   * @member {string} name Activity name.
-   */
-  name: string;
-  /**
-   * @member {string} [description] Activity description.
-   */
-  description?: string;
-  /**
-   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
-   */
-  dependsOn?: ActivityDependency[];
-  /**
-   * @member {UserProperty[]} [userProperties] Activity user properties.
-   */
-  userProperties?: UserProperty[];
-  /**
-   * @member {any} [timeout] Specifies the timeout for the activity to run. If
-   * there is no value specified, it takes the value of TimeSpan.FromDays(7)
-   * which is 1 week as default. Type: string (or Expression with resultType
-   * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   * Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  timeout?: any;
-  /**
-   * @member {number} [sleep] A delay in seconds between validation attempts.
-   * If no value is specified, 10 seconds will be used as the default.
-   */
-  sleep?: number;
-  /**
-   * @member {number} [minimumSize] Minimum size of a file in byte. If no value
-   * is specified, 0 byte will be used as the default.
-   */
-  minimumSize?: number;
-  /**
-   * @member {DatasetReference} dataset Validation activity dataset reference.
-   */
-  dataset: DatasetReference;
 }
 
 /**
@@ -16948,6 +17267,14 @@ export type FtpAuthenticationType = 'Basic' | 'Anonymous';
  * @enum {string}
  */
 export type HttpAuthenticationType = 'Basic' | 'Anonymous' | 'Digest' | 'Windows' | 'ClientCertificate';
+
+/**
+ * Defines values for RestServiceAuthenticationType.
+ * Possible values include: 'Anonymous', 'Basic', 'AadServicePrincipal', 'ManagedServiceIdentity'
+ * @readonly
+ * @enum {string}
+ */
+export type RestServiceAuthenticationType = 'Anonymous' | 'Basic' | 'AadServicePrincipal' | 'ManagedServiceIdentity';
 
 /**
  * Defines values for MongoDbAuthenticationType.
