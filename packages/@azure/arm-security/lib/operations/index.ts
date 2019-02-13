@@ -8,6 +8,14 @@
  * regenerated.
  */
 
+export * from "./pricings";
+export * from "./securityContacts";
+export * from "./workspaceSettings";
+export * from "./autoProvisioningSettings";
+export * from "./compliances";
+export * from "./advancedThreatProtection";
+export * from "./settings";
+export * from "./informationProtectionPolicies";
 export * from "./operations";
 export * from "./locations";
 export * from "./tasks";

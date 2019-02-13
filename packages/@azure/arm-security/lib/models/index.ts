@@ -16,6 +16,349 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing Resource.
+ * Describes an Azure resource.
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Pricing.
+ * Pricing tier will be applied for the scope based on the resource ID
+ *
+ * @extends Resource
+ */
+export interface Pricing extends Resource {
+  /**
+   * @member {PricingTier} pricingTier Pricing tier type. Possible values
+   * include: 'Free', 'Standard'
+   */
+  pricingTier: PricingTier;
+}
+
+/**
+ * @interface
+ * An interface representing AscLocation.
+ * The ASC location of the subscription is in the "name" field
+ *
+ * @extends Resource
+ */
+export interface AscLocation extends Resource {
+  /**
+   * @member {any} [properties]
+   */
+  properties?: any;
+}
+
+/**
+ * @interface
+ * An interface representing SecurityContact.
+ * Contact details for security issues
+ *
+ * @extends Resource
+ */
+export interface SecurityContact extends Resource {
+  /**
+   * @member {string} email The email of this security contact
+   */
+  email: string;
+  /**
+   * @member {string} [phone] The phone number of this security contact
+   */
+  phone?: string;
+  /**
+   * @member {AlertNotifications} alertNotifications Whether to send security
+   * alerts notifications to the security contact. Possible values include:
+   * 'On', 'Off'
+   */
+  alertNotifications: AlertNotifications;
+  /**
+   * @member {AlertsToAdmins} alertsToAdmins Whether to send security alerts
+   * notifications to subscription admins. Possible values include: 'On', 'Off'
+   */
+  alertsToAdmins: AlertsToAdmins;
+}
+
+/**
+ * @interface
+ * An interface representing WorkspaceSetting.
+ * Configures where to store the OMS agent data for workspaces under a scope
+ *
+ * @extends Resource
+ */
+export interface WorkspaceSetting extends Resource {
+  /**
+   * @member {string} workspaceId The full Azure ID of the workspace to save
+   * the data in
+   */
+  workspaceId: string;
+  /**
+   * @member {string} scope All the VMs in this scope will send their security
+   * data to the mentioned workspace unless overridden by a setting with more
+   * specific scope
+   */
+  scope: string;
+}
+
+/**
+ * @interface
+ * An interface representing AutoProvisioningSetting.
+ * Auto provisioning setting
+ *
+ * @extends Resource
+ */
+export interface AutoProvisioningSetting extends Resource {
+  /**
+   * @member {AutoProvision} autoProvision Describes what kind of security
+   * agent provisioning action to take. Possible values include: 'On', 'Off'
+   */
+  autoProvision: AutoProvision;
+}
+
+/**
+ * @interface
+ * An interface representing ComplianceSegment.
+ * A segment of a compliance assessment.
+ *
+ */
+export interface ComplianceSegment {
+  /**
+   * @member {string} [segmentType] The segment type, e.g. compliant,
+   * non-compliance, insufficient coverage, N/A, etc.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly segmentType?: string;
+  /**
+   * @member {number} [percentage] The size (%) of the segment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly percentage?: number;
+}
+
+/**
+ * @interface
+ * An interface representing Compliance.
+ * Compliance of a scope
+ *
+ * @extends Resource
+ */
+export interface Compliance extends Resource {
+  /**
+   * @member {Date} [assessmentTimestampUtcDate] The timestamp when the
+   * Compliance calculation was conducted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly assessmentTimestampUtcDate?: Date;
+  /**
+   * @member {number} [resourceCount] The resource count of the given
+   * subscription for which the Compliance calculation was conducted (needed
+   * for Management Group Compliance calculation).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceCount?: number;
+  /**
+   * @member {ComplianceSegment[]} [assessmentResult] An array of segment,
+   * which is the actually the compliance assessment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly assessmentResult?: ComplianceSegment[];
+}
+
+/**
+ * @interface
+ * An interface representing AdvancedThreatProtectionSetting.
+ * The Advanced Threat Protection resource.
+ *
+ * @extends Resource
+ */
+export interface AdvancedThreatProtectionSetting extends Resource {
+  /**
+   * @member {boolean} [isEnabled] Indicates whether Advanced Threat Protection
+   * is enabled.
+   */
+  isEnabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing SettingResource.
+ * The kind of the security setting
+ *
+ * @extends Resource
+ */
+export interface SettingResource extends Resource {
+  /**
+   * @member {SettingKind} kind the kind of the settings string
+   * (DataExportSetting). Possible values include: 'DataExportSetting',
+   * 'AlertSuppressionSetting'
+   */
+  kind: SettingKind;
+}
+
+/**
+ * @interface
+ * An interface representing Setting.
+ * Represents a security setting in Azure Security Center.
+ *
+ * @extends SettingResource
+ */
+export interface Setting extends SettingResource {
+}
+
+/**
+ * @interface
+ * An interface representing DataExportSetting.
+ * Represents a data export setting
+ *
+ * @extends Setting
+ */
+export interface DataExportSetting extends Setting {
+  /**
+   * @member {boolean} enabled Is the data export setting is enabled
+   */
+  enabled: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing SensitivityLabel.
+ * The sensitivity label.
+ *
+ */
+export interface SensitivityLabel {
+  /**
+   * @member {string} [displayName] The name of the sensitivity label.
+   */
+  displayName?: string;
+  /**
+   * @member {number} [order] The order of the sensitivity label.
+   */
+  order?: number;
+  /**
+   * @member {boolean} [enabled] Indicates whether the label is enabled or not.
+   */
+  enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing InformationProtectionKeyword.
+ * The information type keyword.
+ *
+ */
+export interface InformationProtectionKeyword {
+  /**
+   * @member {string} [pattern] The keyword pattern.
+   */
+  pattern?: string;
+  /**
+   * @member {boolean} [custom] Indicates whether the keyword is custom or not.
+   */
+  custom?: boolean;
+  /**
+   * @member {boolean} [canBeNumeric] Indicates whether the keyword can be
+   * applied on numeric types or not.
+   */
+  canBeNumeric?: boolean;
+  /**
+   * @member {boolean} [excluded] Indicates whether the keyword is excluded or
+   * not.
+   */
+  excluded?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing InformationType.
+ * The information type.
+ *
+ */
+export interface InformationType {
+  /**
+   * @member {string} [displayName] The name of the information type.
+   */
+  displayName?: string;
+  /**
+   * @member {number} [order] The order of the information type.
+   */
+  order?: number;
+  /**
+   * @member {string} [recommendedLabelId] The recommended label id to be
+   * associated with this information type.
+   */
+  recommendedLabelId?: string;
+  /**
+   * @member {boolean} [enabled] Indicates whether the information type is
+   * enabled or not.
+   */
+  enabled?: boolean;
+  /**
+   * @member {boolean} [custom] Indicates whether the information type is
+   * custom or not.
+   */
+  custom?: boolean;
+  /**
+   * @member {InformationProtectionKeyword[]} [keywords] The information type
+   * keywords.
+   */
+  keywords?: InformationProtectionKeyword[];
+}
+
+/**
+ * @interface
+ * An interface representing InformationProtectionPolicy.
+ * Information protection policy.
+ *
+ * @extends Resource
+ */
+export interface InformationProtectionPolicy extends Resource {
+  /**
+   * @member {Date} [lastModifiedUtc] Describes the last UTC time the policy
+   * was modified.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModifiedUtc?: Date;
+  /**
+   * @member {{ [propertyName: string]: SensitivityLabel }} [labels] Dictionary
+   * of sensitivity labels.
+   */
+  labels?: { [propertyName: string]: SensitivityLabel };
+  /**
+   * @member {{ [propertyName: string]: InformationType }} [informationTypes]
+   * The sensitivity information types.
+   */
+  informationTypes?: { [propertyName: string]: InformationType };
+}
+
+/**
+ * @interface
  * An interface representing OperationDisplay.
  * Security operation display
  *
@@ -71,48 +414,6 @@ export interface Operation {
    * @member {OperationDisplay} [display]
    */
   display?: OperationDisplay;
-}
-
-/**
- * @interface
- * An interface representing Resource.
- * Describes an Azure resource.
- *
- * @extends BaseResource
- */
-export interface Resource extends BaseResource {
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * @interface
- * An interface representing AscLocation.
- * The ASC location of the subscription is in the "name" field
- *
- * @extends Resource
- */
-export interface AscLocation extends Resource {
-  /**
-   * @member {any} [properties]
-   */
-  properties?: any;
 }
 
 /**
@@ -1350,6 +1651,118 @@ export interface SecurityCenterOptions extends AzureServiceClientOptions {
 
 /**
  * @interface
+ * An interface representing the PricingList.
+ * List of pricing configurations response
+ *
+ * @extends Array<Pricing>
+ */
+export interface PricingList extends Array<Pricing> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the SecurityContactList.
+ * List of security contacts response
+ *
+ * @extends Array<SecurityContact>
+ */
+export interface SecurityContactList extends Array<SecurityContact> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the WorkspaceSettingList.
+ * List of workspace settings response
+ *
+ * @extends Array<WorkspaceSetting>
+ */
+export interface WorkspaceSettingList extends Array<WorkspaceSetting> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the AutoProvisioningSettingList.
+ * List of all the auto provisioning settings response
+ *
+ * @extends Array<AutoProvisioningSetting>
+ */
+export interface AutoProvisioningSettingList extends Array<AutoProvisioningSetting> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ComplianceList.
+ * List of Compliance objects response
+ *
+ * @extends Array<Compliance>
+ */
+export interface ComplianceList extends Array<Compliance> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the SettingsList.
+ * Subscription settings list.
+ *
+ * @extends Array<Setting>
+ */
+export interface SettingsList extends Array<Setting> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the InformationProtectionPolicyList.
+ * Information protection policies response.
+ *
+ * @extends Array<InformationProtectionPolicy>
+ */
+export interface InformationProtectionPolicyList extends Array<InformationProtectionPolicy> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the OperationList.
  * List of possible operations for Microsoft.Security resource provider
  *
@@ -1485,6 +1898,46 @@ export interface AllowedConnectionsList extends Array<AllowedConnectionsResource
 }
 
 /**
+ * Defines values for PricingTier.
+ * Possible values include: 'Free', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type PricingTier = 'Free' | 'Standard';
+
+/**
+ * Defines values for AlertNotifications.
+ * Possible values include: 'On', 'Off'
+ * @readonly
+ * @enum {string}
+ */
+export type AlertNotifications = 'On' | 'Off';
+
+/**
+ * Defines values for AlertsToAdmins.
+ * Possible values include: 'On', 'Off'
+ * @readonly
+ * @enum {string}
+ */
+export type AlertsToAdmins = 'On' | 'Off';
+
+/**
+ * Defines values for AutoProvision.
+ * Possible values include: 'On', 'Off'
+ * @readonly
+ * @enum {string}
+ */
+export type AutoProvision = 'On' | 'Off';
+
+/**
+ * Defines values for SettingKind.
+ * Possible values include: 'DataExportSetting', 'AlertSuppressionSetting'
+ * @readonly
+ * @enum {string}
+ */
+export type SettingKind = 'DataExportSetting' | 'AlertSuppressionSetting';
+
+/**
  * Defines values for ReportedSeverity.
  * Possible values include: 'Silent', 'Information', 'Low', 'High'
  * @readonly
@@ -1549,6 +2002,38 @@ export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
 export type ConnectionType = 'Internal' | 'External';
 
 /**
+ * Defines values for SettingName.
+ * Possible values include: 'MCAS', 'WDATP'
+ * @readonly
+ * @enum {string}
+ */
+export type SettingName = 'MCAS' | 'WDATP';
+
+/**
+ * Defines values for SettingName1.
+ * Possible values include: 'MCAS', 'WDATP'
+ * @readonly
+ * @enum {string}
+ */
+export type SettingName1 = 'MCAS' | 'WDATP';
+
+/**
+ * Defines values for InformationProtectionPolicyName.
+ * Possible values include: 'effective', 'custom'
+ * @readonly
+ * @enum {string}
+ */
+export type InformationProtectionPolicyName = 'effective' | 'custom';
+
+/**
+ * Defines values for InformationProtectionPolicyName1.
+ * Possible values include: 'effective', 'custom'
+ * @readonly
+ * @enum {string}
+ */
+export type InformationProtectionPolicyName1 = 'effective' | 'custom';
+
+/**
  * Defines values for TaskUpdateActionType.
  * Possible values include: 'Activate', 'Dismiss', 'Start', 'Resolve', 'Close'
  * @readonly
@@ -1579,6 +2064,671 @@ export type AlertUpdateActionType = 'Dismiss' | 'Reactivate';
  * @enum {string}
  */
 export type AlertUpdateActionType1 = 'Dismiss' | 'Reactivate';
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PricingsListResponse = PricingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PricingList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type PricingsListByResourceGroupResponse = PricingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PricingList;
+    };
+};
+
+/**
+ * Contains response data for the getSubscriptionPricing operation.
+ */
+export type PricingsGetSubscriptionPricingResponse = Pricing & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Pricing;
+    };
+};
+
+/**
+ * Contains response data for the updateSubscriptionPricing operation.
+ */
+export type PricingsUpdateSubscriptionPricingResponse = Pricing & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Pricing;
+    };
+};
+
+/**
+ * Contains response data for the getResourceGroupPricing operation.
+ */
+export type PricingsGetResourceGroupPricingResponse = Pricing & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Pricing;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateResourceGroupPricing operation.
+ */
+export type PricingsCreateOrUpdateResourceGroupPricingResponse = Pricing & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Pricing;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PricingsListNextResponse = PricingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PricingList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type PricingsListByResourceGroupNextResponse = PricingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PricingList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SecurityContactsListResponse = SecurityContactList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityContactList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecurityContactsGetResponse = SecurityContact & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityContact;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type SecurityContactsCreateResponse = SecurityContact & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityContact;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SecurityContactsUpdateResponse = SecurityContact & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityContact;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SecurityContactsListNextResponse = SecurityContactList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityContactList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceSettingsListResponse = WorkspaceSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceSettingList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceSettingsGetResponse = WorkspaceSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceSetting;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type WorkspaceSettingsCreateResponse = WorkspaceSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceSetting;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type WorkspaceSettingsUpdateResponse = WorkspaceSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceSetting;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkspaceSettingsListNextResponse = WorkspaceSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkspaceSettingList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AutoProvisioningSettingsListResponse = AutoProvisioningSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoProvisioningSettingList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AutoProvisioningSettingsGetResponse = AutoProvisioningSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoProvisioningSetting;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type AutoProvisioningSettingsCreateResponse = AutoProvisioningSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoProvisioningSetting;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AutoProvisioningSettingsListNextResponse = AutoProvisioningSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutoProvisioningSettingList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type CompliancesListResponse = ComplianceList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComplianceList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CompliancesGetResponse = Compliance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Compliance;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type CompliancesListNextResponse = ComplianceList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ComplianceList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AdvancedThreatProtectionGetResponse = AdvancedThreatProtectionSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdvancedThreatProtectionSetting;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type AdvancedThreatProtectionCreateResponse = AdvancedThreatProtectionSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdvancedThreatProtectionSetting;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SettingsListResponse = SettingsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SettingsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SettingsGetResponse = Setting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Setting;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SettingsUpdateResponse = Setting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Setting;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SettingsListNextResponse = SettingsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SettingsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type InformationProtectionPoliciesGetResponse = InformationProtectionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InformationProtectionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type InformationProtectionPoliciesCreateOrUpdateResponse = InformationProtectionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InformationProtectionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InformationProtectionPoliciesListResponse = InformationProtectionPolicyList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InformationProtectionPolicyList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type InformationProtectionPoliciesListNextResponse = InformationProtectionPolicyList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InformationProtectionPolicyList;
+    };
+};
 
 /**
  * Contains response data for the list operation.

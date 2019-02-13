@@ -16,8 +16,9 @@ export {
   Resource,
   BaseResource,
   CloudError,
-  SecurityContact,
   Pricing,
+  AscLocation,
+  SecurityContact,
   WorkspaceSetting,
   AutoProvisioningSetting,
   Compliance,
@@ -30,7 +31,6 @@ export {
   InformationProtectionKeyword,
   SecurityTask,
   SecurityTaskParameters,
-  AscLocation,
   Alert,
   AlertEntity,
   AlertConfidenceReason
