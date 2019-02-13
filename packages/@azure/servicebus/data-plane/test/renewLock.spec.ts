@@ -47,31 +47,43 @@ import { testSimpleMessages, purge, getSenderReceiverClients, ClientType } from 
 //   });
 // });
 
+let ns: Namespace;
+let senderClient: QueueClient | TopicClient;
+let receiverClient: QueueClient | SubscriptionClient;
+
+async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+    throw new Error(
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+    );
+  }
+
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
+
+  await purge(receiverClient);
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  }
+}
+
+async function afterEachTest(): Promise<void> {
+  await ns.close();
+}
+
 describe("Standard", function(): void {
-  const SERVICEBUS_CONNECTION_STRING = check(
-    process.env.SERVICEBUS_CONNECTION_STRING,
-    "SERVICEBUS_CONNECTION_STRING"
-  );
-  const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
-
   describe("Unpartitioned Queue", function(): void {
-    let senderClient: QueueClient;
-    let receiverClient: QueueClient;
-
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
-          ClientType.UnpartitionedQueue,
-          ClientType.UnpartitionedQueue
-        );
-        senderClient = clients.senderClient as QueueClient;
-        receiverClient = clients.receiverClient as QueueClient;
-        await beforeEachTest(receiverClient);
+        await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -136,23 +148,13 @@ describe("Standard", function(): void {
   });
 
   describe("Partitioned Queue", function(): void {
-    let senderClient: QueueClient;
-    let receiverClient: QueueClient;
-
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
-          ClientType.PartitionedQueue,
-          ClientType.PartitionedQueue
-        );
-        senderClient = clients.senderClient as QueueClient;
-        receiverClient = clients.receiverClient as QueueClient;
-        await beforeEachTest(receiverClient);
+        await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -217,23 +219,13 @@ describe("Standard", function(): void {
   });
 
   describe("Unpartitioned Topic/Subscription", function(): void {
-    let senderClient: TopicClient;
-    let receiverClient: SubscriptionClient;
-
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
-          ClientType.UnpartitionedTopic,
-          ClientType.UnpartitionedSubscription
-        );
-        senderClient = clients.senderClient as TopicClient;
-        receiverClient = clients.receiverClient as SubscriptionClient;
-        await beforeEachTest(receiverClient);
+        await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -298,23 +290,13 @@ describe("Standard", function(): void {
   });
 
   describe("Partitioned Topic/Subscription", function(): void {
-    let senderClient: TopicClient;
-    let receiverClient: SubscriptionClient;
-
     describe("Tests - Lock Renewal - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
-          ClientType.PartitionedTopic,
-          ClientType.PartitionedSubscription
-        );
-        senderClient = clients.senderClient as TopicClient;
-        receiverClient = clients.receiverClient as SubscriptionClient;
-        await beforeEachTest(receiverClient);
+        await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -410,15 +392,6 @@ let uncaughtErrorFromHandlers: Error | undefined;
 const onError: OnError = (err: MessagingError | Error) => {
   uncaughtErrorFromHandlers = err;
 };
-
-async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
-  await purge(receiverClient);
-  const peekedMsgs = await receiverClient.peek();
-  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
-  if (peekedMsgs.length) {
-    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
-  }
-}
 
 /**
  * Test renewLock() after receiving a message using Batch Receiver
@@ -616,14 +589,6 @@ async function testAutoLockRenewalConfigBehavior(
     const unprocessedMsgs = await receiver.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }
-}
-
-// Helper functions
-function check(str: string | undefined, label: string): string {
-  if (!str || str.trim() === "") {
-    throw new Error(`"${label}" cannot be null or empty`);
-  }
-  return str;
 }
 
 function assertTimestampsAreApproximatelyEqual(

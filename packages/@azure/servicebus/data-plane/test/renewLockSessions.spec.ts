@@ -25,31 +25,46 @@ import {
   ClientType
 } from "./testUtils";
 
+let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-describe("Standard", function(): void {
-  const SERVICEBUS_CONNECTION_STRING = check(
-    process.env.SERVICEBUS_CONNECTION_STRING,
-    "SERVICEBUS_CONNECTION_STRING"
-  );
-  const namespace = Namespace.createFromConnectionString(SERVICEBUS_CONNECTION_STRING);
+async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+    throw new Error(
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+    );
+  }
 
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
+
+  await purge(receiverClient, testSessionId1);
+  const peekedMsgs = await receiverClient.peek();
+  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  if (peekedMsgs.length) {
+    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  }
+}
+
+async function afterEachTest(): Promise<void> {
+  await ns.close();
+}
+
+describe("Standard", function(): void {
   describe("Unpartitioned Queue", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
+        await beforeEachTest(
           ClientType.UnpartitionedQueueWithSessions,
           ClientType.UnpartitionedQueueWithSessions
         );
-        senderClient = clients.senderClient;
-        receiverClient = clients.receiverClient;
-        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -115,18 +130,14 @@ describe("Standard", function(): void {
   describe("Partitioned Queue", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
+        await beforeEachTest(
           ClientType.PartitionedQueueWithSessions,
           ClientType.PartitionedQueueWithSessions
         );
-        senderClient = clients.senderClient;
-        receiverClient = clients.receiverClient;
-        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -192,18 +203,14 @@ describe("Standard", function(): void {
   describe("Unpartitioned Topic/Subscription", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
+        await beforeEachTest(
           ClientType.UnpartitionedTopicWithSessions,
           ClientType.UnpartitionedSubscriptionWithSessions
         );
-        senderClient = clients.senderClient;
-        receiverClient = clients.receiverClient;
-        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -269,18 +276,14 @@ describe("Standard", function(): void {
   describe("Partitioned Topic/Subscription", function(): void {
     describe("Tests - Lock Renewal for Sessions - Peeklock Mode", function(): void {
       beforeEach(async () => {
-        const clients = await getSenderReceiverClients(
-          namespace,
+        await beforeEachTest(
           ClientType.PartitionedTopicWithSessions,
           ClientType.PartitionedSubscriptionWithSessions
         );
-        senderClient = clients.senderClient;
-        receiverClient = clients.receiverClient;
-        await beforeEachTest(receiverClient);
       });
 
       afterEach(async () => {
-        await namespace.close();
+        await afterEachTest();
       });
 
       it(`renewLock() with Batch Receiver resets lock duration each time.`, async function(): Promise<
@@ -351,15 +354,6 @@ let uncaughtErrorFromHandlers: Error | undefined;
 const onError: OnError = (err: MessagingError | Error) => {
   uncaughtErrorFromHandlers = err;
 };
-
-async function beforeEachTest(receiverClient: QueueClient | SubscriptionClient): Promise<void> {
-  await purge(receiverClient, testSessionId1);
-  const peekedMsgs = await receiverClient.peek();
-  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
-  if (peekedMsgs.length) {
-    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
-  }
-}
 
 /**
  * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
@@ -584,14 +578,6 @@ async function testAutoLockRenewalConfigBehavior(
   if (uncaughtErrorFromHandlers) {
     chai.assert.fail(uncaughtErrorFromHandlers.message);
   }
-}
-
-// Helper functions
-function check(str: string | undefined, label: string): string {
-  if (!str || str.trim() === "") {
-    throw new Error(`"${label}" cannot be null or empty`);
-  }
-  return str;
 }
 
 function assertTimestampsAreApproximatelyEqual(
