@@ -615,8 +615,8 @@ describe("Batch Receiver - Abandon/Defer/Deadletter deadlettered message", funct
     );
     should.equal(
       receivedMsgs[0].messageId,
-      testSimpleMessages.body,
-      "MessageBody is different than expected"
+      testSimpleMessages.messageId,
+      "MessageId is different than expected"
     );
     should.equal(receivedMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
