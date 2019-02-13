@@ -40,25 +40,11 @@ export const alertUpdateActionType: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-08-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2015-06-01-preview',
     type: {
       name: "String"
     }
@@ -69,16 +55,6 @@ export const ascLocation: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "ascLocation",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const complianceName: msRest.OperationURLParameter = {
-  parameterPath: "complianceName",
-  mapper: {
-    required: true,
-    serializedName: "complianceName",
     type: {
       name: "String"
     }
@@ -138,16 +114,6 @@ export const filter: msRest.OperationQueryParameter = {
     }
   }
 };
-export const informationProtectionPolicyName: msRest.OperationURLParameter = {
-  parameterPath: "informationProtectionPolicyName",
-  mapper: {
-    required: true,
-    serializedName: "informationProtectionPolicyName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const jitNetworkAccessPolicyInitiateType: msRest.OperationURLParameter = {
   parameterPath: "jitNetworkAccessPolicyInitiateType",
   mapper: {
@@ -181,16 +147,6 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const pricingName: msRest.OperationURLParameter = {
-  parameterPath: "pricingName",
-  mapper: {
-    required: true,
-    serializedName: "pricingName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -206,36 +162,6 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceId: msRest.OperationURLParameter = {
-  parameterPath: "resourceId",
-  mapper: {
-    required: true,
-    serializedName: "resourceId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const scope: msRest.OperationURLParameter = {
-  parameterPath: "scope",
-  mapper: {
-    required: true,
-    serializedName: "scope",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const securityContactName: msRest.OperationURLParameter = {
-  parameterPath: "securityContactName",
-  mapper: {
-    required: true,
-    serializedName: "securityContactName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const select: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -243,28 +169,6 @@ export const select: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$select",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const settingName0: msRest.OperationURLParameter = {
-  parameterPath: "settingName",
-  mapper: {
-    required: true,
-    serializedName: "settingName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const settingName1: msRest.OperationURLParameter = {
-  parameterPath: "settingName",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "settingName",
-    defaultValue: 'current',
     type: {
       name: "String"
     }
@@ -308,16 +212,6 @@ export const topologyResourceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "topologyResourceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const workspaceSettingName: msRest.OperationURLParameter = {
-  parameterPath: "workspaceSettingName",
-  mapper: {
-    required: true,
-    serializedName: "workspaceSettingName",
     type: {
       name: "String"
     }

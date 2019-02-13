@@ -17,26 +17,27 @@ const packageVersion = "0.1.0";
 
 export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  subscriptionId: string;
+  apiVersion?: string;
   ascLocation: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure subscription ID
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved
    * from Get locations
+   * @param subscriptionId Azure subscription ID
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, ascLocation: string, options?: Models.SecurityCenterOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, ascLocation: string, subscriptionId: string, options?: Models.SecurityCenterOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
-    if (subscriptionId == undefined) {
-      throw new Error('\'subscriptionId\' cannot be null.');
-    }
     if (ascLocation == undefined) {
       throw new Error('\'ascLocation\' cannot be null.');
+    }
+    if (subscriptionId == undefined) {
+      throw new Error('\'subscriptionId\' cannot be null.');
     }
 
     if (!options) {
@@ -49,13 +50,14 @@ export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
+    this.apiVersion = '2015-06-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-    this.subscriptionId = subscriptionId;
     this.ascLocation = ascLocation;
+    this.subscriptionId = subscriptionId;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
