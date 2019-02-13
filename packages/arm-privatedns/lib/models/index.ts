@@ -436,7 +436,7 @@ export interface PrivateZonesCreateOrUpdateOptionalParams extends msRest.Request
   /**
    * @member {string} [ifMatch] The ETag of the Private DNS zone. Omit this
    * value to always overwrite the current zone. Specify the last-seen ETag
-   * value to prevent accidentally overwritting any concurrent changes.
+   * value to prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -458,7 +458,7 @@ export interface PrivateZonesUpdateOptionalParams extends msRest.RequestOptionsB
   /**
    * @member {string} [ifMatch] The ETag of the Private DNS zone. Omit this
    * value to always overwrite the current zone. Specify the last-seen ETag
-   * value to prevent accidentally overwritting any concurrent changes.
+   * value to prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
 }
@@ -520,7 +520,7 @@ export interface PrivateZonesBeginCreateOrUpdateOptionalParams extends msRest.Re
   /**
    * @member {string} [ifMatch] The ETag of the Private DNS zone. Omit this
    * value to always overwrite the current zone. Specify the last-seen ETag
-   * value to prevent accidentally overwritting any concurrent changes.
+   * value to prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -542,7 +542,7 @@ export interface PrivateZonesBeginUpdateOptionalParams extends msRest.RequestOpt
   /**
    * @member {string} [ifMatch] The ETag of the Private DNS zone. Omit this
    * value to always overwrite the current zone. Specify the last-seen ETag
-   * value to prevent accidentally overwritting any concurrent changes.
+   * value to prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
 }
@@ -575,7 +575,7 @@ export interface VirtualNetworkLinksCreateOrUpdateOptionalParams extends msRest.
    * @member {string} [ifMatch] The ETag of the virtual network link to the
    * Private DNS zone. Omit this value to always overwrite the current virtual
    * network link. Specify the last-seen ETag value to prevent accidentally
-   * overwritting any concurrent changes.
+   * overwriting any concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -598,7 +598,7 @@ export interface VirtualNetworkLinksUpdateOptionalParams extends msRest.RequestO
    * @member {string} [ifMatch] The ETag of the virtual network link to the
    * Private DNS zone. Omit this value to always overwrite the current virtual
    * network link. Specify the last-seen ETag value to prevent accidentally
-   * overwritting any concurrent changes.
+   * overwriting any concurrent changes.
    */
   ifMatch?: string;
 }
@@ -647,7 +647,7 @@ export interface VirtualNetworkLinksBeginCreateOrUpdateOptionalParams extends ms
    * @member {string} [ifMatch] The ETag of the virtual network link to the
    * Private DNS zone. Omit this value to always overwrite the current virtual
    * network link. Specify the last-seen ETag value to prevent accidentally
-   * overwritting any concurrent changes.
+   * overwriting any concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -670,7 +670,7 @@ export interface VirtualNetworkLinksBeginUpdateOptionalParams extends msRest.Req
    * @member {string} [ifMatch] The ETag of the virtual network link to the
    * Private DNS zone. Omit this value to always overwrite the current virtual
    * network link. Specify the last-seen ETag value to prevent accidentally
-   * overwritting any concurrent changes.
+   * overwriting any concurrent changes.
    */
   ifMatch?: string;
 }
@@ -703,7 +703,7 @@ export interface RecordSetsCreateOrUpdateOptionalParams extends msRest.RequestOp
   /**
    * @member {string} [ifMatch] The ETag of the record set. Omit this value to
    * always overwrite the current record set. Specify the last-seen ETag value
-   * to prevent accidentally overwritting any concurrent changes.
+   * to prevent accidentally overwriting any concurrent changes.
    */
   ifMatch?: string;
   /**
@@ -725,7 +725,7 @@ export interface RecordSetsUpdateOptionalParams extends msRest.RequestOptionsBas
   /**
    * @member {string} [ifMatch] The ETag of the record set. Omit this value to
    * always overwrite the current record set. Specify the last-seen ETag value
-   * to prevent accidentally overwritting concurrent changes.
+   * to prevent accidentally overwriting concurrent changes.
    */
   ifMatch?: string;
 }
