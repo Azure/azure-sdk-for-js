@@ -18,7 +18,13 @@ import {
 
 import { DispositionType } from "../lib/serviceBusMessage";
 
-import { testSimpleMessages, getSenderReceiverClients, ClientType, purge } from "./testUtils";
+import {
+  testSimpleMessages,
+  getSenderReceiverClients,
+  ClientType,
+  purge,
+  DelayStreaming
+} from "./testUtils";
 import { Receiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -48,24 +54,6 @@ function unExpectedErrorHandler(err: Error): void {
   if (err) {
     unexpectedError = err;
   }
-}
-
-// Maximum wait duration for the Streaming Receiver to receive the messages = `10000 ms`(10 seconds)(= maxWaitTime)
-// Keep checking whether the predicate is true after every `1000 ms`(1 second) (= delayBetweenRetries)
-async function DelayStreaming(
-  predicate: () => boolean,
-  delayBetweenRetries: number = 1000,
-  maxWaitTime: number = 10000
-): Promise<boolean> {
-  const maxTime = Date.now() + maxWaitTime;
-  while (Date.now() < maxTime) {
-    if (predicate()) {
-      console.log("hello");
-      return true;
-    }
-    await delay(delayBetweenRetries);
-  }
-  return false;
 }
 
 async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
@@ -617,7 +605,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
   });
 });
 
-describe("Streaming Receiver - Settle an already Settled message throws error", () => {
+describe.only("Streaming Receiver - Settle an already Settled message throws error", () => {
   afterEach(async () => {
     await afterEachTest();
   });

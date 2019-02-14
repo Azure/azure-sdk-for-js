@@ -6,7 +6,8 @@ import {
   QueueClient,
   TopicClient,
   Namespace,
-  SubscriptionClient
+  SubscriptionClient,
+  delay
 } from "../lib";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
@@ -382,4 +383,19 @@ export async function purge(
       await receiver.close();
     }
   }
+}
+
+// Maximum wait duration for the Streaming Receiver to receive the messages = `10000 ms`(10 seconds)(= maxWaitTime)
+// Keep checking whether the predicate is true after every `1000 ms`(1 second) (= delayBetweenRetries)
+export async function DelayStreaming(
+  predicate: () => boolean,
+  delayBetweenRetries: number = 1000,
+  maxWaitTime: number = 10000
+): Promise<boolean> {
+  const maxTime = Date.now() + maxWaitTime;
+  while (Date.now() < maxTime) {
+    if (predicate()) return true;
+    await delay(delayBetweenRetries);
+  }
+  return false;
 }
