@@ -7,43 +7,15 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { Namespace, delay } from "../lib";
+import { Namespace, delay, ServiceBusMessage } from "../lib";
 import * as msrestAzure from "ms-rest-azure";
+import { getSenderReceiverClients, ClientType, testSimpleMessages, getEnvVars } from "./testUtils";
 const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 function testFalsyValues(testFn: Function): void {
   [undefined, "", 0].forEach(function(value: string | number | undefined): void {
     testFn(value);
   });
-}
-
-function getEnvVars(): { [key: string]: string } {
-  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_SECRET) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
-    );
-  }
-  if (!process.env.SERVICEBUS_END_POINT) {
-    throw new Error(
-      "Define SERVICEBUS_END_POINT in your environment before running integration tests."
-    );
-  }
-  return {
-    clientId: process.env.ARM_SERVICEBUS_CLIENT_ID,
-    tenantId: process.env.ARM_SERVICEBUS_TENANT_ID,
-    secret: process.env.ARM_SERVICEBUS_SECRET,
-    servicebusEndpoint: process.env.SERVICEBUS_END_POINT
-  };
 }
 
 describe("Create Namespace", function(): void {
@@ -354,7 +326,9 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
 });
 
 describe("Test createFromAadTokenCredentials", function(): void {
-  it.only("creates an Namespace from a AADTokenCredentials", async function(): Promise<void> {
+  it("Creates an Namespace from a AADTokenCredentials, sends message to a ServiceBus entity", async function(): Promise<
+    void
+  > {
     const env = getEnvVars();
     const tokenCreds = await msrestAzure.loginWithServicePrincipalSecret(
       env.clientId,
@@ -362,7 +336,46 @@ describe("Test createFromAadTokenCredentials", function(): void {
       env.tenantId,
       { tokenAudience: aadServiceBusAudience }
     );
-    const namespace = Namespace.createFromAadTokenCredentials(env.servicebusEndpoint, tokenCreds);
+
+    if (!process.env.SERVICEBUS_END_POINT) {
+      throw new Error(
+        "Define SERVICEBUS_END_POINT in your environment before running integration tests."
+      );
+    }
+    const namespace = Namespace.createFromAadTokenCredentials(
+      process.env.SERVICEBUS_END_POINT,
+      tokenCreds
+    );
     namespace.should.be.an.instanceof(Namespace);
+
+    const clients = await getSenderReceiverClients(
+      namespace,
+      ClientType.UnpartitionedQueue,
+      ClientType.UnpartitionedQueue
+    );
+
+    const sender = clients.senderClient.getSender();
+    const receiver = clients.receiverClient.getReceiver();
+    await sender.send(testSimpleMessages);
+
+    const receivedMsgs: ServiceBusMessage[] = [];
+    receiver.receive(
+      (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
+        should.equal(msg.body, testSimpleMessages.body);
+        return Promise.resolve();
+      },
+      (err) => {
+        throw err.message;
+      }
+    );
+
+    for (let i = 0; i < 5; i++) {
+      await delay(1000);
+      if (receivedMsgs.length === 1) {
+        break;
+      }
+    }
+    should.equal(receivedMsgs.length, 1);
   });
 });
