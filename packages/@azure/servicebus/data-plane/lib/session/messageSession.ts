@@ -88,7 +88,7 @@ export interface SessionMessageHandlerOptions {
   newMessageWaitTimeoutInSeconds?: number;
   /**
    * @property {number} [maxConcurrentMessages] The maximum number of messages that can be
-   * fetched over the network at a time when .
+   * fetched over the network at a time.
    * For more information, refer to the underlying messaging library - https://github.com/amqp/rhea.
    * - **Default**: `1000`
    * - **Minimum**: `1`
@@ -136,7 +136,7 @@ export class MessageSession extends LinkEntity {
   maxConcurrentSessions?: number;
   /**
    * @property {number} [maxConcurrentMessages] The maximum number of messages that can be
-   * fetched over the network at a time when .
+   * fetched over the network at a time.
    * For more information, refer to the underlying messaging library - https://github.com/amqp/rhea.
    * - **Default**: `1000`
    * - **Minimum**: `1`
@@ -534,10 +534,17 @@ export class MessageSession extends LinkEntity {
     }
     if (!options) options = {};
     this._isReceivingMessages = true;
-    this.maxConcurrentMessages =
-      typeof options.maxConcurrentMessages === "number" && options.maxConcurrentMessages > 0
-        ? options.maxConcurrentMessages
-        : 1;
+    if (typeof options.maxConcurrentMessages === "number") {
+      if (options.maxConcurrentMessages <= 0 || options.maxConcurrentMessages > 2048) {
+        throw new Error(
+          "Invalid argument error: 'maxConcurrentMessages' value must be between 1 and 2048"
+        );
+      } else {
+        this.maxConcurrentMessages = options.maxConcurrentMessages;
+      }
+    } else {
+      this.maxConcurrentMessages = 1000;
+    }
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).

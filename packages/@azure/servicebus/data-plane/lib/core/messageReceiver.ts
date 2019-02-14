@@ -113,8 +113,8 @@ export class MessageReceiver extends LinkEntity {
   receiverType: ReceiverType;
   /**
    * @property {number} [maxConcurrentMessages] The maximum number of messages that can be
-   * fetched over the network at a time when .
-   * For more information, refer to the underlying messaging library - https://github.com/amqp/rhea.
+   * fetched over the network at a time.
+   * For more information, refer to "credit_window" in the underlying messaging library - https://github.com/amqp/rhea
    * - **Default**: `1000`
    * - **Minimum**: `1`
    * - **Maximum**: `2048`
@@ -253,10 +253,18 @@ export class MessageReceiver extends LinkEntity {
     };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
-    this.maxConcurrentMessages =
-      typeof options.maxConcurrentMessages === "number" && options.maxConcurrentMessages > 0
-        ? options.maxConcurrentMessages
-        : 1;
+
+    if (typeof options.maxConcurrentMessages === "number") {
+      if (options.maxConcurrentMessages <= 0 || options.maxConcurrentMessages > 2048) {
+        throw new Error(
+          "Invalid argument error: 'maxConcurrentMessages' value must be between 1 and 2048"
+        );
+      } else {
+        this.maxConcurrentMessages = options.maxConcurrentMessages;
+      }
+    } else {
+      this.maxConcurrentMessages = 1000;
+    }
     this.maxAutoRenewDurationInSeconds =
       options.maxMessageAutoRenewLockDurationInSeconds != undefined
         ? options.maxMessageAutoRenewLockDurationInSeconds
@@ -904,7 +912,13 @@ export class MessageReceiver extends LinkEntity {
           options
         );
 
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
+        try {
+          this._receiver = await this._context.namespace.connection.createReceiver(options);
+        } catch (err) {
+          console.log("error ---", err);
+        } finally {
+          console.log("created receiver");
+        }
         this.isConnecting = false;
         log.error(
           "[%s] Receiver '%s' with address '%s' has established itself.",

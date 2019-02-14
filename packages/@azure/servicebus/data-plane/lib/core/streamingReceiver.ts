@@ -45,7 +45,7 @@ export interface MessageHandlerOptions {
   newMessageWaitTimeoutInSeconds?: number;
   /**
    * @property {number} [maxConcurrentMessages] The maximum number of messages that can be
-   * fetched over the network at a time when .
+   * fetched over the network at a time.
    * For more information, refer to the underlying messaging library - https://github.com/amqp/rhea.
    * - **Default**: `1000`
    * - **Minimum**: `1`
