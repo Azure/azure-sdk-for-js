@@ -17,12 +17,10 @@ import {
 } from "../lib";
 
 import { DispositionType } from "../lib/serviceBusMessage";
-import * as msrestAzure from "ms-rest-azure";
 
 import { testSimpleMessages, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
-const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -52,34 +50,6 @@ function unExpectedErrorHandler(err: Error): void {
   }
 }
 
-function getEnvVars(): { [key: string]: string } {
-  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_SECRET) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
-    );
-  }
-  if (!process.env.SERVICEBUS_END_POINT) {
-    throw new Error(
-      "Define SERVICEBUS_END_POINT in your environment before running integration tests."
-    );
-  }
-  return {
-    clientId: process.env.ARM_SERVICEBUS_CLIENT_ID,
-    tenantId: process.env.ARM_SERVICEBUS_TENANT_ID,
-    secret: process.env.ARM_SERVICEBUS_SECRET,
-    servicebusEndpoint: process.env.SERVICEBUS_END_POINT
-  };
-}
 async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
@@ -90,16 +60,8 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     );
   }
 
-  // ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  const env = getEnvVars();
-  const tokenCreds = await msrestAzure.loginWithServicePrincipalSecret(
-    env.clientId,
-    env.secret,
-    env.tenantId,
-    { tokenAudience: aadServiceBusAudience }
-  );
-  ns = Namespace.createFromAadTokenCredentials(env.servicebusEndpoint, tokenCreds);
   const clients = await getSenderReceiverClients(ns, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
