@@ -26,7 +26,8 @@ import {
   testSessionId1,
   getSenderReceiverClients,
   ClientType,
-  purge
+  purge,
+  DelayStreaming
 } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../lib/receiver";
@@ -219,11 +220,9 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
       { autoComplete: autoCompleteFlag }
     );
 
-    await delay(2000);
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Did not receive messages in time");
 
-    should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessages.body);
-    should.equal(receivedMsgs[0].messageId, testMessages.messageId);
     should.equal(receivedMsgs[0].body, testMessages.body);
     should.equal(receivedMsgs[0].messageId, testMessages.messageId);
 
