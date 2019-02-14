@@ -57,9 +57,12 @@ async function DelayStreaming(
   delayBetweenRetries: number = 1000,
   maxWaitTime: number = 10000
 ): Promise<boolean> {
-  const maxTime = new Date().getTime() + maxWaitTime;
-  while (new Date().getTime() < maxTime) {
-    if (predicate()) return true;
+  const maxTime = Date.now() + maxWaitTime;
+  while (Date.now() < maxTime) {
+    if (predicate()) {
+      console.log("hello");
+      return true;
+    }
     await delay(delayBetweenRetries);
   }
   return false;
@@ -243,7 +246,6 @@ describe("Streaming Receiver - Complete message", function(): void {
     );
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-
     should.equal(msgsCheck, true, "Did not receive messages in time");
 
     await receiver.close();
@@ -320,9 +322,8 @@ describe("Streaming Receiver - Abandon message", function(): void {
       { autoComplete: false }
     );
 
-    const matchDeliveryCount = await DelayStreaming(() => checkDeliveryCount === maxDeliveryCount);
-
-    should.equal(matchDeliveryCount, true, "Unexpected DeliveryCount");
+    const deliveryCountFlag = await DelayStreaming(() => checkDeliveryCount === maxDeliveryCount);
+    should.equal(deliveryCountFlag, true, "DeliveryCount is different than expected");
 
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -385,7 +386,14 @@ describe("Streaming Receiver - Defer message", function(): void {
       unExpectedErrorHandler,
       { autoComplete }
     );
-    await delay(4000);
+
+    const sequenceNumCheck = await DelayStreaming(() => sequenceNum !== 0);
+    should.equal(
+      sequenceNumCheck,
+      true,
+      "Either the message is not received or observed an unexpected SequenceNumber."
+    );
+
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -467,15 +475,19 @@ describe("Streaming Receiver - Deadletter message", function(): void {
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     await sender.send(testSimpleMessages);
 
+    const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
         return msg.deadLetter();
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
 
-    await delay(4000);
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Did not receive messages in time");
+
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -624,8 +636,8 @@ describe("Streaming Receiver - Settle an already Settled message throws error", 
     }, unExpectedErrorHandler);
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-
     should.equal(msgsCheck, true, "Did not receive messages in time");
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs[0].body, testSimpleMessages.body);
