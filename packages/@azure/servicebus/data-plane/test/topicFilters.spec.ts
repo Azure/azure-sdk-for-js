@@ -13,8 +13,7 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter,
-  delay
+  CorrelationFilter
 } from "../lib";
 import { getSenderReceiverClients, ClientType, purge, DelayStreaming } from "./testUtils";
 

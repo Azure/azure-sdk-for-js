@@ -351,10 +351,11 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
 
   async function testAbandon(autoComplete: boolean): Promise<void> {
     await sender.send(testMessagesWithSessions);
-
+    let abandonFlag = 0;
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
+          abandonFlag = 1;
           if (sessionReceiver.isOpen()) {
             return sessionReceiver.close();
           }
@@ -364,7 +365,9 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
       unExpectedErrorHandler,
       { autoComplete }
     );
-    await delay(4000);
+
+    const msgAbandonCheck = await DelayStreaming(() => abandonFlag === 1);
+    should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
     if (sessionReceiver.isOpen()) {
       await sessionReceiver.close();
