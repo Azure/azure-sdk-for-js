@@ -629,17 +629,17 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     await sender.send(testMessagesWithSessions);
 
-    const receivedMsgs: ServiceBusMessage[] = [];
+    let msgCount = 0;
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
-        receivedMsgs.push(msg);
+        msgCount++;
         return msg.deadLetter();
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
 
-    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    const msgsCheck = await DelayStreaming(() => msgCount === 1);
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
