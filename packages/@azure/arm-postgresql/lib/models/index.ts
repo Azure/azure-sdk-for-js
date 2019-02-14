@@ -334,7 +334,7 @@ export interface ServerForCreate {
 /**
  * @interface
  * An interface representing ServerUpdateParameters.
- * Parameters allowd to update for a server.
+ * Parameters allowed to update for a server.
  *
  */
 export interface ServerUpdateParameters {
