@@ -8,11 +8,42 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import { Namespace, delay } from "../lib";
+import * as msrestAzure from "ms-rest-azure";
+const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 function testFalsyValues(testFn: Function): void {
   [undefined, "", 0].forEach(function(value: string | number | undefined): void {
     testFn(value);
   });
+}
+
+function getEnvVars(): { [key: string]: string } {
+  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
+    throw new Error(
+      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
+    );
+  }
+  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
+    throw new Error(
+      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
+    );
+  }
+  if (!process.env.ARM_SERVICEBUS_SECRET) {
+    throw new Error(
+      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
+    );
+  }
+  if (!process.env.SERVICEBUS_END_POINT) {
+    throw new Error(
+      "Define SERVICEBUS_END_POINT in your environment before running integration tests."
+    );
+  }
+  return {
+    clientId: process.env.ARM_SERVICEBUS_CLIENT_ID,
+    tenantId: process.env.ARM_SERVICEBUS_TENANT_ID,
+    secret: process.env.ARM_SERVICEBUS_SECRET,
+    servicebusEndpoint: process.env.SERVICEBUS_END_POINT
+  };
 }
 
 describe("Create Namespace", function(): void {
@@ -319,5 +350,19 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
     await delay(3000);
     await client.close();
     should.equal(errorWasThrown, true);
+  });
+});
+
+describe("Test createFromAadTokenCredentials", function(): void {
+  it.only("creates an Namespace from a AADTokenCredentials", async function(): Promise<void> {
+    const env = getEnvVars();
+    const tokenCreds = await msrestAzure.loginWithServicePrincipalSecret(
+      env.clientId,
+      env.secret,
+      env.tenantId,
+      { tokenAudience: aadServiceBusAudience }
+    );
+    const namespace = Namespace.createFromAadTokenCredentials(env.servicebusEndpoint, tokenCreds);
+    namespace.should.be.an.instanceof(Namespace);
   });
 });
