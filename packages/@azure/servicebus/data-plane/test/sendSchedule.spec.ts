@@ -298,12 +298,12 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
     should.equal(
       msgEnqueueTime1 - scheduleTime.valueOf() >= 0,
       true,
-      "Enqueued time must be greater than scheduled time"
+      "msgEnqueueTime1 time must be greater than scheduled time"
     );
     should.equal(
       msgEnqueueTime2 - scheduleTime.valueOf() >= 0,
       true,
-      "Enqueued time must be greater than scheduled time"
+      "msgEnqueueTime2 time must be greater than scheduled time"
     );
     should.equal(
       testMessages.some((x) => x.messageId === msgs[0].messageId),
