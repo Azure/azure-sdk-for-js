@@ -33,7 +33,7 @@ describe("Create Namespace", function(): void {
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     namespace.should.be.an.instanceof(Namespace);
-    should.equal(namespace.name, "sb://a/");
+    should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
   });
 });
 
@@ -102,8 +102,12 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
   });
 
   const testError = (err: Error) => {
-    should.equal(err.name, "ServiceCommunicationError");
-    should.equal(err.message, "getaddrinfo ENOTFOUND a a:5671");
+    should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
+    should.equal(
+      err.message,
+      "getaddrinfo ENOTFOUND a a:5671",
+      "ErrorMessage is different than expected"
+    );
     errorWasThrown = true;
   };
 
@@ -116,7 +120,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
       .send({ body: "hello" })
       .catch(testError);
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when sending data via a topicClient to a non existing namespace", async function(): Promise<
@@ -128,7 +132,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
       .send({ body: "hello" })
       .catch(testError);
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when sending batch data via a queueClient to a non existing namespace", async function(): Promise<
@@ -139,7 +143,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
       .getSender()
       .send({ body: "hello" })
       .catch(testError);
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when sending batch data via a topicClient to a non existing namespace", async function(): Promise<
@@ -151,7 +155,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
       .send({ body: "hello" })
       .catch(testError);
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receving batch data via a queueClient from a non existing namespace", async function(): Promise<
@@ -163,7 +167,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
       .receiveBatch(10)
       .catch(testError);
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
@@ -175,7 +179,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
       .receiveBatch(10)
       .catch(testError);
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receving streaming data via a queueClient from a non existing namespace", async function(): Promise<
@@ -190,7 +194,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
 
     await delay(3000);
     await client.close();
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
@@ -211,7 +215,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
   });
 
   const testError = (err: Error, entityPath: string) => {
-    should.equal(err.name, "MessagingEntityNotFoundError");
+    should.equal(err.name, "MessagingEntityNotFoundError", "ErrorName is different than expected");
     should.equal(
       err.message.startsWith(
         `The messaging entity '${namespace.name}${entityPath}' could not be found.`
@@ -228,7 +232,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when sending data to a non existing topic", async function(): Promise<void> {
@@ -238,7 +242,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when sending batch data to a non existing queue", async function(): Promise<
@@ -250,7 +254,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when sending batch data to a non existing topic", async function(): Promise<
@@ -262,7 +266,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receiving batch data from a non existing queue", async function(): Promise<
@@ -274,7 +278,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
       .receiveBatch(1)
       .catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
@@ -286,7 +290,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
       .receiveBatch(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receving streaming data from a non existing queue", async function(): Promise<
@@ -300,7 +304,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
 
     await delay(3000);
     await client.close();
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receving streaming data from a non existing subscription", async function(): Promise<
@@ -318,6 +322,6 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
 
     await delay(3000);
     await client.close();
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
