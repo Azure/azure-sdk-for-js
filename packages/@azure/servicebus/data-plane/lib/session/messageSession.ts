@@ -8,7 +8,14 @@ import {
   MessagingError,
   Func
 } from "@azure/amqp-common";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, ReceiverEvents } from "rhea-promise";
+import {
+  Receiver,
+  OnAmqpEvent,
+  EventContext,
+  ReceiverOptions,
+  ReceiverEvents,
+  isAmqpError
+} from "rhea-promise";
 import * as log from "../log";
 import {
   OnError,
@@ -574,9 +581,15 @@ export class MessageSession extends LinkEntity {
         try {
           await this._onMessage(bMessage);
         } catch (err) {
+          // This ensures we call users' error handler when users' message handler throws.
+          if (!isAmqpError(err)) {
+            this._onError!(err);
+          }
+
           const error = translate(err);
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.
           if (
+            !bMessage.delivery.remote_settled &&
             this.receiveMode === ReceiveMode.peekLock &&
             this.isOpen() // only try to abandon the messages if the connection is still open
           ) {
