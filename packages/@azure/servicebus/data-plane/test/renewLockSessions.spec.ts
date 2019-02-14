@@ -366,10 +366,18 @@ async function testBatchReceiverManualLockRenewalHappyCase(
     expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
   );
 
-  should.equal(Array.isArray(msgs), true);
-  should.equal(msgs.length, 1);
-  should.equal(msgs[0].body, testMessagesWithSessions.body);
-  should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+  should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+  should.equal(msgs.length, 1, "Unexpected number of messages");
+  should.equal(
+    msgs[0].body,
+    testMessagesWithSessions.body,
+    "MessageBody is different than expected"
+  );
+  should.equal(
+    msgs[0].messageId,
+    testMessagesWithSessions.messageId,
+    "MessageId is different than expected"
+  );
 
   // Verify initial lock expiry time on the session
   assertTimestampsAreApproximatelyEqual(
@@ -409,16 +417,24 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   });
   const msgs = await sessionClient.receiveBatch(1);
 
-  should.equal(Array.isArray(msgs), true);
+  should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testMessagesWithSessions.body);
-  should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+  should.equal(
+    msgs[0].body,
+    testMessagesWithSessions.body,
+    "MessageBody is different than expected"
+  );
+  should.equal(
+    msgs[0].messageId,
+    testMessagesWithSessions.messageId,
+    "MessageId is different than expected"
+  );
 
   await delay(lockDurationInMilliseconds + 1000);
 
   let errorWasThrown: boolean = false;
   await msgs[0].complete().catch((err) => {
-    should.equal(err.name, "SessionLockLostError");
+    should.equal(err.name, "SessionLockLostError", "ErrorName is different than expected");
     errorWasThrown = true;
   });
 
@@ -449,8 +465,16 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     if (numOfMessagesReceived < 1) {
       numOfMessagesReceived++;
 
-      should.equal(brokeredMessage.body, testMessagesWithSessions.body);
-      should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
+      should.equal(
+        brokeredMessage.body,
+        testMessagesWithSessions.body,
+        "MessageBody is different than expected"
+      );
+      should.equal(
+        brokeredMessage.messageId,
+        testMessagesWithSessions.messageId,
+        "MessageId is different than expected"
+      );
 
       // Compute expected initial lock expiry time
       const expectedLockExpiryTimeUtc = new Date();
@@ -492,7 +516,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     chai.assert.fail(uncaughtErrorFromHandlers.message);
   }
 
-  should.equal(numOfMessagesReceived, 1);
+  should.equal(numOfMessagesReceived, 1, "Unexpected number of messages");
 }
 
 interface AutoLockRenewalTestOptions {
@@ -522,8 +546,16 @@ async function testAutoLockRenewalConfigBehavior(
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
-        should.equal(brokeredMessage.body, testMessagesWithSessions.body);
-        should.equal(brokeredMessage.messageId, testMessagesWithSessions.messageId);
+        should.equal(
+          brokeredMessage.body,
+          testMessagesWithSessions.body,
+          "MessageBody is different than expected"
+        );
+        should.equal(
+          brokeredMessage.messageId,
+          testMessagesWithSessions.messageId,
+          "MessageId is different than expected"
+        );
 
         messagesReceived.push(brokeredMessage);
 
@@ -553,7 +585,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   let errorWasThrown: boolean = false;
   await messagesReceived[0].complete().catch((err) => {
-    should.equal(err.name, "SessionLockLostError");
+    should.equal(err.name, "SessionLockLostError", "ErrorName is different than expected");
     errorWasThrown = true;
   });
 
