@@ -358,7 +358,7 @@ describe("Streaming Receiver - Abandon message", function(): void {
   });
 });
 
-describe.only("Streaming Receiver - Defer message", function(): void {
+describe("Streaming Receiver - Defer message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -486,7 +486,6 @@ describe("Streaming Receiver - Deadletter message", function(): void {
     should.equal(deadLetterMsgs[0].messageId, testSimpleMessages.messageId);
 
     await deadLetterMsgs[0].complete();
-
     await testPeekMsgsLength(deadLetterClient, 0);
   }
 
@@ -604,7 +603,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
   });
 });
 
-describe.only("Streaming Receiver - Settle an already Settled message throws error", () => {
+describe("Streaming Receiver - Settle an already Settled message throws error", () => {
   afterEach(async () => {
     await afterEachTest();
   });
