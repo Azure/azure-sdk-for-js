@@ -220,7 +220,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
     );
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Did not receive messages in time");
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(receivedMsgs[0].body, testMessages.body);
     should.equal(receivedMsgs[0].messageId, testMessages.messageId);

@@ -123,7 +123,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     }, unExpectedErrorHandler);
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Did not receive messages in time");
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1);
@@ -186,7 +186,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     );
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Did not receive messages in time");
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     await testPeekMsgsLength(receiverClient, 1);
 
@@ -257,7 +257,7 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
     );
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Did not receive messages in time");
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -604,7 +604,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
     );
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Did not receive messages in time");
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     await testPeekMsgsLength(receiverClient, 0);
@@ -786,7 +786,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
     }, unExpectedErrorHandler);
 
     const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Did not receive messages in time");
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs[0].body, testMessagesWithSessions.body);

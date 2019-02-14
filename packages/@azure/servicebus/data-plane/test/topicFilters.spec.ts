@@ -135,7 +135,7 @@ async function receiveOrders(
   );
 
   const msgsCheck = await DelayStreaming(() => receivedMsgs.length === expectedMessageCount);
-  should.equal(msgsCheck, true, "Did not receive messages in time");
+  should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
   await receiver.close();
   should.equal(
