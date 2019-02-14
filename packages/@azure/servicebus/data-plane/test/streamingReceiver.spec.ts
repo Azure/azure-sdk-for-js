@@ -50,19 +50,16 @@ function unExpectedErrorHandler(err: Error): void {
   }
 }
 
-// Maximum wait duration for the Streaming Receiver to receive the messages = `10000 ms`(10 seconds)
-const maxDelayForStreamingReceiver = 10000;
-// Keep checking whether the boolCheck is true after every `1000 ms`(1 second)
-const delayBetweenRetriesForStreamingReceiver = 1000;
-
+// Maximum wait duration for the Streaming Receiver to receive the messages = `10000 ms`(10 seconds)(= maxWaitTime)
+// Keep checking whether the predicate is true after every `1000 ms`(1 second) (= delayBetweenRetries)
 async function DelayStreaming(
-  boolCheck: () => boolean,
-  delayBetweenRetries: number,
-  maxWaitTime: number
+  predicate: () => boolean,
+  delayBetweenRetries: number = 1000,
+  maxWaitTime: number = 10000
 ): Promise<boolean> {
   const maxTime = new Date().getTime() + maxWaitTime;
   while (new Date().getTime() < maxTime) {
-    if (boolCheck()) return true;
+    if (predicate()) return true;
     await delay(delayBetweenRetries);
   }
   return false;
@@ -137,11 +134,7 @@ describe("Streaming Receiver - Misc Tests", function(): void {
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    const msgsCheck = await DelayStreaming(
-      () => receivedMsgs.length === 1,
-      delayBetweenRetriesForStreamingReceiver,
-      maxDelayForStreamingReceiver
-    );
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
 
     should.equal(msgsCheck, true, "Did not receive messages in time");
     await receiver.close();
@@ -189,11 +182,7 @@ describe("Streaming Receiver - Misc Tests", function(): void {
       { autoComplete: false }
     );
 
-    const msgsCheck = await DelayStreaming(
-      () => receivedMsgs.length === 1,
-      delayBetweenRetriesForStreamingReceiver,
-      maxDelayForStreamingReceiver
-    );
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
 
     should.equal(msgsCheck, true, "Did not receive messages in time");
     await testPeekMsgsLength(receiverClient, 1);
@@ -253,11 +242,7 @@ describe("Streaming Receiver - Complete message", function(): void {
       { autoComplete }
     );
 
-    const msgsCheck = await DelayStreaming(
-      () => receivedMsgs.length === 1,
-      delayBetweenRetriesForStreamingReceiver,
-      maxDelayForStreamingReceiver
-    );
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
 
     should.equal(msgsCheck, true, "Did not receive messages in time");
 
@@ -335,12 +320,12 @@ describe("Streaming Receiver - Abandon message", function(): void {
       { autoComplete: false }
     );
 
-    await delay(6000);
+    const matchDeliveryCount = await DelayStreaming(() => checkDeliveryCount === maxDeliveryCount);
+
+    should.equal(matchDeliveryCount, true, "Unexpected DeliveryCount");
 
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-
-    should.equal(checkDeliveryCount, maxDeliveryCount);
 
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
@@ -638,11 +623,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error", 
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    const msgsCheck = await DelayStreaming(
-      () => receivedMsgs.length === 1,
-      delayBetweenRetriesForStreamingReceiver,
-      maxDelayForStreamingReceiver
-    );
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
 
     should.equal(msgsCheck, true, "Did not receive messages in time");
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
