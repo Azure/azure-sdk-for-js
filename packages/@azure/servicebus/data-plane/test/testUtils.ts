@@ -44,7 +44,7 @@ export enum ClientType {
 }
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
-function getEnvVars(): { [key: string]: string } {
+export function getEnvVars(): { [key: string]: string } {
   if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
     throw new Error(
       "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
