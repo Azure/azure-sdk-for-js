@@ -69,14 +69,15 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
   }
 }
 
-async function afterEachTest(): Promise<void> {
-  await removeAllRules(subscriptionClient);
-  await subscriptionClient.addRule("DefaultFilter", true);
+async function afterEachTest(clearRules: boolean = true): Promise<void> {
+  if (clearRules) {
+    await removeAllRules(subscriptionClient);
+    await subscriptionClient.addRule("DefaultFilter", true);
 
-  const rules = await subscriptionClient.getRules();
-  should.equal(rules.length, 1, "Unexpected number of rules");
-  should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
-
+    const rules = await subscriptionClient.getRules();
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
+  }
   await ns.close();
 }
 
@@ -438,7 +439,7 @@ describe("Topic Filters -  Get Rules - Default Rule", function(): void {
   });
 
   afterEach(async () => {
-    await afterEachTest();
+    await afterEachTest(false);
   });
 
   it("Default rule is returned for the subscription for which no rules were added", async function(): Promise<
@@ -456,7 +457,7 @@ describe("Topic Filters -  Send/Receive messages using default filter of subscri
   });
 
   afterEach(async () => {
-    await afterEachTest();
+    await afterEachTest(false);
   });
 
   it("Subscription with default filter receives all messages", async function(): Promise<void> {
