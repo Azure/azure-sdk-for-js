@@ -308,12 +308,12 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
     should.equal(
       testMessages.some((x) => x.messageId === msgs[0].messageId),
       true,
-      "MessageId is different than expected"
+      "MessageId of first message is different than expected"
     );
     should.equal(
       testMessages.some((x) => x.messageId === msgs[1].messageId),
       true,
-      "MessageId is different than expected"
+      "MessageId of second message is different than expected"
     );
 
     await msgs[0].complete();
