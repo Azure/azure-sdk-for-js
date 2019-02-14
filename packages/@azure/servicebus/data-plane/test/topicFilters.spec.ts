@@ -271,16 +271,38 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
     should.equal(errorWasThrown, true);
   });
 
-  // TODO: Update error message after fixing https://github.com/Azure/azure-service-bus-node/issues/184
   it("Adding a rule with a Boolean filter whose input is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
     void
   > {
     let errorWasThrown = false;
     try {
-      await subscriptionClient.addRule("Priority_2", "1");
+      await subscriptionClient.addRule("Priority_2", {});
     } catch (error) {
       errorWasThrown = true;
-      should.equal(error.name, "InternalServerError");
+      should.equal(
+        error.message,
+        "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
+      );
+    }
+    should.equal(errorWasThrown, true);
+  });
+
+  it("Adding a rule with a Correlation filter, error for irrelevant properties", async function(): Promise<
+    void
+  > {
+    let errorWasThrown = false;
+    const filter: any = {
+      correlationId: 1,
+      invalidProperty: 2
+    };
+    try {
+      await subscriptionClient.addRule("Priority_2", filter);
+    } catch (error) {
+      errorWasThrown = true;
+      should.equal(
+        error.message,
+        'Cannot add rule. Given filter object has unexpected property "invalidProperty".'
+      );
     }
     should.equal(errorWasThrown, true);
   });
