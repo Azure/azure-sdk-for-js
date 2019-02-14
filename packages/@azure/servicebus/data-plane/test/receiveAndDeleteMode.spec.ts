@@ -13,7 +13,6 @@ import {
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
-  delay,
   SendableMessageInfo,
   ReceiveMode
 } from "../lib";

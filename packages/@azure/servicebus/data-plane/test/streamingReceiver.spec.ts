@@ -358,7 +358,7 @@ describe("Streaming Receiver - Abandon message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Defer message", function(): void {
+describe.only("Streaming Receiver - Defer message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -396,7 +396,6 @@ describe("Streaming Receiver - Defer message", function(): void {
     should.equal(deferredMsgs[0].deliveryCount, 1);
 
     await deferredMsgs[0].complete();
-    await delay(10000);
     await testPeekMsgsLength(receiverClient, 0);
   }
 

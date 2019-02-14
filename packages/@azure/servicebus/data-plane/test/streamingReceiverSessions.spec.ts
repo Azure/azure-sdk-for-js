@@ -23,7 +23,8 @@ import {
   testSessionId1,
   getSenderReceiverClients,
   ClientType,
-  purge
+  purge,
+  DelayStreaming
 } from "./testUtils";
 import { Sender } from "../lib/sender";
 import { SessionReceiver } from "../lib/receiver";
@@ -121,12 +122,9 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Did not receive messages in time");
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1);
     await testPeekMsgsLength(receiverClient, 0);
@@ -187,12 +185,8 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       { autoComplete: false }
     );
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Did not receive messages in time");
 
     await testPeekMsgsLength(receiverClient, 1);
 
@@ -262,12 +256,8 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
       { autoComplete }
     );
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Did not receive messages in time");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -490,7 +480,12 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
       { autoComplete }
     );
 
-    await delay(4000);
+    const sequenceNumCheck = await DelayStreaming(() => sequenceNum !== 0);
+    should.equal(
+      sequenceNumCheck,
+      true,
+      "Either the message is not received or observed an unexpected SequenceNumber."
+    );
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -504,7 +499,6 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
     should.equal(deferredMsg.deliveryCount, 1);
 
     await deferredMsg.complete();
-
     await testPeekMsgsLength(receiverClient, 0);
   }
   it("Partitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<
@@ -596,17 +590,20 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     await sender.send(testMessagesWithSessions);
 
+    const receivedMsgs: ServiceBusMessage[] = [];
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
         return msg.deadLetter();
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
 
-    await delay(4000);
-    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Did not receive messages in time");
 
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
@@ -785,10 +782,10 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    await delay(5000);
+    const msgsCheck = await DelayStreaming(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Did not receive messages in time");
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    should.equal(receivedMsgs.length, 1);
     should.equal(receivedMsgs[0].body, testMessagesWithSessions.body);
     should.equal(receivedMsgs[0].messageId, testMessagesWithSessions.messageId);
 
