@@ -364,7 +364,7 @@ export class BatchingReceiver extends MessageReceiver {
         // while creating the receiver link for batching receiver the max concurrent calls
         // i.e. the credit_window on the link is set to zero. After the link is created
         // successfully, we add credit which is the maxMessageCount specified by the user.
-        this.maxConcurrentCalls = 0;
+        this.maxConcurrentMessages = 0;
         const rcvrOptions = this._createReceiverOptions(false, {
           onMessage: onReceiveMessage,
           onError: onReceiveError,

@@ -112,12 +112,14 @@ export class MessageReceiver extends LinkEntity {
    */
   receiverType: ReceiverType;
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   * Default: 1
+   * @property {number} [maxConcurrentMessages] The maximum number of messages that can be
+   * fetched over the network at a time when .
+   * For more information, refer to the underlying messaging library - https://github.com/amqp/rhea.
+   * - **Default**: `1000`
+   * - **Minimum**: `1`
+   * - **Maximum**: `2048`
    */
-  maxConcurrentCalls?: number;
+  maxConcurrentMessages?: number;
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
@@ -251,9 +253,9 @@ export class MessageReceiver extends LinkEntity {
     };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
-    this.maxConcurrentCalls =
-      typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0
-        ? options.maxConcurrentCalls
+    this.maxConcurrentMessages =
+      typeof options.maxConcurrentMessages === "number" && options.maxConcurrentMessages > 0
+        ? options.maxConcurrentMessages
         : 1;
     this.maxAutoRenewDurationInSeconds =
       options.maxMessageAutoRenewLockDurationInSeconds != undefined
@@ -989,7 +991,7 @@ export class MessageReceiver extends LinkEntity {
       source: {
         address: this.address
       },
-      credit_window: this.maxConcurrentCalls,
+      credit_window: this.maxConcurrentMessages,
       ...options
     };
     return rcvrOptions;

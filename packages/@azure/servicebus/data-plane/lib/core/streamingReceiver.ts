@@ -44,13 +44,14 @@ export interface MessageHandlerOptions {
    */
   newMessageWaitTimeoutInSeconds?: number;
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that can be
-   * fetched over the network concurrently.
-   * This setting can be customized to take a higher number if the Service Bus client is
-   * running on a multi-core platform.
-   * - **Default**: `1`
+   * @property {number} [maxConcurrentMessages] The maximum number of messages that can be
+   * fetched over the network at a time when .
+   * For more information, refer to the underlying messaging library - https://github.com/amqp/rhea.
+   * - **Default**: `1000`
+   * - **Minimum**: `1`
+   * - **Maximum**: `2048`
    */
-  maxConcurrentCalls?: number;
+  maxConcurrentMessages?: number;
 }
 
 /**

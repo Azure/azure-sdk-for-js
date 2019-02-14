@@ -60,7 +60,7 @@ export class Receiver {
     if (!options) options = {};
 
     const rcvOptions: ReceiveOptions = {
-      maxConcurrentCalls: options.maxConcurrentCalls,
+      maxConcurrentMessages: options.maxConcurrentMessages,
       receiveMode: this._receiveMode,
       autoComplete: options.autoComplete,
       maxMessageAutoRenewLockDurationInSeconds: options.maxMessageAutoRenewLockDurationInSeconds
@@ -89,7 +89,7 @@ export class Receiver {
 
     if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
       const options: ReceiveOptions = {
-        maxConcurrentCalls: 0,
+        maxConcurrentMessages: 0,
         receiveMode: this._receiveMode,
         newMessageWaitTimeoutInSeconds: 1
       };
