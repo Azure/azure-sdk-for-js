@@ -110,6 +110,18 @@ export interface CorrelationFilter {
   userProperties?: any;
 }
 
+const validCorrelationProperties = [
+  "correlationId",
+  "messageId",
+  "to",
+  "replyTo",
+  "label",
+  "sessionId",
+  "replyToSessionId",
+  "contentType",
+  "userProperties"
+];
+
 /**
  * Describes the options that can be provided while peeking a message.
  * @interface PeekOptions
@@ -1211,8 +1223,24 @@ export class ManagementClient extends LinkEntity {
     if (!ruleName || typeof ruleName !== "string") {
       throw new Error("Cannot add rule. Rule name is missing or is not a string.");
     }
-    if (filter === "" || filter === null || filter === undefined) {
+    if (!filter && filter !== false) {
       throw new Error("Cannot add rule. Filter is missing.");
+    }
+    if (typeof filter !== "boolean" && typeof filter !== "string") {
+      const filterProperties = Object.keys(filter);
+      if (!filterProperties.length) {
+        throw new Error(
+          "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
+        );
+      }
+      for (let i = 0; i < filterProperties.length; i++) {
+        const filterProperty = filterProperties[i];
+        if (validCorrelationProperties.indexOf(filterProperty) === -1) {
+          throw new Error(
+            `Cannot add rule. Given filter object has unexpected property "${filterProperty}".`
+          );
+        }
+      }
     }
     if (sqlRuleActionExpression && typeof sqlRuleActionExpression !== "string") {
       throw new Error("Cannot add rule. Given action expression is not a string.");
