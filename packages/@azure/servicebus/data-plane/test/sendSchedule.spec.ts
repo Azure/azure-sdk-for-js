@@ -177,7 +177,7 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
     should.equal(
       msgEnqueueTime - scheduleTime.valueOf() >= 0,
       true,
-      "msgEnqueueTime is different than expected"
+      "Enqueued time must be greater than scheduled time"
     ); // checking received message enqueue time is greater or equal to the scheduled time.
     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
     should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
@@ -298,12 +298,12 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
     should.equal(
       msgEnqueueTime1 - scheduleTime.valueOf() >= 0,
       true,
-      "msgEnqueueTime is different than expected"
+      "Enqueued time must be greater than scheduled time"
     );
     should.equal(
       msgEnqueueTime2 - scheduleTime.valueOf() >= 0,
       true,
-      "msgEnqueueTime is different than expected"
+      "Enqueued time must be greater than scheduled time"
     );
     should.equal(
       testMessages.some((x) => x.messageId === msgs[0].messageId),
