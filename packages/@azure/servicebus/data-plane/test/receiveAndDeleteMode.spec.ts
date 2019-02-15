@@ -13,7 +13,6 @@ import {
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
-  delay,
   SendableMessageInfo,
   ReceiveMode
 } from "../lib";
@@ -26,7 +25,8 @@ import {
   testSessionId1,
   getSenderReceiverClients,
   ClientType,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../lib/receiver";
@@ -104,11 +104,11 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages.body);
-    should.equal(msgs[0].messageId, testMessages.messageId);
-    should.equal(msgs[0].deliveryCount, 0);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
   }
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
@@ -219,13 +219,16 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
       { autoComplete: autoCompleteFlag }
     );
 
-    await delay(2000);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
-    should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessages.body);
-    should.equal(receivedMsgs[0].messageId, testMessages.messageId);
-    should.equal(receivedMsgs[0].body, testMessages.body);
-    should.equal(receivedMsgs[0].messageId, testMessages.messageId);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+    should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(
+      receivedMsgs[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
 
     should.equal(
       errorFromErrorHandler,
@@ -396,17 +399,21 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
     await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages.body);
-    should.equal(msgs[0].messageId, testMessages.messageId);
-    should.equal(msgs[0].deliveryCount, 0);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     return msgs[0];
   }
 
   const testError = (err: Error) => {
-    should.equal(err.message, "The operation is only supported in 'PeekLock' receive mode.");
+    should.equal(
+      err.message,
+      "The operation is only supported in 'PeekLock' receive mode.",
+      "ErrorMessage is different than expected"
+    );
     errorWasThrown = true;
   };
 
@@ -424,7 +431,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
       await msg.defer().catch((err) => testError(err));
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -684,7 +691,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
 
     await receiver.renewLock(msg).catch((err) => testError(err));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue: Renew message lock throws error", async function(): Promise<void> {

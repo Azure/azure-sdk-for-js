@@ -13,10 +13,9 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter,
-  delay
+  CorrelationFilter
 } from "../lib";
-import { getSenderReceiverClients, ClientType, purge } from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -69,14 +68,15 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
   }
 }
 
-async function afterEachTest(): Promise<void> {
-  await removeAllRules(subscriptionClient);
-  await subscriptionClient.addRule("DefaultFilter", true);
+async function afterEachTest(clearRules: boolean = true): Promise<void> {
+  if (clearRules) {
+    await removeAllRules(subscriptionClient);
+    await subscriptionClient.addRule("DefaultFilter", true);
 
-  const rules = await subscriptionClient.getRules();
-  should.equal(rules.length, 1);
-  should.equal(rules[0].name, "DefaultFilter");
-
+    const rules = await subscriptionClient.getRules();
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
+  }
   await ns.close();
 }
 
@@ -133,9 +133,8 @@ async function receiveOrders(
     }
   );
 
-  for (let i = 0; i < 10 && receivedMsgs.length < expectedMessageCount; i++) {
-    await delay(1000);
-  }
+  const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === expectedMessageCount);
+  should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
   await receiver.close();
   should.equal(
@@ -143,6 +142,7 @@ async function receiveOrders(
     undefined,
     errorFromErrorHandler && errorFromErrorHandler.message
   );
+  should.equal(receivedMsgs.length, expectedMessageCount, "Unexpected number of messages");
 
   return receivedMsgs;
 }
@@ -155,7 +155,7 @@ async function addRules(
   await subscriptionClient.addRule(ruleName, filter, sqlRuleActionExpression);
 
   const rules = await subscriptionClient.getRules();
-  should.equal(rules.length, 1);
+  should.equal(rules.length, 1, "Unexpected number of rules");
   should.equal(rules[0].name, ruleName, "Expected Rule not found");
 
   if (sqlRuleActionExpression) {
@@ -179,8 +179,8 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
   async function BooleanFilter(bool: boolean): Promise<void> {
     await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "BooleanFilter");
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
   }
 
   it("Add Rule with Boolean filter - True Filter", async function(): Promise<void> {
@@ -197,8 +197,8 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
       "(priority = 1 OR priority = 2) AND (sys.label LIKE '%String2')"
     );
     const rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "Priority_1");
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
   it("Add Rule with SQL filter and action", async function(): Promise<void> {
@@ -208,8 +208,8 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
       "SET sys.label = 'MessageX'"
     );
     const rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "Priority_1");
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
   it("Add Rule with Correlation filter", async function(): Promise<void> {
@@ -218,8 +218,8 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
       correlationId: "high"
     });
     const rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "Correlationfilter");
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "Correlationfilter", "RuleName is different than expected");
   });
 });
 
@@ -239,10 +239,18 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       await subscriptionClient.addRule("Priority_1", "priority = 2");
     } catch (error) {
       errorWasThrown = true;
-      should.equal(!error.message.search("Priority_1' already exists."), false);
-      should.equal(error.name, "MessagingEntityAlreadyExistsError");
+      should.equal(
+        !error.message.search("Priority_1' already exists."),
+        false,
+        "ErrorMessage is different than expected"
+      );
+      should.equal(
+        error.name,
+        "MessagingEntityAlreadyExistsError",
+        "ErrorName is different than expected"
+      );
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Adding a rule with no name", async function(): Promise<void> {
@@ -251,10 +259,14 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       await subscriptionClient.addRule("", "priority = 2");
     } catch (error) {
       errorWasThrown = true;
-      should.equal(!error.message.search("Rule name is missing"), false);
-      should.equal(error.name, "Error");
+      should.equal(
+        !error.message.search("Rule name is missing"),
+        false,
+        "ErrorMessage is different than expected"
+      );
+      should.equal(error.name, "Error", "ErrorName is different than expected");
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Adding a rule with no filter", async function(): Promise<void> {
@@ -263,24 +275,50 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
       await subscriptionClient.addRule("Priority_1", "");
     } catch (error) {
       errorWasThrown = true;
-      should.equal(!error.message.search("Filter is missing"), false);
-      should.equal(error.name, "Error");
+      should.equal(
+        !error.message.search("Filter is missing"),
+        false,
+        "ErrorMessage is different than expected"
+      );
+      should.equal(error.name, "Error", "ErrorName is different than expected");
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  // TODO: Update error message after fixing https://github.com/Azure/azure-service-bus-node/issues/184
   it("Adding a rule with a Boolean filter whose input is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
     void
   > {
     let errorWasThrown = false;
     try {
-      await subscriptionClient.addRule("Priority_2", "1");
+      await subscriptionClient.addRule("Priority_2", {});
     } catch (error) {
       errorWasThrown = true;
-      should.equal(error.name, "InternalServerError");
+      should.equal(
+        error.message,
+        "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
+      );
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("Adding a rule with a Correlation filter, error for irrelevant properties", async function(): Promise<
+    void
+  > {
+    let errorWasThrown = false;
+    const filter: any = {
+      correlationId: 1,
+      invalidProperty: 2
+    };
+    try {
+      await subscriptionClient.addRule("Priority_2", filter);
+    } catch (error) {
+      errorWasThrown = true;
+      should.equal(
+        error.message,
+        'Cannot add rule. Given filter object has unexpected property "invalidProperty".'
+      );
+    }
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
@@ -300,11 +338,19 @@ describe("Topic Filters -  Remove Rule", function(): void {
     try {
       await subscriptionClient.removeRule("Priority_5");
     } catch (error) {
-      should.equal(!error.message.search("Priority_5' could not be found"), false);
-      should.equal(error.name, "MessagingEntityNotFoundError");
+      should.equal(
+        !error.message.search("Priority_5' could not be found"),
+        false,
+        "ErrorMessage is different than expected"
+      );
+      should.equal(
+        error.name,
+        "MessagingEntityNotFoundError",
+        "ErrorName is different than expected"
+      );
       errorWasThrown = true;
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Removing non existing rule on a subscription that has other rules should throw error", async function(): Promise<
@@ -317,7 +363,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
     } catch (error) {
       errorWasThrown = true;
     }
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
@@ -334,23 +380,35 @@ describe("Topic Filters -  Get Rules", function(): void {
     void
   > {
     let rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 0);
+    should.equal(rules.length, 0, "Unexpected number of rules");
 
     const expr1 = "(priority = 1)";
     await subscriptionClient.addRule("Priority_1", expr1);
     rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "Priority_1");
-    should.equal(JSON.stringify(rules[0].filter), JSON.stringify({ expression: expr1 }));
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
+    should.equal(
+      JSON.stringify(rules[0].filter),
+      JSON.stringify({ expression: expr1 }),
+      "Filter-expression is different than expected"
+    );
 
     const expr2 = "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')";
     await subscriptionClient.addRule("Priority_2", expr2);
     rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 2);
-    should.equal(rules[0].name, "Priority_1");
-    should.equal(JSON.stringify(rules[0].filter), JSON.stringify({ expression: expr1 }));
-    should.equal(rules[1].name, "Priority_2");
-    should.equal(JSON.stringify(rules[1].filter), JSON.stringify({ expression: expr2 }));
+    should.equal(rules.length, 2, "Unexpected number of rules");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
+    should.equal(
+      JSON.stringify(rules[0].filter),
+      JSON.stringify({ expression: expr1 }),
+      "Filter-expression is different than expected"
+    );
+    should.equal(rules[1].name, "Priority_2", "RuleName is different than expected");
+    should.equal(
+      JSON.stringify(rules[1].filter),
+      JSON.stringify({ expression: expr2 }),
+      "Filter-expression is different than expected"
+    );
   });
 
   it("Rule with SQL filter and action returns expected filter and action expression", async function(): Promise<
@@ -362,7 +420,7 @@ describe("Topic Filters -  Get Rules", function(): void {
       "SET sys.label = 'MessageX'"
     );
     const rules = await subscriptionClient.getRules();
-    should.equal(rules[0].name, "Priority_1");
+    should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
   it("Rule with Correlation filter returns expected filter", async function(): Promise<void> {
@@ -371,19 +429,27 @@ describe("Topic Filters -  Get Rules", function(): void {
       correlationId: "high"
     });
     const rules = await subscriptionClient.getRules();
-    should.equal(rules[0].name, "Correlationfilter");
+    should.equal(rules[0].name, "Correlationfilter", "RuleName is different than expected");
     const expectedFilter = {
       correlationId: "high",
       label: "red",
       userProperties: []
     };
-    should.equal(rules.length, 1);
+    should.equal(rules.length, 1, "Unexpected number of rules");
     rules.forEach((rule) => {
-      should.equal((<CorrelationFilter>rule.filter).correlationId, expectedFilter.correlationId);
-      should.equal((<CorrelationFilter>rule.filter).label, expectedFilter.label);
+      should.equal(
+        (<CorrelationFilter>rule.filter).correlationId,
+        expectedFilter.correlationId,
+        "MessageId is different than expected"
+      );
+      should.equal(
+        (<CorrelationFilter>rule.filter).label,
+        expectedFilter.label,
+        "Filter-label is different than expected"
+      );
       const userProperties = (<CorrelationFilter>rule.filter).userProperties;
-      should.equal(Array.isArray(userProperties), true);
-      should.equal(userProperties.length, 0);
+      should.equal(Array.isArray(userProperties), true, "`ReceivedMessages` is not an array");
+      should.equal(userProperties.length, 0, "Unexpected number of messages");
     });
   });
 });
@@ -394,15 +460,15 @@ describe("Topic Filters -  Get Rules - Default Rule", function(): void {
   });
 
   afterEach(async () => {
-    await afterEachTest();
+    await afterEachTest(false);
   });
 
   it("Default rule is returned for the subscription for which no rules were added", async function(): Promise<
     void
   > {
     const rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "$Default");
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "$Default", "RuleName is different than expected");
   });
 });
 
@@ -412,15 +478,15 @@ describe("Topic Filters -  Send/Receive messages using default filter of subscri
   });
 
   afterEach(async () => {
-    await afterEachTest();
+    await afterEachTest(false);
   });
 
   it("Subscription with default filter receives all messages", async function(): Promise<void> {
     await sendOrders();
     const receivedMsgs = await receiveOrders(subscriptionClient, data.length);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, data.length);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, data.length, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -442,8 +508,8 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   ): Promise<ServiceBusMessage[]> {
     await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
-    should.equal(rules.length, 1);
-    should.equal(rules[0].name, "BooleanFilter");
+    should.equal(rules.length, 1, "Unexpected number of rules");
+    should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
 
     await sendOrders();
     const receivedMsgs = await receiveOrders(client, expectedMessageCount);
@@ -456,8 +522,8 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   > {
     const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient, data.length);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, data.length);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, data.length, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -467,8 +533,8 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   > {
     const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient, 0);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, 0);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, 0, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -490,8 +556,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     const dataLength = data.filter((x) => x.Color === "red").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -503,8 +569,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     const dataLength = data.filter((x) => x.Color === "red").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -516,8 +582,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     const dataLength = data.filter((x) => x.Color === "blue" && x.Quantity === 10).length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -529,8 +595,8 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     const dataLength = data.filter((x) => x.Color === "blue" || x.Quantity === 10).length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -542,10 +608,14 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
     if (receivedMsgs[0].userProperties) {
-      should.equal(receivedMsgs[0].userProperties.priority, "High");
+      should.equal(
+        receivedMsgs[0].userProperties.priority,
+        "High",
+        "Priority of the receivedMessage is different than expected"
+      );
     } else {
       chai.assert.fail("Received message doesnt have user properties");
     }
@@ -562,10 +632,11 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength,"Unexpected number of messages");
     if (receivedMsgs[0].userProperties) {
-      should.equal(receivedMsgs[0].userProperties.priority, "High");
+      should.equal(receivedMsgs[0].userProperties.priority, "High",
+        "Priority of the receivedMessage is different than expected");
     } else {
       chai.assert.fail("Received message doesnt have user properties");
     }
@@ -591,8 +662,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     const dataLength = data.filter((x) => x.Color === "red").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -608,8 +679,8 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     const dataLength = data.filter((x) => x.Color === "red").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -629,11 +700,15 @@ describe("Topic Filters -  Send/Receive messages using correlation filters of su
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true);
-    should.equal(receivedMsgs.length, dataLength);
+    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
+    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     if (receivedMsgs[0].userProperties) {
-      should.equal(receivedMsgs[0].userProperties.priority, "High");
+      should.equal(
+        receivedMsgs[0].userProperties.priority,
+        "High",
+        "Priority of the receivedMessage is different than expected"
+      );
     } else {
       chai.assert.fail("Received message doesnt have user properties");
     }

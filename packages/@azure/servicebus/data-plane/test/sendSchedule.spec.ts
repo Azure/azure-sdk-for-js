@@ -91,11 +91,11 @@ describe("Send to Queue/Subscription", function(): void {
     await senderClient.getSender().send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages.body);
-    should.equal(msgs[0].messageId, testMessages.messageId);
-    should.equal(msgs[0].deliveryCount, 0);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     await msgs[0].complete();
 
@@ -172,11 +172,15 @@ describe("Schedule a single message to Queue/Subscription", function(): void {
     const msgs = await receiver.receiveBatch(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgEnqueueTime - scheduleTime.valueOf() >= 0, true); // checking received message enqueue time is greater or equal to the scheduled time.
-    should.equal(msgs[0].body, testMessages.body);
-    should.equal(msgs[0].messageId, testMessages.messageId);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(
+      msgEnqueueTime - scheduleTime.valueOf() >= 0,
+      true,
+      "Enqueued time must be greater than scheduled time"
+    ); // checking received message enqueue time is greater or equal to the scheduled time.
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
 
     await msgs[0].complete();
 
@@ -284,17 +288,33 @@ describe("Schedule multiple messages to Queue/Subscription", function(): void {
     await senderClient.getSender().scheduleMessages(scheduleTime, testMessages);
 
     const msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 2);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 2, "Unexpected number of messages");
 
     const msgEnqueueTime1 = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
     const msgEnqueueTime2 = msgs[1].enqueuedTimeUtc ? msgs[1].enqueuedTimeUtc.valueOf() : 0;
 
     // checking received message enqueue time is greater or equal to the scheduled time.
-    should.equal(msgEnqueueTime1 - scheduleTime.valueOf() >= 0, true);
-    should.equal(msgEnqueueTime2 - scheduleTime.valueOf() >= 0, true);
-    should.equal(testMessages.some((x) => x.messageId === msgs[0].messageId), true);
-    should.equal(testMessages.some((x) => x.messageId === msgs[1].messageId), true);
+    should.equal(
+      msgEnqueueTime1 - scheduleTime.valueOf() >= 0,
+      true,
+      "msgEnqueueTime1 time must be greater than scheduled time"
+    );
+    should.equal(
+      msgEnqueueTime2 - scheduleTime.valueOf() >= 0,
+      true,
+      "msgEnqueueTime2 time must be greater than scheduled time"
+    );
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs[0].messageId),
+      true,
+      "MessageId of first message is different than expected"
+    );
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs[1].messageId),
+      true,
+      "MessageId of second message is different than expected"
+    );
 
     await msgs[0].complete();
     await msgs[1].complete();

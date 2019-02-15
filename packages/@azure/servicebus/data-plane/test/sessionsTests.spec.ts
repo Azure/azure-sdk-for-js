@@ -22,7 +22,8 @@ import {
   getSenderReceiverClients,
   ClientType,
   testSessionId1,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 
 async function testPeekMsgsLength(
@@ -105,15 +106,23 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
       sessionId: "non" + testSessionId1
     });
     let msgs = await receiver.receiveBatch(1, 10);
-    should.equal(msgs.length, 0);
+    should.equal(msgs.length, 0, "Unexpected number of messages");
 
     await receiver.close();
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(1);
-    should.equal(msgs.length, 1);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs[0].body, testMessagesWithSessions.body);
-    should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(
+      msgs[0].body,
+      testMessagesWithSessions.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      msgs[0].messageId,
+      testMessagesWithSessions.messageId,
+      "MessageId is different than expected"
+    );
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -170,20 +179,30 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
       return Promise.resolve();
     }, unExpectedErrorHandler);
     await delay(2000);
-    should.equal(receivedMsgs.length, 0);
+    should.equal(receivedMsgs.length, 0, "Unexpected number of messages");
     await receiver.close();
 
     receiver = await receiverClient.getSessionReceiver();
     receivedMsgs = [];
     receiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(msg.body, testMessagesWithSessions.body);
-      should.equal(msg.messageId, testMessagesWithSessions.messageId);
+      should.equal(
+        msg.body,
+        testMessagesWithSessions.body,
+        "MessageBody is different than expected"
+      );
+      should.equal(
+        msg.messageId,
+        testMessagesWithSessions.messageId,
+        "MessageId is different than expected"
+      );
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    await delay(2000);
-    should.equal(receivedMsgs.length, 1);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
@@ -243,8 +262,8 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
 
     should.equal(
       testMessagesWithDifferentSessionIds.some(
@@ -262,8 +281,8 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(2);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -334,8 +353,8 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -348,17 +367,17 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     );
 
     let testState = await receiver.getState();
-    should.equal(!!testState, false);
+    should.equal(!!testState, false, "SessionState is different than expected");
     await receiver.setState("new_state");
     testState = await receiver.getState();
-    should.equal(testState, "new_state");
+    should.equal(testState, "new_state", "SessionState is different than expected");
 
     await receiver.close();
 
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -370,7 +389,7 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
       "Received Message doesnt match any of the test messages"
     );
     testState = await receiver.getState();
-    should.equal(testState, "new_state");
+    should.equal(testState, "new_state", "SessionState is different than expected");
 
     await receiver.setState(""); // clearing the session-state
     await msgs[0].complete();
@@ -428,7 +447,11 @@ describe("SessionTests - Second Session Receiver for same session id", function(
     await sender.send(testMessagesWithSessions);
 
     const firstReceiver = await receiverClient.getSessionReceiver();
-    should.equal(firstReceiver.sessionId, testMessagesWithSessions.sessionId);
+    should.equal(
+      firstReceiver.sessionId,
+      testMessagesWithSessions.sessionId,
+      "MessageId is different than expected"
+    );
 
     let errorWasThrown = false;
     try {
@@ -447,7 +470,7 @@ describe("SessionTests - Second Session Receiver for same session id", function(
           } before using "getSessionReceiver" to create a new one for the same sessionId`;
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
