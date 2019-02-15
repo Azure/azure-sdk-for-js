@@ -231,11 +231,11 @@ export interface CloudEndpoint extends ProxyResource {
    */
   friendlyName?: string;
   /**
-   * @member {boolean} [backupEnabled] Backup Enabled
+   * @member {string} [backupEnabled] Backup Enabled
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly backupEnabled?: boolean;
+  readonly backupEnabled?: string;
   /**
    * @member {string} [provisioningState] CloudEndpoint Provisioning State
    */
@@ -367,6 +367,16 @@ export interface ServerEndpointCreateParameters extends ProxyResource {
    * @member {string} [serverResourceId] Server Resource Id.
    */
   serverResourceId?: string;
+  /**
+   * @member {OfflineDataTransfer} [offlineDataTransfer] Offline data transfer.
+   * Possible values include: 'on', 'off'
+   */
+  offlineDataTransfer?: OfflineDataTransfer;
+  /**
+   * @member {string} [offlineDataTransferShareName] Offline data transfer
+   * share name
+   */
+  offlineDataTransferShareName?: string;
 }
 
 /**
@@ -449,6 +459,129 @@ export interface ServerEndpointUpdateParameters {
    * @member {number} [tierFilesOlderThanDays] Tier files older than days.
    */
   tierFilesOlderThanDays?: number;
+  /**
+   * @member {OfflineDataTransfer1} [offlineDataTransfer] Offline data
+   * transfer. Possible values include: 'on', 'off'
+   */
+  offlineDataTransfer?: OfflineDataTransfer1;
+  /**
+   * @member {string} [offlineDataTransferShareName] Offline data transfer
+   * share name
+   */
+  offlineDataTransferShareName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SyncSessionStatus.
+ * Sync Session status object.
+ *
+ */
+export interface SyncSessionStatus {
+  /**
+   * @member {number} [lastSyncResult] Last sync status
+   */
+  lastSyncResult?: number;
+  /**
+   * @member {Date} [lastSyncTimestamp] Last sync timestamp
+   */
+  lastSyncTimestamp?: Date;
+  /**
+   * @member {Date} [lastSyncSuccessTimestamp] Last sync success timestamp
+   */
+  lastSyncSuccessTimestamp?: Date;
+  /**
+   * @member {number} [lastSyncPerItemErrorCount] Last sync per item error
+   * count.
+   */
+  lastSyncPerItemErrorCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing SyncProgressStatus.
+ * Sync Session status object.
+ *
+ */
+export interface SyncProgressStatus {
+  /**
+   * @member {Date} [progressTimestamp] Progress timestamp
+   */
+  progressTimestamp?: Date;
+  /**
+   * @member {SyncDirection} [syncDirection] Sync direction. Possible values
+   * include: 'none', 'initialize', 'download', 'upload', 'recall'
+   */
+  syncDirection?: SyncDirection;
+  /**
+   * @member {number} [perItemErrorCount] Per item error count
+   */
+  perItemErrorCount?: number;
+  /**
+   * @member {number} [appliedItemCount] Applied item count.
+   */
+  appliedItemCount?: number;
+  /**
+   * @member {number} [totalItemCount] Total item count
+   */
+  totalItemCount?: number;
+  /**
+   * @member {number} [appliedBytes] Applied bytes
+   */
+  appliedBytes?: number;
+  /**
+   * @member {number} [totalBytes] Total bytes
+   */
+  totalBytes?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ServerEndpointHealth.
+ * ServerEndpoint Health object.
+ *
+ */
+export interface ServerEndpointHealth {
+  /**
+   * @member {DownloadHealth} [downloadHealth] Download Health Status. Possible
+   * values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+   * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+   */
+  downloadHealth?: DownloadHealth;
+  /**
+   * @member {UploadHealth} [uploadHealth] Upload Health Status. Possible
+   * values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+   * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+   */
+  uploadHealth?: UploadHealth;
+  /**
+   * @member {CombinedHealth} [combinedHealth] Combined Health Status. Possible
+   * values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+   * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+   */
+  combinedHealth?: CombinedHealth;
+  /**
+   * @member {Date} [lastUpdatedTimestamp] Last Updated Timestamp
+   */
+  lastUpdatedTimestamp?: Date;
+  /**
+   * @member {SyncSessionStatus} [uploadStatus] Upload Status
+   */
+  uploadStatus?: SyncSessionStatus;
+  /**
+   * @member {SyncSessionStatus} [downloadStatus] Download Status
+   */
+  downloadStatus?: SyncSessionStatus;
+  /**
+   * @member {SyncProgressStatus} [currentProgress] Current progress
+   */
+  currentProgress?: SyncProgressStatus;
+  /**
+   * @member {OfflineDataTransferStatus} [offlineDataTransferStatus] Offline
+   * Data Transfer State. Possible values include: 'InProgress', 'Stopping',
+   * 'NotRunning', 'Complete'
+   */
+  offlineDataTransferStatus?: OfflineDataTransferStatus;
 }
 
 /**
@@ -498,9 +631,33 @@ export interface ServerEndpoint extends ProxyResource {
    */
   lastOperationName?: string;
   /**
-   * @member {any} [syncStatus] Sync Health Status
+   * @member {ServerEndpointHealth} [syncStatus] Server Endpoint properties.
    */
-  syncStatus?: any;
+  syncStatus?: ServerEndpointHealth;
+  /**
+   * @member {OfflineDataTransfer2} [offlineDataTransfer] Offline data
+   * transfer. Possible values include: 'on', 'off'
+   */
+  offlineDataTransfer?: OfflineDataTransfer2;
+  /**
+   * @member {string} [offlineDataTransferStorageAccountResourceId] Offline
+   * data transfer storage account resource ID
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offlineDataTransferStorageAccountResourceId?: string;
+  /**
+   * @member {string} [offlineDataTransferStorageAccountTenantId] Offline data
+   * transfer storage account tenant ID
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offlineDataTransferStorageAccountTenantId?: string;
+  /**
+   * @member {string} [offlineDataTransferShareName] Offline data transfer
+   * share name
+   */
+  offlineDataTransferShareName?: string;
 }
 
 /**
@@ -524,10 +681,10 @@ export interface RegisteredServer extends ProxyResource {
    */
   serverOSVersion?: string;
   /**
-   * @member {number} [serverManagementtErrorCode] Registered Server Management
+   * @member {number} [serverManagementErrorCode] Registered Server Management
    * Error Code
    */
-  serverManagementtErrorCode?: number;
+  serverManagementErrorCode?: number;
   /**
    * @member {string} [lastHeartBeat] Registered Server last heart beat
    */
@@ -1737,6 +1894,14 @@ export type NameAvailabilityReason = 'Invalid' | 'AlreadyExists';
 export type CloudTiering = 'on' | 'off';
 
 /**
+ * Defines values for OfflineDataTransfer.
+ * Possible values include: 'on', 'off'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransfer = 'on' | 'off';
+
+/**
  * Defines values for CloudTiering1.
  * Possible values include: 'on', 'off'
  * @readonly
@@ -1745,12 +1910,71 @@ export type CloudTiering = 'on' | 'off';
 export type CloudTiering1 = 'on' | 'off';
 
 /**
+ * Defines values for OfflineDataTransfer1.
+ * Possible values include: 'on', 'off'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransfer1 = 'on' | 'off';
+
+/**
+ * Defines values for SyncDirection.
+ * Possible values include: 'none', 'initialize', 'download', 'upload', 'recall'
+ * @readonly
+ * @enum {string}
+ */
+export type SyncDirection = 'none' | 'initialize' | 'download' | 'upload' | 'recall';
+
+/**
+ * Defines values for DownloadHealth.
+ * Possible values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+ * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+ * @readonly
+ * @enum {string}
+ */
+export type DownloadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+
+/**
+ * Defines values for UploadHealth.
+ * Possible values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+ * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+ * @readonly
+ * @enum {string}
+ */
+export type UploadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+
+/**
+ * Defines values for CombinedHealth.
+ * Possible values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+ * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+ * @readonly
+ * @enum {string}
+ */
+export type CombinedHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+
+/**
+ * Defines values for OfflineDataTransferStatus.
+ * Possible values include: 'InProgress', 'Stopping', 'NotRunning', 'Complete'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransferStatus = 'InProgress' | 'Stopping' | 'NotRunning' | 'Complete';
+
+/**
  * Defines values for CloudTiering2.
  * Possible values include: 'on', 'off'
  * @readonly
  * @enum {string}
  */
 export type CloudTiering2 = 'on' | 'off';
+
+/**
+ * Defines values for OfflineDataTransfer2.
+ * Possible values include: 'on', 'off'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransfer2 = 'on' | 'off';
 
 /**
  * Defines values for Status.
