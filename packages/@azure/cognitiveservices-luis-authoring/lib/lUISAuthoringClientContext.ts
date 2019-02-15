@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-luis-authoring";
-const packageVersion = "0.1.0";
+const packageVersion = "2.1.0";
 
 export class LUISAuthoringClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -35,7 +35,8 @@ export class LUISAuthoringClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -46,6 +47,5 @@ export class LUISAuthoringClientContext extends msRest.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;
-
   }
 }
