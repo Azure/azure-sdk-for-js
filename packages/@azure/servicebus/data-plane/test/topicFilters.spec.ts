@@ -13,10 +13,9 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter,
-  delay
+  CorrelationFilter
 } from "../lib";
-import { getSenderReceiverClients, ClientType, purge } from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -134,9 +133,8 @@ async function receiveOrders(
     }
   );
 
-  for (let i = 0; i < 10 && receivedMsgs.length < expectedMessageCount; i++) {
-    await delay(1000);
-  }
+  const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === expectedMessageCount);
+  should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
   await receiver.close();
   should.equal(
@@ -144,6 +142,7 @@ async function receiveOrders(
     undefined,
     errorFromErrorHandler && errorFromErrorHandler.message
   );
+  should.equal(receivedMsgs.length, expectedMessageCount, "Unexpected number of messages");
 
   return receivedMsgs;
 }

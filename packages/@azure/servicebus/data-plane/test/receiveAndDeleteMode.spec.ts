@@ -13,7 +13,6 @@ import {
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
-  delay,
   SendableMessageInfo,
   ReceiveMode
 } from "../lib";
@@ -26,7 +25,8 @@ import {
   testSessionId1,
   getSenderReceiverClients,
   ClientType,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../lib/receiver";
@@ -219,7 +219,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
       { autoComplete: autoCompleteFlag }
     );
 
-    await delay(2000);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
