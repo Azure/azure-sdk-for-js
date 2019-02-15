@@ -22,7 +22,8 @@ import {
   getSenderReceiverClients,
   ClientType,
   testSessionId1,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 
 async function testPeekMsgsLength(
@@ -198,8 +199,10 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    await delay(2000);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
