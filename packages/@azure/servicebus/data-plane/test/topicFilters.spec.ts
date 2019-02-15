@@ -15,7 +15,7 @@ import {
   SendableMessageInfo,
   CorrelationFilter
 } from "../lib";
-import { getSenderReceiverClients, ClientType, purge, DelayStreaming } from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge, delayStreaming } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -133,7 +133,7 @@ async function receiveOrders(
     }
   );
 
-  const msgsCheck = await DelayStreaming(() => receivedMsgs.length === expectedMessageCount);
+  const msgsCheck = await delayStreaming(() => receivedMsgs.length === expectedMessageCount);
   should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
   await receiver.close();
