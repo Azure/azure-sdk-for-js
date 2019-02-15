@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventHubClient, EventData, delay } from "@azure/event-hubs";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";

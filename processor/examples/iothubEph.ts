@@ -4,7 +4,7 @@
 import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
 } from "../lib";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const storageCS = process.env.STORAGE_CONNECTION_STRING;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as debugModule from "debug";
+import debugModule from "debug";
 /**
  * @ignore
  * log statements for error

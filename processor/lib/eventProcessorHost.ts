@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as uuid from "uuid/v4";
+import uuid from "uuid/v4";
 import {
   TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation,
   AadTokenProvider, EventHubClient
@@ -67,8 +67,8 @@ export class EventProcessorHost {
    * Provides the eventhub runtime information.
    * @returns {Promise<EventHubRuntimeInformation>}
    */
-  async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
-    return await this._context.getHubRuntimeInformation();
+  getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
+    return this._context.getHubRuntimeInformation();
   }
 
   /**
@@ -77,15 +77,15 @@ export class EventProcessorHost {
    *
    * @returns {EventHubPartitionRuntimeInformation} EventHubPartitionRuntimeInformation
    */
-  async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
-    return await this._context.getPartitionInformation(partitionId);
+  getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
+    return this._context.getPartitionInformation(partitionId);
   }
 
   /**
    * Provides an array of partitionIds.
    * @returns {Promise<string[]>}
    */
-  async getPartitionIds(): Promise<string[]> {
+  getPartitionIds(): Promise<string[]> {
     return this._context.getPartitionIds();
   }
 
