@@ -385,8 +385,10 @@ export async function purge(
   }
 }
 
-// Maximum wait duration for the Streaming Receiver to receive the messages = `10000 ms`(10 seconds)(= maxWaitTime)
-// Keep checking whether the predicate is true after every `1000 ms`(1 second) (= delayBetweenRetries)
+/**
+ * Maximum wait duration for the expected event to happen = `10000 ms`(default value is 10 seconds)(= maxWaitTimeInMilliseconds)
+ * Keep checking whether the predicate is true after every `1000 ms`(default value is 1 second) (= delayBetweenRetriesInMilliseconds)
+ */
 export async function delayStreaming(
   predicate: () => boolean,
   delayBetweenRetriesInMilliseconds: number = 1000,
