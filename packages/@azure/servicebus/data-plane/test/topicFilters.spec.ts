@@ -167,7 +167,7 @@ async function addRules(
   }
 }
 
-describe("Add Rule", function(): void {
+describe("addRule()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -312,7 +312,7 @@ describe("Add Rule", function(): void {
   });
 });
 
-describe("Remove Rule", function(): void {
+describe("removeRule()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -357,7 +357,7 @@ describe("Remove Rule", function(): void {
   });
 });
 
-describe("Get Rules", function(): void {
+describe("getRules()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -444,7 +444,7 @@ describe("Get Rules", function(): void {
   });
 });
 
-describe("Default Rule", function(): void {
+describe("Default Rule - Send/Receive", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
   });
@@ -516,7 +516,7 @@ describe("Boolean Filter - Send/Receive", function(): void {
   });
 });
 
-describe("Sql Filter - Send/Receive messages", function(): void {
+describe("Sql Filter - Send/Receive", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -620,7 +620,7 @@ describe("Sql Filter - Send/Receive messages", function(): void {
   });*/
 });
 
-describe("Correlation Filter - Send/Receive messages", function(): void {
+describe("Correlation Filter - Send/Receive", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
