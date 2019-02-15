@@ -389,13 +389,13 @@ export async function purge(
 // Keep checking whether the predicate is true after every `1000 ms`(1 second) (= delayBetweenRetries)
 export async function delayStreaming(
   predicate: () => boolean,
-  delayBetweenRetries: number = 1000,
-  maxWaitTime: number = 10000
+  delayBetweenRetriesInMilliseconds: number = 1000,
+  maxWaitTimeInMilliseconds: number = 10000
 ): Promise<boolean> {
-  const maxTime = Date.now() + maxWaitTime;
+  const maxTime = Date.now() + maxWaitTimeInMilliseconds;
   while (Date.now() < maxTime) {
     if (predicate()) return true;
-    await delay(delayBetweenRetries);
+    await delay(delayBetweenRetriesInMilliseconds);
   }
   return false;
 }
