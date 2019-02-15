@@ -95,7 +95,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("ReceiveBatch from Queue/Subscription", function(): void {
+describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -191,7 +191,7 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
   });
 });
 
-describe("Streaming Receiver from Queue/Subscription", function(): void {
+describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   let errorFromErrorHandler: Error | undefined;
 
   afterEach(async () => {
@@ -390,7 +390,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   });
 });
 
-describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of message", function(): void {
+describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
