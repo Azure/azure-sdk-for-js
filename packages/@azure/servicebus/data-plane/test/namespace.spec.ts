@@ -329,7 +329,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
   });
 });
 
-describe("Test createFromAadTokenCredentials", function(): void {
+describe.only("Test createFromAadTokenCredentials", function(): void {
   let namespace: Namespace;
   let tokenCreds: msrestAzure.ApplicationTokenCredentials;
   async function testCreateFromAadTokenCredentials(
@@ -359,35 +359,45 @@ describe("Test createFromAadTokenCredentials", function(): void {
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
     should.equal(msgs.length, 1, "Unexpected number of messages");
-    await namespace.close();
   }
 
-  it("throws error for an invalid host", function(): void {
-    testFalsyValues(async function(): Promise<void> {
-      const test = async function(): Promise<void> {
-        if (!process.env.SERVICEBUS_END_POINT) {
-          throw new Error(
-            "Define SERVICEBUS_END_POINT in your environment before running integration tests."
-          );
-        }
-        await testCreateFromAadTokenCredentials("", aadServiceBusAudience);
-      };
-      test.should.throw(Error, "'host' is a required parameter and must be of type: 'string'.");
+  it("throws error for an invalid host", async function(): Promise<void> {
+    if (!process.env.SERVICEBUS_END_POINT) {
+      throw new Error(
+        "Define SERVICEBUS_END_POINT in your environment before running integration tests."
+      );
+    }
+    let errorWasThrown = false;
+    await testCreateFromAadTokenCredentials("", aadServiceBusAudience).catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'host' is a required parameter and must be of type: 'string'.",
+        "ErrorMessage is different than expected"
+      );
     });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error for invalid tokenCredentials(without tokenAudience)", function(): void {
-    testFalsyValues(async function(): Promise<void> {
-      const test = async function(): Promise<void> {
-        if (!process.env.SERVICEBUS_END_POINT) {
-          throw new Error(
-            "Define SERVICEBUS_END_POINT in your environment before running integration tests."
-          );
-        }
-        await testCreateFromAadTokenCredentials(process.env.SERVICEBUS_END_POINT, "");
-      };
-      test.should.throw(Error, "InvalidAudience: Invalid authorization token audience.");
+  it("throws error for invalid tokenCredentials(without tokenAudience)", async function(): Promise<
+    void
+  > {
+    let errorWasThrown = false;
+    if (!process.env.SERVICEBUS_END_POINT) {
+      throw new Error(
+        "Define SERVICEBUS_END_POINT in your environment before running integration tests."
+      );
+    }
+    await testCreateFromAadTokenCredentials(process.env.SERVICEBUS_END_POINT, "").catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        !(err.message.search("InvalidAudience: Invalid authorization token audience.") + 1),
+        false,
+        "ErrorMessage is different than expected"
+      );
     });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    await namespace.close();
   });
 
   it("Create Namespace from AADTokenCredentials, send a message to the ServiceBus entity", async function(): Promise<
@@ -402,5 +412,6 @@ describe("Test createFromAadTokenCredentials", function(): void {
       process.env.SERVICEBUS_END_POINT,
       aadServiceBusAudience
     );
+    await namespace.close();
   });
 });
