@@ -207,7 +207,7 @@ export class PartitionScanner {
           } else if (lease) {
             this._leaseOwnedByOthers.set(lease.partitionId, lease);
           }
-          return;
+          return Promise.resolve();
         }).catch((err) => {
           const msg = `An error occurred while getting/acquiring lease for partitionId ` +
             `'${thisLease.partitionId}': ${err ? err.stack : JSON.stringify(err)}`;

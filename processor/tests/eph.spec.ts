@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import "mocha";
-import * as chai from "chai";
-import * as uuid from "uuid/v4";
-import * as chaiAsPromised from "chai-as-promised";
+import chai from "chai";
+import uuid from "uuid/v4";
+import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import * as debugModule from "debug";
+import debugModule from "debug";
 const should = chai.should();
 const debug = debugModule("azure:eph:eph-spec");
 import { EventHubClient, EventData, EventPosition, delay, Dictionary } from "@azure/event-hubs";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 import { PartitionContext, OnReceivedMessage, EventProcessorHost, OnReceivedError } from "../lib";
 dotenv.config();
 
-describe("EPH", function () {
-  this.timeout(1200000);
-  before("validate environment", function () {
+describe("EPH", function (): void {
+  before("validate environment", function (): void {
     should.exist(process.env.STORAGE_CONNECTION_STRING,
       "define STORAGE_CONNECTION_STRING in your environment before running integration tests.");
     should.exist(process.env.EVENTHUB_CONNECTION_STRING,
@@ -29,9 +27,9 @@ describe("EPH", function () {
   const hubName = process.env.EVENTHUB_NAME;
   let host: EventProcessorHost;
 
-  describe("user-agent", function () {
+  describe("user-agent", function (): void {
 
-    it("should be populated correctly as a part of the connection property", function (done) {
+    it("should be populated correctly as a part of the connection property", function (done: Mocha.Done): void {
       host = EventProcessorHost.createFromConnectionString(
         EventProcessorHost.createHostName(),
         storageConnString!,
@@ -51,7 +49,7 @@ describe("EPH", function () {
       done();
     });
 
-    it("should support appending custom user-agent", function (done) {
+    it("should support appending custom user-agent", function (done: Mocha.Done): void {
       const customua = "my-custom-string";
       host = EventProcessorHost.createFromConnectionString(
         EventProcessorHost.createHostName(),
@@ -74,8 +72,8 @@ describe("EPH", function () {
     });
   });
 
-  describe("single", function () {
-    it("should checkpoint messages in order", function (done) {
+  describe("single", function (): void {
+    it("should checkpoint messages in order", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -88,9 +86,9 @@ describe("EPH", function () {
           }
         );
         const messageCount = 100;
-        let datas: EventData[] = [];
+        const datas: EventData[] = [];
         for (let i = 0; i < messageCount; i++) {
-          let obj: EventData = { body: `Hello foo ${i}` };
+          const obj: EventData = { body: `Hello foo ${i}` };
           datas.push(obj);
         }
         const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
@@ -136,11 +134,11 @@ describe("EPH", function () {
         content.offset.should.equal(offset);
         content.sequenceNumber.should.equal(sequence);
         await host.stop();
-      }
+      };
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should checkpoint a single received event.", function (done) {
+    it("should checkpoint a single received event.", function (done: Mocha.Done): void {
       const msgId = uuid();
       const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
       ehc.getPartitionIds().then((ids) => {
@@ -185,13 +183,15 @@ describe("EPH", function () {
             done(err);
           };
           return host.start(onMessage, onError);
+        }).catch((err) => {
+          done(err);
         });
       }).catch((err) => {
         done(err);
       });
     });
 
-    it("should be able to receive messages from the checkpointed offset.", function (done) {
+    it("should be able to receive messages from the checkpointed offset.", function (done: Mocha.Done): void {
       const test = async () => {
         const msgId = uuid();
         const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
@@ -230,7 +230,7 @@ describe("EPH", function () {
         const firstSend = await sendAcrossAllPartitions(ehc, ids);
         let count = 0;
         const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
-          const partitionId = context.partitionId
+          const partitionId = context.partitionId;
           debug(">>>>> Rx message from '%s': '%o'", partitionId, data);
           if (data.properties!.message_id === firstSend[partitionId].properties!.message_id) {
             debug(">>>> Checkpointing the received message...");
@@ -239,7 +239,7 @@ describe("EPH", function () {
           } else {
             const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
               `received message id '${firstSend[partitionId].properties!.message_id}' for ` +
-              `partitionId '${partitionId}'.`
+              `partitionId '${partitionId}'.`;
             throw new Error(msg);
           }
         };
@@ -261,7 +261,7 @@ describe("EPH", function () {
         const secondSend = await sendAcrossAllPartitions(ehc, ids);
         let count2 = 0;
         const onMessage2: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
-          const partitionId = context.partitionId
+          const partitionId = context.partitionId;
           debug(">>>>> Rx message from '%s': '%s'", partitionId, data);
           if (data.properties!.message_id === secondSend[partitionId].properties!.message_id) {
             debug(">>>> Checkpointing the received message...");
@@ -270,7 +270,7 @@ describe("EPH", function () {
           } else {
             const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
               `received message id '${secondSend[partitionId].properties!.message_id}' for ` +
-              `partitionId '${partitionId}'.`
+              `partitionId '${partitionId}'.`;
             throw new Error(msg);
           }
         };
@@ -296,8 +296,8 @@ describe("EPH", function () {
     });
   });
 
-  describe("multiple", function () {
-    it("should be able to run multiple eph successfully.", function (done) {
+  describe("multiple", function (): void {
+    it("should be able to run multiple eph successfully.", function (done: Mocha.Done): void {
       const test = async () => {
         const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
         const containerName: string = `sharedhost-${uuid()}`;
@@ -317,7 +317,7 @@ describe("EPH", function () {
           for (let i = 0; i < ids.length; i++) {
             const data: EventData = {
               body: `Hello World - ${ids[i]}!!`
-            }
+            };
             sendDataByPartition[ids[i]] = data;
             await ehc.send(data, ids[i]);
             debug(">>> Sent data to partition: %s", ids[i]);
@@ -346,13 +346,13 @@ describe("EPH", function () {
             debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
             should.equal(sendDataByPartition[context.partitionId].body, data.body);
           };
-          hostByName[hostName].start(onMessage, onError);
+          await hostByName[hostName].start(onMessage, onError);
           debug(">>> Sleeping for 8 seconds after starting %s.", hostName);
           await delay(8000);
           debug(">>> [%s] currently receiving messages from partitions : %o", hostName,
             hostByName[hostName].receivingFromPartitions);
         }
-        debug(">>> Sleeping for another 15 seconds.")
+        debug(">>> Sleeping for another 15 seconds.");
         await delay(15000);
         const hostToPartition = getReceivingFromPartitionsForAllEph();
         for (const host in hostToPartition) {
@@ -370,8 +370,8 @@ describe("EPH", function () {
     });
   });
 
-  describe("runtimeInfo", function () {
-    it("should get hub runtime info correctly", function (done) {
+  describe("runtimeInfo", function (): void {
+    it("should get hub runtime info correctly", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -391,7 +391,7 @@ describe("EPH", function () {
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should get partition runtime info correctly with partitionId as string", function (done) {
+    it("should get partition runtime info correctly with partitionId as string", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -416,7 +416,7 @@ describe("EPH", function () {
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should get partition runtime info correctly with partitionId as number", function (done) {
+    it("should get partition runtime info correctly with partitionId as number", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -440,7 +440,7 @@ describe("EPH", function () {
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should fail getting partition information when partitionId is not a string or number", function (done) {
+    it("should fail getting partition information when partitionId is not a string or number", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -461,7 +461,7 @@ describe("EPH", function () {
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should fail getting partition information when partitionId is empty string", function (done) {
+    it("should fail getting partition information when partitionId is empty string", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -482,7 +482,7 @@ describe("EPH", function () {
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should fail getting partition information when partitionId is a negative number", function (done) {
+    it("should fail getting partition information when partitionId is a negative number", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -504,10 +504,10 @@ describe("EPH", function () {
     });
   });
 
-  describe("options", function () {
-    it("should throw an error if the event hub name is neither provided in the connection string and nor in the options object", function (done) {
+  describe("options", function (): void {
+    it("should throw an error if the event hub name is neither provided in the connection string and nor in the options object", function (done: Mocha.Done): void {
       try {
-        const ehc = "Endpoint=sb://foo.bar.baz.net/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret"
+        const ehc = "Endpoint=sb://foo.bar.baz.net/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret";
         EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
           storageConnString!,
@@ -524,7 +524,7 @@ describe("EPH", function () {
       }
     });
 
-    it("should get hub runtime info correctly when eventhub name is present in connection string but not as an option in the options object.", function (done) {
+    it("should get hub runtime info correctly when eventhub name is present in connection string but not as an option in the options object.", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -544,7 +544,7 @@ describe("EPH", function () {
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("when eventhub name is present in connection string and in the options object, the one in options object is selected.", function (done) {
+    it("when eventhub name is present in connection string and in the options object, the one in options object is selected.", function (done: Mocha.Done): void {
       const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
@@ -565,4 +565,4 @@ describe("EPH", function () {
       test().then(() => { done(); }).catch((err) => { done(err); });
     });
   });
-});
+}).timeout(1200000);

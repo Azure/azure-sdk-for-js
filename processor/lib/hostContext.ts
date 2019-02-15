@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as uuid from "uuid/v4";
+import uuid from "uuid/v4";
 import {
   EventHubClient, EventPosition, TokenProvider, DefaultDataTransformer, Dictionary,
   EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, EventHubConnectionConfig
 } from "@azure/event-hubs";
-import * as AsyncLock from "async-lock";
+import AsyncLock from "async-lock";
 import { LeaseManager } from "./leaseManager";
 import { PumpManager } from "./pumpManager";
 import { PartitionManager } from "./partitionManager";
