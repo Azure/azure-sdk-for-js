@@ -24,7 +24,7 @@ import {
   getSenderReceiverClients,
   ClientType,
   purge,
-  delayStreaming
+  checkWithTimeout
 } from "./testUtils";
 import { Sender } from "../lib/sender";
 import { SessionReceiver } from "../lib/receiver";
@@ -130,7 +130,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    const msgsCheck = await delayStreaming(() => receivedMsgs.length === 1);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -201,7 +201,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       { autoComplete: false }
     );
 
-    const msgsCheck = await delayStreaming(() => receivedMsgs.length === 1);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     await testPeekMsgsLength(receiverClient, 1);
@@ -280,7 +280,7 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
       { autoComplete }
     );
 
-    const msgsCheck = await delayStreaming(() => receivedMsgs.length === 1);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -390,7 +390,7 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
       { autoComplete }
     );
 
-    const msgAbandonCheck = await delayStreaming(() => abandonFlag === 1);
+    const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
     should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
     if (sessionReceiver.isOpen()) {
@@ -511,7 +511,7 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
       { autoComplete }
     );
 
-    const sequenceNumCheck = await delayStreaming(() => sequenceNum !== 0);
+    const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
     should.equal(
       sequenceNumCheck,
       true,
@@ -639,7 +639,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
       { autoComplete }
     );
 
-    const msgsCheck = await delayStreaming(() => msgCount === 1);
+    const msgsCheck = await checkWithTimeout(() => msgCount === 1);
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -833,7 +833,7 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    const msgsCheck = await delayStreaming(() => receivedMsgs.length === 1);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 

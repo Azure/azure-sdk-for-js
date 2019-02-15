@@ -26,7 +26,7 @@ import {
   getSenderReceiverClients,
   ClientType,
   purge,
-  delayStreaming
+  checkWithTimeout
 } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../lib/receiver";
@@ -219,7 +219,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
       { autoComplete: autoCompleteFlag }
     );
 
-    const msgsCheck = await delayStreaming(() => receivedMsgs.length === 1);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
