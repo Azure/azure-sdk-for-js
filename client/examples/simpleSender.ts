@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventHubClient, EventData } from "../lib";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";

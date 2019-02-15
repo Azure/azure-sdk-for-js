@@ -25,34 +25,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Client Tests",
-            "program": "${workspaceFolder}/client/node_modules/mocha/bin/_mocha",
-            "args": [
-                "-u",
-                "tdd",
-                "-r",
-                "ts-node/register",
-                "-t",
-                "999999",
-                "--colors",
-                "${workspaceFolder}/client/tests/client.spec.ts"
-            ],
-            "internalConsoleOptions": "openOnSessionStart",
-            "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Client Example",
-            "program": "${workspaceFolder}/client/examples/simpleSender.ts",
-            "outFiles": [
-                "${workspaceFolder}/client/dist/**/*.js"
-            ],
-            "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "EPH Example",
             "program": "${workspaceFolder}/processor/examples/singleEph.ts",
             "outFiles": [
