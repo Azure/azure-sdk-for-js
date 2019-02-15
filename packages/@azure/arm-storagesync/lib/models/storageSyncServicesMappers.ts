@@ -36,6 +36,9 @@ export {
   ServerEndpointCreateParameters,
   RegisteredServerCreateParameters,
   ServerEndpoint,
+  ServerEndpointHealth,
+  SyncSessionStatus,
+  SyncProgressStatus,
   RegisteredServer,
   Workflow
 } from "../models/mappers";
