@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { Namespace, delay, ServiceBusMessage } from "../lib";
+import { Namespace, delay } from "../lib";
 import * as msrestAzure from "ms-rest-azure";
 import { getSenderReceiverClients, ClientType, testSimpleMessages, getEnvVars } from "./testUtils";
 const aadServiceBusAudience = "https://servicebus.azure.net/";
@@ -330,7 +330,7 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
 });
 
 describe("Test createFromAadTokenCredentials", function(): void {
-  it("Creates an Namespace from a AADTokenCredentials, sends message to a ServiceBus entity", async function(): Promise<
+  it("Create Namespace from AADTokenCredentials, send a message to the ServiceBus entity", async function(): Promise<
     void
   > {
     const env = getEnvVars();
@@ -361,25 +361,11 @@ describe("Test createFromAadTokenCredentials", function(): void {
     const sender = clients.senderClient.getSender();
     const receiver = clients.receiverClient.getReceiver();
     await sender.send(testSimpleMessages);
+    const msgs = await receiver.receiveBatch(1);
 
-    const receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive(
-      (msg: ServiceBusMessage) => {
-        receivedMsgs.push(msg);
-        should.equal(msg.body, testSimpleMessages.body);
-        return Promise.resolve();
-      },
-      (err) => {
-        throw err.message;
-      }
-    );
-
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
-    should.equal(receivedMsgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    await namespace.close();
   });
 });
