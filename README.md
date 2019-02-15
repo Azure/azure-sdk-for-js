@@ -3,7 +3,7 @@
 | Component | Build Status |
 | --------- | ------ |
 | Management Libraries | [![Build Status](https://dev.azure.com/azure-public/adx/_apis/build/status/public.Azure.azure-sdk-for-js)](https://dev.azure.com/azure-public/adx/_build/latest?definitionId=2) |
-| Client Libraries | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/azure-sdk-for-js.client?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=45&branchName=master) |
+| Client Libraries | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/45?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=45&branchName=master) |
 
 This project provides an isomorphic Javascript package with TypeScript definitions that makes it easy to consume and manage
 Microsoft Azure Services.
