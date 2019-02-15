@@ -7,12 +7,7 @@
  */
 
 export {
+  AzureAccountInfoObject,
   ErrorResponse,
-  FeatureInfoObject,
-  FeaturesResponseObject,
-  OperationStatus,
-  PatternFeatureInfo,
-  PhraselistCreateObject,
-  PhraseListFeatureInfo,
-  PhraselistUpdateObject
+  OperationStatus
 } from "../models/mappers";
