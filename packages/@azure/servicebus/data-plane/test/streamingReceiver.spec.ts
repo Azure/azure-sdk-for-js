@@ -186,6 +186,7 @@ describe("Streaming Receiver - Misc Tests", function(): void {
 
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
     await testPeekMsgsLength(receiverClient, 1);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
     await receivedMsgs[0].complete();
     await receiver.close();
@@ -251,7 +252,7 @@ describe("Streaming Receiver - Complete message", function(): void {
 
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
   }
   it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
@@ -510,6 +511,7 @@ describe("Streaming Receiver - Deadletter message", function(): void {
 
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
     await testPeekMsgsLength(receiverClient, 0);
 

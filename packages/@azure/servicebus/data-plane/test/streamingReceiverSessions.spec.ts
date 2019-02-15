@@ -209,6 +209,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     await receivedMsgs[0].complete();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
   }
 
   it("Disabled autoComplete, no manual complete retains the message in Partitioned Queue(with sessions)", async function(): Promise<
@@ -284,6 +285,7 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -643,6 +645,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
     should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(msgCount, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);

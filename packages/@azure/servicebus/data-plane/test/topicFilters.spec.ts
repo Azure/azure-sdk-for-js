@@ -142,6 +142,7 @@ async function receiveOrders(
     undefined,
     errorFromErrorHandler && errorFromErrorHandler.message
   );
+  should.equal(receivedMsgs.length, expectedMessageCount, "Unexpected number of messages");
 
   return receivedMsgs;
 }
