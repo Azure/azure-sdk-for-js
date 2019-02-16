@@ -23,7 +23,8 @@ import {
   testSessionId1,
   getSenderReceiverClients,
   ClientType,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 import { Sender } from "../lib/sender";
 import { SessionReceiver } from "../lib/receiver";
@@ -105,7 +106,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
+describe("Sessions Streaming - Misc Tests", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -129,18 +130,15 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("AutoComplete removes the message from Partitioned Queue(with sessions)", async function(): Promise<
+  it("Partitioned Queue: AutoComplete removes the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -150,7 +148,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from Partitioned Subscription(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: AutoComplete removes the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -160,7 +158,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: AutoComplete removes the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -170,7 +168,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Subscription(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: AutoComplete removes the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -203,21 +201,18 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
       { autoComplete: false }
     );
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     await testPeekMsgsLength(receiverClient, 1);
 
     await receivedMsgs[0].complete();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
   }
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Queue(with sessions)", async function(): Promise<
+  it("Partitioned Queue: Disabled autoComplete, no manual complete retains the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -227,7 +222,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Subscription(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: Disabled autoComplete, no manual complete retains the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -237,7 +232,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: Disabled autoComplete, no manual complete retains the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -247,7 +242,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Subscription(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: Disabled autoComplete, no manual complete retains the message(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -258,7 +253,7 @@ describe("Streaming Receiver - Misc Tests(with sessions)", function(): void {
   });
 });
 
-describe("Streaming Receiver - Complete message(with sessions)", function(): void {
+describe("Sessions Streaming - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -286,14 +281,11 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
       { autoComplete }
     );
 
-    for (let i = 0; i < 5; i++) {
-      await delay(1000);
-      if (receivedMsgs.length === 1) {
-        break;
-      }
-    }
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -378,17 +370,18 @@ describe("Streaming Receiver - Complete message(with sessions)", function(): voi
   });
 });
 
-describe("Streaming Receiver - Abandon message(with sessions)", function(): void {
+describe("Sessions Streaming - Abandon message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testAbandon(autoComplete: boolean): Promise<void> {
     await sender.send(testMessagesWithSessions);
-
+    let abandonFlag = 0;
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
+          abandonFlag = 1;
           if (sessionReceiver.isOpen()) {
             return sessionReceiver.close();
           }
@@ -398,7 +391,9 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
       unExpectedErrorHandler,
       { autoComplete }
     );
-    await delay(4000);
+
+    const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
+    should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
     if (sessionReceiver.isOpen()) {
       await sessionReceiver.close();
@@ -500,7 +495,7 @@ describe("Streaming Receiver - Abandon message(with sessions)", function(): void
   });
 });
 
-describe("Streaming Receiver - Defer message(with sessions)", function(): void {
+describe("Sessions Streaming - Defer message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -518,7 +513,12 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
       { autoComplete }
     );
 
-    await delay(4000);
+    const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
+    should.equal(
+      sequenceNumCheck,
+      true,
+      "Either the message is not received or observed an unexpected SequenceNumber."
+    );
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -540,7 +540,6 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
     should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
     await deferredMsg.complete();
-
     await testPeekMsgsLength(receiverClient, 0);
   }
   it("Partitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<
@@ -624,7 +623,7 @@ describe("Streaming Receiver - Defer message(with sessions)", function(): void {
   });
 });
 
-describe("Streaming Receiver - Deadletter message(with sessions)", function(): void {
+describe("Sessions Streaming - Deadletter message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -632,17 +631,21 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     await sender.send(testMessagesWithSessions);
 
+    let msgCount = 0;
     await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
+        msgCount++;
         return msg.deadLetter();
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
 
-    await delay(4000);
-    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    const msgsCheck = await checkWithTimeout(() => msgCount === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(msgCount, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
@@ -739,7 +742,7 @@ describe("Streaming Receiver - Deadletter message(with sessions)", function(): v
   });
 });
 
-describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", function(): void {
+describe("Sessions Streaming - Multiple Streaming Receivers", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -769,7 +772,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", fun
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queue(with sessions)", async function(): Promise<
+  it("Partitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -779,7 +782,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", fun
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Subscription(with sessions)", async function(): Promise<
+  it("Partitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -789,7 +792,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", fun
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Queue(with sessions)", async function(): Promise<
+  it("UnPartitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -799,7 +802,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", fun
     await testMultipleReceiveCalls();
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Subscription(with sessions)", async function(): Promise<
+  it("UnPartitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -810,7 +813,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers(with sessions)", fun
   });
 });
 
-describe("Streaming Receiver - Settle an already Settled message throws error(with sessions)", () => {
+describe("Sessions Streaming - Settle an already Settled message throws error", () => {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -833,7 +836,8 @@ describe("Streaming Receiver - Settle an already Settled message throws error(wi
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    await delay(5000);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");

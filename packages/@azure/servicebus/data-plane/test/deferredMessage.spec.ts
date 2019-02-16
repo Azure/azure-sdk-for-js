@@ -254,12 +254,6 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     );
     await testAbandon(true);
   });
-});
-
-describe("Deferring a deferred message puts it back to the deferred queue.", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
 
   async function testDefer(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
@@ -342,12 +336,6 @@ describe("Deferring a deferred message puts it back to the deferred queue.", fun
       true
     );
     await testDefer(true);
-  });
-});
-
-describe("Deadlettering a deferred message moves it to dead letter queue.", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
   });
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {

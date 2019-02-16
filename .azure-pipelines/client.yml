@@ -2,7 +2,7 @@ trigger:
   - master
 
 variables:
-  node.version: '10.x'
+  NodeVersion: '10.x'
 
 jobs:
   - job: 'Publish'
@@ -13,8 +13,8 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '$(node.version)'
-        displayName: 'Install Node.js $(node.version)'
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
 
       # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
       # which is the minimum required to run the composite script commands.
@@ -60,8 +60,15 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '$(node.version)'
-        displayName: 'Install Node.js $(node.version)'
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
+
+        # sudo is required for pip install, as a console_entrypoint shim needs to be placed in bin
+      - script: |
+          pip install setuptools wheel
+          sudo pip install doc-warden
+          ward scan -d $(Build.SourcesDirectory)
+        displayName: 'Verify Readmes'
 
       # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
       # which is the minimum required to run the composite script commands.
@@ -88,50 +95,50 @@ jobs:
     strategy:
       matrix:
         Linux_Node8:
-          os.name: 'Linux'
-          os.vmImage: 'ubuntu-16.04'
-          node.version: '8.x'
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          NodeVersion: '8.x'
         Linux_Node10:
-          os.name: 'Linux'
-          os.vmImage: 'ubuntu-16.04'
-          node.version: '10.x'
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          NodeVersion: '10.x'
         Linux_Node11:
-          os.name: 'Linux'
-          os.vmImage: 'ubuntu-16.04'
-          node.version: '11.x'
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          NodeVersion: '11.x'
         macOS_Node8:
-          os.name: 'macOS'
-          os.vmImage: 'macOS-10.13'
-          node.version: '8.x'
+          OSName: 'macOS'
+          OSVmImage: 'macOS-10.13'
+          NodeVersion: '8.x'
         macOS_Node10:
-          os.name: 'macOS'
-          os.vmImage: 'macOS-10.13'
-          node.version: '10.x'
+          OSName: 'macOS'
+          OSVmImage: 'macOS-10.13'
+          NodeVersion: '10.x'
         macOS_Node11:
-          os.name: 'macOS'
-          os.vmImage: 'macOS-10.13'
-          node.version: '11.x'       
+          OSName: 'macOS'
+          OSVmImage: 'macOS-10.13'
+          NodeVersion: '11.x'       
         Windows_Node8:
-          os.name: 'Windows'
-          os.vmImage: 'vs2017-win2016'
-          node.version: '8.x'
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          NodeVersion: '8.x'
         Windows_Node10:
-          os.name: 'Windows'
-          os.vmImage: 'vs2017-win2016'
-          node.version: '10.x'
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          NodeVersion: '10.x'
         Windows_Node11:
-          os.name: 'Windows'
-          os.vmImage: 'vs2017-win2016'
-          node.version: '11.x'
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          NodeVersion: '11.x'
 
     pool:
-      vmImage: '$(os.vmImage)'
+      vmImage: '$(OSVmImage)'
 
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '$(node.version)'
-        displayName: 'Install Node.js $(node.version)'
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
 
       # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
       # which is the minimum required to run the composite script commands.
@@ -159,6 +166,6 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: '**/test-results.xml'
-          testRunTitle: '$(os.name) Node $(node.version)'
+          testRunTitle: '$(OSName) Node $(NodeVersion)'
         condition: succeededOrFailed()
         displayName: 'Publish test results'

@@ -25,6 +25,7 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
   permissions: operations.Permissions;
   pattern: operations.Pattern;
   settings: operations.Settings;
+  azureAccounts: operations.AzureAccounts;
 
   /**
    * Initializes a new instance of the LUISAuthoringClient class.
@@ -44,6 +45,7 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
     this.permissions = new operations.Permissions(this);
     this.pattern = new operations.Pattern(this);
     this.settings = new operations.Settings(this);
+    this.azureAccounts = new operations.AzureAccounts(this);
   }
 }
 

@@ -13,10 +13,9 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter,
-  delay
+  CorrelationFilter
 } from "../lib";
-import { getSenderReceiverClients, ClientType, purge } from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -134,9 +133,8 @@ async function receiveOrders(
     }
   );
 
-  for (let i = 0; i < 10 && receivedMsgs.length < expectedMessageCount; i++) {
-    await delay(1000);
-  }
+  const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === expectedMessageCount);
+  should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
   await receiver.close();
   should.equal(
@@ -144,6 +142,7 @@ async function receiveOrders(
     undefined,
     errorFromErrorHandler && errorFromErrorHandler.message
   );
+  should.equal(receivedMsgs.length, expectedMessageCount, "Unexpected number of messages");
 
   return receivedMsgs;
 }
@@ -168,7 +167,7 @@ async function addRules(
   }
 }
 
-describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
+describe("addRule()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -184,15 +183,15 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
   }
 
-  it("Add Rule with Boolean filter - True Filter", async function(): Promise<void> {
+  it("Add True Filter", async function(): Promise<void> {
     await BooleanFilter(true);
   });
 
-  it("Add Rule with Boolean filter - False Filter", async function(): Promise<void> {
+  it("Add False Filter", async function(): Promise<void> {
     await BooleanFilter(false);
   });
 
-  it("Add Rule with SQL filter", async function(): Promise<void> {
+  it("Add SQL filter", async function(): Promise<void> {
     await subscriptionClient.addRule(
       "Priority_1",
       "(priority = 1 OR priority = 2) AND (sys.label LIKE '%String2')"
@@ -202,7 +201,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
-  it("Add Rule with SQL filter and action", async function(): Promise<void> {
+  it("Add SQL filter and action", async function(): Promise<void> {
     await subscriptionClient.addRule(
       "Priority_1",
       "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')",
@@ -213,7 +212,7 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
   });
 
-  it("Add Rule with Correlation filter", async function(): Promise<void> {
+  it("Add Correlation filter", async function(): Promise<void> {
     await subscriptionClient.addRule("Correlationfilter", {
       label: "red",
       correlationId: "high"
@@ -222,18 +221,8 @@ describe("Topic Filters -  Add Rule - Positive Test Cases", function(): void {
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "Correlationfilter", "RuleName is different than expected");
   });
-});
 
-describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
-  });
-
-  afterEach(async () => {
-    await afterEachTest();
-  });
-
-  it("Adding a rule with a name which matches with existing rule", async function(): Promise<void> {
+  it("Add rule with a name which matches with existing rule", async function(): Promise<void> {
     await subscriptionClient.addRule("Priority_1", "priority = 1");
     let errorWasThrown = false;
     try {
@@ -254,7 +243,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("Adding a rule with no name", async function(): Promise<void> {
+  it("Add rule with no name", async function(): Promise<void> {
     let errorWasThrown = false;
     try {
       await subscriptionClient.addRule("", "priority = 2");
@@ -270,7 +259,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("Adding a rule with no filter", async function(): Promise<void> {
+  it("Add rule with no filter", async function(): Promise<void> {
     let errorWasThrown = false;
     try {
       await subscriptionClient.addRule("Priority_1", "");
@@ -286,7 +275,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("Adding a rule with a Boolean filter whose input is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
+  it("Add rule with a Boolean filter whose input is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
     void
   > {
     let errorWasThrown = false;
@@ -323,7 +312,7 @@ describe("Topic Filters -  Add Rule - Negative Test Cases", function(): void {
   });
 });
 
-describe("Topic Filters -  Remove Rule", function(): void {
+describe("removeRule()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -368,7 +357,7 @@ describe("Topic Filters -  Remove Rule", function(): void {
   });
 });
 
-describe("Topic Filters -  Get Rules", function(): void {
+describe("getRules()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -455,7 +444,7 @@ describe("Topic Filters -  Get Rules", function(): void {
   });
 });
 
-describe("Topic Filters -  Get Rules - Default Rule", function(): void {
+describe("Default Rule - Send/Receive", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
   });
@@ -471,16 +460,6 @@ describe("Topic Filters -  Get Rules - Default Rule", function(): void {
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "$Default", "RuleName is different than expected");
   });
-});
-
-describe("Topic Filters -  Send/Receive messages using default filter of subscription", function(): void {
-  beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
-  });
-
-  afterEach(async () => {
-    await afterEachTest(false);
-  });
 
   it("Subscription with default filter receives all messages", async function(): Promise<void> {
     await sendOrders();
@@ -493,7 +472,7 @@ describe("Topic Filters -  Send/Receive messages using default filter of subscri
   });
 });
 
-describe("Topic Filters -  Send/Receive messages using boolean filters of subscription", function(): void {
+describe("Boolean Filter - Send/Receive", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -518,9 +497,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
     return receivedMsgs;
   }
 
-  it("Subscription with true boolean filter receives all messages", async function(): Promise<
-    void
-  > {
+  it("True boolean filter receives all messages", async function(): Promise<void> {
     const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient, data.length);
 
     should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
@@ -529,9 +506,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
     await testPeekMsgsLength(subscriptionClient, 0);
   });
 
-  it("Subscription with false boolean filter does not receive any messages", async function(): Promise<
-    void
-  > {
+  it("False boolean filter does not receive any messages", async function(): Promise<void> {
     const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient, 0);
 
     should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
@@ -541,7 +516,7 @@ describe("Topic Filters -  Send/Receive messages using boolean filters of subscr
   });
 });
 
-describe("Topic Filters -  Send/Receive messages using sql filters of subscription", function(): void {
+describe("Sql Filter - Send/Receive", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });
@@ -645,7 +620,7 @@ describe("Topic Filters -  Send/Receive messages using sql filters of subscripti
   });*/
 });
 
-describe("Topic Filters -  Send/Receive messages using correlation filters of subscription", function(): void {
+describe("Correlation Filter - Send/Receive", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.TopicFilterTestSubscription);
   });

@@ -40,7 +40,7 @@ describe("Create Namespace", function(): void {
   });
 });
 
-describe("Create Queue/Topic/Subscription Clients with no name", function(): void {
+describe("Clients with no name", function(): void {
   let namespace: Namespace;
   beforeEach(() => {
     namespace = Namespace.createFromConnectionString(
@@ -91,7 +91,7 @@ describe("Create Queue/Topic/Subscription Clients with no name", function(): voi
   });
 });
 
-describe("Errors when send/receive to/from non existing Namespace", function(): void {
+describe("Errors with non existing Namespace", function(): void {
   let namespace: Namespace;
   let errorWasThrown: boolean;
   beforeEach(() => {
@@ -201,9 +201,7 @@ describe("Errors when send/receive to/from non existing Namespace", function(): 
   });
 });
 
-describe("Errors when send/receive to/from non existing Queue/Topic/Subscription", async function(): Promise<
-  void
-> {
+describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
   let namespace: Namespace;
   let errorWasThrown: boolean;
   beforeEach(() => {
