@@ -13,7 +13,6 @@ import {
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
-  delay,
   SendableMessageInfo,
   ReceiveMode
 } from "../lib";
@@ -26,7 +25,8 @@ import {
   testSessionId1,
   getSenderReceiverClients,
   ClientType,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../lib/receiver";
@@ -95,7 +95,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("ReceiveBatch from Queue/Subscription", function(): void {
+describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -191,7 +191,7 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
   });
 });
 
-describe("Streaming Receiver from Queue/Subscription", function(): void {
+describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   let errorFromErrorHandler: Error | undefined;
 
   afterEach(async () => {
@@ -219,7 +219,8 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
       { autoComplete: autoCompleteFlag }
     );
 
-    await delay(2000);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
@@ -390,7 +391,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   });
 });
 
-describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of message", function(): void {
+describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });

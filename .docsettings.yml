@@ -1,0 +1,5 @@
+omitted_paths:
+  - documentation/ServicePrincipal/*
+  - packages/@azure/arm-keyvault/* # exception. swagger changes to generate readme.md is checked in.
+language: js
+root_check_enabled: True
