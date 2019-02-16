@@ -333,6 +333,15 @@ describe("Test createFromAadTokenCredentials", function(): void {
   let namespace: Namespace;
   let tokenCreds: msrestAzure.ApplicationTokenCredentials;
   let errorWasThrown: boolean = false;
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+    throw new Error(
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+    );
+  }
+  const serviceBusEndpoint = (process.env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://(.*)/;.*"
+  ) || "")[1];
+
   async function testCreateFromAadTokenCredentials(
     host: string,
     tokenAudience: string
@@ -363,11 +372,6 @@ describe("Test createFromAadTokenCredentials", function(): void {
   }
 
   it("throws error for an invalid host", async function(): Promise<void> {
-    if (!process.env.SERVICEBUS_END_POINT) {
-      throw new Error(
-        "Define SERVICEBUS_END_POINT in your environment before running integration tests."
-      );
-    }
     await testCreateFromAadTokenCredentials("", aadServiceBusAudience).catch((err) => {
       errorWasThrown = true;
       should.equal(
@@ -382,12 +386,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   it("throws error for invalid tokenCredentials(without tokenAudience)", async function(): Promise<
     void
   > {
-    if (!process.env.SERVICEBUS_END_POINT) {
-      throw new Error(
-        "Define SERVICEBUS_END_POINT in your environment before running integration tests."
-      );
-    }
-    await testCreateFromAadTokenCredentials(process.env.SERVICEBUS_END_POINT, "").catch((err) => {
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
       errorWasThrown = true;
       should.equal(
         !(err.message.search("InvalidAudience: Invalid authorization token audience.") + 1),
@@ -400,15 +399,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-    if (!process.env.SERVICEBUS_END_POINT) {
-      throw new Error(
-        "Define SERVICEBUS_END_POINT in your environment before running integration tests."
-      );
-    }
-    await testCreateFromAadTokenCredentials(
-      process.env.SERVICEBUS_END_POINT,
-      aadServiceBusAudience
-    );
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, aadServiceBusAudience);
     await namespace.close();
   });
 });
