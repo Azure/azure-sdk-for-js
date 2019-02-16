@@ -108,7 +108,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Streaming Receiver - Misc Tests", function(): void {
+describe("Streaming - Misc Tests", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -139,24 +139,22 @@ describe("Streaming Receiver - Misc Tests", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("AutoComplete removes the message from Partitioned Queue", async function(): Promise<void> {
+  it("Partitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from Partitioned Subscription", async function(): Promise<
-    void
-  > {
+  it("Partitioned Subscription: AutoComplete removes the message", async function(): Promise<void> {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Queue", async function(): Promise<void> {
+  it("UnPartitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testAutoComplete();
   });
 
-  it("AutoComplete removes the message from UnPartitioned Subscription", async function(): Promise<
+  it("UnPartitioned Subscription: AutoComplete removes the message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
@@ -194,28 +192,28 @@ describe("Streaming Receiver - Misc Tests", function(): void {
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
   }
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Queue", async function(): Promise<
+  it("Partitioned Queue: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in Partitioned Subscription", async function(): Promise<
+  it("Partitioned Subscription: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Queue", async function(): Promise<
+  it("UnPartitioned Queue: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testManualComplete();
   });
 
-  it("Disabled autoComplete, no manual complete retains the message in UnPartitioned Subscription", async function(): Promise<
+  it("UnPartitioned Subscription: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
@@ -223,7 +221,7 @@ describe("Streaming Receiver - Misc Tests", function(): void {
   });
 });
 
-describe("Streaming Receiver - Complete message", function(): void {
+describe("Streaming - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -304,7 +302,7 @@ describe("Streaming Receiver - Complete message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Abandon message", function(): void {
+describe("Streaming - Abandon message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -384,7 +382,7 @@ describe("Streaming Receiver - Abandon message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Defer message", function(): void {
+describe("Streaming - Defer message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -488,7 +486,7 @@ describe("Streaming Receiver - Defer message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Deadletter message", function(): void {
+describe("Streaming - Deadletter message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -585,7 +583,7 @@ describe("Streaming Receiver - Deadletter message", function(): void {
   });
 });
 
-describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
+describe("Streaming - Multiple Streaming Receivers", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -617,28 +615,28 @@ describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Queue", async function(): Promise<
+  it("Partitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testMultipleReceiveCalls(receiverClient);
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for Partitioned Subscription", async function(): Promise<
+  it("Partitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testMultipleReceiveCalls(receiverClient);
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Queue", async function(): Promise<
+  it("UnPartitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testMultipleReceiveCalls(receiverClient);
   });
 
-  it("Second Streaming Receiver call should fail if the first one is not stopped for UnPartitioned Subscription", async function(): Promise<
+  it("UnPartitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
@@ -646,7 +644,7 @@ describe("Streaming Receiver - Multiple Streaming Receivers", function(): void {
   });
 });
 
-describe("Streaming Receiver - Settle an already Settled message throws error", () => {
+describe("Streaming - Settle an already Settled message throws error", () => {
   afterEach(async () => {
     await afterEachTest();
   });
