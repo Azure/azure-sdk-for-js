@@ -95,10 +95,10 @@ export class Model {
   }
 
   /**
-   * Adds an entity extractor to the application.
+   * Adds a simple entity extractor to the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddEntityResponse>
    */
@@ -106,14 +106,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param callback The callback
    */
   addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param options The optional parameters
    * @param callback The callback
    */
