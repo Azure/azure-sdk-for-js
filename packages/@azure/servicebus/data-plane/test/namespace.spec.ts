@@ -329,9 +329,10 @@ describe("Errors when send/receive to/from non existing Queue/Topic/Subscription
   });
 });
 
-describe.only("Test createFromAadTokenCredentials", function(): void {
+describe("Test createFromAadTokenCredentials", function(): void {
   let namespace: Namespace;
   let tokenCreds: msrestAzure.ApplicationTokenCredentials;
+  let errorWasThrown: boolean = false;
   async function testCreateFromAadTokenCredentials(
     host: string,
     tokenAudience: string
@@ -367,7 +368,6 @@ describe.only("Test createFromAadTokenCredentials", function(): void {
         "Define SERVICEBUS_END_POINT in your environment before running integration tests."
       );
     }
-    let errorWasThrown = false;
     await testCreateFromAadTokenCredentials("", aadServiceBusAudience).catch((err) => {
       errorWasThrown = true;
       should.equal(
@@ -382,7 +382,6 @@ describe.only("Test createFromAadTokenCredentials", function(): void {
   it("throws error for invalid tokenCredentials(without tokenAudience)", async function(): Promise<
     void
   > {
-    let errorWasThrown = false;
     if (!process.env.SERVICEBUS_END_POINT) {
       throw new Error(
         "Define SERVICEBUS_END_POINT in your environment before running integration tests."
@@ -400,9 +399,7 @@ describe.only("Test createFromAadTokenCredentials", function(): void {
     await namespace.close();
   });
 
-  it("Create Namespace from AADTokenCredentials, send a message to the ServiceBus entity", async function(): Promise<
-    void
-  > {
+  it("sends a message to the ServiceBus entity", async function(): Promise<void> {
     if (!process.env.SERVICEBUS_END_POINT) {
       throw new Error(
         "Define SERVICEBUS_END_POINT in your environment before running integration tests."
