@@ -107,7 +107,8 @@ export const packagesToIgnore: string[] = [
   "@azure/event-processor-host",
   "@azure/keyvault",
   "@azure/service-bus",
-  "@azure/template"
+  "@azure/template",
+  "testhub"
 ];
 export const folderNamesToIgnore: string[] = ["node_modules"];
 
