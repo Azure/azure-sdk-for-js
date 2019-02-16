@@ -45,19 +45,15 @@ export enum ClientType {
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
 export function getEnvVars(): { [key: string]: string } {
-  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
-    );
+  if (!process.env.AAD_CLIENT_ID) {
+    throw new Error("Define AAD_CLIENT_ID in your environment before running integration tests.");
   }
-  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
-    );
+  if (!process.env.AAD_TENANT_ID) {
+    throw new Error("Define AAD_TENANT_ID in your environment before running integration tests.");
   }
-  if (!process.env.ARM_SERVICEBUS_SECRET) {
+  if (!process.env.AAD_SERVICEBUS_SECRET) {
     throw new Error(
-      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
+      "Define AAD_SERVICEBUS_SECRET in your environment before running integration tests."
     );
   }
   if (!process.env.AZURE_SUBSCRIPTION_ID) {
@@ -74,9 +70,9 @@ export function getEnvVars(): { [key: string]: string } {
     );
   }
   return {
-    clientId: process.env.ARM_SERVICEBUS_CLIENT_ID,
-    tenantId: process.env.ARM_SERVICEBUS_TENANT_ID,
-    secret: process.env.ARM_SERVICEBUS_SECRET,
+    clientId: process.env.AAD_CLIENT_ID,
+    tenantId: process.env.AAD_TENANT_ID,
+    secret: process.env.AAD_SERVICEBUS_SECRET,
     subscriptionId: process.env.AZURE_SUBSCRIPTION_ID,
     resourceGroup: process.env.RESOURCE_GROUP,
     servicebusNamespace: process.env.SERVICEBUS_NAMESPACE
