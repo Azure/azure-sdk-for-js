@@ -778,3 +778,61 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     await testSettlement(DispositionType.deadletter);
   });
 });
+
+describe("Streaming - User Error", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testUserError(): Promise<void> {
+    await sender.send(testSimpleMessages);
+    const errorMessage = "Will we see this error message?";
+
+    const receivedMsgs: ServiceBusMessage[] = [];
+    receiver.receive(async (msg: ServiceBusMessage) => {
+      receivedMsgs.push(msg);
+      await msg.complete();
+      throw new Error(errorMessage);
+    }, unExpectedErrorHandler);
+
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+    await receiver.close();
+
+    should.equal(
+      unexpectedError && unexpectedError.message,
+      errorMessage,
+      "User error did not surface."
+    );
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+  }
+
+  it("Partitioned Queue: onError handler is called for user error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await testUserError();
+  });
+
+  it("Partitioned Subscription: onError handler is called for user error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await testUserError();
+  });
+
+  it("UnPartitioned Queue: onError handler is called for user error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await testUserError();
+  });
+
+  it("UnPartitioned Subscription: onError handler is called for user error", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await testUserError();
+  });
+});
