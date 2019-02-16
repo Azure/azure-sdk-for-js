@@ -823,6 +823,12 @@ export const Dataset: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      schema: {
+        serializedName: "schema",
+        type: {
+          name: "Object"
+        }
+      },
       linkedServiceName: {
         required: true,
         serializedName: "linkedServiceName",
@@ -1346,6 +1352,75 @@ export const GitHubAccessTokenResponse: msRest.CompositeMapper = {
     modelProperties: {
       gitHubAccessToken: {
         serializedName: "gitHubAccessToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserAccessPolicy: msRest.CompositeMapper = {
+  serializedName: "UserAccessPolicy",
+  type: {
+    name: "Composite",
+    className: "UserAccessPolicy",
+    modelProperties: {
+      permissions: {
+        serializedName: "permissions",
+        type: {
+          name: "String"
+        }
+      },
+      accessResourcePath: {
+        serializedName: "accessResourcePath",
+        type: {
+          name: "String"
+        }
+      },
+      profileName: {
+        serializedName: "profileName",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "String"
+        }
+      },
+      expireTime: {
+        serializedName: "expireTime",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessPolicyResponse: msRest.CompositeMapper = {
+  serializedName: "AccessPolicyResponse",
+  type: {
+    name: "Composite",
+    className: "AccessPolicyResponse",
+    modelProperties: {
+      policy: {
+        serializedName: "policy",
+        type: {
+          name: "Composite",
+          className: "UserAccessPolicy"
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "String"
+        }
+      },
+      dataPlaneUrl: {
+        serializedName: "dataPlaneUrl",
         type: {
           name: "String"
         }
@@ -2368,6 +2443,102 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const GetSsisObjectMetadataRequest: msRest.CompositeMapper = {
+  serializedName: "GetSsisObjectMetadataRequest",
+  type: {
+    name: "Composite",
+    className: "GetSsisObjectMetadataRequest",
+    modelProperties: {
+      metadataPath: {
+        serializedName: "metadataPath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisObjectMetadataStatusResponse: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadataStatusResponse",
+  type: {
+    name: "Composite",
+    className: "SsisObjectMetadataStatusResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExposureControlRequest: msRest.CompositeMapper = {
+  serializedName: "ExposureControlRequest",
+  type: {
+    name: "Composite",
+    className: "ExposureControlRequest",
+    modelProperties: {
+      featureName: {
+        serializedName: "featureName",
+        type: {
+          name: "String"
+        }
+      },
+      featureType: {
+        serializedName: "featureType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExposureControlResponse: msRest.CompositeMapper = {
+  serializedName: "ExposureControlResponse",
+  type: {
+    name: "Composite",
+    className: "ExposureControlResponse",
+    modelProperties: {
+      featureName: {
+        readOnly: true,
+        serializedName: "featureName",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DependencyReference: msRest.CompositeMapper = {
   serializedName: "DependencyReference",
   type: {
@@ -2934,6 +3105,40 @@ export const ScheduleTrigger: msRest.CompositeMapper = {
   }
 };
 
+export const AzureFunctionLinkedService: msRest.CompositeMapper = {
+  serializedName: "AzureFunction",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "AzureFunctionLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      functionAppUrl: {
+        required: true,
+        serializedName: "typeProperties.functionAppUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      functionKey: {
+        serializedName: "typeProperties.functionKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
 export const ResponsysLinkedService: msRest.CompositeMapper = {
   serializedName: "Responsys",
   type: {
@@ -3072,6 +3277,24 @@ export const AzureDatabricksLinkedService: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      },
+      newClusterDriverNodeType: {
+        serializedName: "typeProperties.newClusterDriverNodeType",
+        type: {
+          name: "Object"
+        }
+      },
+      newClusterInitScripts: {
+        serializedName: "typeProperties.newClusterInitScripts",
+        type: {
+          name: "Object"
+        }
+      },
+      newClusterEnableElasticDisk: {
+        serializedName: "typeProperties.newClusterEnableElasticDisk",
+        type: {
+          name: "Object"
         }
       },
       encryptedCredential: {
@@ -6724,6 +6947,12 @@ export const HDInsightLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      isEspEnabled: {
+        serializedName: "typeProperties.isEspEnabled",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -8871,6 +9100,46 @@ export const ExecutionActivity: msRest.CompositeMapper = {
   }
 };
 
+export const AzureFunctionActivity: msRest.CompositeMapper = {
+  serializedName: "AzureFunctionActivity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "AzureFunctionActivity",
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      method: {
+        required: true,
+        serializedName: "typeProperties.method",
+        type: {
+          name: "String"
+        }
+      },
+      functionName: {
+        required: true,
+        serializedName: "typeProperties.functionName",
+        type: {
+          name: "Object"
+        }
+      },
+      headers: {
+        serializedName: "typeProperties.headers",
+        type: {
+          name: "Object"
+        }
+      },
+      body: {
+        serializedName: "typeProperties.body",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
 export const DatabricksSparkPythonActivity: msRest.CompositeMapper = {
   serializedName: "DatabricksSparkPython",
   type: {
@@ -10579,6 +10848,36 @@ export const LookupActivity: msRest.CompositeMapper = {
   }
 };
 
+export const LogStorageSettings: msRest.CompositeMapper = {
+  serializedName: "LogStorageSettings",
+  type: {
+    name: "Composite",
+    className: "LogStorageSettings",
+    modelProperties: {
+      linkedServiceName: {
+        required: true,
+        serializedName: "linkedServiceName",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
 export const DeleteActivity: msRest.CompositeMapper = {
   serializedName: "Delete",
   type: {
@@ -10592,6 +10891,33 @@ export const DeleteActivity: msRest.CompositeMapper = {
         serializedName: "typeProperties.recursive",
         type: {
           name: "Object"
+        }
+      },
+      maxConcurrentConnections: {
+        serializedName: "typeProperties.maxConcurrentConnections",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      enableLogging: {
+        serializedName: "typeProperties.enableLogging",
+        type: {
+          name: "Object"
+        }
+      },
+      logStorageSettings: {
+        serializedName: "typeProperties.logStorageSettings",
+        type: {
+          name: "Composite",
+          className: "LogStorageSettings",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       },
       dataset: {
@@ -10721,6 +11047,12 @@ export const CustomActivity: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      retentionTimeInDays: {
+        serializedName: "typeProperties.retentionTimeInDays",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: Activity.type.additionalProperties
@@ -10767,6 +11099,38 @@ export const SSISExecutionParameter: msRest.CompositeMapper = {
   }
 };
 
+export const SSISExecutionCredential: msRest.CompositeMapper = {
+  serializedName: "SSISExecutionCredential",
+  type: {
+    name: "Composite",
+    className: "SSISExecutionCredential",
+    modelProperties: {
+      domain: {
+        required: true,
+        serializedName: "domain",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        required: true,
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
 export const SSISPackageLocation: msRest.CompositeMapper = {
   serializedName: "SSISPackageLocation",
   type: {
@@ -10777,7 +11141,7 @@ export const SSISPackageLocation: msRest.CompositeMapper = {
         required: true,
         serializedName: "packagePath",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     }
@@ -10804,19 +11168,26 @@ export const ExecuteSSISPackageActivity: msRest.CompositeMapper = {
       runtime: {
         serializedName: "typeProperties.runtime",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       loggingLevel: {
         serializedName: "typeProperties.loggingLevel",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       environmentPath: {
         serializedName: "typeProperties.environmentPath",
         type: {
-          name: "String"
+          name: "Object"
+        }
+      },
+      executionCredential: {
+        serializedName: "typeProperties.executionCredential",
+        type: {
+          name: "Composite",
+          className: "SSISExecutionCredential"
         }
       },
       connectVia: {
@@ -11309,6 +11680,23 @@ export const HDInsightHiveActivity: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      },
+      variables: {
+        serializedName: "typeProperties.variables",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      queryTimeout: {
+        serializedName: "typeProperties.queryTimeout",
+        type: {
+          name: "Number"
         }
       }
     },
@@ -13250,6 +13638,74 @@ export const IntegrationRuntimeNodeIpAddress: msRest.CompositeMapper = {
   }
 };
 
+export const SsisObjectMetadata: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadata",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "SsisObjectMetadata",
+    className: "SsisObjectMetadata",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisObjectMetadataListResponse: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadataListResponse",
+  type: {
+    name: "Composite",
+    className: "SsisObjectMetadataListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SsisObjectMetadata"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IntegrationRuntimeNodeMonitoringData: msRest.CompositeMapper = {
   serializedName: "IntegrationRuntimeNodeMonitoringData",
   type: {
@@ -13714,6 +14170,7 @@ export const discriminators = {
   'Trigger.BlobTrigger' : BlobTrigger,
   'Trigger.ScheduleTrigger' : ScheduleTrigger,
   'Trigger.MultiplePipelineTrigger' : MultiplePipelineTrigger,
+  'LinkedService.AzureFunction' : AzureFunctionLinkedService,
   'LinkedService.Responsys' : ResponsysLinkedService,
   'LinkedService.AzureDatabricks' : AzureDatabricksLinkedService,
   'LinkedService.AzureDataLakeAnalytics' : AzureDataLakeAnalyticsLinkedService,
@@ -13854,6 +14311,7 @@ export const discriminators = {
   'Dataset.AzureTable' : AzureTableDataset,
   'Dataset.AzureBlob' : AzureBlobDataset,
   'Dataset.AmazonS3Object' : AmazonS3Dataset,
+  'Activity.AzureFunctionActivity' : AzureFunctionActivity,
   'Activity.DatabricksSparkPython' : DatabricksSparkPythonActivity,
   'Activity.DatabricksSparkJar' : DatabricksSparkJarActivity,
   'Activity.DatabricksNotebook' : DatabricksNotebookActivity,
@@ -13957,5 +14415,6 @@ export const discriminators = {
   'LinkedIntegrationRuntimeType.Key' : LinkedIntegrationRuntimeKeyAuthorization,
   'LinkedIntegrationRuntimeType' : LinkedIntegrationRuntimeType,
   'IntegrationRuntime.SelfHosted' : SelfHostedIntegrationRuntime,
-  'IntegrationRuntime.Managed' : ManagedIntegrationRuntime
+  'IntegrationRuntime.Managed' : ManagedIntegrationRuntime,
+  'SsisObjectMetadata' : SsisObjectMetadata
 };
