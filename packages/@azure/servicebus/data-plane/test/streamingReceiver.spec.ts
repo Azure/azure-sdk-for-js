@@ -19,7 +19,7 @@ import {
 import { DispositionType } from "../lib/serviceBusMessage";
 
 import {
-  testSimpleMessages,
+  TestMessage,
   getSenderReceiverClients,
   ClientType,
   purge,
@@ -114,17 +114,14 @@ describe("Streaming - Misc Tests", function(): void {
   });
 
   async function testAutoComplete(): Promise<void> {
-    await sender.send(testSimpleMessages);
+    const testMessage = TestMessage.getSample();
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
-      should.equal(msg.body, testSimpleMessages.body, "MessageBody is different than expected");
-      should.equal(
-        msg.messageId,
-        testSimpleMessages.messageId,
-        "MessageId is different than expected"
-      );
+      should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
+      should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
 
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -162,18 +159,15 @@ describe("Streaming - Misc Tests", function(): void {
   });
 
   async function testManualComplete(): Promise<void> {
-    await sender.send(testSimpleMessages);
+    const testMessage = TestMessage.getSample();
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(msg.body, testSimpleMessages.body, "MessageBody is different than expected");
-        should.equal(
-          msg.messageId,
-          testSimpleMessages.messageId,
-          "MessageId is different than expected"
-        );
+        should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
+        should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
         return Promise.resolve();
       },
       unExpectedErrorHandler,
@@ -227,18 +221,15 @@ describe("Streaming - Complete message", function(): void {
   });
 
   async function testComplete(autoComplete: boolean): Promise<void> {
-    await sender.send(testSimpleMessages);
+    const testMessage = TestMessage.getSample();
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
-        should.equal(msg.body, testSimpleMessages.body, "MessageBody is different than expected");
-        should.equal(
-          msg.messageId,
-          testSimpleMessages.messageId,
-          "MessageId is different than expected"
-        );
+        should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
+        should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
         return msg.complete();
       },
       unExpectedErrorHandler,
@@ -308,7 +299,8 @@ describe("Streaming - Abandon message", function(): void {
   });
 
   async function testMultipleAbandons(): Promise<void> {
-    await sender.send(testSimpleMessages);
+    const testMessage = TestMessage.getSample();
+    await sender.send(testMessage);
 
     let checkDeliveryCount = 0;
 
@@ -344,7 +336,7 @@ describe("Streaming - Abandon message", function(): void {
     );
     should.equal(
       deadLetterMsgs[0].messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
 
@@ -388,7 +380,8 @@ describe("Streaming - Defer message", function(): void {
   });
 
   async function testDefer(autoComplete: boolean): Promise<void> {
-    await sender.send(testSimpleMessages);
+    const testMessage = TestMessage.getSample();
+    await sender.send(testMessage);
     let sequenceNum: any = 0;
     receiver.receive(
       (msg: ServiceBusMessage) => {
@@ -415,14 +408,10 @@ describe("Streaming - Defer message", function(): void {
       throw "No message received for sequence number";
     }
 
-    should.equal(
-      deferredMsgs[0].body,
-      testSimpleMessages.body,
-      "MessageBody is different than expected"
-    );
+    should.equal(deferredMsgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       deferredMsgs[0].messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
     should.equal(deferredMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
@@ -492,7 +481,8 @@ describe("Streaming - Deadletter message", function(): void {
   });
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
-    await sender.send(testSimpleMessages);
+    const testMessage = TestMessage.getSample();
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
@@ -518,7 +508,7 @@ describe("Streaming - Deadletter message", function(): void {
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       deadLetterMsgs[0].messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
 
@@ -588,9 +578,7 @@ describe("Streaming - Multiple Streaming Receivers", function(): void {
     await afterEachTest();
   });
 
-  async function testMultipleReceiveCalls(
-    receiverClient: QueueClient | SubscriptionClient
-  ): Promise<void> {
+  async function testMultipleReceiveCalls(): Promise<void> {
     receiver.receive((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
@@ -619,28 +607,28 @@ describe("Streaming - Multiple Streaming Receivers", function(): void {
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testMultipleReceiveCalls(receiverClient);
+    await testMultipleReceiveCalls();
   });
 
   it("Partitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testMultipleReceiveCalls(receiverClient);
+    await testMultipleReceiveCalls();
   });
 
   it("UnPartitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testMultipleReceiveCalls(receiverClient);
+    await testMultipleReceiveCalls();
   });
 
   it("UnPartitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testMultipleReceiveCalls(receiverClient);
+    await testMultipleReceiveCalls();
   });
 });
 
@@ -659,7 +647,8 @@ describe("Streaming - Settle an already Settled message throws error", () => {
   };
 
   async function testSettlement(operation: DispositionType): Promise<void> {
-    await sender.send(testSimpleMessages);
+    const testMessage = TestMessage.getSample();
+    await sender.send(testMessage);
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
@@ -672,14 +661,10 @@ describe("Streaming - Settle an already Settled message throws error", () => {
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-    should.equal(
-      receivedMsgs[0].body,
-      testSimpleMessages.body,
-      "MessageBody is different than expected"
-    );
+    should.equal(receivedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       receivedMsgs[0].messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
 
@@ -785,7 +770,7 @@ describe("Streaming - User Error", function(): void {
   });
 
   async function testUserError(): Promise<void> {
-    await sender.send(testSimpleMessages);
+    await sender.send(TestMessage.getSample());
     const errorMessage = "Will we see this error message?";
 
     const receivedMsgs: ServiceBusMessage[] = [];
