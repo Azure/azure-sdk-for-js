@@ -134,7 +134,11 @@ async function receiveOrders(
   );
 
   const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === expectedMessageCount);
-  should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+  should.equal(
+    msgsCheck,
+    true,
+    `Expected ${expectedMessageCount}, but received ${receivedMsgs.length} messages`
+  );
 
   await receiver.close();
   should.equal(
@@ -463,10 +467,7 @@ describe("Default Rule - Send/Receive", function(): void {
 
   it("Subscription with default filter receives all messages", async function(): Promise<void> {
     await sendOrders();
-    const receivedMsgs = await receiveOrders(subscriptionClient, data.length);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, data.length, "Unexpected number of messages");
+    await receiveOrders(subscriptionClient, data.length);
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -485,34 +486,23 @@ describe("Boolean Filter - Send/Receive", function(): void {
     bool: boolean,
     client: SubscriptionClient,
     expectedMessageCount: number
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<void> {
     await subscriptionClient.addRule("BooleanFilter", bool);
     const rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
 
     await sendOrders();
-    const receivedMsgs = await receiveOrders(client, expectedMessageCount);
-
-    return receivedMsgs;
+    await receiveOrders(client, expectedMessageCount);
+    await testPeekMsgsLength(client, 0);
   }
 
   it("True boolean filter receives all messages", async function(): Promise<void> {
-    const receivedMsgs = await addFilterAndReceiveOrders(true, subscriptionClient, data.length);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, data.length, "Unexpected number of messages");
-
-    await testPeekMsgsLength(subscriptionClient, 0);
+    await addFilterAndReceiveOrders(true, subscriptionClient, data.length);
   });
 
   it("False boolean filter does not receive any messages", async function(): Promise<void> {
-    const receivedMsgs = await addFilterAndReceiveOrders(false, subscriptionClient, 0);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, 0, "Unexpected number of messages");
-
-    await testPeekMsgsLength(subscriptionClient, 0);
+    await addFilterAndReceiveOrders(false, subscriptionClient, 0);
   });
 });
 
@@ -530,10 +520,7 @@ describe("Sql Filter - Send/Receive", function(): void {
 
     await sendOrders();
     const dataLength = data.filter((x) => x.Color === "red").length;
-    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
+    await receiveOrders(subscriptionClient, dataLength);
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -543,10 +530,7 @@ describe("Sql Filter - Send/Receive", function(): void {
 
     await sendOrders();
     const dataLength = data.filter((x) => x.Color === "red").length;
-    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
+    await receiveOrders(subscriptionClient, dataLength);
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -556,10 +540,7 @@ describe("Sql Filter - Send/Receive", function(): void {
 
     await sendOrders();
     const dataLength = data.filter((x) => x.Color === "blue" && x.Quantity === 10).length;
-    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
+    await receiveOrders(subscriptionClient, dataLength);
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -569,10 +550,7 @@ describe("Sql Filter - Send/Receive", function(): void {
 
     await sendOrders();
     const dataLength = data.filter((x) => x.Color === "blue" || x.Quantity === 10).length;
-    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
+    await receiveOrders(subscriptionClient, dataLength);
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -584,8 +562,6 @@ describe("Sql Filter - Send/Receive", function(): void {
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
     if (receivedMsgs[0].userProperties) {
       should.equal(
         receivedMsgs[0].userProperties.priority,
@@ -608,8 +584,6 @@ describe("Sql Filter - Send/Receive", function(): void {
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength,"Unexpected number of messages");
     if (receivedMsgs[0].userProperties) {
       should.equal(receivedMsgs[0].userProperties.priority, "High",
         "Priority of the receivedMessage is different than expected");
@@ -636,10 +610,7 @@ describe("Correlation Filter - Send/Receive", function(): void {
 
     await sendOrders();
     const dataLength = data.filter((x) => x.Color === "red").length;
-    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
+    await receiveOrders(subscriptionClient, dataLength);
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -653,10 +624,7 @@ describe("Correlation Filter - Send/Receive", function(): void {
 
     await sendOrders();
     const dataLength = data.filter((x) => x.Color === "red").length;
-    const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
+    await receiveOrders(subscriptionClient, dataLength);
 
     await testPeekMsgsLength(subscriptionClient, 0);
   });
@@ -675,9 +643,6 @@ describe("Correlation Filter - Send/Receive", function(): void {
     await sendOrders();
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
-
-    should.equal(Array.isArray(receivedMsgs), true, "`ReceivedMessages` is not an array");
-    should.equal(receivedMsgs.length, dataLength, "Unexpected number of messages");
 
     if (receivedMsgs[0].userProperties) {
       should.equal(
