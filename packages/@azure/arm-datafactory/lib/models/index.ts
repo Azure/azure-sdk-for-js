@@ -2486,7 +2486,7 @@ export interface AzureDataExplorerLinkedService {
 /**
  * @interface
  * An interface representing GoogleAdWordsLinkedService.
- * Google Awords service linked service.
+ * Google Adwords service linked service.
  *
  */
 export interface GoogleAdWordsLinkedService {
