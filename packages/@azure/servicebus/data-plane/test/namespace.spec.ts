@@ -327,7 +327,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe("Test createFromAadTokenCredentials", function(): void {
+describe.only("Test createFromAadTokenCredentials", function(): void {
   let namespace: Namespace;
   let tokenCreds: msrestAzure.ApplicationTokenCredentials;
   let errorWasThrown: boolean = false;
@@ -337,7 +337,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
     );
   }
   const serviceBusEndpoint = (process.env.SERVICEBUS_CONNECTION_STRING.match(
-    "Endpoint=sb://(.*)/;.*"
+    "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
 
   async function testCreateFromAadTokenCredentials(
