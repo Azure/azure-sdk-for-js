@@ -342,7 +342,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe.only("Errors after namespace.close()", function(): void {
+describe("Errors after namespace.close()", function(): void {
   const expectedErrorName = "InvalidOperationError";
   const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
@@ -701,5 +701,52 @@ describe.only("Errors after namespace.close()", function(): void {
     await testReceiver();
 
     await testSessionReceiver();
+  });
+
+  it("Create Queue/Topic/Subscription clients throws error after namespace.close()", async function(): Promise<
+    void
+  > {
+    // beforeEachTest() can be run for any entity type, we need it only to ensure that the
+    // connection is indeed opened
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+
+    let errorCreateQueueClient = false;
+    try {
+      namespace.createQueueClient("random-name");
+    } catch (err) {
+      errorCreateQueueClient =
+        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    }
+    should.equal(
+      errorCreateQueueClient,
+      true,
+      "InvalidOperationError not thrown for createQueueClient()"
+    );
+
+    let errorCreateTopicClient = false;
+    try {
+      namespace.createTopicClient("random-name");
+    } catch (err) {
+      errorCreateTopicClient =
+        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    }
+    should.equal(
+      errorCreateTopicClient,
+      true,
+      "InvalidOperationError not thrown for createTopicClient()"
+    );
+
+    let errorCreateSubscriptionClient = false;
+    try {
+      namespace.createSubscriptionClient("random-name", "random-name");
+    } catch (err) {
+      errorCreateSubscriptionClient =
+        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    }
+    should.equal(
+      errorCreateSubscriptionClient,
+      true,
+      "InvalidOperationError not thrown for createubscriptionClient()"
+    );
   });
 });
