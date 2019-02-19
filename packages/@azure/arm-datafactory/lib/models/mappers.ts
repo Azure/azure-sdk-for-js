@@ -10371,6 +10371,12 @@ export const CopySource: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      maxConcurrentConnections: {
+        serializedName: "maxConcurrentConnections",
+        type: {
+          name: "Object"
+        }
+      },
       type: {
         required: true,
         serializedName: "type",
@@ -12813,6 +12819,12 @@ export const CopySink: msRest.CompositeMapper = {
       },
       sinkRetryWait: {
         serializedName: "sinkRetryWait",
+        type: {
+          name: "Object"
+        }
+      },
+      maxConcurrentConnections: {
+        serializedName: "maxConcurrentConnections",
         type: {
           name: "Object"
         }

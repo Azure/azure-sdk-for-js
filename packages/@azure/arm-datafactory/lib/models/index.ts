@@ -12638,6 +12638,12 @@ export interface CopySource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
    */
@@ -12666,6 +12672,12 @@ export interface AmazonRedshiftSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
@@ -12704,6 +12716,12 @@ export interface GoogleAdWordsSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -12732,6 +12750,12 @@ export interface OracleServiceCloudSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -12762,6 +12786,12 @@ export interface DynamicsAXSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -12790,6 +12820,12 @@ export interface ResponsysSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -12820,6 +12856,12 @@ export interface SalesforceMarketingCloudSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -12848,6 +12890,12 @@ export interface VerticaSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -12878,6 +12926,12 @@ export interface NetezzaSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -12906,6 +12960,12 @@ export interface ZohoSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -12936,6 +12996,12 @@ export interface XeroSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -12964,6 +13030,12 @@ export interface SquareSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -12994,6 +13066,12 @@ export interface SparkSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13022,6 +13100,12 @@ export interface ShopifySource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13052,6 +13136,12 @@ export interface ServiceNowSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13080,6 +13170,12 @@ export interface QuickBooksSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13110,6 +13206,12 @@ export interface PrestoSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13138,6 +13240,12 @@ export interface PhoenixSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13168,6 +13276,12 @@ export interface PaypalSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13196,6 +13310,12 @@ export interface MarketoSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13226,6 +13346,12 @@ export interface MariaDBSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13254,6 +13380,12 @@ export interface MagentoSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13284,6 +13416,12 @@ export interface JiraSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13312,6 +13450,12 @@ export interface ImpalaSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13342,6 +13486,12 @@ export interface HubspotSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13370,6 +13520,12 @@ export interface HiveSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13400,6 +13556,12 @@ export interface HBaseSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13428,6 +13590,12 @@ export interface GreenplumSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13458,6 +13626,12 @@ export interface GoogleBigQuerySource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13486,6 +13660,12 @@ export interface EloquaSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13516,6 +13696,12 @@ export interface DrillSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13544,6 +13730,12 @@ export interface CouchbaseSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13574,6 +13766,12 @@ export interface ConcurSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13602,6 +13800,12 @@ export interface AzurePostgreSqlSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -13632,6 +13836,12 @@ export interface AmazonMWSSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -13660,6 +13870,12 @@ export interface HttpSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [httpRequestTimeout] Specifies the timeout for a HTTP client
    * to get HTTP response from HTTP server. The default value is equivalent to
@@ -13692,6 +13908,12 @@ export interface AzureBlobFSSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [treatEmptyAsNull] Treat empty as null. Type: boolean (or
    * Expression with resultType boolean).
@@ -13733,6 +13955,12 @@ export interface AzureDataLakeStoreSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [recursive] If true, files under the folder path will be
    * read recursively. Default is true. Type: boolean (or Expression with
    * resultType boolean).
@@ -13762,6 +13990,12 @@ export interface Office365Source {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
 }
 
 /**
@@ -13827,6 +14061,12 @@ export interface CosmosDbMongoDbApiSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [filter] Specifies selection filter using query operators.
    * To return all documents in a collection, omit this parameter or pass an
    * empty document ({}). Type: string (or Expression with resultType string).
@@ -13869,6 +14109,12 @@ export interface MongoDbV2Source {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [filter] Specifies selection filter using query operators.
    * To return all documents in a collection, omit this parameter or pass an
@@ -13913,6 +14159,12 @@ export interface MongoDbSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] Database query. Should be a SQL-92 query expression.
    * Type: string (or Expression with resultType string).
    */
@@ -13941,6 +14193,12 @@ export interface CassandraSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Should be a SQL-92 query expression
    * or Cassandra Query Language (CQL) command. Type: string (or Expression
@@ -13982,6 +14240,12 @@ export interface WebSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
 }
 
 /**
@@ -14006,6 +14270,12 @@ export interface OracleSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [oracleReaderQuery] Oracle reader query. Type: string (or
    * Expression with resultType string).
@@ -14041,6 +14311,12 @@ export interface AzureDataExplorerSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} query Database query. Should be a Kusto Query Language (KQL)
    * query. Type: string (or Expression with resultType string).
@@ -14082,6 +14358,12 @@ export interface AzureMySqlSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
@@ -14138,6 +14420,12 @@ export interface HdfsSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [recursive] If true, files under the folder path will be
    * read recursively. Default is true. Type: boolean (or Expression with
    * resultType boolean).
@@ -14173,6 +14461,12 @@ export interface FileSystemSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [recursive] If true, files under the folder path will be
    * read recursively. Default is true. Type: boolean (or Expression with
    * resultType boolean).
@@ -14202,6 +14496,12 @@ export interface SqlDWSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [sqlReaderQuery] SQL Data Warehouse reader query. Type:
    * string (or Expression with resultType string).
@@ -14265,6 +14565,12 @@ export interface SqlSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [sqlReaderQuery] SQL reader query. Type: string (or
    * Expression with resultType string).
    */
@@ -14306,6 +14612,12 @@ export interface SapEccSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {string} [query] SAP ECC OData query. For example, "$top=1". Type:
    * string (or Expression with resultType string).
    */
@@ -14335,6 +14647,12 @@ export interface SapCloudForCustomerSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] SAP Cloud for Customer OData query. For example,
    * "$top=1". Type: string (or Expression with resultType string).
    */
@@ -14363,6 +14681,12 @@ export interface SalesforceSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
@@ -14399,6 +14723,12 @@ export interface RelationalSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
    */
@@ -14427,6 +14757,12 @@ export interface DynamicsSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] FetchXML is a proprietary query language that is
    * used in Microsoft Dynamics (online & on-premises). Type: string (or
@@ -14457,6 +14793,12 @@ export interface DocumentDbCollectionSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Documents query. Type: string (or Expression with
    * resultType string).
@@ -14491,6 +14833,12 @@ export interface BlobSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [treatEmptyAsNull] Treat empty as null. Type: boolean (or
    * Expression with resultType boolean).
@@ -14531,6 +14879,12 @@ export interface AzureTableSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [azureTableSourceQuery] Azure Table source query. Type:
    * string (or Expression with resultType string).
@@ -15526,6 +15880,12 @@ export interface CopySink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
    */
@@ -15565,6 +15925,12 @@ export interface CosmosDbMongoDbApiSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [writeBehavior] Specifies whether the document with same key
    * to be overwritten (upsert) rather than throw exception (insert). The
@@ -15607,6 +15973,12 @@ export interface SalesforceSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {SalesforceSinkWriteBehavior} [writeBehavior] The write behavior
    * for the operation. Default is Insert. Possible values include: 'Insert',
@@ -15666,6 +16038,12 @@ export interface AzureDataExplorerSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [ingestionMappingName] A name of a pre-created csv mapping
    * that was defined on the target Kusto table. Type: string.
    */
@@ -15716,6 +16094,12 @@ export interface DynamicsSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [ignoreNullValues] The flag indicating whether ignore null
    * values from input dataset (except key fields) during write operation.
    * Default is false. Type: boolean (or Expression with resultType boolean).
@@ -15757,6 +16141,12 @@ export interface OdbcSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [preCopyScript] A query to execute before starting the copy.
    * Type: string (or Expression with resultType string).
    */
@@ -15796,6 +16186,12 @@ export interface AzureSearchIndexSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {AzureSearchIndexWriteBehaviorType} [writeBehavior] Specify the
    * write behavior when upserting documents into Azure Search Index. Possible
@@ -15838,6 +16234,12 @@ export interface AzureBlobFSSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {CopyBehaviorType} [copyBehavior] The type of copy behavior for
    * copy sink. Possible values include: 'PreserveHierarchy',
    * 'FlattenHierarchy', 'MergeFiles'
@@ -15879,6 +16281,12 @@ export interface AzureDataLakeStoreSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {CopyBehaviorType} [copyBehavior] The type of copy behavior for
    * copy sink. Possible values include: 'PreserveHierarchy',
    * 'FlattenHierarchy', 'MergeFiles'
@@ -15919,6 +16327,12 @@ export interface OracleSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [preCopyScript] SQL pre-copy script. Type: string (or
    * Expression with resultType string).
@@ -15997,6 +16411,12 @@ export interface SqlDWSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [preCopyScript] SQL pre-copy script. Type: string (or
    * Expression with resultType string).
    */
@@ -16047,6 +16467,12 @@ export interface SqlSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [sqlWriterStoredProcedureName] SQL writer stored procedure
    * name. Type: string (or Expression with resultType string).
@@ -16103,6 +16529,12 @@ export interface DocumentDbCollectionSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [nestingSeparator] Nested properties separator. Default is .
    * (dot). Type: string (or Expression with resultType string).
    */
@@ -16142,6 +16574,12 @@ export interface FileSystemSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {CopyBehaviorType} [copyBehavior] The type of copy behavior for
    * copy sink. Possible values include: 'PreserveHierarchy',
@@ -16183,6 +16621,12 @@ export interface BlobSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [blobWriterOverwriteFiles] Blob writer overwrite files.
    * Type: boolean (or Expression with resultType boolean).
@@ -16240,6 +16684,12 @@ export interface AzureTableSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [azureTableDefaultPartitionKeyValue] Azure Table default
    * partition key value. Type: string (or Expression with resultType string).
    */
@@ -16294,6 +16744,12 @@ export interface AzureQueueSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
 }
 
 /**
@@ -16329,6 +16785,12 @@ export interface SapCloudForCustomerSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count connectioned to sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {SapCloudForCustomerSinkWriteBehavior} [writeBehavior] The write
    * behavior for the operation. Default is 'Insert'. Possible values include:
