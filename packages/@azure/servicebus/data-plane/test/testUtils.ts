@@ -13,18 +13,27 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
 
-export const testSimpleMessages: SendableMessageInfo = {
-  body: "hello1",
-  messageId: `test message ${Math.random()}`,
-  partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
-};
+export class TestMessage {
+  static sessionId: string = "my-session";
 
-export const testSessionId1 = "my-session";
-export const testMessagesWithSessions: SendableMessageInfo = {
-  body: "hello1",
-  messageId: `test message ${Math.random()}`,
-  sessionId: testSessionId1
-};
+  static getSample(): SendableMessageInfo {
+    const randomNumber = Math.random();
+    return {
+      body: `message body ${randomNumber}`,
+      messageId: `message id ${randomNumber}`,
+      partitionKey: "dummy"
+    };
+  }
+
+  static getSessionSample(): SendableMessageInfo {
+    const randomNumber = Math.random();
+    return {
+      body: `message body ${randomNumber}`,
+      messageId: `message id ${randomNumber}`,
+      sessionId: TestMessage.sessionId
+    };
+  }
+}
 
 export enum ClientType {
   PartitionedQueue,
