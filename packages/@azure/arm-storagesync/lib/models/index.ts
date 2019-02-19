@@ -231,11 +231,11 @@ export interface CloudEndpoint extends ProxyResource {
    */
   friendlyName?: string;
   /**
-   * @member {boolean} [backupEnabled] Backup Enabled
+   * @member {string} [backupEnabled] Backup Enabled
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly backupEnabled?: boolean;
+  readonly backupEnabled?: string;
   /**
    * @member {string} [provisioningState] CloudEndpoint Provisioning State
    */
@@ -367,6 +367,16 @@ export interface ServerEndpointCreateParameters extends ProxyResource {
    * @member {string} [serverResourceId] Server Resource Id.
    */
   serverResourceId?: string;
+  /**
+   * @member {OfflineDataTransfer} [offlineDataTransfer] Offline data transfer.
+   * Possible values include: 'on', 'off'
+   */
+  offlineDataTransfer?: OfflineDataTransfer;
+  /**
+   * @member {string} [offlineDataTransferShareName] Offline data transfer
+   * share name
+   */
+  offlineDataTransferShareName?: string;
 }
 
 /**
@@ -449,6 +459,229 @@ export interface ServerEndpointUpdateParameters {
    * @member {number} [tierFilesOlderThanDays] Tier files older than days.
    */
   tierFilesOlderThanDays?: number;
+  /**
+   * @member {OfflineDataTransfer1} [offlineDataTransfer] Offline data
+   * transfer. Possible values include: 'on', 'off'
+   */
+  offlineDataTransfer?: OfflineDataTransfer1;
+  /**
+   * @member {string} [offlineDataTransferShareName] Offline data transfer
+   * share name
+   */
+  offlineDataTransferShareName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing FilesNotSyncingError.
+ * Files not syncing error object
+ *
+ */
+export interface FilesNotSyncingError {
+  /**
+   * @member {number} [errorCode] Error code
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * @member {number} [persistentCount] Count of persistent files not syncing
+   * with the specified error code
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly persistentCount?: number;
+  /**
+   * @member {number} [transientCount] Count of transient files not syncing
+   * with the specified error code
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transientCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing SyncSessionStatus.
+ * Sync Session status object.
+ *
+ */
+export interface SyncSessionStatus {
+  /**
+   * @member {number} [lastSyncResult] Last sync status
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastSyncResult?: number;
+  /**
+   * @member {Date} [lastSyncTimestamp] Last sync timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastSyncTimestamp?: Date;
+  /**
+   * @member {Date} [lastSyncSuccessTimestamp] Last sync success timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastSyncSuccessTimestamp?: Date;
+  /**
+   * @member {number} [lastSyncPerItemErrorCount] Last sync per item error
+   * count.
+   */
+  lastSyncPerItemErrorCount?: number;
+  /**
+   * @member {number} [persistentFilesNotSyncingCount] Count of persistent
+   * files not syncing. Reserved for future use.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly persistentFilesNotSyncingCount?: number;
+  /**
+   * @member {number} [transientFilesNotSyncingCount] Count of transient files
+   * not syncing. Reserved for future use.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transientFilesNotSyncingCount?: number;
+  /**
+   * @member {FilesNotSyncingError[]} [filesNotSyncingErrors] Array of per-item
+   * errors coming from the last sync session. Reserved for future use.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly filesNotSyncingErrors?: FilesNotSyncingError[];
+}
+
+/**
+ * @interface
+ * An interface representing SyncActivityStatus.
+ * Sync Session status object.
+ *
+ */
+export interface SyncActivityStatus {
+  /**
+   * @member {Date} [timestamp] Timestamp when properties were updated
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timestamp?: Date;
+  /**
+   * @member {number} [perItemErrorCount] Per item error count
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly perItemErrorCount?: number;
+  /**
+   * @member {number} [appliedItemCount] Applied item count.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly appliedItemCount?: number;
+  /**
+   * @member {number} [totalItemCount] Total item count (if available)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalItemCount?: number;
+  /**
+   * @member {number} [appliedBytes] Applied bytes
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly appliedBytes?: number;
+  /**
+   * @member {number} [totalBytes] Total bytes (if available)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalBytes?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ServerEndpointSyncStatus.
+ * Server Endpoint sync status
+ *
+ */
+export interface ServerEndpointSyncStatus {
+  /**
+   * @member {DownloadHealth} [downloadHealth] Download Health Status. Possible
+   * values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+   * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly downloadHealth?: DownloadHealth;
+  /**
+   * @member {UploadHealth} [uploadHealth] Upload Health Status. Possible
+   * values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+   * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly uploadHealth?: UploadHealth;
+  /**
+   * @member {CombinedHealth} [combinedHealth] Combined Health Status. Possible
+   * values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+   * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly combinedHealth?: CombinedHealth;
+  /**
+   * @member {SyncActivity} [syncActivity] Sync activity. Possible values
+   * include: 'Upload', 'Download', 'UploadAndDownload'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly syncActivity?: SyncActivity;
+  /**
+   * @member {number} [totalPersistentFilesNotSyncingCount] Total count of
+   * persistent files not syncing (combined upload + download). Reserved for
+   * future use.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalPersistentFilesNotSyncingCount?: number;
+  /**
+   * @member {Date} [lastUpdatedTimestamp] Last Updated Timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * @member {SyncSessionStatus} [uploadStatus] Upload Status
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly uploadStatus?: SyncSessionStatus;
+  /**
+   * @member {SyncSessionStatus} [downloadStatus] Download Status
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly downloadStatus?: SyncSessionStatus;
+  /**
+   * @member {SyncActivityStatus} [uploadActivity] Upload sync activity
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly uploadActivity?: SyncActivityStatus;
+  /**
+   * @member {SyncActivityStatus} [downloadActivity] Download sync activity
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly downloadActivity?: SyncActivityStatus;
+  /**
+   * @member {OfflineDataTransferStatus} [offlineDataTransferStatus] Offline
+   * Data Transfer State. Possible values include: 'InProgress', 'Stopping',
+   * 'NotRunning', 'Complete'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offlineDataTransferStatus?: OfflineDataTransferStatus;
 }
 
 /**
@@ -498,9 +731,36 @@ export interface ServerEndpoint extends ProxyResource {
    */
   lastOperationName?: string;
   /**
-   * @member {any} [syncStatus] Sync Health Status
+   * @member {ServerEndpointSyncStatus} [syncStatus] Server Endpoint sync
+   * status
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  syncStatus?: any;
+  readonly syncStatus?: ServerEndpointSyncStatus;
+  /**
+   * @member {OfflineDataTransfer2} [offlineDataTransfer] Offline data
+   * transfer. Possible values include: 'on', 'off'
+   */
+  offlineDataTransfer?: OfflineDataTransfer2;
+  /**
+   * @member {string} [offlineDataTransferStorageAccountResourceId] Offline
+   * data transfer storage account resource ID
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offlineDataTransferStorageAccountResourceId?: string;
+  /**
+   * @member {string} [offlineDataTransferStorageAccountTenantId] Offline data
+   * transfer storage account tenant ID
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offlineDataTransferStorageAccountTenantId?: string;
+  /**
+   * @member {string} [offlineDataTransferShareName] Offline data transfer
+   * share name
+   */
+  offlineDataTransferShareName?: string;
 }
 
 /**
@@ -524,10 +784,10 @@ export interface RegisteredServer extends ProxyResource {
    */
   serverOSVersion?: string;
   /**
-   * @member {number} [serverManagementtErrorCode] Registered Server Management
+   * @member {number} [serverManagementErrorCode] Registered Server Management
    * Error Code
    */
-  serverManagementtErrorCode?: number;
+  serverManagementErrorCode?: number;
   /**
    * @member {string} [lastHeartBeat] Registered Server last heart beat
    */
@@ -1737,6 +1997,14 @@ export type NameAvailabilityReason = 'Invalid' | 'AlreadyExists';
 export type CloudTiering = 'on' | 'off';
 
 /**
+ * Defines values for OfflineDataTransfer.
+ * Possible values include: 'on', 'off'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransfer = 'on' | 'off';
+
+/**
  * Defines values for CloudTiering1.
  * Possible values include: 'on', 'off'
  * @readonly
@@ -1745,12 +2013,71 @@ export type CloudTiering = 'on' | 'off';
 export type CloudTiering1 = 'on' | 'off';
 
 /**
+ * Defines values for OfflineDataTransfer1.
+ * Possible values include: 'on', 'off'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransfer1 = 'on' | 'off';
+
+/**
+ * Defines values for DownloadHealth.
+ * Possible values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+ * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+ * @readonly
+ * @enum {string}
+ */
+export type DownloadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+
+/**
+ * Defines values for UploadHealth.
+ * Possible values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+ * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+ * @readonly
+ * @enum {string}
+ */
+export type UploadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+
+/**
+ * Defines values for CombinedHealth.
+ * Possible values include: 'Healthy', 'Error', 'SyncBlockedForRestore',
+ * 'SyncBlockedForChangeDetectionPostRestore', 'NoActivity'
+ * @readonly
+ * @enum {string}
+ */
+export type CombinedHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+
+/**
+ * Defines values for SyncActivity.
+ * Possible values include: 'Upload', 'Download', 'UploadAndDownload'
+ * @readonly
+ * @enum {string}
+ */
+export type SyncActivity = 'Upload' | 'Download' | 'UploadAndDownload';
+
+/**
+ * Defines values for OfflineDataTransferStatus.
+ * Possible values include: 'InProgress', 'Stopping', 'NotRunning', 'Complete'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransferStatus = 'InProgress' | 'Stopping' | 'NotRunning' | 'Complete';
+
+/**
  * Defines values for CloudTiering2.
  * Possible values include: 'on', 'off'
  * @readonly
  * @enum {string}
  */
 export type CloudTiering2 = 'on' | 'off';
+
+/**
+ * Defines values for OfflineDataTransfer2.
+ * Possible values include: 'on', 'off'
+ * @readonly
+ * @enum {string}
+ */
+export type OfflineDataTransfer2 = 'on' | 'off';
 
 /**
  * Defines values for Status.
