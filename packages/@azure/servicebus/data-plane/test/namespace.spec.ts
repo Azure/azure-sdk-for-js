@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import { Namespace, delay } from "../lib";
-import * as msrestAzure from "ms-rest-azure";
+import { ApplicationTokenCredentials, loginWithServicePrincipalSecret } from "ms-rest-azure";
 import { getSenderReceiverClients, ClientType, testSimpleMessages, getEnvVars } from "./testUtils";
 const aadServiceBusAudience = "https://servicebus.azure.net/";
 
@@ -327,9 +327,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe.only("Test createFromAadTokenCredentials", function(): void {
+describe("Test createFromAadTokenCredentials", function(): void {
   let namespace: Namespace;
-  let tokenCreds: msrestAzure.ApplicationTokenCredentials;
+  let tokenCreds: ApplicationTokenCredentials;
   let errorWasThrown: boolean = false;
   if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
@@ -339,18 +339,9 @@ describe.only("Test createFromAadTokenCredentials", function(): void {
   const serviceBusEndpoint = (process.env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
+  const env = getEnvVars();
 
-  async function testCreateFromAadTokenCredentials(
-    host: string,
-    tokenAudience: string
-  ): Promise<void> {
-    const env = getEnvVars();
-    tokenCreds = await msrestAzure.loginWithServicePrincipalSecret(
-      env.clientId,
-      env.secret,
-      env.tenantId,
-      { tokenAudience: tokenAudience }
-    );
+  async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
     namespace = Namespace.createFromAadTokenCredentials(host, tokenCreds);
     namespace.should.be.an.instanceof(Namespace);
     const clients = await getSenderReceiverClients(
@@ -370,7 +361,10 @@ describe.only("Test createFromAadTokenCredentials", function(): void {
   }
 
   it("throws error for an invalid host", async function(): Promise<void> {
-    await testCreateFromAadTokenCredentials("", aadServiceBusAudience).catch((err) => {
+    tokenCreds = await loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId, {
+      tokenAudience: aadServiceBusAudience
+    });
+    await testCreateFromAadTokenCredentials("", tokenCreds).catch((err) => {
       errorWasThrown = true;
       should.equal(
         err.message,
@@ -381,10 +375,23 @@ describe.only("Test createFromAadTokenCredentials", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
+  it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
+        "ErrorMessage is different than expected"
+      );
+    });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
   it("throws error for invalid tokenCredentials(without tokenAudience)", async function(): Promise<
     void
   > {
-    await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
+    tokenCreds = await loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId);
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds).catch((err) => {
       errorWasThrown = true;
       should.equal(
         !(err.message.search("InvalidAudience: Invalid authorization token audience.") + 1),
@@ -397,7 +404,10 @@ describe.only("Test createFromAadTokenCredentials", function(): void {
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-    await testCreateFromAadTokenCredentials(serviceBusEndpoint, aadServiceBusAudience);
+    tokenCreds = await loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId, {
+      tokenAudience: aadServiceBusAudience
+    });
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
     await namespace.close();
   });
 });
