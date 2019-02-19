@@ -101,7 +101,11 @@ export {
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
+  RestorableDroppedManagedDatabase,
   RestorePoint,
+  ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
+  SensitivityLabel,
   DatabaseOperation,
   ElasticPoolOperation,
   ElasticPool,
@@ -118,6 +122,7 @@ export {
   TdeCertificate,
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
+  RecoverableManagedDatabase,
   ManagedInstanceVulnerabilityAssessment,
   ServerVulnerabilityAssessment
 } from "../models/mappers";
