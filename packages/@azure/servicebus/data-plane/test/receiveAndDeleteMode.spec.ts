@@ -20,9 +20,7 @@ import {
 import { DispositionType } from "../lib/serviceBusMessage";
 
 import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
+  TestMessage,
   getSenderReceiverClients,
   ClientType,
   purge,
@@ -73,7 +71,7 @@ async function beforeEachTest(
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -83,7 +81,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1,
+        sessionId: TestMessage.sessionId,
         receiveMode: ReceiveMode.receiveAndDelete
       })
     : receiverClient.getReceiver({ receiveMode: ReceiveMode.receiveAndDelete });
@@ -112,7 +110,7 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   }
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await sendReceiveMsg(testMessages);
 
     await testPeekMsgsLength(receiverClient, 0);
@@ -200,8 +198,7 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
 
   async function sendReceiveMsg(
     testMessages: SendableMessageInfo,
-    autoCompleteFlag: boolean,
-    useSessions?: boolean
+    autoCompleteFlag: boolean
   ): Promise<void> {
     await sender.send(testMessages);
     const receivedMsgs: ServiceBusMessage[] = [];
@@ -240,8 +237,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   }
 
   async function testNoSettlement(autoCompleteFlag: boolean, useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    await sendReceiveMsg(testMessages, autoCompleteFlag, useSessions);
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    await sendReceiveMsg(testMessages, autoCompleteFlag);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -418,7 +415,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   };
 
   async function testSettlement(operation: DispositionType, useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
 
     if (operation === DispositionType.complete) {
@@ -687,7 +684,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   });
 
   async function testRenewLock(): Promise<void> {
-    const msg = await sendReceiveMsg(testSimpleMessages);
+    const msg = await sendReceiveMsg(TestMessage.getSample());
 
     await receiver.renewLock(msg).catch((err) => testError(err));
 
