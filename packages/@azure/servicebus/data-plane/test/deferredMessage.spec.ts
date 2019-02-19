@@ -16,14 +16,7 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
-  getSenderReceiverClients,
-  ClientType,
-  purge
-} from "./testUtils";
+import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -77,7 +70,7 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -94,7 +87,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1
+        sessionId: TestMessage.sessionId
       })
     : receiverClient.getReceiver();
 }
@@ -173,7 +166,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   });
 
   async function testAbandon(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
@@ -256,7 +249,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   });
 
   async function testDefer(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
@@ -339,7 +332,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   });
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages);
 
     await deferredMsg.deadLetter();
