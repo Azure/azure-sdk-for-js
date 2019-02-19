@@ -11,6 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { SubscriptionClientContext } from "./subscriptionClientContext";
 
@@ -18,7 +19,7 @@ import { SubscriptionClientContext } from "./subscriptionClientContext";
 class SubscriptionClient extends SubscriptionClientContext {
   // Operation groups
   operations: operations.Operations;
-  subscriptionOperations: operations.SubscriptionOperations;
+  subscriptionOperation: operations.SubscriptionOperationOperations;
   subscriptionFactory: operations.SubscriptionFactory;
   subscriptions: operations.Subscriptions;
   tenants: operations.Tenants;
@@ -31,14 +32,116 @@ class SubscriptionClient extends SubscriptionClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
     super(credentials, options);
     this.operations = new operations.Operations(this);
-    this.subscriptionOperations = new operations.SubscriptionOperations(this);
+    this.subscriptionOperation = new operations.SubscriptionOperationOperations(this);
     this.subscriptionFactory = new operations.SubscriptionFactory(this);
     this.subscriptions = new operations.Subscriptions(this);
     this.tenants = new operations.Tenants(this);
   }
+
+  /**
+   * Cancels the subscription
+   * @param subscriptionId Subscription Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.CancelSubscriptionResponse>
+   */
+  cancelSubscription(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.CancelSubscriptionResponse>;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param callback The callback
+   */
+  cancelSubscription(subscriptionId: string, callback: msRest.ServiceCallback<Models.CanceledSubscriptionId>): void;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  cancelSubscription(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CanceledSubscriptionId>): void;
+  cancelSubscription(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CanceledSubscriptionId>, callback?: msRest.ServiceCallback<Models.CanceledSubscriptionId>): Promise<Models.CancelSubscriptionResponse> {
+    return this.sendOperationRequest(
+      {
+        subscriptionId,
+        options
+      },
+      cancelSubscriptionOperationSpec,
+      callback) as Promise<Models.CancelSubscriptionResponse>;
+  }
+
+  /**
+   * Renames the subscription
+   * @param subscriptionId Subscription Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RenameSubscriptionResponse>
+   */
+  renameSubscription(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.RenameSubscriptionResponse>;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param callback The callback
+   */
+  renameSubscription(subscriptionId: string, callback: msRest.ServiceCallback<Models.RenamedSubscriptionId>): void;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  renameSubscription(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RenamedSubscriptionId>): void;
+  renameSubscription(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RenamedSubscriptionId>, callback?: msRest.ServiceCallback<Models.RenamedSubscriptionId>): Promise<Models.RenameSubscriptionResponse> {
+    return this.sendOperationRequest(
+      {
+        subscriptionId,
+        options
+      },
+      renameSubscriptionOperationSpec,
+      callback) as Promise<Models.RenameSubscriptionResponse>;
+  }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const cancelSubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Subscription/subscriptions/{subscriptionId}/cancel",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CanceledSubscriptionId
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const renameSubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Subscription/subscriptions/{subscriptionId}/rename",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RenamedSubscriptionId
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
 
 export {
   SubscriptionClient,
