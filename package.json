@@ -52,6 +52,8 @@
     "pack-client": "npm-run-all -p -l pack-client-*",
     "test-client-template": "cd packages/@azure/template && npm run test",
     "test-client": "npm-run-all -p -l \"test-client-* -- {@}\"",
+    "live-test-client-eventhubs": "cd packages/@azure/eventhubs/client && npm run unit",
+    "live-test-client-event-processor-host": "cd packages/@azure/eventhubs/processor && npm run unit",
     "live-test-client-servicebus": "cd packages/@azure/servicebus/data-plane && npm run unit",
     "live-test-client": "npm-run-all -p -l \"live-test-client-* -- {@}\"",
     "audit-client-eventhubs": "cd packages/@azure/eventhubs/client && npm i --package-lock-only && npm audit",
