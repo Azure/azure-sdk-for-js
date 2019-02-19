@@ -342,7 +342,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe("Errors after namespace.close()", function(): void {
+describe.only("Errors after namespace.close()", function(): void {
   const expectedErrorName = "InvalidOperationError";
   const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
@@ -643,6 +643,56 @@ describe("Errors after namespace.close()", function(): void {
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+
+    await testSender();
+
+    await testReceiver();
+
+    await testSessionReceiver();
+  });
+
+  it("Unpartitioned Queue: errors after namespace.close()", async function(): Promise<void> {
+    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+
+    await testSender();
+
+    await testReceiver();
+  });
+
+  it("Unpartitioned Queue with sessions: errors after namespace.close()", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      true
+    );
+
+    await testSender();
+
+    await testSessionReceiver();
+  });
+
+  it("Unpartitioned Topic/Subscription: errors after namespace.close()", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+
+    await testSender();
+
+    await testReceiver();
+
+    await testRules();
+  });
+
+  it("Unpartitioned Topic/Subscription with sessions: errors after namespace.close()", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
 
