@@ -9,7 +9,7 @@ dotenv.config();
 chai.use(chaiAsPromised);
 import { Namespace, delay } from "../lib";
 import { ApplicationTokenCredentials, loginWithServicePrincipalSecret } from "ms-rest-azure";
-import { getSenderReceiverClients, ClientType, testSimpleMessages, getEnvVars } from "./testUtils";
+import { getSenderReceiverClients, ClientType, TestMessage, getEnvVars } from "./testUtils";
 const aadServiceBusAudience = "https://servicebus.azure.net/";
 
 function testFalsyValues(testFn: Function): void {
@@ -342,6 +342,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   const env = getEnvVars();
 
   async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
+    const testMessages = TestMessage.getSample();
     namespace = Namespace.createFromAadTokenCredentials(host, tokenCreds);
     namespace.should.be.an.instanceof(Namespace);
     const clients = await getSenderReceiverClients(
@@ -352,11 +353,11 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
     const sender = clients.senderClient.getSender();
     const receiver = clients.receiverClient.getReceiver();
-    await sender.send(testSimpleMessages);
+    await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
     should.equal(msgs.length, 1, "Unexpected number of messages");
   }
 
