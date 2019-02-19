@@ -85,6 +85,7 @@
     "unit": "npm run build-test && mocha -t 65000 test-dist/index.js",
     "coverage": "npm run build-test && nyc --reporter=lcov mocha -t 65000 test-dist/index.js",
     "prepack": "npm i && npm run build",
-    "extract-api": "tsc -p . && api-extractor run --local"
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "test-tsnode": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" mocha -t 65000 -r ts-node/register ./test/**/*.ts"
   }
 }

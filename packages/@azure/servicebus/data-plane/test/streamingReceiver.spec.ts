@@ -215,6 +215,45 @@ describe("Streaming - Misc Tests", function(): void {
   });
 });
 
+describe("Streaming - Async Iterator", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it.only("Partitioned Queue: receive returns an async iterator", async () => {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+
+    sender.sendBatch([TestMessage.getSample(), TestMessage.getSample(), TestMessage.getSample()]);
+
+    const messages = [];
+
+    for await (const message of receiver.receive()) {
+      messages.push(message);
+      if (messages.length === 3) {
+        break;
+      }
+    }
+
+    should.equal(messages.length, 3, "receive 3 messages");
+  });
+
+  it.only("Partitioned Queue: receive with options returns an async iterator", async () => {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+
+    sender.sendBatch([TestMessage.getSample(), TestMessage.getSample(), TestMessage.getSample()]);
+
+    const messages = [];
+    for await (const message of receiver.receive()) {
+      messages.push(message);
+      if (messages.length === 3) {
+        break;
+      }
+    }
+
+    should.equal(messages.length, 3, "receive 3 messages");
+  });
+});
+
 describe("Streaming - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
@@ -244,6 +283,7 @@ describe("Streaming - Complete message", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
   }
+
   it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testComplete(false);

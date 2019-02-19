@@ -55,19 +55,50 @@ export class Receiver {
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
-    this.validateNewReceiveCall(ReceiverType.streaming);
+  receive(options?: MessageHandlerOptions): AsyncIterableIterator<ServiceBusMessage>;
+  receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
+  receive(
+    onMessageOrOptions?: OnMessage | MessageHandlerOptions,
+    onError?: OnError,
+    options?: MessageHandlerOptions
+  ): AsyncIterableIterator<ServiceBusMessage> | void {
+    let onMessage: OnMessage | null;
 
-    if (!options) options = {};
-    const rcvOptions: ReceiveOptions = {
-      maxConcurrentCalls: 1,
-      receiveMode: this._receiveMode,
-      autoComplete: options.autoComplete,
-      maxMessageAutoRenewLockDurationInSeconds: options.maxMessageAutoRenewLockDurationInSeconds
-    };
-    const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
-    this._context.streamingReceiver = sReceiver;
-    return sReceiver.receive(onMessage, onError);
+    if (!onMessageOrOptions) {
+      // called without any parameters
+      options = {};
+      onMessage = null;
+    } else if (typeof onMessageOrOptions === "function") {
+      // called with a callback for OnMessage
+      options = options || {};
+      onMessage = onMessageOrOptions;
+    } else {
+      // called with just options
+      options = onMessageOrOptions;
+      onMessage = null;
+    }
+
+    this.validateNewReceiveCall(ReceiverType.streaming);
+    const receiver = this;
+
+    if (!onMessage || !onError) {
+      return (async function*() {
+        while (true) {
+          const [message] = await receiver.receiveBatch(1);
+          yield message;
+        }
+      })();
+    } else {
+      const rcvOptions: ReceiveOptions = {
+        maxConcurrentCalls: 1,
+        receiveMode: this._receiveMode,
+        autoComplete: options.autoComplete,
+        maxMessageAutoRenewLockDurationInSeconds: options.maxMessageAutoRenewLockDurationInSeconds
+      };
+      const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
+      this._context.streamingReceiver = sReceiver;
+      return sReceiver.receive(onMessage, onError);
+    }
   }
 
   /**
