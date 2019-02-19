@@ -8,11 +8,15 @@
  * regenerated.
  */
 
-export * from "./face";
-export * from "./personGroupPerson";
-export * from "./personGroupOperations";
-export * from "./faceListOperations";
-export * from "./largePersonGroupPerson";
-export * from "./largePersonGroupOperations";
-export * from "./largeFaceListOperations";
-export * from "./snapshotOperations";
+export {
+  TakeSnapshotRequest,
+  SnapshotTakeHeaders,
+  APIError,
+  ErrorModel,
+  Snapshot,
+  UpdateSnapshotRequest,
+  ApplySnapshotRequest,
+  SnapshotApplyHeaders,
+  OperationStatus
+} from "../models/mappers";
+
