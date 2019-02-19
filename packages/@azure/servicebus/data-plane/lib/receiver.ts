@@ -62,12 +62,12 @@ export class Receiver {
     onError?: OnError,
     options?: MessageHandlerOptions
   ): AsyncIterableIterator<ServiceBusMessage> | void {
-    let onMessage: OnMessage | null;
+    let onMessage: OnMessage | undefined;
 
     if (!onMessageOrOptions) {
       // called without any parameters
       options = {};
-      onMessage = null;
+      onMessage = undefined;
     } else if (typeof onMessageOrOptions === "function") {
       // called with a callback for OnMessage
       options = options || {};
@@ -75,14 +75,14 @@ export class Receiver {
     } else {
       // called with just options
       options = onMessageOrOptions;
-      onMessage = null;
+      onMessage = undefined;
     }
 
     this.validateNewReceiveCall(ReceiverType.streaming);
     const receiver = this;
 
     if (!onMessage || !onError) {
-      return (async function*() {
+      return (async function*(): AsyncIterableIterator<ServiceBusMessage> {
         while (true) {
           const [message] = await receiver.receiveBatch(1);
           yield message;

@@ -222,11 +222,8 @@ describe("Streaming - Async Iterator", function(): void {
 
   it("Partitioned Queue: receive returns an async iterator", async () => {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-
-    sender.sendBatch([TestMessage.getSample(), TestMessage.getSample(), TestMessage.getSample()]);
-
+    await sender.sendBatch([TestMessage.getSample(), TestMessage.getSample(), TestMessage.getSample()]);
     const messages = [];
-
     for await (const message of receiver.receive()) {
       messages.push(message);
       if (messages.length === 3) {
