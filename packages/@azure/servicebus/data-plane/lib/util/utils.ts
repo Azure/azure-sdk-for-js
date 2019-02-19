@@ -181,7 +181,7 @@ export function toBuffer(input: any): Buffer {
  * @param context The ConnectionContext associated with the current AMQP connection.
  */
 export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
-  if (context && context.wasConnectionEverOpened && !context.connection.isOpen()) {
+  if (context && context.wasConnectionCloseCalled) {
     const err = new Error("The underlying AMQP connection is closed.");
     err.name = "InvalidOperationError";
     throw err;
