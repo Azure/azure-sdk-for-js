@@ -5,6 +5,7 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { Client } from "./client";
 import { Sender } from "./sender";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * Describes the client that will maintain an AMQP connection to a ServiceBus Topic.
@@ -56,6 +57,7 @@ export class TopicClient extends Client {
    * property will go to the dead letter queue of such subscriptions.
    */
   getSender(): Sender {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!this._currentSender) {
       this._currentSender = new Sender(this._context);
     }

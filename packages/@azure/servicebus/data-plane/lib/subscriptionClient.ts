@@ -8,6 +8,7 @@ import { ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * Describes the client that will maintain an AMQP connection to a ServiceBus Subscription.
@@ -98,6 +99,7 @@ export class SubscriptionClient extends Client {
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!this._currentReceiver) {
       this._currentReceiver = new Receiver(this._context, options);
     }
@@ -207,6 +209,7 @@ export class SubscriptionClient extends Client {
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.sessionId) {
       if (

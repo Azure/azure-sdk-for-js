@@ -7,7 +7,25 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { Namespace, delay } from "../lib";
+import {
+  Namespace,
+  delay,
+  QueueClient,
+  TopicClient,
+  SubscriptionClient,
+  Sender,
+  Receiver,
+  SessionReceiver
+} from "../lib";
+import {
+  getSenderReceiverClients,
+  ClientType,
+  testSimpleMessages,
+  testSessionId1,
+  purge,
+  testMessagesWithSessions
+} from "./testUtils";
+import long from "long";
 
 function testFalsyValues(testFn: Function): void {
   [undefined, "", 0].forEach(function(value: string | number | undefined): void {
@@ -321,5 +339,320 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     await delay(3000);
     await client.close();
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+});
+
+describe("Errors after namespace.close()", function(): void {
+  const expectedErrorName = "InvalidOperationError";
+  const expectedErrorMsg = "The underlying AMQP connection is closed.";
+
+  let namespace: Namespace;
+  let senderClient: QueueClient | TopicClient;
+  let receiverClient: QueueClient | SubscriptionClient;
+  let sender: Sender;
+  let receiver: Receiver | SessionReceiver;
+
+  async function beforeEachTest(
+    senderType: ClientType,
+    receiverType: ClientType,
+    useSessions?: boolean
+  ): Promise<void> {
+    // The tests in this file expect the env variables to contain the connection string and
+    // the names of empty queue/topic/subscription that are to be tested
+
+    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+      throw new Error(
+        "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+      );
+    }
+
+    namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+
+    const clients = await getSenderReceiverClients(namespace, senderType, receiverType);
+    senderClient = clients.senderClient;
+    receiverClient = clients.receiverClient;
+
+    await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+    const peekedMsgs = await receiverClient.peek();
+    const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+    if (peekedMsgs.length) {
+      chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+    }
+
+    sender = senderClient.getSender();
+    receiver = useSessions
+      ? await receiverClient.getSessionReceiver({
+          sessionId: testSessionId1
+        })
+      : receiverClient.getReceiver();
+
+    // Normal send/receive
+    const testMessage = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    await sender.send(testMessage);
+    const receivedMsgs = await receiver.receiveBatch(1, 3);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
+    await receivedMsgs[0].complete();
+
+    // Close namespace, so that we can then test the InvalidOperationError error.
+    await namespace.close();
+  }
+
+  /**
+   * Tests that each feature of the sender client throws expected error
+   */
+  async function testSender(): Promise<void> {
+    let errorSend = false;
+    await sender.send(testSimpleMessages).catch((err) => {
+      errorSend = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorSend, true, "InvalidOperationError not thrown for send()");
+
+    let errorSendBatch = false;
+    await sender.sendBatch([testSimpleMessages]).catch((err) => {
+      errorSendBatch = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorSendBatch, true, "InvalidOperationError not thrown for sendBatch()");
+
+    let errorScheduleMsg = false;
+    await sender.scheduleMessage(new Date(Date.now() + 30000), testSimpleMessages).catch((err) => {
+      errorScheduleMsg = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorScheduleMsg, true, "InvalidOperationError not thrown for scheduleMessage()");
+
+    let errorScheduleMsgs = false;
+    await sender
+      .scheduleMessages(new Date(Date.now() + 30000), [testSimpleMessages])
+      .catch((err) => {
+        errorScheduleMsgs =
+          err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      });
+    should.equal(
+      errorScheduleMsgs,
+      true,
+      "InvalidOperationError not thrown for scheduleMessages()"
+    );
+
+    let errorCancelMsg = false;
+    await sender.cancelScheduledMessage(long.ZERO).catch((err) => {
+      errorCancelMsg = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorCancelMsg,
+      true,
+      "InvalidOperationError not thrown for cancelScheduledMessage()"
+    );
+
+    let errorCancelMsgs = false;
+    await sender.cancelScheduledMessages([long.ZERO]).catch((err) => {
+      errorCancelMsgs = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorCancelMsgs,
+      true,
+      "InvalidOperationError not thrown for cancelScheduledMessages()"
+    );
+
+    let errorNewSender = false;
+    try {
+      senderClient.getSender();
+    } catch (err) {
+      errorNewSender = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    }
+    should.equal(errorNewSender, true, "InvalidOperationError not thrown for getSender()");
+  }
+
+  /**
+   * Tests that each feature of the receiver client throws expected error
+   */
+  async function testReceiver(useSessions?: boolean): Promise<void> {
+    let errorPeek = false;
+    await receiverClient.peek().catch((err) => {
+      errorPeek = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorPeek,
+      true,
+      "InvalidOperationError not thrown for peek() from receiverClient"
+    );
+
+    let errorPeekBySequence = false;
+    await receiverClient.peekBySequenceNumber(long.ZERO).catch((err) => {
+      errorPeekBySequence =
+        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorPeekBySequence,
+      true,
+      "InvalidOperationError not thrown for peekBySequenceNumber() from receiverClient"
+    );
+
+    let errorReceiveBatch = false;
+    await receiver.receiveBatch(1, 1).catch((err) => {
+      errorReceiveBatch = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorReceiveBatch, true, "InvalidOperationError not thrown for receiveBatch()");
+
+    let errorReceiveStream = false;
+    try {
+      receiver.receive(() => Promise.resolve(), (e) => console.log(e));
+    } catch (err) {
+      errorReceiveStream =
+        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    }
+    should.equal(errorReceiveStream, true, "InvalidOperationError not thrown for receive()");
+
+    let errorDeferredMsg = false;
+    await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
+      errorDeferredMsg = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorDeferredMsg,
+      true,
+      "InvalidOperationError not thrown for receiveDeferredMessage()"
+    );
+
+    let errorDeferredMsgs = false;
+    await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
+      errorDeferredMsgs = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorDeferredMsgs,
+      true,
+      "InvalidOperationError not thrown for receiveDeferredMessages()"
+    );
+
+    let errorRenewLock = false;
+    await receiver.renewLock("randomLockToken").catch((err) => {
+      errorRenewLock = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorRenewLock, true, "InvalidOperationError not thrown for renewLock()");
+
+    let errorNewReceiver = false;
+    try {
+      useSessions
+        ? await receiverClient.getSessionReceiver({
+            sessionId: testSessionId1
+          })
+        : receiverClient.getReceiver();
+    } catch (err) {
+      errorNewReceiver = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    }
+    should.equal(errorNewReceiver, true, "InvalidOperationError not thrown for getReceiver()");
+  }
+
+  /**
+   * Tests that each feature of the receiver client with sessions throws expected error
+   */
+  async function testSessionReceiver(): Promise<void> {
+    await testReceiver(true);
+    const sessionReceiver = receiver as SessionReceiver;
+
+    let errorPeek = false;
+    await sessionReceiver.peek().catch((err) => {
+      errorPeek = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorPeek,
+      true,
+      "InvalidOperationError not thrown for peek() from sessionReceiver"
+    );
+
+    let errorPeekBySequence = false;
+    await sessionReceiver.peekBySequenceNumber(long.ZERO).catch((err) => {
+      errorPeekBySequence =
+        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(
+      errorPeekBySequence,
+      true,
+      "InvalidOperationError not thrown for peekBySequenceNumber() from sessionReceiver"
+    );
+
+    let errorGetState = false;
+    await sessionReceiver.getState().catch((err) => {
+      errorGetState = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorGetState, true, "InvalidOperationError not thrown for getState()");
+
+    let errorSetState = false;
+    await sessionReceiver.setState("state!!").catch((err) => {
+      errorSetState = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorSetState, true, "InvalidOperationError not thrown for setState()");
+  }
+
+  /**
+   * Tests that each feature of the topic filters throws expected error
+   */
+  async function testRules(): Promise<void> {
+    const subscriptionClient = receiverClient as SubscriptionClient;
+
+    let errorAddRule = false;
+    await subscriptionClient.addRule("myRule", true).catch((err) => {
+      errorAddRule = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorAddRule, true, "InvalidOperationError not thrown for addRule()");
+
+    let errorRemoveRule = false;
+    await subscriptionClient.removeRule("myRule").catch((err) => {
+      errorRemoveRule = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorRemoveRule, true, "InvalidOperationError not thrown for removeRule()");
+
+    let errorGetRules = false;
+    await subscriptionClient.getRules().catch((err) => {
+      errorGetRules = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    });
+    should.equal(errorGetRules, true, "InvalidOperationError not thrown for getRule()");
+  }
+
+  it("Partitioned Queue: errors after namespace.close()", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+
+    await testSender();
+
+    await testReceiver();
+  });
+
+  it("Partitioned Queue with sessions: errors after namespace.close()", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      true
+    );
+
+    await testSender();
+
+    await testSessionReceiver();
+  });
+
+  it("Partitioned Topic/Subscription: errors after namespace.close()", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+
+    await testSender();
+
+    await testReceiver();
+
+    await testRules();
+  });
+
+  it("Partitioned Topic/Subscription with sessions: errors after namespace.close()", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      true
+    );
+
+    await testSender();
+
+    await testReceiver();
+
+    await testSessionReceiver();
   });
 });

@@ -27,6 +27,11 @@ export interface ConnectionContext extends ConnectionContextBase {
    * given amqp connection.
    */
   clients: Dictionary<Client>;
+
+  /**
+   * @property {boolean} wasConnectionOpened Indicates whether the connection was ever opened.
+   */
+  wasConnectionEverOpened: boolean;
 }
 
 export namespace ConnectionContext {
@@ -58,6 +63,7 @@ export namespace ConnectionContext {
     // Define listeners to be added to the connection object for
     // "connection_open" and "connection_error" events.
     const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
+      connectionContext.wasConnectionEverOpened = true;
       connectionContext.wasConnectionCloseCalled = false;
       log.connectionCtxt(
         "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",

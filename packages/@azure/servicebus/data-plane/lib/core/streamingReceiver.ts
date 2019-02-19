@@ -12,6 +12,7 @@ import {
 import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
+import { throwErrorIfConnectionClosed } from "../util/utils";
 
 /**
  * Describes the options to control receiving of messages in streaming mode.
@@ -85,6 +86,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
   receive(onMessage: OnMessage, onError: OnError): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -114,6 +116,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @return {StreamingReceiver} An instance of StreamingReceiver.
    */
   static create(context: ClientEntityContext, options?: ReceiveOptions): StreamingReceiver {
+    throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == undefined) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
