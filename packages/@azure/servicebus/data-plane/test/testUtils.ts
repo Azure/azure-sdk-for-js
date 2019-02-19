@@ -65,18 +65,22 @@ export function getEnvVars(): { [key: string]: string } {
   if (!process.env.RESOURCE_GROUP) {
     throw new Error("Define RESOURCE_GROUP in your environment before running integration tests.");
   }
-  if (!process.env.SERVICEBUS_NAMESPACE) {
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
-      "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
+
+  const servicebusNamespace = (process.env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://(.*).servicebus.windows.net"
+  ) || "")[1];
   return {
     clientId: process.env.AAD_CLIENT_ID,
     tenantId: process.env.AAD_TENANT_ID,
     secret: process.env.AAD_SERVICEBUS_SECRET,
     subscriptionId: process.env.AZURE_SUBSCRIPTION_ID,
     resourceGroup: process.env.RESOURCE_GROUP,
-    servicebusNamespace: process.env.SERVICEBUS_NAMESPACE
+    servicebusNamespace: servicebusNamespace
   };
 }
 
