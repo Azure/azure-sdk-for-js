@@ -41,11 +41,11 @@ describe("Misc tests", function (): void {
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message with %d bytes.", bodysize);
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromOffset(offset) });
-    let data = await breceiver.receive(5, 5);
-    data.length.should.equal(0);
+    let data = await breceiver.receive(5, 10);
+    data.length.should.equal(0, "Unexpected to receive message before client sends it");
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
-    data = await breceiver.receive(5, 10);
+    data = await breceiver.receive(5, 30);
     debug("Closing the receiver..");
     await breceiver.close();
     debug("received message: ", data.length);
@@ -76,7 +76,7 @@ describe("Misc tests", function (): void {
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromOffset(offset) });
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(5, 10);
+    const data = await breceiver.receive(5, 30);
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -105,7 +105,7 @@ describe("Misc tests", function (): void {
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromOffset(offset) });
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(5, 5);
+    const data = await breceiver.receive(5, 30);
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -125,7 +125,7 @@ describe("Misc tests", function (): void {
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromOffset(offset) });
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(5, 5);
+    const data = await breceiver.receive(5, 30);
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -142,7 +142,7 @@ describe("Misc tests", function (): void {
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromOffset(offset) });
       let data = await breceiver.receive(5, 10);
-      data.length.should.equal(0);
+      data.length.should.equal(0, "Unexpected to receive message before client sends it");
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -153,7 +153,7 @@ describe("Misc tests", function (): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 15);
+      data = await breceiver.receive(5, 30);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
@@ -173,8 +173,8 @@ describe("Misc tests", function (): void {
       const offset = (await client.getPartitionInformation(partitionId)).lastEnqueuedOffset;
       debug(`Partition ${partitionId} has last message with offset ${offset}.`);
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromOffset(offset) });
-      let data = await breceiver.receive(5, 5);
-      data.length.should.equal(0);
+      let data = await breceiver.receive(5, 10);
+      data.length.should.equal(0, "Unexpected to receive message before client sends it");
       const messageCount = 5;
       const d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
@@ -202,7 +202,7 @@ describe("Misc tests", function (): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 10);
+      data = await breceiver.receive(5, 30);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
