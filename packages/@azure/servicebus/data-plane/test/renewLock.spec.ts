@@ -18,7 +18,7 @@ import {
   OnError
 } from "../lib";
 import { delay } from "rhea-promise";
-import { testSimpleMessages, purge, getSenderReceiverClients, ClientType } from "./testUtils";
+import { purge, getSenderReceiverClients, ClientType, TestMessage } from "./testUtils";
 
 let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
@@ -338,7 +338,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testSimpleMessages);
+  const testMessage = TestMessage.getSample();
+  await senderClient.getSender().send(testMessage);
 
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
@@ -351,12 +352,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Unexpected number of messages");
-  should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
-  should.equal(
-    msgs[0].messageId,
-    testSimpleMessages.messageId,
-    "MessageId is different than expected"
-  );
+  should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+  should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
   // Verify initial lock expiry time on the message
   assertTimestampsAreApproximatelyEqual(
@@ -388,19 +385,16 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testSimpleMessages);
+  const testMessage = TestMessage.getSample();
+  await senderClient.getSender().send(testMessage);
 
   const receiver = receiverClient.getReceiver();
   const msgs = await receiver.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(msgs[0].body, testSimpleMessages.body, "MessageBody is different than expected");
-  should.equal(
-    msgs[0].messageId,
-    testSimpleMessages.messageId,
-    "MessageId is different than expected"
-  );
+  should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+  should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
   // Sleeping 30 seconds...
   await delay(lockDurationInMilliseconds + 1000);
@@ -426,8 +420,8 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   let numOfMessagesReceived = 0;
-
-  await senderClient.getSender().send(testSimpleMessages);
+  const testMessage = TestMessage.getSample();
+  await senderClient.getSender().send(testMessage);
   const receiver = receiverClient.getReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
@@ -436,12 +430,12 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 
       should.equal(
         brokeredMessage.body,
-        testSimpleMessages.body,
+        testMessage.body,
         "MessageBody is different than expected"
       );
       should.equal(
         brokeredMessage.messageId,
-        testSimpleMessages.messageId,
+        testMessage.messageId,
         "MessageId is different than expected"
       );
 
@@ -501,8 +495,8 @@ async function testAutoLockRenewalConfigBehavior(
   options: AutoLockRenewalTestOptions
 ): Promise<void> {
   let numOfMessagesReceived = 0;
-
-  await senderClient.getSender().send(testSimpleMessages);
+  const testMessage = TestMessage.getSample();
+  await senderClient.getSender().send(testMessage);
   const receiver = receiverClient.getReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
@@ -511,12 +505,12 @@ async function testAutoLockRenewalConfigBehavior(
 
       should.equal(
         brokeredMessage.body,
-        testSimpleMessages.body,
+        testMessage.body,
         "MessageBody is different than expected"
       );
       should.equal(
         brokeredMessage.messageId,
-        testSimpleMessages.messageId,
+        testMessage.messageId,
         "MessageId is different than expected"
       );
 
