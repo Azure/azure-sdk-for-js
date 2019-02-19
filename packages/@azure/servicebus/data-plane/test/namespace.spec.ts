@@ -357,9 +357,6 @@ describe("Errors after namespace.close()", function(): void {
     receiverType: ClientType,
     useSessions?: boolean
   ): Promise<void> {
-    // The tests in this file expect the env variables to contain the connection string and
-    // the names of empty queue/topic/subscription that are to be tested
-
     if (!process.env.SERVICEBUS_CONNECTION_STRING) {
       throw new Error(
         "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
