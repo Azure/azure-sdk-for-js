@@ -54,20 +54,16 @@ export enum ClientType {
 }
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
-function getEnvVars(): { [key: string]: string } {
-  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
-    );
+export function getEnvVars(): { [key: string]: string } {
+  if (!process.env.AAD_CLIENT_ID) {
+    throw new Error("Define AAD_CLIENT_ID in your environment before running integration tests.");
   }
-  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
-    );
+  if (!process.env.AAD_TENANT_ID) {
+    throw new Error("Define AAD_TENANT_ID in your environment before running integration tests.");
   }
-  if (!process.env.ARM_SERVICEBUS_SECRET) {
+  if (!process.env.AAD_SERVICEBUS_SECRET) {
     throw new Error(
-      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
+      "Define AAD_SERVICEBUS_SECRET in your environment before running integration tests."
     );
   }
   if (!process.env.AZURE_SUBSCRIPTION_ID) {
@@ -78,18 +74,22 @@ function getEnvVars(): { [key: string]: string } {
   if (!process.env.RESOURCE_GROUP) {
     throw new Error("Define RESOURCE_GROUP in your environment before running integration tests.");
   }
-  if (!process.env.SERVICEBUS_NAMESPACE) {
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
-      "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
+
+  const servicebusNamespace = (process.env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://(.*).servicebus.windows.net"
+  ) || "")[1];
   return {
-    clientId: process.env.ARM_SERVICEBUS_CLIENT_ID,
-    tenantId: process.env.ARM_SERVICEBUS_TENANT_ID,
-    secret: process.env.ARM_SERVICEBUS_SECRET,
+    clientId: process.env.AAD_CLIENT_ID,
+    tenantId: process.env.AAD_TENANT_ID,
+    secret: process.env.AAD_SERVICEBUS_SECRET,
     subscriptionId: process.env.AZURE_SUBSCRIPTION_ID,
     resourceGroup: process.env.RESOURCE_GROUP,
-    servicebusNamespace: process.env.SERVICEBUS_NAMESPACE
+    servicebusNamespace: servicebusNamespace
   };
 }
 
