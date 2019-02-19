@@ -28,7 +28,7 @@ export class VpnSites {
   }
 
   /**
-   * Retrieves the details of a VPNsite.
+   * Retrieves the details of a VPN site.
    * @param resourceGroupName The resource group name of the VpnSite.
    * @param vpnSiteName The name of the VpnSite being retrieved.
    * @param [options] The optional parameters
