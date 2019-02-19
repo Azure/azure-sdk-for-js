@@ -29,7 +29,7 @@ export interface ConnectionContext extends ConnectionContextBase {
   clients: Dictionary<Client>;
 
   /**
-   * @property {boolean} wasConnectionOpened Indicates whether the connection was ever opened.
+   * @property {boolean} wasConnectionEverOpened Indicates whether the connection was ever opened.
    */
   wasConnectionEverOpened: boolean;
 }
