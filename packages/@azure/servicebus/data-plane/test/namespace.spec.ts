@@ -387,22 +387,6 @@ describe("Test createFromAadTokenCredentials", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error for invalid tokenCredentials(without tokenAudience)", async function(): Promise<
-    void
-  > {
-    tokenCreds = await loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId);
-    await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds).catch((err) => {
-      errorWasThrown = true;
-      should.equal(
-        !(err.message.search("InvalidAudience: Invalid authorization token audience.") + 1),
-        false,
-        "ErrorMessage is different than expected"
-      );
-    });
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-    await namespace.close();
-  });
-
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
     tokenCreds = await loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId, {
       tokenAudience: aadServiceBusAudience
