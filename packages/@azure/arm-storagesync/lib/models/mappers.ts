@@ -622,7 +622,7 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
     modelProperties: {
       errorCode: {
         readOnly: true,
-        serializedName: "ErrorCode",
+        serializedName: "errorCode",
         type: {
           name: "Number"
         }
