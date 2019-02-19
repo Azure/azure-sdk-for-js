@@ -3785,6 +3785,17 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -4797,6 +4808,12 @@ export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
       latestModelApplied: {
         readOnly: true,
         serializedName: "properties.latestModelApplied",
+        type: {
+          name: "Boolean"
+        }
+      },
+      protectFromScaleIn: {
+        serializedName: "properties.protectFromScaleIn",
         type: {
           name: "Boolean"
         }

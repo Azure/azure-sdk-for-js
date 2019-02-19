@@ -172,7 +172,7 @@ export interface Resource extends BaseResource {
  * set are allocated to different nodes to maximize availability. For more
  * information about availability sets, see [Manage the availability of virtual
  * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
- * <br><br> For more information on Azure planned maintainance, see [Planned
+ * <br><br> For more information on Azure planned maintenance, see [Planned
  * maintenance for virtual machines in
  * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
  * <br><br> Currently, a VM can only be added to availability set at creation
@@ -642,12 +642,13 @@ export interface Usage {
 /**
  * @interface
  * An interface representing VirtualMachineReimageParameters.
- * Paramaters for Reimaging Virtual Machine. Default value for OSDisk : true.
+ * Parameters for Reimaging Virtual Machine. NOTE: Virtual Machine OS disk will
+ * always be reimaged
  *
  */
 export interface VirtualMachineReimageParameters {
   /**
-   * @member {boolean} [tempDisk] Specified whether to reimage temp disk.
+   * @member {boolean} [tempDisk] Specifies whether to reimage temp disk.
    * Default value: false.
    */
   tempDisk?: boolean;
@@ -926,15 +927,15 @@ export interface VirtualHardDisk {
 /**
  * @interface
  * An interface representing DiffDiskSettings.
- * Describes the parameters of differencing disk settings that can be be
- * specified for operating system disk. <br><br> NOTE: The differencing disk
- * settings can only be specified for managed disk.
+ * Describes the parameters of ephemeral disk settings that can be specified
+ * for operating system disk. <br><br> NOTE: The ephemeral disk settings can
+ * only be specified for managed disk.
  *
  */
 export interface DiffDiskSettings {
   /**
-   * @member {DiffDiskOptions} [option] Specifies the differencing disk
-   * settings for operating system disk. Possible values include: 'Local'
+   * @member {DiffDiskOptions} [option] Specifies the ephemeral disk settings
+   * for operating system disk. Possible values include: 'Local'
    */
   option?: DiffDiskOptions;
 }
@@ -1009,8 +1010,8 @@ export interface OSDisk {
    */
   writeAcceleratorEnabled?: boolean;
   /**
-   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the differencing
-   * Disk Settings for the operating system disk used by the virtual machine.
+   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the ephemeral Disk
+   * Settings for the operating system disk used by the virtual machine.
    */
   diffDiskSettings?: DiffDiskSettings;
   /**
@@ -1360,9 +1361,9 @@ export interface VaultCertificate {
    * be added. The specified certificate store is implicitly in the
    * LocalMachine account. <br><br>For Linux VMs, the certificate file is
    * placed under the /var/lib/waagent directory, with the file name
-   * <UppercaseThumbprint>.crt for the X509 certificate file and
-   * <UppercaseThumbpring>.prv for private key. Both of these files are .pem
-   * formatted.
+   * &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and
+   * &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are
+   * .pem formatted.
    */
   certificateStore?: string;
 }
@@ -1395,9 +1396,10 @@ export interface VaultSecretGroup {
 export interface OSProfile {
   /**
    * @member {string} [computerName] Specifies the host OS name of the virtual
-   * machine. <br><br> **Max-length (Windows):** 15 characters <br><br>
-   * **Max-length (Linux):** 64 characters. <br><br> For naming conventions and
-   * restrictions see [Azure infrastructure services implementation
+   * machine. <br><br> This name cannot be updated after the VM is created.
+   * <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length
+   * (Linux):** 64 characters. <br><br> For naming conventions and restrictions
+   * see [Azure infrastructure services implementation
    * guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
    */
   computerName?: string;
@@ -1874,7 +1876,7 @@ export interface VirtualMachine extends Resource {
    * nodes to maximize availability. For more information about availability
    * sets, see [Manage the availability of virtual
    * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintainance, see [Planned
+   * <br><br> For more information on Azure planned maintenance, see [Planned
    * maintenance for virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
    * <br><br> Currently, a VM can only be added to availability set at creation
@@ -1988,7 +1990,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * nodes to maximize availability. For more information about availability
    * sets, see [Manage the availability of virtual
    * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintainance, see [Planned
+   * <br><br> For more information on Azure planned maintenance, see [Planned
    * maintenance for virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
    * <br><br> Currently, a VM can only be added to availability set at creation
@@ -2536,9 +2538,9 @@ export interface VirtualMachineScaleSetOSDisk {
    */
   createOption: DiskCreateOptionTypes;
   /**
-   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the differencing
-   * Disk Settings for the operating system disk used by the virtual machine
-   * scale set.
+   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the ephemeral disk
+   * Settings for the operating system disk used by the virtual machine scale
+   * set.
    */
   diffDiskSettings?: DiffDiskSettings;
   /**
@@ -2728,7 +2730,7 @@ export interface VirtualMachineScaleSetUpdateStorageProfile {
 export interface ApiEntityReference {
   /**
    * @member {string} [id] The ARM resource id in the form of
-   * /subscriptions/{SubcriptionId}/resourceGroups/{ResourceGroupName}/...
+   * /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
    */
   id?: string;
 }
@@ -3149,6 +3151,11 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {string[]} [provisionAfterExtensions] Collection of extension
+   * names after which this extension needs to be provisioned.
+   */
+  provisionAfterExtensions?: string[];
 }
 
 /**
@@ -3329,7 +3336,7 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   singlePlacementGroup?: boolean;
   /**
-   * @member {boolean} [zoneBalance] Whether to force stictly even Virtual
+   * @member {boolean} [zoneBalance] Whether to force strictly even Virtual
    * Machine distribution cross x-zones in case there is zone outage.
    */
   zoneBalance?: boolean;
@@ -3780,7 +3787,7 @@ export interface UpgradeOperationHistoricalStatusInfoProperties {
    */
   readonly runningStatus?: UpgradeOperationHistoryStatus;
   /**
-   * @member {RollingUpgradeProgressInfo} [progress] Counts of the VM's in each
+   * @member {RollingUpgradeProgressInfo} [progress] Counts of the VMs in each
    * state.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -3952,6 +3959,12 @@ export interface VirtualMachineScaleSetVM extends Resource {
    */
   readonly latestModelApplied?: boolean;
   /**
+   * @member {boolean} [protectFromScaleIn] Specifies whether the virtual
+   * machine instance shouldn't be considered for deletion during a scale-in
+   * operation
+   */
+  protectFromScaleIn?: boolean;
+  /**
    * @member {string} [vmId] Azure VM unique ID.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -4004,7 +4017,7 @@ export interface VirtualMachineScaleSetVM extends Resource {
    * nodes to maximize availability. For more information about availability
    * sets, see [Manage the availability of virtual
    * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintainance, see [Planned
+   * <br><br> For more information on Azure planned maintenance, see [Planned
    * maintenance for virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
    * <br><br> Currently, a VM can only be added to availability set at creation
@@ -4178,8 +4191,8 @@ export interface LogAnalyticsInputBase {
    */
   groupByThrottlePolicy?: boolean;
   /**
-   * @member {boolean} [groupByOperationName] Group query result by  by
-   * Operation Name.
+   * @member {boolean} [groupByOperationName] Group query result by Operation
+   * Name.
    */
   groupByOperationName?: boolean;
   /**
@@ -4438,7 +4451,7 @@ export interface ResourceSkuCosts {
 /**
  * @interface
  * An interface representing ResourceSkuCapabilities.
- * Describes The SKU capabilites object.
+ * Describes The SKU capabilities object.
  *
  */
 export interface ResourceSkuCapabilities {
@@ -4711,7 +4724,7 @@ export interface CreationData {
 /**
  * @interface
  * An interface representing SourceVault.
- * The vault id is an Azure Resource Manager Resoure id in the form
+ * The vault id is an Azure Resource Manager Resource id in the form
  * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
  *
  */
@@ -4847,13 +4860,17 @@ export interface Disk extends Resource {
   /**
    * @member {number} [diskIOPSReadWrite] The number of IOPS allowed for this
    * disk; only settable for UltraSSD disks. One operation can transfer between
-   * 4k and 256k bytes.
+   * 4k and 256k bytes. For a description of the range of values you can set,
+   * see [Ultra SSD Managed Disk
+   * Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
    */
   diskIOPSReadWrite?: number;
   /**
    * @member {number} [diskMBpsReadWrite] The bandwidth allowed for this disk;
    * only settable for UltraSSD disks. MBps means millions of bytes per second
-   * - MB here uses the ISO notation, of powers of 10.
+   * - MB here uses the ISO notation, of powers of 10. For a description of the
+   * range of values you can set, see [Ultra SSD Managed Disk
+   * Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
    */
   diskMBpsReadWrite?: number;
 }
@@ -5075,7 +5092,7 @@ export interface GalleryIdentifier {
 export interface Gallery extends Resource {
   /**
    * @member {string} [description] The description of this Shared Image
-   * Gallery resource. This property is updateable.
+   * Gallery resource. This property is updatable.
    */
   description?: string;
   /**
@@ -5136,7 +5153,7 @@ export interface ResourceRange {
  * @interface
  * An interface representing RecommendedMachineConfiguration.
  * The properties describe the recommended machine configuration for this Image
- * Definition. These properties are updateable.
+ * Definition. These properties are updatable.
  *
  */
 export interface RecommendedMachineConfiguration {
@@ -5196,7 +5213,7 @@ export interface ImagePurchasePlan {
 export interface GalleryImage extends Resource {
   /**
    * @member {string} [description] The description of this gallery Image
-   * Definition resource. This property is updateable.
+   * Definition resource. This property is updatable.
    */
   description?: string;
   /**
@@ -5228,7 +5245,7 @@ export interface GalleryImage extends Resource {
   /**
    * @member {Date} [endOfLifeDate] The end of life date of the gallery Image
    * Definition. This property can be used for decommissioning purposes. This
-   * property is updateable.
+   * property is updatable.
    */
   endOfLifeDate?: Date;
   /**
@@ -5267,7 +5284,7 @@ export interface GalleryImage extends Resource {
 export interface GalleryArtifactPublishingProfileBase {
   /**
    * @member {TargetRegion[]} [targetRegions] The target regions where the
-   * Image Version is going to be replicated to. This property is updateable.
+   * Image Version is going to be replicated to. This property is updatable.
    */
   targetRegions?: TargetRegion[];
   /**
@@ -5288,7 +5305,7 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
    * @member {number} [replicaCount] The number of replicas of the Image
    * Version to be created per region. This property would take effect for a
    * region when regionalReplicaCount is not specified. This property is
-   * updateable.
+   * updatable.
    */
   replicaCount?: number;
   /**
@@ -5307,7 +5324,7 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
   /**
    * @member {Date} [endOfLifeDate] The end of life date of the gallery Image
    * Version. This property can be used for decommissioning purposes. This
-   * property is updateable.
+   * property is updatable.
    */
   endOfLifeDate?: Date;
 }
@@ -5493,7 +5510,7 @@ export interface TargetRegion {
   name: string;
   /**
    * @member {number} [regionalReplicaCount] The number of replicas of the
-   * Image Version to be created per region. This property is updateable.
+   * Image Version to be created per region. This property is updatable.
    */
   regionalReplicaCount?: number;
 }
@@ -5591,7 +5608,7 @@ export interface ContainerServiceMasterProfile {
    */
   dnsPrefix: string;
   /**
-   * @member {string} [fqdn] FDQN for the master.
+   * @member {string} [fqdn] FQDN for the master.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -5638,7 +5655,7 @@ export interface ContainerServiceAgentPoolProfile {
    */
   dnsPrefix: string;
   /**
-   * @member {string} [fqdn] FDQN for the agent pool.
+   * @member {string} [fqdn] FQDN for the agent pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
