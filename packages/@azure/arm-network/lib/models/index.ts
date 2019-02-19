@@ -20875,6 +20875,44 @@ export type HubVirtualNetworkConnectionsGetResponse = HubVirtualNetworkConnectio
 };
 
 /**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type HubVirtualNetworkConnectionsCreateOrUpdateResponse = HubVirtualNetworkConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HubVirtualNetworkConnection;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type HubVirtualNetworkConnectionsUpdateTagsResponse = HubVirtualNetworkConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HubVirtualNetworkConnection;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type HubVirtualNetworkConnectionsListResponse = ListHubVirtualNetworkConnectionsResult & {
@@ -20890,6 +20928,44 @@ export type HubVirtualNetworkConnectionsListResponse = ListHubVirtualNetworkConn
        * The response body as parsed JSON or XML
        */
       parsedBody: ListHubVirtualNetworkConnectionsResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type HubVirtualNetworkConnectionsBeginCreateOrUpdateResponse = HubVirtualNetworkConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HubVirtualNetworkConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type HubVirtualNetworkConnectionsBeginUpdateTagsResponse = HubVirtualNetworkConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HubVirtualNetworkConnection;
     };
 };
 

@@ -14,6 +14,7 @@ export {
   BaseResource,
   ErrorModel,
   ErrorDetails,
+  TagsObject,
   ListHubVirtualNetworkConnectionsResult,
   NetworkInterfaceTapConfiguration,
   VirtualNetworkTap,

@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hubVirtualNetworkConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -63,6 +64,37 @@ export class HubVirtualNetworkConnections {
   }
 
   /**
+   * Creates a HubVirtualNetworkConnection resource if it doesn't exist. Updates the
+   * HubVirtualNetworkConnection if one exists.
+   * @param resourceGroupName The resource group name of the HubVirtualNetworkConnection.
+   * @param virtualHubName The name of the parent Virtual Hub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param hubVirtualNetworkConnectionParameters Parameters supplied to create or update
+   * HubVirtualNetworkConnection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,virtualHubName,connectionName,hubVirtualNetworkConnectionParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Updates HubVirtualNetworkConnection tags.
+   * @param resourceGroupName The resource group name of the HubVirtualNetworkConnection.
+   * @param virtualHubName The name of the parent Virtual Hub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param hubVirtualNetworkConnectionParameters Parameters supplied to update
+   * HubVirtualNetworkConnection tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HubVirtualNetworkConnectionsUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,virtualHubName,connectionName,hubVirtualNetworkConnectionParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HubVirtualNetworkConnectionsUpdateTagsResponse>;
+  }
+
+  /**
    * Retrieves the details of all HubVirtualNetworkConnections.
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
@@ -92,6 +124,53 @@ export class HubVirtualNetworkConnections {
       },
       listOperationSpec,
       callback) as Promise<Models.HubVirtualNetworkConnectionsListResponse>;
+  }
+
+  /**
+   * Creates a HubVirtualNetworkConnection resource if it doesn't exist. Updates the
+   * HubVirtualNetworkConnection if one exists.
+   * @param resourceGroupName The resource group name of the HubVirtualNetworkConnection.
+   * @param virtualHubName The name of the parent Virtual Hub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param hubVirtualNetworkConnectionParameters Parameters supplied to create or update
+   * HubVirtualNetworkConnection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualHubName,
+        connectionName,
+        hubVirtualNetworkConnectionParameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates HubVirtualNetworkConnection tags.
+   * @param resourceGroupName The resource group name of the HubVirtualNetworkConnection.
+   * @param virtualHubName The name of the parent Virtual Hub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param hubVirtualNetworkConnectionParameters Parameters supplied to update
+   * HubVirtualNetworkConnection tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualHubName,
+        connectionName,
+        hubVirtualNetworkConnectionParameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
+      options);
   }
 
   /**
@@ -168,6 +247,78 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ListHubVirtualNetworkConnectionsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualHubName,
+    Parameters.connectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "hubVirtualNetworkConnectionParameters",
+    mapper: {
+      ...Mappers.HubVirtualNetworkConnection,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.HubVirtualNetworkConnection
+    },
+    201: {
+      bodyMapper: Mappers.HubVirtualNetworkConnection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualHubName,
+    Parameters.connectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "hubVirtualNetworkConnectionParameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.HubVirtualNetworkConnection
+    },
+    201: {
+      bodyMapper: Mappers.HubVirtualNetworkConnection
     },
     default: {
       bodyMapper: Mappers.ErrorModel
