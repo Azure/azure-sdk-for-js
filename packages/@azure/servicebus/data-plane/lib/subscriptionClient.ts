@@ -53,7 +53,7 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Subscription for this client.
+   * Closes the AMQP link for the receivers created by this client.
    *
    * @returns {Promise<void>}
    */

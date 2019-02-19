@@ -34,7 +34,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Queue for this client.
+   * Closes all the AMQP links for sender/receivers created by this client.
    *
    * @returns {Promise<void>}
    */
