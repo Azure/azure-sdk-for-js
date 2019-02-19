@@ -54,6 +54,7 @@ export {
   HostingEnvironmentProfile,
   CloningInfo,
   SlotSwapStatus,
+  GeoDistribution,
   ManagedServiceIdentity,
   HostingEnvironmentDiagnostics,
   MetricDefinition,

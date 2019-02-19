@@ -67,6 +67,7 @@ export {
   IpSecurityRestriction,
   CloningInfo,
   SlotSwapStatus,
+  GeoDistribution,
   ManagedServiceIdentity,
   AppServicePlan,
   SkuDescription,

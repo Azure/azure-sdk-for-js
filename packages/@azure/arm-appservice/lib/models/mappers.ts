@@ -918,6 +918,12 @@ export const VnetInfo: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isSwift: {
+        serializedName: "properties.isSwift",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1333,6 +1339,28 @@ export const ManagedServiceIdentity: msRest.CompositeMapper = {
   }
 };
 
+export const GeoDistribution: msRest.CompositeMapper = {
+  serializedName: "GeoDistribution",
+  type: {
+    name: "Composite",
+    className: "GeoDistribution",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      numberOfWorkers: {
+        serializedName: "numberOfWorkers",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const SlotSwapStatus: msRest.CompositeMapper = {
   serializedName: "SlotSwapStatus",
   type: {
@@ -1477,7 +1505,6 @@ export const IpSecurityRestriction: msRest.CompositeMapper = {
     className: "IpSecurityRestriction",
     modelProperties: {
       ipAddress: {
-        required: true,
         serializedName: "ipAddress",
         type: {
           name: "String"
@@ -1487,6 +1514,24 @@ export const IpSecurityRestriction: msRest.CompositeMapper = {
         serializedName: "subnetMask",
         type: {
           name: "String"
+        }
+      },
+      vnetSubnetResourceId: {
+        serializedName: "vnetSubnetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      vnetTrafficTag: {
+        serializedName: "vnetTrafficTag",
+        type: {
+          name: "Number"
+        }
+      },
+      subnetTrafficTag: {
+        serializedName: "subnetTrafficTag",
+        type: {
+          name: "Number"
         }
       },
       action: {
@@ -1558,6 +1603,12 @@ export const CorsSettings: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      supportCredentials: {
+        serializedName: "supportCredentials",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2477,6 +2528,24 @@ export const SiteConfig: msRest.CompositeMapper = {
           }
         }
       },
+      scmIpSecurityRestrictions: {
+        serializedName: "scmIpSecurityRestrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpSecurityRestriction"
+            }
+          }
+        }
+      },
+      scmIpSecurityRestrictionsUseMain: {
+        serializedName: "scmIpSecurityRestrictionsUseMain",
+        type: {
+          name: "Boolean"
+        }
+      },
       http20Enabled: {
         serializedName: "http20Enabled",
         defaultValue: true,
@@ -2737,6 +2806,12 @@ export const Site: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      clientCertExclusionPaths: {
+        serializedName: "properties.clientCertExclusionPaths",
+        type: {
+          name: "String"
+        }
+      },
       hostNamesDisabled: {
         serializedName: "properties.hostNamesDisabled",
         type: {
@@ -2823,6 +2898,38 @@ export const Site: msRest.CompositeMapper = {
         serializedName: "properties.httpsOnly",
         type: {
           name: "Boolean"
+        }
+      },
+      redundancyMode: {
+        serializedName: "properties.redundancyMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "Manual",
+            "Failover",
+            "ActiveActive",
+            "GeoRedundant"
+          ]
+        }
+      },
+      inProgressOperationId: {
+        readOnly: true,
+        serializedName: "properties.inProgressOperationId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      geoDistributions: {
+        serializedName: "properties.geoDistributions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GeoDistribution"
+            }
+          }
         }
       },
       identity: {
@@ -2996,12 +3103,6 @@ export const AppServicePlan: msRest.CompositeMapper = {
       subscription: {
         readOnly: true,
         serializedName: "properties.subscription",
-        type: {
-          name: "String"
-        }
-      },
-      adminSiteName: {
-        serializedName: "properties.adminSiteName",
         type: {
           name: "String"
         }
@@ -6494,6 +6595,12 @@ export const StackMinorVersion: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isRemoteDebuggingEnabled: {
+        serializedName: "isRemoteDebuggingEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -6533,6 +6640,12 @@ export const StackMajorVersion: msRest.CompositeMapper = {
               className: "StackMinorVersion"
             }
           }
+        }
+      },
+      applicationInsights: {
+        serializedName: "applicationInsights",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -7302,6 +7415,52 @@ export const SourceControl: msRest.CompositeMapper = {
         serializedName: "properties.expirationTime",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ValidateContainerSettingsRequest: msRest.CompositeMapper = {
+  serializedName: "ValidateContainerSettingsRequest",
+  type: {
+    name: "Composite",
+    className: "ValidateContainerSettingsRequest",
+    modelProperties: {
+      baseUrl: {
+        serializedName: "baseUrl",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      },
+      repository: {
+        serializedName: "repository",
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
+        }
+      },
+      platform: {
+        serializedName: "platform",
+        type: {
+          name: "String"
         }
       }
     }
@@ -9883,6 +10042,12 @@ export const SiteAuthSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      clientSecretCertificateThumbprint: {
+        serializedName: "properties.clientSecretCertificateThumbprint",
+        type: {
+          name: "String"
+        }
+      },
       issuer: {
         serializedName: "properties.issuer",
         type: {
@@ -10432,6 +10597,24 @@ export const SiteConfigResource: msRest.CompositeMapper = {
           }
         }
       },
+      scmIpSecurityRestrictions: {
+        serializedName: "properties.scmIpSecurityRestrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpSecurityRestriction"
+            }
+          }
+        }
+      },
+      scmIpSecurityRestrictionsUseMain: {
+        serializedName: "properties.scmIpSecurityRestrictionsUseMain",
+        type: {
+          name: "Boolean"
+        }
+      },
       http20Enabled: {
         serializedName: "properties.http20Enabled",
         defaultValue: true,
@@ -10859,6 +11042,12 @@ export const SitePatchResource: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      clientCertExclusionPaths: {
+        serializedName: "properties.clientCertExclusionPaths",
+        type: {
+          name: "String"
+        }
+      },
       hostNamesDisabled: {
         serializedName: "properties.hostNamesDisabled",
         type: {
@@ -10945,6 +11134,38 @@ export const SitePatchResource: msRest.CompositeMapper = {
         serializedName: "properties.httpsOnly",
         type: {
           name: "Boolean"
+        }
+      },
+      redundancyMode: {
+        serializedName: "properties.redundancyMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "Manual",
+            "Failover",
+            "ActiveActive",
+            "GeoRedundant"
+          ]
+        }
+      },
+      inProgressOperationId: {
+        readOnly: true,
+        serializedName: "properties.inProgressOperationId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      geoDistributions: {
+        serializedName: "properties.geoDistributions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GeoDistribution"
+            }
+          }
         }
       }
     }
@@ -12515,12 +12736,6 @@ export const AppServicePlanPatchResource: msRest.CompositeMapper = {
       subscription: {
         readOnly: true,
         serializedName: "properties.subscription",
-        type: {
-          name: "String"
-        }
-      },
-      adminSiteName: {
-        serializedName: "properties.adminSiteName",
         type: {
           name: "String"
         }

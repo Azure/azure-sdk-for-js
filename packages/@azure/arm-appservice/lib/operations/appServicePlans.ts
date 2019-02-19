@@ -28,8 +28,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans for a subcription.
-   * @summary Get all App Service plans for a subcription.
+   * Get all App Service plans for a subscription.
+   * @summary Get all App Service plans for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListResponse>
    */
@@ -495,8 +495,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get metrics for an App Serice plan.
-   * @summary Get metrics for an App Serice plan.
+   * Get metrics for an App Service plan.
+   * @summary Get metrics for an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param [options] The optional parameters
@@ -594,8 +594,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Gets all selectable sku's for a given App Service Plan
-   * @summary Gets all selectable sku's for a given App Service Plan
+   * Gets all selectable SKUs for a given App Service Plan
+   * @summary Gets all selectable SKUs for a given App Service Plan
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param [options] The optional parameters
@@ -1083,8 +1083,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get all App Service plans for a subcription.
-   * @summary Get all App Service plans for a subcription.
+   * Get all App Service plans for a subscription.
+   * @summary Get all App Service plans for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListNextResponse>
@@ -1228,8 +1228,8 @@ export class AppServicePlans {
   }
 
   /**
-   * Get metrics for an App Serice plan.
-   * @summary Get metrics for an App Serice plan.
+   * Get metrics for an App Service plan.
+   * @summary Get metrics for an App Service plan.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServicePlansListMetricsNextResponse>
@@ -1325,7 +1325,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.detailed,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1349,7 +1349,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1374,7 +1374,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1400,7 +1400,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1424,7 +1424,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1459,7 +1459,7 @@ const listCapabilitiesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1497,7 +1497,7 @@ const getHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1524,7 +1524,7 @@ const deleteHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1550,7 +1550,7 @@ const listHybridConnectionKeysOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1577,7 +1577,7 @@ const listWebAppsByHybridConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1602,7 +1602,7 @@ const getHybridConnectionPlanLimitOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1627,7 +1627,7 @@ const listHybridConnectionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1652,7 +1652,7 @@ const listMetricDefintionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1679,7 +1679,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.details,
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1705,7 +1705,7 @@ const restartWebAppsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.softRestart,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1731,7 +1731,7 @@ const listWebAppsOperationSpec: msRest.OperationSpec = {
     Parameters.skipToken,
     Parameters.filter,
     Parameters.top,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1756,7 +1756,7 @@ const getServerFarmSkusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1787,7 +1787,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1812,7 +1812,7 @@ const listVnetsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1849,7 +1849,7 @@ const getVnetFromServerFarmOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1877,7 +1877,7 @@ const getVnetGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1904,7 +1904,7 @@ const updateVnetGatewayOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1937,7 +1937,7 @@ const listRoutesForVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1975,7 +1975,7 @@ const getRouteForVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2014,7 +2014,7 @@ const createOrUpdateVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2050,7 +2050,7 @@ const deleteVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2076,7 +2076,7 @@ const updateVnetRouteOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2111,7 +2111,7 @@ const rebootWorkerOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2134,7 +2134,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
