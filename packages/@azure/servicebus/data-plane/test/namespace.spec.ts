@@ -335,7 +335,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe.only("Errors after namespace.close()", function(): void {
+describe("Errors after namespace.close()", function(): void {
   const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
   let namespace: Namespace;
