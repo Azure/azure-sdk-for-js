@@ -3,8 +3,8 @@ You can install node.js from [here](https://nodejs.org/en/). For installing node
 
 ## Installing this cli for testing
 ```bash
-git clone https://github.com/amarzavery/azure-event-hubs-node/tree/rhea
-cd azure-event-hubs-node/testhub
+git clone https://github.com/Azure/azure-sdk-for-js
+cd packages/@azure/eventhubs/testhub
 npm install -g .
 ```
 

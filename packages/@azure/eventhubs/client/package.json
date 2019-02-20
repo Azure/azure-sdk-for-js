@@ -4,11 +4,17 @@
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
+  "homepage": "http://github.com/azure/azure-sdk-for-js",
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "cloud",
-    "event hubs"
+    "event hubs",
+    "events"
   ],
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
   "main": "./dist/lib/index.js",
   "module": "dist-esm/lib/index.js",
   "types": "./typings/lib/index.d.ts",
@@ -85,13 +91,5 @@
     "coverage": "npm run build-test && nyc --reporter=lcov mocha -t 120000 test-dist/index.js",
     "prepack": "npm i && npm run build",
     "extract-api": "tsc -p . && api-extractor run --local"
-  },
-  "homepage": "https://github.com/Azure/azure-event-hubs-node/tree/master/client",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/azure/azure-event-hubs-node.git"
-  },
-  "bugs": {
-    "url": "http://github.com/Azure/azure-event-hubs-node/issues"
   }
 }
