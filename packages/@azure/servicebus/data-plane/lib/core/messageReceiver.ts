@@ -327,6 +327,15 @@ export class MessageReceiver extends LinkEntity {
     };
 
     this._onAmqpMessage = async (context: EventContext) => {
+      // If the receiver got closed in PeekLock mode, avoid processing the message as we
+      // cannot settle the message.
+      if (
+        this.receiveMode === ReceiveMode.peekLock &&
+        (!this._receiver || !this._receiver.isOpen())
+      ) {
+        return;
+      }
+
       this.resetTimerOnNewMessageReceived();
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessage = new ServiceBusMessage(

@@ -577,6 +577,15 @@ export class MessageSession extends LinkEntity {
 
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
+        // If the receiver got closed in PeekLock mode, avoid processing the message as we
+        // cannot settle the message.
+        if (
+          this.receiveMode === ReceiveMode.peekLock &&
+          (!this._receiver || !this._receiver.isOpen())
+        ) {
+          return;
+        }
+
         resetTimerOnNewMessageReceived();
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
