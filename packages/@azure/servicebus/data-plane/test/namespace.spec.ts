@@ -17,14 +17,7 @@ import {
   Receiver,
   SessionReceiver
 } from "../lib";
-import {
-  getSenderReceiverClients,
-  ClientType,
-  testSimpleMessages,
-  testSessionId1,
-  purge,
-  testMessagesWithSessions
-} from "./testUtils";
+import { getSenderReceiverClients, ClientType, TestMessage, purge } from "./testUtils";
 import long from "long";
 
 function testFalsyValues(testFn: Function): void {
@@ -342,8 +335,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe("Errors after namespace.close()", function(): void {
-  const expectedErrorName = "InvalidOperationError";
+describe.only("Errors after namespace.close()", function(): void {
   const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
   let namespace: Namespace;
@@ -369,7 +361,7 @@ describe("Errors after namespace.close()", function(): void {
     senderClient = clients.senderClient;
     receiverClient = clients.receiverClient;
 
-    await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+    await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
     const peekedMsgs = await receiverClient.peek();
     const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
     if (peekedMsgs.length) {
@@ -379,12 +371,12 @@ describe("Errors after namespace.close()", function(): void {
     sender = senderClient.getSender();
     receiver = useSessions
       ? await receiverClient.getSessionReceiver({
-          sessionId: testSessionId1
+          sessionId: TestMessage.sessionId
         })
       : receiverClient.getReceiver();
 
     // Normal send/receive
-    const testMessage = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveBatch(1, 3);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
@@ -398,31 +390,29 @@ describe("Errors after namespace.close()", function(): void {
    * Tests that each feature of the sender client throws expected error
    */
   async function testSender(): Promise<void> {
+    const testMessage = TestMessage.getSample();
     let errorSend = false;
-    await sender.send(testSimpleMessages).catch((err) => {
-      errorSend = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    await sender.send(testMessage).catch((err) => {
+      errorSend = err && err.message === expectedErrorMsg;
     });
     should.equal(errorSend, true, "InvalidOperationError not thrown for send()");
 
     let errorSendBatch = false;
-    await sender.sendBatch([testSimpleMessages]).catch((err) => {
-      errorSendBatch = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    await sender.sendBatch([testMessage]).catch((err) => {
+      errorSendBatch = err && err.message === expectedErrorMsg;
     });
     should.equal(errorSendBatch, true, "InvalidOperationError not thrown for sendBatch()");
 
     let errorScheduleMsg = false;
-    await sender.scheduleMessage(new Date(Date.now() + 30000), testSimpleMessages).catch((err) => {
-      errorScheduleMsg = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+    await sender.scheduleMessage(new Date(Date.now() + 30000), testMessage).catch((err) => {
+      errorScheduleMsg = err && err.message === expectedErrorMsg;
     });
     should.equal(errorScheduleMsg, true, "InvalidOperationError not thrown for scheduleMessage()");
 
     let errorScheduleMsgs = false;
-    await sender
-      .scheduleMessages(new Date(Date.now() + 30000), [testSimpleMessages])
-      .catch((err) => {
-        errorScheduleMsgs =
-          err && err.name === expectedErrorName && err.message === expectedErrorMsg;
-      });
+    await sender.scheduleMessages(new Date(Date.now() + 30000), [testMessage]).catch((err) => {
+      errorScheduleMsgs = err && err.message === expectedErrorMsg;
+    });
     should.equal(
       errorScheduleMsgs,
       true,
@@ -431,7 +421,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorCancelMsg = false;
     await sender.cancelScheduledMessage(long.ZERO).catch((err) => {
-      errorCancelMsg = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorCancelMsg = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorCancelMsg,
@@ -441,7 +431,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorCancelMsgs = false;
     await sender.cancelScheduledMessages([long.ZERO]).catch((err) => {
-      errorCancelMsgs = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorCancelMsgs = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorCancelMsgs,
@@ -453,7 +443,7 @@ describe("Errors after namespace.close()", function(): void {
     try {
       senderClient.getSender();
     } catch (err) {
-      errorNewSender = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorNewSender = err && err.message === expectedErrorMsg;
     }
     should.equal(errorNewSender, true, "InvalidOperationError not thrown for getSender()");
   }
@@ -464,7 +454,7 @@ describe("Errors after namespace.close()", function(): void {
   async function testReceiver(useSessions?: boolean): Promise<void> {
     let errorPeek = false;
     await receiverClient.peek().catch((err) => {
-      errorPeek = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorPeek = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorPeek,
@@ -474,8 +464,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorPeekBySequence = false;
     await receiverClient.peekBySequenceNumber(long.ZERO).catch((err) => {
-      errorPeekBySequence =
-        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorPeekBySequence = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorPeekBySequence,
@@ -485,7 +474,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorReceiveBatch = false;
     await receiver.receiveBatch(1, 1).catch((err) => {
-      errorReceiveBatch = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorReceiveBatch = err && err.message === expectedErrorMsg;
     });
     should.equal(errorReceiveBatch, true, "InvalidOperationError not thrown for receiveBatch()");
 
@@ -493,14 +482,13 @@ describe("Errors after namespace.close()", function(): void {
     try {
       receiver.receive(() => Promise.resolve(), (e) => console.log(e));
     } catch (err) {
-      errorReceiveStream =
-        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorReceiveStream = err && err.message === expectedErrorMsg;
     }
     should.equal(errorReceiveStream, true, "InvalidOperationError not thrown for receive()");
 
     let errorDeferredMsg = false;
     await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
-      errorDeferredMsg = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorDeferredMsg = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorDeferredMsg,
@@ -510,7 +498,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorDeferredMsgs = false;
     await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
-      errorDeferredMsgs = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorDeferredMsgs = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorDeferredMsgs,
@@ -520,7 +508,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorRenewLock = false;
     await receiver.renewLock("randomLockToken").catch((err) => {
-      errorRenewLock = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorRenewLock = err && err.message === expectedErrorMsg;
     });
     should.equal(errorRenewLock, true, "InvalidOperationError not thrown for renewLock()");
 
@@ -528,11 +516,11 @@ describe("Errors after namespace.close()", function(): void {
     try {
       useSessions
         ? await receiverClient.getSessionReceiver({
-            sessionId: testSessionId1
+            sessionId: TestMessage.sessionId
           })
         : receiverClient.getReceiver();
     } catch (err) {
-      errorNewReceiver = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorNewReceiver = err && err.message === expectedErrorMsg;
     }
     should.equal(errorNewReceiver, true, "InvalidOperationError not thrown for getReceiver()");
   }
@@ -546,7 +534,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorPeek = false;
     await sessionReceiver.peek().catch((err) => {
-      errorPeek = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorPeek = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorPeek,
@@ -556,8 +544,7 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorPeekBySequence = false;
     await sessionReceiver.peekBySequenceNumber(long.ZERO).catch((err) => {
-      errorPeekBySequence =
-        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorPeekBySequence = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorPeekBySequence,
@@ -567,13 +554,13 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorGetState = false;
     await sessionReceiver.getState().catch((err) => {
-      errorGetState = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorGetState = err && err.message === expectedErrorMsg;
     });
     should.equal(errorGetState, true, "InvalidOperationError not thrown for getState()");
 
     let errorSetState = false;
     await sessionReceiver.setState("state!!").catch((err) => {
-      errorSetState = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorSetState = err && err.message === expectedErrorMsg;
     });
     should.equal(errorSetState, true, "InvalidOperationError not thrown for setState()");
   }
@@ -586,19 +573,19 @@ describe("Errors after namespace.close()", function(): void {
 
     let errorAddRule = false;
     await subscriptionClient.addRule("myRule", true).catch((err) => {
-      errorAddRule = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorAddRule = err && err.message === expectedErrorMsg;
     });
     should.equal(errorAddRule, true, "InvalidOperationError not thrown for addRule()");
 
     let errorRemoveRule = false;
     await subscriptionClient.removeRule("myRule").catch((err) => {
-      errorRemoveRule = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorRemoveRule = err && err.message === expectedErrorMsg;
     });
     should.equal(errorRemoveRule, true, "InvalidOperationError not thrown for removeRule()");
 
     let errorGetRules = false;
     await subscriptionClient.getRules().catch((err) => {
-      errorGetRules = err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorGetRules = err && err.message === expectedErrorMsg;
     });
     should.equal(errorGetRules, true, "InvalidOperationError not thrown for getRule()");
   }
@@ -714,8 +701,7 @@ describe("Errors after namespace.close()", function(): void {
     try {
       namespace.createQueueClient("random-name");
     } catch (err) {
-      errorCreateQueueClient =
-        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorCreateQueueClient = err && err.message === expectedErrorMsg;
     }
     should.equal(
       errorCreateQueueClient,
@@ -727,8 +713,7 @@ describe("Errors after namespace.close()", function(): void {
     try {
       namespace.createTopicClient("random-name");
     } catch (err) {
-      errorCreateTopicClient =
-        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorCreateTopicClient = err && err.message === expectedErrorMsg;
     }
     should.equal(
       errorCreateTopicClient,
@@ -740,8 +725,7 @@ describe("Errors after namespace.close()", function(): void {
     try {
       namespace.createSubscriptionClient("random-name", "random-name");
     } catch (err) {
-      errorCreateSubscriptionClient =
-        err && err.name === expectedErrorName && err.message === expectedErrorMsg;
+      errorCreateSubscriptionClient = err && err.message === expectedErrorMsg;
     }
     should.equal(
       errorCreateSubscriptionClient,
