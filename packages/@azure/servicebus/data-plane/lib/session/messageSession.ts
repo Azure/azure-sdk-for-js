@@ -26,7 +26,11 @@ import {
 } from "../core/messageReceiver";
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
+import {
+  convertTicksToDate,
+  calculateRenewAfterDuration,
+  throwErrorIfConnectionClosed
+} from "../util/utils";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { messageDispositionTimeout } from "../util/constants";
 
@@ -516,6 +520,7 @@ export class MessageSession extends LinkEntity {
    * @returns void
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isReceivingMessages) {
       throw new Error(
         `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
@@ -681,6 +686,7 @@ export class MessageSession extends LinkEntity {
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isReceivingMessages) {
       throw new Error(
         `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
@@ -1176,6 +1182,7 @@ export class MessageSession extends LinkEntity {
     context: ClientEntityContext,
     options?: MessageSessionOptions
   ): Promise<MessageSession> {
+    throwErrorIfConnectionClosed(context.namespace);
     const messageSession = new MessageSession(context, options);
     await messageSession._init();
     return messageSession;

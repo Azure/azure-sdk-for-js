@@ -9,6 +9,7 @@ import { Client } from "./client";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
 import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * Describes the client that will maintain an AMQP connection to a ServiceBus Queue.
@@ -33,7 +34,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Queue for this client.
+   * Closes all the AMQP links for sender/receivers created by this client.
    *
    * @returns {Promise<void>}
    */
@@ -84,6 +85,7 @@ export class QueueClient extends Client {
    * and cancelling such scheduled messages.
    */
   getSender(): Sender {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!this._currentSender) {
       this._currentSender = new Sender(this._context);
     }
@@ -96,6 +98,7 @@ export class QueueClient extends Client {
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!this._currentReceiver) {
       this._currentReceiver = new Receiver(this._context, options);
     }
@@ -165,6 +168,7 @@ export class QueueClient extends Client {
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.sessionId) {
       if (
