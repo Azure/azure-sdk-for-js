@@ -479,7 +479,7 @@ export interface ServerEndpointUpdateParameters {
  */
 export interface FilesNotSyncingError {
   /**
-   * @member {number} [errorCode] Error code
+   * @member {number} [errorCode] Error code (HResult)
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -508,7 +508,7 @@ export interface FilesNotSyncingError {
  */
 export interface SyncSessionStatus {
   /**
-   * @member {number} [lastSyncResult] Last sync status
+   * @member {number} [lastSyncResult] Last sync result (HResult)
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */

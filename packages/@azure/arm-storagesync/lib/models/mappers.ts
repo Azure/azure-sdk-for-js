@@ -630,10 +630,6 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
       persistentCount: {
         readOnly: true,
         serializedName: "persistentCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -641,10 +637,6 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
       transientCount: {
         readOnly: true,
         serializedName: "transientCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -682,10 +674,6 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
       },
       lastSyncPerItemErrorCount: {
         serializedName: "lastSyncPerItemErrorCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -693,10 +681,6 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
       persistentFilesNotSyncingCount: {
         readOnly: true,
         serializedName: "persistentFilesNotSyncingCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -704,10 +688,6 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
       transientFilesNotSyncingCount: {
         readOnly: true,
         serializedName: "transientFilesNotSyncingCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -745,10 +725,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       perItemErrorCount: {
         readOnly: true,
         serializedName: "perItemErrorCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -756,10 +732,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       appliedItemCount: {
         readOnly: true,
         serializedName: "appliedItemCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -767,10 +739,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       totalItemCount: {
         readOnly: true,
         serializedName: "totalItemCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -778,10 +746,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       appliedBytes: {
         readOnly: true,
         serializedName: "appliedBytes",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -789,10 +753,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       totalBytes: {
         readOnly: true,
         serializedName: "totalBytes",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -838,10 +798,6 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
       totalPersistentFilesNotSyncingCount: {
         readOnly: true,
         serializedName: "totalPersistentFilesNotSyncingCount",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
