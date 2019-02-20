@@ -109,7 +109,7 @@ async function sendOrders(): Promise<void> {
         quantity: element.Quantity,
         priority: `${element.Priority}`
       },
-      partitionKey: "dummy" //Ensures all messages go to same parition to make peek work reliably
+      partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
     };
     await sender.send(message);
   }
