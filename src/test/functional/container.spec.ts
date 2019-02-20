@@ -30,7 +30,10 @@ describe("NodeJS CRUD Tests", function() {
         const container = database.container(containerDef.id);
         assert.equal(containerDefinition.id, containerDef.id);
         assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
-        assert.equal(JSON.stringify(containerDef.partitionKey), JSON.stringify(containerDefinition.partitionKey));
+        if (containerDef.partitionKey) {
+          assert.equal(containerDef.partitionKey.kind, containerDefinition.partitionKey.kind);
+          assert.deepEqual(containerDef.partitionKey.paths, containerDefinition.partitionKey.paths);
+        }
         // read containers after creation
         const { result: containers } = await database.containers.readAll().toArray();
 
@@ -159,130 +162,116 @@ describe("NodeJS CRUD Tests", function() {
   });
 
   describe("Validate container indexing policy", function() {
-    const indexPolicyTest = async function() {
-      try {
-        // create database
-        const database = await getTestDatabase("container test database");
-
-        // create container
-        const { body: containerDef } = await database.containers.create({ id: "container test container" });
-        const container = database.container(containerDef.id);
-
-        assert.equal(
-          containerDef.indexingPolicy.indexingMode,
-          DocumentBase.IndexingMode.consistent,
-          "default indexing mode should be consistent"
-        );
-        await container.delete();
-
-        const lazyContainerDefinition: ContainerDefinition = {
-          id: "lazy container",
-          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.lazy }
-        };
-
-        const { body: lazyContainerDef } = await database.containers.create(lazyContainerDefinition);
-        const lazyContainer = database.container(lazyContainerDef.id);
-
-        assert.equal(
-          lazyContainerDef.indexingPolicy.indexingMode,
-          DocumentBase.IndexingMode.lazy,
-          "indexing mode should be lazy"
-        );
-
-        await lazyContainer.delete();
-
-        const uniqueKeysContainerDefinition: ContainerDefinition = {
-          id: "uniqueKeysContainer",
-          uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/foo"] }] }
-        };
-
-        const { body: uniqueKeysContainerDef } = await database.containers.create(uniqueKeysContainerDefinition);
-        const uniqueKeysContainer = database.container(uniqueKeysContainerDef.id);
-
-        assert.equal(uniqueKeysContainerDef.uniqueKeyPolicy.uniqueKeys[0].paths, "/foo");
-
-        await uniqueKeysContainer.delete();
-
-        const consistentcontainerDefinition: ContainerDefinition = {
-          id: "lazy container",
-          indexingPolicy: { indexingMode: "consistent" } // tests the type flexibility
-        };
-        const { body: consistentContainerDef } = await database.containers.create(consistentcontainerDefinition);
-        const consistentContainer = database.container(consistentContainerDef.id);
-        assert.equal(
-          containerDef.indexingPolicy.indexingMode,
-          DocumentBase.IndexingMode.consistent,
-          "indexing mode should be consistent"
-        );
-        await consistentContainer.delete();
-
-        const containerDefinition: ContainerDefinition = {
-          id: "containerWithIndexingPolicy",
-          indexingPolicy: {
-            automatic: true,
-            indexingMode: DocumentBase.IndexingMode.consistent,
-            includedPaths: [
-              {
-                path: "/",
-                indexes: [
-                  {
-                    kind: DocumentBase.IndexKind.Hash,
-                    dataType: DocumentBase.DataType.Number,
-                    precision: 2
-                  }
-                ]
-              }
-            ],
-            excludedPaths: [
-              {
-                path: '/"systemMetadata"/*'
-              }
-            ]
-          }
-        };
-
-        const { body: containerWithIndexingPolicyDef } = await database.containers.create(containerDefinition);
-
-        // Two included paths.
-        assert.equal(
-          1,
-          containerWithIndexingPolicyDef.indexingPolicy.includedPaths.length,
-          "Unexpected includedPaths length"
-        );
-        // The first included path is what we created.
-        assert.equal("/", containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].path);
-        // Backend adds a default index
-        assert(containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].indexes.length > 1);
-        assert.equal(
-          DocumentBase.IndexKind.Hash,
-          containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].indexes[0].kind
-        );
-        // The second included path is a timestamp index created by the server.
-
-        // And one excluded path.
-        assert.equal(
-          1,
-          containerWithIndexingPolicyDef.indexingPolicy.excludedPaths.length,
-          "Unexpected excludedPaths length"
-        );
-        assert.equal('/"systemMetadata"/*', containerWithIndexingPolicyDef.indexingPolicy.excludedPaths[0].path);
-      } catch (err) {
-        throw err;
-      }
-    };
-
     it("nativeApi Should create container with correct indexing policy name based", async function() {
-      try {
-        await indexPolicyTest();
-      } catch (err) {
-        throw err;
-      }
+      // create database
+      const database = await getTestDatabase("container test database");
+
+      // create container
+      const { body: containerDef } = await database.containers.create({ id: "container test container" });
+      const container = database.container(containerDef.id);
+
+      assert.equal(
+        containerDef.indexingPolicy.indexingMode,
+        DocumentBase.IndexingMode.consistent,
+        "default indexing mode should be consistent"
+      );
+      await container.delete();
+
+      const lazyContainerDefinition: ContainerDefinition = {
+        id: "lazy container",
+        indexingPolicy: { indexingMode: DocumentBase.IndexingMode.lazy }
+      };
+
+      const { body: lazyContainerDef } = await database.containers.create(lazyContainerDefinition);
+      const lazyContainer = database.container(lazyContainerDef.id);
+
+      assert.equal(
+        lazyContainerDef.indexingPolicy.indexingMode,
+        DocumentBase.IndexingMode.lazy,
+        "indexing mode should be lazy"
+      );
+
+      await lazyContainer.delete();
+
+      const uniqueKeysContainerDefinition: ContainerDefinition = {
+        id: "uniqueKeysContainer",
+        uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/foo"] }] }
+      };
+
+      const { body: uniqueKeysContainerDef } = await database.containers.create(uniqueKeysContainerDefinition);
+      const uniqueKeysContainer = database.container(uniqueKeysContainerDef.id);
+
+      assert.equal(uniqueKeysContainerDef.uniqueKeyPolicy.uniqueKeys[0].paths, "/foo");
+
+      await uniqueKeysContainer.delete();
+
+      const consistentcontainerDefinition: ContainerDefinition = {
+        id: "lazy container",
+        indexingPolicy: { indexingMode: "consistent" } // tests the type flexibility
+      };
+      const { body: consistentContainerDef } = await database.containers.create(consistentcontainerDefinition);
+      const consistentContainer = database.container(consistentContainerDef.id);
+      assert.equal(
+        containerDef.indexingPolicy.indexingMode,
+        DocumentBase.IndexingMode.consistent,
+        "indexing mode should be consistent"
+      );
+      await consistentContainer.delete();
+
+      const containerDefinition: ContainerDefinition = {
+        id: "containerWithIndexingPolicy",
+        indexingPolicy: {
+          automatic: true,
+          indexingMode: DocumentBase.IndexingMode.consistent,
+          includedPaths: [
+            {
+              path: "/",
+              indexes: [
+                {
+                  kind: DocumentBase.IndexKind.Hash,
+                  dataType: DocumentBase.DataType.Number,
+                  precision: 2
+                }
+              ]
+            }
+          ],
+          excludedPaths: [
+            {
+              path: '/"systemMetadata"/*'
+            }
+          ]
+        }
+      };
+
+      const { body: containerWithIndexingPolicyDef } = await database.containers.create(containerDefinition);
+
+      // Two included paths.
+      assert.equal(
+        1,
+        containerWithIndexingPolicyDef.indexingPolicy.includedPaths.length,
+        "Unexpected includedPaths length"
+      );
+      // The first included path is what we created.
+      assert.equal("/", containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].path);
+      // Backend adds a default index
+      assert(containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].indexes.length > 1);
+      assert.equal(
+        DocumentBase.IndexKind.Range,
+        containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].indexes[0].kind
+      );
+      // The second included path is a timestamp index created by the server.
+
+      // And two excluded paths.
+      assert.equal(
+        2,
+        containerWithIndexingPolicyDef.indexingPolicy.excludedPaths.length,
+        "Unexpected excludedPaths length"
+      );
+      assert.equal('/"systemMetadata"/*', containerWithIndexingPolicyDef.indexingPolicy.excludedPaths[0].path);
     });
 
     const checkDefaultIndexingPolicyPaths = function(indexingPolicy: IndexingPolicy) {
-      // no excluded paths.
-      assert.equal(0, indexingPolicy["excludedPaths"].length);
-      // included paths should be 1 "/".
+      assert.equal(1, indexingPolicy["excludedPaths"].length);
       assert.equal(1, indexingPolicy["includedPaths"].length);
 
       let rootIncludedPath: IndexedPath = null;
@@ -292,24 +281,8 @@ describe("NodeJS CRUD Tests", function() {
 
       assert(rootIncludedPath); // root path should exist.
 
-      // In the root path, there should be one HashIndex for Strings, and one RangeIndex for Numbers.
+      // In the root path, there should be two indexes. One for Strings and one for Numbers.
       assert.equal(2, rootIncludedPath["indexes"].length);
-
-      let hashIndex: Index = null;
-      let rangeIndex: Index = null;
-
-      for (let i = 0; i < 2; ++i) {
-        if (rootIncludedPath["indexes"][i]["kind"] === "Hash") {
-          hashIndex = rootIncludedPath["indexes"][i];
-        } else if (rootIncludedPath["indexes"][i]["kind"] === "Range") {
-          rangeIndex = rootIncludedPath["indexes"][i];
-        }
-      }
-
-      assert(hashIndex);
-      assert.equal("String", hashIndex["dataType"]);
-      assert(rangeIndex);
-      assert.equal("Number", rangeIndex["dataType"]);
     };
 
     const defaultIndexingPolicyTest = async function() {
