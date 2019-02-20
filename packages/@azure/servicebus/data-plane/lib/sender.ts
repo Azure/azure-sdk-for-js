@@ -7,6 +7,7 @@ import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
 import { ScheduleMessage } from "./core/managementClient";
 import { ClientEntityContext } from "./clientEntityContext";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * An abstraction over the underlying sender link.
@@ -21,6 +22,7 @@ export class Sender {
   private _context: ClientEntityContext;
 
   constructor(context: ClientEntityContext) {
+    throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
   }
   /**
