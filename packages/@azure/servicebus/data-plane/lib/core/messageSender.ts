@@ -28,7 +28,7 @@ import {
 import { SendableMessageInfo } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName } from "../util/utils";
+import { getUniqueName, throwErrorIfConnectionClosed } from "../util/utils";
 
 /**
  * @ignore
@@ -338,6 +338,7 @@ export class MessageSender extends LinkEntity {
    * @returns {Promise<void>}
    */
   async send(data: SendableMessageInfo): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
@@ -371,6 +372,7 @@ export class MessageSender extends LinkEntity {
    * @return {Promise<void>}
    */
   async sendBatch(datas: SendableMessageInfo[]): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!datas || (datas && !Array.isArray(datas))) {
         throw new Error("data is required and it must be an Array.");
@@ -688,6 +690,7 @@ export class MessageSender extends LinkEntity {
    * @returns {Promise<MessageSender>}
    */
   static create(context: ClientEntityContext): MessageSender {
+    throwErrorIfConnectionClosed(context.namespace);
     if (!context.sender) {
       context.sender = new MessageSender(context);
     }
