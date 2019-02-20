@@ -131,7 +131,8 @@ export class Namespace {
   }
 
   /**
-   * Closes the namespace, the AMQP connection and all the entities on this conenction.
+   * Closes the AMQP connection created by this namespace along with AMQP links for sender/receivers
+   * created by the queue/topic/subscription clients created in this namespace.
    * @returns {Promise<any>}
    */
   async close(): Promise<any> {

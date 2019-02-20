@@ -8,6 +8,7 @@ import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/message
 import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
 import { MessageSession, SessionMessageHandlerOptions } from "./session/messageSession";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * Describes the options for creating a Receiver.
@@ -33,6 +34,7 @@ export class Receiver {
   private _receiveMode: ReceiveMode;
 
   constructor(context: ClientEntityContext, options?: MessageReceiverOptions) {
+    throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     if (!options) {
       options = {};
@@ -272,6 +274,7 @@ export class SessionReceiver {
   }
 
   constructor(context: ClientEntityContext, messageSession: MessageSession) {
+    throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this._receiveMode = messageSession.receiveMode;
     this._sessionId = messageSession.sessionId;
