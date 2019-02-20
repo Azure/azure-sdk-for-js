@@ -420,8 +420,8 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-  // Clean up any left over messages
-  sessionClient = await receiverClient.getSessionReceiver({ sessionId: TestMessage.sessionId });
+  // Subsequent receivers for the same session should work as expected.
+  sessionClient = await receiverClient.getSessionReceiver();
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
   await unprocessedMsgs[0].complete();
 }
