@@ -540,3 +540,46 @@ describe("Cancel multiple Scheduled messages", function(): void {
     await testCancelScheduleMessages(true);
   });
 });
+
+describe("Message validations", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("MessageId validations", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    const sender = senderClient.getSender();
+    let errorMessageIdDecimal = false;
+    await sender.send({ body: "", messageId: 1.5 }).catch((err) => {
+      errorMessageIdDecimal =
+        err &&
+        err.message === "'messageId must be a whole integer. Decimal points are not allowed.";
+    });
+
+    should.equal(
+      errorMessageIdDecimal,
+      true,
+      "Error not thrown when messageId is not a whole number"
+    );
+
+    let errorMessageIdLongString = false;
+    await sender
+      .send({
+        body: "",
+        messageId:
+          "A very very very very very very very very very very very very very very very very very very very very very very very very very long string."
+      })
+      .catch((err) => {
+        errorMessageIdLongString =
+          err &&
+          err.message ===
+            "Length of 'messageId' of type 'string' cannot be greater than 128 characters.";
+      });
+
+    should.equal(
+      errorMessageIdLongString,
+      true,
+      "Error not thrown when messageId is not a whole number"
+    );
+  });
+});
