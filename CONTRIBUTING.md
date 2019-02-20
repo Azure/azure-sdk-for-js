@@ -62,7 +62,7 @@ Run tests in Browsers. After installed Chrome, the default testing browser:
 ```bash
 npm install
 npm run build
-npm test:browser
+npm run test:browser
 ```
 
 Browser testing is based on Karma, you can change default testing browser by modifying karma.conf.js file.
