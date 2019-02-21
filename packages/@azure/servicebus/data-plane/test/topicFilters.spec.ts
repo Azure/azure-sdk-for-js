@@ -101,7 +101,7 @@ async function sendOrders(): Promise<void> {
     const element = data[index];
     const message: SendableMessageInfo = {
       body: "",
-      messageId: Math.random(),
+      messageId: `messageId: ${Math.random()}`,
       correlationId: `${element.Priority}`,
       label: `${element.Color}`,
       userProperties: {
