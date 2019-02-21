@@ -114,7 +114,7 @@ export class MessageReceiver extends LinkEntity {
   /**
    * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
    * processed concurrently while in streaming mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
+   * messages will not be received until the user's message handler has completed processing current message.
    * Default: 1
    */
   maxConcurrentCalls: number = 1;
