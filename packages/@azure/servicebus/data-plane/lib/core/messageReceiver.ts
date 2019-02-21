@@ -80,13 +80,6 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    * Default: ReceiveMode.peekLock
    */
   receiveMode?: ReceiveMode;
-  /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   * - **Default**: `1` (message at a time).
-   */
-  maxConcurrentCalls?: number;
 }
 
 /**
@@ -120,11 +113,11 @@ export class MessageReceiver extends LinkEntity {
   receiverType: ReceiverType;
   /**
    * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
+   * processed concurrently while in streaming mode. Once this limit has been reached, more
    * messages will not be received until messages currently being processed have been settled.
    * Default: 1
    */
-  maxConcurrentCalls?: number;
+  maxConcurrentCalls: number = 1;
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
@@ -252,8 +245,9 @@ export class MessageReceiver extends LinkEntity {
     if (!options) options = {};
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this.maxConcurrentCalls =
-      options.maxConcurrentCalls != undefined ? options.maxConcurrentCalls : 1;
+    if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
+      this.maxConcurrentCalls = options.maxConcurrentCalls;
+    }
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
     this.resetTimerOnNewMessageReceived = () => {
       /** */
@@ -480,6 +474,10 @@ export class MessageReceiver extends LinkEntity {
           }
         }
         return;
+      } finally {
+        if (this._receiver) {
+          this._receiver.addCredit(1);
+        }
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -994,7 +992,7 @@ export class MessageReceiver extends LinkEntity {
       source: {
         address: this.address
       },
-      credit_window: this.maxConcurrentCalls,
+      credit_window: 0,
       ...options
     };
     return rcvrOptions;
