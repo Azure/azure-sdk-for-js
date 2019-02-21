@@ -423,6 +423,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   // Subsequent receivers for the same session should work as expected.
   sessionClient = await receiverClient.getSessionReceiver();
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
+  should.equal(unprocessedMsgs[0].deliveryCount, 1, "Unexpected deliveryCount");
   await unprocessedMsgs[0].complete();
 }
 
