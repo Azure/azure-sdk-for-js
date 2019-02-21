@@ -1073,50 +1073,6 @@ describe("Batch Receiver - Others", function(): void {
     await testNoSettlement();
   });
 
-  // it("Partitioned Queue with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.PartitionedQueueWithSessions,
-  //     ClientType.PartitionedQueueWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
-  // it("Partitioned Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.PartitionedTopicWithSessions,
-  //     ClientType.PartitionedSubscriptionWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
-  // it("Unpartitioned Queue with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.UnpartitionedQueueWithSessions,
-  //     ClientType.UnpartitionedQueueWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
-  // it("Unpartitioned Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.UnpartitionedTopicWithSessions,
-  //     ClientType.UnpartitionedSubscriptionWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
   async function testAskForMore(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await sender.send(testMessages);
