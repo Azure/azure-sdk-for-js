@@ -34,7 +34,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter'
+          customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter -f "Batch Receiver - Settle message Partitioned Queue: complete() removes message"'
         displayName: 'npm run live-test-client'
         env:
           AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
