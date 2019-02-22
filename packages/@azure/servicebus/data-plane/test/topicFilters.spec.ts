@@ -124,8 +124,9 @@ async function receiveOrders(
   const receiver = client.getReceiver();
   receiver.receive(
     (msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      return Promise.resolve();
+      return msg.complete().then(() => {
+        receivedMsgs.push(msg);
+      });
     },
     (err: Error) => {
       if (err) {
