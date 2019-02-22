@@ -78,7 +78,7 @@ _**Note:** AAD RBAC is enabled only on the new namespaces in this region for the
 Populate the following variables along with the above mentioned environment variables in the `.env`.
 ```typescript
 AAD_CLIENT_ID=""
-AAD_SERVICEBUS_SECRET=""
+AAD_CLIENT_SECRET=""
 AAD_TENANT_ID=""
 RESOURCE_GROUP=""
 AZURE_SUBSCRIPTION_ID=""
