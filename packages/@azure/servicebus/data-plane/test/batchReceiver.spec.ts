@@ -126,7 +126,7 @@ describe("Batch Receiver - Settle message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it.only("Partitioned Queue: complete() removes message", async function(): Promise<void> {
+  it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testComplete();
   });
