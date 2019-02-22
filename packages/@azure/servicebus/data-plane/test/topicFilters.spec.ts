@@ -101,7 +101,7 @@ async function sendOrders(): Promise<void> {
     const element = data[index];
     const message: SendableMessageInfo = {
       body: "",
-      messageId: Math.random(),
+      messageId: `messageId: ${Math.random()}`,
       correlationId: `${element.Priority}`,
       label: `${element.Color}`,
       userProperties: {
@@ -124,8 +124,9 @@ async function receiveOrders(
   const receiver = client.getReceiver();
   receiver.receive(
     (msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      return Promise.resolve();
+      return msg.complete().then(() => {
+        receivedMsgs.push(msg);
+      });
     },
     (err: Error) => {
       if (err) {

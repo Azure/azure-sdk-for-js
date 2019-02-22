@@ -126,9 +126,17 @@ describe("Streaming - Misc Tests", function(): void {
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    const msgsCheck = await checkWithTimeout(
+      () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+    );
 
-    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+    should.equal(
+      msgsCheck,
+      true,
+      receivedMsgs.length !== 1
+        ? `Expected 1, received ${receivedMsgs.length} messages`
+        : "Message didnt get auto-completed in time"
+    );
     await receiver.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -176,7 +184,7 @@ describe("Streaming - Misc Tests", function(): void {
 
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
 
-    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+    should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
     await testPeekMsgsLength(receiverClient, 1);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
@@ -184,6 +192,7 @@ describe("Streaming - Misc Tests", function(): void {
     await receiver.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    await testPeekMsgsLength(receiverClient, 0);
   }
 
   it("Partitioned Queue: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
@@ -227,18 +236,18 @@ describe("Streaming - Complete message", function(): void {
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
-        receivedMsgs.push(msg);
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
-        return msg.complete();
+        return msg.complete().then(() => {
+          receivedMsgs.push(msg);
+        });
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
 
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
-
+    should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
@@ -311,8 +320,9 @@ describe("Streaming - Abandon message", function(): void {
           checkDeliveryCount,
           "DeliveryCount is different than expected"
         );
-        checkDeliveryCount++;
-        return msg.abandon();
+        return msg.abandon().then(() => {
+          checkDeliveryCount++;
+        });
       },
       unExpectedErrorHandler,
       { autoComplete: false }
@@ -385,8 +395,9 @@ describe("Streaming - Defer message", function(): void {
     let sequenceNum: any = 0;
     receiver.receive(
       (msg: ServiceBusMessage) => {
-        sequenceNum = msg.sequenceNumber;
-        return msg.defer();
+        return msg.defer().then(() => {
+          sequenceNum = msg.sequenceNumber;
+        });
       },
       unExpectedErrorHandler,
       { autoComplete }
@@ -487,15 +498,16 @@ describe("Streaming - Deadletter message", function(): void {
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
-        receivedMsgs.push(msg);
-        return msg.deadLetter();
+        return msg.deadLetter().then(() => {
+          receivedMsgs.push(msg);
+        });
       },
       unExpectedErrorHandler,
       { autoComplete }
     );
 
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+    should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
 
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -655,8 +667,16 @@ describe("Streaming - Settle an already Settled message throws error", () => {
       return Promise.resolve();
     }, unExpectedErrorHandler);
 
-    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+    const msgsCheck = await checkWithTimeout(
+      () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+    );
+    should.equal(
+      msgsCheck,
+      true,
+      receivedMsgs.length !== 1
+        ? `Expected 1, received ${receivedMsgs.length} messages`
+        : "Message didnt get auto-completed in time"
+    );
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -775,14 +795,15 @@ describe("Streaming - User Error", function(): void {
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive(async (msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      await msg.complete();
+      await msg.complete().then(() => {
+        receivedMsgs.push(msg);
+      });
       throw new Error(errorMessage);
     }, unExpectedErrorHandler);
 
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
 
-    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+    should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
     await receiver.close();
 
     should.equal(
