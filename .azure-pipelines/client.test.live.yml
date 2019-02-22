@@ -34,10 +34,16 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run live-test-client -- -- -- --reporter mocha-junit-reporter'
+          customCommand: 'run live-test-client -- -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-'
         displayName: 'npm run live-test-client'
         env:
-          SERVICEBUS_CONNECTION_STRING: $(js-service-bus-test-connection-string)
+          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
+          CLEAN_NAMESPACE: 'true'
+          RESOURCE_GROUP: $(service-bus-test-resource-group)
+          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
 
       - task: PublishTestResults@2
         inputs:
