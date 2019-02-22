@@ -58,13 +58,13 @@ export function getEnvVars(): { [key: string]: string } {
   if (!process.env.AAD_CLIENT_ID) {
     throw new Error("Define AAD_CLIENT_ID in your environment before running integration tests.");
   }
+  if (!process.env.AAD_CLIENT_SECRET) {
+    throw new Error(
+      "Define AAD_CLIENT_SECRET in your environment before running integration tests."
+    );
+  }
   if (!process.env.AAD_TENANT_ID) {
     throw new Error("Define AAD_TENANT_ID in your environment before running integration tests.");
-  }
-  if (!process.env.AAD_SERVICEBUS_SECRET) {
-    throw new Error(
-      "Define AAD_SERVICEBUS_SECRET in your environment before running integration tests."
-    );
   }
   if (!process.env.AZURE_SUBSCRIPTION_ID) {
     throw new Error(
@@ -85,8 +85,8 @@ export function getEnvVars(): { [key: string]: string } {
   ) || "")[1];
   return {
     clientId: process.env.AAD_CLIENT_ID,
+    clientSecret: process.env.AAD_CLIENT_SECRET,
     tenantId: process.env.AAD_TENANT_ID,
-    secret: process.env.AAD_SERVICEBUS_SECRET,
     subscriptionId: process.env.AZURE_SUBSCRIPTION_ID,
     resourceGroup: process.env.RESOURCE_GROUP,
     servicebusNamespace: servicebusNamespace
@@ -96,7 +96,7 @@ export function getEnvVars(): { [key: string]: string } {
 async function recreateQueue(queueName: string, parameters: SBQueue): Promise<void> {
   const env = getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
+    .loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId)
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       await client.queues.deleteMethod(
@@ -122,7 +122,7 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
 async function recreateTopic(topicName: string, parameters: SBTopic): Promise<void> {
   const env = getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
+    .loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId)
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       await client.topics.deleteMethod(
@@ -152,7 +152,7 @@ async function recreateSubscription(
 ): Promise<void> {
   const env = getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
+    .loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId)
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       /*
