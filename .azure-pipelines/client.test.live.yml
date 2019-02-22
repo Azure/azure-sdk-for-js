@@ -31,10 +31,7 @@ jobs:
           customCommand: 'run install-client'
         displayName: 'npm run install-client'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          customCommand: 'run live-test-client -- -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-'
+      - script: npm run live-test-client -- -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-
         displayName: 'npm run live-test-client'
         env:
           AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
