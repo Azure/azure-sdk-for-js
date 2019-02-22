@@ -159,22 +159,25 @@ describe("SessionReceiver with invalid sessionId", function(): void {
       return Promise.resolve();
     }, unExpectedErrorHandler);
     await delay(2000);
-    should.equal(receivedMsgs.length, 0, "Unexpected number of messages");
+    should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
     await receiver.close();
 
     receiver = await receiverClient.getSessionReceiver();
     receivedMsgs = [];
-    receiver.receive((msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
-      should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
-      return Promise.resolve();
-    }, unExpectedErrorHandler);
+    receiver.receive(
+      (msg: ServiceBusMessage) => {
+        should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
+        should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
+        return msg.complete().then(() => {
+          receivedMsgs.push(msg);
+        });
+      },
+      unExpectedErrorHandler,
+      { autoComplete: false }
+    );
 
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
-    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
-    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-
+    should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
