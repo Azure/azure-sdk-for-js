@@ -54,8 +54,7 @@
     ```
 
 ## Setup
-
-Go through the following setup inorder to delete and create the required servicebus-entities(just before running each test) and for authenticating to the servicebus using `AadTokenCredentials` instead of `ConnectionString`.
+Go through the following setup in order to delete and create the required servicebus-entities(just before running each test). This would need authenticating to Service Bus using `AadTokenCredentials` instead of `ConnectionString`. The below setup is also needed to run the tests that specifically uses `AadTokenCredentials` to authenticate.
 
 **Register a new application in AAD**
 
