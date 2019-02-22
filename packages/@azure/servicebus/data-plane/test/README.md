@@ -31,7 +31,7 @@
 
     The environment variables can be set by adding a file by the name `.env` in the root folder of this project.
     Following is a sample .env file template that can be re-used for your environment:
-    ```typescript
+    ```
     SERVICEBUS_CONNECTION_STRING=
     
     QUEUE_NAME=partitioned-queue
@@ -57,26 +57,24 @@
 
 Go through the following setup inorder to delete and create the required servicebus-entities(just before running each test) and for authenticating to the servicebus using `AadTokenCredentials` instead of `ConnectionString`.
 
-_**Note:** This setup is **required** only if you want to clean-up the servicebus-entities before running each test `or` to work on tests that uses `AadTokenCredentials`._
-
 **Register a new application in AAD**
 
-- Follow the [Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) and register a new application in the Azure Active Directory(in the azure-portal).
+- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory(in the azure-portal).
 - Note down the `CLIENT_ID` and `TENANT_ID`.
-- Create a `SECRET`(in the Certificates & Secrets tab) and note that down.
+- In the "Certificates & Secrets" tab, create a secret and note that down.
 
 **Assign owner role to the registered application**
 
 - In the azure-portal, go to your servicebus-namespace and assign **owner** role to the registered application.
 - This can be done from `Access control (IAM)` tab(in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
 _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
-_**Note:** AAD RBAC is enabled only on the new namespaces in this region for the preview. Please ensure that your servicebus-namespace is present in one of these regions: **US East, US East 2, or West Europe**. If not, create the namespace in one of those regions_
+_**Note:** AAD RBAC is enabled only on the new namespaces in this region for the preview. Please ensure that your servicebus-namespace is present in one of these regions: **US East, US East 2, or West Europe**. If not, create the namespace in one of those regions._
 
 
 **Update your environment variables**
 
 Populate the following variables along with the above mentioned environment variables in the `.env`.
-```typescript
+```
 AAD_CLIENT_ID=""
 AAD_SERVICEBUS_SECRET=""
 AAD_TENANT_ID=""
