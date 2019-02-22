@@ -7,6 +7,8 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
+import { ApplicationTokenCredentials, loginWithServicePrincipalSecret } from "ms-rest-azure";
+const aadServiceBusAudience = "https://servicebus.azure.net/";
 import {
   Namespace,
   delay,
@@ -17,7 +19,7 @@ import {
   Receiver,
   SessionReceiver
 } from "../lib";
-import { getSenderReceiverClients, ClientType, TestMessage, purge } from "./testUtils";
+import { getSenderReceiverClients, ClientType, TestMessage, purge, getEnvVars } from "./testUtils";
 import long from "long";
 
 function testFalsyValues(testFn: Function): void {
@@ -332,6 +334,86 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     await delay(3000);
     await client.close();
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+});
+
+describe("Test createFromAadTokenCredentials", function(): void {
+  let namespace: Namespace;
+  let tokenCreds: ApplicationTokenCredentials;
+  let errorWasThrown: boolean = false;
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+    throw new Error(
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+    );
+  }
+  const serviceBusEndpoint = (process.env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://((.*).servicebus.windows.net)"
+  ) || "")[1];
+  const env = getEnvVars();
+
+  async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
+    const testMessages = TestMessage.getSample();
+    namespace = Namespace.createFromAadTokenCredentials(host, tokenCreds);
+    namespace.should.be.an.instanceof(Namespace);
+    const clients = await getSenderReceiverClients(
+      namespace,
+      ClientType.UnpartitionedQueue,
+      ClientType.UnpartitionedQueue
+    );
+
+    const sender = clients.senderClient.getSender();
+    const receiver = clients.receiverClient.getReceiver();
+    await sender.send(testMessages);
+    const msgs = await receiver.receiveBatch(1);
+
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+  }
+
+  it("throws error for an invalid host", async function(): Promise<void> {
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    await testCreateFromAadTokenCredentials("", tokenCreds).catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'host' is a required parameter and must be of type: 'string'.",
+        "ErrorMessage is different than expected"
+      );
+    });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
+        "ErrorMessage is different than expected"
+      );
+    });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("sends a message to the ServiceBus entity", async function(): Promise<void> {
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+    await namespace.close();
   });
 });
 
