@@ -56,7 +56,8 @@
 ## Setup
 
 Go through the following setup inorder to delete and create the required servicebus-entities(just before running each test) and for authenticating to the servicebus using `AadTokenCredentials` instead of `ConnectionString`.
-_This setup is **required** only if you want to clean-up the servicebus-entities before running each test `or` to work on tests that uses `AadTokenCredentials`._
+
+_**Note:** This setup is **required** only if you want to clean-up the servicebus-entities before running each test `or` to work on tests that uses `AadTokenCredentials`._
 
 **Register a new application in AAD**
 
@@ -67,9 +68,9 @@ _This setup is **required** only if you want to clean-up the servicebus-entities
 **Assign owner role to the registered application**
 
 - In the azure-portal, go to your servicebus-namespace and assign **owner** role to the registered application.
-- This can be done from `Access control (IAM)` tab(in the left-side-navbar of your servicebus-namespace in the azure-portal)
-_Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_
-* **_Note: AAD RBAC is enabled only on the new namespaces in this region for the preview. Please ensure that your servicebus-namespace is present in one of these regions: US East, US East 2, or West Europe.If not, create the namespace in one of those regions_**
+- This can be done from `Access control (IAM)` tab(in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
+_Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
+_**Note:** AAD RBAC is enabled only on the new namespaces in this region for the preview. Please ensure that your servicebus-namespace is present in one of these regions: **US East, US East 2, or West Europe**. If not, create the namespace in one of those regions_
 
 
 **Update your environment variables**
@@ -83,9 +84,11 @@ RESOURCE_GROUP=""
 AZURE_SUBSCRIPTION_ID=""
 CLEAN_NAMESPACE="true"
 ```
-Note:
+
+**Note:**
 * `RESOURCE_GROUP` and `AZURE_SUBSCRIPTION_ID` can be found at your servicebus-namespace in the azure-portal.
 * `CLEAN_NAMESPACE` env variable is used it in testUtils.ts.
+
 _If `CLEAN_NAMESPACE` is `undefined`, then the deletion/creation of the required servicebus-entities(for each test) will not happen._
 
 ## Run all tests
