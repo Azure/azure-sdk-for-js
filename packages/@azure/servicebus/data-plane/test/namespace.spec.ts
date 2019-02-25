@@ -1017,7 +1017,7 @@ describe("Errors after close()", function(): void {
         true
       );
 
-      //    await testSessionReceiver(expectedReceiverErrorMsg);
+      await testSessionReceiver(expectedReceiverErrorMsg);
       await testReceiverClient(expectedQueueClientErrorMsg, true);
     });
 
@@ -1035,7 +1035,7 @@ describe("Errors after close()", function(): void {
       await testRules(expectedSubscriptionClientErrorMsg);
     });
 
-    it.only("Partitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
+    it("Partitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
       void
     > {
       await beforeEachTest(
@@ -1045,7 +1045,7 @@ describe("Errors after close()", function(): void {
         true
       );
 
-      //    await testSessionReceiver(expectedReceiverErrorMsg);
+      await testSessionReceiver(expectedReceiverErrorMsg);
       await testReceiverClient(expectedSubscriptionClientErrorMsg, true);
       await testRules(expectedSubscriptionClientErrorMsg);
     });
@@ -1073,7 +1073,7 @@ describe("Errors after close()", function(): void {
         true
       );
 
-      //    await testSessionReceiver(expectedReceiverErrorMsg);
+      await testSessionReceiver(expectedReceiverErrorMsg);
       await testReceiverClient(expectedQueueClientErrorMsg, true);
     });
 
@@ -1101,7 +1101,7 @@ describe("Errors after close()", function(): void {
         true
       );
 
-      //     await testSessionReceiver(expectedReceiverErrorMsg);
+      await testSessionReceiver(expectedReceiverErrorMsg);
       await testReceiverClient(expectedSubscriptionClientErrorMsg, true);
       await testRules(expectedSubscriptionClientErrorMsg);
     });

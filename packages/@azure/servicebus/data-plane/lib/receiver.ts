@@ -275,10 +275,6 @@ export class SessionReceiver {
   private _receiveMode: ReceiveMode;
   private _sessionId: string | undefined;
   private _messageSession: MessageSession;
-  private _isClosed: boolean = false;
-  public get isClosed(): boolean {
-    return this._isClosed;
-  }
 
   /**
    * @property {string} [sessionId] The sessionId for the message session.
@@ -469,7 +465,6 @@ export class SessionReceiver {
   async close(): Promise<void> {
     try {
       await this._messageSession.close();
-      this._isClosed = true;
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the message session with id '%s': %O.",
@@ -491,7 +486,7 @@ export class SessionReceiver {
 
   private throwIfReceiverOrConnectionClosed() {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isClosed) {
+    if (!this._context.messageSessions[this.sessionId]) {
       throw new Error("The receiver has been closed and can no longer be used.");
     }
   }
