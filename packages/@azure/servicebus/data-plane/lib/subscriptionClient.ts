@@ -143,6 +143,7 @@ export class SubscriptionClient extends Client {
 
   /**
    * Sets the state of the MessageSession.
+   * @param sessionId  Id of the session for which the state needs to be set.
    * @param state The state that needs to be set.
    */
   async setSessionState(sessionId: string, state: any): Promise<void> {
@@ -151,6 +152,7 @@ export class SubscriptionClient extends Client {
 
   /**
    * Gets the state of the MessageSession.
+   * @param sessionId  Id of the session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
   async getSessionState(sessionId: string): Promise<any> {
@@ -165,6 +167,7 @@ export class SubscriptionClient extends Client {
    * Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
+   * @param sessionId  Id of the session for which the messages are to be peeked.
    * @param messageCount The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    */
@@ -179,6 +182,7 @@ export class SubscriptionClient extends Client {
    * Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
+   * @param sessionId  Id of the session for which the messages are to be peeked.
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
