@@ -33,6 +33,10 @@ export class Receiver {
   private _context: ClientEntityContext;
   private _receiveMode: ReceiveMode;
   private _isClosed: boolean = false;
+
+  /**
+   * Denotes if close() was called on this receiver.
+   */
   public get isClosed(): boolean {
     return this._isClosed;
   }
@@ -277,6 +281,13 @@ export class SessionReceiver {
   private _messageSession: MessageSession;
 
   /**
+   * Denotes if close() was called on this receiver.
+   */
+  public get isClosed(): boolean {
+    return !this._context.messageSessions[this.sessionId];
+  }
+
+  /**
    * @property {string} [sessionId] The sessionId for the message session.
    */
   public get sessionId(): string {
@@ -486,7 +497,7 @@ export class SessionReceiver {
 
   private throwIfReceiverOrConnectionClosed() {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!this._context.messageSessions[this.sessionId]) {
+    if (this.isClosed) {
       throw new Error("The receiver has been closed and can no longer be used.");
     }
   }

@@ -23,7 +23,7 @@ export abstract class Client {
    */
   id: string;
   /**
-   * @property {boolean} _isClosed Denotes whether the close() function has been called.
+   * @property {boolean} _isClosed Denotes if close() was called on this client.
    */
   protected _isClosed: boolean = false;
   /**

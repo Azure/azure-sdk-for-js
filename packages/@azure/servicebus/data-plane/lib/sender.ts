@@ -23,7 +23,7 @@ export class Sender {
   private _isClosed: boolean = false;
 
   /**
-   * Denotes if the sender was explicitly closed.
+   * Denotes if close() was called on this sender.
    */
   public get isClosed(): boolean {
     return this._isClosed;
