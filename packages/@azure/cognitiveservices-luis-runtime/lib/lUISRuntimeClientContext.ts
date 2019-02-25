@@ -35,17 +35,17 @@ export class LUISRuntimeClientContext extends msRest.ServiceClient {
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}";
+    this.baseUri = "{Endpoint}/luis/v2.0";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;
-
   }
 }
