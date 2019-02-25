@@ -349,7 +349,6 @@ describe("Test createFromAadTokenCredentials", function(): void {
   const serviceBusEndpoint = (process.env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
-  const env = getEnvVars();
 
   async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
     const testMessages = TestMessage.getSample();
@@ -372,6 +371,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   }
 
   it("throws error for an invalid host", async function(): Promise<void> {
+    const env = getEnvVars();
     tokenCreds = await loginWithServicePrincipalSecret(
       env.clientId,
       env.clientSecret,
@@ -404,6 +404,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
   });
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
+    const env = getEnvVars();
     tokenCreds = await loginWithServicePrincipalSecret(
       env.clientId,
       env.clientSecret,
