@@ -612,39 +612,42 @@ describe("Errors after namespace.close()", function(): void {
    */
   async function testSessionReceiver(): Promise<void> {
     await testReceiver(true);
-    const sessionReceiver = receiver as SessionReceiver;
 
     let errorPeek = false;
-    await sessionReceiver.peek().catch((err) => {
+    await receiverClient.peekSession((receiver as SessionReceiver).sessionId).catch((err) => {
       errorPeek = err && err.message === expectedErrorMsg;
     });
     should.equal(
       errorPeek,
       true,
-      "InvalidOperationError not thrown for peek() from sessionReceiver"
+      "InvalidOperationError not thrown for peekSession() from sessionReceiver"
     );
 
     let errorPeekBySequence = false;
-    await sessionReceiver.peekBySequenceNumber(long.ZERO).catch((err) => {
-      errorPeekBySequence = err && err.message === expectedErrorMsg;
-    });
+    await receiverClient
+      .peekSessionBySequenceNumber((receiver as SessionReceiver).sessionId, long.ZERO)
+      .catch((err) => {
+        errorPeekBySequence = err && err.message === expectedErrorMsg;
+      });
     should.equal(
       errorPeekBySequence,
       true,
-      "InvalidOperationError not thrown for peekBySequenceNumber() from sessionReceiver"
+      "InvalidOperationError not thrown for peekSessionBySequenceNumber() from sessionReceiver"
     );
 
     let errorGetState = false;
-    await sessionReceiver.getState().catch((err) => {
+    await receiverClient.getSessionState((receiver as SessionReceiver).sessionId).catch((err) => {
       errorGetState = err && err.message === expectedErrorMsg;
     });
-    should.equal(errorGetState, true, "InvalidOperationError not thrown for getState()");
+    should.equal(errorGetState, true, "InvalidOperationError not thrown for getSessionState()");
 
     let errorSetState = false;
-    await sessionReceiver.setState("state!!").catch((err) => {
-      errorSetState = err && err.message === expectedErrorMsg;
-    });
-    should.equal(errorSetState, true, "InvalidOperationError not thrown for setState()");
+    await receiverClient
+      .setSessionState((receiver as SessionReceiver).sessionId, "state!!")
+      .catch((err) => {
+        errorSetState = err && err.message === expectedErrorMsg;
+      });
+    should.equal(errorSetState, true, "InvalidOperationError not thrown for setSessionState()");
   }
 
   /**

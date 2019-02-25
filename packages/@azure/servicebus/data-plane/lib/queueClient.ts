@@ -140,6 +140,59 @@ export class QueueClient extends Client {
     });
   }
 
+  /**
+   * Sets the state of the MessageSession.
+   * @param state The state that needs to be set.
+   */
+  async setSessionState(sessionId: string, state: any): Promise<void> {
+    return this._context.managementClient!.setSessionState(sessionId, state);
+  }
+
+  /**
+   * Gets the state of the MessageSession.
+   * @returns Promise<any> The state of that session
+   */
+  async getSessionState(sessionId: string): Promise<any> {
+    return this._context.managementClient!.getSessionState(sessionId);
+  }
+
+  /**
+   * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
+   * the current session. The first call to `peek()` fetches the first active message. Each
+   * subsequent call fetches the subsequent message.
+   *
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
+   *
+   * @param messageCount The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedMessageInfo[]>
+   */
+  async peekSession(sessionId: string, messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    return this._context.managementClient!.peekMessagesBySession(sessionId, messageCount);
+  }
+
+  /**
+   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
+   * from the specified sequence number in the current session.
+   *
+   * Unlike a `received` message, `peeked` message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
+   *
+   * @param fromSequenceNumber The sequence number from where to read the message.
+   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedSBMessage[]>
+   */
+  async peekSessionBySequenceNumber(
+    sessionId: string,
+    fromSequenceNumber: Long,
+    messageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
+      sessionId: sessionId,
+      messageCount: messageCount
+    });
+  }
+
   // /**
   //  * Lists the ids of the sessions on the ServiceBus Queue.
   //  * @param maxNumberOfSessions Maximum number of sessions.
