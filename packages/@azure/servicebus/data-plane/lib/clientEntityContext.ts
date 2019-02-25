@@ -82,6 +82,7 @@ export interface ClientEntityContextBase {
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
   getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession;
+  clearClientReference(clientId: string): Promise<void>;
 }
 
 /**
@@ -207,6 +208,26 @@ export namespace ClientEntityContext {
         }
       }
     };
+
+    (entityContext as ClientEntityContext).clearClientReference = async (clientId: string) => {
+      delete context.clients[clientId];
+
+      if (!entityContext.managementClient) {
+        return;
+      }
+      let isManagementClientInUse = false;
+      for (const id of Object.keys(context.clients)) {
+        if (context.clients[id].name === name) {
+          isManagementClientInUse = true;
+          break;
+        }
+      }
+      if (!isManagementClientInUse) {
+        await entityContext.managementClient.close();
+        entityContext.managementClient = undefined;
+      }
+    };
+
     let managementClient = getManagementClient(context.clients, entityPath);
     if (!managementClient) {
       const mOptions: ManagementClientOptions = {

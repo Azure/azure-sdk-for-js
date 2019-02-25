@@ -23,6 +23,10 @@ export abstract class Client {
    */
   id: string;
   /**
+   * @property {boolean} _isClosed Denotes whether the close() function has been called.
+   */
+  protected _isClosed: boolean = false;
+  /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
   protected _context: ClientEntityContext;
