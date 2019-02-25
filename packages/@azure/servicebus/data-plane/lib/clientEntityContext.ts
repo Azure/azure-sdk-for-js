@@ -217,7 +217,7 @@ export namespace ClientEntityContext {
       }
       let isManagementClientInUse = false;
       for (const id of Object.keys(context.clients)) {
-        if (context.clients[id].name === name) {
+        if (context.clients[id].name === entityContext.entityPath) {
           isManagementClientInUse = true;
           break;
         }

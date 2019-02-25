@@ -43,7 +43,7 @@ export class Sender {
    * @returns Promise<void>
    */
   async send(message: SendableMessageInfo): Promise<void> {
-    this.throwIfSenderClosed();
+    this.throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.send(message);
   }
@@ -61,7 +61,7 @@ export class Sender {
    * @return Promise<void>
    */
   async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
-    this.throwIfSenderClosed();
+    this.throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);
   }
@@ -80,7 +80,7 @@ export class Sender {
     scheduledEnqueueTimeUtc: Date,
     message: SendableMessageInfo
   ): Promise<Long> {
-    this.throwIfSenderClosed();
+    this.throwIfSenderOrConnectionClosed();
     const scheduleMessages: ScheduleMessage[] = [
       { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
     ];
@@ -102,7 +102,7 @@ export class Sender {
     scheduledEnqueueTimeUtc: Date,
     messages: SendableMessageInfo[]
   ): Promise<Long[]> {
-    this.throwIfSenderClosed();
+    this.throwIfSenderOrConnectionClosed();
     const scheduleMessages: ScheduleMessage[] = messages.map((message) => {
       return {
         message,
@@ -118,7 +118,7 @@ export class Sender {
    * @returns Promise<void>
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
-    this.throwIfSenderClosed();
+    this.throwIfSenderOrConnectionClosed();
     return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
@@ -128,7 +128,7 @@ export class Sender {
    * @returns Promise<void>
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
-    this.throwIfSenderClosed();
+    this.throwIfSenderOrConnectionClosed();
     return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 
@@ -156,7 +156,8 @@ export class Sender {
     }
   }
 
-  private throwIfSenderClosed(): void {
+  private throwIfSenderOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
       throw new Error("The sender has been closed and can no longer be used.");
     }
