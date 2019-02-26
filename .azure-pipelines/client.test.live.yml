@@ -4,7 +4,6 @@ variables:
   NodeVersion: '10.x'
 
 jobs:
-<<<<<<< HEAD
 - job: 'Test'
 
   pool:
@@ -29,11 +28,11 @@ jobs:
   - task: Npm@1
     inputs:
       command: 'custom'
-      customCommand: 'run install-client$(NpmCommandSuffix)'
-    displayName: 'npm run install-client$(NpmCommandSuffix)'
+      customCommand: 'run install-client-$(Package)'
+    displayName: 'npm run install-client-$(Package)'
 
-  - script: npm run live-test-client$(NpmCommandSuffix) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
-    displayName: 'npm run live-test-client$(NpmCommandSuffix)'
+  - script: npm run live-test-client-$(Package) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+    displayName: 'npm run live-test-client-$(Package)'
     env:
       # Service Bus
       AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
