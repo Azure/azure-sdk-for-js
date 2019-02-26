@@ -46,6 +46,7 @@
     "dotenv": "^6.1.0",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
+    "mocha-multi": "^1.0.1",
     "nyc": "13.3.0",
     "prettier": "^1.15.3",
     "rimraf": "^2.6.2",
