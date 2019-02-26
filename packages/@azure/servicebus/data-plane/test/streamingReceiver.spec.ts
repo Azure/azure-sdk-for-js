@@ -849,15 +849,6 @@ describe("Streaming - maxConcurrentCalls", function(): void {
   });
 
   async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
-    if (
-      typeof maxConcurrentCalls === "number" &&
-      (maxConcurrentCalls < 1 || maxConcurrentCalls > 2)
-    ) {
-      chai.assert.fail(
-        "Sorry, the tests here only support cases when maxConcurrentCalls is set to 1 or 2"
-      );
-    }
-
     const testMessages = [TestMessage.getSample(), TestMessage.getSample()];
     await sender.sendBatch(testMessages);
 
@@ -873,7 +864,7 @@ describe("Streaming - maxConcurrentCalls", function(): void {
             );
           }
         } else {
-          if (maxConcurrentCalls === 2 && settledMsgs.length !== 0) {
+          if (maxConcurrentCalls && maxConcurrentCalls > 1 && settledMsgs.length !== 0) {
             throw new Error(
               "onMessage for the second message should have been called before the first message got settled"
             );
