@@ -4,14 +4,35 @@ variables:
   NodeVersion: '10.x'
 
 jobs:
+- job: 'Test'
+
+  pool:
+    vmImage: '$(OSVmImage)'
+
+  timeoutInMinutes: 240
+
+  steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '$(node.version)'
+      displayName: 'Install Node.js $(node.version)'
+
+    # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
+    # which is the minimum required to run the composite script commands.
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'install npm-run-all'
+      displayName: 'npm install npm-run-all'
+
   - task: Npm@1
     inputs:
       command: 'custom'
       customCommand: 'run install-client$(NpmCommandSuffix)'
     displayName: 'npm run install-client$(NpmCommandSuffix)'
 
-  - script: npm run live-test-client$(NpmRunCommand) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-
-    displayName: 'npm run live-test-client$(NpmRunCommand)'
+  - script: npm run live-test-client$(NpmCommandSuffix) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --fgrep "should be able to send a boolean as a message correctly"
+    displayName: 'npm run live-test-client$(NpmCommandSuffix)'
     env:
       # Service Bus
       AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
