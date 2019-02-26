@@ -4,6 +4,7 @@ variables:
   NodeVersion: '10.x'
 
 jobs:
+<<<<<<< HEAD
 - job: 'Test'
 
   pool:
@@ -31,7 +32,7 @@ jobs:
       customCommand: 'run install-client$(NpmCommandSuffix)'
     displayName: 'npm run install-client$(NpmCommandSuffix)'
 
-  - script: npm run live-test-client$(NpmCommandSuffix) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --fgrep "should be able to send a boolean as a message correctly"
+  - script: npm run live-test-client$(NpmCommandSuffix) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
     displayName: 'npm run live-test-client$(NpmCommandSuffix)'
     env:
       # Service Bus
