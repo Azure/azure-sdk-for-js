@@ -3,9 +3,8 @@
   obtained from signing in through your Azure account.
 
   Setup :
-    Please ensure that your Azure Service Bus resource is in one of the below regions.
-    - [US East, US East 2, or West Europe]
-    AAD Role Based Access Control is not supported in other regions yet.
+    Please ensure that your Azure Service Bus resource is in US East, US East 2, or West Europe
+    region. AAD Role Based Access Control is not supported in other regions yet.
 
     Assign "owner" role to the registered application
      - In the azure-portal,
