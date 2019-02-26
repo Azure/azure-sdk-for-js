@@ -194,13 +194,13 @@ export class ApplicationGateways {
   /**
    * @param callback The callback
    */
-  listAvailableServerVariables(callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>): void;
+  listAvailableServerVariables(callback: msRest.ServiceCallback<string[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableServerVariables(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>): void;
-  listAvailableServerVariables(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableServerVariablesResult>): Promise<Models.ApplicationGatewaysListAvailableServerVariablesResponse> {
+  listAvailableServerVariables(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+  listAvailableServerVariables(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ApplicationGatewaysListAvailableServerVariablesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -218,13 +218,13 @@ export class ApplicationGateways {
   /**
    * @param callback The callback
    */
-  listAvailableRequestHeaders(callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>): void;
+  listAvailableRequestHeaders(callback: msRest.ServiceCallback<string[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableRequestHeaders(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>): void;
-  listAvailableRequestHeaders(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableRequestHeadersResult>): Promise<Models.ApplicationGatewaysListAvailableRequestHeadersResponse> {
+  listAvailableRequestHeaders(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+  listAvailableRequestHeaders(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ApplicationGatewaysListAvailableRequestHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -242,13 +242,13 @@ export class ApplicationGateways {
   /**
    * @param callback The callback
    */
-  listAvailableResponseHeaders(callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>): void;
+  listAvailableResponseHeaders(callback: msRest.ServiceCallback<string[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableResponseHeaders(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>): void;
-  listAvailableResponseHeaders(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayAvailableResponseHeadersResult>): Promise<Models.ApplicationGatewaysListAvailableResponseHeadersResponse> {
+  listAvailableResponseHeaders(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+  listAvailableResponseHeaders(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ApplicationGatewaysListAvailableResponseHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -642,7 +642,17 @@ const listAvailableServerVariablesOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayAvailableServerVariablesResult
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -665,7 +675,17 @@ const listAvailableRequestHeadersOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayAvailableRequestHeadersResult
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorModel
@@ -688,7 +708,17 @@ const listAvailableResponseHeadersOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayAvailableResponseHeadersResult
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorModel
