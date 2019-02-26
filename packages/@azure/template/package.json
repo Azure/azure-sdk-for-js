@@ -18,7 +18,9 @@
     "build-node": "tsc -p . && cross-env ONLY_NODE=true rollup -c",
     "test": "mocha test-dist/**/*.js --reporter spec",
     "pretest": "npm run build-test",
-    "eslint": "eslint src/**/*.ts test/**/*.ts -c .eslintrc.json"
+    "eslint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c .eslintrc.json",
+    "eslint-fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c .eslintrc.json --fix --fix-type [problem,suggestion]",
+    "lint-and-test": "npm run eslint && npm run test"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
