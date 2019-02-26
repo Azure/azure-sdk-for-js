@@ -4,41 +4,28 @@ variables:
   NodeVersion: '10.x'
 
 jobs:
-- job: 'Test'
-
-  pool:
-    vmImage: '$(OSVmImage)'
-
-  timeoutInMinutes: 240
-
-  steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '$(NodeVersion)'
-    displayName: 'Install Node.js $(NodeVersion)'
-
-  # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-  # which is the minimum required to run the composite script commands.
   - task: Npm@1
     inputs:
       command: 'custom'
-      customCommand: 'install npm-run-all'
-    displayName: 'npm install npm-run-all'
+      customCommand: 'run install-client$(NpmCommandSuffix)'
+    displayName: 'npm run install-client$(NpmCommandSuffix)'
 
-  - script: npm run $(NpmRunCommand) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-
-    displayName: 'npm run $(NpmRunCommand)'
+  - script: npm run live-test-client$(NpmRunCommand) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-
+    displayName: 'npm run live-test-client$(NpmRunCommand)'
     env:
+      # Service Bus
       AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
       AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
       AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
       CLEAN_NAMESPACE: 'true'
+      RESOURCE_GROUP: $(service-bus-test-resource-group)
+      SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+      # Event Hubs
       EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
       EVENTHUB_NAME: $(js-event-hubs-test-name)
       IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
       STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
-      RESOURCE_GROUP: $(service-bus-test-resource-group)
-      SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
 
   - task: PublishTestResults@2
     inputs:
