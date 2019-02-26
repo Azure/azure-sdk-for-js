@@ -142,24 +142,6 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Sets the state of the MessageSession.
-   * @param sessionId  Id of the session for which the state needs to be set.
-   * @param state The state that needs to be set.
-   */
-  async setSessionState(sessionId: string, state: any): Promise<void> {
-    return this._context.managementClient!.setSessionState(sessionId, state);
-  }
-
-  /**
-   * Gets the state of the MessageSession.
-   * @param sessionId  Id of the session for which the state needs to be retrieved.
-   * @returns Promise<any> The state of that session
-   */
-  async getSessionState(sessionId: string): Promise<any> {
-    return this._context.managementClient!.getSessionState(sessionId);
-  }
-
-  /**
    * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
    * the current session. The first call to `peek()` fetches the first active message. Each
    * subsequent call fetches the subsequent message.

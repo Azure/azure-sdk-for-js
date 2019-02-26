@@ -309,42 +309,6 @@ export class SessionReceiver {
   }
 
   /**
-   * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
-   * the current session. The first call to `peek()` fetches the first active message. Each
-   * subsequent call fetches the subsequent message.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
-   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
-   *
-   * @param messageCount The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedMessageInfo[]>
-   */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, messageCount);
-  }
-
-  /**
-   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
-   * from the specified sequence number in the current session.
-   *
-   * Unlike a `received` message, `peeked` message is a read-only version of the message.
-   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
-   *
-   * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param [messageCount] The number of messages to retrieve. Default value `1`.
-   * @returns Promise<ReceivedSBMessage[]>
-   */
-  async peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    messageCount?: number
-  ): Promise<ReceivedMessageInfo[]> {
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      sessionId: this.sessionId!,
-      messageCount: messageCount
-    });
-  }
-
-  /**
    * Receives a deferred message identified by the given `sequenceNumber`.
    * @param sequenceNumber The sequence number of the message that will be received.
    * @returns Promise<ServiceBusMessage | undefined>
