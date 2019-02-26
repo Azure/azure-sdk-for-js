@@ -6,7 +6,7 @@ import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiv
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
 import { MessageSession, SessionMessageHandlerOptions } from "./session/messageSession";
 import { throwErrorIfConnectionClosed } from "./util/utils";
 

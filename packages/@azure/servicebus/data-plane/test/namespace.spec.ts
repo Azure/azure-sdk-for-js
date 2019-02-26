@@ -612,9 +612,10 @@ describe("Errors after namespace.close()", function(): void {
    */
   async function testSessionReceiver(): Promise<void> {
     await testReceiver(true);
+    const sessionReceiver = receiver as SessionReceiver;
 
     let errorPeek = false;
-    await receiverClient.peekSession((receiver as SessionReceiver).sessionId).catch((err) => {
+    await receiverClient.peekSession(sessionReceiver.sessionId).catch((err) => {
       errorPeek = err && err.message === expectedErrorMsg;
     });
     should.equal(
@@ -636,18 +637,16 @@ describe("Errors after namespace.close()", function(): void {
     );
 
     let errorGetState = false;
-    await receiverClient.getSessionState((receiver as SessionReceiver).sessionId).catch((err) => {
+    await sessionReceiver.getState().catch((err) => {
       errorGetState = err && err.message === expectedErrorMsg;
     });
-    should.equal(errorGetState, true, "InvalidOperationError not thrown for getSessionState()");
+    should.equal(errorGetState, true, "InvalidOperationError not thrown for getState()");
 
     let errorSetState = false;
-    await receiverClient
-      .setSessionState((receiver as SessionReceiver).sessionId, "state!!")
-      .catch((err) => {
-        errorSetState = err && err.message === expectedErrorMsg;
-      });
-    should.equal(errorSetState, true, "InvalidOperationError not thrown for setSessionState()");
+    await sessionReceiver.setState("state!!").catch((err) => {
+      errorSetState = err && err.message === expectedErrorMsg;
+    });
+    should.equal(errorSetState, true, "InvalidOperationError not thrown for setState()");
   }
 
   /**

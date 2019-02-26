@@ -348,10 +348,10 @@ describe("Session State", function(): void {
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
     should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
 
-    let testState = await receiverClient.getSessionState(receiver.sessionId);
+    let testState = await receiver.getState();
     should.equal(!!testState, false, "SessionState is different than expected");
-    await receiverClient.setSessionState(receiver.sessionId, "new_state");
-    testState = await receiverClient.getSessionState(receiver.sessionId);
+    await receiver.setState("new_state");
+    testState = await receiver.getState();
     should.equal(testState, "new_state", "SessionState is different than expected");
 
     await receiver.close();
@@ -364,10 +364,10 @@ describe("Session State", function(): void {
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
     should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
 
-    testState = await receiverClient.getSessionState(receiver.sessionId);
+    testState = await receiver.getState();
     should.equal(testState, "new_state", "SessionState is different than expected");
 
-    await receiverClient.setSessionState(receiver.sessionId, ""); // clearing the session-state
+    await receiver.setState(""); // clearing the session-state
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
