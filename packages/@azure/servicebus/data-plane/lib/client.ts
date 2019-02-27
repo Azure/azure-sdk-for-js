@@ -5,6 +5,7 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { AmqpError, generate_uuid } from "rhea-promise";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * Describes the base class for a client.
@@ -22,6 +23,10 @@ export abstract class Client {
    */
   id: string;
   /**
+   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   */
+  protected _isClosed: boolean = false;
+  /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
   protected _context: ClientEntityContext;
@@ -36,6 +41,7 @@ export abstract class Client {
    * Default value: SasTokenProvider.
    */
   constructor(name: string, context: ConnectionContext) {
+    throwErrorIfConnectionClosed(context);
     this.name = name;
     this.id = `${name}/${generate_uuid()}`;
     this._context = ClientEntityContext.create(name, context);

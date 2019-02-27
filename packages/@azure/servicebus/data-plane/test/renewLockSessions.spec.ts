@@ -17,13 +17,7 @@ import {
   OnError,
   delay
 } from "../lib";
-import {
-  testMessagesWithSessions,
-  testSessionId1,
-  purge,
-  getSenderReceiverClients,
-  ClientType
-} from "./testUtils";
+import { purge, getSenderReceiverClients, ClientType, TestMessage } from "./testUtils";
 
 let ns: Namespace;
 let senderClient: QueueClient | TopicClient;
@@ -41,7 +35,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
-  await purge(receiverClient, testSessionId1);
+  await purge(receiverClient, TestMessage.sessionId);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -352,10 +346,11 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessagesWithSessions);
+  const testMessage = TestMessage.getSessionSample();
+  await senderClient.getSender().send(testMessage);
 
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
   const msgs = await sessionClient.receiveBatch(1);
@@ -368,16 +363,8 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Unexpected number of messages");
-  should.equal(
-    msgs[0].body,
-    testMessagesWithSessions.body,
-    "MessageBody is different than expected"
-  );
-  should.equal(
-    msgs[0].messageId,
-    testMessagesWithSessions.messageId,
-    "MessageId is different than expected"
-  );
+  should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+  should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
   // Verify initial lock expiry time on the session
   assertTimestampsAreApproximatelyEqual(
@@ -409,26 +396,19 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   senderClient: QueueClient | TopicClient,
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
-  await senderClient.getSender().send(testMessagesWithSessions);
+  const testMessage = TestMessage.getSessionSample();
+  await senderClient.getSender().send(testMessage);
 
   let sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
   const msgs = await sessionClient.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
-  should.equal(
-    msgs[0].body,
-    testMessagesWithSessions.body,
-    "MessageBody is different than expected"
-  );
-  should.equal(
-    msgs[0].messageId,
-    testMessagesWithSessions.messageId,
-    "MessageId is different than expected"
-  );
+  should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+  should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
   await delay(lockDurationInMilliseconds + 1000);
 
@@ -440,9 +420,10 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-  // Clean up any left over messages
-  sessionClient = await receiverClient.getSessionReceiver({ sessionId: testSessionId1 });
+  // Subsequent receivers for the same session should work as expected.
+  sessionClient = await receiverClient.getSessionReceiver();
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
+  should.equal(unprocessedMsgs[0].deliveryCount, 1, "Unexpected deliveryCount");
   await unprocessedMsgs[0].complete();
 }
 
@@ -454,10 +435,10 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   let numOfMessagesReceived = 0;
-
-  await senderClient.getSender().send(testMessagesWithSessions);
+  const testMessage = TestMessage.getSessionSample();
+  await senderClient.getSender().send(testMessage);
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
 
@@ -467,12 +448,12 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 
       should.equal(
         brokeredMessage.body,
-        testMessagesWithSessions.body,
+        testMessage.body,
         "MessageBody is different than expected"
       );
       should.equal(
         brokeredMessage.messageId,
-        testMessagesWithSessions.messageId,
+        testMessage.messageId,
         "MessageId is different than expected"
       );
 
@@ -531,11 +512,11 @@ async function testAutoLockRenewalConfigBehavior(
   options: AutoLockRenewalTestOptions
 ): Promise<void> {
   let numOfMessagesReceived = 0;
-
-  await senderClient.getSender().send(testMessagesWithSessions);
+  const testMessage = TestMessage.getSessionSample();
+  await senderClient.getSender().send(testMessage);
 
   const sessionClient = await receiverClient.getSessionReceiver({
-    sessionId: testSessionId1,
+    sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: options.maxSessionAutoRenewLockDurationInSeconds
   });
 
@@ -548,12 +529,12 @@ async function testAutoLockRenewalConfigBehavior(
 
         should.equal(
           brokeredMessage.body,
-          testMessagesWithSessions.body,
+          testMessage.body,
           "MessageBody is different than expected"
         );
         should.equal(
           brokeredMessage.messageId,
-          testMessagesWithSessions.messageId,
+          testMessage.messageId,
           "MessageId is different than expected"
         );
 

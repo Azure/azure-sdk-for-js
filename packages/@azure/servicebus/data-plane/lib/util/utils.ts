@@ -5,6 +5,7 @@ import Long from "long";
 import * as log from "../log";
 import { generate_uuid, string_to_uuid } from "rhea-promise";
 import { isBuffer } from "util";
+import { ConnectionContext } from "../connectionContext";
 
 /**
  * A constant that indicates whether the environment is node.js or browser based.
@@ -173,4 +174,14 @@ export function toBuffer(input: any): Buffer {
   }
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
+}
+
+/**
+ * Throws InvalidOperationError if the current AMQP connection is closed.
+ * @param context The ConnectionContext associated with the current AMQP connection.
+ */
+export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
+  if (context && context.wasConnectionCloseCalled) {
+    throw new Error("The underlying AMQP connection is closed.");
+  }
 }
