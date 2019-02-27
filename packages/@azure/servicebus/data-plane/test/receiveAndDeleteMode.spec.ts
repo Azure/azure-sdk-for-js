@@ -13,7 +13,6 @@ import {
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
-  delay,
   SendableMessageInfo,
   ReceiveMode
 } from "../lib";
@@ -21,13 +20,11 @@ import {
 import { DispositionType } from "../lib/serviceBusMessage";
 
 import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
-  getSenderClient,
-  getReceiverClient,
+  TestMessage,
+  getSenderReceiverClients,
   ClientType,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../lib/receiver";
@@ -70,10 +67,11 @@ async function beforeEachTest(
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, receiverType);
+  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -83,7 +81,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1,
+        sessionId: TestMessage.sessionId,
         receiveMode: ReceiveMode.receiveAndDelete
       })
     : receiverClient.getReceiver({ receiveMode: ReceiveMode.receiveAndDelete });
@@ -95,7 +93,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("ReceiveBatch from Queue/Subscription", function(): void {
+describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -104,15 +102,15 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
     await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages.body);
-    should.equal(msgs[0].messageId, testMessages.messageId);
-    should.equal(msgs[0].deliveryCount, 0);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
   }
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await sendReceiveMsg(testMessages);
 
     await testPeekMsgsLength(receiverClient, 0);
@@ -191,7 +189,7 @@ describe("ReceiveBatch from Queue/Subscription", function(): void {
   });
 });
 
-describe("Streaming Receiver from Queue/Subscription", function(): void {
+describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   let errorFromErrorHandler: Error | undefined;
 
   afterEach(async () => {
@@ -200,8 +198,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
 
   async function sendReceiveMsg(
     testMessages: SendableMessageInfo,
-    autoCompleteFlag: boolean,
-    useSessions?: boolean
+    autoCompleteFlag: boolean
   ): Promise<void> {
     await sender.send(testMessages);
     const receivedMsgs: ServiceBusMessage[] = [];
@@ -219,13 +216,16 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
       { autoComplete: autoCompleteFlag }
     );
 
-    await delay(2000);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
 
-    should.equal(receivedMsgs.length, 1);
-    should.equal(receivedMsgs[0].body, testMessages.body);
-    should.equal(receivedMsgs[0].messageId, testMessages.messageId);
-    should.equal(receivedMsgs[0].body, testMessages.body);
-    should.equal(receivedMsgs[0].messageId, testMessages.messageId);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+    should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(
+      receivedMsgs[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
 
     should.equal(
       errorFromErrorHandler,
@@ -237,8 +237,8 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   }
 
   async function testNoSettlement(autoCompleteFlag: boolean, useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    await sendReceiveMsg(testMessages, autoCompleteFlag, useSessions);
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    await sendReceiveMsg(testMessages, autoCompleteFlag);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -388,7 +388,7 @@ describe("Streaming Receiver from Queue/Subscription", function(): void {
   });
 });
 
-describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of message", function(): void {
+describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -396,22 +396,26 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
     await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(msgs[0].body, testMessages.body);
-    should.equal(msgs[0].messageId, testMessages.messageId);
-    should.equal(msgs[0].deliveryCount, 0);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     return msgs[0];
   }
 
   const testError = (err: Error) => {
-    should.equal(err.message, "The operation is only supported in 'PeekLock' receive mode.");
+    should.equal(
+      err.message,
+      "The operation is only supported in 'PeekLock' receive mode.",
+      "ErrorMessage is different than expected"
+    );
     errorWasThrown = true;
   };
 
   async function testSettlement(operation: DispositionType, useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
 
     if (operation === DispositionType.complete) {
@@ -424,7 +428,7 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
       await msg.defer().catch((err) => testError(err));
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -680,11 +684,11 @@ describe("Throws error when Complete/Abandon/Defer/Deadletter/RenewLock of messa
   });
 
   async function testRenewLock(): Promise<void> {
-    const msg = await sendReceiveMsg(testSimpleMessages);
+    const msg = await sendReceiveMsg(TestMessage.getSample());
 
     await receiver.renewLock(msg).catch((err) => testError(err));
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue: Renew message lock throws error", async function(): Promise<void> {

@@ -8,6 +8,7 @@ import { ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * Describes the client that will maintain an AMQP connection to a ServiceBus Subscription.
@@ -52,7 +53,7 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Subscription for this client.
+   * Closes the AMQP link for the receivers created by this client.
    *
    * @returns {Promise<void>}
    */
@@ -64,13 +65,9 @@ export class SubscriptionClient extends Client {
           this._context.sessionManager.close();
         }
 
-        // Close the streaming receiver.
-        if (this._context.streamingReceiver) {
-          await this._context.streamingReceiver.close();
-        }
-        // Close the batching receiver.
-        if (this._context.batchingReceiver) {
-          await this._context.batchingReceiver.close();
+        // Close the streaming and batching receivers.
+        if (this._currentReceiver) {
+          await this._currentReceiver.close();
         }
 
         // Close all the MessageSessions.
@@ -80,6 +77,12 @@ export class SubscriptionClient extends Client {
 
         // Make sure that we clear the map of deferred messages
         this._context.requestResponseLockedMessages.clear();
+
+        // Delete the reference in ConnectionContext
+        await this._context.clearClientReference(this.id);
+
+        // Mark this client as closed, so that we can show appropriate errors for subsequent usage
+        this._isClosed = true;
 
         log.subscriptionClient("Closed the subscription client '%s'.", this.id);
       }
@@ -98,7 +101,8 @@ export class SubscriptionClient extends Client {
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
-    if (!this._currentReceiver) {
+    this.throwErrorIfClientOrConnectionClosed();
+    if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
     }
     return this._currentReceiver;
@@ -116,6 +120,7 @@ export class SubscriptionClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peek(messageCount);
   }
 
@@ -134,6 +139,7 @@ export class SubscriptionClient extends Client {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -145,6 +151,7 @@ export class SubscriptionClient extends Client {
    * Get all the rules associated with the subscription
    */
   async getRules(): Promise<RuleDescription[]> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.getRules();
   }
 
@@ -153,6 +160,7 @@ export class SubscriptionClient extends Client {
    * @param ruleName
    */
   async removeRule(ruleName: string): Promise<void> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.removeRule(ruleName);
   }
 
@@ -172,6 +180,7 @@ export class SubscriptionClient extends Client {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   }
 
@@ -189,6 +198,7 @@ export class SubscriptionClient extends Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,
   //     maxNumberOfSessions,
@@ -207,6 +217,7 @@ export class SubscriptionClient extends Client {
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
+    this.throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {
       if (
@@ -219,12 +230,25 @@ export class SubscriptionClient extends Client {
           } before using "getSessionReceiver" to create a new one for the same sessionId`
         );
       }
-      delete this._context.expiredMessageSessions[options.sessionId];
     }
     this._context.isSessionEnabled = true;
     const messageSession = await MessageSession.create(this._context, options);
+    if (messageSession.sessionId) {
+      delete this._context.expiredMessageSessions[messageSession.sessionId];
+    }
     return new SessionReceiver(this._context, messageSession);
   }
 
   //#endregion
+
+  /**
+   * Throws error if this subscriptionClient has been closed
+   * @param client
+   */
+  private throwErrorIfClientOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this._isClosed) {
+      throw new Error("The subscriptionClient has been closed and can no longer be used.");
+    }
+  }
 }

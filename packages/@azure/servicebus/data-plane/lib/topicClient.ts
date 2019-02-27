@@ -5,6 +5,7 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { Client } from "./client";
 import { Sender } from "./sender";
+import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * Describes the client that will maintain an AMQP connection to a ServiceBus Topic.
@@ -27,7 +28,7 @@ export class TopicClient extends Client {
   }
 
   /**
-   * Closes the AMQP connection to the ServiceBus Topic for this client.
+   * Closes the AMQP link for the sender created by this client.
    *
    * @returns {Promise<void>}
    */
@@ -35,9 +36,16 @@ export class TopicClient extends Client {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         // Close the sender.
-        if (this._context.sender) {
-          await this._context.sender.close();
+        if (this._currentSender) {
+          await this._currentSender.close();
         }
+
+        // Delete the reference in ConnectionContext
+        await this._context.clearClientReference(this.id);
+
+        // Mark this client as closed, so that we can show appropriate errors for subsequent usage
+        this._isClosed = true;
+
         log.topicClient("Closed the topic client '%s'.", this.id);
       }
     } catch (err) {
@@ -56,9 +64,21 @@ export class TopicClient extends Client {
    * property will go to the dead letter queue of such subscriptions.
    */
   getSender(): Sender {
-    if (!this._currentSender) {
+    this.throwErrorIfClientOrConnectionClosed();
+    if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
     }
     return this._currentSender;
+  }
+
+  /**
+   * Throws error if given client has been closed
+   * @param client
+   */
+  private throwErrorIfClientOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this._isClosed) {
+      throw new Error("The topicClient has been closed and can no longer be used.");
+    }
   }
 }
