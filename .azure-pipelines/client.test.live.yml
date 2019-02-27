@@ -14,8 +14,8 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '$(node.version)'
-    displayName: 'Install Node.js $(node.version)'
+      versionSpec: '$(NodeVersion)'
+    displayName: 'Install Node.js $(NodeVersion)'
 
   # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
   # which is the minimum required to run the composite script commands.
