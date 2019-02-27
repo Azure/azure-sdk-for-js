@@ -254,7 +254,7 @@ export class Receiver {
     }
   }
 
-  private throwIfReceiverOrConnectionClosed() {
+  private throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
       throw new Error("The receiver has been closed and can no longer be used.");
@@ -494,7 +494,7 @@ export class SessionReceiver {
     return this._messageSession.isOpen();
   }
 
-  private throwIfReceiverOrConnectionClosed() {
+  private throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
       throw new Error("The receiver has been closed and can no longer be used.");
