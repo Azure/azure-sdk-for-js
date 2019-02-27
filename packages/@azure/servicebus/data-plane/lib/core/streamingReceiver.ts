@@ -45,10 +45,10 @@ export interface MessageHandlerOptions {
    */
   newMessageWaitTimeoutInSeconds?: number;
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently. Once this limit has been reached, more
-   * messages will not be received until the user's message handler has completed processing current message.
-   * - **Default**: `1` (message at a time).
+   * @property {number} [maxConcurrentCalls] The maximum number of concurrent calls that the library
+   * can make to the user's message handler. Once this limit has been reached, more messages will
+   * not be received until atleast one of the calls to the user's message handler has completed.
+   * - **Default**: `1`.
    */
   maxConcurrentCalls?: number;
 }
