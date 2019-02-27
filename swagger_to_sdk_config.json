@@ -8,7 +8,8 @@
       "use": "@microsoft.azure/autorest.typescript@2.1.1"
     },
     "advanced_options": {
-      "clone_dir": "./azure-sdk-for-js"
+      "clone_dir": "./azure-sdk-for-js",
+      "create_sdk_pull_requests": true
     },
     "version": "0.2.0"
   }
