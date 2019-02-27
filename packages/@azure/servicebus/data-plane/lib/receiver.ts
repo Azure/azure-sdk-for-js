@@ -61,10 +61,10 @@ export class Receiver {
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
     this.validateNewReceiveCall(ReceiverType.streaming);
 
-    const sReceiver = StreamingReceiver.create(
-      this._context,
-      Object.assign({}, options || {}, { receiveMode: this._receiveMode })
-    );
+    const sReceiver = StreamingReceiver.create(this._context, {
+      ...options,
+      receiveMode: this._receiveMode
+    });
     this._context.streamingReceiver = sReceiver;
     return sReceiver.receive(onMessage, onError);
   }
