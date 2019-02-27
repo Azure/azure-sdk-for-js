@@ -42,8 +42,8 @@ export class QueueClient extends Client {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         // Close the sender.
-        if (this._context.sender) {
-          await this._context.sender.close();
+        if (this._currentSender) {
+          await this._currentSender.close();
         }
 
         // Close the sessionManager.
@@ -51,14 +51,9 @@ export class QueueClient extends Client {
           this._context.sessionManager.close();
         }
 
-        // Close the streaming receiver.
-        if (this._context.streamingReceiver) {
-          await this._context.streamingReceiver.close();
-        }
-
-        // Close the batching receiver.
-        if (this._context.batchingReceiver) {
-          await this._context.batchingReceiver.close();
+        // Close the streaming and batching receivers.
+        if (this._currentReceiver) {
+          await this._currentReceiver.close();
         }
 
         // Close all the MessageSessions.
@@ -68,6 +63,12 @@ export class QueueClient extends Client {
 
         // Make sure that we clear the map of deferred messages
         this._context.requestResponseLockedMessages.clear();
+
+        // Delete the reference in ConnectionContext
+        await this._context.clearClientReference(this.id);
+
+        // Mark this client as closed, so that we can show appropriate errors for subsequent usage
+        this._isClosed = true;
 
         log.qClient("Closed the Queue client '%s'.", this.id);
       }
@@ -85,8 +86,8 @@ export class QueueClient extends Client {
    * and cancelling such scheduled messages.
    */
   getSender(): Sender {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (!this._currentSender) {
+    this.throwErrorIfClientOrConnectionClosed();
+    if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
     }
     return this._currentSender;
@@ -98,8 +99,8 @@ export class QueueClient extends Client {
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (!this._currentReceiver) {
+    this.throwErrorIfClientOrConnectionClosed();
+    if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
     }
     return this._currentReceiver;
@@ -117,6 +118,7 @@ export class QueueClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peek(messageCount);
   }
 
@@ -135,6 +137,7 @@ export class QueueClient extends Client {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -150,6 +153,7 @@ export class QueueClient extends Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,
   //     maxNumberOfSessions,
@@ -168,7 +172,7 @@ export class QueueClient extends Client {
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    this.throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {
       if (
@@ -188,5 +192,16 @@ export class QueueClient extends Client {
       delete this._context.expiredMessageSessions[messageSession.sessionId];
     }
     return new SessionReceiver(this._context, messageSession);
+  }
+
+  /**
+   * Throws error if this queueClient has been closed
+   * @param client
+   */
+  private throwErrorIfClientOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this._isClosed) {
+      throw new Error("The queueClient has been closed and can no longer be used.");
+    }
   }
 }
