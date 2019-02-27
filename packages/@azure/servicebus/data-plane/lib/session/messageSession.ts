@@ -577,6 +577,21 @@ export class MessageSession extends LinkEntity {
 
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
+        // If the receiver got closed in PeekLock mode, avoid processing the message as we
+        // cannot settle the message.
+        if (
+          this.receiveMode === ReceiveMode.peekLock &&
+          (!this._receiver || !this._receiver.isOpen())
+        ) {
+          log.error(
+            "[%s] Not calling the user's message handler for the current message " +
+              "as the receiver '%s' is closed",
+            connectionId,
+            this.name
+          );
+          return;
+        }
+
         resetTimerOnNewMessageReceived();
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
@@ -588,6 +603,14 @@ export class MessageSession extends LinkEntity {
         } catch (err) {
           // This ensures we call users' error handler when users' message handler throws.
           if (!isAmqpError(err)) {
+            log.error(
+              "[%s] An error occurred while running user's message handler for the message " +
+                "with id '%s' on the receiver '%s': %O",
+              connectionId,
+              bMessage.messageId,
+              this.name,
+              err
+            );
             this._onError!(err);
           }
 
