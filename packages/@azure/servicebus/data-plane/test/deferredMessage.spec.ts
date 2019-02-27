@@ -16,15 +16,7 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
-  getSenderClient,
-  getReceiverClient,
-  ClientType,
-  purge
-} from "./testUtils";
+import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -63,8 +55,9 @@ async function beforeEachTest(
   }
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, receiverType);
+  const clients = await getSenderReceiverClients(ns, senderType, receiverType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
 
   if (receiverClient instanceof QueueClient) {
     deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.name));
@@ -77,7 +70,7 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -94,7 +87,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1
+        sessionId: TestMessage.sessionId
       })
     : receiverClient.getReceiver();
 }
@@ -107,10 +100,14 @@ async function deferMessage(testMessages: SendableMessageInfo): Promise<ServiceB
   await sender.send(testMessages);
   const receivedMsgs = await receiver.receiveBatch(1);
 
-  should.equal(receivedMsgs.length, 1);
-  should.equal(receivedMsgs[0].body, testMessages.body);
-  should.equal(receivedMsgs[0].deliveryCount, 0);
-  should.equal(receivedMsgs[0].messageId, testMessages.messageId);
+  should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+  should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
+  should.equal(receivedMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+  should.equal(
+    receivedMsgs[0].messageId,
+    testMessages.messageId,
+    "MessageId is different than expected"
+  );
 
   if (!receivedMsgs[0].sequenceNumber) {
     throw "Sequence Number can not be null";
@@ -122,9 +119,13 @@ async function deferMessage(testMessages: SendableMessageInfo): Promise<ServiceB
   if (!deferredMsgs) {
     throw "No message received for sequence number";
   }
-  should.equal(deferredMsgs.body, testMessages.body);
-  should.equal(deferredMsgs.messageId, testMessages.messageId);
-  should.equal(deferredMsgs.deliveryCount, 1);
+  should.equal(deferredMsgs.body, testMessages.body, "MessageBody is different than expected");
+  should.equal(
+    deferredMsgs.messageId,
+    testMessages.messageId,
+    "MessageId is different than expected"
+  );
+  should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
 
   return deferredMsgs;
 }
@@ -142,9 +143,17 @@ async function completeDeferredMessage(
     throw "No message received for sequence number";
   }
 
-  should.equal(deferredMsg.body, testMessages.body);
-  should.equal(deferredMsg.deliveryCount, expectedDeliverCount);
-  should.equal(deferredMsg.messageId, testMessages.messageId);
+  should.equal(deferredMsg.body, testMessages.body, "MessageBody is different than expected");
+  should.equal(
+    deferredMsg.deliveryCount,
+    expectedDeliverCount,
+    "DeliveryCount is different than expected"
+  );
+  should.equal(
+    deferredMsg.messageId,
+    testMessages.messageId,
+    "MessageId is different than expected"
+  );
 
   await deferredMsg.complete();
 
@@ -157,7 +166,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   });
 
   async function testAbandon(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
@@ -238,15 +247,9 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     );
     await testAbandon(true);
   });
-});
-
-describe("Deferring a deferred message puts it back to the deferred queue.", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
 
   async function testDefer(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages);
     const sequenceNumber = deferredMsg.sequenceNumber;
     if (!sequenceNumber) {
@@ -327,15 +330,9 @@ describe("Deferring a deferred message puts it back to the deferred queue.", fun
     );
     await testDefer(true);
   });
-});
-
-describe("Deadlettering a deferred message moves it to dead letter queue.", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages);
 
     await deferredMsg.deadLetter();
@@ -344,10 +341,18 @@ describe("Deadlettering a deferred message moves it to dead letter queue.", func
 
     const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
 
-    should.equal(deadLetterMsgs.length, 1);
-    should.equal(deadLetterMsgs[0].body, testMessages.body);
-    should.equal(deadLetterMsgs[0].deliveryCount, 1);
-    should.equal(deadLetterMsgs[0].messageId, testMessages.messageId);
+    should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
+    should.equal(
+      deadLetterMsgs[0].body,
+      testMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(deadLetterMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
+    should.equal(
+      deadLetterMsgs[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
 
     await deadLetterMsgs[0].complete();
 

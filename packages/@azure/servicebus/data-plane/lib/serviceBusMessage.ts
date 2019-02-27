@@ -131,10 +131,9 @@ export interface SendableMessageInfo {
   body: any;
   /**
    * @property {string | number | Buffer} [messageId] The message identifier is an
-   * application-defined value that uniquely identifies the message and its payload. The identifier
-   * is a free-form string and can reflect a GUID or an identifier derived from the application
-   * context. If enabled, the {@link https://docs.microsoft.com/azure/service-bus-messaging/duplicate-detection duplicate detection}
-   * identifies and removes second and further submissions of messages with the same MessageId.
+   * application-defined value that uniquely identifies the message and its payload.
+   *
+   * Note: Numbers that are not whole integers are not allowed.
    */
   messageId?: string | number | Buffer;
   /**
@@ -309,6 +308,14 @@ export module SendableMessageInfo {
       !Buffer.isBuffer(msg.messageId)
     ) {
       throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
+    }
+
+    if (
+      msg.messageId &&
+      typeof msg.messageId === "number" &&
+      Math.floor(msg.messageId) !== msg.messageId
+    ) {
+      throw new Error("'messageId must be a whole integer. Decimal points are not allowed.");
     }
 
     if (

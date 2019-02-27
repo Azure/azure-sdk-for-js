@@ -18,12 +18,11 @@ import {
 } from "../lib";
 
 import {
-  testMessagesWithSessions,
-  getSenderClient,
-  getReceiverClient,
+  TestMessage,
+  getSenderReceiverClients,
   ClientType,
-  testSessionId1,
-  purge
+  purge,
+  checkWithTimeout
 } from "./testUtils";
 
 async function testPeekMsgsLength(
@@ -53,19 +52,6 @@ function unExpectedErrorHandler(err: Error): void {
 
 const testSessionId2 = "my-session2";
 
-const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
-  {
-    body: "hello1",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId1
-  },
-  {
-    body: "hello2",
-    messageId: `test message ${Math.random()}`,
-    sessionId: testSessionId2
-  }
-];
-
 async function beforeEachTest(senderType: ClientType, sessionType: ClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
@@ -78,10 +64,11 @@ async function beforeEachTest(senderType: ClientType, sessionType: ClientType): 
 
   ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  senderClient = getSenderClient(ns, senderType);
-  receiverClient = getReceiverClient(ns, sessionType);
+  const clients = await getSenderReceiverClients(ns, senderType, sessionType);
+  senderClient = clients.senderClient;
+  receiverClient = clients.receiverClient;
 
-  await purge(receiverClient, testSessionId1);
+  await purge(receiverClient, TestMessage.sessionId);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -93,32 +80,33 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("SessionTests - Accept a session by passing non-existing sessionId receives no messages", function(): void {
+describe("SessionReceiver with invalid sessionId", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function test_batching(): Promise<void> {
-    await senderClient.getSender().send(testMessagesWithSessions);
+    const testMessage = TestMessage.getSessionSample();
+    await senderClient.getSender().send(testMessage);
 
     let receiver = await receiverClient.getSessionReceiver({
-      sessionId: "non" + testSessionId1
+      sessionId: "non" + TestMessage.sessionId
     });
     let msgs = await receiver.receiveBatch(1, 10);
-    should.equal(msgs.length, 0);
+    should.equal(msgs.length, 0, "Unexpected number of messages");
 
     await receiver.close();
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(1);
-    should.equal(msgs.length, 1);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs[0].body, testMessagesWithSessions.body);
-    should.equal(msgs[0].messageId, testMessagesWithSessions.messageId);
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Partitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -128,7 +116,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     await test_batching();
   });
 
-  it("Partitioned Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Partitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -138,7 +126,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     await test_batching();
   });
 
-  it("Unpartitioned Queue with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -148,7 +136,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     await test_batching();
   });
 
-  it("Unpartitioned Subscription with Sessions - Batch Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -159,10 +147,11 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
   });
 
   async function test_streaming(): Promise<void> {
-    await senderClient.getSender().send(testMessagesWithSessions);
+    const testMessage = TestMessage.getSessionSample();
+    await senderClient.getSender().send(testMessage);
 
     let receiver = await receiverClient.getSessionReceiver({
-      sessionId: "non" + testSessionId1
+      sessionId: "non" + TestMessage.sessionId
     });
     let receivedMsgs: ServiceBusMessage[] = [];
     receiver.receive((msg: ServiceBusMessage) => {
@@ -170,26 +159,31 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
       return Promise.resolve();
     }, unExpectedErrorHandler);
     await delay(2000);
-    should.equal(receivedMsgs.length, 0);
+    should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
     await receiver.close();
 
     receiver = await receiverClient.getSessionReceiver();
     receivedMsgs = [];
-    receiver.receive((msg: ServiceBusMessage) => {
-      receivedMsgs.push(msg);
-      should.equal(msg.body, testMessagesWithSessions.body);
-      should.equal(msg.messageId, testMessagesWithSessions.messageId);
-      return Promise.resolve();
-    }, unExpectedErrorHandler);
+    receiver.receive(
+      (msg: ServiceBusMessage) => {
+        should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
+        should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
+        return msg.complete().then(() => {
+          receivedMsgs.push(msg);
+        });
+      },
+      unExpectedErrorHandler,
+      { autoComplete: false }
+    );
 
-    await delay(2000);
-    should.equal(receivedMsgs.length, 1);
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
+    should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Partitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -199,7 +193,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     await test_streaming();
   });
 
-  it("Partitioned Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Partitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -209,7 +203,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     await test_streaming();
   });
 
-  it("Unpartitioned Queue with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -219,7 +213,7 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
     await test_streaming();
   });
 
-  it("Unpartitioned Subscription with Sessions - Streaming Receiver: no messages received", async function(): Promise<
+  it("Unpartitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -230,10 +224,23 @@ describe("SessionTests - Accept a session by passing non-existing sessionId rece
   });
 });
 
-describe("SessionTests - Accept a session without passing sessionId and receive messages from randomly selected sessionId", function(): void {
+describe("SessionReceiver with no sessionId", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
+
+  const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
+    {
+      body: "hello1",
+      messageId: `test message ${Math.random()}`,
+      sessionId: TestMessage.sessionId
+    },
+    {
+      body: "hello2",
+      messageId: `test message ${Math.random()}`,
+      sessionId: testSessionId2
+    }
+  ];
 
   async function testComplete_batching(): Promise<void> {
     const sender = senderClient.getSender();
@@ -243,8 +250,8 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
 
     should.equal(
       testMessagesWithDifferentSessionIds.some(
@@ -262,8 +269,8 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(2);
 
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
@@ -278,7 +285,7 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Partitioned Queue: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -289,7 +296,7 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     await testComplete_batching();
   });
 
-  it("Partitioned Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Partitioned Subscription: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -300,7 +307,7 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     await testComplete_batching();
   });
 
-  it("Unpartitioned Queue with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -311,7 +318,7 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
     await testComplete_batching();
   });
 
-  it("Unpartitioned Subscription with Sessions - Batch Receiver: complete() removes message", async function(): Promise<
+  it("Unpartitioned Subscription: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -323,62 +330,48 @@ describe("SessionTests - Accept a session without passing sessionId and receive 
   });
 });
 
-describe("SessionTests - getState and setState in Session enabled Queues/Subscriptions", function(): void {
+describe("Session State", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testGetSetState(): Promise<void> {
     const sender = senderClient.getSender();
-    await sender.send(testMessagesWithDifferentSessionIds[0]);
+    const testMessage = TestMessage.getSessionSample();
+    await sender.send(testMessage);
 
     let receiver = await receiverClient.getSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(
-      testMessagesWithDifferentSessionIds.some(
-        (x) =>
-          msgs[0].body === x.body &&
-          msgs[0].messageId === x.messageId &&
-          msgs[0].sessionId === x.sessionId
-      ),
-      true,
-      "Received Message doesnt match any of the test messages"
-    );
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
 
     let testState = await receiver.getState();
-    should.equal(!!testState, false);
+    should.equal(!!testState, false, "SessionState is different than expected");
     await receiver.setState("new_state");
     testState = await receiver.getState();
-    should.equal(testState, "new_state");
+    should.equal(testState, "new_state", "SessionState is different than expected");
 
     await receiver.close();
 
     receiver = await receiverClient.getSessionReceiver();
     msgs = await receiver.receiveBatch(2);
-    should.equal(Array.isArray(msgs), true);
-    should.equal(msgs.length, 1);
-    should.equal(
-      testMessagesWithDifferentSessionIds.some(
-        (x) =>
-          msgs[0].body === x.body &&
-          msgs[0].messageId === x.messageId &&
-          msgs[0].sessionId === x.sessionId
-      ),
-      true,
-      "Received Message doesnt match any of the test messages"
-    );
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
+
     testState = await receiver.getState();
-    should.equal(testState, "new_state");
+    should.equal(testState, "new_state", "SessionState is different than expected");
 
     await receiver.setState(""); // clearing the session-state
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queue with Sessions - Testing getState and setState", async function(): Promise<
-    void
-  > {
+  it("Partitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -386,9 +379,7 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Partitioned Subscription with Sessions - Testing getState and setState", async function(): Promise<
-    void
-  > {
+  it("Partitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
@@ -396,9 +387,7 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Unpartitioned Queue with Sessions - Testing getState and setState", async function(): Promise<
-    void
-  > {
+  it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
@@ -406,9 +395,7 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Unpartitioned Subscription with Sessions - Testing getState and setState", async function(): Promise<
-    void
-  > {
+  it("Unpartitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
@@ -418,22 +405,27 @@ describe("SessionTests - getState and setState in Session enabled Queues/Subscri
   });
 });
 
-describe("SessionTests - Second Session Receiver for same session id", function(): void {
+describe("Second SessionReceiver for same sessionId", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testSecondSessionReceiverForSameSession(): Promise<void> {
     const sender = senderClient.getSender();
-    await sender.send(testMessagesWithSessions);
+    const testMessage = TestMessage.getSessionSample();
+    await sender.send(testMessage);
 
     const firstReceiver = await receiverClient.getSessionReceiver();
-    should.equal(firstReceiver.sessionId, testMessagesWithSessions.sessionId);
+    should.equal(
+      firstReceiver.sessionId,
+      testMessage.sessionId,
+      "MessageId is different than expected"
+    );
 
     let errorWasThrown = false;
     try {
       const secondReceiver = await receiverClient.getSessionReceiver({
-        sessionId: testMessagesWithSessions.sessionId
+        sessionId: testMessage.sessionId
       });
       if (secondReceiver) {
         chai.assert.fail("Second receiver for same session id should not have been created");
@@ -443,11 +435,11 @@ describe("SessionTests - Second Session Receiver for same session id", function(
         error &&
         error.message ===
           `Close the current session receiver for sessionId ${
-            testMessagesWithSessions.sessionId
+            testMessage.sessionId
           } before using "getSessionReceiver" to create a new one for the same sessionId`;
     }
 
-    should.equal(errorWasThrown, true);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
 
   it("Partitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
