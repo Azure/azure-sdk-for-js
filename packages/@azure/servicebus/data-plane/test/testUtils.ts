@@ -13,18 +13,27 @@ import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
 
-export const testSimpleMessages: SendableMessageInfo = {
-  body: "hello1",
-  messageId: `test message ${Math.random()}`,
-  partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
-};
+export class TestMessage {
+  static sessionId: string = "my-session";
 
-export const testSessionId1 = "my-session";
-export const testMessagesWithSessions: SendableMessageInfo = {
-  body: "hello1",
-  messageId: `test message ${Math.random()}`,
-  sessionId: testSessionId1
-};
+  static getSample(): SendableMessageInfo {
+    const randomNumber = Math.random();
+    return {
+      body: `message body ${randomNumber}`,
+      messageId: `message id ${randomNumber}`,
+      partitionKey: "dummy"
+    };
+  }
+
+  static getSessionSample(): SendableMessageInfo {
+    const randomNumber = Math.random();
+    return {
+      body: `message body ${randomNumber}`,
+      messageId: `message id ${randomNumber}`,
+      sessionId: TestMessage.sessionId
+    };
+  }
+}
 
 export enum ClientType {
   PartitionedQueue,
@@ -45,21 +54,17 @@ export enum ClientType {
 }
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
-function getEnvVars(): { [key: string]: string } {
-  if (!process.env.ARM_SERVICEBUS_CLIENT_ID) {
+export function getEnvVars(): { [key: string]: string } {
+  if (!process.env.AAD_CLIENT_ID) {
+    throw new Error("Define AAD_CLIENT_ID in your environment before running integration tests.");
+  }
+  if (!process.env.AAD_CLIENT_SECRET) {
     throw new Error(
-      "Define ARM_SERVICEBUS_CLIENT_ID in your environment before running integration tests."
+      "Define AAD_CLIENT_SECRET in your environment before running integration tests."
     );
   }
-  if (!process.env.ARM_SERVICEBUS_TENANT_ID) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_TENANT_ID in your environment before running integration tests."
-    );
-  }
-  if (!process.env.ARM_SERVICEBUS_SECRET) {
-    throw new Error(
-      "Define ARM_SERVICEBUS_SECRET in your environment before running integration tests."
-    );
+  if (!process.env.AAD_TENANT_ID) {
+    throw new Error("Define AAD_TENANT_ID in your environment before running integration tests.");
   }
   if (!process.env.AZURE_SUBSCRIPTION_ID) {
     throw new Error(
@@ -69,25 +74,29 @@ function getEnvVars(): { [key: string]: string } {
   if (!process.env.RESOURCE_GROUP) {
     throw new Error("Define RESOURCE_GROUP in your environment before running integration tests.");
   }
-  if (!process.env.SERVICEBUS_NAMESPACE) {
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
     throw new Error(
-      "Define SERVICEBUS_NAMESPACE in your environment before running integration tests."
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
     );
   }
+
+  const servicebusNamespace = (process.env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://(.*).servicebus.windows.net"
+  ) || "")[1];
   return {
-    clientId: process.env.ARM_SERVICEBUS_CLIENT_ID,
-    tenantId: process.env.ARM_SERVICEBUS_TENANT_ID,
-    secret: process.env.ARM_SERVICEBUS_SECRET,
+    clientId: process.env.AAD_CLIENT_ID,
+    clientSecret: process.env.AAD_CLIENT_SECRET,
+    tenantId: process.env.AAD_TENANT_ID,
     subscriptionId: process.env.AZURE_SUBSCRIPTION_ID,
     resourceGroup: process.env.RESOURCE_GROUP,
-    servicebusNamespace: process.env.SERVICEBUS_NAMESPACE
+    servicebusNamespace: servicebusNamespace
   };
 }
 
 async function recreateQueue(queueName: string, parameters: SBQueue): Promise<void> {
   const env = getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
+    .loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId)
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       await client.queues.deleteMethod(
@@ -113,7 +122,7 @@ async function recreateQueue(queueName: string, parameters: SBQueue): Promise<vo
 async function recreateTopic(topicName: string, parameters: SBTopic): Promise<void> {
   const env = getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
+    .loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId)
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       await client.topics.deleteMethod(
@@ -143,7 +152,7 @@ async function recreateSubscription(
 ): Promise<void> {
   const env = getEnvVars();
   await msRestNodeAuth
-    .loginWithServicePrincipalSecret(env.clientId, env.secret, env.tenantId)
+    .loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId)
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(creds, env.subscriptionId);
       /*

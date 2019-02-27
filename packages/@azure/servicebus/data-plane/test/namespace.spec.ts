@@ -7,7 +7,20 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { Namespace, delay } from "../lib";
+import { ApplicationTokenCredentials, loginWithServicePrincipalSecret } from "ms-rest-azure";
+const aadServiceBusAudience = "https://servicebus.azure.net/";
+import {
+  Namespace,
+  delay,
+  QueueClient,
+  TopicClient,
+  SubscriptionClient,
+  Sender,
+  Receiver,
+  SessionReceiver
+} from "../lib";
+import { getSenderReceiverClients, ClientType, TestMessage, purge, getEnvVars } from "./testUtils";
+import long from "long";
 
 function testFalsyValues(testFn: Function): void {
   [undefined, "", 0].forEach(function(value: string | number | undefined): void {
@@ -321,5 +334,971 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     await delay(3000);
     await client.close();
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+});
+
+describe("Test createFromAadTokenCredentials", function(): void {
+  let namespace: Namespace;
+  let tokenCreds: ApplicationTokenCredentials;
+  let errorWasThrown: boolean = false;
+  if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+    throw new Error(
+      "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+    );
+  }
+  const serviceBusEndpoint = (process.env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://((.*).servicebus.windows.net)"
+  ) || "")[1];
+
+  async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
+    const testMessages = TestMessage.getSample();
+    namespace = Namespace.createFromAadTokenCredentials(host, tokenCreds);
+    namespace.should.be.an.instanceof(Namespace);
+    const clients = await getSenderReceiverClients(
+      namespace,
+      ClientType.UnpartitionedQueue,
+      ClientType.UnpartitionedQueue
+    );
+
+    const sender = clients.senderClient.getSender();
+    const receiver = clients.receiverClient.getReceiver();
+    await sender.send(testMessages);
+    const msgs = await receiver.receiveBatch(1);
+
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+  }
+
+  it("throws error for an invalid host", async function(): Promise<void> {
+    const env = getEnvVars();
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    await testCreateFromAadTokenCredentials("", tokenCreds).catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'host' is a required parameter and must be of type: 'string'.",
+        "ErrorMessage is different than expected"
+      );
+    });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
+        "ErrorMessage is different than expected"
+      );
+    });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("sends a message to the ServiceBus entity", async function(): Promise<void> {
+    const env = getEnvVars();
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
+        tokenAudience: aadServiceBusAudience
+      }
+    );
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+    await namespace.close();
+  });
+});
+
+describe("Errors after close()", function(): void {
+  let namespace: Namespace;
+  let senderClient: QueueClient | TopicClient;
+  let receiverClient: QueueClient | SubscriptionClient;
+  let sender: Sender;
+  let receiver: Receiver | SessionReceiver;
+
+  async function beforeEachTest(
+    senderType: ClientType,
+    receiverType: ClientType,
+    entityToClose: string,
+    useSessions?: boolean
+  ): Promise<void> {
+    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+      throw new Error(
+        "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+      );
+    }
+
+    namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+
+    const clients = await getSenderReceiverClients(namespace, senderType, receiverType);
+    senderClient = clients.senderClient;
+    receiverClient = clients.receiverClient;
+
+    await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
+    const peekedMsgs = await receiverClient.peek();
+    const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+    if (peekedMsgs.length) {
+      chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+    }
+
+    sender = senderClient.getSender();
+    receiver = useSessions
+      ? await receiverClient.getSessionReceiver({
+          sessionId: TestMessage.sessionId
+        })
+      : receiverClient.getReceiver();
+
+    // Normal send/receive
+    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    await sender.send(testMessage);
+    const receivedMsgs = await receiver.receiveBatch(1, 3);
+    should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
+    await receivedMsgs[0].complete();
+
+    // close(), so that we can then test the resulting error.
+    switch (entityToClose) {
+      case "namespace":
+        await namespace.close();
+        break;
+      case "senderClient":
+        await senderClient.close();
+        break;
+      case "receiverClient":
+        await receiverClient.close();
+        break;
+      case "sender":
+        await sender.close();
+        break;
+      case "receiver":
+        await receiver.close();
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
+   * Tests that each feature of the sender throws expected error
+   */
+  async function testSender(expectedErrorMsg: string): Promise<void> {
+    const testMessage = TestMessage.getSample();
+    let errorSend: string = "";
+    await sender.send(testMessage).catch((err) => {
+      errorSend = err.message;
+    });
+    should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
+
+    let errorSendBatch: string = "";
+    await sender.sendBatch([testMessage]).catch((err) => {
+      errorSendBatch = err.message;
+    });
+    should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
+
+    let errorScheduleMsg: string = "";
+    await sender.scheduleMessage(new Date(Date.now() + 30000), testMessage).catch((err) => {
+      errorScheduleMsg = err.message;
+    });
+    should.equal(
+      errorScheduleMsg,
+      expectedErrorMsg,
+      "Expected error not thrown for scheduleMessage()"
+    );
+
+    let errorScheduleMsgs: string = "";
+    await sender.scheduleMessages(new Date(Date.now() + 30000), [testMessage]).catch((err) => {
+      errorScheduleMsgs = err.message;
+    });
+    should.equal(
+      errorScheduleMsgs,
+      expectedErrorMsg,
+      "Expected error not thrown for scheduleMessages()"
+    );
+
+    let errorCancelMsg: string = "";
+    await sender.cancelScheduledMessage(long.ZERO).catch((err) => {
+      errorCancelMsg = err.message;
+    });
+    should.equal(
+      errorCancelMsg,
+      expectedErrorMsg,
+      "Expected error not thrown for cancelScheduledMessage()"
+    );
+
+    let errorCancelMsgs: string = "";
+    await sender.cancelScheduledMessages([long.ZERO]).catch((err) => {
+      errorCancelMsgs = err.message;
+    });
+    should.equal(
+      errorCancelMsgs,
+      expectedErrorMsg,
+      "Expected error not thrown for cancelScheduledMessages()"
+    );
+  }
+
+  /**
+   * Tests that each feature of the senderClient throws expected error
+   */
+  async function testSenderClient(expectedErrorMsg: string): Promise<void> {
+    let errorNewSender: string = "";
+    try {
+      senderClient.getSender();
+    } catch (err) {
+      errorNewSender = err.message;
+    }
+    should.equal(errorNewSender, expectedErrorMsg, "Expected error not thrown for getSender()");
+  }
+
+  /**
+   * Tests that each feature of the receiver throws expected error
+   */
+  async function testReceiver(expectedErrorMsg: string, useSessions?: boolean): Promise<void> {
+    let errorReceiveBatch: string = "";
+    await receiver.receiveBatch(1, 1).catch((err) => {
+      errorReceiveBatch = err.message;
+    });
+    should.equal(
+      errorReceiveBatch,
+      expectedErrorMsg,
+      "Expected error not thrown for receiveBatch()"
+    );
+
+    let errorReceiveStream: string = "";
+    try {
+      receiver.receive(() => Promise.resolve(), (e) => console.log(e));
+    } catch (err) {
+      errorReceiveStream = err.message;
+    }
+    should.equal(errorReceiveStream, expectedErrorMsg, "Expected error not thrown for receive()");
+
+    let errorDeferredMsg: string = "";
+    await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
+      errorDeferredMsg = err.message;
+    });
+    should.equal(
+      errorDeferredMsg,
+      expectedErrorMsg,
+      "Expected error not thrown for receiveDeferredMessage()"
+    );
+
+    let errorDeferredMsgs: string = "";
+    await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
+      errorDeferredMsgs = err.message;
+    });
+    should.equal(
+      errorDeferredMsgs,
+      expectedErrorMsg,
+      "Expected error not thrown for receiveDeferredMessages()"
+    );
+
+    let errorRenewLock: string = "";
+    await receiver.renewLock("randomLockToken").catch((err) => {
+      errorRenewLock = err.message;
+    });
+    should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
+  }
+
+  /**
+   * Tests that each feature of the receiverClient throws expected error
+   */
+  async function testReceiverClient(
+    expectedErrorMsg: string,
+    useSessions?: boolean
+  ): Promise<void> {
+    let errorNewReceiver: string = "";
+    try {
+      useSessions
+        ? await receiverClient.getSessionReceiver({
+            sessionId: TestMessage.sessionId
+          })
+        : receiverClient.getReceiver();
+    } catch (err) {
+      errorNewReceiver = err.message;
+    }
+    should.equal(errorNewReceiver, expectedErrorMsg, "Expected error not thrown for getReceiver()");
+
+    let errorPeek: string = "";
+    await receiverClient.peek().catch((err) => {
+      errorPeek = err.message;
+    });
+    should.equal(
+      errorPeek,
+      expectedErrorMsg,
+      "Expected error not thrown for peek() from receiverClient"
+    );
+
+    let errorPeekBySequence: string = "";
+    await receiverClient.peekBySequenceNumber(long.ZERO).catch((err) => {
+      errorPeekBySequence = err.message;
+    });
+    should.equal(
+      errorPeekBySequence,
+      expectedErrorMsg,
+      "Expected error not thrown for peekBySequenceNumber() from receiverClient"
+    );
+  }
+
+  /**
+   * Tests that each feature of the receiver client with sessions throws expected error
+   */
+  async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
+    await testReceiver(expectedErrorMsg, true);
+    const sessionReceiver = receiver as SessionReceiver;
+
+    let errorPeek: string = "";
+    await sessionReceiver.peek().catch((err) => {
+      errorPeek = err.message;
+    });
+    should.equal(
+      errorPeek,
+      expectedErrorMsg,
+      "Expected error not thrown for peek() from sessionReceiver"
+    );
+
+    let errorPeekBySequence: string = "";
+    await sessionReceiver.peekBySequenceNumber(long.ZERO).catch((err) => {
+      errorPeekBySequence = err.message;
+    });
+    should.equal(
+      errorPeekBySequence,
+      expectedErrorMsg,
+      "Expected error not thrown for peekBySequenceNumber() from sessionReceiver"
+    );
+
+    let errorGetState: string = "";
+    await sessionReceiver.getState().catch((err) => {
+      errorGetState = err.message;
+    });
+    should.equal(errorGetState, expectedErrorMsg, "Expected error not thrown for getState()");
+
+    let errorSetState: string = "";
+    await sessionReceiver.setState("state!!").catch((err) => {
+      errorSetState = err.message;
+    });
+    should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
+  }
+
+  /**
+   * Tests that each feature of the topic filters throws expected error
+   */
+  async function testRules(expectedErrorMsg: string): Promise<void> {
+    const subscriptionClient = receiverClient as SubscriptionClient;
+
+    let errorAddRule: string = "";
+    await subscriptionClient.addRule("myRule", true).catch((err) => {
+      errorAddRule = err.message;
+    });
+    should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
+
+    let errorRemoveRule: string = "";
+    await subscriptionClient.removeRule("myRule").catch((err) => {
+      errorRemoveRule = err.message;
+    });
+    should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
+
+    let errorGetRules: string = "";
+    await subscriptionClient.getRules().catch((err) => {
+      errorGetRules = err.message;
+    });
+    should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
+  }
+
+  describe("Errors after close() on namespace", function(): void {
+    const entityToClose = "namespace";
+    const expectedErrorMsg = "The underlying AMQP connection is closed.";
+
+    it("Partitioned Queue: errors after close() on namespace", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg);
+    });
+
+    it("Partitioned Queue with sessions: errors after close() on namespace", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedQueueWithSessions,
+        ClientType.PartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testSessionReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg, true);
+    });
+
+    it("Partitioned Topic/Subscription: errors after close() on namespace", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopic,
+        ClientType.PartitionedSubscription,
+        entityToClose
+      );
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg);
+      await testRules(expectedErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopicWithSessions,
+        ClientType.PartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testSessionReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg, true);
+      await testRules(expectedErrorMsg);
+    });
+
+    it("Unpartitioned Queue: errors after close() on namespace", async function(): Promise<void> {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueue,
+        ClientType.UnpartitionedQueue,
+        entityToClose
+      );
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg);
+    });
+
+    it("Unpartitioned Queue with sessions: errors after close() on namespace", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueueWithSessions,
+        ClientType.UnpartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testSessionReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg, true);
+    });
+
+    it("Unpartitioned Topic/Subscription: errors after close() on namespace", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopic,
+        ClientType.UnpartitionedSubscription,
+        entityToClose
+      );
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg);
+      await testRules(expectedErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopicWithSessions,
+        ClientType.UnpartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedErrorMsg);
+      await testSenderClient(expectedErrorMsg);
+      await testSessionReceiver(expectedErrorMsg);
+      await testReceiverClient(expectedErrorMsg, true);
+      await testRules(expectedErrorMsg);
+    });
+
+    it("Create Queue/Topic/Subscription clients throws error after namespace.close()", async function(): Promise<
+      void
+    > {
+      // beforeEachTest() can be run for any entity type, we need it only to ensure that the
+      // connection is indeed opened
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
+
+      let errorCreateQueueClient: string = "";
+      try {
+        namespace.createQueueClient("random-name");
+      } catch (err) {
+        errorCreateQueueClient = err.message;
+      }
+      should.equal(
+        errorCreateQueueClient,
+        expectedErrorMsg,
+        "Expected error not thrown for createQueueClient()"
+      );
+
+      let errorCreateTopicClient: string = "";
+      try {
+        namespace.createTopicClient("random-name");
+      } catch (err) {
+        errorCreateTopicClient = err.message;
+      }
+      should.equal(
+        errorCreateTopicClient,
+        expectedErrorMsg,
+        "Expected error not thrown for createTopicClient()"
+      );
+
+      let errorCreateSubscriptionClient: string = "";
+      try {
+        namespace.createSubscriptionClient("random-name", "random-name");
+      } catch (err) {
+        errorCreateSubscriptionClient = err.message;
+      }
+      should.equal(
+        errorCreateSubscriptionClient,
+        expectedErrorMsg,
+        "Expected error not thrown for createubscriptionClient()"
+      );
+    });
+  });
+
+  describe("Errors after close() on senderClient", function(): void {
+    const entityToClose = "senderClient";
+    const expectedSenderErrorMsg = "The sender has been closed and can no longer be used.";
+    const expectedQueueClientErrorMsg =
+      "The queueClient has been closed and can no longer be used.";
+    const expectedTopicClientErrorMsg =
+      "The topicClient has been closed and can no longer be used.";
+
+    it("Partitioned Queue: errors after close() on senderClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedQueueClientErrorMsg);
+    });
+
+    it("Partitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedQueueWithSessions,
+        ClientType.PartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedQueueClientErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopic,
+        ClientType.PartitionedSubscription,
+        entityToClose
+      );
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedTopicClientErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription with sessions: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopicWithSessions,
+        ClientType.PartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedTopicClientErrorMsg);
+    });
+
+    it("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueue,
+        ClientType.UnpartitionedQueue,
+        entityToClose
+      );
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedQueueClientErrorMsg);
+    });
+
+    it("Unpartitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueueWithSessions,
+        ClientType.UnpartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedQueueClientErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopic,
+        ClientType.UnpartitionedSubscription,
+        entityToClose
+      );
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedTopicClientErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on senderClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopicWithSessions,
+        ClientType.UnpartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+      await testSenderClient(expectedTopicClientErrorMsg);
+    });
+  });
+
+  describe("Errors after close() on receiverClient", function(): void {
+    const entityToClose = "receiverClient";
+    const expectedReceiverErrorMsg = "The receiver has been closed and can no longer be used.";
+    const expectedQueueClientErrorMsg =
+      "The queueClient has been closed and can no longer be used.";
+    const expectedSubscriptionClientErrorMsg =
+      "The subscriptionClient has been closed and can no longer be used.";
+
+    it("Partitioned Queue: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
+
+      await testReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedQueueClientErrorMsg);
+    });
+
+    it("Partitioned Queue with sessions: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedQueueWithSessions,
+        ClientType.PartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedQueueClientErrorMsg, true);
+    });
+
+    it("Partitioned Topic/Subscription: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopic,
+        ClientType.PartitionedSubscription,
+        entityToClose
+      );
+
+      await testReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedSubscriptionClientErrorMsg);
+      await testRules(expectedSubscriptionClientErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopicWithSessions,
+        ClientType.PartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedSubscriptionClientErrorMsg, true);
+      await testRules(expectedSubscriptionClientErrorMsg);
+    });
+
+    it("Unpartitioned Queue: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueue,
+        ClientType.UnpartitionedQueue,
+        entityToClose
+      );
+
+      await testReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedQueueClientErrorMsg);
+    });
+
+    it("Unpartitioned Queue with sessions: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueueWithSessions,
+        ClientType.UnpartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedQueueClientErrorMsg, true);
+    });
+
+    it("Unpartitioned Topic/Subscription: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopic,
+        ClientType.UnpartitionedSubscription,
+        entityToClose
+      );
+
+      await testReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedSubscriptionClientErrorMsg);
+      await testRules(expectedSubscriptionClientErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopicWithSessions,
+        ClientType.UnpartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+      await testReceiverClient(expectedSubscriptionClientErrorMsg, true);
+      await testRules(expectedSubscriptionClientErrorMsg);
+    });
+  });
+
+  describe("Errors after close() on sender", function(): void {
+    const entityToClose = "sender";
+    const expectedSenderErrorMsg = "The sender has been closed and can no longer be used.";
+
+    it("Partitioned Queue: errors after close() on sender", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
+
+      await testSender(expectedSenderErrorMsg);
+    });
+
+    it("Partitioned Queue with sessions: errors after close() on sender", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedQueueWithSessions,
+        ClientType.PartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription: errors after close() on sender", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopic,
+        ClientType.PartitionedSubscription,
+        entityToClose
+      );
+
+      await testSender(expectedSenderErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription with sessions: errors after close() on sender", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopicWithSessions,
+        ClientType.PartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+    });
+
+    it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<void> {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueue,
+        ClientType.UnpartitionedQueue,
+        entityToClose
+      );
+
+      await testSender(expectedSenderErrorMsg);
+    });
+
+    it("Unpartitioned Queue with sessions: errors after close() on sender", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueueWithSessions,
+        ClientType.UnpartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription: errors after close() on sender", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopic,
+        ClientType.UnpartitionedSubscription,
+        entityToClose
+      );
+
+      await testSender(expectedSenderErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on sender", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopicWithSessions,
+        ClientType.UnpartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSender(expectedSenderErrorMsg);
+    });
+  });
+
+  describe("Errors after close() on receiver", function(): void {
+    const entityToClose = "receiver";
+    const expectedReceiverErrorMsg = "The receiver has been closed and can no longer be used.";
+
+    it("Partitioned Queue: errors after close() on receiver", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
+
+      await testReceiver(expectedReceiverErrorMsg);
+    });
+
+    it("Partitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedQueueWithSessions,
+        ClientType.PartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopic,
+        ClientType.PartitionedSubscription,
+        entityToClose
+      );
+
+      await testReceiver(expectedReceiverErrorMsg);
+    });
+
+    it("Partitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.PartitionedTopicWithSessions,
+        ClientType.PartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+    });
+
+    it("Unpartitioned Queue: errors after close() on receiver", async function(): Promise<void> {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueue,
+        ClientType.UnpartitionedQueue,
+        entityToClose
+      );
+
+      await testReceiver(expectedReceiverErrorMsg);
+    });
+
+    it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedQueueWithSessions,
+        ClientType.UnpartitionedQueueWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopic,
+        ClientType.UnpartitionedSubscription,
+        entityToClose
+      );
+
+      await testReceiver(expectedReceiverErrorMsg);
+    });
+
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        ClientType.UnpartitionedTopicWithSessions,
+        ClientType.UnpartitionedSubscriptionWithSessions,
+        entityToClose,
+        true
+      );
+
+      await testSessionReceiver(expectedReceiverErrorMsg);
+    });
   });
 });

@@ -16,14 +16,7 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
-  getSenderReceiverClients,
-  ClientType,
-  purge
-} from "./testUtils";
+import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../lib/receiver";
 
 async function testPeekMsgsLength(
@@ -63,7 +56,7 @@ async function beforeEachTest(
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
   if (peekedMsgs.length) {
@@ -72,7 +65,7 @@ async function beforeEachTest(
 
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1
+        sessionId: TestMessage.sessionId
       })
     : receiverClient.getReceiver();
 }
@@ -87,7 +80,7 @@ describe("Simple Send", function(): void {
   });
 
   async function testSimpleSend(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await senderClient.getSender().send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
@@ -165,7 +158,7 @@ describe("Schedule single message", function(): void {
   });
 
   async function testScheduleMessage(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
     await senderClient.getSender().scheduleMessage(scheduleTime, testMessages);
 
@@ -265,12 +258,12 @@ describe("Schedule multiple messages", function(): void {
     {
       body: "hello1",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     },
     {
       body: "hello2",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     }
   ];
 
@@ -385,7 +378,7 @@ describe("Cancel single Scheduled message", function(): void {
   });
 
   async function testCancelScheduleMessage(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
     const sequenceNumber = await senderClient
       .getSender()
@@ -470,18 +463,13 @@ describe("Cancel multiple Scheduled messages", function(): void {
     await afterEachTest();
   });
 
-  async function testCancelScheduleMessages(
-    usePartitions?: boolean,
-    useSessions?: boolean
-  ): Promise<void> {
-    let testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    if (usePartitions) {
-      testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
-    }
+  async function testCancelScheduleMessages(useSessions?: boolean): Promise<void> {
+    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+
     const sender = senderClient.getSender();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const sequenceNumber1 = await sender.scheduleMessage(scheduleTime, testMessages);
-    const sequenceNumber2 = await sender.scheduleMessage(scheduleTime, testMessages);
+    const sequenceNumber1 = await sender.scheduleMessage(scheduleTime, testMessage);
+    const sequenceNumber2 = await sender.scheduleMessage(scheduleTime, testMessage);
 
     await delay(2000);
 
@@ -494,22 +482,22 @@ describe("Cancel multiple Scheduled messages", function(): void {
 
   it("Partitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testCancelScheduleMessages(true, false);
+    await testCancelScheduleMessages(false);
   });
 
   it("Partitioned Topic: Cancel scheduled messages", async function(): Promise<void> {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testCancelScheduleMessages(true, false);
+    await testCancelScheduleMessages(false);
   });
 
   it("Unpartitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testCancelScheduleMessages(false, false);
+    await testCancelScheduleMessages(false);
   });
 
   it("Unpartitioned Topic: Cancel scheduled messages", async function(): Promise<void> {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testCancelScheduleMessages(false, false);
+    await testCancelScheduleMessages(false);
   });
 
   it("Partitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<void> {
@@ -518,7 +506,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
       ClientType.PartitionedQueueWithSessions,
       true
     );
-    await testCancelScheduleMessages(true, true);
+    await testCancelScheduleMessages(true);
   });
 
   it("Partitioned Topic with Sessions: Cancel scheduled messages", async function(): Promise<void> {
@@ -527,7 +515,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
       ClientType.PartitionedSubscriptionWithSessions,
       true
     );
-    await testCancelScheduleMessages(true, true);
+    await testCancelScheduleMessages(true);
   });
 
   it("Unpartitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<
@@ -538,7 +526,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
       ClientType.UnpartitionedQueueWithSessions,
       true
     );
-    await testCancelScheduleMessages(true, true);
+    await testCancelScheduleMessages(true);
   });
 
   it("Unpartitioned Topic with Sessions: Cancel scheduled messages", async function(): Promise<
@@ -549,6 +537,49 @@ describe("Cancel multiple Scheduled messages", function(): void {
       ClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
-    await testCancelScheduleMessages(true, true);
+    await testCancelScheduleMessages(true);
+  });
+});
+
+describe("Message validations", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("MessageId validations", async function(): Promise<void> {
+    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    const sender = senderClient.getSender();
+    let errorMessageIdDecimal = false;
+    await sender.send({ body: "", messageId: 1.5 }).catch((err) => {
+      errorMessageIdDecimal =
+        err &&
+        err.message === "'messageId must be a whole integer. Decimal points are not allowed.";
+    });
+
+    should.equal(
+      errorMessageIdDecimal,
+      true,
+      "Error not thrown when messageId is not a whole number"
+    );
+
+    let errorMessageIdLongString = false;
+    await sender
+      .send({
+        body: "",
+        messageId:
+          "A very very very very very very very very very very very very very very very very very very very very very very very very very long string."
+      })
+      .catch((err) => {
+        errorMessageIdLongString =
+          err &&
+          err.message ===
+            "Length of 'messageId' of type 'string' cannot be greater than 128 characters.";
+      });
+
+    should.equal(
+      errorMessageIdLongString,
+      true,
+      "Error not thrown when messageId is not a whole number"
+    );
   });
 });

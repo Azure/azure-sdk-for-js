@@ -17,14 +17,7 @@ import {
   SendableMessageInfo
 } from "../lib";
 
-import {
-  testSimpleMessages,
-  testMessagesWithSessions,
-  testSessionId1,
-  getSenderReceiverClients,
-  ClientType,
-  purge
-} from "./testUtils";
+import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../lib/receiver";
 import { Sender } from "../lib/sender";
 
@@ -81,7 +74,7 @@ async function beforeEachTest(
     );
   }
 
-  await purge(receiverClient, useSessions ? testSessionId1 : undefined);
+  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
   await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.peek();
   const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
@@ -98,7 +91,7 @@ async function beforeEachTest(
   sender = senderClient.getSender();
   receiver = useSessions
     ? await receiverClient.getSessionReceiver({
-        sessionId: testSessionId1
+        sessionId: TestMessage.sessionId
       })
     : receiverClient.getReceiver();
 }
@@ -125,7 +118,7 @@ describe("Batch Receiver - Settle message", function(): void {
   }
 
   async function testComplete(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
 
     await msg.complete();
@@ -198,7 +191,7 @@ describe("Batch Receiver - Settle message", function(): void {
   });
 
   async function testAbandon(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
     await msg.abandon();
 
@@ -292,7 +285,7 @@ describe("Batch Receiver - Settle message", function(): void {
   });
 
   async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await sender.send(testMessages);
     let abandonMsgCount = 0;
 
@@ -398,7 +391,7 @@ describe("Batch Receiver - Settle message", function(): void {
   });
 
   async function testDefer(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
 
     if (!msg.sequenceNumber) {
@@ -495,7 +488,7 @@ describe("Batch Receiver - Settle message", function(): void {
   });
 
   async function testDeadletter(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const msg = await sendReceiveMsg(testMessages);
     await msg.deadLetter();
 
@@ -603,19 +596,15 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     await afterEachTest();
   });
 
-  async function deadLetterMessage(): Promise<ServiceBusMessage> {
-    await sender.send(testSimpleMessages);
+  async function deadLetterMessage(testMessage: SendableMessageInfo): Promise<ServiceBusMessage> {
+    await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-    should.equal(
-      receivedMsgs[0].body,
-      testSimpleMessages.body,
-      "MessageBody is different than expected"
-    );
+    should.equal(receivedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       receivedMsgs[0].messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
     should.equal(receivedMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
@@ -629,12 +618,12 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       deadLetterMsgs[0].body,
-      testSimpleMessages.body,
+      testMessage.body,
       "MessageBody is different than expected"
     );
     should.equal(
       deadLetterMsgs[0].messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
     should.equal(deadLetterMsgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
@@ -643,6 +632,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
   }
 
   async function completeDeadLetteredMessage(
+    testMessage: SendableMessageInfo,
     deadletterClient: QueueClient | SubscriptionClient,
     expectedDeliverCount: number
   ): Promise<void> {
@@ -651,12 +641,12 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       deadLetterMsgs[0].body,
-      testSimpleMessages.body,
+      testMessage.body,
       "MessageBody is different than expected"
     );
     should.equal(
       deadLetterMsgs[0].messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
     should.equal(
@@ -669,8 +659,8 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     await testPeekMsgsLength(deadletterClient, 0);
   }
 
-  async function testDeadletter(): Promise<void> {
-    const deadLetterMsg = await deadLetterMessage();
+  async function testDeadletter(testMessage: SendableMessageInfo): Promise<void> {
+    const deadLetterMsg = await deadLetterMessage(testMessage);
 
     await deadLetterMsg.deadLetter().catch((err) => {
       should.equal(err.name, "InvalidOperationError", "ErrorName is different than expected");
@@ -679,75 +669,75 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-    await completeDeadLetteredMessage(deadLetterClient, 0);
+    await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
   }
 
   it("Partitioned Queue: Throws error when dead lettering a dead lettered message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testDeadletter();
+    await testDeadletter(TestMessage.getSample());
   });
 
   it("Partitioned Subscription: Throws error when dead lettering a dead lettered message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testDeadletter();
+    await testDeadletter(TestMessage.getSample());
   });
 
   it("Unpartitioned Queue: Throws error when dead lettering a dead lettered message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testDeadletter();
+    await testDeadletter(TestMessage.getSample());
   });
 
   it("Unpartitioned Subscription: Throws error when dead lettering a dead lettered message", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testDeadletter();
+    await testDeadletter(TestMessage.getSample());
   });
 
-  async function testAbandon(): Promise<void> {
-    const deadLetterMsg = await deadLetterMessage();
+  async function testAbandon(testMessage: SendableMessageInfo): Promise<void> {
+    const deadLetterMsg = await deadLetterMessage(testMessage);
 
     await deadLetterMsg.abandon();
 
-    await completeDeadLetteredMessage(deadLetterClient, 0);
+    await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
   }
 
   it("Partitioned Queue: Abandon a message received from dead letter queue", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testAbandon();
+    await testAbandon(TestMessage.getSample());
   });
 
   it("Partitioned Subscription: Abandon a message received from dead letter queue", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testAbandon();
+    await testAbandon(TestMessage.getSample());
   });
 
   it("Unpartitioned Queue: Abandon a message received from dead letter queue", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testAbandon();
+    await testAbandon(TestMessage.getSample());
   });
 
   it("Unpartitioned Subscription: Abandon a message received from dead letter queue", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testAbandon();
+    await testAbandon(TestMessage.getSample());
   });
 
-  async function testDefer(): Promise<void> {
-    const deadLetterMsg = await deadLetterMessage();
+  async function testDefer(testMessage: SendableMessageInfo): Promise<void> {
+    const deadLetterMsg = await deadLetterMessage(testMessage);
 
     if (!deadLetterMsg.sequenceNumber) {
       throw "Sequence Number can not be null";
@@ -762,14 +752,10 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
-    should.equal(
-      deferredMsgs.body,
-      testSimpleMessages.body,
-      "MessageBody is different than expected"
-    );
+    should.equal(deferredMsgs.body, testMessage.body, "MessageBody is different than expected");
     should.equal(
       deferredMsgs.messageId,
-      testSimpleMessages.messageId,
+      testMessage.messageId,
       "MessageId is different than expected"
     );
 
@@ -784,28 +770,28 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testDefer();
+    await testDefer(TestMessage.getSample());
   });
 
   it("Partitioned Subscription: Defer a message received from dead letter queue", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testDefer();
+    await testDefer(TestMessage.getSample());
   });
 
   it("Unpartitioned Queue: Defer a message received from dead letter queue", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testDefer();
+    await testDefer(TestMessage.getSample());
   });
 
   it("Unpartitioned Subscription: Defer a message received from dead letter queue", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testDefer();
+    await testDefer(TestMessage.getSample());
   });
 });
 
@@ -914,12 +900,12 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function(): void {
     {
       body: "hello1",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     },
     {
       body: "hello2",
       messageId: `test message ${Math.random()}`,
-      sessionId: testSessionId1
+      sessionId: TestMessage.sessionId
     }
   ];
 
@@ -1031,7 +1017,7 @@ describe("Batch Receiver - Others", function(): void {
   });
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await sender.send(testMessages);
 
     let receivedMsgs = await receiver.receiveBatch(1);
@@ -1087,52 +1073,8 @@ describe("Batch Receiver - Others", function(): void {
     await testNoSettlement();
   });
 
-  // it("Partitioned Queue with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.PartitionedQueueWithSessions,
-  //     ClientType.PartitionedQueueWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
-  // it("Partitioned Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.PartitionedTopicWithSessions,
-  //     ClientType.PartitionedSubscriptionWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
-  // it("Unpartitioned Queue with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.UnpartitionedQueueWithSessions,
-  //     ClientType.UnpartitionedQueueWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
-  // it("Unpartitioned Subscription with Sessions: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-  //   void
-  // > {
-  //   await beforeEachTest(
-  //     ClientType.UnpartitionedTopicWithSessions,
-  //     ClientType.UnpartitionedSubscriptionWithSessions,
-  //     true
-  //   );
-  //   await testNoSettlement(true);
-  // });
-
   async function testAskForMore(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? testMessagesWithSessions : testSimpleMessages;
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     await sender.send(testMessages);
     const receivedMsgs = await receiver.receiveBatch(2);
 

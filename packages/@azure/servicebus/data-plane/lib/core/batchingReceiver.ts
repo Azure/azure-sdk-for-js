@@ -13,6 +13,7 @@ import {
   OnAmqpEventAsPromise
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
+import { throwErrorIfConnectionClosed } from "../util/utils";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -47,6 +48,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
   receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
+    throwErrorIfConnectionClosed(this._context.namespace);
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
       throw new Error(
         "'maxMessageCount' is a required parameter of type number with a value " + "greater than 0."
@@ -397,6 +399,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ReceiveOptions} [options]     Receive options.
    */
   static create(context: ClientEntityContext, options?: ReceiveOptions): BatchingReceiver {
+    throwErrorIfConnectionClosed(context.namespace);
     const bReceiver = new BatchingReceiver(context, options);
     context.batchingReceiver = bReceiver;
     return bReceiver;
