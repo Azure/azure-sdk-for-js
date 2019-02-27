@@ -31,6 +31,8 @@ jobs:
       customCommand: 'run install-client-$(Package)'
     displayName: 'npm run install-client-$(Package)'
 
+  # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
+  # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
   - script: npm run live-test-client-$(Package) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
     displayName: 'npm run live-test-client-$(Package)'
     env:
