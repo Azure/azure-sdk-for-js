@@ -81,7 +81,7 @@
     "build-browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c",
     "build-node": "tsc -p . && cross-env ONLY_NODE=true rollup -c",
     "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js",
-    "build-samples": "cd examples && tsc -p .",
+    "build-samples": "node .scripts/prepSamples.js && cd examples && tsc -p .",
     "test": "npm run build",
     "unit": "npm run build-test && mocha -t 120000 test-dist/index.js",
     "coverage": "npm run build-test && nyc --reporter=lcov mocha -t 120000 test-dist/index.js",
