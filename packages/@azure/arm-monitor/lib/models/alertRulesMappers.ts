@@ -82,6 +82,10 @@ export {
   LogMetricTrigger,
   LogToMetricAction,
   Criteria,
-  Dimension
+  Dimension,
+  ProxyResource,
+  VMInsightsOnboardingStatus,
+  DataContainer,
+  WorkspaceInfo
 } from "../models/mappers";
 

@@ -51,7 +51,7 @@ export class MetricAlerts {
   }
 
   /**
-   * Retrieve alert rule defintions in a resource group.
+   * Retrieve alert rule definitions in a resource group.
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricAlertsListByResourceGroupResponse>
@@ -79,7 +79,7 @@ export class MetricAlerts {
   }
 
   /**
-   * Retrieve an alert rule definiton.
+   * Retrieve an alert rule definition.
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param [options] The optional parameters
@@ -183,7 +183,7 @@ export class MetricAlerts {
   }
 
   /**
-   * Delete an alert rule defitiniton.
+   * Delete an alert rule definition.
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param [options] The optional parameters
