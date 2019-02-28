@@ -1,3 +1,12 @@
+# External variables:
+# Package
+#   The package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
+#   Example: eventhubs-client
+#
+# AdditionalTestArguments
+#   Additional arguments to the test command.
+#   Example: --fgrep "test description"
+
 variables:
   OSName: 'Windows'
   OSVmImage: 'vs2017-win2016'
@@ -28,14 +37,15 @@ jobs:
   - task: Npm@1
     inputs:
       command: 'custom'
-      customCommand: 'run install-client'
-    displayName: 'npm run install-client'
+      customCommand: 'run install-client-$(Package)'
+    displayName: 'npm run install-client-$(Package)'
 
   # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
   # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
-  - script: npm run live-test-client -- -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-
-    displayName: 'npm run live-test-client'
+  - script: npm run live-test-client-$(Package) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+    displayName: 'npm run live-test-client-$(Package)'
     env:
+      # Service Bus
       AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
       AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
@@ -43,6 +53,11 @@ jobs:
       CLEAN_NAMESPACE: 'true'
       RESOURCE_GROUP: $(service-bus-test-resource-group)
       SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+      # Event Hubs
+      EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+      EVENTHUB_NAME: $(js-event-hubs-test-name)
+      IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+      STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
 
   - task: PublishTestResults@2
     inputs:

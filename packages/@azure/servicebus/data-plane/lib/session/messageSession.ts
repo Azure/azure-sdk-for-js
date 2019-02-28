@@ -97,6 +97,13 @@ export interface SessionMessageHandlerOptions {
    * If this option is not provided, then receiver link will stay open until manually closed.
    */
   newMessageWaitTimeoutInSeconds?: number;
+  /**
+   * @property {number} [maxConcurrentCalls] The maximum number of concurrent calls that the library
+   * can make to the user's message handler. Once this limit has been reached, more messages will
+   * not be received until atleast one of the calls to the user's message handler has completed.
+   * - **Default**: `1`.
+   */
+  maxConcurrentCalls?: number;
 }
 /**
  * Describes the options for creating a Session Manager.
@@ -137,12 +144,12 @@ export class MessageSession extends LinkEntity {
    */
   maxConcurrentSessions?: number;
   /**
-   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that should be
-   * processed concurrently in a session while in peek lock mode. Once this limit has been reached,
-   * more messages will not be received until messages currently being processed have been settled.
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * processed concurrently in a session while in streaming mode. Once this limit has been reached,
+   * more messages will not be received until the user's message handler has completed processing current message.
    * - **Default**: `1` (message in a session at a time).
    */
-  maxConcurrentCallsPerSession?: number;
+  maxConcurrentCalls: number = 1;
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
@@ -535,7 +542,9 @@ export class MessageSession extends LinkEntity {
     }
     if (!options) options = {};
     this._isReceivingMessages = true;
-    this.maxConcurrentCallsPerSession = 1;
+    if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
+      this.maxConcurrentCalls = options.maxConcurrentCalls;
+    }
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).
@@ -577,6 +586,21 @@ export class MessageSession extends LinkEntity {
 
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
+        // If the receiver got closed in PeekLock mode, avoid processing the message as we
+        // cannot settle the message.
+        if (
+          this.receiveMode === ReceiveMode.peekLock &&
+          (!this._receiver || !this._receiver.isOpen())
+        ) {
+          log.error(
+            "[%s] Not calling the user's message handler for the current message " +
+              "as the receiver '%s' is closed",
+            connectionId,
+            this.name
+          );
+          return;
+        }
+
         resetTimerOnNewMessageReceived();
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
@@ -588,6 +612,14 @@ export class MessageSession extends LinkEntity {
         } catch (err) {
           // This ensures we call users' error handler when users' message handler throws.
           if (!isAmqpError(err)) {
+            log.error(
+              "[%s] An error occurred while running user's message handler for the message " +
+                "with id '%s' on the receiver '%s': %O",
+              connectionId,
+              bMessage.messageId,
+              this.name,
+              err
+            );
             this._onError!(err);
           }
 
@@ -660,7 +692,7 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this._receiver!.addCredit(this.maxConcurrentCallsPerSession);
+      this._receiver!.addCredit(this.maxConcurrentCalls);
     } else {
       this._isReceivingMessages = false;
       const msg =

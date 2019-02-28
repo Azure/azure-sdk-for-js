@@ -59,8 +59,9 @@ export class Receiver {
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
-   * @param options - Options to control whether messages should be automatically completed and/or
-   * automatically have their locks renewed. You can also provide a timeout in seconds to denote the
+   * @param options - Options to control if messages should be automatically completed, and/or have
+   * their locks automatically renewed. You can control the maximum number of messages that should
+   * be concurrently processed. You can also provide a timeout in seconds to denote the
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
@@ -69,14 +70,10 @@ export class Receiver {
     this.throwIfReceiverOrConnectionClosed();
     this.validateNewReceiveCall(ReceiverType.streaming);
 
-    if (!options) options = {};
-    const rcvOptions: ReceiveOptions = {
-      maxConcurrentCalls: 1,
-      receiveMode: this._receiveMode,
-      autoComplete: options.autoComplete,
-      maxMessageAutoRenewLockDurationInSeconds: options.maxMessageAutoRenewLockDurationInSeconds
-    };
-    const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
+    const sReceiver = StreamingReceiver.create(this._context, {
+      ...options,
+      receiveMode: this._receiveMode
+    });
     this._context.streamingReceiver = sReceiver;
     return sReceiver.receive(onMessage, onError);
   }
@@ -257,7 +254,7 @@ export class Receiver {
     }
   }
 
-  private throwIfReceiverOrConnectionClosed() {
+  private throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
       throw new Error("The receiver has been closed and can no longer be used.");
@@ -457,7 +454,9 @@ export class SessionReceiver {
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
-   * @param options - Options to control whether messages should be automatically completed. You can
+   * @param options - Options to control whether messages should be automatically completed
+   * or if the lock on the session should be automatically renewed. You can control the
+   * maximum number of messages that should be concurrently processed. You can
    * also provide a timeout in seconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    *
@@ -495,7 +494,7 @@ export class SessionReceiver {
     return this._messageSession.isOpen();
   }
 
-  private throwIfReceiverOrConnectionClosed() {
+  private throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
       throw new Error("The receiver has been closed and can no longer be used.");
