@@ -8,8 +8,10 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./skus";
-export * from "./commitmentAssociations";
-export * from "./commitmentPlans";
-export * from "./usageHistory";
+export {
+  OperationEntityListResult,
+  OperationEntity,
+  OperationDisplayInfo,
+  CloudError
+} from "../models/mappers";
+

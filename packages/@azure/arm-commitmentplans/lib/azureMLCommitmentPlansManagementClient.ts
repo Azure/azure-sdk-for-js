@@ -17,6 +17,7 @@ import { AzureMLCommitmentPlansManagementClientContext } from "./azureMLCommitme
 
 class AzureMLCommitmentPlansManagementClient extends AzureMLCommitmentPlansManagementClientContext {
   // Operation groups
+  operations: operations.Operations;
   skus: operations.Skus;
   commitmentAssociations: operations.CommitmentAssociations;
   commitmentPlans: operations.CommitmentPlans;
@@ -30,6 +31,7 @@ class AzureMLCommitmentPlansManagementClient extends AzureMLCommitmentPlansManag
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMLCommitmentPlansManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.operations = new operations.Operations(this);
     this.skus = new operations.Skus(this);
     this.commitmentAssociations = new operations.CommitmentAssociations(this);
     this.commitmentPlans = new operations.CommitmentPlans(this);
