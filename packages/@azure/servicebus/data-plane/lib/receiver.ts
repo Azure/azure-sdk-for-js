@@ -32,6 +32,14 @@ export class Receiver {
    */
   private _context: ClientEntityContext;
   private _receiveMode: ReceiveMode;
+  private _isClosed: boolean = false;
+
+  /**
+   * Denotes if close() was called on this receiver.
+   */
+  public get isClosed(): boolean {
+    return this._isClosed;
+  }
 
   constructor(context: ClientEntityContext, options?: MessageReceiverOptions) {
     throwErrorIfConnectionClosed(context.namespace);
@@ -51,23 +59,21 @@ export class Receiver {
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
-   * @param options - Options to control whether messages should be automatically completed and/or
-   * automatically have their locks renewed. You can also provide a timeout in seconds to denote the
+   * @param options - Options to control if messages should be automatically completed, and/or have
+   * their locks automatically renewed. You can control the maximum number of messages that should
+   * be concurrently processed. You can also provide a timeout in seconds to denote the
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
    */
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
+    this.throwIfReceiverOrConnectionClosed();
     this.validateNewReceiveCall(ReceiverType.streaming);
 
-    if (!options) options = {};
-    const rcvOptions: ReceiveOptions = {
-      maxConcurrentCalls: 1,
-      receiveMode: this._receiveMode,
-      autoComplete: options.autoComplete,
-      maxMessageAutoRenewLockDurationInSeconds: options.maxMessageAutoRenewLockDurationInSeconds
-    };
-    const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
+    const sReceiver = StreamingReceiver.create(this._context, {
+      ...options,
+      receiveMode: this._receiveMode
+    });
     this._context.streamingReceiver = sReceiver;
     return sReceiver.receive(onMessage, onError);
   }
@@ -87,6 +93,7 @@ export class Receiver {
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
+    this.throwIfReceiverOrConnectionClosed();
     this.validateNewReceiveCall(ReceiverType.batching);
 
     if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
@@ -127,6 +134,7 @@ export class Receiver {
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
   async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+    this.throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -142,6 +150,7 @@ export class Receiver {
    * - Throws an error if the message has not been deferred.
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    this.throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -160,6 +169,7 @@ export class Receiver {
    * - Throws an error if the messages have not been deferred.
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+    this.throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -190,6 +200,7 @@ export class Receiver {
         // Make sure that we clear the map of deferred messages
         this._context.requestResponseLockedMessages.clear();
       }
+      this._isClosed = true;
     } catch (err) {
       const msg =
         `An error occurred while closing the receiver for` +
@@ -242,6 +253,13 @@ export class Receiver {
       throw new Error(msg);
     }
   }
+
+  private throwIfReceiverOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this.isClosed) {
+      throw new Error("The receiver has been closed and can no longer be used.");
+    }
+  }
 }
 
 /**
@@ -258,6 +276,13 @@ export class SessionReceiver {
   private _receiveMode: ReceiveMode;
   private _sessionId: string | undefined;
   private _messageSession: MessageSession;
+
+  /**
+   * Denotes if close() was called on this receiver.
+   */
+  public get isClosed(): boolean {
+    return !this._context.messageSessions[this.sessionId];
+  }
 
   /**
    * @property {string} [sessionId] The sessionId for the message session.
@@ -286,6 +311,7 @@ export class SessionReceiver {
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewLock(): Promise<Date> {
+    this.throwIfReceiverOrConnectionClosed();
     this._messageSession.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
       this.sessionId!
     );
@@ -297,6 +323,7 @@ export class SessionReceiver {
    * @param state The state that needs to be set.
    */
   async setState(state: any): Promise<void> {
+    this.throwIfReceiverOrConnectionClosed();
     return this._context.managementClient!.setSessionState(this.sessionId!, state);
   }
 
@@ -305,6 +332,7 @@ export class SessionReceiver {
    * @returns Promise<any> The state of that session
    */
   async getState(): Promise<any> {
+    this.throwIfReceiverOrConnectionClosed();
     return this._context.managementClient!.getSessionState(this.sessionId!);
   }
 
@@ -320,6 +348,7 @@ export class SessionReceiver {
    * @returns Promise<ReceivedMessageInfo[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    this.throwIfReceiverOrConnectionClosed();
     return this._context.managementClient!.peekMessagesBySession(this.sessionId!, messageCount);
   }
 
@@ -338,6 +367,7 @@ export class SessionReceiver {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
+    this.throwIfReceiverOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       sessionId: this.sessionId!,
       messageCount: messageCount
@@ -353,6 +383,7 @@ export class SessionReceiver {
    * - Throws an error if the message has not been deferred.
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    this.throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -372,6 +403,7 @@ export class SessionReceiver {
    * - Throws an error if the messages have not been deferred.
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+    this.throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -397,6 +429,7 @@ export class SessionReceiver {
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
+    this.throwIfReceiverOrConnectionClosed();
     try {
       return await this._messageSession.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
@@ -421,13 +454,16 @@ export class SessionReceiver {
    *
    * @param onMessage - Handler for processing each incoming message.
    * @param onError - Handler for any error that occurs while receiving or processing messages.
-   * @param options - Options to control whether messages should be automatically completed. You can
+   * @param options - Options to control whether messages should be automatically completed
+   * or if the lock on the session should be automatically renewed. You can control the
+   * maximum number of messages that should be concurrently processed. You can
    * also provide a timeout in seconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    *
    * @returns void
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+    this.throwIfReceiverOrConnectionClosed();
     return this._messageSession.receive(onMessage, onError, options);
   }
 
@@ -438,7 +474,7 @@ export class SessionReceiver {
    */
   async close(): Promise<void> {
     try {
-      return await this._messageSession.close();
+      await this._messageSession.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the message session with id '%s': %O.",
@@ -456,5 +492,12 @@ export class SessionReceiver {
    */
   isOpen(): boolean {
     return this._messageSession.isOpen();
+  }
+
+  private throwIfReceiverOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this.isClosed) {
+      throw new Error("The receiver has been closed and can no longer be used.");
+    }
   }
 }
