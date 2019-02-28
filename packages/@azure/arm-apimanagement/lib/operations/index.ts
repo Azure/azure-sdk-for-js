@@ -28,6 +28,7 @@ export * from "./authorizationServer";
 export * from "./backend";
 export * from "./certificate";
 export * from "./apiManagementOperations";
+export * from "./apiManagementServiceSkus";
 export * from "./apiManagementService";
 export * from "./diagnostic";
 export * from "./diagnosticLogger";
