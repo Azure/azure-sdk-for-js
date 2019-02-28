@@ -37,14 +37,14 @@ export class Applications {
    * @param parameters The parameters for creating an application.
    * @param callback The callback
    */
-  create(parameters: Models.ApplicationCreateParameters, callback: msRest.ServiceCallback<Models.Application>): void;
+  create(parameters: Models.ApplicationCreateParameters, callback: msRest.ServiceCallback<Models.ApplicationUnion>): void;
   /**
    * @param parameters The parameters for creating an application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(parameters: Models.ApplicationCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  create(parameters: Models.ApplicationCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationsCreateResponse> {
+  create(parameters: Models.ApplicationCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationUnion>): void;
+  create(parameters: Models.ApplicationCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationUnion>, callback?: msRest.ServiceCallback<Models.ApplicationUnion>): Promise<Models.ApplicationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -117,14 +117,14 @@ export class Applications {
    * @param applicationObjectId Application object ID.
    * @param callback The callback
    */
-  get(applicationObjectId: string, callback: msRest.ServiceCallback<Models.Application>): void;
+  get(applicationObjectId: string, callback: msRest.ServiceCallback<Models.ApplicationUnion>): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  get(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationsGetResponse> {
+  get(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationUnion>): void;
+  get(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationUnion>, callback?: msRest.ServiceCallback<Models.ApplicationUnion>): Promise<Models.ApplicationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -141,21 +141,21 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  patch(applicationObjectId: string, parameters: Models.ApplicationUnion, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param parameters Parameters to update an existing application.
    * @param callback The callback
    */
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, callback: msRest.ServiceCallback<void>): void;
+  patch(applicationObjectId: string, parameters: Models.ApplicationUnion, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param parameters Parameters to update an existing application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  patch(applicationObjectId: string, parameters: Models.ApplicationUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  patch(applicationObjectId: string, parameters: Models.ApplicationUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -558,7 +558,7 @@ const patchOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.ApplicationUpdateParameters,
+      ...Mappers.Application,
       required: true
     }
   },

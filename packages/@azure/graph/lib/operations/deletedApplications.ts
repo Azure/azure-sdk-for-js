@@ -37,14 +37,14 @@ export class DeletedApplications {
    * @param objectId Application object ID.
    * @param callback The callback
    */
-  restore(objectId: string, callback: msRest.ServiceCallback<Models.Application>): void;
+  restore(objectId: string, callback: msRest.ServiceCallback<Models.ApplicationUnion>): void;
   /**
    * @param objectId Application object ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restore(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  restore(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.DeletedApplicationsRestoreResponse> {
+  restore(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationUnion>): void;
+  restore(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationUnion>, callback?: msRest.ServiceCallback<Models.ApplicationUnion>): Promise<Models.DeletedApplicationsRestoreResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,

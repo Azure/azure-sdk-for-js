@@ -17,9 +17,20 @@ export {
   DirectoryObjectListResult,
   Application,
   AppRole,
+  InformationalUrl,
+  KeyCredential,
+  OAuth2Permission,
+  OptionalClaims,
+  OptionalClaim,
+  PasswordCredential,
+  PreAuthorizedApplication,
+  PreAuthorizedApplicationPermission,
+  PreAuthorizedApplicationExtension,
   RequiredResourceAccess,
   ResourceAccess,
   ADGroup,
-  ServicePrincipal
+  ServicePrincipal,
+  ApplicationCreateParameters,
+  ServicePrincipalCreateParameters
 } from "../models/mappers";
 

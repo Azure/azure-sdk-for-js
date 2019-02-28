@@ -16,11 +16,22 @@ export {
   CloudError,
   Application,
   AppRole,
+  InformationalUrl,
+  KeyCredential,
+  OAuth2Permission,
+  OptionalClaims,
+  OptionalClaim,
+  PasswordCredential,
+  PreAuthorizedApplication,
+  PreAuthorizedApplicationPermission,
+  PreAuthorizedApplicationExtension,
   RequiredResourceAccess,
   ResourceAccess,
   ADGroup,
   ServicePrincipal,
   User,
-  SignInName
+  SignInName,
+  ApplicationCreateParameters,
+  ServicePrincipalCreateParameters
 } from "../models/mappers";
 

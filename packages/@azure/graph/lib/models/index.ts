@@ -16,6 +16,195 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing InformationalUrl.
+ * Represents a group of URIs that provide terms of service, marketing, support
+ * and privacy policy information about an application. The default value for
+ * each string is null.
+ *
+ */
+export interface InformationalUrl {
+  /**
+   * @member {string} [termsOfService] The terms of service URI
+   */
+  termsOfService?: string;
+  /**
+   * @member {string} [marketing] The marketing URI
+   */
+  marketing?: string;
+  /**
+   * @member {string} [privacy] The privacy policy URI
+   */
+  privacy?: string;
+  /**
+   * @member {string} [support] The support URI
+   */
+  support?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OAuth2Permission.
+ * Represents an OAuth 2.0 delegated permission scope. The specified OAuth 2.0
+ * delegated permission scopes may be requested by client applications (through
+ * the requiredResourceAccess collection on the Application object) when
+ * calling a resource application. The oauth2Permissions property of the
+ * ServicePrincipal entity and of the Application entity is a collection of
+ * OAuth2Permission.
+ *
+ */
+export interface OAuth2Permission {
+  /**
+   * @member {string} [adminConsentDescription] Permission help text that
+   * appears in the admin consent and app assignment experiences.
+   */
+  adminConsentDescription?: string;
+  /**
+   * @member {string} [adminConsentDisplayName] Display name for the permission
+   * that appears in the admin consent and app assignment experiences.
+   */
+  adminConsentDisplayName?: string;
+  /**
+   * @member {string} [id] Unique scope permission identifier inside the
+   * oauth2Permissions collection.
+   */
+  id?: string;
+  /**
+   * @member {boolean} [isEnabled] When creating or updating a permission, this
+   * property must be set to true (which is the default). To delete a
+   * permission, this property must first be set to false. At that point, in a
+   * subsequent call, the permission may be removed.
+   */
+  isEnabled?: boolean;
+  /**
+   * @member {string} [type] Specifies whether this scope permission can be
+   * consented to by an end user, or whether it is a tenant-wide permission
+   * that must be consented to by a Company Administrator. Possible values are
+   * "User" or "Admin".
+   */
+  type?: string;
+  /**
+   * @member {string} [userConsentDescription] Permission help text that
+   * appears in the end user consent experience.
+   */
+  userConsentDescription?: string;
+  /**
+   * @member {string} [userConsentDisplayName] Display name for the permission
+   * that appears in the end user consent experience.
+   */
+  userConsentDisplayName?: string;
+  /**
+   * @member {string} [value] The value of the scope claim that the resource
+   * application should expect in the OAuth 2.0 access token.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OptionalClaim.
+ * Specifying the claims to be included in a token.
+ *
+ */
+export interface OptionalClaim {
+  /**
+   * @member {string} [name] Claim name.
+   */
+  name?: string;
+  /**
+   * @member {string} [source] Claim source.
+   */
+  source?: string;
+  /**
+   * @member {boolean} [essential] Is this a requied claim.
+   */
+  essential?: boolean;
+  /**
+   * @member {any} [additionalProperties]
+   */
+  additionalProperties?: any;
+}
+
+/**
+ * @interface
+ * An interface representing OptionalClaims.
+ * Specifying the claims to be included in the token.
+ *
+ */
+export interface OptionalClaims {
+  /**
+   * @member {OptionalClaim[]} [idToken] Optional claims requested to be
+   * included in the id token.
+   */
+  idToken?: OptionalClaim[];
+  /**
+   * @member {OptionalClaim[]} [accessToken] Optional claims requested to be
+   * included in the access token.
+   */
+  accessToken?: OptionalClaim[];
+  /**
+   * @member {OptionalClaim[]} [samlToken] Optional claims requested to be
+   * included in the saml token.
+   */
+  samlToken?: OptionalClaim[];
+}
+
+/**
+ * @interface
+ * An interface representing PreAuthorizedApplicationPermission.
+ * Contains information about the pre-authorized permissions.
+ *
+ */
+export interface PreAuthorizedApplicationPermission {
+  /**
+   * @member {boolean} [directAccessGrant] Indicates whether the permission set
+   * is DirectAccess or impersonation.
+   */
+  directAccessGrant?: boolean;
+  /**
+   * @member {string[]} [accessGrants] The list of permissions.
+   */
+  accessGrants?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing PreAuthorizedApplicationExtension.
+ * Representation of an app PreAuthorizedApplicationExtension required by a pre
+ * authorized client app.
+ *
+ */
+export interface PreAuthorizedApplicationExtension {
+  /**
+   * @member {string[]} [conditions] The extension's conditions.
+   */
+  conditions?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing PreAuthorizedApplication.
+ * Contains information about pre authorized client application.
+ *
+ */
+export interface PreAuthorizedApplication {
+  /**
+   * @member {string} [appId] Represents the application id.
+   */
+  appId?: string;
+  /**
+   * @member {PreAuthorizedApplicationPermission[]} [permissions] Collection of
+   * required app permissions/entitlements from the resource application.
+   */
+  permissions?: PreAuthorizedApplicationPermission[];
+  /**
+   * @member {PreAuthorizedApplicationExtension[]} [extensions] Collection of
+   * extensions from the resource application.
+   */
+  extensions?: PreAuthorizedApplicationExtension[];
+}
+
+/**
+ * @interface
  * An interface representing GraphError.
  * Active Directory error information.
  *
@@ -34,7 +223,7 @@ export interface GraphError {
 /**
  * Contains the possible cases for DirectoryObject.
  */
-export type DirectoryObjectUnion = DirectoryObject | Application | ADGroup | ServicePrincipal | User;
+export type DirectoryObjectUnion = DirectoryObject | ApplicationUnion | ADGroup | ServicePrincipalUnion | User;
 
 /**
  * @interface
@@ -100,9 +289,9 @@ export interface KeyCredential {
    */
   type?: string;
   /**
-   * @member {Uint8Array} [customKeyIdentifier] Custom Key Identifier
+   * @member {string} [customKeyIdentifier] Custom Key Identifier
    */
-  customKeyIdentifier?: Uint8Array;
+  customKeyIdentifier?: string;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
@@ -133,6 +322,10 @@ export interface PasswordCredential {
    * @member {string} [value] Key value.
    */
   value?: string;
+  /**
+   * @member {Uint8Array} [customKeyIdentifier] Custom Key Identifier
+   */
+  customKeyIdentifier?: Uint8Array;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
@@ -174,7 +367,7 @@ export interface ResourceAccess {
  * OAuth 2.0 permission scopes may be requested by client applications (through
  * the requiredResourceAccess collection) when calling a resource application.
  * The requiredResourceAccess property of the Application entity is a
- * collection of ReqiredResourceAccess.
+ * collection of RequiredResourceAccess.
  *
  */
 export interface RequiredResourceAccess {
@@ -195,6 +388,391 @@ export interface RequiredResourceAccess {
    * can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * Contains the possible cases for Application.
+ */
+export type ApplicationUnion = Application | ApplicationCreateParameters;
+
+/**
+ * @interface
+ * An interface representing Application.
+ * Active Directory application information.
+ *
+ */
+export interface Application {
+  /**
+   * @member {string} objectType Polymorphic Discriminator
+   */
+  objectType: "Application";
+  /**
+   * @member {string} [objectId] The object ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly objectId?: string;
+  /**
+   * @member {Date} [deletionTimestamp] The time at which the directory object
+   * was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletionTimestamp?: Date;
+  /**
+   * @member {boolean} [allowGuestsSignIn] A property on the application to
+   * indicate if the application accepts other IDPs or not or partially
+   * accepts.
+   */
+  allowGuestsSignIn?: boolean;
+  /**
+   * @member {boolean} [allowPassthroughUsers] Indicates that the application
+   * supports pass through users who have no presence in the resource tenant.
+   */
+  allowPassthroughUsers?: boolean;
+  /**
+   * @member {string} [appId] The application ID.
+   */
+  appId?: string;
+  /**
+   * @member {string} [appLogoUrl] The url for the application logo image
+   * stored in a CDN.
+   */
+  appLogoUrl?: string;
+  /**
+   * @member {AppRole[]} [appRoles] The collection of application roles that an
+   * application may declare. These roles can be assigned to users, groups or
+   * service principals.
+   */
+  appRoles?: AppRole[];
+  /**
+   * @member {string[]} [appPermissions] The application permissions.
+   */
+  appPermissions?: string[];
+  /**
+   * @member {boolean} [availableToOtherTenants] Whether the application is
+   * available to other tenants.
+   */
+  availableToOtherTenants?: boolean;
+  /**
+   * @member {string} [displayName] The display name of the application.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [errorUrl] A URL provided by the author of the
+   * application to report errors when using the application.
+   */
+  errorUrl?: string;
+  /**
+   * @member {string} [homepage] The home page of the application.
+   */
+  homepage?: string;
+  /**
+   * @member {string[]} [identifierUris] A collection of URIs for the
+   * application.
+   */
+  identifierUris?: string[];
+  /**
+   * @member {InformationalUrl} [informationalUrls] urls with more informations
+   * of the application.
+   */
+  informationalUrls?: InformationalUrl;
+  /**
+   * @member {boolean} [isDeviceOnlyAuthSupported] Specifies whether this
+   * application supports device authentication without a user. The default is
+   * false.
+   */
+  isDeviceOnlyAuthSupported?: boolean;
+  /**
+   * @member {KeyCredential[]} [keyCredentials] A collection of KeyCredential
+   * objects.
+   */
+  keyCredentials?: KeyCredential[];
+  /**
+   * @member {string[]} [knownClientApplications] Client applications that are
+   * tied to this resource application. Consent to any of the known client
+   * applications will result in implicit consent to the resource application
+   * through a combined consent dialog (showing the OAuth permission scopes
+   * required by the client and the resource).
+   */
+  knownClientApplications?: string[];
+  /**
+   * @member {string} [logoutUrl] the url of the logout page
+   */
+  logoutUrl?: string;
+  /**
+   * @member {boolean} [oauth2AllowImplicitFlow] Whether to allow implicit
+   * grant flow for OAuth2
+   */
+  oauth2AllowImplicitFlow?: boolean;
+  /**
+   * @member {boolean} [oauth2AllowUrlPathMatching] Specifies whether during a
+   * token Request Azure AD will allow path matching of the redirect URI
+   * against the applications collection of replyURLs. The default is false.
+   */
+  oauth2AllowUrlPathMatching?: boolean;
+  /**
+   * @member {OAuth2Permission[]} [oauth2Permissions] The collection of OAuth
+   * 2.0 permission scopes that the web API (resource) application exposes to
+   * client applications. These permission scopes may be granted to client
+   * applications during consent.
+   */
+  oauth2Permissions?: OAuth2Permission[];
+  /**
+   * @member {boolean} [oauth2RequirePostResponse] Specifies whether, as part
+   * of OAuth 2.0 token requests, Azure AD will allow POST requests, as opposed
+   * to GET requests. The default is false, which specifies that only GET
+   * requests will be allowed.
+   */
+  oauth2RequirePostResponse?: boolean;
+  /**
+   * @member {string[]} [orgRestrictions] A list of tenants allowed to access
+   * application.
+   */
+  orgRestrictions?: string[];
+  /**
+   * @member {OptionalClaims} [optionalClaims]
+   */
+  optionalClaims?: OptionalClaims;
+  /**
+   * @member {PasswordCredential[]} [passwordCredentials] A collection of
+   * PasswordCredential objects
+   */
+  passwordCredentials?: PasswordCredential[];
+  /**
+   * @member {PreAuthorizedApplication[]} [preAuthorizedApplications] list of
+   * pre-authorizaed applications.
+   */
+  preAuthorizedApplications?: PreAuthorizedApplication[];
+  /**
+   * @member {boolean} [publicClient] Specifies whether this application is a
+   * public client (such as an installed application running on a mobile
+   * device). Default is false.
+   */
+  publicClient?: boolean;
+  /**
+   * @member {string} [publisherDomain] Reliable domain which can be used to
+   * identify an application.
+   */
+  publisherDomain?: string;
+  /**
+   * @member {string[]} [replyUrls] A collection of reply URLs for the
+   * application.
+   */
+  replyUrls?: string[];
+  /**
+   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
+   * resources that this application requires access to and the set of OAuth
+   * permission scopes and application roles that it needs under each of those
+   * resources. This pre-configuration of required resource access drives the
+   * consent experience.
+   */
+  requiredResourceAccess?: RequiredResourceAccess[];
+  /**
+   * @member {string} [samlMetadataUrl] The URL to the SAML metadata for the
+   * application.
+   */
+  samlMetadataUrl?: string;
+  /**
+   * @member {string} [signInAudience] Audience for signing in to the
+   * application (AzureADMyOrganizatio, AzureADAllorganizations,
+   * AzureADAndMicrosofAccounts).
+   */
+  signInAudience?: string;
+  /**
+   * @member {string} [wwwHomepage] The primary Web page.
+   */
+  wwwHomepage?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationCreateParameters.
+ * Request parameters for creating a new application.
+ *
+ */
+export interface ApplicationCreateParameters {
+  /**
+   * @member {string} objectType Polymorphic Discriminator
+   */
+  objectType: "ApplicationCreateParameters";
+  /**
+   * @member {string} [objectId] The object ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly objectId?: string;
+  /**
+   * @member {Date} [deletionTimestamp] The time at which the directory object
+   * was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletionTimestamp?: Date;
+  /**
+   * @member {boolean} [allowGuestsSignIn] A property on the application to
+   * indicate if the application accepts other IDPs or not or partially
+   * accepts.
+   */
+  allowGuestsSignIn?: boolean;
+  /**
+   * @member {boolean} [allowPassthroughUsers] Indicates that the application
+   * supports pass through users who have no presence in the resource tenant.
+   */
+  allowPassthroughUsers?: boolean;
+  /**
+   * @member {string} [appId] The application ID.
+   */
+  appId?: string;
+  /**
+   * @member {string} [appLogoUrl] The url for the application logo image
+   * stored in a CDN.
+   */
+  appLogoUrl?: string;
+  /**
+   * @member {AppRole[]} [appRoles] The collection of application roles that an
+   * application may declare. These roles can be assigned to users, groups or
+   * service principals.
+   */
+  appRoles?: AppRole[];
+  /**
+   * @member {string[]} [appPermissions] The application permissions.
+   */
+  appPermissions?: string[];
+  /**
+   * @member {boolean} [availableToOtherTenants] Whether the application is
+   * available to other tenants.
+   */
+  availableToOtherTenants?: boolean;
+  /**
+   * @member {string} [displayName] The display name of the application.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [errorUrl] A URL provided by the author of the
+   * application to report errors when using the application.
+   */
+  errorUrl?: string;
+  /**
+   * @member {string} [homepage] The home page of the application.
+   */
+  homepage?: string;
+  /**
+   * @member {string[]} [identifierUris] A collection of URIs for the
+   * application.
+   */
+  identifierUris?: string[];
+  /**
+   * @member {InformationalUrl} [informationalUrls] urls with more informations
+   * of the application.
+   */
+  informationalUrls?: InformationalUrl;
+  /**
+   * @member {boolean} [isDeviceOnlyAuthSupported] Specifies whether this
+   * application supports device authentication without a user. The default is
+   * false.
+   */
+  isDeviceOnlyAuthSupported?: boolean;
+  /**
+   * @member {KeyCredential[]} [keyCredentials] A collection of KeyCredential
+   * objects.
+   */
+  keyCredentials?: KeyCredential[];
+  /**
+   * @member {string[]} [knownClientApplications] Client applications that are
+   * tied to this resource application. Consent to any of the known client
+   * applications will result in implicit consent to the resource application
+   * through a combined consent dialog (showing the OAuth permission scopes
+   * required by the client and the resource).
+   */
+  knownClientApplications?: string[];
+  /**
+   * @member {string} [logoutUrl] the url of the logout page
+   */
+  logoutUrl?: string;
+  /**
+   * @member {boolean} [oauth2AllowImplicitFlow] Whether to allow implicit
+   * grant flow for OAuth2
+   */
+  oauth2AllowImplicitFlow?: boolean;
+  /**
+   * @member {boolean} [oauth2AllowUrlPathMatching] Specifies whether during a
+   * token Request Azure AD will allow path matching of the redirect URI
+   * against the applications collection of replyURLs. The default is false.
+   */
+  oauth2AllowUrlPathMatching?: boolean;
+  /**
+   * @member {OAuth2Permission[]} [oauth2Permissions] The collection of OAuth
+   * 2.0 permission scopes that the web API (resource) application exposes to
+   * client applications. These permission scopes may be granted to client
+   * applications during consent.
+   */
+  oauth2Permissions?: OAuth2Permission[];
+  /**
+   * @member {boolean} [oauth2RequirePostResponse] Specifies whether, as part
+   * of OAuth 2.0 token requests, Azure AD will allow POST requests, as opposed
+   * to GET requests. The default is false, which specifies that only GET
+   * requests will be allowed.
+   */
+  oauth2RequirePostResponse?: boolean;
+  /**
+   * @member {string[]} [orgRestrictions] A list of tenants allowed to access
+   * application.
+   */
+  orgRestrictions?: string[];
+  /**
+   * @member {OptionalClaims} [optionalClaims]
+   */
+  optionalClaims?: OptionalClaims;
+  /**
+   * @member {PasswordCredential[]} [passwordCredentials] A collection of
+   * PasswordCredential objects
+   */
+  passwordCredentials?: PasswordCredential[];
+  /**
+   * @member {PreAuthorizedApplication[]} [preAuthorizedApplications] list of
+   * pre-authorizaed applications.
+   */
+  preAuthorizedApplications?: PreAuthorizedApplication[];
+  /**
+   * @member {boolean} [publicClient] Specifies whether this application is a
+   * public client (such as an installed application running on a mobile
+   * device). Default is false.
+   */
+  publicClient?: boolean;
+  /**
+   * @member {string} [publisherDomain] Reliable domain which can be used to
+   * identify an application.
+   */
+  publisherDomain?: string;
+  /**
+   * @member {string[]} [replyUrls] A collection of reply URLs for the
+   * application.
+   */
+  replyUrls?: string[];
+  /**
+   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
+   * resources that this application requires access to and the set of OAuth
+   * permission scopes and application roles that it needs under each of those
+   * resources. This pre-configuration of required resource access drives the
+   * consent experience.
+   */
+  requiredResourceAccess?: RequiredResourceAccess[];
+  /**
+   * @member {string} [samlMetadataUrl] The URL to the SAML metadata for the
+   * application.
+   */
+  samlMetadataUrl?: string;
+  /**
+   * @member {string} [signInAudience] Audience for signing in to the
+   * application (AzureADMyOrganizatio, AzureADAllorganizations,
+   * AzureADAndMicrosofAccounts).
+   */
+  signInAudience?: string;
+  /**
+   * @member {string} [wwwHomepage] The primary Web page.
+   */
+  wwwHomepage?: string;
 }
 
 /**
@@ -236,214 +814,6 @@ export interface AppRole {
    * application should expect in the authentication and access tokens.
    */
   value?: string;
-}
-
-/**
- * @interface
- * An interface representing ApplicationCreateParameters.
- * Request parameters for creating a new application.
- *
- */
-export interface ApplicationCreateParameters {
-  /**
-   * @member {AppRole[]} [appRoles] The collection of application roles that an
-   * application may declare. These roles can be assigned to users, groups or
-   * service principals.
-   */
-  appRoles?: AppRole[];
-  /**
-   * @member {boolean} availableToOtherTenants Whether the application is
-   * available to other tenants.
-   */
-  availableToOtherTenants: boolean;
-  /**
-   * @member {string} displayName The display name of the application.
-   */
-  displayName: string;
-  /**
-   * @member {string} [homepage] The home page of the application.
-   */
-  homepage?: string;
-  /**
-   * @member {string[]} identifierUris A collection of URIs for the
-   * application.
-   */
-  identifierUris: string[];
-  /**
-   * @member {string[]} [replyUrls] A collection of reply URLs for the
-   * application.
-   */
-  replyUrls?: string[];
-  /**
-   * @member {KeyCredential[]} [keyCredentials] The list of KeyCredential
-   * objects.
-   */
-  keyCredentials?: KeyCredential[];
-  /**
-   * @member {PasswordCredential[]} [passwordCredentials] The list of
-   * PasswordCredential objects.
-   */
-  passwordCredentials?: PasswordCredential[];
-  /**
-   * @member {boolean} [oauth2AllowImplicitFlow] Whether to allow implicit
-   * grant flow for OAuth2
-   */
-  oauth2AllowImplicitFlow?: boolean;
-  /**
-   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
-   * resources that this application requires access to and the set of OAuth
-   * permission scopes and application roles that it needs under each of those
-   * resources. This pre-configuration of required resource access drives the
-   * consent experience.
-   */
-  requiredResourceAccess?: RequiredResourceAccess[];
-  /**
-   * @property Describes unknown properties. The value of an unknown property
-   * can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * @interface
- * An interface representing ApplicationUpdateParameters.
- * Request parameters for updating an existing application.
- *
- */
-export interface ApplicationUpdateParameters {
-  /**
-   * @member {AppRole[]} [appRoles] The collection of application roles that an
-   * application may declare. These roles can be assigned to users, groups or
-   * service principals.
-   */
-  appRoles?: AppRole[];
-  /**
-   * @member {boolean} [availableToOtherTenants] Whether the application is
-   * available to other tenants
-   */
-  availableToOtherTenants?: boolean;
-  /**
-   * @member {string} [displayName] The display name of the application.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [homepage] The home page of the application.
-   */
-  homepage?: string;
-  /**
-   * @member {string[]} [identifierUris] A collection of URIs for the
-   * application.
-   */
-  identifierUris?: string[];
-  /**
-   * @member {string[]} [replyUrls] A collection of reply URLs for the
-   * application.
-   */
-  replyUrls?: string[];
-  /**
-   * @member {KeyCredential[]} [keyCredentials] The list of KeyCredential
-   * objects.
-   */
-  keyCredentials?: KeyCredential[];
-  /**
-   * @member {PasswordCredential[]} [passwordCredentials] The list of
-   * PasswordCredential objects.
-   */
-  passwordCredentials?: PasswordCredential[];
-  /**
-   * @member {boolean} [oauth2AllowImplicitFlow] Whether to allow implicit
-   * grant flow for OAuth2
-   */
-  oauth2AllowImplicitFlow?: boolean;
-  /**
-   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
-   * resources that this application requires access to and the set of OAuth
-   * permission scopes and application roles that it needs under each of those
-   * resources. This pre-configuration of required resource access drives the
-   * consent experience.
-   */
-  requiredResourceAccess?: RequiredResourceAccess[];
-  /**
-   * @property Describes unknown properties. The value of an unknown property
-   * can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * @interface
- * An interface representing Application.
- * Active Directory application information.
- *
- */
-export interface Application {
-  /**
-   * @member {string} objectType Polymorphic Discriminator
-   */
-  objectType: "Application";
-  /**
-   * @member {string} [objectId] The object ID.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly objectId?: string;
-  /**
-   * @member {Date} [deletionTimestamp] The time at which the directory object
-   * was deleted.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly deletionTimestamp?: Date;
-  /**
-   * @member {string} [appId] The application ID.
-   */
-  appId?: string;
-  /**
-   * @member {AppRole[]} [appRoles] The collection of application roles that an
-   * application may declare. These roles can be assigned to users, groups or
-   * service principals.
-   */
-  appRoles?: AppRole[];
-  /**
-   * @member {string[]} [appPermissions] The application permissions.
-   */
-  appPermissions?: string[];
-  /**
-   * @member {boolean} [availableToOtherTenants] Whether the application is be
-   * available to other tenants.
-   */
-  availableToOtherTenants?: boolean;
-  /**
-   * @member {string} [displayName] The display name of the application.
-   */
-  displayName?: string;
-  /**
-   * @member {string[]} [identifierUris] A collection of URIs for the
-   * application.
-   */
-  identifierUris?: string[];
-  /**
-   * @member {string[]} [replyUrls] A collection of reply URLs for the
-   * application.
-   */
-  replyUrls?: string[];
-  /**
-   * @member {string} [homepage] The home page of the application.
-   */
-  homepage?: string;
-  /**
-   * @member {boolean} [oauth2AllowImplicitFlow] Whether to allow implicit
-   * grant flow for OAuth2
-   */
-  oauth2AllowImplicitFlow?: boolean;
-  /**
-   * @member {RequiredResourceAccess[]} [requiredResourceAccess] Specifies
-   * resources that this application requires access to and the set of OAuth
-   * permission scopes and application roles that it needs under each of those
-   * resources. This pre-configuration of required resource access drives the
-   * consent experience.
-   */
-  requiredResourceAccess?: RequiredResourceAccess[];
 }
 
 /**
@@ -650,152 +1020,9 @@ export interface CheckGroupMembershipResult {
 }
 
 /**
- * @interface
- * An interface representing ServicePrincipalCreateParameters.
- * Request parameters for creating a new service principal.
- *
+ * Contains the possible cases for ServicePrincipal.
  */
-export interface ServicePrincipalCreateParameters {
-  /**
-   * @member {boolean} [accountEnabled] Whether the account is enabled
-   */
-  accountEnabled?: boolean;
-  /**
-   * @member {string} appId application Id
-   */
-  appId: string;
-  /**
-   * @member {boolean} [appRoleAssignmentRequired] Specifies whether an
-   * AppRoleAssignment to a user or group is required before Azure AD will
-   * issue a user or access token to the application.
-   */
-  appRoleAssignmentRequired?: boolean;
-  /**
-   * @member {string} [displayName] The display name for the service principal.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [errorUrl]
-   */
-  errorUrl?: string;
-  /**
-   * @member {string} [homepage] The URL to the homepage of the associated
-   * application.
-   */
-  homepage?: string;
-  /**
-   * @member {KeyCredential[]} [keyCredentials] A collection of KeyCredential
-   * objects.
-   */
-  keyCredentials?: KeyCredential[];
-  /**
-   * @member {PasswordCredential[]} [passwordCredentials] A collection of
-   * PasswordCredential objects
-   */
-  passwordCredentials?: PasswordCredential[];
-  /**
-   * @member {string} [publisherName] The display name of the tenant in which
-   * the associated application is specified.
-   */
-  publisherName?: string;
-  /**
-   * @member {string[]} [replyUrls] A collection of reply URLs for the service
-   * principal.
-   */
-  replyUrls?: string[];
-  /**
-   * @member {string} [samlMetadataUrl]
-   */
-  samlMetadataUrl?: string;
-  /**
-   * @member {string[]} [servicePrincipalNames] A collection of service
-   * principal names.
-   */
-  servicePrincipalNames?: string[];
-  /**
-   * @member {string[]} [tags]
-   */
-  tags?: string[];
-  /**
-   * @property Describes unknown properties. The value of an unknown property
-   * can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * @interface
- * An interface representing ServicePrincipalUpdateParameters.
- * Request parameters for creating a new service principal.
- *
- */
-export interface ServicePrincipalUpdateParameters {
-  /**
-   * @member {boolean} [accountEnabled] Whether the account is enabled
-   */
-  accountEnabled?: boolean;
-  /**
-   * @member {string} [appId] application Id
-   */
-  appId?: string;
-  /**
-   * @member {boolean} [appRoleAssignmentRequired] Specifies whether an
-   * AppRoleAssignment to a user or group is required before Azure AD will
-   * issue a user or access token to the application.
-   */
-  appRoleAssignmentRequired?: boolean;
-  /**
-   * @member {string} [displayName] The display name for the service principal.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [errorUrl]
-   */
-  errorUrl?: string;
-  /**
-   * @member {string} [homepage] The URL to the homepage of the associated
-   * application.
-   */
-  homepage?: string;
-  /**
-   * @member {KeyCredential[]} [keyCredentials] A collection of KeyCredential
-   * objects.
-   */
-  keyCredentials?: KeyCredential[];
-  /**
-   * @member {PasswordCredential[]} [passwordCredentials] A collection of
-   * PasswordCredential objects
-   */
-  passwordCredentials?: PasswordCredential[];
-  /**
-   * @member {string} [publisherName] The display name of the tenant in which
-   * the associated application is specified.
-   */
-  publisherName?: string;
-  /**
-   * @member {string[]} [replyUrls] A collection of reply URLs for the service
-   * principal.
-   */
-  replyUrls?: string[];
-  /**
-   * @member {string} [samlMetadataUrl]
-   */
-  samlMetadataUrl?: string;
-  /**
-   * @member {string[]} [servicePrincipalNames] A collection of service
-   * principal names.
-   */
-  servicePrincipalNames?: string[];
-  /**
-   * @member {string[]} [tags]
-   */
-  tags?: string[];
-  /**
-   * @property Describes unknown properties. The value of an unknown property
-   * can be of "any" type.
-   */
-  [property: string]: any;
-}
+export type ServicePrincipalUnion = ServicePrincipal | ServicePrincipalCreateParameters;
 
 /**
  * @interface
@@ -822,13 +1049,36 @@ export interface ServicePrincipal {
    */
   readonly deletionTimestamp?: Date;
   /**
-   * @member {string} [displayName] The display name of the service principal.
+   * @member {string} [accountEnabled] whether or not the service principal
+   * account is enabled
    */
-  displayName?: string;
+  accountEnabled?: string;
+  /**
+   * @member {string[]} [alternativeNames] altenative names
+   */
+  alternativeNames?: string[];
+  /**
+   * @member {string} [appDisplayName] The display name exposed by the
+   * associated application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly appDisplayName?: string;
   /**
    * @member {string} [appId] The application ID.
    */
   appId?: string;
+  /**
+   * @member {string} [appOwnerTenantId] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
+   */
+  readonly appOwnerTenantId?: string;
+  /**
+   * @member {boolean} [appRoleAssignmentRequired] Specifies whether an
+   * AppRoleAssignment to a user or group is required before Azure AD will
+   * issue a user or access token to the application.
+   */
+  appRoleAssignmentRequired?: boolean;
   /**
    * @member {AppRole[]} [appRoles] The collection of application roles that an
    * application may declare. These roles can be assigned to users, groups or
@@ -836,10 +1086,212 @@ export interface ServicePrincipal {
    */
   appRoles?: AppRole[];
   /**
+   * @member {string} [displayName] The display name of the service principal.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [errorUrl] A URL provided by the author of the associated
+   * application to report errors when using the application.
+   */
+  errorUrl?: string;
+  /**
+   * @member {string} [homepage] The URL to the homepage of the associated
+   * application.
+   */
+  homepage?: string;
+  /**
+   * @member {KeyCredential[]} [keyCredentials] The collection of key
+   * credentials associated with the service principal.
+   */
+  keyCredentials?: KeyCredential[];
+  /**
+   * @member {string} [logoutUrl] A URL provided by the author of the
+   * associated application to logout
+   */
+  logoutUrl?: string;
+  /**
+   * @member {OAuth2Permission[]} [oauth2Permissions] The OAuth 2.0 permissions
+   * exposed by the associated application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly oauth2Permissions?: OAuth2Permission[];
+  /**
+   * @member {PasswordCredential[]} [passwordCredentials] The collection of
+   * password credentials associated with the service principal.
+   */
+  passwordCredentials?: PasswordCredential[];
+  /**
+   * @member {string} [preferredTokenSigningKeyThumbprint] The thubmbprint of
+   * preferred certificate to sign the token
+   */
+  preferredTokenSigningKeyThumbprint?: string;
+  /**
+   * @member {string} [publisherName] The publisher's name of the associated
+   * application
+   */
+  publisherName?: string;
+  /**
+   * @member {string[]} [replyUrls] The URLs that user tokens are sent to for
+   * sign in with the associated application.  The redirect URIs that the oAuth
+   * 2.0 authorization code and access tokens are sent to for the associated
+   * application.
+   */
+  replyUrls?: string[];
+  /**
+   * @member {string} [samlMetadataUrl] The URL to the SAML metadata of the
+   * associated application
+   */
+  samlMetadataUrl?: string;
+  /**
    * @member {string[]} [servicePrincipalNames] A collection of service
    * principal names.
    */
   servicePrincipalNames?: string[];
+  /**
+   * @member {string} [servicePrincipalType] the type of the servie principal
+   */
+  servicePrincipalType?: string;
+  /**
+   * @member {string[]} [tags] Optional list of tags that you can apply to your
+   * service principals. Not nullable.
+   */
+  tags?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ServicePrincipalCreateParameters.
+ * Request parameters for creating a new service principal.
+ *
+ */
+export interface ServicePrincipalCreateParameters {
+  /**
+   * @member {string} objectType Polymorphic Discriminator
+   */
+  objectType: "ServicePrincipalCreateParameters";
+  /**
+   * @member {string} [objectId] The object ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly objectId?: string;
+  /**
+   * @member {Date} [deletionTimestamp] The time at which the directory object
+   * was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletionTimestamp?: Date;
+  /**
+   * @member {string} [accountEnabled] whether or not the service principal
+   * account is enabled
+   */
+  accountEnabled?: string;
+  /**
+   * @member {string[]} [alternativeNames] altenative names
+   */
+  alternativeNames?: string[];
+  /**
+   * @member {string} [appDisplayName] The display name exposed by the
+   * associated application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly appDisplayName?: string;
+  /**
+   * @member {string} [appId] The application ID.
+   */
+  appId?: string;
+  /**
+   * @member {string} [appOwnerTenantId] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
+   */
+  readonly appOwnerTenantId?: string;
+  /**
+   * @member {boolean} [appRoleAssignmentRequired] Specifies whether an
+   * AppRoleAssignment to a user or group is required before Azure AD will
+   * issue a user or access token to the application.
+   */
+  appRoleAssignmentRequired?: boolean;
+  /**
+   * @member {AppRole[]} [appRoles] The collection of application roles that an
+   * application may declare. These roles can be assigned to users, groups or
+   * service principals.
+   */
+  appRoles?: AppRole[];
+  /**
+   * @member {string} [displayName] The display name of the service principal.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [errorUrl] A URL provided by the author of the associated
+   * application to report errors when using the application.
+   */
+  errorUrl?: string;
+  /**
+   * @member {string} [homepage] The URL to the homepage of the associated
+   * application.
+   */
+  homepage?: string;
+  /**
+   * @member {KeyCredential[]} [keyCredentials] The collection of key
+   * credentials associated with the service principal.
+   */
+  keyCredentials?: KeyCredential[];
+  /**
+   * @member {string} [logoutUrl] A URL provided by the author of the
+   * associated application to logout
+   */
+  logoutUrl?: string;
+  /**
+   * @member {OAuth2Permission[]} [oauth2Permissions] The OAuth 2.0 permissions
+   * exposed by the associated application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly oauth2Permissions?: OAuth2Permission[];
+  /**
+   * @member {PasswordCredential[]} [passwordCredentials] The collection of
+   * password credentials associated with the service principal.
+   */
+  passwordCredentials?: PasswordCredential[];
+  /**
+   * @member {string} [preferredTokenSigningKeyThumbprint] The thubmbprint of
+   * preferred certificate to sign the token
+   */
+  preferredTokenSigningKeyThumbprint?: string;
+  /**
+   * @member {string} [publisherName] The publisher's name of the associated
+   * application
+   */
+  publisherName?: string;
+  /**
+   * @member {string[]} [replyUrls] The URLs that user tokens are sent to for
+   * sign in with the associated application.  The redirect URIs that the oAuth
+   * 2.0 authorization code and access tokens are sent to for the associated
+   * application.
+   */
+  replyUrls?: string[];
+  /**
+   * @member {string} [samlMetadataUrl] The URL to the SAML metadata of the
+   * associated application
+   */
+  samlMetadataUrl?: string;
+  /**
+   * @member {string[]} [servicePrincipalNames] A collection of service
+   * principal names.
+   */
+  servicePrincipalNames?: string[];
+  /**
+   * @member {string} [servicePrincipalType] the type of the servie principal
+   */
+  servicePrincipalType?: string;
+  /**
+   * @member {string[]} [tags] Optional list of tags that you can apply to your
+   * service principals. Not nullable.
+   */
+  tags?: string[];
 }
 
 /**
@@ -1177,6 +1629,10 @@ export interface Permissions {
    */
   clientId?: string;
   /**
+   * @member {string} [objectId] The objectId of the permission grant
+   */
+  objectId?: string;
+  /**
    * @member {string} [consentType] Typically set to AllPrincipals
    */
   consentType?: string;
@@ -1312,7 +1768,7 @@ export interface OAuth2GetOptionalParams extends msRest.RequestOptionsBase {
 export interface OAuth2GrantOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Permissions} [body] The relevant app Service Principal Object Id
-   * and the Service Principal Objecit Id you want to grant.
+   * and the Service Principal Object Id you want to grant.
    */
   body?: Permissions;
 }
@@ -1349,9 +1805,9 @@ export interface DirectoryObjectListResult extends Array<DirectoryObjectUnion> {
  * An interface representing the ApplicationListResult.
  * Application list operation result.
  *
- * @extends Array<Application>
+ * @extends Array<ApplicationUnion>
  */
-export interface ApplicationListResult extends Array<Application> {
+export interface ApplicationListResult extends Array<ApplicationUnion> {
   /**
    * @member {string} [odatanextLink] The URL to get the next set of results.
    */
@@ -1407,9 +1863,9 @@ export interface GroupGetMemberGroupsResult extends Array<string> {
  * An interface representing the ServicePrincipalListResult.
  * Server response for get tenant service principals API call.
  *
- * @extends Array<ServicePrincipal>
+ * @extends Array<ServicePrincipalUnion>
  */
-export interface ServicePrincipalListResult extends Array<ServicePrincipal> {
+export interface ServicePrincipalListResult extends Array<ServicePrincipalUnion> {
   /**
    * @member {string} [odatanextLink] the URL to get the next set of results.
    */
@@ -1448,6 +1904,20 @@ export interface UserGetMemberGroupsResult extends Array<string> {
  * @extends Array<Domain>
  */
 export interface DomainListResult extends Array<Domain> {
+}
+
+/**
+ * @interface
+ * An interface representing the PermissionsListResult.
+ * Server response for get permissions grants
+ *
+ * @extends Array<Permissions>
+ */
+export interface PermissionsListResult extends Array<Permissions> {
+  /**
+   * @member {string} [odatanextLink] the URL to get the next set of results.
+   */
+  odatanextLink?: string;
 }
 
 /**
@@ -1518,7 +1988,7 @@ export type SignedInUserListOwnedObjectsNextResponse = DirectoryObjectListResult
 /**
  * Contains response data for the create operation.
  */
-export type ApplicationsCreateResponse = Application & {
+export type ApplicationsCreateResponse = ApplicationUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1530,7 +2000,7 @@ export type ApplicationsCreateResponse = Application & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Application;
+      parsedBody: ApplicationUnion;
     };
 };
 
@@ -1556,7 +2026,7 @@ export type ApplicationsListResponse = ApplicationListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type ApplicationsGetResponse = Application & {
+export type ApplicationsGetResponse = ApplicationUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1568,7 +2038,7 @@ export type ApplicationsGetResponse = Application & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Application;
+      parsedBody: ApplicationUnion;
     };
 };
 
@@ -1670,7 +2140,7 @@ export type ApplicationsListOwnersNextResponse = DirectoryObjectListResult & {
 /**
  * Contains response data for the restore operation.
  */
-export type DeletedApplicationsRestoreResponse = Application & {
+export type DeletedApplicationsRestoreResponse = ApplicationUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1682,7 +2152,7 @@ export type DeletedApplicationsRestoreResponse = Application & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Application;
+      parsedBody: ApplicationUnion;
     };
 };
 
@@ -1917,7 +2387,7 @@ export type GroupsListOwnersNextResponse = DirectoryObjectListResult & {
 /**
  * Contains response data for the create operation.
  */
-export type ServicePrincipalsCreateResponse = ServicePrincipal & {
+export type ServicePrincipalsCreateResponse = ServicePrincipalUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1929,7 +2399,7 @@ export type ServicePrincipalsCreateResponse = ServicePrincipal & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ServicePrincipal;
+      parsedBody: ServicePrincipalUnion;
     };
 };
 
@@ -1955,7 +2425,7 @@ export type ServicePrincipalsListResponse = ServicePrincipalListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type ServicePrincipalsGetResponse = ServicePrincipal & {
+export type ServicePrincipalsGetResponse = ServicePrincipalUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1967,7 +2437,7 @@ export type ServicePrincipalsGetResponse = ServicePrincipal & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ServicePrincipal;
+      parsedBody: ServicePrincipalUnion;
     };
 };
 
@@ -2240,7 +2710,7 @@ export type DomainsGetResponse = Domain & {
 /**
  * Contains response data for the get operation.
  */
-export type OAuth2GetResponse = Permissions & {
+export type OAuth2GetResponse = PermissionsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -2252,7 +2722,7 @@ export type OAuth2GetResponse = Permissions & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Permissions;
+      parsedBody: PermissionsListResult;
     };
 };
 
@@ -2272,5 +2742,24 @@ export type OAuth2GrantResponse = Permissions & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Permissions;
+    };
+};
+
+/**
+ * Contains response data for the getNext operation.
+ */
+export type OAuth2GetNextResponse = PermissionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PermissionsListResult;
     };
 };

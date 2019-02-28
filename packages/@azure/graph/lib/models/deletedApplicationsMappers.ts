@@ -13,13 +13,24 @@ export {
   Application,
   DirectoryObject,
   AppRole,
+  InformationalUrl,
+  KeyCredential,
+  OAuth2Permission,
+  OptionalClaims,
+  OptionalClaim,
+  PasswordCredential,
+  PreAuthorizedApplication,
+  PreAuthorizedApplicationPermission,
+  PreAuthorizedApplicationExtension,
   RequiredResourceAccess,
   ResourceAccess,
   GraphError,
   ApplicationListResult,
+  ApplicationCreateParameters,
   ADGroup,
   ServicePrincipal,
   User,
-  SignInName
+  SignInName,
+  ServicePrincipalCreateParameters
 } from "../models/mappers";
 

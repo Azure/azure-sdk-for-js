@@ -11,16 +11,22 @@
 export {
   discriminators,
   ApplicationCreateParameters,
-  AppRole,
-  KeyCredential,
-  PasswordCredential,
-  RequiredResourceAccess,
-  ResourceAccess,
   Application,
   DirectoryObject,
+  AppRole,
+  InformationalUrl,
+  KeyCredential,
+  OAuth2Permission,
+  OptionalClaims,
+  OptionalClaim,
+  PasswordCredential,
+  PreAuthorizedApplication,
+  PreAuthorizedApplicationPermission,
+  PreAuthorizedApplicationExtension,
+  RequiredResourceAccess,
+  ResourceAccess,
   GraphError,
   ApplicationListResult,
-  ApplicationUpdateParameters,
   DirectoryObjectListResult,
   AddOwnerParameters,
   KeyCredentialListResult,
@@ -30,6 +36,7 @@ export {
   ADGroup,
   ServicePrincipal,
   User,
-  SignInName
+  SignInName,
+  ServicePrincipalCreateParameters
 } from "../models/mappers";
 

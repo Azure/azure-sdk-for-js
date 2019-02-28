@@ -14,6 +14,266 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const InformationalUrl: msRest.CompositeMapper = {
+  serializedName: "InformationalUrl",
+  type: {
+    name: "Composite",
+    className: "InformationalUrl",
+    modelProperties: {
+      termsOfService: {
+        serializedName: "termsOfService",
+        type: {
+          name: "String"
+        }
+      },
+      marketing: {
+        serializedName: "marketing",
+        type: {
+          name: "String"
+        }
+      },
+      privacy: {
+        serializedName: "privacy",
+        type: {
+          name: "String"
+        }
+      },
+      support: {
+        serializedName: "support",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OAuth2Permission: msRest.CompositeMapper = {
+  serializedName: "OAuth2Permission",
+  type: {
+    name: "Composite",
+    className: "OAuth2Permission",
+    modelProperties: {
+      adminConsentDescription: {
+        serializedName: "adminConsentDescription",
+        type: {
+          name: "String"
+        }
+      },
+      adminConsentDisplayName: {
+        serializedName: "adminConsentDisplayName",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      userConsentDescription: {
+        serializedName: "userConsentDescription",
+        type: {
+          name: "String"
+        }
+      },
+      userConsentDisplayName: {
+        serializedName: "userConsentDisplayName",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OptionalClaim: msRest.CompositeMapper = {
+  serializedName: "OptionalClaim",
+  type: {
+    name: "Composite",
+    className: "OptionalClaim",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      essential: {
+        serializedName: "essential",
+        type: {
+          name: "Boolean"
+        }
+      },
+      additionalProperties: {
+        serializedName: "additionalProperties",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const OptionalClaims: msRest.CompositeMapper = {
+  serializedName: "OptionalClaims",
+  type: {
+    name: "Composite",
+    className: "OptionalClaims",
+    modelProperties: {
+      idToken: {
+        serializedName: "idToken",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OptionalClaim"
+            }
+          }
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OptionalClaim"
+            }
+          }
+        }
+      },
+      samlToken: {
+        serializedName: "samlToken",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OptionalClaim"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PreAuthorizedApplicationPermission: msRest.CompositeMapper = {
+  serializedName: "PreAuthorizedApplicationPermission",
+  type: {
+    name: "Composite",
+    className: "PreAuthorizedApplicationPermission",
+    modelProperties: {
+      directAccessGrant: {
+        serializedName: "directAccessGrant",
+        type: {
+          name: "Boolean"
+        }
+      },
+      accessGrants: {
+        serializedName: "accessGrants",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PreAuthorizedApplicationExtension: msRest.CompositeMapper = {
+  serializedName: "PreAuthorizedApplicationExtension",
+  type: {
+    name: "Composite",
+    className: "PreAuthorizedApplicationExtension",
+    modelProperties: {
+      conditions: {
+        serializedName: "conditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PreAuthorizedApplication: msRest.CompositeMapper = {
+  serializedName: "PreAuthorizedApplication",
+  type: {
+    name: "Composite",
+    className: "PreAuthorizedApplication",
+    modelProperties: {
+      appId: {
+        serializedName: "appId",
+        type: {
+          name: "String"
+        }
+      },
+      permissions: {
+        serializedName: "permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PreAuthorizedApplicationPermission"
+            }
+          }
+        }
+      },
+      extensions: {
+        serializedName: "extensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PreAuthorizedApplicationExtension"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const GraphError: msRest.CompositeMapper = {
   serializedName: "GraphError",
   type: {
@@ -122,7 +382,7 @@ export const KeyCredential: msRest.CompositeMapper = {
       customKeyIdentifier: {
         serializedName: "customKeyIdentifier",
         type: {
-          name: "ByteArray"
+          name: "String"
         }
       }
     },
@@ -162,6 +422,12 @@ export const PasswordCredential: msRest.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "String"
+        }
+      },
+      customKeyIdentifier: {
+        serializedName: "customKeyIdentifier",
+        type: {
+          name: "ByteArray"
         }
       }
     },
@@ -240,6 +506,298 @@ export const RequiredResourceAccess: msRest.CompositeMapper = {
   }
 };
 
+export const Application: msRest.CompositeMapper = {
+  serializedName: "Application",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
+    uberParent: "DirectoryObject",
+    className: "Application",
+    modelProperties: {
+      ...DirectoryObject.type.modelProperties,
+      allowGuestsSignIn: {
+        serializedName: "allowGuestsSignIn",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowPassthroughUsers: {
+        serializedName: "allowPassthroughUsers",
+        type: {
+          name: "Boolean"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        type: {
+          name: "String"
+        }
+      },
+      appLogoUrl: {
+        serializedName: "appLogoUrl",
+        type: {
+          name: "String"
+        }
+      },
+      appRoles: {
+        serializedName: "appRoles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppRole"
+            }
+          }
+        }
+      },
+      appPermissions: {
+        serializedName: "appPermissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      availableToOtherTenants: {
+        serializedName: "availableToOtherTenants",
+        type: {
+          name: "Boolean"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      errorUrl: {
+        serializedName: "errorUrl",
+        type: {
+          name: "String"
+        }
+      },
+      homepage: {
+        serializedName: "homepage",
+        type: {
+          name: "String"
+        }
+      },
+      identifierUris: {
+        serializedName: "identifierUris",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      informationalUrls: {
+        serializedName: "informationalUrls",
+        type: {
+          name: "Composite",
+          className: "InformationalUrl"
+        }
+      },
+      isDeviceOnlyAuthSupported: {
+        serializedName: "isDeviceOnlyAuthSupported",
+        type: {
+          name: "Boolean"
+        }
+      },
+      keyCredentials: {
+        serializedName: "keyCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyCredential",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      knownClientApplications: {
+        serializedName: "knownClientApplications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      logoutUrl: {
+        serializedName: "logoutUrl",
+        type: {
+          name: "String"
+        }
+      },
+      oauth2AllowImplicitFlow: {
+        serializedName: "oauth2AllowImplicitFlow",
+        type: {
+          name: "Boolean"
+        }
+      },
+      oauth2AllowUrlPathMatching: {
+        serializedName: "oauth2AllowUrlPathMatching",
+        type: {
+          name: "Boolean"
+        }
+      },
+      oauth2Permissions: {
+        serializedName: "oauth2Permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OAuth2Permission"
+            }
+          }
+        }
+      },
+      oauth2RequirePostResponse: {
+        serializedName: "oauth2RequirePostResponse",
+        type: {
+          name: "Boolean"
+        }
+      },
+      orgRestrictions: {
+        serializedName: "orgRestrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      optionalClaims: {
+        serializedName: "optionalClaims",
+        type: {
+          name: "Composite",
+          className: "OptionalClaims"
+        }
+      },
+      passwordCredentials: {
+        serializedName: "passwordCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PasswordCredential",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      preAuthorizedApplications: {
+        serializedName: "preAuthorizedApplications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PreAuthorizedApplication"
+            }
+          }
+        }
+      },
+      publicClient: {
+        serializedName: "publicClient",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publisherDomain: {
+        serializedName: "publisherDomain",
+        type: {
+          name: "String"
+        }
+      },
+      replyUrls: {
+        serializedName: "replyUrls",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredResourceAccess: {
+        serializedName: "requiredResourceAccess",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RequiredResourceAccess",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      samlMetadataUrl: {
+        serializedName: "samlMetadataUrl",
+        type: {
+          name: "String"
+        }
+      },
+      signInAudience: {
+        serializedName: "signInAudience",
+        type: {
+          name: "String"
+        }
+      },
+      wwwHomepage: {
+        serializedName: "wwwHomepage",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: DirectoryObject.type.additionalProperties
+  }
+};
+
+export const ApplicationCreateParameters: msRest.CompositeMapper = {
+  serializedName: "ApplicationCreateParameters",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
+    uberParent: "DirectoryObject",
+    className: "ApplicationCreateParameters",
+    modelProperties: {
+      ...Application.type.modelProperties
+    },
+    additionalProperties: DirectoryObject.type.additionalProperties
+  }
+};
+
 export const AppRole: msRest.CompositeMapper = {
   serializedName: "AppRole",
   type: {
@@ -288,363 +846,6 @@ export const AppRole: msRest.CompositeMapper = {
         }
       }
     }
-  }
-};
-
-export const ApplicationCreateParameters: msRest.CompositeMapper = {
-  serializedName: "ApplicationCreateParameters",
-  type: {
-    name: "Composite",
-    className: "ApplicationCreateParameters",
-    modelProperties: {
-      appRoles: {
-        serializedName: "appRoles",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AppRole"
-            }
-          }
-        }
-      },
-      availableToOtherTenants: {
-        required: true,
-        serializedName: "availableToOtherTenants",
-        type: {
-          name: "Boolean"
-        }
-      },
-      displayName: {
-        required: true,
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      homepage: {
-        serializedName: "homepage",
-        type: {
-          name: "String"
-        }
-      },
-      identifierUris: {
-        required: true,
-        serializedName: "identifierUris",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      replyUrls: {
-        serializedName: "replyUrls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      keyCredentials: {
-        serializedName: "keyCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      passwordCredentials: {
-        serializedName: "passwordCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PasswordCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      oauth2AllowImplicitFlow: {
-        serializedName: "oauth2AllowImplicitFlow",
-        type: {
-          name: "Boolean"
-        }
-      },
-      requiredResourceAccess: {
-        serializedName: "requiredResourceAccess",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RequiredResourceAccess",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const ApplicationUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "ApplicationUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "ApplicationUpdateParameters",
-    modelProperties: {
-      appRoles: {
-        serializedName: "appRoles",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AppRole"
-            }
-          }
-        }
-      },
-      availableToOtherTenants: {
-        serializedName: "availableToOtherTenants",
-        type: {
-          name: "Boolean"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      homepage: {
-        serializedName: "homepage",
-        type: {
-          name: "String"
-        }
-      },
-      identifierUris: {
-        serializedName: "identifierUris",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      replyUrls: {
-        serializedName: "replyUrls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      keyCredentials: {
-        serializedName: "keyCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      passwordCredentials: {
-        serializedName: "passwordCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PasswordCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      oauth2AllowImplicitFlow: {
-        serializedName: "oauth2AllowImplicitFlow",
-        type: {
-          name: "Boolean"
-        }
-      },
-      requiredResourceAccess: {
-        serializedName: "requiredResourceAccess",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RequiredResourceAccess",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const Application: msRest.CompositeMapper = {
-  serializedName: "Application",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
-    uberParent: "DirectoryObject",
-    className: "Application",
-    modelProperties: {
-      ...DirectoryObject.type.modelProperties,
-      appId: {
-        serializedName: "appId",
-        type: {
-          name: "String"
-        }
-      },
-      appRoles: {
-        serializedName: "appRoles",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AppRole"
-            }
-          }
-        }
-      },
-      appPermissions: {
-        serializedName: "appPermissions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      availableToOtherTenants: {
-        serializedName: "availableToOtherTenants",
-        type: {
-          name: "Boolean"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      identifierUris: {
-        serializedName: "identifierUris",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      replyUrls: {
-        serializedName: "replyUrls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      homepage: {
-        serializedName: "homepage",
-        type: {
-          name: "String"
-        }
-      },
-      oauth2AllowImplicitFlow: {
-        serializedName: "oauth2AllowImplicitFlow",
-        type: {
-          name: "Boolean"
-        }
-      },
-      requiredResourceAccess: {
-        serializedName: "requiredResourceAccess",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RequiredResourceAccess",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: DirectoryObject.type.additionalProperties
   }
 };
 
@@ -911,267 +1112,6 @@ export const CheckGroupMembershipResult: msRest.CompositeMapper = {
   }
 };
 
-export const ServicePrincipalCreateParameters: msRest.CompositeMapper = {
-  serializedName: "ServicePrincipalCreateParameters",
-  type: {
-    name: "Composite",
-    className: "ServicePrincipalCreateParameters",
-    modelProperties: {
-      accountEnabled: {
-        serializedName: "accountEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      appId: {
-        required: true,
-        serializedName: "appId",
-        type: {
-          name: "String"
-        }
-      },
-      appRoleAssignmentRequired: {
-        serializedName: "appRoleAssignmentRequired",
-        type: {
-          name: "Boolean"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      errorUrl: {
-        serializedName: "errorUrl",
-        type: {
-          name: "String"
-        }
-      },
-      homepage: {
-        serializedName: "homepage",
-        type: {
-          name: "String"
-        }
-      },
-      keyCredentials: {
-        serializedName: "keyCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      passwordCredentials: {
-        serializedName: "passwordCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PasswordCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      publisherName: {
-        serializedName: "publisherName",
-        type: {
-          name: "String"
-        }
-      },
-      replyUrls: {
-        serializedName: "replyUrls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      samlMetadataUrl: {
-        serializedName: "samlMetadataUrl",
-        type: {
-          name: "String"
-        }
-      },
-      servicePrincipalNames: {
-        serializedName: "servicePrincipalNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const ServicePrincipalUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "ServicePrincipalUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "ServicePrincipalUpdateParameters",
-    modelProperties: {
-      accountEnabled: {
-        serializedName: "accountEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      appId: {
-        serializedName: "appId",
-        type: {
-          name: "String"
-        }
-      },
-      appRoleAssignmentRequired: {
-        serializedName: "appRoleAssignmentRequired",
-        type: {
-          name: "Boolean"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      errorUrl: {
-        serializedName: "errorUrl",
-        type: {
-          name: "String"
-        }
-      },
-      homepage: {
-        serializedName: "homepage",
-        type: {
-          name: "String"
-        }
-      },
-      keyCredentials: {
-        serializedName: "keyCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      passwordCredentials: {
-        serializedName: "passwordCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PasswordCredential",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      },
-      publisherName: {
-        serializedName: "publisherName",
-        type: {
-          name: "String"
-        }
-      },
-      replyUrls: {
-        serializedName: "replyUrls",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      samlMetadataUrl: {
-        serializedName: "samlMetadataUrl",
-        type: {
-          name: "String"
-        }
-      },
-      servicePrincipalNames: {
-        serializedName: "servicePrincipalNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
 export const ServicePrincipal: msRest.CompositeMapper = {
   serializedName: "ServicePrincipal",
   type: {
@@ -1181,8 +1121,26 @@ export const ServicePrincipal: msRest.CompositeMapper = {
     className: "ServicePrincipal",
     modelProperties: {
       ...DirectoryObject.type.modelProperties,
-      displayName: {
-        serializedName: "displayName",
+      accountEnabled: {
+        serializedName: "accountEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      alternativeNames: {
+        serializedName: "alternativeNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      appDisplayName: {
+        readOnly: true,
+        serializedName: "appDisplayName",
         type: {
           name: "String"
         }
@@ -1191,6 +1149,19 @@ export const ServicePrincipal: msRest.CompositeMapper = {
         serializedName: "appId",
         type: {
           name: "String"
+        }
+      },
+      appOwnerTenantId: {
+        readOnly: true,
+        serializedName: "appOwnerTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      appRoleAssignmentRequired: {
+        serializedName: "appRoleAssignmentRequired",
+        type: {
+          name: "Boolean"
         }
       },
       appRoles: {
@@ -1205,6 +1176,106 @@ export const ServicePrincipal: msRest.CompositeMapper = {
           }
         }
       },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      errorUrl: {
+        serializedName: "errorUrl",
+        type: {
+          name: "String"
+        }
+      },
+      homepage: {
+        serializedName: "homepage",
+        type: {
+          name: "String"
+        }
+      },
+      keyCredentials: {
+        serializedName: "keyCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyCredential",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      logoutUrl: {
+        serializedName: "logoutUrl",
+        type: {
+          name: "String"
+        }
+      },
+      oauth2Permissions: {
+        readOnly: true,
+        serializedName: "oauth2Permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OAuth2Permission"
+            }
+          }
+        }
+      },
+      passwordCredentials: {
+        serializedName: "passwordCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PasswordCredential",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      preferredTokenSigningKeyThumbprint: {
+        serializedName: "preferredTokenSigningKeyThumbprint",
+        type: {
+          name: "String"
+        }
+      },
+      publisherName: {
+        serializedName: "publisherName",
+        type: {
+          name: "String"
+        }
+      },
+      replyUrls: {
+        serializedName: "replyUrls",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      samlMetadataUrl: {
+        serializedName: "samlMetadataUrl",
+        type: {
+          name: "String"
+        }
+      },
       servicePrincipalNames: {
         serializedName: "servicePrincipalNames",
         type: {
@@ -1215,7 +1286,38 @@ export const ServicePrincipal: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      servicePrincipalType: {
+        serializedName: "servicePrincipalType",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
+    },
+    additionalProperties: DirectoryObject.type.additionalProperties
+  }
+};
+
+export const ServicePrincipalCreateParameters: msRest.CompositeMapper = {
+  serializedName: "ServicePrincipalCreateParameters",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DirectoryObject.type.polymorphicDiscriminator,
+    uberParent: "DirectoryObject",
+    className: "ServicePrincipalCreateParameters",
+    modelProperties: {
+      ...ServicePrincipal.type.modelProperties
     },
     additionalProperties: DirectoryObject.type.additionalProperties
   }
@@ -1645,6 +1747,12 @@ export const Permissions: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      },
       consentType: {
         serializedName: "consentType",
         type: {
@@ -1957,10 +2065,40 @@ export const DomainListResult: msRest.CompositeMapper = {
   }
 };
 
+export const PermissionsListResult: msRest.CompositeMapper = {
+  serializedName: "PermissionsListResult",
+  type: {
+    name: "Composite",
+    className: "PermissionsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permissions"
+            }
+          }
+        }
+      },
+      odatanextLink: {
+        serializedName: "odata\\.nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'DirectoryObject' : DirectoryObject,
+  'DirectoryObject.ApplicationCreateParameters' : ApplicationCreateParameters,
   'DirectoryObject.Application' : Application,
   'DirectoryObject.Group' : ADGroup,
+  'DirectoryObject.ServicePrincipalCreateParameters' : ServicePrincipalCreateParameters,
   'DirectoryObject.ServicePrincipal' : ServicePrincipal,
   'DirectoryObject.User' : User
 };

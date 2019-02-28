@@ -27,7 +27,7 @@ export class OAuth2 {
   }
 
   /**
-   * Queries OAuth2 permissions for the relevant SP ObjectId of an app.
+   * Queries OAuth2 permissions grants for the relevant SP ObjectId of an app.
    * @param [options] The optional parameters
    * @returns Promise<Models.OAuth2GetResponse>
    */
@@ -35,13 +35,13 @@ export class OAuth2 {
   /**
    * @param callback The callback
    */
-  get(callback: msRest.ServiceCallback<Models.Permissions>): void;
+  get(callback: msRest.ServiceCallback<Models.PermissionsListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: Models.OAuth2GetOptionalParams, callback: msRest.ServiceCallback<Models.Permissions>): void;
-  get(options?: Models.OAuth2GetOptionalParams | msRest.ServiceCallback<Models.Permissions>, callback?: msRest.ServiceCallback<Models.Permissions>): Promise<Models.OAuth2GetResponse> {
+  get(options: Models.OAuth2GetOptionalParams, callback: msRest.ServiceCallback<Models.PermissionsListResult>): void;
+  get(options?: Models.OAuth2GetOptionalParams | msRest.ServiceCallback<Models.PermissionsListResult>, callback?: msRest.ServiceCallback<Models.PermissionsListResult>): Promise<Models.OAuth2GetResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -73,6 +73,62 @@ export class OAuth2 {
       grantOperationSpec,
       callback) as Promise<Models.OAuth2GrantResponse>;
   }
+
+  /**
+   * Delete a OAuth2 permission grant for the relevant resource Ids of an app.
+   * @param objectId The object ID of a permission grant.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(objectId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param objectId The object ID of a permission grant.
+   * @param callback The callback
+   */
+  deleteMethod(objectId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param objectId The object ID of a permission grant.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        objectId,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback);
+  }
+
+  /**
+   * Queries OAuth2 permissions grants for the relevant SP ObjectId of an app.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.OAuth2GetNextResponse>
+   */
+  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OAuth2GetNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PermissionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionsListResult>): void;
+  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PermissionsListResult>, callback?: msRest.ServiceCallback<Models.PermissionsListResult>): Promise<Models.OAuth2GetNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getNextOperationSpec,
+      callback) as Promise<Models.OAuth2GetNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -92,7 +148,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Permissions
+      bodyMapper: Mappers.PermissionsListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -123,6 +179,49 @@ const grantOperationSpec: msRest.OperationSpec = {
   responses: {
     201: {
       bodyMapper: Mappers.Permissions
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "{tenantID}/oauth2PermissionGrants/{objectId}",
+  urlParameters: [
+    Parameters.objectId,
+    Parameters.tenantID
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.GraphError
+    }
+  },
+  serializer
+};
+
+const getNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://graph.windows.net",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PermissionsListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

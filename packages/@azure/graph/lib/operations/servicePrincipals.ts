@@ -37,14 +37,14 @@ export class ServicePrincipals {
    * @param parameters Parameters to create a service principal.
    * @param callback The callback
    */
-  create(parameters: Models.ServicePrincipalCreateParameters, callback: msRest.ServiceCallback<Models.ServicePrincipal>): void;
+  create(parameters: Models.ServicePrincipalCreateParameters, callback: msRest.ServiceCallback<Models.ServicePrincipalUnion>): void;
   /**
    * @param parameters Parameters to create a service principal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(parameters: Models.ServicePrincipalCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipal>): void;
-  create(parameters: Models.ServicePrincipalCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipal>, callback?: msRest.ServiceCallback<Models.ServicePrincipal>): Promise<Models.ServicePrincipalsCreateResponse> {
+  create(parameters: Models.ServicePrincipalCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipalUnion>): void;
+  create(parameters: Models.ServicePrincipalCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipalUnion>, callback?: msRest.ServiceCallback<Models.ServicePrincipalUnion>): Promise<Models.ServicePrincipalsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -85,21 +85,21 @@ export class ServicePrincipals {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(objectId: string, parameters: Models.ServicePrincipalUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(objectId: string, parameters: Models.ServicePrincipalUnion, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param objectId The object ID of the service principal to delete.
    * @param parameters Parameters to update a service principal.
    * @param callback The callback
    */
-  update(objectId: string, parameters: Models.ServicePrincipalUpdateParameters, callback: msRest.ServiceCallback<void>): void;
+  update(objectId: string, parameters: Models.ServicePrincipalUnion, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param objectId The object ID of the service principal to delete.
    * @param parameters Parameters to update a service principal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(objectId: string, parameters: Models.ServicePrincipalUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(objectId: string, parameters: Models.ServicePrincipalUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(objectId: string, parameters: Models.ServicePrincipalUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  update(objectId: string, parameters: Models.ServicePrincipalUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -150,14 +150,14 @@ export class ServicePrincipals {
    * @param objectId The object ID of the service principal to get.
    * @param callback The callback
    */
-  get(objectId: string, callback: msRest.ServiceCallback<Models.ServicePrincipal>): void;
+  get(objectId: string, callback: msRest.ServiceCallback<Models.ServicePrincipalUnion>): void;
   /**
    * @param objectId The object ID of the service principal to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipal>): void;
-  get(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipal>, callback?: msRest.ServiceCallback<Models.ServicePrincipal>): Promise<Models.ServicePrincipalsGetResponse> {
+  get(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipalUnion>): void;
+  get(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipalUnion>, callback?: msRest.ServiceCallback<Models.ServicePrincipalUnion>): Promise<Models.ServicePrincipalsGetResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -446,7 +446,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.ServicePrincipalUpdateParameters,
+      ...Mappers.ServicePrincipal,
       required: true
     }
   },
