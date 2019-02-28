@@ -486,6 +486,39 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   }
 
   /**
+   * Validate if the container settings are correct.
+   * @summary Validate if the container settings are correct.
+   * @param validateContainerSettingsRequest
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ValidateContainerSettingsResponse>
+   */
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ValidateContainerSettingsResponse>;
+  /**
+   * @param validateContainerSettingsRequest
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param callback The callback
+   */
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param validateContainerSettingsRequest
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  validateContainerSettings(validateContainerSettingsRequest: Models.ValidateContainerSettingsRequest, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ValidateContainerSettingsResponse> {
+    return this.sendOperationRequest(
+      {
+        validateContainerSettingsRequest,
+        resourceGroupName,
+        options
+      },
+      validateContainerSettingsOperationSpec,
+      callback) as Promise<Models.ValidateContainerSettingsResponse>;
+  }
+
+  /**
    * Validate whether a resource can be moved.
    * @summary Validate whether a resource can be moved.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -670,7 +703,7 @@ const getPublishingUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/publishingUsers/web",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -690,7 +723,7 @@ const updatePublishingUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "providers/Microsoft.Web/publishingUsers/web",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -717,7 +750,7 @@ const listSourceControlsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/sourcecontrols",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -740,7 +773,7 @@ const getSourceControlOperationSpec: msRest.OperationSpec = {
     Parameters.sourceControlType
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -763,7 +796,7 @@ const updateSourceControlOperationSpec: msRest.OperationSpec = {
     Parameters.sourceControlType
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -795,7 +828,7 @@ const listBillingMetersOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.billingLocation,
     Parameters.osType,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -818,7 +851,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -855,7 +888,7 @@ const getSubscriptionDeploymentLocationsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -882,7 +915,7 @@ const listGeoRegionsOperationSpec: msRest.OperationSpec = {
     Parameters.linuxWorkersEnabled,
     Parameters.xenonWorkersEnabled,
     Parameters.linuxDynamicWorkersEnabled,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -905,7 +938,7 @@ const listSiteIdentifiersAssignedToHostNameOperationSpec: msRest.OperationSpec =
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -940,7 +973,7 @@ const listPremierAddOnOffersOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -963,7 +996,7 @@ const listSkusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -986,7 +1019,7 @@ const verifyHostingEnvironmentVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1017,7 +1050,7 @@ const moveOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1046,7 +1079,7 @@ const validateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1069,6 +1102,42 @@ const validateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const validateContainerSettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validateContainerSettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "validateContainerSettingsRequest",
+    mapper: {
+      ...Mappers.ValidateContainerSettingsRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const validateMoveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources",
@@ -1077,7 +1146,7 @@ const validateMoveOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
