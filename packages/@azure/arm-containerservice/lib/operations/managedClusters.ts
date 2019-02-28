@@ -156,8 +156,8 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets clusteradmin credential of the managed cluster with a specified resource group and name.
-   * @summary Gets clusteradmin credential of a managed cluster.
+   * Gets cluster admin credential of the managed cluster with a specified resource group and name.
+   * @summary Gets cluster admin credential of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -189,8 +189,8 @@ export class ManagedClusters {
   }
 
   /**
-   * Gets clusteruser credential of the managed cluster with a specified resource group and name.
-   * @summary Gets clusteruser credential of a managed cluster.
+   * Gets cluster user credential of the managed cluster with a specified resource group and name.
+   * @summary Gets cluster user credential of a managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param [options] The optional parameters
@@ -297,6 +297,35 @@ export class ManagedClusters {
   }
 
   /**
+   * Update the service principal Profile for a managed cluster.
+   * @summary Reset Service Principal Profile of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a
+   * Managed Cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  resetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginResetServicePrincipalProfile(resourceGroupName,resourceName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Update the AAD Profile for a managed cluster.
+   * @summary Reset AAD Profile of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  resetAADProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterAADProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginResetAADProfile(resourceGroupName,resourceName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates or updates a managed cluster with the specified configuration for agents and Kubernetes
    * version.
    * @summary Creates or updates a managed cluster.
@@ -355,6 +384,49 @@ export class ManagedClusters {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Update the service principal Profile for a managed cluster.
+   * @summary Reset Service Principal Profile of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a
+   * Managed Cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginResetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        parameters,
+        options
+      },
+      beginResetServicePrincipalProfileOperationSpec,
+      options);
+  }
+
+  /**
+   * Update the AAD Profile for a managed cluster.
+   * @summary Reset AAD Profile of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginResetAADProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterAADProfile, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        parameters,
+        options
+      },
+      beginResetAADProfileOperationSpec,
       options);
   }
 
@@ -449,7 +521,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName0
   ],
   queryParameters: [
     Parameters.apiVersion3
@@ -473,7 +545,7 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName
   ],
   queryParameters: [
@@ -498,7 +570,7 @@ const getAccessProfileOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/accessProfiles/{roleName}/listCredential",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName,
     Parameters.roleName
   ],
@@ -524,7 +596,7 @@ const listClusterAdminCredentialsOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName
   ],
   queryParameters: [
@@ -549,7 +621,7 @@ const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName
   ],
   queryParameters: [
@@ -574,7 +646,7 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName
   ],
   queryParameters: [
@@ -599,7 +671,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName
   ],
   queryParameters: [
@@ -634,7 +706,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName
   ],
   queryParameters: [
@@ -666,7 +738,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.resourceName
   ],
   queryParameters: [
@@ -678,6 +750,68 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ManagedClusterServicePrincipalProfile,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ManagedClusterAADProfile,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

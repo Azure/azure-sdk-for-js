@@ -15,6 +15,7 @@ export {
   Resource,
   BaseResource,
   ManagedClusterAgentPoolProfile,
+  ManagedClusterAgentPoolProfileProperties,
   ContainerServiceLinuxProfile,
   ContainerServiceSshConfiguration,
   ContainerServiceSshPublicKey,
@@ -48,6 +49,8 @@ export {
   ContainerServiceAgentPoolProfile,
   ContainerServiceWindowsProfile,
   ContainerServiceDiagnosticsProfile,
-  ContainerServiceVMDiagnostics
+  ContainerServiceVMDiagnostics,
+  SubResource,
+  AgentPool
 } from "../models/mappers";
 
