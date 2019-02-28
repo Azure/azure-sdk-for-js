@@ -247,6 +247,38 @@ export class Factories {
   }
 
   /**
+   * Upgrade preview version factory to G.A. version.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FactoriesUpgradeResponse>
+   */
+  upgrade(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.FactoriesUpgradeResponse>;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param callback The callback
+   */
+  upgrade(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.Factory>): void;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  upgrade(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Factory>): void;
+  upgrade(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Factory>, callback?: msRest.ServiceCallback<Models.Factory>): Promise<Models.FactoriesUpgradeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        factoryName,
+        options
+      },
+      upgradeOperationSpec,
+      callback) as Promise<Models.FactoriesUpgradeResponse>;
+  }
+
+  /**
    * Get GitHub Access Token.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -280,6 +312,42 @@ export class Factories {
       },
       getGitHubAccessTokenOperationSpec,
       callback) as Promise<Models.FactoriesGetGitHubAccessTokenResponse>;
+  }
+
+  /**
+   * Get Data Plane access.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param policy Data Plane user access policy definition.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FactoriesGetDataPlaneAccessResponse>
+   */
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: msRest.RequestOptionsBase): Promise<Models.FactoriesGetDataPlaneAccessResponse>;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param policy Data Plane user access policy definition.
+   * @param callback The callback
+   */
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, callback: msRest.ServiceCallback<Models.AccessPolicyResponse>): void;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param policy Data Plane user access policy definition.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResponse>): void;
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResponse>, callback?: msRest.ServiceCallback<Models.AccessPolicyResponse>): Promise<Models.FactoriesGetDataPlaneAccessResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        factoryName,
+        policy,
+        options
+      },
+      getDataPlaneAccessOperationSpec,
+      callback) as Promise<Models.FactoriesGetDataPlaneAccessResponse>;
   }
 
   /**
@@ -535,6 +603,31 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const upgradeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/upgrade",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Factory
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const getGitHubAccessTokenOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getGitHubAccessToken",
@@ -559,6 +652,38 @@ const getGitHubAccessTokenOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GitHubAccessTokenResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getDataPlaneAccessOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getDataPlaneAccess",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "policy",
+    mapper: {
+      ...Mappers.UserAccessPolicy,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessPolicyResponse
     },
     default: {
       bodyMapper: Mappers.CloudError

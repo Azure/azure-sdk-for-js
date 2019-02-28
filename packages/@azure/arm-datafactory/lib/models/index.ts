@@ -228,7 +228,7 @@ export interface FactoryRepoConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -529,7 +529,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | AzureDataLakeStoreLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | OdbcLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | FileServerLinkedService | HDInsightLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * @interface
@@ -601,7 +601,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion = Dataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SqlServerTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
+export type DatasetUnion = Dataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SalesforceObjectDataset | RelationalTableDataset | AzureMySqlTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbCollectionDataset | FileShareDataset | AzureDataLakeStoreCosmosStructuredStreamDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | AmazonS3Dataset;
 
 /**
  * @interface
@@ -625,6 +625,12 @@ export interface Dataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -697,11 +703,11 @@ export interface ActivityDependency {
  */
 export interface UserProperty {
   /**
-   * @member {string} name User proprety name.
+   * @member {string} name User property name.
    */
   name: string;
   /**
-   * @member {any} value User proprety value. Type: string (or Expression with
+   * @member {any} value User property value. Type: string (or Expression with
    * resultType string).
    */
   value: any;
@@ -905,7 +911,7 @@ export interface FactoryVSTSConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -946,7 +952,7 @@ export interface FactoryGitHubConfiguration {
    */
   accountName: string;
   /**
-   * @member {string} repositoryName Rrepository name.
+   * @member {string} repositoryName Repository name.
    */
   repositoryName: string;
   /**
@@ -1018,6 +1024,63 @@ export interface GitHubAccessTokenResponse {
    * @member {string} [gitHubAccessToken] GitHub access token.
    */
   gitHubAccessToken?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserAccessPolicy.
+ * Get Data Plane read only token request definition.
+ *
+ */
+export interface UserAccessPolicy {
+  /**
+   * @member {string} [permissions] The string with permissions for Data Plane
+   * access. Currently only 'r' is supported which grants read only access.
+   */
+  permissions?: string;
+  /**
+   * @member {string} [accessResourcePath] The resource path to get access
+   * relative to factory. Currently only empty string is supported which
+   * corresponds to the factory resource.
+   */
+  accessResourcePath?: string;
+  /**
+   * @member {string} [profileName] The name of the profile. Currently only the
+   * default is supported. The default value is DefaultProfile.
+   */
+  profileName?: string;
+  /**
+   * @member {string} [startTime] Start time for the token. If not specified
+   * the current time will be used.
+   */
+  startTime?: string;
+  /**
+   * @member {string} [expireTime] Expiration time for the token. Maximum
+   * duration for the token is eight hours and by default the token will expire
+   * in eight hours.
+   */
+  expireTime?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AccessPolicyResponse.
+ * Get Data Plane read only token response definition.
+ *
+ */
+export interface AccessPolicyResponse {
+  /**
+   * @member {UserAccessPolicy} [policy] The user access policy.
+   */
+  policy?: UserAccessPolicy;
+  /**
+   * @member {string} [accessToken] Data Plane read only access token.
+   */
+  accessToken?: string;
+  /**
+   * @member {string} [dataPlaneUrl] Data Plane service base URL.
+   */
+  dataPlaneUrl?: string;
 }
 
 /**
@@ -1106,7 +1169,7 @@ export interface RunQueryFilter {
    * trigger runs are TriggerName, TriggerRunTimestamp and Status. Possible
    * values include: 'PipelineName', 'Status', 'RunStart', 'RunEnd',
    * 'ActivityName', 'ActivityRunStart', 'ActivityRunEnd', 'ActivityType',
-   * 'TriggerName', 'TriggerRunTimestamp'
+   * 'TriggerName', 'TriggerRunTimestamp', 'RunGroupId', 'LatestOnly'
    */
   operand: RunQueryFilterOperand;
   /**
@@ -1217,6 +1280,20 @@ export interface PipelineRun {
    * the server.**
    */
   readonly runId?: string;
+  /**
+   * @member {string} [runGroupId] Identifier that correlates all the recovery
+   * runs of a pipeline run.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly runGroupId?: string;
+  /**
+   * @member {boolean} [isLatest] Indicates if the recovered pipeline run is
+   * the latest in its group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isLatest?: boolean;
   /**
    * @member {string} [pipelineName] The pipeline name.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1769,6 +1846,82 @@ export interface Operation {
 }
 
 /**
+ * @interface
+ * An interface representing GetSsisObjectMetadataRequest.
+ * The request payload of get SSIS object metadata.
+ *
+ */
+export interface GetSsisObjectMetadataRequest {
+  /**
+   * @member {string} [metadataPath] Metadata path.
+   */
+  metadataPath?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SsisObjectMetadataStatusResponse.
+ * The status of the operation.
+ *
+ */
+export interface SsisObjectMetadataStatusResponse {
+  /**
+   * @member {string} [status] The status of the operation.
+   */
+  status?: string;
+  /**
+   * @member {string} [name] The operation name.
+   */
+  name?: string;
+  /**
+   * @member {string} [properties] The operation properties.
+   */
+  properties?: string;
+  /**
+   * @member {string} [error] The operation error message.
+   */
+  error?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExposureControlRequest.
+ * The exposure control request.
+ *
+ */
+export interface ExposureControlRequest {
+  /**
+   * @member {string} [featureName] The feature name.
+   */
+  featureName?: string;
+  /**
+   * @member {string} [featureType] The feature type.
+   */
+  featureType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExposureControlResponse.
+ * The exposure control response.
+ *
+ */
+export interface ExposureControlResponse {
+  /**
+   * @member {string} [featureName] The feature name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly featureName?: string;
+  /**
+   * @member {string} [value] The feature value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: string;
+}
+
+/**
  * Contains the possible cases for DependencyReference.
  */
 export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
@@ -2007,7 +2160,7 @@ export interface MultiplePipelineTrigger {
 /**
  * @interface
  * An interface representing BlobEventsTrigger.
- * Trigger that runs everytime a Blob event occurs.
+ * Trigger that runs every time a Blob event occurs.
  *
  */
 export interface BlobEventsTrigger {
@@ -2061,7 +2214,7 @@ export interface BlobEventsTrigger {
 /**
  * @interface
  * An interface representing BlobTrigger.
- * Trigger that runs everytime the selected Blob container changes.
+ * Trigger that runs every time the selected Blob container changes.
  *
  */
 export interface BlobTrigger {
@@ -2106,7 +2259,7 @@ export interface BlobTrigger {
 /**
  * @interface
  * An interface representing RecurrenceScheduleOccurrence.
- * The recurrence schedule occurence.
+ * The recurrence schedule occurrence.
  *
  */
 export interface RecurrenceScheduleOccurrence {
@@ -2234,6 +2387,346 @@ export interface ScheduleTrigger {
    * configuration.
    */
   recurrence: ScheduleTriggerRecurrence;
+}
+
+/**
+ * @interface
+ * An interface representing AzureFunctionLinkedService.
+ * Azure Function linked service.
+ *
+ */
+export interface AzureFunctionLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureFunction";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} functionAppUrl The endpoint of the Azure Function App. URL
+   * will be in the format https://<accountName>.azurewebsites.net.
+   */
+  functionAppUrl: any;
+  /**
+   * @member {SecretBaseUnion} [functionKey] Function or Host key for Azure
+   * Function App.
+   */
+  functionKey?: SecretBaseUnion;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing AzureDataExplorerLinkedService.
+ * Azure Data Explorer (Kusto) linked service.
+ *
+ */
+export interface AzureDataExplorerLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureDataExplorer";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} endpoint The endpoint of Azure Data Explorer (the engine's
+   * endpoint). URL will be in the format
+   * https://<clusterName>.<regionName>.kusto.windows.net. Type: string (or
+   * Expression with resultType string)
+   */
+  endpoint: any;
+  /**
+   * @member {any} servicePrincipalId The ID of the service principal used to
+   * authenticate against Azure Data Explorer. Type: string (or Expression with
+   * resultType string).
+   */
+  servicePrincipalId: any;
+  /**
+   * @member {SecretBaseUnion} servicePrincipalKey The key of the service
+   * principal used to authenticate against Kusto.
+   */
+  servicePrincipalKey: SecretBaseUnion;
+  /**
+   * @member {any} database Database name for connection. Type: string (or
+   * Expression with resultType string).
+   */
+  database: any;
+  /**
+   * @member {any} tenant The name or ID of the tenant to which the service
+   * principal belongs. Type: string (or Expression with resultType string).
+   */
+  tenant: any;
+}
+
+/**
+ * @interface
+ * An interface representing GoogleAdWordsLinkedService.
+ * Google AdWords service linked service.
+ *
+ */
+export interface GoogleAdWordsLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "GoogleAdWords";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} clientCustomerID The Client customer ID of the AdWords
+   * account that you want to fetch report data for.
+   */
+  clientCustomerID: any;
+  /**
+   * @member {SecretBaseUnion} developerToken The developer token associated
+   * with the manager account that you use to grant access to the AdWords API.
+   */
+  developerToken: SecretBaseUnion;
+  /**
+   * @member {GoogleAdWordsAuthenticationType} authenticationType The OAuth 2.0
+   * authentication mechanism used for authentication. ServiceAuthentication
+   * can only be used on self-hosted IR. Possible values include:
+   * 'ServiceAuthentication', 'UserAuthentication'
+   */
+  authenticationType: GoogleAdWordsAuthenticationType;
+  /**
+   * @member {SecretBaseUnion} [refreshToken] The refresh token obtained from
+   * Google for authorizing access to AdWords for UserAuthentication.
+   */
+  refreshToken?: SecretBaseUnion;
+  /**
+   * @member {SecretBaseUnion} [clientId] The client id of the google
+   * application used to acquire the refresh token.
+   */
+  clientId?: SecretBaseUnion;
+  /**
+   * @member {SecretBaseUnion} [clientSecret] The client secret of the google
+   * application used to acquire the refresh token.
+   */
+  clientSecret?: SecretBaseUnion;
+  /**
+   * @member {any} [email] The service account email ID that is used for
+   * ServiceAuthentication and can only be used on self-hosted IR.
+   */
+  email?: any;
+  /**
+   * @member {any} [keyFilePath] The full path to the .p12 key file that is
+   * used to authenticate the service account email address and can only be
+   * used on self-hosted IR.
+   */
+  keyFilePath?: any;
+  /**
+   * @member {any} [trustedCertPath] The full path of the .pem file containing
+   * trusted CA certificates for verifying the server when connecting over SSL.
+   * This property can only be set when using SSL on self-hosted IR. The
+   * default value is the cacerts.pem file installed with the IR.
+   */
+  trustedCertPath?: any;
+  /**
+   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
+   * certificate from the system trust store or from a specified PEM file. The
+   * default value is false.
+   */
+  useSystemTrustStore?: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing OracleServiceCloudLinkedService.
+ * Oracle Service Cloud linked service.
+ *
+ */
+export interface OracleServiceCloudLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "OracleServiceCloud";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} host The URL of the Oracle Service Cloud instance.
+   */
+  host: any;
+  /**
+   * @member {any} username The user name that you use to access Oracle Service
+   * Cloud server.
+   */
+  username: any;
+  /**
+   * @member {SecretBaseUnion} password The password corresponding to the user
+   * name that you provided in the username key.
+   */
+  password: SecretBaseUnion;
+  /**
+   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
+   * endpoints are encrypted using HTTPS. The default value is true. Type:
+   * boolean (or Expression with resultType boolean).
+   */
+  useEncryptedEndpoints?: any;
+  /**
+   * @member {any} [useHostVerification] Specifies whether to require the host
+   * name in the server's certificate to match the host name of the server when
+   * connecting over SSL. The default value is true. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  useHostVerification?: any;
+  /**
+   * @member {any} [usePeerVerification] Specifies whether to verify the
+   * identity of the server when connecting over SSL. The default value is
+   * true. Type: boolean (or Expression with resultType boolean).
+   */
+  usePeerVerification?: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing DynamicsAXLinkedService.
+ * Dynamics AX linked service.
+ *
+ */
+export interface DynamicsAXLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "DynamicsAX";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} url The Dynamics AX (or Dynamics 365 Finance and Operations)
+   * instance OData endpoint.
+   */
+  url: any;
+  /**
+   * @member {any} servicePrincipalId Specify the application's client ID.
+   * Type: string (or Expression with resultType string).
+   */
+  servicePrincipalId: any;
+  /**
+   * @member {SecretBaseUnion} servicePrincipalKey Specify the application's
+   * key. Mark this field as a SecureString to store it securely in Data
+   * Factory, or reference a secret stored in Azure Key Vault. Type: string (or
+   * Expression with resultType string).
+   */
+  servicePrincipalKey: SecretBaseUnion;
+  /**
+   * @member {any} tenant Specify the tenant information (domain name or tenant
+   * ID) under which your application resides. Retrieve it by hovering the
+   * mouse in the top-right corner of the Azure portal. Type: string (or
+   * Expression with resultType string).
+   */
+  tenant: any;
+  /**
+   * @member {any} aadResourceId Specify the resource you are requesting
+   * authorization. Type: string (or Expression with resultType string).
+   */
+  aadResourceId: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
 }
 
 /**
@@ -2389,6 +2882,22 @@ export interface AzureDatabricksLinkedService {
    * Additional tags for cluster resources.
    */
   newClusterCustomTags?: { [propertyName: string]: any };
+  /**
+   * @member {any} [newClusterDriverNodeType] The driver node type for the new
+   * cluster. Type: string (or Expression with resultType string).
+   */
+  newClusterDriverNodeType?: any;
+  /**
+   * @member {any} [newClusterInitScripts] User-defined initialization scripts
+   * for the new cluster. Type: array of strings (or Expression with resultType
+   * array of strings).
+   */
+  newClusterInitScripts?: any;
+  /**
+   * @member {any} [newClusterEnableElasticDisk] Enable the elastic disk on the
+   * new cluster. Type: boolean (or Expression with resultType boolean).
+   */
+  newClusterEnableElasticDisk?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -2930,7 +3439,7 @@ export interface ZohoLinkedService {
 /**
  * @interface
  * An interface representing XeroLinkedService.
- * Xero Serivce linked service.
+ * Xero Service linked service.
  *
  */
 export interface XeroLinkedService {
@@ -3001,7 +3510,7 @@ export interface XeroLinkedService {
 /**
  * @interface
  * An interface representing SquareLinkedService.
- * Square Serivce linked service.
+ * Square Service linked service.
  *
  */
 export interface SquareLinkedService {
@@ -3185,7 +3694,7 @@ export interface SparkLinkedService {
 /**
  * @interface
  * An interface representing ShopifyLinkedService.
- * Shopify Serivce linked service.
+ * Shopify Service linked service.
  *
  */
 export interface ShopifyLinkedService {
@@ -3615,7 +4124,7 @@ export interface PhoenixLinkedService {
 /**
  * @interface
  * An interface representing PaypalLinkedService.
- * Paypal Serivce linked service.
+ * Paypal Service linked service.
  *
  */
 export interface PaypalLinkedService {
@@ -3866,7 +4375,7 @@ export interface MagentoLinkedService {
 /**
  * @interface
  * An interface representing JiraLinkedService.
- * Jira Serivce linked service.
+ * Jira Service linked service.
  *
  */
 export interface JiraLinkedService {
@@ -4034,7 +4543,7 @@ export interface ImpalaLinkedService {
 /**
  * @interface
  * An interface representing HubspotLinkedService.
- * Hubspot Serivce linked service.
+ * Hubspot Service linked service.
  *
  */
 export interface HubspotLinkedService {
@@ -4638,7 +5147,7 @@ export interface CouchbaseLinkedService {
 /**
  * @interface
  * An interface representing ConcurLinkedService.
- * Concur Serivce linked service.
+ * Concur Service linked service.
  *
  */
 export interface ConcurLinkedService {
@@ -4790,7 +5299,7 @@ export interface AmazonMWSLinkedService {
   endpoint: any;
   /**
    * @member {any} marketplaceID The Amazon Marketplace ID you want to retrieve
-   * data from. To retrive data from multiple Marketplace IDs, seperate them
+   * data from. To retrieve data from multiple Marketplace IDs, separate them
    * with a comma (,). (i.e. A2EUQ1WTGCTBG2)
    */
   marketplaceID: any;
@@ -5403,6 +5912,173 @@ export interface AmazonS3LinkedService {
    */
   secretAccessKey?: SecretBaseUnion;
   /**
+   * @member {any} [serviceUrl] This value specifies the endpoint to access
+   * with the S3 Connector. This is an optional property; change it only if you
+   * want to try a different service endpoint or want to switch between https
+   * and http. Type: string (or Expression with resultType string).
+   */
+  serviceUrl?: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing RestServiceLinkedService.
+ * Rest Service linked service.
+ *
+ */
+export interface RestServiceLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "RestService";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} url The base URL of the REST service.
+   */
+  url: any;
+  /**
+   * @member {any} [enableServerCertificateValidation] Whether to validate
+   * server side SSL certificate when connecting to the endpoint.The default
+   * value is true. Type: boolean (or Expression with resultType boolean).
+   */
+  enableServerCertificateValidation?: any;
+  /**
+   * @member {RestServiceAuthenticationType} authenticationType Type of
+   * authentication used to connect to the REST service. Possible values
+   * include: 'Anonymous', 'Basic', 'AadServicePrincipal',
+   * 'ManagedServiceIdentity'
+   */
+  authenticationType: RestServiceAuthenticationType;
+  /**
+   * @member {any} [userName] The user name used in Basic authentication type.
+   */
+  userName?: any;
+  /**
+   * @member {SecretBaseUnion} [password] The password used in Basic
+   * authentication type.
+   */
+  password?: SecretBaseUnion;
+  /**
+   * @member {any} [servicePrincipalId] The application's client ID used in
+   * AadServicePrincipal authentication type.
+   */
+  servicePrincipalId?: any;
+  /**
+   * @member {SecretBaseUnion} [servicePrincipalKey] The application's key used
+   * in AadServicePrincipal authentication type.
+   */
+  servicePrincipalKey?: SecretBaseUnion;
+  /**
+   * @member {any} [tenant] The tenant information (domain name or tenant ID)
+   * used in AadServicePrincipal authentication type under which your
+   * application resides.
+   */
+  tenant?: any;
+  /**
+   * @member {any} [aadResourceId] The resource you are requesting
+   * authorization to use.
+   */
+  aadResourceId?: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing SapOpenHubLinkedService.
+ * SAP Business Warehouse Open Hub Destination Linked Service.
+ *
+ */
+export interface SapOpenHubLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHub";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} server Host name of the SAP BW instance where the open hub
+   * destination is located. Type: string (or Expression with resultType
+   * string).
+   */
+  server: any;
+  /**
+   * @member {any} systemNumber System number of the BW system where the open
+   * hub destination is located. (Usually a two-digit decimal number
+   * represented as a string.) Type: string (or Expression with resultType
+   * string).
+   */
+  systemNumber: any;
+  /**
+   * @member {any} clientId Client ID of the client on the BW system where the
+   * open hub destination is located. (Usually a three-digit decimal number
+   * represented as a string) Type: string (or Expression with resultType
+   * string).
+   */
+  clientId: any;
+  /**
+   * @member {any} [language] Language of the BW system where the open hub
+   * destination is located. The default value is EN. Type: string (or
+   * Expression with resultType string).
+   */
+  language?: any;
+  /**
+   * @member {any} [userName] Username to access the SAP BW server where the
+   * open hub destination is located. Type: string (or Expression with
+   * resultType string).
+   */
+  userName?: any;
+  /**
+   * @member {SecretBaseUnion} [password] Password to access the SAP BW server
+   * where the open hub destination is located.
+   */
+  password?: SecretBaseUnion;
+  /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Type: string (or Expression with resultType string).
@@ -5583,6 +6259,129 @@ export interface SalesforceLinkedService {
 
 /**
  * @interface
+ * An interface representing Office365LinkedService.
+ * Office365 linked service.
+ *
+ */
+export interface Office365LinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "Office365";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} office365TenantId Azure tenant ID to which the Office 365
+   * account belongs. Type: string (or Expression with resultType string).
+   */
+  office365TenantId: any;
+  /**
+   * @member {any} servicePrincipalTenantId Specify the tenant information
+   * under which your Azure AD web application resides. Type: string (or
+   * Expression with resultType string).
+   */
+  servicePrincipalTenantId: any;
+  /**
+   * @member {any} servicePrincipalId Specify the application's client ID.
+   * Type: string (or Expression with resultType string).
+   */
+  servicePrincipalId: any;
+  /**
+   * @member {SecretBaseUnion} servicePrincipalKey Specify the application's
+   * key.
+   */
+  servicePrincipalKey: SecretBaseUnion;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing AzureBlobFSLinkedService.
+ * Azure Data Lake Storage Gen2 linked service.
+ *
+ */
+export interface AzureBlobFSLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureBlobFS";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} url Endpoint for the Azure Data Lake Storage Gen2 service.
+   * Type: string (or Expression with resultType string).
+   */
+  url: any;
+  /**
+   * @member {any} [accountKey] Account key for the Azure Data Lake Storage
+   * Gen2 service. Type: string (or Expression with resultType string).
+   */
+  accountKey?: any;
+  /**
+   * @member {any} [servicePrincipalId] The ID of the application used to
+   * authenticate against the Azure Data Lake Storage Gen2 account. Type:
+   * string (or Expression with resultType string).
+   */
+  servicePrincipalId?: any;
+  /**
+   * @member {SecretBaseUnion} [servicePrincipalKey] The Key of the application
+   * used to authenticate against the Azure Data Lake Storage Gen2 account.
+   */
+  servicePrincipalKey?: SecretBaseUnion;
+  /**
+   * @member {any} [tenant] The name or ID of the tenant to which the service
+   * principal belongs. Type: string (or Expression with resultType string).
+   */
+  tenant?: any;
+  /**
+   * @member {any} [encryptedCredential] The encrypted credential used for
+   * authentication. Credentials are encrypted using the integration runtime
+   * credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * @interface
  * An interface representing AzureDataLakeStoreLinkedService.
  * Azure Data Lake Store linked service.
  *
@@ -5655,6 +6454,93 @@ export interface AzureDataLakeStoreLinkedService {
    * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+}
+
+/**
+ * @interface
+ * An interface representing CosmosDbMongoDbApiLinkedService.
+ * Linked service for CosmosDB (MongoDB API) data source.
+ *
+ */
+export interface CosmosDbMongoDbApiLinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "CosmosDbMongoDbApi";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} connectionString The CosmosDB (MongoDB API) connection
+   * string. Type: string, SecureString or AzureKeyVaultSecretReference. Type:
+   * string, SecureString or AzureKeyVaultSecretReference.
+   */
+  connectionString: any;
+  /**
+   * @member {any} database The name of the CosmosDB (MongoDB API) database
+   * that you want to access. Type: string (or Expression with resultType
+   * string).
+   */
+  database: any;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbV2LinkedService.
+ * Linked service for MongoDB data source.
+ *
+ */
+export interface MongoDbV2LinkedService {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "MongoDbV2";
+  /**
+   * @member {IntegrationRuntimeReference} [connectVia] The integration runtime
+   * reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * @member {string} [description] Linked service description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {any} connectionString The MongoDB connection string. Type:
+   * string, SecureString or AzureKeyVaultSecretReference. Type: string,
+   * SecureString or AzureKeyVaultSecretReference.
+   */
+  connectionString: any;
+  /**
+   * @member {any} database The name of the MongoDB database that you want to
+   * access. Type: string (or Expression with resultType string).
+   */
+  database: any;
 }
 
 /**
@@ -5984,7 +6870,8 @@ export interface ODataLinkedService {
   /**
    * @member {ODataAuthenticationType} [authenticationType] Type of
    * authentication used to connect to the OData service. Possible values
-   * include: 'Basic', 'Anonymous'
+   * include: 'Basic', 'Anonymous', 'Windows', 'AadServicePrincipal',
+   * 'ManagedServiceIdentity'
    */
   authenticationType?: ODataAuthenticationType;
   /**
@@ -5996,6 +6883,50 @@ export interface ODataLinkedService {
    * @member {SecretBaseUnion} [password] Password of the OData service.
    */
   password?: SecretBaseUnion;
+  /**
+   * @member {any} [tenant] Specify the tenant information (domain name or
+   * tenant ID) under which your application resides. Type: string (or
+   * Expression with resultType string).
+   */
+  tenant?: any;
+  /**
+   * @member {any} [servicePrincipalId] Specify the application id of your
+   * application registered in Azure Active Directory. Type: string (or
+   * Expression with resultType string).
+   */
+  servicePrincipalId?: any;
+  /**
+   * @member {any} [aadResourceId] Specify the resource you are requesting
+   * authorization to use Directory. Type: string (or Expression with
+   * resultType string).
+   */
+  aadResourceId?: any;
+  /**
+   * @member {ODataAadServicePrincipalCredentialType}
+   * [aadServicePrincipalCredentialType] Specify the credential type (key or
+   * cert) is used for service principal. Possible values include:
+   * 'ServicePrincipalKey', 'ServicePrincipalCert'
+   */
+  aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
+  /**
+   * @member {SecretBaseUnion} [servicePrincipalKey] Specify the secret of your
+   * application registered in Azure Active Directory. Type: string (or
+   * Expression with resultType string).
+   */
+  servicePrincipalKey?: SecretBaseUnion;
+  /**
+   * @member {SecretBaseUnion} [servicePrincipalEmbeddedCert] Specify the
+   * base64 encoded certificate of your application registered in Azure Active
+   * Directory. Type: string (or Expression with resultType string).
+   */
+  servicePrincipalEmbeddedCert?: SecretBaseUnion;
+  /**
+   * @member {SecretBaseUnion} [servicePrincipalEmbeddedCertPassword] Specify
+   * the password of your certificate if your certificate has a password and
+   * you are using AadServicePrincipal authentication. Type: string (or
+   * Expression with resultType string).
+   */
+  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6687,6 +7618,11 @@ export interface HDInsightLinkedService {
    * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * @member {any} [isEspEnabled] Specify if the HDInsight is created with ESP
+   * (Enterprise Security Package). Type: Boolean.
+   */
+  isEspEnabled?: any;
 }
 
 /**
@@ -7308,6 +8244,222 @@ export interface AzureStorageLinkedService {
 
 /**
  * @interface
+ * An interface representing GoogleAdWordsObjectDataset.
+ * Google AdWords service dataset.
+ *
+ */
+export interface GoogleAdWordsObjectDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "GoogleAdWordsObject";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
+}
+
+/**
+ * @interface
+ * An interface representing AzureDataExplorerTableDataset.
+ * The Azure Data Explorer (Kusto) dataset.
+ *
+ */
+export interface AzureDataExplorerTableDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureDataExplorerTable";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} [table] The table name of the Azure Data Explorer database.
+   * Type: string (or Expression with resultType string).
+   */
+  table?: any;
+}
+
+/**
+ * @interface
+ * An interface representing OracleServiceCloudObjectDataset.
+ * Oracle Service Cloud dataset.
+ *
+ */
+export interface OracleServiceCloudObjectDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "OracleServiceCloudObject";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} [tableName] The table name. Type: string (or Expression with
+   * resultType string).
+   */
+  tableName?: any;
+}
+
+/**
+ * @interface
+ * An interface representing DynamicsAXResourceDataset.
+ * The path of the Dynamics AX OData entity.
+ *
+ */
+export interface DynamicsAXResourceDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "DynamicsAXResource";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {string} path The path of the Dynamics AX OData entity. Type:
+   * string (or Expression with resultType string).
+   */
+  path: string;
+}
+
+/**
+ * @interface
  * An interface representing ResponsysObjectDataset.
  * Responsys dataset.
  *
@@ -7327,6 +8479,12 @@ export interface ResponsysObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7376,6 +8534,12 @@ export interface SalesforceMarketingCloudObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7423,6 +8587,12 @@ export interface VerticaTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7472,6 +8642,12 @@ export interface NetezzaTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7520,6 +8696,12 @@ export interface ZohoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7549,7 +8731,7 @@ export interface ZohoObjectDataset {
 /**
  * @interface
  * An interface representing XeroObjectDataset.
- * Xero Serivce dataset.
+ * Xero Service dataset.
  *
  */
 export interface XeroObjectDataset {
@@ -7567,6 +8749,12 @@ export interface XeroObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7597,7 +8785,7 @@ export interface XeroObjectDataset {
 /**
  * @interface
  * An interface representing SquareObjectDataset.
- * Square Serivce dataset.
+ * Square Service dataset.
  *
  */
 export interface SquareObjectDataset {
@@ -7615,6 +8803,12 @@ export interface SquareObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7664,6 +8858,12 @@ export interface SparkObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7693,7 +8893,7 @@ export interface SparkObjectDataset {
 /**
  * @interface
  * An interface representing ShopifyObjectDataset.
- * Shopify Serivce dataset.
+ * Shopify Service dataset.
  *
  */
 export interface ShopifyObjectDataset {
@@ -7711,6 +8911,12 @@ export interface ShopifyObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7760,6 +8966,12 @@ export interface ServiceNowObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7807,6 +9019,12 @@ export interface QuickBooksObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -7856,6 +9074,12 @@ export interface PrestoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7904,6 +9128,12 @@ export interface PhoenixObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -7933,7 +9163,7 @@ export interface PhoenixObjectDataset {
 /**
  * @interface
  * An interface representing PaypalObjectDataset.
- * Paypal Serivce dataset.
+ * Paypal Service dataset.
  *
  */
 export interface PaypalObjectDataset {
@@ -7951,6 +9181,12 @@ export interface PaypalObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8000,6 +9236,12 @@ export interface MarketoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8047,6 +9289,12 @@ export interface MariaDBTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8096,6 +9344,12 @@ export interface MagentoObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8125,7 +9379,7 @@ export interface MagentoObjectDataset {
 /**
  * @interface
  * An interface representing JiraObjectDataset.
- * Jira Serivce dataset.
+ * Jira Service dataset.
  *
  */
 export interface JiraObjectDataset {
@@ -8143,6 +9397,12 @@ export interface JiraObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8192,6 +9452,12 @@ export interface ImpalaObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8221,7 +9487,7 @@ export interface ImpalaObjectDataset {
 /**
  * @interface
  * An interface representing HubspotObjectDataset.
- * Hubspot Serivce dataset.
+ * Hubspot Service dataset.
  *
  */
 export interface HubspotObjectDataset {
@@ -8239,6 +9505,12 @@ export interface HubspotObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8288,6 +9560,12 @@ export interface HiveObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8335,6 +9613,12 @@ export interface HBaseObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8384,6 +9668,12 @@ export interface GreenplumTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8431,6 +9721,12 @@ export interface GoogleBigQueryObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8480,6 +9776,12 @@ export interface EloquaObjectDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8527,6 +9829,12 @@ export interface DrillTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8576,6 +9884,12 @@ export interface CouchbaseTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8605,7 +9919,7 @@ export interface CouchbaseTableDataset {
 /**
  * @interface
  * An interface representing ConcurObjectDataset.
- * Concur Serivce dataset.
+ * Concur Service dataset.
  *
  */
 export interface ConcurObjectDataset {
@@ -8623,6 +9937,12 @@ export interface ConcurObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -8672,6 +9992,12 @@ export interface AzurePostgreSqlTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -8719,6 +10045,12 @@ export interface AmazonMWSObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9096,6 +10428,12 @@ export interface HttpDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9172,6 +10510,12 @@ export interface AzureSearchIndexDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9220,6 +10564,12 @@ export interface WebTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9253,6 +10603,83 @@ export interface WebTableDataset {
 
 /**
  * @interface
+ * An interface representing RestResourceDataset.
+ * A Rest service dataset.
+ *
+ */
+export interface RestResourceDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "RestResource";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} [relativeUrl] The relative URL to the resource that the
+   * RESTful API provides. Type: string (or Expression with resultType string).
+   */
+  relativeUrl?: any;
+  /**
+   * @member {any} [requestMethod] The HTTP method used to call the RESTful
+   * API. The default is GET. Type: string (or Expression with resultType
+   * string).
+   */
+  requestMethod?: any;
+  /**
+   * @member {any} [requestBody] The HTTP request body to the RESTful API if
+   * requestMethod is POST. Type: string (or Expression with resultType
+   * string).
+   */
+  requestBody?: any;
+  /**
+   * @member {any} [additionalHeaders] The additional HTTP headers in the
+   * request to the RESTful API. Type: string (or Expression with resultType
+   * string).
+   */
+  additionalHeaders?: any;
+  /**
+   * @member {any} [paginationRules] The pagination rules to compose next page
+   * requests. Type: string (or Expression with resultType string).
+   */
+  paginationRules?: any;
+}
+
+/**
+ * @interface
  * An interface representing SqlServerTableDataset.
  * The on-premises SQL Server dataset.
  *
@@ -9272,6 +10699,12 @@ export interface SqlServerTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9301,6 +10734,74 @@ export interface SqlServerTableDataset {
 
 /**
  * @interface
+ * An interface representing SapOpenHubTableDataset.
+ * Sap Business Warehouse Open Hub Destination Table properties.
+ *
+ */
+export interface SapOpenHubTableDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHubTable";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} openHubDestinationName The name of the Open Hub Destination
+   * with destination type as Database Table. Type: string (or Expression with
+   * resultType string).
+   */
+  openHubDestinationName: any;
+  /**
+   * @member {any} [excludeLastRequest] Whether to exclude the records of the
+   * last request. The default value is true. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  excludeLastRequest?: any;
+  /**
+   * @member {any} [baseRequestId] The ID of request for delta loading. Once it
+   * is set, only data with requestId larger than the value of this property
+   * will be retrieved. The default value is 0. Type: integer (or Expression
+   * with resultType integer ).
+   */
+  baseRequestId?: any;
+}
+
+/**
+ * @interface
  * An interface representing SapEccResourceDataset.
  * The path of the SAP ECC OData entity.
  *
@@ -9320,6 +10821,12 @@ export interface SapEccResourceDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9369,6 +10876,12 @@ export interface SapCloudForCustomerResourceDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9416,6 +10929,12 @@ export interface SalesforceObjectDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9465,6 +10984,12 @@ export interface RelationalTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9512,6 +11037,12 @@ export interface AzureMySqlTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9561,6 +11092,12 @@ export interface OracleTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9609,6 +11146,12 @@ export interface ODataResourceDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9637,6 +11180,114 @@ export interface ODataResourceDataset {
 
 /**
  * @interface
+ * An interface representing CosmosDbMongoDbApiCollectionDataset.
+ * The CosmosDB (MongoDB API) database dataset.
+ *
+ */
+export interface CosmosDbMongoDbApiCollectionDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "CosmosDbMongoDbApiCollection";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} collection The collection name of the CosmosDB (MongoDB API)
+   * database. Type: string (or Expression with resultType string).
+   */
+  collection: any;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbV2CollectionDataset.
+ * The MongoDB database dataset.
+ *
+ */
+export interface MongoDbV2CollectionDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "MongoDbV2Collection";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} collection The collection name of the MongoDB database.
+   * Type: string (or Expression with resultType string).
+   */
+  collection: any;
+}
+
+/**
+ * @interface
  * An interface representing MongoDbCollectionDataset.
  * The MongoDB database dataset.
  *
@@ -9656,6 +11307,12 @@ export interface MongoDbCollectionDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9705,6 +11362,12 @@ export interface FileShareDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9735,6 +11398,16 @@ export interface FileShareDataset {
    */
   fileName?: any;
   /**
+   * @member {any} [modifiedDatetimeStart] The start of file's modified
+   * datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * @member {any} [modifiedDatetimeEnd] The end of file's modified datetime.
+   * Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+  /**
    * @member {DatasetStorageFormatUnion} [format] The format of the files.
    */
   format?: DatasetStorageFormatUnion;
@@ -9747,6 +11420,200 @@ export interface FileShareDataset {
   /**
    * @member {DatasetCompressionUnion} [compression] The data compression
    * method used for the file system.
+   */
+  compression?: DatasetCompressionUnion;
+}
+
+/**
+ * @interface
+ * An interface representing AzureDataLakeStoreCosmosStructuredStreamDataset.
+ * Azure Data Lake Store Cosmos Structured Stream dataset.
+ *
+ */
+export interface AzureDataLakeStoreCosmosStructuredStreamDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureDataLakeStoreCosmosStructuredStreamFile";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} folderPath Path to the folder in the Azure Data Lake Store.
+   * Type: string (or Expression with resultType string).
+   */
+  folderPath: any;
+  /**
+   * @member {any} fileName The name of the file in the Azure Data Lake Store.
+   * Type: string (or Expression with resultType string).
+   */
+  fileName: any;
+  /**
+   * @member {any} [generatedFromActivity] Flag to indicate if this dataset is
+   * been generated from Compilation Activity. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  generatedFromActivity?: any;
+}
+
+/**
+ * @interface
+ * An interface representing Office365Dataset.
+ * The Office365 account.
+ *
+ */
+export interface Office365Dataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "Office365Table";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} tableName Name of the dataset to extract from Office 365.
+   * Type: string (or Expression with resultType string).
+   */
+  tableName: any;
+  /**
+   * @member {any} [predicate] A predicate expression that can be used to
+   * filter the specific rows to extract from Office 365. Type: string (or
+   * Expression with resultType string).
+   */
+  predicate?: any;
+}
+
+/**
+ * @interface
+ * An interface representing AzureBlobFSDataset.
+ * The Azure Data Lake Storage Gen2 storage.
+ *
+ */
+export interface AzureBlobFSDataset {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureBlobFSFile";
+  /**
+   * @member {string} [description] Dataset description.
+   */
+  description?: string;
+  /**
+   * @member {any} [structure] Columns that define the structure of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetDataElement.
+   */
+  structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Linked service
+   * reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
+   * Parameters for dataset.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * @member {any[]} [annotations] List of tags that can be used for describing
+   * the Dataset.
+   */
+  annotations?: any[];
+  /**
+   * @member {DatasetFolder} [folder] The folder that this Dataset is in. If
+   * not specified, Dataset will appear at the root level.
+   */
+  folder?: DatasetFolder;
+  /**
+   * @member {any} [folderPath] The path of the Azure Data Lake Storage Gen2
+   * storage. Type: string (or Expression with resultType string).
+   */
+  folderPath?: any;
+  /**
+   * @member {any} [fileName] The name of the Azure Data Lake Storage Gen2.
+   * Type: string (or Expression with resultType string).
+   */
+  fileName?: any;
+  /**
+   * @member {DatasetStorageFormatUnion} [format] The format of the Azure Data
+   * Lake Storage Gen2 storage.
+   */
+  format?: DatasetStorageFormatUnion;
+  /**
+   * @member {DatasetCompressionUnion} [compression] The data compression
+   * method used for the blob storage.
    */
   compression?: DatasetCompressionUnion;
 }
@@ -9772,6 +11639,12 @@ export interface AzureDataLakeStoreDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9836,6 +11709,12 @@ export interface DynamicsEntityDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9883,6 +11762,12 @@ export interface DocumentDbCollectionDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -9932,6 +11817,12 @@ export interface CustomDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -9978,6 +11869,12 @@ export interface CassandraTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10032,6 +11929,12 @@ export interface AzureSqlDWTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10079,6 +11982,12 @@ export interface AzureSqlTableDataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10128,6 +12037,12 @@ export interface AzureTableDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10176,6 +12091,12 @@ export interface AzureBlobDataset {
    */
   structure?: any;
   /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
+  /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
    */
@@ -10211,6 +12132,16 @@ export interface AzureBlobDataset {
    */
   fileName?: any;
   /**
+   * @member {any} [modifiedDatetimeStart] The start of Azure Blob's modified
+   * datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * @member {any} [modifiedDatetimeEnd] The end of Azure Blob's modified
+   * datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+  /**
    * @member {DatasetStorageFormatUnion} [format] The format of the Azure Blob
    * storage.
    */
@@ -10243,6 +12174,12 @@ export interface AmazonS3Dataset {
    * DatasetDataElement.
    */
   structure?: any;
+  /**
+   * @member {any} [schema] Columns that define the physical type schema of the
+   * dataset. Type: array (or Expression with resultType array), itemType:
+   * DatasetSchemaDataElement.
+   */
+  schema?: any;
   /**
    * @member {LinkedServiceReference} linkedServiceName Linked service
    * reference.
@@ -10283,6 +12220,16 @@ export interface AmazonS3Dataset {
    * Expression with resultType string).
    */
   version?: any;
+  /**
+   * @member {any} [modifiedDatetimeStart] The start of S3 object's modified
+   * datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * @member {any} [modifiedDatetimeEnd] The end of S3 object's modified
+   * datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
   /**
    * @member {DatasetStorageFormatUnion} [format] The format of files.
    */
@@ -10337,7 +12284,7 @@ export interface ActivityPolicy {
 /**
  * Contains the possible cases for ExecutionActivity.
  */
-export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
+export type ExecutionActivityUnion = ExecutionActivity | AzureFunctionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
 
 /**
  * @interface
@@ -10375,6 +12322,68 @@ export interface ExecutionActivity {
    * @member {ActivityPolicy} [policy] Activity policy.
    */
   policy?: ActivityPolicy;
+}
+
+/**
+ * @interface
+ * An interface representing AzureFunctionActivity.
+ * Azure Function activity.
+ *
+ */
+export interface AzureFunctionActivity {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureFunctionActivity";
+  /**
+   * @member {string} name Activity name.
+   */
+  name: string;
+  /**
+   * @member {string} [description] Activity description.
+   */
+  description?: string;
+  /**
+   * @member {ActivityDependency[]} [dependsOn] Activity depends on condition.
+   */
+  dependsOn?: ActivityDependency[];
+  /**
+   * @member {UserProperty[]} [userProperties] Activity user properties.
+   */
+  userProperties?: UserProperty[];
+  /**
+   * @member {LinkedServiceReference} [linkedServiceName] Linked service
+   * reference.
+   */
+  linkedServiceName?: LinkedServiceReference;
+  /**
+   * @member {ActivityPolicy} [policy] Activity policy.
+   */
+  policy?: ActivityPolicy;
+  /**
+   * @member {AzureFunctionActivityMethod} method Rest API method for target
+   * endpoint. Possible values include: 'GET', 'POST', 'PUT', 'DELETE',
+   * 'OPTIONS', 'HEAD', 'TRACE'
+   */
+  method: AzureFunctionActivityMethod;
+  /**
+   * @member {any} functionName Name of the Function that the Azure Function
+   * Activity will call. Type: string (or Expression with resultType string)
+   */
+  functionName: any;
+  /**
+   * @member {any} [headers] Represents the headers that will be sent to the
+   * request. For example, to set the language and type on a request: "headers"
+   * : { "Accept-Language": "en-us", "Content-Type": "application/json" }.
+   * Type: string (or Expression with resultType string).
+   */
+  headers?: any;
+  /**
+   * @member {any} [body] Represents the payload that will be sent to the
+   * endpoint. Required for POST/PUT method, not allowed for GET method Type:
+   * string (or Expression with resultType string).
+   */
+  body?: any;
 }
 
 /**
@@ -10939,7 +12948,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion = CopySource | AmazonRedshiftSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureDataLakeStoreSource | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
+export type CopySourceUnion = CopySource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbSource | CassandraSource | WebSource | OracleSource | AzureDataExplorerSource | AzureMySqlSource | HdfsSource | FileSystemSource | SqlDWSource | SqlSource | RestSource | SapOpenHubSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | RelationalSource | DynamicsSource | DocumentDbCollectionSource | BlobSource | AzureTableSource;
 
 /**
  * @interface
@@ -10963,6 +12972,12 @@ export interface CopySource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
@@ -10993,6 +13008,12 @@ export interface AmazonRedshiftSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
    */
@@ -11005,6 +13026,111 @@ export interface AmazonRedshiftSource {
    * interim S3.
    */
   redshiftUnloadSettings?: RedshiftUnloadSettings;
+}
+
+/**
+ * @interface
+ * An interface representing GoogleAdWordsSource.
+ * A copy activity Google AdWords service source.
+ *
+ */
+export interface GoogleAdWordsSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "GoogleAdWordsSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [query] A query to retrieve data from source. Type: string
+   * (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * @interface
+ * An interface representing OracleServiceCloudSource.
+ * A copy activity Oracle Service Cloud source.
+ *
+ */
+export interface OracleServiceCloudSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "OracleServiceCloudSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [query] A query to retrieve data from source. Type: string
+   * (or Expression with resultType string).
+   */
+  query?: any;
+}
+
+/**
+ * @interface
+ * An interface representing DynamicsAXSource.
+ * A copy activity Dynamics AX source.
+ *
+ */
+export interface DynamicsAXSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "DynamicsAXSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [query] A query to retrieve data from source. Type: string
+   * (or Expression with resultType string).
+   */
+  query?: any;
 }
 
 /**
@@ -11029,6 +13155,12 @@ export interface ResponsysSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11059,6 +13191,12 @@ export interface SalesforceMarketingCloudSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11087,6 +13225,12 @@ export interface VerticaSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11117,6 +13261,12 @@ export interface NetezzaSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11146,6 +13296,12 @@ export interface ZohoSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11155,7 +13311,7 @@ export interface ZohoSource {
 /**
  * @interface
  * An interface representing XeroSource.
- * A copy activity Xero Serivce source.
+ * A copy activity Xero Service source.
  *
  */
 export interface XeroSource {
@@ -11175,6 +13331,12 @@ export interface XeroSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11184,7 +13346,7 @@ export interface XeroSource {
 /**
  * @interface
  * An interface representing SquareSource.
- * A copy activity Square Serivce source.
+ * A copy activity Square Service source.
  *
  */
 export interface SquareSource {
@@ -11203,6 +13365,12 @@ export interface SquareSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11233,6 +13401,12 @@ export interface SparkSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11242,7 +13416,7 @@ export interface SparkSource {
 /**
  * @interface
  * An interface representing ShopifySource.
- * A copy activity Shopify Serivce source.
+ * A copy activity Shopify Service source.
  *
  */
 export interface ShopifySource {
@@ -11261,6 +13435,12 @@ export interface ShopifySource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11291,6 +13471,12 @@ export interface ServiceNowSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11319,6 +13505,12 @@ export interface QuickBooksSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11349,6 +13541,12 @@ export interface PrestoSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11378,6 +13576,12 @@ export interface PhoenixSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11387,7 +13591,7 @@ export interface PhoenixSource {
 /**
  * @interface
  * An interface representing PaypalSource.
- * A copy activity Paypal Serivce source.
+ * A copy activity Paypal Service source.
  *
  */
 export interface PaypalSource {
@@ -11406,6 +13610,12 @@ export interface PaypalSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11436,6 +13646,12 @@ export interface MarketoSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11464,6 +13680,12 @@ export interface MariaDBSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11494,6 +13716,12 @@ export interface MagentoSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11503,7 +13731,7 @@ export interface MagentoSource {
 /**
  * @interface
  * An interface representing JiraSource.
- * A copy activity Jira Serivce source.
+ * A copy activity Jira Service source.
  *
  */
 export interface JiraSource {
@@ -11522,6 +13750,12 @@ export interface JiraSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11552,6 +13786,12 @@ export interface ImpalaSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11561,7 +13801,7 @@ export interface ImpalaSource {
 /**
  * @interface
  * An interface representing HubspotSource.
- * A copy activity Hubspot Serivce source.
+ * A copy activity Hubspot Service source.
  *
  */
 export interface HubspotSource {
@@ -11580,6 +13820,12 @@ export interface HubspotSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11610,6 +13856,12 @@ export interface HiveSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11638,6 +13890,12 @@ export interface HBaseSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11668,6 +13926,12 @@ export interface GreenplumSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11696,6 +13960,12 @@ export interface GoogleBigQuerySource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11726,6 +13996,12 @@ export interface EloquaSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11754,6 +14030,12 @@ export interface DrillSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11784,6 +14066,12 @@ export interface CouchbaseSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11793,7 +14081,7 @@ export interface CouchbaseSource {
 /**
  * @interface
  * An interface representing ConcurSource.
- * A copy activity Concur Serivce source.
+ * A copy activity Concur Service source.
  *
  */
 export interface ConcurSource {
@@ -11812,6 +14100,12 @@ export interface ConcurSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11842,6 +14136,12 @@ export interface AzurePostgreSqlSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
    */
@@ -11870,6 +14170,12 @@ export interface AmazonMWSSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] A query to retrieve data from source. Type: string
    * (or Expression with resultType string).
@@ -11900,6 +14206,12 @@ export interface HttpSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [httpRequestTimeout] Specifies the timeout for a HTTP client
    * to get HTTP response from HTTP server. The default value is equivalent to
    * System.Net.HttpWebRequest.Timeout. Type: string (or Expression with
@@ -11907,6 +14219,52 @@ export interface HttpSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   httpRequestTimeout?: any;
+}
+
+/**
+ * @interface
+ * An interface representing AzureBlobFSSource.
+ * A copy activity Azure BlobFS source.
+ *
+ */
+export interface AzureBlobFSSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureBlobFSSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [treatEmptyAsNull] Treat empty as null. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  treatEmptyAsNull?: any;
+  /**
+   * @member {any} [skipHeaderLineCount] Number of header lines to skip from
+   * each blob. Type: integer (or Expression with resultType integer).
+   */
+  skipHeaderLineCount?: any;
+  /**
+   * @member {any} [recursive] If true, files under the folder path will be
+   * read recursively. Default is true. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  recursive?: any;
 }
 
 /**
@@ -11932,11 +14290,185 @@ export interface AzureDataLakeStoreSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [recursive] If true, files under the folder path will be
    * read recursively. Default is true. Type: boolean (or Expression with
    * resultType boolean).
    */
   recursive?: any;
+}
+
+/**
+ * @interface
+ * An interface representing Office365Source.
+ * A copy activity source for an Office365 service.
+ *
+ */
+export interface Office365Source {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "Office365Source";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbCursorMethodsProperties.
+ * Cursor methods for Mongodb query
+ *
+ */
+export interface MongoDbCursorMethodsProperties {
+  /**
+   * @member {any} [project] Specifies the fields to return in the documents
+   * that match the query filter. To return all fields in the matching
+   * documents, omit this parameter. Type: string (or Expression with
+   * resultType string).
+   */
+  project?: any;
+  /**
+   * @member {any} [sort] Specifies the order in which the query returns
+   * matching documents. Type: string (or Expression with resultType string).
+   * Type: string (or Expression with resultType string).
+   */
+  sort?: any;
+  /**
+   * @member {any} [skip] Specifies the how many documents skipped and where
+   * MongoDB begins returning results. This approach may be useful in
+   * implementing paginated results. Type: integer (or Expression with
+   * resultType integer).
+   */
+  skip?: any;
+  /**
+   * @member {any} [limit] Specifies the maximum number of documents the server
+   * returns. limit() is analogous to the LIMIT statement in a SQL database.
+   * Type: integer (or Expression with resultType integer).
+   */
+  limit?: any;
+  /**
+   * @property Describes unknown properties. The value of an unknown property
+   * can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * @interface
+ * An interface representing CosmosDbMongoDbApiSource.
+ * A copy activity source for a CosmosDB (MongoDB API) database.
+ *
+ */
+export interface CosmosDbMongoDbApiSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "CosmosDbMongoDbApiSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [filter] Specifies selection filter using query operators.
+   * To return all documents in a collection, omit this parameter or pass an
+   * empty document ({}). Type: string (or Expression with resultType string).
+   */
+  filter?: any;
+  /**
+   * @member {MongoDbCursorMethodsProperties} [cursorMethods] Cursor methods
+   * for Mongodb query.
+   */
+  cursorMethods?: MongoDbCursorMethodsProperties;
+  /**
+   * @member {any} [batchSize] Specifies the number of documents to return in
+   * each batch of the response from MongoDB instance. In most cases, modifying
+   * the batch size will not affect the user or the application. This
+   * property�s main purpose is to avoid hit the limitation of response size.
+   * Type: integer (or Expression with resultType integer).
+   */
+  batchSize?: any;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDbV2Source.
+ * A copy activity source for a MongoDB database.
+ *
+ */
+export interface MongoDbV2Source {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "MongoDbV2Source";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [filter] Specifies selection filter using query operators.
+   * To return all documents in a collection, omit this parameter or pass an
+   * empty document ({}). Type: string (or Expression with resultType string).
+   */
+  filter?: any;
+  /**
+   * @member {MongoDbCursorMethodsProperties} [cursorMethods] Cursor methods
+   * for Mongodb query
+   */
+  cursorMethods?: MongoDbCursorMethodsProperties;
+  /**
+   * @member {any} [batchSize] Specifies the number of documents to return in
+   * each batch of the response from MongoDB instance. In most cases, modifying
+   * the batch size will not affect the user or the application. This
+   * property�s main purpose is to avoid hit the limitation of response size.
+   * Type: integer (or Expression with resultType integer).
+   */
+  batchSize?: any;
 }
 
 /**
@@ -11961,6 +14493,12 @@ export interface MongoDbSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Should be a SQL-92 query expression.
    * Type: string (or Expression with resultType string).
@@ -11990,6 +14528,12 @@ export interface CassandraSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Should be a SQL-92 query expression
    * or Cassandra Query Language (CQL) command. Type: string (or Expression
@@ -12031,6 +14575,12 @@ export interface WebSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
 }
 
 /**
@@ -12056,6 +14606,12 @@ export interface OracleSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [oracleReaderQuery] Oracle reader query. Type: string (or
    * Expression with resultType string).
    */
@@ -12064,6 +14620,53 @@ export interface OracleSource {
    * @member {any} [queryTimeout] Query timeout. Type: string (or Expression
    * with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  queryTimeout?: any;
+}
+
+/**
+ * @interface
+ * An interface representing AzureDataExplorerSource.
+ * A copy activity Azure Data Explorer (Kusto) source.
+ *
+ */
+export interface AzureDataExplorerSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureDataExplorerSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} query Database query. Should be a Kusto Query Language (KQL)
+   * query. Type: string (or Expression with resultType string).
+   */
+  query: any;
+  /**
+   * @member {any} [noTruncation] The name of the Boolean option that controls
+   * whether truncation is applied to result-sets that go beyond a certain
+   * row-count limit.
+   */
+  noTruncation?: any;
+  /**
+   * @member {any} [queryTimeout] Query timeout. Type: string (or Expression
+   * with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))..
    */
   queryTimeout?: any;
 }
@@ -12090,6 +14693,12 @@ export interface AzureMySqlSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
@@ -12146,6 +14755,12 @@ export interface HdfsSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [recursive] If true, files under the folder path will be
    * read recursively. Default is true. Type: boolean (or Expression with
    * resultType boolean).
@@ -12181,6 +14796,12 @@ export interface FileSystemSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [recursive] If true, files under the folder path will be
    * read recursively. Default is true. Type: boolean (or Expression with
    * resultType boolean).
@@ -12210,6 +14831,12 @@ export interface SqlDWSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [sqlReaderQuery] SQL Data Warehouse reader query. Type:
    * string (or Expression with resultType string).
@@ -12273,6 +14900,12 @@ export interface SqlSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [sqlReaderQuery] SQL reader query. Type: string (or
    * Expression with resultType string).
    */
@@ -12289,6 +14922,80 @@ export interface SqlSource {
    * parameters. Example: "{Parameter1: {value: "1", type: "int"}}".
    */
   storedProcedureParameters?: { [propertyName: string]: StoredProcedureParameter };
+}
+
+/**
+ * @interface
+ * An interface representing RestSource.
+ * A copy activity Rest service source.
+ *
+ */
+export interface RestSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "RestSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [httpRequestTimeout] The timeout (TimeSpan) to get an HTTP
+   * response. It is the timeout to get a response, not the timeout to read
+   * response data. Default value: 00:01:40. Type: string (or Expression with
+   * resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  httpRequestTimeout?: any;
+  /**
+   * @member {any} [requestInterval] The time to await before sending next page
+   * request.
+   */
+  requestInterval?: any;
+}
+
+/**
+ * @interface
+ * An interface representing SapOpenHubSource.
+ * A copy activity source for SAP Business Warehouse Open Hub Destination
+ * source.
+ *
+ */
+export interface SapOpenHubSource {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SapOpenHubSource";
+  /**
+   * @member {any} [sourceRetryCount] Source retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sourceRetryCount?: any;
+  /**
+   * @member {any} [sourceRetryWait] Source retry wait. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
 }
 
 /**
@@ -12313,6 +15020,12 @@ export interface SapEccSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {string} [query] SAP ECC OData query. For example, "$top=1". Type:
    * string (or Expression with resultType string).
@@ -12343,6 +15056,12 @@ export interface SapCloudForCustomerSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] SAP Cloud for Customer OData query. For example,
    * "$top=1". Type: string (or Expression with resultType string).
    */
@@ -12371,6 +15090,12 @@ export interface SalesforceSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
@@ -12407,6 +15132,12 @@ export interface RelationalSource {
    */
   sourceRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [query] Database query. Type: string (or Expression with
    * resultType string).
    */
@@ -12435,6 +15166,12 @@ export interface DynamicsSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] FetchXML is a proprietary query language that is
    * used in Microsoft Dynamics (online & on-premises). Type: string (or
@@ -12465,6 +15202,12 @@ export interface DocumentDbCollectionSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [query] Documents query. Type: string (or Expression with
    * resultType string).
@@ -12499,6 +15242,12 @@ export interface BlobSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [treatEmptyAsNull] Treat empty as null. Type: boolean (or
    * Expression with resultType boolean).
@@ -12539,6 +15288,12 @@ export interface AzureTableSource {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sourceRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the source data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [azureTableSourceQuery] Azure Table source query. Type:
    * string (or Expression with resultType string).
@@ -12607,6 +15362,30 @@ export interface LookupActivity {
 
 /**
  * @interface
+ * An interface representing LogStorageSettings.
+ * Log storage settings.
+ *
+ */
+export interface LogStorageSettings {
+  /**
+   * @member {LinkedServiceReference} linkedServiceName Log storage linked
+   * service reference.
+   */
+  linkedServiceName: LinkedServiceReference;
+  /**
+   * @member {any} [path] The path to storage for storing detailed logs of
+   * activity execution. Type: string (or Expression with resultType string).
+   */
+  path?: any;
+  /**
+   * @property Describes unknown properties. The value of an unknown property
+   * can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * @interface
  * An interface representing DeleteActivity.
  * Delete activity.
  *
@@ -12642,11 +15421,27 @@ export interface DeleteActivity {
    */
   policy?: ActivityPolicy;
   /**
-   * @member {any} [recursive] If true, files under the folder path will be
-   * deleted recursively. Default is true. Type: boolean (or Expression with
-   * resultType boolean).
+   * @member {any} [recursive] If true, files or sub-folders under current
+   * folder path will be deleted recursively. Default is false. Type: boolean
+   * (or Expression with resultType boolean).
    */
   recursive?: any;
+  /**
+   * @member {number} [maxConcurrentConnections] The max concurrent connections
+   * to connect data source at the same time.
+   */
+  maxConcurrentConnections?: number;
+  /**
+   * @member {any} [enableLogging] Whether to record detailed logs of
+   * delete-activity execution. Default value is false. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  enableLogging?: any;
+  /**
+   * @member {LogStorageSettings} [logStorageSettings] Log storage settings
+   * customer need to provide when enableLogging is true.
+   */
+  logStorageSettings?: LogStorageSettings;
   /**
    * @member {DatasetReference} dataset Delete activity dataset reference.
    */
@@ -12783,6 +15578,12 @@ export interface CustomActivity {
    * responsibility to consume and interpret the content defined.
    */
   extendedProperties?: { [propertyName: string]: any };
+  /**
+   * @member {any} [retentionTimeInDays] The retention time for the files
+   * submitted for custom activity. Type: double (or Expression with resultType
+   * double).
+   */
+  retentionTimeInDays?: any;
 }
 
 /**
@@ -12820,15 +15621,37 @@ export interface SSISExecutionParameter {
 
 /**
  * @interface
+ * An interface representing SSISExecutionCredential.
+ * SSIS package execution credential.
+ *
+ */
+export interface SSISExecutionCredential {
+  /**
+   * @member {any} domain Domain for windows authentication.
+   */
+  domain: any;
+  /**
+   * @member {any} userName UseName for windows authentication.
+   */
+  userName: any;
+  /**
+   * @member {SecureString} password Password for windows authentication.
+   */
+  password: SecureString;
+}
+
+/**
+ * @interface
  * An interface representing SSISPackageLocation.
  * SSIS package location.
  *
  */
 export interface SSISPackageLocation {
   /**
-   * @member {string} packagePath The SSIS package path.
+   * @member {any} packagePath The SSIS package path. Type: string (or
+   * Expression with resultType string).
    */
-  packagePath: string;
+  packagePath: any;
 }
 
 /**
@@ -12872,20 +15695,26 @@ export interface ExecuteSSISPackageActivity {
    */
   packageLocation: SSISPackageLocation;
   /**
-   * @member {SSISExecutionRuntime} [runtime] Specifies the runtime to execute
-   * SSIS package. Possible values include: 'x64', 'x86'
+   * @member {any} [runtime] Specifies the runtime to execute SSIS package. The
+   * value should be "x86" or "x64". Type: string (or Expression with
+   * resultType string).
    */
-  runtime?: SSISExecutionRuntime;
+  runtime?: any;
   /**
-   * @member {string} [loggingLevel] The logging level of SSIS package
-   * execution.
+   * @member {any} [loggingLevel] The logging level of SSIS package execution.
+   * Type: string (or Expression with resultType string).
    */
-  loggingLevel?: string;
+  loggingLevel?: any;
   /**
-   * @member {string} [environmentPath] The environment path to execute the
-   * SSIS package.
+   * @member {any} [environmentPath] The environment path to execute the SSIS
+   * package. Type: string (or Expression with resultType string).
    */
-  environmentPath?: string;
+  environmentPath?: any;
+  /**
+   * @member {SSISExecutionCredential} [executionCredential] The package
+   * execution credential.
+   */
+  executionCredential?: SSISExecutionCredential;
   /**
    * @member {IntegrationRuntimeReference} connectVia The integration runtime
    * reference.
@@ -13309,6 +16138,17 @@ export interface HDInsightHiveActivity {
    * defines for Hive job request.
    */
   defines?: { [propertyName: string]: any };
+  /**
+   * @member {any[]} [variables] User specified arguments under hivevar
+   * namespace.
+   */
+  variables?: any[];
+  /**
+   * @member {number} [queryTimeout] Query timeout value (in minutes).
+   * Effective when the HDInsight cluster is with ESP (Enterprise Security
+   * Package)
+   */
+  queryTimeout?: number;
 }
 
 /**
@@ -13414,12 +16254,18 @@ export interface TabularTranslator {
    * Expression with resultType object).
    */
   schemaMapping?: any;
+  /**
+   * @member {any} [collectionReference] The JSON Path of the Nested Array that
+   * is going to do cross-apply. Type: object (or Expression with resultType
+   * object).
+   */
+  collectionReference?: any;
 }
 
 /**
  * Contains the possible cases for CopySink.
  */
-export type CopySinkUnion = CopySink | SalesforceSink | DynamicsSink | OdbcSink | AzureSearchIndexSink | AzureDataLakeStoreSink | OracleSink | SqlDWSink | SqlSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink;
+export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceSink | AzureDataExplorerSink | DynamicsSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SqlDWSink | SqlSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink;
 
 /**
  * @interface
@@ -13455,10 +16301,64 @@ export interface CopySink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @property Describes unknown properties. The value of an unknown property
    * can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * @interface
+ * An interface representing CosmosDbMongoDbApiSink.
+ * A copy activity sink for a CosmosDB (MongoDB API) database.
+ *
+ */
+export interface CosmosDbMongoDbApiSink {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "CosmosDbMongoDbApiSink";
+  /**
+   * @member {any} [writeBatchSize] Write batch size. Type: integer (or
+   * Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * @member {any} [writeBatchTimeout] Write batch timeout. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * @member {any} [sinkRetryCount] Sink retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * @member {any} [sinkRetryWait] Sink retry wait. Type: string (or Expression
+   * with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [writeBehavior] Specifies whether the document with same key
+   * to be overwritten (upsert) rather than throw exception (insert). The
+   * default value is "insert". Type: string (or Expression with resultType
+   * string). Type: string (or Expression with resultType string).
+   */
+  writeBehavior?: any;
 }
 
 /**
@@ -13495,6 +16395,12 @@ export interface SalesforceSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {SalesforceSinkWriteBehavior} [writeBehavior] The write behavior
    * for the operation. Default is Insert. Possible values include: 'Insert',
    * 'Upsert'
@@ -13517,6 +16423,62 @@ export interface SalesforceSink {
    * insert operation. Type: boolean (or Expression with resultType boolean).
    */
   ignoreNullValues?: any;
+}
+
+/**
+ * @interface
+ * An interface representing AzureDataExplorerSink.
+ * A copy activity Azure Data Explorer sink.
+ *
+ */
+export interface AzureDataExplorerSink {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureDataExplorerSink";
+  /**
+   * @member {any} [writeBatchSize] Write batch size. Type: integer (or
+   * Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * @member {any} [writeBatchTimeout] Write batch timeout. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * @member {any} [sinkRetryCount] Sink retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * @member {any} [sinkRetryWait] Sink retry wait. Type: string (or Expression
+   * with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {any} [ingestionMappingName] A name of a pre-created csv mapping
+   * that was defined on the target Kusto table. Type: string.
+   */
+  ingestionMappingName?: any;
+  /**
+   * @member {any} [ingestionMappingAsJson] An explicit column mapping
+   * description provided in a json format. Type: string.
+   */
+  ingestionMappingAsJson?: any;
+  /**
+   * @member {any} [flushImmediately] If set to true, any aggregation will be
+   * skipped. Default is false. Type: boolean.
+   */
+  flushImmediately?: any;
 }
 
 /**
@@ -13552,6 +16514,12 @@ export interface DynamicsSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [ignoreNullValues] The flag indicating whether ignore null
    * values from input dataset (except key fields) during write operation.
@@ -13594,6 +16562,12 @@ export interface OdbcSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [preCopyScript] A query to execute before starting the copy.
    * Type: string (or Expression with resultType string).
    */
@@ -13634,11 +16608,64 @@ export interface AzureSearchIndexSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {AzureSearchIndexWriteBehaviorType} [writeBehavior] Specify the
    * write behavior when upserting documents into Azure Search Index. Possible
    * values include: 'Merge', 'Upload'
    */
   writeBehavior?: AzureSearchIndexWriteBehaviorType;
+}
+
+/**
+ * @interface
+ * An interface representing AzureBlobFSSink.
+ * A copy activity Azure Data Lake Storage Gen2 sink.
+ *
+ */
+export interface AzureBlobFSSink {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "AzureBlobFSSink";
+  /**
+   * @member {any} [writeBatchSize] Write batch size. Type: integer (or
+   * Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * @member {any} [writeBatchTimeout] Write batch timeout. Type: string (or
+   * Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * @member {any} [sinkRetryCount] Sink retry count. Type: integer (or
+   * Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * @member {any} [sinkRetryWait] Sink retry wait. Type: string (or Expression
+   * with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * @member {CopyBehaviorType} [copyBehavior] The type of copy behavior for
+   * copy sink. Possible values include: 'PreserveHierarchy',
+   * 'FlattenHierarchy', 'MergeFiles'
+   */
+  copyBehavior?: CopyBehaviorType;
 }
 
 /**
@@ -13674,6 +16701,12 @@ export interface AzureDataLakeStoreSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {CopyBehaviorType} [copyBehavior] The type of copy behavior for
    * copy sink. Possible values include: 'PreserveHierarchy',
@@ -13715,6 +16748,12 @@ export interface OracleSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [preCopyScript] SQL pre-copy script. Type: string (or
    * Expression with resultType string).
@@ -13793,6 +16832,12 @@ export interface SqlDWSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [preCopyScript] SQL pre-copy script. Type: string (or
    * Expression with resultType string).
    */
@@ -13843,6 +16888,12 @@ export interface SqlSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [sqlWriterStoredProcedureName] SQL writer stored procedure
    * name. Type: string (or Expression with resultType string).
@@ -13899,6 +16950,12 @@ export interface DocumentDbCollectionSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [nestingSeparator] Nested properties separator. Default is .
    * (dot). Type: string (or Expression with resultType string).
    */
@@ -13938,6 +16995,12 @@ export interface FileSystemSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {CopyBehaviorType} [copyBehavior] The type of copy behavior for
    * copy sink. Possible values include: 'PreserveHierarchy',
@@ -13979,6 +17042,12 @@ export interface BlobSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {any} [blobWriterOverwriteFiles] Blob writer overwrite files.
    * Type: boolean (or Expression with resultType boolean).
@@ -14036,6 +17105,12 @@ export interface AzureTableSink {
    */
   sinkRetryWait?: any;
   /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
    * @member {any} [azureTableDefaultPartitionKeyValue] Azure Table default
    * partition key value. Type: string (or Expression with resultType string).
    */
@@ -14090,6 +17165,12 @@ export interface AzureQueueSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
 }
 
 /**
@@ -14125,6 +17206,12 @@ export interface SapCloudForCustomerSink {
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   sinkRetryWait?: any;
+  /**
+   * @member {any} [maxConcurrentConnections] The maximum concurrent connection
+   * count for the sink data store. Type: integer (or Expression with
+   * resultType integer).
+   */
+  maxConcurrentConnections?: any;
   /**
    * @member {SapCloudForCustomerSinkWriteBehavior} [writeBehavior] The write
    * behavior for the operation. Default is 'Insert'. Possible values include:
@@ -14179,7 +17266,7 @@ export interface CopyActivity {
   sink: CopySinkUnion;
   /**
    * @member {CopyTranslatorUnion} [translator] Copy activity translator. If
-   * not specificed, tabular translator is used.
+   * not specified, tabular translator is used.
    */
   translator?: CopyTranslatorUnion;
   /**
@@ -14217,6 +17304,10 @@ export interface CopyActivity {
    * EnableSkipIncompatibleRow is true.
    */
   redirectIncompatibleRowSettings?: RedirectIncompatibleRowSettings;
+  /**
+   * @member {any[]} [preserveRules] Preserve Rules.
+   */
+  preserveRules?: any[];
   /**
    * @member {DatasetReference[]} [inputs] List of inputs for the activity.
    */
@@ -15384,6 +18475,49 @@ export interface IntegrationRuntimeNodeIpAddress {
 
 /**
  * @interface
+ * An interface representing SsisObjectMetadata.
+ * SSIS object metadata.
+ *
+ */
+export interface SsisObjectMetadata {
+  /**
+   * @member {string} type Polymorphic Discriminator
+   */
+  type: "SsisObjectMetadata";
+  /**
+   * @member {number} [id] Metadata id.
+   */
+  id?: number;
+  /**
+   * @member {string} [name] Metadata name.
+   */
+  name?: string;
+  /**
+   * @member {string} [description] Metadata description.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SsisObjectMetadataListResponse.
+ * A list of SSIS object metadata.
+ *
+ */
+export interface SsisObjectMetadataListResponse {
+  /**
+   * @member {SsisObjectMetadata[]} [value] List of SSIS object metadata.
+   */
+  value?: SsisObjectMetadata[];
+  /**
+   * @member {string} [nextLink] The link to the next page of results, if any
+   * remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing IntegrationRuntimeNodeMonitoringData.
  * Monitoring data for integration runtime node.
  *
@@ -15625,6 +18759,21 @@ export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOpti
 
 /**
  * @interface
+ * An interface representing IntegrationRuntimeObjectMetadataGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {GetSsisObjectMetadataRequest} [getMetadataRequest] The parameters
+   * for getting a SSIS object metadata.
+   */
+  getMetadataRequest?: GetSsisObjectMetadataRequest;
+}
+
+/**
+ * @interface
  * An interface representing LinkedServicesCreateOrUpdateOptionalParams.
  * Optional Parameters.
  *
@@ -15729,10 +18878,21 @@ export interface PipelinesGetOptionalParams extends msRest.RequestOptionsBase {
 export interface PipelinesCreateRunOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [referencePipelineRunId] The pipeline run identifier. If
-   * run ID is specified the parameters of the the specified run will be used
-   * to create a new run.
+   * run ID is specified the parameters of the specified run will be used to
+   * create a new run.
    */
   referencePipelineRunId?: string;
+  /**
+   * @member {boolean} [isRecovery] Recovery mode flag. If recovery mode is set
+   * to true, the specified referenced pipeline run and the new run will be
+   * grouped under the same groupId.
+   */
+  isRecovery?: boolean;
+  /**
+   * @member {string} [startActivityName] In recovery mode, the rerun will
+   * start from this activity. If not specified, all activities will run.
+   */
+  startActivityName?: string;
   /**
    * @member {{ [propertyName: string]: any }} [parameters] Parameters of the
    * pipeline run. These parameters will be used only if the runId is not
@@ -15975,11 +19135,12 @@ export type TriggerRuntimeState = 'Started' | 'Stopped' | 'Disabled';
 /**
  * Defines values for RunQueryFilterOperand.
  * Possible values include: 'PipelineName', 'Status', 'RunStart', 'RunEnd', 'ActivityName',
- * 'ActivityRunStart', 'ActivityRunEnd', 'ActivityType', 'TriggerName', 'TriggerRunTimestamp'
+ * 'ActivityRunStart', 'ActivityRunEnd', 'ActivityType', 'TriggerName', 'TriggerRunTimestamp',
+ * 'RunGroupId', 'LatestOnly'
  * @readonly
  * @enum {string}
  */
-export type RunQueryFilterOperand = 'PipelineName' | 'Status' | 'RunStart' | 'RunEnd' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'ActivityType' | 'TriggerName' | 'TriggerRunTimestamp';
+export type RunQueryFilterOperand = 'PipelineName' | 'Status' | 'RunStart' | 'RunEnd' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'ActivityType' | 'TriggerName' | 'TriggerRunTimestamp' | 'RunGroupId' | 'LatestOnly';
 
 /**
  * Defines values for RunQueryFilterOperator.
@@ -16055,6 +19216,14 @@ export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursd
  * @enum {string}
  */
 export type RecurrenceFrequency = 'NotSpecified' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
+
+/**
+ * Defines values for GoogleAdWordsAuthenticationType.
+ * Possible values include: 'ServiceAuthentication', 'UserAuthentication'
+ * @readonly
+ * @enum {string}
+ */
+export type GoogleAdWordsAuthenticationType = 'ServiceAuthentication' | 'UserAuthentication';
 
 /**
  * Defines values for SparkServerType.
@@ -16187,6 +19356,14 @@ export type FtpAuthenticationType = 'Basic' | 'Anonymous';
 export type HttpAuthenticationType = 'Basic' | 'Anonymous' | 'Digest' | 'Windows' | 'ClientCertificate';
 
 /**
+ * Defines values for RestServiceAuthenticationType.
+ * Possible values include: 'Anonymous', 'Basic', 'AadServicePrincipal', 'ManagedServiceIdentity'
+ * @readonly
+ * @enum {string}
+ */
+export type RestServiceAuthenticationType = 'Anonymous' | 'Basic' | 'AadServicePrincipal' | 'ManagedServiceIdentity';
+
+/**
  * Defines values for MongoDbAuthenticationType.
  * Possible values include: 'Basic', 'Anonymous'
  * @readonly
@@ -16196,11 +19373,20 @@ export type MongoDbAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for ODataAuthenticationType.
- * Possible values include: 'Basic', 'Anonymous'
+ * Possible values include: 'Basic', 'Anonymous', 'Windows', 'AadServicePrincipal',
+ * 'ManagedServiceIdentity'
  * @readonly
  * @enum {string}
  */
-export type ODataAuthenticationType = 'Basic' | 'Anonymous';
+export type ODataAuthenticationType = 'Basic' | 'Anonymous' | 'Windows' | 'AadServicePrincipal' | 'ManagedServiceIdentity';
+
+/**
+ * Defines values for ODataAadServicePrincipalCredentialType.
+ * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
+ * @readonly
+ * @enum {string}
+ */
+export type ODataAadServicePrincipalCredentialType = 'ServicePrincipalKey' | 'ServicePrincipalCert';
 
 /**
  * Defines values for TeradataAuthenticationType.
@@ -16243,6 +19429,14 @@ export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
 export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
 
 /**
+ * Defines values for AzureFunctionActivityMethod.
+ * Possible values include: 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureFunctionActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE';
+
+/**
  * Defines values for WebActivityMethod.
  * Possible values include: 'GET', 'POST', 'PUT', 'DELETE'
  * @readonly
@@ -16274,14 +19468,6 @@ export type StoredProcedureParameterType = 'String' | 'Int' | 'Decimal' | 'Guid'
  * @enum {string}
  */
 export type SalesforceSourceReadBehavior = 'Query' | 'QueryAll';
-
-/**
- * Defines values for SSISExecutionRuntime.
- * Possible values include: 'x64', 'x86'
- * @readonly
- * @enum {string}
- */
-export type SSISExecutionRuntime = 'x64' | 'x86';
 
 /**
  * Defines values for HDInsightActivityDebugInfoOption.
@@ -16395,6 +19581,14 @@ export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
  * @enum {string}
  */
 export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
+
+/**
+ * Defines values for SsisObjectMetadataType.
+ * Possible values include: 'Folder', 'Project', 'Package', 'Environment'
+ * @readonly
+ * @enum {string}
+ */
+export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environment';
 
 /**
  * Defines values for IntegrationRuntimeAuthKeyName.
@@ -16557,6 +19751,25 @@ export type FactoriesGetResponse = Factory & {
 };
 
 /**
+ * Contains response data for the upgrade operation.
+ */
+export type FactoriesUpgradeResponse = Factory & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Factory;
+    };
+};
+
+/**
  * Contains response data for the getGitHubAccessToken operation.
  */
 export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse & {
@@ -16572,6 +19785,25 @@ export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse & 
        * The response body as parsed JSON or XML
        */
       parsedBody: GitHubAccessTokenResponse;
+    };
+};
+
+/**
+ * Contains response data for the getDataPlaneAccess operation.
+ */
+export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccessPolicyResponse;
     };
 };
 
@@ -16610,6 +19842,25 @@ export type FactoriesListByResourceGroupNextResponse = FactoryListResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FactoryListResponse;
+    };
+};
+
+/**
+ * Contains response data for the getFeatureValue operation.
+ */
+export type ExposureControlGetFeatureValueResponse = ExposureControlResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlResponse;
     };
 };
 
@@ -16857,6 +20108,63 @@ export type IntegrationRuntimesListByFactoryNextResponse = IntegrationRuntimeLis
        * The response body as parsed JSON or XML
        */
       parsedBody: IntegrationRuntimeListResponse;
+    };
+};
+
+/**
+ * Contains response data for the refresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataListResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginRefresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
     };
 };
 
