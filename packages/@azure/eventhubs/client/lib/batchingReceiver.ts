@@ -83,8 +83,8 @@ export class BatchingReceiver extends EventHubReceiver {
       // Action to be performed after the max wait time is over.
       actionAfterWaitTimeout = () => {
         timeOver = true;
-        log.batching("[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
-          this._context.connectionId, this.name, maxWaitTimeInSeconds);
+        log.batching("[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
+          this._context.connectionId, this.name, eventDatas.length, maxWaitTimeInSeconds);
         return finalAction(timeOver);
       };
 
@@ -96,6 +96,8 @@ export class BatchingReceiver extends EventHubReceiver {
           eventDatas.push(data);
         }
         if (eventDatas.length === maxMessageCount) {
+          log.batching("[%s] Batching Receiver '%s', %d messages received within %d seconds.",
+            this._context.connectionId, this.name, eventDatas.length, maxWaitTimeInSeconds);
           finalAction(timeOver, data);
         }
       };
