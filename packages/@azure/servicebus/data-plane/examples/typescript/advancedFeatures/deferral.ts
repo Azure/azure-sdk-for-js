@@ -60,7 +60,7 @@ async function sendMessages(): Promise<void> {
 async function receiveMessage(): Promise<void> {
   const nsRcv = Namespace.createFromConnectionString(connectionString);
 
-  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const receiveClient = nsRcv.createQueueClient(queueName);
 
   const deferredSteps = new Map();
