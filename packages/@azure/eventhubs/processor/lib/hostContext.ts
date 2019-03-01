@@ -243,8 +243,7 @@ export namespace HostContext {
     ctxt.getHubRuntimeInformation = async () => {
       const client = ctxt.getEventHubClient();
       try {
-        const result = await client.getHubRuntimeInformation();
-        return result;
+        return await client.getHubRuntimeInformation();
       } finally {
         client.close().catch(/* do nothing */);
       }
@@ -252,8 +251,7 @@ export namespace HostContext {
     ctxt.getPartitionInformation = async (id: string | number) => {
       const client = ctxt.getEventHubClient();
       try {
-        const result = await client.getPartitionInformation(id);
-        return result;
+        return await client.getPartitionInformation(id);
       } finally {
         client.close().catch(/* do nothing */);
       }
