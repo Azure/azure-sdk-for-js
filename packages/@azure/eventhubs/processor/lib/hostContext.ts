@@ -242,21 +242,30 @@ export namespace HostContext {
     };
     ctxt.getHubRuntimeInformation = async () => {
       const client = ctxt.getEventHubClient();
-      const result = await client.getHubRuntimeInformation();
-      client.close().catch(/* do nothing */);
-      return result;
+      try {
+        const result = await client.getHubRuntimeInformation();
+        return result;
+      } finally {
+        client.close().catch(/* do nothing */);
+      }
     };
     ctxt.getPartitionInformation = async (id: string | number) => {
       const client = ctxt.getEventHubClient();
-      const result = await client.getPartitionInformation(id);
-      client.close().catch(/* do nothing */);
-      return result;
+      try {
+        const result = await client.getPartitionInformation(id);
+        return result;
+      } finally {
+        client.close().catch(/* do nothing */);
+      }
     };
     ctxt.getPartitionIds = async () => {
       if (!ctxt.partitionIds.length) {
         const client = ctxt.getEventHubClient();
-        ctxt.partitionIds = await client.getPartitionIds();
-        client.close().catch(/* do nothing */);
+        try {
+          ctxt.partitionIds = await client.getPartitionIds();
+        } finally {
+          client.close().catch(/* do nothing */);
+        }
       }
       return ctxt.partitionIds;
     };
