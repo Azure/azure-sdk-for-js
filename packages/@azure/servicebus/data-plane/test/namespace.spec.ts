@@ -425,6 +425,10 @@ describe("Errors after close()", function(): void {
   let sender: Sender;
   let receiver: Receiver | SessionReceiver;
 
+  afterEach(() => {
+    return namespace.close();
+  });
+
   async function beforeEachTest(
     senderType: ClientType,
     receiverType: ClientType,
