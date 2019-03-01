@@ -1049,7 +1049,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   readonly provisioningState?: string;
   /**
    * @member {string[]} [availabilityZones] (PREVIEW) Availability zones for
-   * nodes
+   * nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
 }
@@ -1192,7 +1192,7 @@ export interface AgentPool extends SubResource {
   readonly provisioningState?: string;
   /**
    * @member {string[]} [availabilityZones] (PREVIEW) Availability zones for
-   * nodes
+   * nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
   availabilityZones?: string[];
 }
