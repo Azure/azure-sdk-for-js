@@ -9,7 +9,7 @@ import {
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
-import { Constants, Dictionary, AmqpMessage } from "@azure/amqp-common";
+import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 
@@ -52,6 +52,7 @@ export enum DispositionStatus {
 }
 
 /**
+ * @ignore
  * Describes the delivery annotations for ServiceBus.
  * @interface
  */
@@ -79,6 +80,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 }
 
 /**
+ * @ignore
  * Describes the message annotations for ServiceBus.
  * @interface ServiceBusMessageAnnotations
  */
@@ -224,16 +226,19 @@ export interface SendableMessageInfo {
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
-   * @property {Dictionary<any>} [userProperties] The application specific properties which can be
+   * @property {{ [key: string]: any }} [userProperties] The application specific properties which can be
    * used for custom message metadata.
    */
-  userProperties?: Dictionary<any>;
+  userProperties?: { [key: string]: any };
 }
 
 /**
  * Describes the message to be sent to ServiceBus.
  */
 export module SendableMessageInfo {
+  /**
+   * @ignore
+   */
   export function validate(msg: SendableMessageInfo): void {
     if (!msg) {
       throw new Error("'msg' cannot be null or undefined.");
@@ -338,6 +343,10 @@ export module SendableMessageInfo {
     }
   }
 
+  /**
+   * @ignore
+   * Converts given SendableMessageInfo to AmqpMessage
+   */
   export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
     validate(msg);
     const amqpMsg: AmqpMessage = {
@@ -393,6 +402,10 @@ export module SendableMessageInfo {
     return amqpMsg;
   }
 
+  /**
+   * @ignore
+   * Converts given AmqpMessage to SendableMessageInfo
+   */
   export function fromAmqpMessage(msg: AmqpMessage): SendableMessageInfo {
     if (!msg) {
       throw new Error("'msg' cannot be null or undefined.");
@@ -533,6 +546,9 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
  * to/from AmqpMessage.
  */
 export module ReceivedMessageInfo {
+  /**
+   * @ignore
+   */
   export function validate(msg: ReceivedMessageInfo): void {
     SendableMessageInfo.validate(msg);
     if (msg.lockToken != undefined && typeof msg.lockToken !== "string") {
@@ -576,6 +592,10 @@ export module ReceivedMessageInfo {
     }
   }
 
+  /**
+   * @ignore
+   * Converts given ReceivedMessageInfo to AmqpMessage
+   */
   export function toAmqpMessage(msg: ReceivedMessageInfo): AmqpMessage {
     ReceivedMessageInfo.validate(msg);
     const amqpMsg: AmqpMessage = SendableMessageInfo.toAmqpMessage(msg);
@@ -604,6 +624,10 @@ export module ReceivedMessageInfo {
     return amqpMsg;
   }
 
+  /**
+   * @ignore
+   * Converts given AmqpMessage to ReceivedMessageInfo
+   */
   export function fromAmqpMessage(msg: AmqpMessage, delivery?: Delivery): ReceivedMessageInfo {
     const sbmsg: SendableMessageInfo = SendableMessageInfo.fromAmqpMessage(msg);
     const props: any = {};
@@ -665,9 +689,9 @@ export module ReceivedMessageInfo {
 interface ReceivedMessage extends ReceivedMessageInfo {
   complete(): Promise<void>;
 
-  abandon(propertiesToModify?: Dictionary<any>): Promise<void>;
+  abandon(propertiesToModify?: { [key: string]: any }): Promise<void>;
 
-  defer(propertiesToModify?: Dictionary<any>): Promise<void>;
+  defer(propertiesToModify?: { [key: string]: any }): Promise<void>;
 
   deadLetter(options?: DeadLetterOptions): Promise<void>;
 }
@@ -682,9 +706,9 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   body: any;
   /**
-   * @property {Dictionary<any>} [userProperties] The application specific properties.
+   * @property {{ [key: string]: any }} [userProperties] The application specific properties.
    */
-  userProperties?: Dictionary<any>;
+  userProperties?: { [key: string]: any };
   /**
    * @property {string | number | Buffer} [messageId] The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -859,6 +883,9 @@ export class ServiceBusMessage implements ReceivedMessage {
    */
   private readonly _context: ClientEntityContext;
 
+  /**
+   * @ignore
+   */
   constructor(context: ClientEntityContext, msg: AmqpMessage, delivery: Delivery) {
     Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery));
     this._context = context;
@@ -905,11 +932,11 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * Abandons a message using it's lock token. This will make the message available again in
    * Service Bus for processing.
-   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
+   * @param {{ [key: string]: any }} propertiesToModify The properties of the message to modify while
    * abandoning the message. Abandoning a message will increase the delivery count on the message.
    * @return Promise<void>.
    */
-  async abandon(propertiesToModify?: Dictionary<any>): Promise<void> {
+  async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
     log.message(
       "[%s] Abandoning the message with id '%s'.",
@@ -949,7 +976,7 @@ export class ServiceBusMessage implements ReceivedMessage {
    * deferring the message
    * @returns Promise<void>
    */
-  async defer(propertiesToModify?: Dictionary<any>): Promise<void> {
+  async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
     log.message(
       "[%s] Deferring the message with id '%s'.",
       this._context.namespace.connectionId,

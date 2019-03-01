@@ -8,20 +8,25 @@ import { AmqpError, generate_uuid } from "rhea-promise";
 import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
- * Describes the base class for a client.
+ * Describes the abstract base class for QueueClient, TopicClient and SubscriptionClient
  * @abstract
  * @class Client
  */
 export abstract class Client {
   /**
-   * @property {string} name The name of the entity (queue, topic, subscription, etc.)
+   * @property {string} The entitypath for the Service Bus entity for which this client is created.
+   * @readonly
    */
-  name: string;
+  get entityPath(): string {
+    return this._entityPath;
+  }
   /**
-   * @property {string} id A unique identifier for the client. It is usually a combination of
-   * the name and a Guid.
+   * @property {string} A unique identifier for the client.
+   * @readonly
    */
-  id: string;
+  get id(): string {
+    return this._id;
+  }
   /**
    * @property {boolean} _isClosed Denotes if close() was called on this client.
    */
@@ -30,21 +35,33 @@ export abstract class Client {
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
   protected _context: ClientEntityContext;
+  /**
+   * @property {string} name The entitypath for the Service Bus entity for which this client is created.
+   * For queues and topics, the entitypath is the same as their name. For subscription, its a
+   * combination of the topic name and the subscription name
+   */
+  private _entityPath: string;
+  /**
+   * @property {string} id A unique identifier for the client. It is usually a combination of
+   * the entityPath and a Guid.
+   */
+  private _id: string;
 
   /**
    * Instantiates a client pointing to the ServiceBus entity given by this configuration.
    *
    * @constructor
+   * @internal
    * @param {string} name The entity name.
    * @param {ConnectionContext} context The connection context to create the QueueClient.
    * @param {TokenProvider} [tokenProvider] The token provider that provides the token for authentication.
    * Default value: SasTokenProvider.
    */
-  constructor(name: string, context: ConnectionContext) {
+  constructor(entityPath: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
-    this.name = name;
-    this.id = `${name}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(name, context);
+    this._entityPath = entityPath;
+    this._id = `${entityPath}/${generate_uuid()}`;
+    this._context = ClientEntityContext.create(entityPath, context);
   }
 
   /**
@@ -68,17 +85,5 @@ export abstract class Client {
         err
       );
     }
-  }
-
-  /**
-   * Provides the current type of the Client.
-   * @return {string} The entity type.
-   */
-  protected get _type(): string {
-    let result = "Client";
-    if ((this as any).constructor && (this as any).constructor.name) {
-      result = (this as any).constructor.name;
-    }
-    return result;
   }
 }

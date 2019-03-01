@@ -13,11 +13,7 @@ import { ConnectionContext } from "../connectionContext";
 export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
- * Defines a concrete type that can be anything but `null` or `undefined`
- */
-export type Concrete = string | number | boolean | symbol | object;
-
-/**
+ * @ignore
  * Provides a uniue name by appending a string guid to the given string in the following format:
  * `{name}-{uuid}`.
  * @param name The nme of the entity
@@ -37,7 +33,7 @@ export function getUniqueName(name: string): string {
  * @param lockToken The lock token whose bytes need to be reorded.
  * @returns Buffer - Buffer representing reordered bytes.
  */
-export function reorderLockToken(lockToken: string): Buffer {
+function reorderLockToken(lockToken: string): Buffer {
   if (!lockToken || typeof lockToken !== "string") {
     throw new Error("'lockToken' is a required parameter and must be of type 'string'.");
   }
@@ -71,6 +67,7 @@ export function reorderLockToken(lockToken: string): Buffer {
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
  *
+ * @ignore
  * @param lockTokens An array of lock tokens whose bytes need to be reorderd.
  * @returns Buffer[] An array of Buffer representing reordered bytes.
  */
@@ -87,6 +84,7 @@ export function reorderLockTokens(lockTokens: string[]): Buffer[] {
 }
 
 /**
+ * @ignore
  * Provides the time in milliseconds after which the lock renewal should occur.
  * @param lockedUntilUtc - The time until which the message is locked.
  */
@@ -107,6 +105,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 }
 
 /**
+ * @ignore
  * Converts the .net ticks to a JS Date object.
  *
  * - The epoch for the DateTimeOffset type is `0000-01-01`, while the epoch for JS Dates is
@@ -132,6 +131,7 @@ export function convertTicksToDate(buf: number[]): Date {
 }
 
 /**
+ * @ignore
  * Returns the number of logical processors in the system.
  */
 export function getProcessorCount(): number {
@@ -144,6 +144,7 @@ export function getProcessorCount(): number {
 }
 
 /**
+ * @ignore
  * Converts any given input to a Buffer.
  * @param input The input that needs to be converted to a Buffer.
  */
@@ -177,6 +178,7 @@ export function toBuffer(input: any): Buffer {
 }
 
 /**
+ * @ignore
  * Throws InvalidOperationError if the current AMQP connection is closed.
  * @param context The ConnectionContext associated with the current AMQP connection.
  */

@@ -7,6 +7,10 @@ import * as log from "../log";
 import { Sender, Receiver } from "rhea-promise";
 import { getUniqueName } from "../util/utils";
 
+/**
+ * @ignore
+ * Options passed to the constructor of LinkEntity
+ */
 export interface LinkEntityOptions {
   /**
    * @property {string} address The client entity address in one of the following forms:
@@ -19,6 +23,7 @@ export interface LinkEntityOptions {
 }
 
 /**
+ * @ignore
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  * @class ClientEntity
  */

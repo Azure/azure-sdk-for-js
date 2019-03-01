@@ -38,6 +38,7 @@ interface CreateSenderOptions {
 }
 
 /**
+ * @ignore
  * Describes the MessageSender that will send messages to ServiceBus.
  * @class MessageSender
  */

@@ -217,7 +217,7 @@ export namespace ClientEntityContext {
       }
       let isManagementClientInUse = false;
       for (const id of Object.keys(context.clients)) {
-        if (context.clients[id].name === entityContext.entityPath) {
+        if (context.clients[id].entityPath === entityContext.entityPath) {
           isManagementClientInUse = true;
           break;
         }
@@ -245,11 +245,11 @@ export namespace ClientEntityContext {
 // Multiple Queue clients for the same queue should be using the same management client.
 function getManagementClient(
   clients: Dictionary<Client>,
-  name: string
+  entityPath: string
 ): ManagementClient | undefined {
   let result: ManagementClient | undefined;
   for (const id of Object.keys(clients)) {
-    if (clients[id].name === name) {
+    if (clients[id].entityPath === entityPath) {
       result = (clients[id] as any)._context.managementClient;
       break;
     }

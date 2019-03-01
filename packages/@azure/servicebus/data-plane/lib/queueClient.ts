@@ -12,7 +12,8 @@ import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
 import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
- * Describes the client that will maintain an AMQP connection to a ServiceBus Queue.
+ * Describes the client that allows interacting with a Service Bus Queue.
+ * Use the `createQueueClient` function on the Namespace object to instantiate a QueueClient
  * @class QueueClient
  */
 export class QueueClient extends Client {
@@ -35,6 +36,9 @@ export class QueueClient extends Client {
 
   /**
    * Closes all the AMQP links for sender/receivers created by this client.
+   * Once closed, neither the QueueClient nor its sender/recievers can be used for any
+   * further operations. Use the `createQueueClient` function on the Namespace object to
+   * instantiate a new QueueClient
    *
    * @returns {Promise<void>}
    */
@@ -82,7 +86,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Gets the Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Gets a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
    */
   getSender(): Sender {
@@ -94,7 +98,7 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Gets the Receiver to be used for receiving messages in batches or by registering handlers.
+   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
    *
    * @param options Options for creating the receiver.
    */
@@ -162,7 +166,7 @@ export class QueueClient extends Client {
   // }
 
   /**
-   * Gets the SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Queue. When no sessionId is given, a random session among the available
    * sessions is used.
    *

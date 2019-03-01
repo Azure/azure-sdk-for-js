@@ -31,4 +31,4 @@ export {
   DeadLetterOptions,
   ReceiveMode
 } from "./serviceBusMessage";
-export { AmqpError, Delivery, Dictionary } from "rhea-promise";
+export { AmqpError, Delivery } from "rhea-promise";

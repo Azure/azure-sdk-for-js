@@ -22,8 +22,9 @@ export interface MessageReceiverOptions {
 }
 
 /**
- * An abstraction over the underlying receiver link.
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
+ * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
+ * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
  */
 export class Receiver {
@@ -35,12 +36,16 @@ export class Receiver {
   private _isClosed: boolean = false;
 
   /**
-   * Denotes if close() was called on this receiver.
+   * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
+   * @readonly
    */
   public get isClosed(): boolean {
     return this._isClosed;
   }
 
+  /**
+   * @ignore
+   */
   constructor(context: ClientEntityContext, options?: MessageReceiverOptions) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
@@ -181,6 +186,9 @@ export class Receiver {
 
   /**
    * Closes the underlying AMQP receiver link.
+   * Once closed, the receiver cannot be used for any further operations.
+   * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * a new Receiver
    *
    * @returns {Promise<void>}
    */
@@ -211,10 +219,10 @@ export class Receiver {
   }
 
   /**
-   * Indicates whether the underlying receiver link is open or not.
-   * When this is true, a new receive() or receiveBatch() call cannot be made on the receiver.
+   * Indicates whether the receiver is currently receiving messages or not.
+   * When this return true, a new receive() or receiveBatch() call cannot be made.
    */
-  isActive(): boolean {
+  isReceivingMessages(): boolean {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
       return true;
     }
@@ -263,8 +271,11 @@ export class Receiver {
 }
 
 /**
- * An abstraction over the underlying session-receiver.
- * The SessionReceiver class can be used to receive messages in a batch or by registering handlers.
+ * The SessionReceiver class can be used to receive messages from a session enabled Queue or
+ * Subscription in a batch or by registering handlers.
+ * Use the `getSessionReceiver` function on the QueueClient or SubscriptionClient to instantiate a
+ * SessionReceiver.
+ * The SessionReceiver class is an abstraction over the underlying AMQP receiver link.
  * @class SessionReceiver
  */
 export class SessionReceiver {
@@ -278,7 +289,8 @@ export class SessionReceiver {
   private _messageSession: MessageSession;
 
   /**
-   * Denotes if close() was called on this receiver.
+   * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
+   * @readonly
    */
   public get isClosed(): boolean {
     return !this._context.messageSessions[this.sessionId];
@@ -286,6 +298,7 @@ export class SessionReceiver {
 
   /**
    * @property {string} [sessionId] The sessionId for the message session.
+   * @readonly
    */
   public get sessionId(): string {
     return this._sessionId || "";
@@ -293,11 +306,15 @@ export class SessionReceiver {
 
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
+   * @readonly
    */
   public get sessionLockedUntilUtc(): Date | undefined {
     return this._messageSession.sessionLockedUntilUtc;
   }
 
+  /**
+   * @ignore
+   */
   constructor(context: ClientEntityContext, messageSession: MessageSession) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
@@ -469,6 +486,9 @@ export class SessionReceiver {
 
   /**
    * Closes the underlying AMQP receiver link.
+   * Once closed, the receiver cannot be used for any further operations.
+   * Use the `getSessionReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * a new Receiver
    *
    * @returns {Promise<void>}
    */
@@ -487,11 +507,11 @@ export class SessionReceiver {
   }
 
   /**
-   * Determines whether the underlying AMQP receiver link is open.
-   * When this is true, a new Session Receiver with the same session id cannot be created successfully.
+   * Indicates whether the receiver is currently receiving messages or not.
+   * When this return true, a new receive() or receiveBatch() call cannot be made on the receiver.
    */
-  isOpen(): boolean {
-    return this._messageSession.isOpen();
+  isReceivingMessages(): boolean {
+    return this._messageSession.isReceivingMessages;
   }
 
   private throwIfReceiverOrConnectionClosed(): void {

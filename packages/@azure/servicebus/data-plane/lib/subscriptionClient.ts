@@ -11,28 +11,34 @@ import { MessageSession, SessionReceiverOptions } from "./session/messageSession
 import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
- * Describes the client that will maintain an AMQP connection to a ServiceBus Subscription.
+ * Describes the client that allows interacting with a Service Bus Subscription.
+ * Use the `createSubscriptionClient` function on the Namespace object to instantiate a
+ * SubscriptionClient
  * @class SubscriptionClient
  */
 export class SubscriptionClient extends Client {
   /**
-   * @property {string} topicPath The topic path.
+   * @property {string}  The topic name.
+   * @readonly
    */
-  topicPath: string;
+  get topicName(): string {
+    return this._topicName;
+  }
   /**
-   * @property {string} subscriptionName The subscription name.
+   * @property {string}  The subscription name.
+   * @readonly
    */
-  subscriptionName: string;
-  /**
-   * @property {number} receiveMode The mode in which messages should be received.
-   * Default: ReceiveMode.peekLock
-   */
+  get subscriptionName(): string {
+    return this._subscriptionName;
+  }
 
   /**
    * @property {string} defaultRuleName Name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
 
+  private _topicName: string;
+  private _subscriptionName: string;
   private _currentReceiver: Receiver | undefined;
 
   /**
@@ -41,19 +47,23 @@ export class SubscriptionClient extends Client {
    * The user should use the `createSubscriptionClient` on the Namespace instead.
    *
    * @constructor
-   * @param topicPath - The Topic path.
+   * @internal
+   * @param topicName - The Topic name.
    * @param subscriptionName - The Subscription name.
    * @param context - The connection context to create the SubscriptionClient.
    */
-  constructor(topicPath: string, subscriptionName: string, context: ConnectionContext) {
-    super(`${topicPath}/Subscriptions/${subscriptionName}`, context);
+  constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
+    super(`${topicName}/Subscriptions/${subscriptionName}`, context);
 
-    this.topicPath = topicPath;
-    this.subscriptionName = subscriptionName;
+    this._topicName = topicName;
+    this._subscriptionName = subscriptionName;
   }
 
   /**
    * Closes the AMQP link for the receivers created by this client.
+   * Once closed, neither the SubscriptionClient nor its recievers can be used for any
+   * further operations. Use the `createSubscriptionClient` function on the Namespace object to
+   * instantiate a new SubscriptionClient.
    *
    * @returns {Promise<void>}
    */
@@ -96,7 +106,7 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Gets the Receiver to be used for receiving messages in batches or by registering handlers.
+   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
    *
    * @param options Options for creating the receiver.
    */
@@ -207,7 +217,7 @@ export class SubscriptionClient extends Client {
   // }
 
   /**
-   * Gets the SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Subscription. When no sessionId is given, a random session among the available
    * sessions is used.
    *

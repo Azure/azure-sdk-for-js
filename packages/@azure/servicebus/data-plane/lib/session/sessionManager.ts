@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SessionManagerOptions, MessageSession, Callee } from "./messageSession";
+import { SessionManagerOptions, MessageSession, SessionCallee } from "./messageSession";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
 import { getProcessorCount } from "../util/utils";
@@ -9,11 +9,18 @@ import * as log from "../log";
 import { Semaphore } from "../util/semaphore";
 import { delay, ConditionErrorNameMapper, Constants } from "@azure/amqp-common";
 
-export enum EntityType {
+/**
+ * @ignore
+ * Enum to denote the entity type calling the session manager
+ */
+export enum SessionEntityType {
   queue = "Queue",
   subscription = "Subscription"
 }
 
+/**
+ * @ignore
+ */
 export class SessionManager {
   /**
    * @property {number} maxConcurrentSessions The maximum number of sessions that the user wants to
@@ -66,7 +73,7 @@ export class SessionManager {
    * from a session enabled entity.
    */
   async manageMessageSessions(
-    entityType: EntityType,
+    entityType: SessionEntityType,
     onMessage: OnMessage,
     onError: OnError,
     options?: SessionManagerOptions
@@ -167,7 +174,7 @@ export class SessionManager {
         };
         // Create the MessageSession.
         const messageSession = await MessageSession.create(this._context, {
-          callee: Callee.sessionManager,
+          callee: SessionCallee.sessionManager,
           ...options
         });
         if (this._isCancelRequested) {

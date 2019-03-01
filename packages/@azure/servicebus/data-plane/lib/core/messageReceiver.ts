@@ -16,7 +16,6 @@ import {
   EventContext,
   ReceiverOptions,
   AmqpError,
-  Dictionary,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
@@ -59,7 +58,7 @@ export interface PromiseLike {
  * @ignore
  */
 export interface DispositionOptions {
-  propertiesToModify?: Dictionary<any>;
+  propertiesToModify?: { [key: string]: any };
   error?: AmqpError;
 }
 
@@ -103,6 +102,7 @@ export interface OnError {
 }
 
 /**
+ * @ignore
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */

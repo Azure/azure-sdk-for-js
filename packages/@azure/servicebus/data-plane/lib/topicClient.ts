@@ -8,7 +8,8 @@ import { Sender } from "./sender";
 import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
- * Describes the client that will maintain an AMQP connection to a ServiceBus Topic.
+ * Describes the client that allows interacting with a Service Bus Topic.
+ * Use the `createTopicClient` function on the Namespace object to instantiate a TopicClient
  * @class TopicClient
  */
 export class TopicClient extends Client {
@@ -20,6 +21,7 @@ export class TopicClient extends Client {
    * The user should use the `createTopicClient` on the Namespace instead.
    *
    * @constructor
+   * @internal
    * @param name - The topic name.
    * @param context - The connection context to create the TopicClient.
    */
@@ -29,6 +31,9 @@ export class TopicClient extends Client {
 
   /**
    * Closes the AMQP link for the sender created by this client.
+   * Once closed, neither the TopicClient nor its senders can be used for any
+   * further operations. Use the `createTopicClient` function on the Namespace object to
+   * instantiate a new TopicClient
    *
    * @returns {Promise<void>}
    */
@@ -58,8 +63,9 @@ export class TopicClient extends Client {
   }
 
   /**
-   * Gets the Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Gets a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
+   *
    * If the Topic has session enabled Subscriptions, then messages sent without the `sessionId`
    * property will go to the dead letter queue of such subscriptions.
    */

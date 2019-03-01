@@ -11,7 +11,6 @@ import {
   types,
   message as RheaMessageUtil,
   generate_uuid,
-  Dictionary,
   string_to_uuid
 } from "rhea-promise";
 import {
@@ -123,6 +122,7 @@ const validCorrelationProperties = [
 ];
 
 /**
+ * @ignore
  * Describes the options that can be provided while peeking a message.
  * @interface PeekOptions
  */
@@ -156,12 +156,16 @@ export interface ScheduleMessage {
   scheduledEnqueueTimeUtc: Date;
 }
 
+/**
+ * @ignore
+ * Options to set when updating the disposition status
+ */
 interface DispositionStatusOptions {
   /**
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
    * to modify.
    */
-  propertiesToModify?: Dictionary<any>;
+  propertiesToModify?: { [key: string]: any };
   /**
    * @property [deadLetterReason] The deadletter reason. May be set if disposition status
    * is set to suspended.
@@ -178,12 +182,17 @@ interface DispositionStatusOptions {
   sessionId?: string;
 }
 
+/**
+ * @ignore
+ * Options passed to the constructor of ManagementClient
+ */
 export interface ManagementClientOptions {
   address?: string;
   audience?: string;
 }
 
 /**
+ * @ignore
  * @class ManagementClient
  * Descibes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
