@@ -16,7 +16,7 @@ const queueName = "";
 async function main(): Promise<void> {
   const ns = Namespace.createFromConnectionString(connectionString);
 
-  // If using Topics, use createSubscriptionClient to peek from a topic subscription
+  // If using Topics & Subscription, use createSubscriptionClient to peek from the subscription
   const client = ns.createQueueClient(queueName);
 
   try {
