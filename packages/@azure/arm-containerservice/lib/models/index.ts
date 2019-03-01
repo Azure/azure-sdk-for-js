@@ -1048,7 +1048,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   readonly provisioningState?: string;
   /**
-   * @member {string[]} [availabilityZones] Availability zones for nodes
+   * @member {string[]} [availabilityZones] (PREVIEW) Availability zones for
+   * nodes
    */
   availabilityZones?: string[];
 }
@@ -1190,7 +1191,8 @@ export interface AgentPool extends SubResource {
    */
   readonly provisioningState?: string;
   /**
-   * @member {string[]} [availabilityZones] Availability zones for nodes
+   * @member {string[]} [availabilityZones] (PREVIEW) Availability zones for
+   * nodes
    */
   availabilityZones?: string[];
 }
@@ -1367,8 +1369,8 @@ export interface ManagedCluster extends Resource {
    */
   enableRBAC?: boolean;
   /**
-   * @member {boolean} [enablePodSecurityPolicy] Whether to enable Kubernetes
-   * Pod security policy.
+   * @member {boolean} [enablePodSecurityPolicy] (PREVIEW) Whether to enable
+   * Kubernetes Pod security policy.
    */
   enablePodSecurityPolicy?: boolean;
   /**
@@ -1382,8 +1384,8 @@ export interface ManagedCluster extends Resource {
    */
   aadProfile?: ManagedClusterAADProfile;
   /**
-   * @member {string[]} [apiServerAuthorizedIPRanges] Authorized IP Ranges to
-   * kubernetes API server.
+   * @member {string[]} [apiServerAuthorizedIPRanges] (PREVIEW) Authorized IP
+   * Ranges to kubernetes API server.
    */
   apiServerAuthorizedIPRanges?: string[];
 }
