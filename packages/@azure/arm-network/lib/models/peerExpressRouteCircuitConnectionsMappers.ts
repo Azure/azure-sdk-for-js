@@ -9,11 +9,11 @@
  */
 
 export {
-  LoadBalancerOutboundRuleListResult,
-  OutboundRule,
+  PeerExpressRouteCircuitConnection,
   SubResource,
   BaseResource,
   CloudError,
+  PeerExpressRouteCircuitConnectionListResult,
   NetworkInterfaceTapConfiguration,
   VirtualNetworkTap,
   Resource,
@@ -100,7 +100,6 @@ export {
   ExpressRouteCircuitAuthorization,
   RouteFilterRule,
   ExpressRouteCircuitConnection,
-  PeerExpressRouteCircuitConnection,
   ExpressRouteCircuitPeering,
   ExpressRouteCircuitPeeringConfig,
   ExpressRouteCircuitStats,
@@ -128,6 +127,7 @@ export {
   LoadBalancingRule,
   Probe,
   InboundNatPool,
+  OutboundRule,
   LoadBalancer,
   LoadBalancerSku,
   ContainerNetworkInterfaceConfiguration,
