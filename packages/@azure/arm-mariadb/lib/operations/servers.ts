@@ -161,6 +161,19 @@ export class Servers {
   }
 
   /**
+   * Restarts a server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  restart(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName,serverName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates a new server or updates an existing server. The update action will overwrite the
    * existing server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
@@ -220,6 +233,25 @@ export class Servers {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Restarts a server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRestart(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        options
+      },
+      beginRestartOperationSpec,
       options);
   }
 }
@@ -385,6 +417,30 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRestartOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/restart",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

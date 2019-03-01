@@ -44,7 +44,7 @@ export class MariaDBManagementClientContext extends msRestAzure.AzureServiceClie
 
     super(credentials, options);
 
-    this.apiVersion = '2018-06-01-preview';
+    this.apiVersion = '2018-06-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
