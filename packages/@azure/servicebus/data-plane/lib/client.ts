@@ -15,18 +15,12 @@ import { throwErrorIfConnectionClosed } from "./util/utils";
 export abstract class Client {
   /**
    * @property {string} The entitypath for the Service Bus entity for which this client is created.
-   * @readonly
    */
-  get entityPath(): string {
-    return this._entityPath;
-  }
+  readonly entityPath: string;
   /**
    * @property {string} A unique identifier for the client.
-   * @readonly
    */
-  get id(): string {
-    return this._id;
-  }
+  readonly id: string;
   /**
    * @property {boolean} _isClosed Denotes if close() was called on this client.
    */
@@ -35,17 +29,6 @@ export abstract class Client {
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
   protected _context: ClientEntityContext;
-  /**
-   * @property {string} name The entitypath for the Service Bus entity for which this client is created.
-   * For queues and topics, the entitypath is the same as their name. For subscription, its a
-   * combination of the topic name and the subscription name
-   */
-  private _entityPath: string;
-  /**
-   * @property {string} id A unique identifier for the client. It is usually a combination of
-   * the entityPath and a Guid.
-   */
-  private _id: string;
 
   /**
    * Instantiates a client pointing to the ServiceBus entity given by this configuration.
@@ -59,8 +42,8 @@ export abstract class Client {
    */
   constructor(entityPath: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
-    this._entityPath = entityPath;
-    this._id = `${entityPath}/${generate_uuid()}`;
+    this.entityPath = entityPath;
+    this.id = `${entityPath}/${generate_uuid()}`;
     this._context = ClientEntityContext.create(entityPath, context);
   }
 

@@ -53,7 +53,7 @@ export class Namespace {
   /**
    * @property {string} name The namespace name of the service bus.
    */
-  name: string;
+  readonly name: string;
   /**
    * @property {ConnectionContext} _context Describes the amqp connection context for the Namespace.
    * @private

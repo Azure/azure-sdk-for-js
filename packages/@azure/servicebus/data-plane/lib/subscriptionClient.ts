@@ -19,26 +19,18 @@ import { throwErrorIfConnectionClosed } from "./util/utils";
 export class SubscriptionClient extends Client {
   /**
    * @property {string}  The topic name.
-   * @readonly
    */
-  get topicName(): string {
-    return this._topicName;
-  }
+  readonly topicName: string;
   /**
    * @property {string}  The subscription name.
-   * @readonly
    */
-  get subscriptionName(): string {
-    return this._subscriptionName;
-  }
+  readonly subscriptionName: string;
 
   /**
    * @property {string} defaultRuleName Name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
 
-  private _topicName: string;
-  private _subscriptionName: string;
   private _currentReceiver: Receiver | undefined;
 
   /**
@@ -55,8 +47,8 @@ export class SubscriptionClient extends Client {
   constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
     super(`${topicName}/Subscriptions/${subscriptionName}`, context);
 
-    this._topicName = topicName;
-    this._subscriptionName = subscriptionName;
+    this.topicName = topicName;
+    this.subscriptionName = subscriptionName;
   }
 
   /**
