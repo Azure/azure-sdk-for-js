@@ -122,7 +122,7 @@ const validCorrelationProperties = [
 ];
 
 /**
- * @ignore
+ * @internal
  * Describes the options that can be provided while peeking a message.
  * @interface PeekOptions
  */
@@ -157,7 +157,7 @@ export interface ScheduleMessage {
 }
 
 /**
- * @ignore
+ * @internal
  * Options to set when updating the disposition status
  */
 interface DispositionStatusOptions {
@@ -183,7 +183,7 @@ interface DispositionStatusOptions {
 }
 
 /**
- * @ignore
+ * @internal
  * Options passed to the constructor of ManagementClient
  */
 export interface ManagementClientOptions {
@@ -192,7 +192,7 @@ export interface ManagementClientOptions {
 }
 
 /**
- * @ignore
+ * @internal
  * @class ManagementClient
  * Descibes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
@@ -1340,7 +1340,7 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * @ignore
+   * @internal
    */
   private async _init(): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
@@ -1405,7 +1405,7 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * @ignore
+   * @internal
    */
   private _isMgmtRequestResponseLinkOpen(): boolean {
     return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();

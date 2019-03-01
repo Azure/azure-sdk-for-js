@@ -71,7 +71,7 @@ export abstract class Client {
 
   /**
    * Will reconnect the client if neccessary.
-   * @ignore
+   * @internal
    * @param error Error if any
    */
   async detached(error?: AmqpError | Error): Promise<void> {

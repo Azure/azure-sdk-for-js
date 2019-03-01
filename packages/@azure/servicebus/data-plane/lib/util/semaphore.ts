@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @ignore
+ * @internal
  * A simple Semaphore
  * @class Semaphore
  */

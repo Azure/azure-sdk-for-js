@@ -54,7 +54,7 @@ export interface MessageHandlerOptions {
 }
 
 /**
- * @ignore
+ * @internal
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver
