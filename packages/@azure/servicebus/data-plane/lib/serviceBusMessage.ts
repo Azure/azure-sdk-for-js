@@ -31,7 +31,7 @@ export enum ReceiveMode {
 }
 
 /**
- * @internal
+ * @ignore
  */
 export enum DispositionType {
   complete = "complete",
@@ -41,7 +41,7 @@ export enum DispositionType {
 }
 
 /**
- * @internal
+ * @ignore
  */
 export enum DispositionStatus {
   completed = "completed",
@@ -52,7 +52,7 @@ export enum DispositionStatus {
 }
 
 /**
- * @internal
+ * @ignore
  * Describes the delivery annotations for ServiceBus.
  * @interface
  */
@@ -80,7 +80,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 }
 
 /**
- * @internal
+ * @ignore
  * Describes the message annotations for ServiceBus.
  * @interface ServiceBusMessageAnnotations
  */
@@ -237,7 +237,7 @@ export interface SendableMessageInfo {
  */
 export module SendableMessageInfo {
   /**
-   * @internal
+   * @ignore
    */
   export function validate(msg: SendableMessageInfo): void {
     if (!msg) {
@@ -344,7 +344,7 @@ export module SendableMessageInfo {
   }
 
   /**
-   * @internal
+   * @ignore
    * Converts given SendableMessageInfo to AmqpMessage
    */
   export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
@@ -403,7 +403,7 @@ export module SendableMessageInfo {
   }
 
   /**
-   * @internal
+   * @ignore
    * Converts given AmqpMessage to SendableMessageInfo
    */
   export function fromAmqpMessage(msg: AmqpMessage): SendableMessageInfo {
@@ -547,7 +547,7 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
  */
 export module ReceivedMessageInfo {
   /**
-   * @internal
+   * @ignore
    */
   export function validate(msg: ReceivedMessageInfo): void {
     SendableMessageInfo.validate(msg);
@@ -593,7 +593,7 @@ export module ReceivedMessageInfo {
   }
 
   /**
-   * @internal
+   * @ignore
    * Converts given ReceivedMessageInfo to AmqpMessage
    */
   export function toAmqpMessage(msg: ReceivedMessageInfo): AmqpMessage {
@@ -625,7 +625,7 @@ export module ReceivedMessageInfo {
   }
 
   /**
-   * @internal
+   * @ignore
    * Converts given AmqpMessage to ReceivedMessageInfo
    */
   export function fromAmqpMessage(msg: AmqpMessage, delivery?: Delivery): ReceivedMessageInfo {
@@ -884,7 +884,7 @@ export class ServiceBusMessage implements ReceivedMessage {
   private readonly _context: ClientEntityContext;
 
   /**
-   * @internal
+   * @ignore
    */
   constructor(context: ClientEntityContext, msg: AmqpMessage, delivery: Delivery) {
     Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery));

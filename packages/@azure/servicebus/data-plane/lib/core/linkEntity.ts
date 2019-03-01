@@ -8,7 +8,7 @@ import { Sender, Receiver } from "rhea-promise";
 import { getUniqueName } from "../util/utils";
 
 /**
- * @internal
+ * @ignore
  * Options passed to the constructor of LinkEntity
  */
 export interface LinkEntityOptions {
@@ -23,7 +23,7 @@ export interface LinkEntityOptions {
 }
 
 /**
- * @internal
+ * @ignore
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  * @class ClientEntity
  */
@@ -188,7 +188,7 @@ export class LinkEntity {
   /**
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
-   * @internal
+   * @ignore
    * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */

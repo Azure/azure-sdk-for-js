@@ -27,7 +27,7 @@ import { MessageHandlerOptions } from "./streamingReceiver";
 import { messageDispositionTimeout } from "../util/constants";
 
 /**
- * @internal
+ * @ignore
  */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEventAsPromise;
@@ -39,14 +39,14 @@ interface CreateReceiverOptions {
 }
 
 /**
- * @internal
+ * @ignore
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
 }
 
 /**
- * @internal
+ * @ignore
  */
 export interface PromiseLike {
   resolve: (value?: any) => void;
@@ -55,7 +55,7 @@ export interface PromiseLike {
 }
 
 /**
- * @internal
+ * @ignore
  */
 export interface DispositionOptions {
   propertiesToModify?: { [key: string]: any };
@@ -63,7 +63,7 @@ export interface DispositionOptions {
 }
 
 /**
- * @internal
+ * @ignore
  */
 export enum ReceiverType {
   batching = "batching",
@@ -71,7 +71,7 @@ export enum ReceiverType {
 }
 
 /**
- * @internal
+ * @ignore
  */
 export interface ReceiveOptions extends MessageHandlerOptions {
   /**
@@ -102,7 +102,7 @@ export interface OnError {
 }
 
 /**
- * @internal
+ * @ignore
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
@@ -222,7 +222,7 @@ export class MessageReceiver extends LinkEntity {
   protected _newMessageReceivedTimer?: NodeJS.Timer;
   /**
    * Resets the `_newMessageReceivedTimer` timer when a new message is received.
-   * @internal
+   * @ignore
    */
   protected resetTimerOnNewMessageReceived: () => void;
   /**
@@ -698,7 +698,7 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Will reconnect the receiver link if necessary.
-   * @internal
+   * @ignore
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
@@ -870,7 +870,7 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @internal
+   * @ignore
    * @return {boolean} boolean
    */
   isOpen(): boolean {
@@ -980,7 +980,7 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @internal
+   * @ignore
    */
   protected _createReceiverOptions(
     useNewName?: boolean,

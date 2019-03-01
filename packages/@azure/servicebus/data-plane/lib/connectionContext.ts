@@ -17,7 +17,7 @@ import { Client } from "./client";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
- * @internal
+ * @ignore
  * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the ServiceBus client.
@@ -31,7 +31,7 @@ export interface ConnectionContext extends ConnectionContextBase {
 }
 
 /**
- * @internal
+ * @ignore
  */
 export namespace ConnectionContext {
   /**

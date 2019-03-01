@@ -32,7 +32,7 @@ export class Sender {
   }
 
   /**
-   * @internal
+   * @ignore
    */
   constructor(context: ClientEntityContext) {
     throwErrorIfConnectionClosed(context.namespace);

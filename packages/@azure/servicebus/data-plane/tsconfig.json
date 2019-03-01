@@ -16,7 +16,7 @@
     /* Strict Type-Checking Options */
     "strict": true /* Enable all strict type-checking options. */,
     "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
-    "stripInternal": true,
+
     /* Additional Checks */
     "noUnusedLocals": true,                /* Report errors on unused locals. */
 
