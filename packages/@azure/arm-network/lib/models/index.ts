@@ -600,7 +600,7 @@ export interface ServiceEndpointPolicyDefinition extends SubResource {
    */
   description?: string;
   /**
-   * @member {string} [service] service endpoint name.
+   * @member {string} [service] Service endpoint name.
    */
   service?: string;
   /**
@@ -2213,7 +2213,7 @@ export interface ApplicationGatewayProbe extends SubResource {
    */
   interval?: number;
   /**
-   * @member {number} [timeout] the probe timeout in seconds. Probe marked as
+   * @member {number} [timeout] The probe timeout in seconds. Probe marked as
    * failed if valid response is not received with this timeout period.
    * Acceptable values are from 1 second to 86400 seconds.
    */
@@ -9651,7 +9651,7 @@ export interface P2SVpnServerConfiguration extends SubResource {
    */
   p2SVpnServerConfigurationPropertiesName?: string;
   /**
-   * @member {VpnGatewayTunnelingProtocol[]} [vpnProtocols] vpnProtocols for
+   * @member {VpnGatewayTunnelingProtocol[]} [vpnProtocols] VPN protocols for
    * the P2SVpnServerConfiguration.
    */
   vpnProtocols?: VpnGatewayTunnelingProtocol[];
@@ -9773,7 +9773,7 @@ export interface VirtualWAN extends Resource {
    */
   office365LocalBreakoutCategory?: OfficeTrafficCategory;
   /**
-   * @member {P2SVpnServerConfiguration[]} [p2SVpnServerConfigurations] list of
+   * @member {P2SVpnServerConfiguration[]} [p2SVpnServerConfigurations] List of
    * all P2SVpnServerConfigurations associated with the virtual wan.
    */
   p2SVpnServerConfigurations?: P2SVpnServerConfiguration[];
@@ -9941,7 +9941,7 @@ export interface HubVirtualNetworkConnection extends SubResource {
  */
 export interface VirtualHubRoute {
   /**
-   * @member {string[]} [addressPrefixes] list of all addressPrefixes.
+   * @member {string[]} [addressPrefixes] List of all addressPrefixes.
    */
   addressPrefixes?: string[];
   /**
@@ -9958,7 +9958,7 @@ export interface VirtualHubRoute {
  */
 export interface VirtualHubRouteTable {
   /**
-   * @member {VirtualHubRoute[]} [routes] list of all routes.
+   * @member {VirtualHubRoute[]} [routes] List of all routes.
    */
   routes?: VirtualHubRoute[];
 }
@@ -9992,7 +9992,7 @@ export interface VirtualHub extends Resource {
    */
   expressRouteGateway?: SubResource;
   /**
-   * @member {HubVirtualNetworkConnection[]} [virtualNetworkConnections] list
+   * @member {HubVirtualNetworkConnection[]} [virtualNetworkConnections] List
    * of all vnet connections with this VirtualHub.
    */
   virtualNetworkConnections?: HubVirtualNetworkConnection[];
@@ -10033,7 +10033,7 @@ export interface VpnConnection extends SubResource {
    */
   remoteVpnSite?: SubResource;
   /**
-   * @member {number} [routingWeight] routing weight for vpn connection.
+   * @member {number} [routingWeight] Routing weight for vpn connection.
    */
   routingWeight?: number;
   /**
@@ -10119,7 +10119,7 @@ export interface VpnGateway extends Resource {
    */
   virtualHub?: SubResource;
   /**
-   * @member {VpnConnection[]} [connections] list of all vpn connections to the
+   * @member {VpnConnection[]} [connections] List of all vpn connections to the
    * gateway.
    */
   connections?: VpnConnection[];

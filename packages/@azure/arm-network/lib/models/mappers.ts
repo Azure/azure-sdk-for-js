@@ -12450,7 +12450,7 @@ export const VpnClientIPsecParameters: msRest.CompositeMapper = {
 };
 
 export const VirtualNetworkConnectionGatewayReference: msRest.CompositeMapper = {
-  serializedName: "virtualNetworkConnectionGatewayReference",
+  serializedName: "VirtualNetworkConnectionGatewayReference",
   type: {
     name: "Composite",
     className: "VirtualNetworkConnectionGatewayReference",
