@@ -31,7 +31,7 @@ export enum ReceiveMode {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export enum DispositionType {
   complete = "complete",
@@ -41,7 +41,7 @@ export enum DispositionType {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export enum DispositionStatus {
   completed = "completed",
@@ -52,7 +52,7 @@ export enum DispositionStatus {
 }
 
 /**
- * @ignore
+ * @internal
  * Describes the delivery annotations for ServiceBus.
  * @interface
  */
@@ -80,7 +80,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 }
 
 /**
- * @ignore
+ * @internal
  * Describes the message annotations for ServiceBus.
  * @interface ServiceBusMessageAnnotations
  */
@@ -884,7 +884,7 @@ export class ServiceBusMessage implements ReceivedMessage {
   private readonly _context: ClientEntityContext;
 
   /**
-   * @ignore
+   * @internal
    */
   constructor(context: ClientEntityContext, msg: AmqpMessage, delivery: Delivery) {
     Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery));

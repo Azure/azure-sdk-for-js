@@ -36,7 +36,7 @@ import { messageDispositionTimeout } from "../util/constants";
 
 /**
  * Enum to denote who is calling the session receiver
- * @ignore
+ * @internal
  */
 export enum SessionCallee {
   standalone = "standalone",
@@ -45,7 +45,7 @@ export enum SessionCallee {
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
- * @ignore
+ * @internal
  */
 export interface CreateMessageSessionReceiverLinkOptions {
   onClose: OnAmqpEventAsPromise;
@@ -111,7 +111,7 @@ export interface SessionMessageHandlerOptions {
   maxConcurrentCalls?: number;
 }
 /**
- * @ignore
+ * @internal
  * Describes the options for creating a Session Manager.
  */
 export interface SessionManagerOptions extends SessionMessageHandlerOptions {
@@ -124,7 +124,7 @@ export interface SessionManagerOptions extends SessionMessageHandlerOptions {
 }
 
 /**
- * @ignore
+ * @internal
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = SessionManagerOptions &
@@ -133,7 +133,7 @@ export type MessageSessionOptions = SessionManagerOptions &
   };
 
 /**
- * @ignore
+ * @internal
  * Describes the receiver for a Message Session.
  */
 export class MessageSession extends LinkEntity {
@@ -568,7 +568,6 @@ export class MessageSession extends LinkEntity {
      * Resets the timer when a new message is received for Session Manager.
      * It will close the receiver gracefully, if no
      * messages were received for the configured newMessageWaitTimeoutInSeconds
-     * @ignore
      */
     const resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -826,8 +825,7 @@ export class MessageSession extends LinkEntity {
       /**
        * Resets the timer when a new message is received. If no messages were received for
        * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
-       * receiver link stays open for the next receive call, but doesnt receive messages until then
-       * @ignore
+       * receiver link stays open for the next receive call, but doesnt receive messages until
        */
       const resetTimerOnNewMessageReceived = () => {
         if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -994,7 +992,6 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Deletes the MessageSession from the internal cache.
-   * @ignore
    */
   private _deleteFromCache(): void {
     this._receiver = undefined;
@@ -1009,7 +1006,6 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @ignore
    */
   private async _init(): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
@@ -1118,7 +1114,6 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @ignore
    */
   private _createMessageSessionOptions(): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
@@ -1152,7 +1147,6 @@ export class MessageSession extends LinkEntity {
   /**
    * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
    * more than the configured totalAutoLockRenewDuration.
-   * @ignore
    */
   private _ensureSessionLockRenewal(): void {
     if (

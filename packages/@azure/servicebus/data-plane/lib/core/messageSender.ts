@@ -31,14 +31,14 @@ import { LinkEntity } from "./linkEntity";
 import { getUniqueName, throwErrorIfConnectionClosed } from "../util/utils";
 
 /**
- * @ignore
+ * @internal
  */
 interface CreateSenderOptions {
   newName?: boolean;
 }
 
 /**
- * @ignore
+ * @internal
  * Describes the MessageSender that will send messages to ServiceBus.
  * @class MessageSender
  */
@@ -210,7 +210,6 @@ export class MessageSender extends LinkEntity {
 
   /**
    * Will reconnect the sender link if necessary.
-   * @ignore
    * @param {AmqpError | Error} [senderError] The sender error if any.
    * @returns {Promise<void>} Promise<void>.
    */
@@ -299,7 +298,6 @@ export class MessageSender extends LinkEntity {
 
   /**
    * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
-   * @ignore
    * @return {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
@@ -317,7 +315,6 @@ export class MessageSender extends LinkEntity {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @ignore
    * @return {boolean} boolean
    */
   isOpen(): boolean {

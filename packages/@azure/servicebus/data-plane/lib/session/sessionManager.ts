@@ -10,7 +10,7 @@ import { Semaphore } from "../util/semaphore";
 import { delay, ConditionErrorNameMapper, Constants } from "@azure/amqp-common";
 
 /**
- * @ignore
+ * @internal
  * Enum to denote the entity type calling the session manager
  */
 export enum SessionEntityType {
@@ -19,7 +19,7 @@ export enum SessionEntityType {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export class SessionManager {
   /**

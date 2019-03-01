@@ -44,7 +44,7 @@ export class Receiver {
   }
 
   /**
-   * @ignore
+   * @internal
    */
   constructor(context: ClientEntityContext, options?: MessageReceiverOptions) {
     throwErrorIfConnectionClosed(context.namespace);
@@ -313,7 +313,7 @@ export class SessionReceiver {
   }
 
   /**
-   * @ignore
+   * @internal
    */
   constructor(context: ClientEntityContext, messageSession: MessageSession) {
     throwErrorIfConnectionClosed(context.namespace);

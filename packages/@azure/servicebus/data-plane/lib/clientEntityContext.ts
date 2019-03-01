@@ -18,7 +18,7 @@ import { SessionManager } from "./session/sessionManager";
  * @interface ClientEntityContext
  * Provides contextual information like the underlying amqp connection, cbs session,
  * management session, tokenProvider, senders, receivers, etc. about the ServiceBus client.
- * @ignore
+ * @internal
  */
 export interface ClientEntityContextBase {
   /**
@@ -77,7 +77,7 @@ export interface ClientEntityContextBase {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
@@ -86,7 +86,7 @@ export interface ClientEntityContext extends ClientEntityContextBase {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface ClientEntityContextOptions {
   managementClientAddress?: string;
@@ -95,11 +95,11 @@ export interface ClientEntityContextOptions {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export namespace ClientEntityContext {
   /**
-   * @ignore
+   * @internal
    */
   export function create(
     entityPath: string,

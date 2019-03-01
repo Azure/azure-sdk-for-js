@@ -18,7 +18,7 @@ import { throwErrorIfConnectionClosed } from "../util/utils";
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
- * @ignore
+ * @internal
  * @class BatchingReceiver
  * @extends MessageReceiver
  */
