@@ -20,6 +20,7 @@ export * from "./availableEndpointServices";
 export * from "./expressRouteCircuitAuthorizations";
 export * from "./expressRouteCircuitPeerings";
 export * from "./expressRouteCircuitConnections";
+export * from "./peerExpressRouteCircuitConnections";
 export * from "./expressRouteCircuits";
 export * from "./expressRouteServiceProviders";
 export * from "./expressRouteCrossConnections";

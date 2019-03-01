@@ -30,6 +30,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   expressRouteCircuitAuthorizations: operations.ExpressRouteCircuitAuthorizations;
   expressRouteCircuitPeerings: operations.ExpressRouteCircuitPeerings;
   expressRouteCircuitConnections: operations.ExpressRouteCircuitConnections;
+  peerExpressRouteCircuitConnections: operations.PeerExpressRouteCircuitConnections;
   expressRouteCircuits: operations.ExpressRouteCircuits;
   expressRouteServiceProviders: operations.ExpressRouteServiceProviders;
   expressRouteCrossConnections: operations.ExpressRouteCrossConnections;
@@ -108,6 +109,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRouteCircuitAuthorizations = new operations.ExpressRouteCircuitAuthorizations(this);
     this.expressRouteCircuitPeerings = new operations.ExpressRouteCircuitPeerings(this);
     this.expressRouteCircuitConnections = new operations.ExpressRouteCircuitConnections(this);
+    this.peerExpressRouteCircuitConnections = new operations.PeerExpressRouteCircuitConnections(this);
     this.expressRouteCircuits = new operations.ExpressRouteCircuits(this);
     this.expressRouteServiceProviders = new operations.ExpressRouteServiceProviders(this);
     this.expressRouteCrossConnections = new operations.ExpressRouteCrossConnections(this);
