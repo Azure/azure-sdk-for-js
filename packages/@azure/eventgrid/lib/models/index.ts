@@ -2317,6 +2317,56 @@ export interface MapsGeofenceGeometry {
   udId?: string;
 }
 
+/**
+ * @interface
+ * An interface representing AppConfigurationKeyValueModifiedEventData.
+ * Schema of the Data property of an EventGridEvent for an
+ * Microsoft.AppConfiguration.KeyValueModified event.
+ *
+ */
+export interface AppConfigurationKeyValueModifiedEventData {
+  /**
+   * @member {string} [key] The key used to identify the key-value that was
+   * modified.
+   */
+  key?: string;
+  /**
+   * @member {string} [label] The label, if any, used to identify the key-value
+   * that was modified.
+   */
+  label?: string;
+  /**
+   * @member {string} [etag] The etag representing the new state of the
+   * key-value.
+   */
+  etag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AppConfigurationKeyValueDeletedEventData.
+ * Schema of the Data property of an EventGridEvent for an
+ * Microsoft.AppConfiguration.KeyValueDeleted event.
+ *
+ */
+export interface AppConfigurationKeyValueDeletedEventData {
+  /**
+   * @member {string} [key] The key used to identify the key-value that was
+   * deleted.
+   */
+  key?: string;
+  /**
+   * @member {string} [label] The label, if any, used to identify the key-value
+   * that was deleted.
+   */
+  label?: string;
+  /**
+   * @member {string} [etag] The etag representing the key-value that was
+   * deleted.
+   */
+  etag?: string;
+}
+
 
 /**
  * Defines values for MediaJobState.

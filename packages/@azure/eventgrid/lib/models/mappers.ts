@@ -2818,6 +2818,62 @@ export const MapsGeofenceGeometry: msRest.CompositeMapper = {
   }
 };
 
+export const AppConfigurationKeyValueModifiedEventData: msRest.CompositeMapper = {
+  serializedName: "AppConfigurationKeyValueModifiedEventData",
+  type: {
+    name: "Composite",
+    className: "AppConfigurationKeyValueModifiedEventData",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppConfigurationKeyValueDeletedEventData: msRest.CompositeMapper = {
+  serializedName: "AppConfigurationKeyValueDeletedEventData",
+  type: {
+    name: "Composite",
+    className: "AppConfigurationKeyValueDeletedEventData",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'MediaJobOutput' : MediaJobOutput,
   'MediaJobOutput.#Microsoft.Media.JobOutputAsset' : MediaJobOutputAsset
