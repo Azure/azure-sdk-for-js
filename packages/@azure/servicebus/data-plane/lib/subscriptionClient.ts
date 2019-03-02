@@ -9,6 +9,8 @@ import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 import { throwErrorIfConnectionClosed } from "./util/utils";
+import { AmqpError, generate_uuid } from "rhea-promise";
+import { ClientEntityContext } from "./clientEntityContext";
 
 /**
  * Describes the client that allows interacting with a Service Bus Subscription.
@@ -16,7 +18,7 @@ import { throwErrorIfConnectionClosed } from "./util/utils";
  * SubscriptionClient
  * @class SubscriptionClient
  */
-export class SubscriptionClient extends Client {
+export class SubscriptionClient implements Client {
   /**
    * @property {string}  The topic name.
    */
@@ -30,6 +32,23 @@ export class SubscriptionClient extends Client {
    * @property {string} defaultRuleName Name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
+
+  /**
+   * @property {string} The entitypath for the Service Bus Subscription for which this client is created.
+   */
+  readonly entityPath: string;
+  /**
+   * @property {string} A unique identifier for the client.
+   */
+  readonly id: string;
+  /**
+   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   */
+  private _isClosed: boolean = false;
+  /**
+   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   */
+  private _context: ClientEntityContext;
 
   private _currentReceiver: Receiver | undefined;
 
@@ -45,7 +64,11 @@ export class SubscriptionClient extends Client {
    * @param context - The connection context to create the SubscriptionClient.
    */
   constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
-    super(`${topicName}/Subscriptions/${subscriptionName}`, context);
+    throwErrorIfConnectionClosed(context);
+
+    this.entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
+    this.id = `${this.entityPath}/${generate_uuid()}`;
+    this._context = ClientEntityContext.create(this.entityPath, context);
 
     this.topicName = topicName;
     this.subscriptionName = subscriptionName;
@@ -94,6 +117,24 @@ export class SubscriptionClient extends Client {
         `"${this.id}": ${JSON.stringify(err)} `;
       log.error(msg);
       throw new Error(msg);
+    }
+  }
+
+  /**
+   * Will reconnect the client if neccessary.
+   * @ignore
+   * @param error Error if any
+   */
+  async detached(error?: AmqpError | Error): Promise<void> {
+    try {
+      await this._context.detached(error);
+    } catch (err) {
+      log.error(
+        "[%s] [%s] An error occurred while reconnecting the client: %O.",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
     }
   }
 

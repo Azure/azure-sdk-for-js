@@ -6,13 +6,32 @@ import { ConnectionContext } from "./connectionContext";
 import { Client } from "./client";
 import { Sender } from "./sender";
 import { throwErrorIfConnectionClosed } from "./util/utils";
+import { AmqpError, generate_uuid } from "rhea-promise";
+import { ClientEntityContext } from "./clientEntityContext";
 
 /**
  * Describes the client that allows interacting with a Service Bus Topic.
  * Use the `createTopicClient` function on the Namespace object to instantiate a TopicClient
  * @class TopicClient
  */
-export class TopicClient extends Client {
+export class TopicClient implements Client {
+  /**
+   * @property {string} The entitypath for the Service Bus entity for which this client is created.
+   */
+  readonly entityPath: string;
+  /**
+   * @property {string} A unique identifier for the client.
+   */
+  readonly id: string;
+  /**
+   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   */
+  private _isClosed: boolean = false;
+  /**
+   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   */
+  private _context: ClientEntityContext;
+
   private _currentSender: Sender | undefined;
 
   /**
@@ -26,7 +45,10 @@ export class TopicClient extends Client {
    * @param context - The connection context to create the TopicClient.
    */
   constructor(name: string, context: ConnectionContext) {
-    super(name, context);
+    throwErrorIfConnectionClosed(context);
+    this.entityPath = name;
+    this.id = `${this.entityPath}/${generate_uuid()}`;
+    this._context = ClientEntityContext.create(this.entityPath, context);
   }
 
   /**
@@ -59,6 +81,24 @@ export class TopicClient extends Client {
         `"${this.id}": ${JSON.stringify(err)} `;
       log.error(msg);
       throw new Error(msg);
+    }
+  }
+
+  /**
+   * Will reconnect the client if neccessary.
+   * @ignore
+   * @param error Error if any
+   */
+  async detached(error?: AmqpError | Error): Promise<void> {
+    try {
+      await this._context.detached(error);
+    } catch (err) {
+      log.error(
+        "[%s] [%s] An error occurred while reconnecting the client: %O.",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
     }
   }
 
