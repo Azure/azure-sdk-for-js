@@ -78,6 +78,7 @@ export {
   HostingEnvironmentProfile,
   CloningInfo,
   SlotSwapStatus,
+  GeoDistribution,
   ManagedServiceIdentity,
   AppServicePlan,
   SkuDescription,

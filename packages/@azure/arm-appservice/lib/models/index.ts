@@ -695,6 +695,11 @@ export interface VnetInfo extends ProxyOnlyResource {
    * Network. This should be a comma-separated list of IP addresses.
    */
   dnsServers?: string;
+  /**
+   * @member {boolean} [isSwift] Flag that is used to denote if this is VNET
+   * injection
+   */
+  isSwift?: boolean;
 }
 
 /**
@@ -720,7 +725,7 @@ export interface VnetGateway extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing User.
- * User crendentials used for publishing activity.
+ * User credentials used for publishing activity.
  *
  * @extends ProxyOnlyResource
  */
@@ -1040,8 +1045,25 @@ export interface ManagedServiceIdentity {
 
 /**
  * @interface
+ * An interface representing GeoDistribution.
+ * A global distribution definition.
+ *
+ */
+export interface GeoDistribution {
+  /**
+   * @member {string} [location] Location.
+   */
+  location?: string;
+  /**
+   * @member {number} [numberOfWorkers] NumberOfWorkers.
+   */
+  numberOfWorkers?: number;
+}
+
+/**
+ * @interface
  * An interface representing SlotSwapStatus.
- * The status of the last successfull slot swap operation.
+ * The status of the last successful slot swap operation.
  *
  */
 export interface SlotSwapStatus {
@@ -1170,18 +1192,30 @@ export interface HostingEnvironmentProfile {
  */
 export interface IpSecurityRestriction {
   /**
-   * @member {string} ipAddress IP address the security restriction is valid
+   * @member {string} [ipAddress] IP address the security restriction is valid
    * for.
    * It can be in form of pure ipv4 address (required SubnetMask property) or
    * CIDR notation such as ipv4/mask (leading bit match). For CIDR,
    * SubnetMask property must not be specified.
    */
-  ipAddress: string;
+  ipAddress?: string;
   /**
    * @member {string} [subnetMask] Subnet mask for the range of IP addresses
    * the restriction is valid for.
    */
   subnetMask?: string;
+  /**
+   * @member {string} [vnetSubnetResourceId] Virtual network resource id
+   */
+  vnetSubnetResourceId?: string;
+  /**
+   * @member {number} [vnetTrafficTag] (internal) Vnet traffic tag
+   */
+  vnetTrafficTag?: number;
+  /**
+   * @member {number} [subnetTrafficTag] (internal) Subnet traffic tag
+   */
+  subnetTrafficTag?: number;
   /**
    * @member {string} [action] Allow or Deny access for this IP range.
    */
@@ -1232,6 +1266,13 @@ export interface CorsSettings {
    * calls (for example: http://example.com:12345). Use "*" to allow all.
    */
   allowedOrigins?: string[];
+  /**
+   * @member {boolean} [supportCredentials] Gets or sets whether CORS requests
+   * with credentials are allowed. See
+   * https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Requests_with_credentials
+   * for more details.
+   */
+  supportCredentials?: boolean;
 }
 
 /**
@@ -1430,16 +1471,16 @@ export interface RampUpRule {
   reroutePercentage?: number;
   /**
    * @member {number} [changeStep] In auto ramp up scenario this is the step to
-   * to add/remove from <code>ReroutePercentage</code> until it reaches
+   * add/remove from <code>ReroutePercentage</code> until it reaches
    * <code>MinReroutePercentage</code> or <code>MaxReroutePercentage</code>.
-   * Site metrics are checked every N minutes specificed in
+   * Site metrics are checked every N minutes specified in
    * <code>ChangeIntervalInMinutes</code>.
    * Custom decision algorithm can be provided in TiPCallback site extension
    * which URL can be specified in <code>ChangeDecisionCallbackUrl</code>.
    */
   changeStep?: number;
   /**
-   * @member {number} [changeIntervalInMinutes] Specifies interval in mimuntes
+   * @member {number} [changeIntervalInMinutes] Specifies interval in minutes
    * to reevaluate ReroutePercentage.
    */
   changeIntervalInMinutes?: number;
@@ -1814,7 +1855,7 @@ export interface SiteConfig {
    */
   loadBalancing?: SiteLoadBalancing;
   /**
-   * @member {Experiments} [experiments] This is work around for polymophic
+   * @member {Experiments} [experiments] This is work around for polymorphic
    * types.
    */
   experiments?: Experiments;
@@ -1873,9 +1914,19 @@ export interface SiteConfig {
   xManagedServiceIdentityId?: number;
   /**
    * @member {IpSecurityRestriction[]} [ipSecurityRestrictions] IP security
-   * restrictions.
+   * restrictions for main.
    */
   ipSecurityRestrictions?: IpSecurityRestriction[];
+  /**
+   * @member {IpSecurityRestriction[]} [scmIpSecurityRestrictions] IP security
+   * restrictions for scm.
+   */
+  scmIpSecurityRestrictions?: IpSecurityRestriction[];
+  /**
+   * @member {boolean} [scmIpSecurityRestrictionsUseMain] IP security
+   * restrictions for scm to use main.
+   */
+  scmIpSecurityRestrictionsUseMain?: boolean;
   /**
    * @member {boolean} [http20Enabled] Http20Enabled: configures a web site to
    * allow clients to connect over http2.0. Default value: true .
@@ -2067,6 +2118,11 @@ export interface Site extends Resource {
    */
   clientCertEnabled?: boolean;
   /**
+   * @member {string} [clientCertExclusionPaths] client certificate
+   * authentication comma-separated exclusion paths
+   */
+  clientCertExclusionPaths?: string;
+  /**
    * @member {boolean} [hostNamesDisabled] <code>true</code> to disable the
    * public hostnames of the app; otherwise, <code>false</code>.
    * If <code>true</code>, the app is only accessible via API management
@@ -2150,6 +2206,24 @@ export interface Site extends Resource {
    * http requests
    */
   httpsOnly?: boolean;
+  /**
+   * @member {RedundancyMode} [redundancyMode] Site redundancy mode. Possible
+   * values include: 'None', 'Manual', 'Failover', 'ActiveActive',
+   * 'GeoRedundant'
+   */
+  redundancyMode?: RedundancyMode;
+  /**
+   * @member {string} [inProgressOperationId] Specifies an operation id if this
+   * site has a pending operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly inProgressOperationId?: string;
+  /**
+   * @member {GeoDistribution[]} [geoDistributions] GeoDistributions for this
+   * site
+   */
+  geoDistributions?: GeoDistribution[];
   /**
    * @member {ManagedServiceIdentity} [identity]
    */
@@ -2276,10 +2350,6 @@ export interface AppServicePlan extends Resource {
    * the server.**
    */
   readonly subscription?: string;
-  /**
-   * @member {string} [adminSiteName] App Service plan administration site.
-   */
-  adminSiteName?: string;
   /**
    * @member {HostingEnvironmentProfile} [hostingEnvironmentProfile]
    * Specification for the App Service Environment to use for the App Service
@@ -2966,7 +3036,7 @@ export interface Domain extends Resource {
 /**
  * @interface
  * An interface representing DomainAvailablilityCheckResult.
- * Domain availablility check result.
+ * Domain availability check result.
  *
  */
 export interface DomainAvailablilityCheckResult {
@@ -3291,7 +3361,7 @@ export interface Certificate extends Resource {
    */
   readonly issueDate?: Date;
   /**
-   * @member {Date} [expirationDate] Certificate expriration date.
+   * @member {Date} [expirationDate] Certificate expiration date.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -3412,7 +3482,7 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
    */
   readonly issueDate?: Date;
   /**
-   * @member {Date} [expirationDate] Certificate expriration date.
+   * @member {Date} [expirationDate] Certificate expiration date.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -3922,7 +3992,7 @@ export interface LocalizableString {
  */
 export interface CsmUsageQuota {
   /**
-   * @member {string} [unit] Units of measurement for the quota resourse.
+   * @member {string} [unit] Units of measurement for the quota resource.
    */
   unit?: string;
   /**
@@ -4220,11 +4290,11 @@ export interface Solution {
  */
 export interface DetectorAbnormalTimePeriod {
   /**
-   * @member {Date} [startTime] Start time of the corelated event
+   * @member {Date} [startTime] Start time of the correlated event
    */
   startTime?: Date;
   /**
-   * @member {Date} [endTime] End time of the corelated event
+   * @member {Date} [endTime] End time of the correlated event
    */
   endTime?: Date;
   /**
@@ -4404,7 +4474,7 @@ export interface DiagnosticMetricSet {
  */
 export interface DataSource {
   /**
-   * @member {string[]} [instructions] Instrunctions if any for the data source
+   * @member {string[]} [instructions] Instructions if any for the data source
    */
   instructions?: string[];
   /**
@@ -4656,7 +4726,7 @@ export interface DiagnosticCategory extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing DiagnosticDetectorResponse.
- * Class representing Reponse from Diagnostic Detectors
+ * Class representing Response from Diagnostic Detectors
  *
  * @extends ProxyOnlyResource
  */
@@ -4719,6 +4789,11 @@ export interface StackMinorVersion {
    * minor version; otherwise, <code>false</code>.
    */
   isDefault?: boolean;
+  /**
+   * @member {boolean} [isRemoteDebuggingEnabled] <code>true</code> if this
+   * supports Remote Debugging, otherwise <code>false</code>.
+   */
+  isRemoteDebuggingEnabled?: boolean;
 }
 
 /**
@@ -4748,6 +4823,11 @@ export interface StackMajorVersion {
    * with the major version.
    */
   minorVersions?: StackMinorVersion[];
+  /**
+   * @member {boolean} [applicationInsights] <code>true</code> if this supports
+   * Application Insights; otherwise, <code>false</code>.
+   */
+  applicationInsights?: boolean;
 }
 
 /**
@@ -4852,7 +4932,7 @@ export interface Recommendation extends ProxyOnlyResource {
   enabled?: number;
   /**
    * @member {string[]} [states] The list of states of this recommendation. If
-   * it's null then it shoud be considered "Active".
+   * it's null then it should be considered "Active".
    */
   states?: string[];
   /**
@@ -5194,7 +5274,7 @@ export interface PremierAddOnOffer extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing ResourceNameAvailability.
- * Information regarding availbility of a resource name.
+ * Information regarding availability of a resource name.
  *
  */
 export interface ResourceNameAvailability {
@@ -5292,6 +5372,39 @@ export interface SourceControl extends ProxyOnlyResource {
 
 /**
  * @interface
+ * An interface representing ValidateContainerSettingsRequest.
+ * Container settings validation request context
+ *
+ */
+export interface ValidateContainerSettingsRequest {
+  /**
+   * @member {string} [baseUrl] Base URL of the container registry
+   */
+  baseUrl?: string;
+  /**
+   * @member {string} [username] Username for to access the container registry
+   */
+  username?: string;
+  /**
+   * @member {string} [password] Password for to access the container registry
+   */
+  password?: string;
+  /**
+   * @member {string} [repository] Repository name (image name)
+   */
+  repository?: string;
+  /**
+   * @member {string} [tag] Image tag
+   */
+  tag?: string;
+  /**
+   * @member {string} [platform] Platform (windows or linux)
+   */
+  platform?: string;
+}
+
+/**
+ * @interface
  * An interface representing ValidateRequest.
  * Resource validation request content.
  *
@@ -5332,7 +5445,7 @@ export interface ValidateRequest {
   isSpot?: boolean;
   /**
    * @member {number} [capacity] Target capacity of the App Service plan
-   * (number of VM's).
+   * (number of VMs).
    */
   capacity?: number;
   /**
@@ -5947,7 +6060,7 @@ export interface CustomHostnameAnalysisResult extends ProxyOnlyResource {
   readonly hasConflictOnScaleUnit?: boolean;
   /**
    * @member {boolean} [hasConflictAcrossSubscription] <code>true</code> if
-   * htere is a conflict across subscriptions; otherwise, <code>false</code>.
+   * there is a conflict across subscriptions; otherwise, <code>false</code>.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -6021,7 +6134,7 @@ export interface DeletedAppRestoreRequest extends ProxyOnlyResource {
 /**
  * @interface
  * An interface representing Deployment.
- * User crendentials used for publishing activity.
+ * User credentials used for publishing activity.
  *
  * @extends ProxyOnlyResource
  */
@@ -6780,7 +6893,7 @@ export interface ProcessThreadInfo extends ProxyOnlyResource {
    */
   userProcessorTime?: string;
   /**
-   * @member {string} [priviledgedProcessorTime] Priviledged processor time.
+   * @member {string} [priviledgedProcessorTime] Privileged processor time.
    */
   priviledgedProcessorTime?: string;
   /**
@@ -7184,6 +7297,13 @@ export interface SiteAuthSettings extends ProxyOnlyResource {
    */
   clientSecret?: string;
   /**
+   * @member {string} [clientSecretCertificateThumbprint] An alternative to the
+   * client secret, that is the thumbprint of a certificate used for signing
+   * purposes. This property acts as
+   * a replacement for the Client Secret. It is also optional.
+   */
+  clientSecretCertificateThumbprint?: string;
+  /**
    * @member {string} [issuer] The OpenID Connect Issuer URI that represents
    * the entity which issues access tokens for this application.
    * When using Azure Active Directory, this value is the URI of the directory
@@ -7509,7 +7629,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    */
   loadBalancing?: SiteLoadBalancing;
   /**
-   * @member {Experiments} [experiments] This is work around for polymophic
+   * @member {Experiments} [experiments] This is work around for polymorphic
    * types.
    */
   experiments?: Experiments;
@@ -7568,9 +7688,19 @@ export interface SiteConfigResource extends ProxyOnlyResource {
   xManagedServiceIdentityId?: number;
   /**
    * @member {IpSecurityRestriction[]} [ipSecurityRestrictions] IP security
-   * restrictions.
+   * restrictions for main.
    */
   ipSecurityRestrictions?: IpSecurityRestriction[];
+  /**
+   * @member {IpSecurityRestriction[]} [scmIpSecurityRestrictions] IP security
+   * restrictions for scm.
+   */
+  scmIpSecurityRestrictions?: IpSecurityRestriction[];
+  /**
+   * @member {boolean} [scmIpSecurityRestrictionsUseMain] IP security
+   * restrictions for scm to use main.
+   */
+  scmIpSecurityRestrictionsUseMain?: boolean;
   /**
    * @member {boolean} [http20Enabled] Http20Enabled: configures a web site to
    * allow clients to connect over http2.0. Default value: true .
@@ -7885,6 +8015,11 @@ export interface SitePatchResource extends ProxyOnlyResource {
    */
   clientCertEnabled?: boolean;
   /**
+   * @member {string} [clientCertExclusionPaths] client certificate
+   * authentication comma-separated exclusion paths
+   */
+  clientCertExclusionPaths?: string;
+  /**
    * @member {boolean} [hostNamesDisabled] <code>true</code> to disable the
    * public hostnames of the app; otherwise, <code>false</code>.
    * If <code>true</code>, the app is only accessible via API management
@@ -7968,6 +8103,24 @@ export interface SitePatchResource extends ProxyOnlyResource {
    * http requests
    */
   httpsOnly?: boolean;
+  /**
+   * @member {RedundancyMode} [redundancyMode] Site redundancy mode. Possible
+   * values include: 'None', 'Manual', 'Failover', 'ActiveActive',
+   * 'GeoRedundant'
+   */
+  redundancyMode?: RedundancyMode;
+  /**
+   * @member {string} [inProgressOperationId] Specifies an operation id if this
+   * site has a pending operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly inProgressOperationId?: string;
+  /**
+   * @member {GeoDistribution[]} [geoDistributions] GeoDistributions for this
+   * site
+   */
+  geoDistributions?: GeoDistribution[];
 }
 
 /**
@@ -8692,7 +8845,7 @@ export interface AppServiceEnvironmentResource extends Resource {
 /**
  * @interface
  * An interface representing AppServiceEnvironmentPatchResource.
- * ARM resource for a app service enviroment.
+ * ARM resource for a app service environment.
  *
  * @extends ProxyOnlyResource
  */
@@ -8932,6 +9085,56 @@ export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
 
 /**
  * @interface
+ * An interface representing EndpointDetail.
+ * Current TCP connectivity information from the App Service Environment to a
+ * single endpoint.
+ *
+ */
+export interface EndpointDetail {
+  /**
+   * @member {string} [ipAddress] An IP Address that Domain Name currently
+   * resolves to.
+   */
+  ipAddress?: string;
+  /**
+   * @member {number} [port] The port an endpoint is connected to.
+   */
+  port?: number;
+  /**
+   * @member {number} [latency] The time in milliseconds it takes for a TCP
+   * connection to be created from the App Service Environment to this
+   * IpAddress at this Port.
+   */
+  latency?: number;
+  /**
+   * @member {boolean} [isAccessable] Whether it is possible to create a TCP
+   * connection from the App Service Environment to this IpAddress at this
+   * Port.
+   */
+  isAccessable?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing EndpointDependency.
+ * A domain name that a service is reached at, including details of the current
+ * connection status.
+ *
+ */
+export interface EndpointDependency {
+  /**
+   * @member {string} [domainName] The domain name of the dependency.
+   */
+  domainName?: string;
+  /**
+   * @member {EndpointDetail[]} [endpointDetails] The IP Addresses and Ports
+   * used when connecting to DomainName.
+   */
+  endpointDetails?: EndpointDetail[];
+}
+
+/**
+ * @interface
  * An interface representing HostingEnvironmentDiagnostics.
  * Diagnostics for an App Service Environment.
  *
@@ -8945,6 +9148,31 @@ export interface HostingEnvironmentDiagnostics {
    * @member {string} [diagnosicsOutput] Diagnostics output.
    */
   diagnosicsOutput?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InboundEnvironmentEndpoint.
+ * The IP Addresses and Ports that require inbound network access to and within
+ * the subnet of the App Service Environment.
+ *
+ */
+export interface InboundEnvironmentEndpoint {
+  /**
+   * @member {string} [description] Short text describing the purpose of the
+   * network traffic.
+   */
+  description?: string;
+  /**
+   * @member {string[]} [endpoints] The IP addresses that network traffic will
+   * originate from in cidr notation.
+   */
+  endpoints?: string[];
+  /**
+   * @member {string[]} [ports] The ports that network traffic will arrive to
+   * the App Service Environment at.
+   */
+  ports?: string[];
 }
 
 /**
@@ -8997,6 +9225,27 @@ export interface MetricDefinition extends ProxyOnlyResource {
    * the server.**
    */
   readonly displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OutboundEnvironmentEndpoint.
+ * Endpoints accessed for a common purpose that the App Service Environment
+ * requires outbound network access to.
+ *
+ */
+export interface OutboundEnvironmentEndpoint {
+  /**
+   * @member {string} [category] The type of service accessed by the App
+   * Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure
+   * Active Directory.
+   */
+  category?: string;
+  /**
+   * @member {EndpointDependency[]} [endpoints] The endpoints that the App
+   * Service Environment reaches the service at.
+   */
+  endpoints?: EndpointDependency[];
 }
 
 /**
@@ -9145,10 +9394,6 @@ export interface AppServicePlanPatchResource extends ProxyOnlyResource {
    * the server.**
    */
   readonly subscription?: string;
-  /**
-   * @member {string} [adminSiteName] App Service plan administration site.
-   */
-  adminSiteName?: string;
   /**
    * @member {HostingEnvironmentProfile} [hostingEnvironmentProfile]
    * Specification for the App Service Environment to use for the App Service
@@ -9540,6 +9785,72 @@ export interface RecommendationsListOptionalParams extends msRest.RequestOptions
 
 /**
  * @interface
+ * An interface representing RecommendationsListHistoryForHostingEnvironmentOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RecommendationsListHistoryForHostingEnvironmentOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [expiredOnly] Specify <code>false</code> to return all
+   * recommendations. The default is <code>true</code>, which returns only
+   * expired recommendations.
+   */
+  expiredOnly?: boolean;
+  /**
+   * @member {string} [filter] Filter is specified by using OData syntax.
+   * Example: $filter=channel eq 'Api' or channel eq 'Notification' and
+   * startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and
+   * timeGrain eq duration'[PT1H|PT1M|P1D]
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [featured] Specify <code>true</code> to return only the
+   * most critical recommendations. The default is <code>false</code>, which
+   * returns all recommendations.
+   */
+  featured?: boolean;
+  /**
+   * @member {string} [filter] Return only channels specified in the filter.
+   * Filter is specified by using OData syntax. Example: $filter=channel eq
+   * 'Api' or channel eq 'Notification'
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [updateSeen] Specify <code>true</code> to update the
+   * last-seen timestamp of the recommendation object.
+   */
+  updateSeen?: boolean;
+  /**
+   * @member {string} [recommendationId] The GUID of the recommendation object
+   * if you query an expired one. You don't need to specify it to query an
+   * active entry.
+   */
+  recommendationId?: string;
+}
+
+/**
+ * @interface
  * An interface representing RecommendationsListHistoryForWebAppOptionalParams.
  * Optional Parameters.
  *
@@ -9597,7 +9908,7 @@ export interface RecommendationsGetRuleDetailsByWebAppOptionalParams extends msR
    */
   updateSeen?: boolean;
   /**
-   * @member {string} [recommendationId] The GUID of the recommedation object
+   * @member {string} [recommendationId] The GUID of the recommendation object
    * if you query an expired one. You don't need to specify it to query an
    * active entry.
    */
@@ -10397,7 +10708,7 @@ export interface AppServicePlansListMetricsOptionalParams extends msRest.Request
  */
 export interface AppServicePlansRestartWebAppsOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {boolean} [softRestart] Specify <code>true</code> to performa a
+   * @member {boolean} [softRestart] Specify <code>true</code> to perform a
    * soft restart, applies the configuration settings and restarts the apps if
    * necessary. The default is <code>false</code>, which always restarts and
    * reprovisions the apps
@@ -10463,7 +10774,7 @@ export interface WebSiteManagementClientOptions extends AzureServiceClientOption
 /**
  * @interface
  * An interface representing the AppServiceCertificateOrderCollection.
- * Collection of certitificate orders.
+ * Collection of certificate orders.
  *
  * @extends Array<AppServiceCertificateOrder>
  */
@@ -10479,7 +10790,7 @@ export interface AppServiceCertificateOrderCollection extends Array<AppServiceCe
 /**
  * @interface
  * An interface representing the AppServiceCertificateCollection.
- * Collection of certitificateorder certificates.
+ * Collection of certificate order certificates.
  *
  * @extends Array<AppServiceCertificateResource>
  */
@@ -11487,6 +11798,14 @@ export type UsageState = 'Normal' | 'Exceeded';
  * @enum {string}
  */
 export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode';
+
+/**
+ * Defines values for RedundancyMode.
+ * Possible values include: 'None', 'Manual', 'Failover', 'ActiveActive', 'GeoRedundant'
+ * @readonly
+ * @enum {string}
+ */
+export type RedundancyMode = 'None' | 'Manual' | 'Failover' | 'ActiveActive' | 'GeoRedundant';
 
 /**
  * Defines values for StatusOptions.
@@ -13597,6 +13916,63 @@ export type RecommendationsListResponse = RecommendationCollection & {
 };
 
 /**
+ * Contains response data for the listHistoryForHostingEnvironment operation.
+ */
+export type RecommendationsListHistoryForHostingEnvironmentResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedRulesForHostingEnvironment operation.
+ */
+export type RecommendationsListRecommendedRulesForHostingEnvironmentResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the getRuleDetailsByHostingEnvironment operation.
+ */
+export type RecommendationsGetRuleDetailsByHostingEnvironmentResponse = RecommendationRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationRule;
+    };
+};
+
+/**
  * Contains response data for the listHistoryForWebApp operation.
  */
 export type RecommendationsListHistoryForWebAppResponse = RecommendationCollection & {
@@ -13657,6 +14033,44 @@ export type RecommendationsGetRuleDetailsByWebAppResponse = RecommendationRule &
  * Contains response data for the listNext operation.
  */
 export type RecommendationsListNextResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the listHistoryForHostingEnvironmentNext operation.
+ */
+export type RecommendationsListHistoryForHostingEnvironmentNextResponse = RecommendationCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationCollection;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedRulesForHostingEnvironmentNext operation.
+ */
+export type RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse = RecommendationCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -13973,6 +14387,29 @@ export type ValidateResponse2 = ValidateResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ValidateResponse;
+    };
+};
+
+/**
+ * Contains response data for the validateContainerSettings operation.
+ */
+export type ValidateContainerSettingsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };
 
@@ -14638,63 +15075,6 @@ export type WebAppsUpdateSlotConfigurationNamesResponse = SlotConfigNamesResourc
        * The response body as parsed JSON or XML
        */
       parsedBody: SlotConfigNamesResource;
-    };
-};
-
-/**
- * Contains response data for the getSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
     };
 };
 
@@ -15782,6 +16162,63 @@ export type WebAppsGetMigrateMySqlStatusResponse = MigrateMySqlStatus & {
 };
 
 /**
+ * Contains response data for the getSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the updateSwiftVirtualNetworkConnection operation.
+ */
+export type WebAppsUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
  * Contains response data for the listNetworkFeatures operation.
  */
 export type WebAppsListNetworkFeaturesResponse = NetworkFeatures & {
@@ -16860,63 +17297,6 @@ export type WebAppsListSitePushSettingsSlotResponse = PushSettings & {
 };
 
 /**
- * Contains response data for the getSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
  * Contains response data for the getConfigurationSlot operation.
  */
 export type WebAppsGetConfigurationSlotResponse = SiteConfigResource & {
@@ -17958,6 +18338,63 @@ export type WebAppsGetMigrateMySqlStatusSlotResponse = MigrateMySqlStatus & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MigrateMySqlStatus;
+    };
+};
+
+/**
+ * Contains response data for the getSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
+    };
+};
+
+/**
+ * Contains response data for the updateSwiftVirtualNetworkConnectionSlot operation.
+ */
+export type WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SwiftVirtualNetwork;
     };
 };
 
@@ -20978,6 +21415,25 @@ export type AppServiceEnvironmentsGetDiagnosticsItemResponse = HostingEnvironmen
 };
 
 /**
+ * Contains response data for the getInboundNetworkDependenciesEndpoints operation.
+ */
+export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse = Array<InboundEnvironmentEndpoint> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundEnvironmentEndpoint[];
+    };
+};
+
+/**
  * Contains response data for the listMetricDefinitions operation.
  */
 export type AppServiceEnvironmentsListMetricDefinitionsResponse = MetricDefinition & {
@@ -21221,6 +21677,25 @@ export type AppServiceEnvironmentsListOperationsResponse = Array<Operation> & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Operation[];
+    };
+};
+
+/**
+ * Contains response data for the getOutboundNetworkDependenciesEndpoints operation.
+ */
+export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse = Array<OutboundEnvironmentEndpoint> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundEnvironmentEndpoint[];
     };
 };
 

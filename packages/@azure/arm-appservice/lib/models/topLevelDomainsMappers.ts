@@ -150,6 +150,7 @@ export {
   SiteConfig,
   CloningInfo,
   SlotSwapStatus,
+  GeoDistribution,
   SitePhpErrorLogFlag,
   SiteSourceControl,
   SlotConfigNamesResource,
