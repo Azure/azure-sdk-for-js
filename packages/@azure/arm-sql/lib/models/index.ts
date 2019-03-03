@@ -895,7 +895,7 @@ export interface MetricDefinition {
   readonly unit?: UnitDefinitionType;
   /**
    * @member {MetricAvailability[]} [metricAvailabilities] The list of database
-   * metric availabities for the metric.
+   * metric availabilities for the metric.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -928,7 +928,7 @@ export interface RecommendedElasticPoolMetric {
 /**
  * @interface
  * An interface representing RecommendedElasticPool.
- * Represents a recommented elastic pool.
+ * Represents a recommended elastic pool.
  *
  * @extends ProxyResource
  */
@@ -2314,6 +2314,31 @@ export interface ManagedInstance extends TrackedResource {
    * instance whose DNS zone this managed instance will share after creation.
    */
   dnsZonePartner?: string;
+  /**
+   * @member {boolean} [publicDataEndpointEnabled] Whether or not the public
+   * data endpoint is enabled.
+   */
+  publicDataEndpointEnabled?: boolean;
+  /**
+   * @member {ManagedInstanceProxyOverride} [proxyOverride] Connection type
+   * used for connecting to the instance. Possible values include: 'Proxy',
+   * 'Redirect', 'Default'
+   */
+  proxyOverride?: ManagedInstanceProxyOverride;
+  /**
+   * @member {string} [timezoneId] Id of the timezone. Allowed values are
+   * timezones supported by Windows.
+   * Winodws keeps details on supported timezones, including the id, in
+   * registry under
+   * KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+   * You can get those registry values via SQL Server by querying SELECT name
+   * AS timezone_id FROM sys.time_zone_info.
+   * List of Ids can also be obtained by executing
+   * [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
+   * An example of valid timezone id is "Pacific Standard Time" or "W. Europe
+   * Standard Time".
+   */
+  timezoneId?: string;
 }
 
 /**
@@ -2383,6 +2408,31 @@ export interface ManagedInstanceUpdate {
    * instance whose DNS zone this managed instance will share after creation.
    */
   dnsZonePartner?: string;
+  /**
+   * @member {boolean} [publicDataEndpointEnabled] Whether or not the public
+   * data endpoint is enabled.
+   */
+  publicDataEndpointEnabled?: boolean;
+  /**
+   * @member {ManagedInstanceProxyOverride} [proxyOverride] Connection type
+   * used for connecting to the instance. Possible values include: 'Proxy',
+   * 'Redirect', 'Default'
+   */
+  proxyOverride?: ManagedInstanceProxyOverride;
+  /**
+   * @member {string} [timezoneId] Id of the timezone. Allowed values are
+   * timezones supported by Windows.
+   * Winodws keeps details on supported timezones, including the id, in
+   * registry under
+   * KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+   * You can get those registry values via SQL Server by querying SELECT name
+   * AS timezone_id FROM sys.time_zone_info.
+   * List of Ids can also be obtained by executing
+   * [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
+   * An example of valid timezone id is "Pacific Standard Time" or "W. Europe
+   * Standard Time".
+   */
+  timezoneId?: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
@@ -3094,6 +3144,65 @@ export interface SubscriptionUsage extends ProxyResource {
    * the server.**
    */
   readonly unit?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualCluster.
+ * An Azure SQL virtual cluster.
+ *
+ * @extends TrackedResource
+ */
+export interface VirtualCluster extends TrackedResource {
+  /**
+   * @member {string} [subnetId] Subnet resource ID for the virtual cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subnetId?: string;
+  /**
+   * @member {string} [family] If the service has different generations of
+   * hardware, for the same SKU, then that can be captured here.
+   */
+  family?: string;
+  /**
+   * @member {string[]} [childResources] List of resources in this virtual
+   * cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly childResources?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing VirtualClusterUpdate.
+ * An update request for an Azure SQL Database virtual cluster.
+ *
+ */
+export interface VirtualClusterUpdate {
+  /**
+   * @member {string} [subnetId] Subnet resource ID for the virtual cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subnetId?: string;
+  /**
+   * @member {string} [family] If the service has different generations of
+   * hardware, for the same SKU, then that can be captured here.
+   */
+  family?: string;
+  /**
+   * @member {string[]} [childResources] List of resources in this virtual
+   * cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly childResources?: string[];
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -3999,7 +4108,7 @@ export interface JobSchedule {
   enabled?: boolean;
   /**
    * @member {string} [interval] Value of the schedule's recurring interval, if
-   * the scheduletype is recurring. ISO8601 duration format.
+   * the schedule type is recurring. ISO8601 duration format.
    */
   interval?: string;
 }
@@ -4360,9 +4469,9 @@ export interface ManagedDatabase extends TrackedResource {
    */
   collation?: string;
   /**
-   * @member {ManagedDatabaseStatus} [status] Status for the database. Possible
+   * @member {ManagedDatabaseStatus} [status] Status of the database. Possible
    * values include: 'Online', 'Offline', 'Shutdown', 'Creating',
-   * 'Inaccessible'
+   * 'Inaccessible', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4406,8 +4515,10 @@ export interface ManagedDatabase extends TrackedResource {
    * SourceManagedInstanceName and PointInTime must be specified.
    * RestoreExternalBackup: Create a database by restoring from external backup
    * files. Collation, StorageContainerUri and StorageContainerSasToken must be
-   * specified. Possible values include: 'Default', 'RestoreExternalBackup',
-   * 'PointInTimeRestore'
+   * specified. Recovery: Creates a database by restoring a geo-replicated
+   * backup. RecoverableDatabaseId must be specified as the recoverable
+   * database resource ID to restore. Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -4422,6 +4533,11 @@ export interface ManagedDatabase extends TrackedResource {
    */
   sourceDatabaseId?: string;
   /**
+   * @member {string} [restorableDroppedDatabaseId] The restorable dropped
+   * database resource id to restore when creating this database.
+   */
+  restorableDroppedDatabaseId?: string;
+  /**
    * @member {string} [storageContainerSasToken] Conditional. If createMode is
    * RestoreExternalBackup, this value is required. Specifies the storage
    * container sas token.
@@ -4434,6 +4550,11 @@ export interface ManagedDatabase extends TrackedResource {
    * the server.**
    */
   readonly failoverGroupId?: string;
+  /**
+   * @member {string} [recoverableDatabaseId] The resource identifier of the
+   * recoverable database associated with create operation of this database.
+   */
+  recoverableDatabaseId?: string;
 }
 
 /**
@@ -4448,9 +4569,9 @@ export interface ManagedDatabaseUpdate {
    */
   collation?: string;
   /**
-   * @member {ManagedDatabaseStatus} [status] Status for the database. Possible
+   * @member {ManagedDatabaseStatus} [status] Status of the database. Possible
    * values include: 'Online', 'Offline', 'Shutdown', 'Creating',
-   * 'Inaccessible'
+   * 'Inaccessible', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -4494,8 +4615,10 @@ export interface ManagedDatabaseUpdate {
    * SourceManagedInstanceName and PointInTime must be specified.
    * RestoreExternalBackup: Create a database by restoring from external backup
    * files. Collation, StorageContainerUri and StorageContainerSasToken must be
-   * specified. Possible values include: 'Default', 'RestoreExternalBackup',
-   * 'PointInTimeRestore'
+   * specified. Recovery: Creates a database by restoring a geo-replicated
+   * backup. RecoverableDatabaseId must be specified as the recoverable
+   * database resource ID to restore. Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -4510,6 +4633,11 @@ export interface ManagedDatabaseUpdate {
    */
   sourceDatabaseId?: string;
   /**
+   * @member {string} [restorableDroppedDatabaseId] The restorable dropped
+   * database resource id to restore when creating this database.
+   */
+  restorableDroppedDatabaseId?: string;
+  /**
    * @member {string} [storageContainerSasToken] Conditional. If createMode is
    * RestoreExternalBackup, this value is required. Specifies the storage
    * container sas token.
@@ -4522,6 +4650,11 @@ export interface ManagedDatabaseUpdate {
    * the server.**
    */
   readonly failoverGroupId?: string;
+  /**
+   * @member {string} [recoverableDatabaseId] The resource identifier of the
+   * recoverable database associated with create operation of this database.
+   */
+  recoverableDatabaseId?: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
@@ -4631,8 +4764,9 @@ export interface ServerDnsAliasAcquisition {
 export interface ServerSecurityAlertPolicy extends ProxyResource {
   /**
    * @member {SecurityAlertPolicyState} state Specifies the state of the
-   * policy, whether it is enabled or disabled. Possible values include: 'New',
-   * 'Enabled', 'Disabled'
+   * policy, whether it is enabled or disabled or a policy has not been applied
+   * yet on the specific database. Possible values include: 'New', 'Enabled',
+   * 'Disabled'
    */
   state: SecurityAlertPolicyState;
   /**
@@ -4667,6 +4801,50 @@ export interface ServerSecurityAlertPolicy extends ProxyResource {
    * the Threat Detection audit logs.
    */
   retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing RestorableDroppedManagedDatabase.
+ * A restorable dropped managed database resource.
+ *
+ * @extends TrackedResource
+ */
+export interface RestorableDroppedManagedDatabase extends TrackedResource {
+  /**
+   * @member {string} [databaseName] The name of the database.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the database (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {Date} [deletionDate] The deletion date of the database (ISO8601
+   * format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly deletionDate?: Date;
+  /**
+   * @member {Date} [earliestRestoreDate] The earliest restore date of the
+   * database (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly earliestRestoreDate?: Date;
 }
 
 /**
@@ -4724,6 +4902,144 @@ export interface CreateDatabaseRestorePointDefinition {
    * @member {string} restorePointLabel The restore point label to apply
    */
   restorePointLabel: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseSecurityAlertPolicy.
+ * A managed database security alert policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedDatabaseSecurityAlertPolicy extends ProxyResource {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled or a policy has not been applied
+   * yet on the specific database. Possible values include: 'New', 'Enabled',
+   * 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedServerSecurityAlertPolicy.
+ * A managed server security alert policy.
+ *
+ * @extends ProxyResource
+ */
+export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
+  /**
+   * @member {SecurityAlertPolicyState} state Specifies the state of the
+   * policy, whether it is enabled or disabled or a policy has not been applied
+   * yet on the specific database. Possible values include: 'New', 'Enabled',
+   * 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * @member {string[]} [disabledAlerts] Specifies an array of alerts that are
+   * disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability,
+   * Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * @member {string[]} [emailAddresses] Specifies an array of e-mail addresses
+   * to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * @member {boolean} [emailAccountAdmins] Specifies that the alert is sent to
+   * the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * @member {string} [storageEndpoint] Specifies the blob storage endpoint
+   * (e.g. https://MyAccount.blob.core.windows.net). This blob storage will
+   * hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * @member {string} [storageAccountAccessKey] Specifies the identifier key of
+   * the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * @member {number} [retentionDays] Specifies the number of days to keep in
+   * the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * @member {Date} [creationTime] Specifies the UTC creation time of the
+   * policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing SensitivityLabel.
+ * A sensitivity label.
+ *
+ * @extends ProxyResource
+ */
+export interface SensitivityLabel extends ProxyResource {
+  /**
+   * @member {string} [labelName] The label name.
+   */
+  labelName?: string;
+  /**
+   * @member {string} [labelId] The label ID.
+   */
+  labelId?: string;
+  /**
+   * @member {string} [informationType] The information type.
+   */
+  informationType?: string;
+  /**
+   * @member {string} [informationTypeId] The information type ID.
+   */
+  informationTypeId?: string;
 }
 
 /**
@@ -6505,6 +6821,22 @@ export interface ManagedInstanceEncryptionProtector extends ProxyResource {
 
 /**
  * @interface
+ * An interface representing RecoverableManagedDatabase.
+ * A recoverable managed database resource.
+ *
+ * @extends ProxyResource
+ */
+export interface RecoverableManagedDatabase extends ProxyResource {
+  /**
+   * @member {string} [lastAvailableBackupDate] The last available backup date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastAvailableBackupDate?: string;
+}
+
+/**
+ * @interface
  * An interface representing ManagedInstanceVulnerabilityAssessment.
  * A managed instance vulnerability assessment.
  *
@@ -6887,6 +7219,40 @@ export interface LongTermRetentionBackupsListByServerOptionalParams extends msRe
 
 /**
  * @interface
+ * An interface representing SensitivityLabelsListCurrentByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SensitivityLabelsListCurrentByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SensitivityLabelsListRecommendedByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [skipToken]
+   */
+  skipToken?: string;
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
  * An interface representing CapabilitiesListByLocationOptionalParams.
  * Optional Parameters.
  *
@@ -6910,6 +7276,40 @@ export interface CapabilitiesListByLocationOptionalParams extends msRest.Request
  * @extends RequestOptionsBase
  */
 export interface ManagedInstanceKeysListByInstanceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] An OData filter expression that filters elements
+   * in the collection.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [skipToken]
+   */
+  skipToken?: string;
   /**
    * @member {string} [filter] An OData filter expression that filters elements
    * in the collection.
@@ -7379,6 +7779,22 @@ export interface SubscriptionUsageListResult extends Array<SubscriptionUsage> {
 
 /**
  * @interface
+ * An interface representing the VirtualClusterListResult.
+ * A list of virtual clusters.
+ *
+ * @extends Array<VirtualCluster>
+ */
+export interface VirtualClusterListResult extends Array<VirtualCluster> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the VirtualNetworkRuleListResult.
  * A list of virtual network rules.
  *
@@ -7524,7 +7940,7 @@ export interface JobVersionListResult extends Array<JobVersion> {
 /**
  * @interface
  * An interface representing the LongTermRetentionBackupListResult.
- * A list of long term retention bacukps.
+ * A list of long term retention backups.
  *
  * @extends Array<LongTermRetentionBackup>
  */
@@ -7587,12 +8003,92 @@ export interface ServerDnsAliasListResult extends Array<ServerDnsAlias> {
 
 /**
  * @interface
+ * An interface representing the LogicalServerSecurityAlertPolicyListResult.
+ * A list of the server's security alert policies.
+ *
+ * @extends Array<ServerSecurityAlertPolicy>
+ */
+export interface LogicalServerSecurityAlertPolicyListResult extends Array<ServerSecurityAlertPolicy> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RestorableDroppedManagedDatabaseListResult.
+ * A list of restorable dropped managed databases.
+ *
+ * @extends Array<RestorableDroppedManagedDatabase>
+ */
+export interface RestorableDroppedManagedDatabaseListResult extends Array<RestorableDroppedManagedDatabase> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the RestorePointListResult.
- * A list of long term retention bacukps.
+ * A list of long term retention backups.
  *
  * @extends Array<RestorePoint>
  */
 export interface RestorePointListResult extends Array<RestorePoint> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ManagedDatabaseSecurityAlertPolicyListResult.
+ * A list of the managed database's security alert policies.
+ *
+ * @extends Array<ManagedDatabaseSecurityAlertPolicy>
+ */
+export interface ManagedDatabaseSecurityAlertPolicyListResult extends Array<ManagedDatabaseSecurityAlertPolicy> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ManagedServerSecurityAlertPolicyListResult.
+ * A list of the managed Server's security alert policies.
+ *
+ * @extends Array<ManagedServerSecurityAlertPolicy>
+ */
+export interface ManagedServerSecurityAlertPolicyListResult extends Array<ManagedServerSecurityAlertPolicy> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the SensitivityLabelListResult.
+ * A list of sensitivity labels.
+ *
+ * @extends Array<SensitivityLabel>
+ */
+export interface SensitivityLabelListResult extends Array<SensitivityLabel> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -7705,6 +8201,22 @@ export interface ManagedInstanceKeyListResult extends Array<ManagedInstanceKey> 
  * @extends Array<ManagedInstanceEncryptionProtector>
  */
 export interface ManagedInstanceEncryptionProtectorListResult extends Array<ManagedInstanceEncryptionProtector> {
+  /**
+   * @member {string} [nextLink] Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RecoverableManagedDatabaseListResult.
+ * A list of recoverable managed databases.
+ *
+ * @extends Array<RecoverableManagedDatabase>
+ */
+export interface RecoverableManagedDatabaseListResult extends Array<RecoverableManagedDatabase> {
   /**
    * @member {string} [nextLink] Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -8021,6 +8533,14 @@ export type FailoverGroupReplicationRole = 'Primary' | 'Secondary';
 export type IdentityType = 'SystemAssigned';
 
 /**
+ * Defines values for ManagedInstanceProxyOverride.
+ * Possible values include: 'Proxy', 'Redirect', 'Default'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedInstanceProxyOverride = 'Proxy' | 'Redirect' | 'Default';
+
+/**
  * Defines values for OperationOrigin.
  * Possible values include: 'user', 'system'
  * @readonly
@@ -8181,11 +8701,11 @@ export type JobTargetGroupMembershipType = 'Include' | 'Exclude';
 
 /**
  * Defines values for ManagedDatabaseStatus.
- * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible'
+ * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible', 'Updating'
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible';
+export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creating' | 'Inaccessible' | 'Updating';
 
 /**
  * Defines values for CatalogCollationType.
@@ -8197,11 +8717,11 @@ export type CatalogCollationType = 'DATABASE_DEFAULT' | 'SQL_Latin1_General_CP1_
 
 /**
  * Defines values for ManagedDatabaseCreateMode.
- * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore'
+ * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore';
+export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore' | 'Recovery';
 
 /**
  * Defines values for AutomaticTuningServerMode.
@@ -8367,6 +8887,14 @@ export type LongTermRetentionDatabaseState = 'All' | 'Live' | 'Deleted';
  * @enum {string}
  */
 export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
+
+/**
+ * Defines values for SensitivityLabelSource.
+ * Possible values include: 'current', 'recommended'
+ * @readonly
+ * @enum {string}
+ */
+export type SensitivityLabelSource = 'current' | 'recommended';
 
 /**
  * Defines values for CapabilityGroup.
@@ -11255,6 +11783,139 @@ export type SubscriptionUsagesListByLocationNextResponse = SubscriptionUsageList
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type VirtualClustersListResponse = VirtualClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type VirtualClustersListByResourceGroupResponse = VirtualClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualClustersGetResponse = VirtualCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualCluster;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type VirtualClustersUpdateResponse = VirtualCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualCluster;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type VirtualClustersBeginUpdateResponse = VirtualCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualCluster;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type VirtualClustersListNextResponse = VirtualClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type VirtualClustersListByResourceGroupNextResponse = VirtualClusterListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualClusterListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type VirtualNetworkRulesGetResponse = VirtualNetworkRule & {
@@ -13005,6 +13666,139 @@ export type ManagedDatabasesListByInstanceNextResponse = ManagedDatabaseListResu
 /**
  * Contains response data for the get operation.
  */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByRestorableDroppedDatabase operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesBeginUpdateResponse = ManagedBackupShortTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByRestorableDroppedDatabaseNext operation.
+ */
+export type ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse = ManagedBackupShortTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedBackupShortTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type ServerAutomaticTuningGetResponse = ServerAutomaticTuning & {
   /**
    * The underlying HTTP response.
@@ -13174,6 +13968,25 @@ export type ServerSecurityAlertPoliciesCreateOrUpdateResponse = ServerSecurityAl
 };
 
 /**
+ * Contains response data for the listByServer operation.
+ */
+export type ServerSecurityAlertPoliciesListByServerResponse = LogicalServerSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LogicalServerSecurityAlertPolicyListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ServerSecurityAlertPolicy & {
@@ -13189,6 +14002,82 @@ export type ServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ServerSecur
        * The response body as parsed JSON or XML
        */
       parsedBody: ServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type ServerSecurityAlertPoliciesListByServerNextResponse = LogicalServerSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LogicalServerSecurityAlertPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type RestorableDroppedManagedDatabasesListByInstanceResponse = RestorableDroppedManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RestorableDroppedManagedDatabasesGetResponse = RestorableDroppedManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type RestorableDroppedManagedDatabasesListByInstanceNextResponse = RestorableDroppedManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDroppedManagedDatabaseListResult;
     };
 };
 
@@ -13265,6 +14154,291 @@ export type RestorePointsBeginCreateResponse = RestorePoint & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RestorePoint;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesGetResponse = ManagedDatabaseSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse = ManagedDatabaseSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse = ManagedDatabaseSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse = ManagedDatabaseSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseSecurityAlertPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedServerSecurityAlertPoliciesGetResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type ManagedServerSecurityAlertPoliciesListByInstanceResponse = ManagedServerSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ManagedServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type ManagedServerSecurityAlertPoliciesListByInstanceNextResponse = ManagedServerSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedServerSecurityAlertPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCurrentByDatabase operation.
+ */
+export type SensitivityLabelsListCurrentByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabase operation.
+ */
+export type SensitivityLabelsListRecommendedByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SensitivityLabelsGetResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SensitivityLabelsCreateOrUpdateResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the listCurrentByDatabaseNext operation.
+ */
+export type SensitivityLabelsListCurrentByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabaseNext operation.
+ */
+export type SensitivityLabelsListRecommendedByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
     };
 };
 
@@ -14124,6 +15298,63 @@ export type ManagedInstanceEncryptionProtectorsListByInstanceNextResponse = Mana
 };
 
 /**
+ * Contains response data for the listByInstance operation.
+ */
+export type RecoverableManagedDatabasesListByInstanceResponse = RecoverableManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RecoverableManagedDatabasesGetResponse = RecoverableManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type RecoverableManagedDatabasesListByInstanceNextResponse = RecoverableManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableManagedDatabaseListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type ManagedInstanceVulnerabilityAssessmentsGetResponse = ManagedInstanceVulnerabilityAssessment & {
@@ -14272,5 +15503,119 @@ export type ServerVulnerabilityAssessmentsListByServerNextResponse = ServerVulne
        * The response body as parsed JSON or XML
        */
       parsedBody: ServerVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedDatabaseSensitivityLabelsGetResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse = SensitivityLabel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabel;
+    };
+};
+
+/**
+ * Contains response data for the listCurrentByDatabase operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabase operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listCurrentByDatabaseNext operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRecommendedByDatabaseNext operation.
+ */
+export type ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse = SensitivityLabelListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SensitivityLabelListResult;
     };
 };

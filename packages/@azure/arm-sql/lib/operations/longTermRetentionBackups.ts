@@ -30,8 +30,8 @@ export class LongTermRetentionBackups {
   /**
    * Gets a long term retention backup.
    * @param locationName The location of the database.
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsGetResponse>
@@ -39,16 +39,16 @@ export class LongTermRetentionBackups {
   get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsGetResponse>;
   /**
    * @param locationName The location of the database.
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param callback The callback
    */
   get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>): void;
   /**
    * @param locationName The location of the database.
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param options The optional parameters
    * @param callback The callback
@@ -70,8 +70,8 @@ export class LongTermRetentionBackups {
   /**
    * Deletes a long term retention backup.
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -84,23 +84,23 @@ export class LongTermRetentionBackups {
   /**
    * Lists all long term retention backups for a database.
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByDatabaseResponse>
    */
   listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: Models.LongTermRetentionBackupsListByDatabaseOptionalParams): Promise<Models.LongTermRetentionBackupsListByDatabaseResponse>;
   /**
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param callback The callback
    */
   listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
   /**
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -148,20 +148,20 @@ export class LongTermRetentionBackups {
   /**
    * Lists the long term retention backups for a given server.
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
+   * @param longTermRetentionServerName The name of the server
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByServerResponse>
    */
   listByServer(locationName: string, longTermRetentionServerName: string, options?: Models.LongTermRetentionBackupsListByServerOptionalParams): Promise<Models.LongTermRetentionBackupsListByServerResponse>;
   /**
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
+   * @param longTermRetentionServerName The name of the server
    * @param callback The callback
    */
   listByServer(locationName: string, longTermRetentionServerName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
   /**
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
+   * @param longTermRetentionServerName The name of the server
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -180,8 +180,8 @@ export class LongTermRetentionBackups {
   /**
    * Deletes a long term retention backup.
    * @param locationName The location of the database
-   * @param longTermRetentionServerName
-   * @param longTermRetentionDatabaseName
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
