@@ -16,10 +16,10 @@ export {
   LogFile,
   ProxyResource,
   Server,
+  ServerListResult,
   ServerSecurityAlertPolicy,
   Sku,
   StorageProfile,
   TrackedResource,
-  VirtualNetworkRule,
-  VirtualNetworkRuleListResult
+  VirtualNetworkRule
 } from "../models/mappers";
