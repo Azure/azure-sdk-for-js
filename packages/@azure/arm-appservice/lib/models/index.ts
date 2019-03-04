@@ -9108,6 +9108,56 @@ export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
 
 /**
  * @interface
+ * An interface representing EndpointDetail.
+ * Current TCP connectivity information from the App Service Environment to a
+ * single endpoint.
+ *
+ */
+export interface EndpointDetail {
+  /**
+   * @member {string} [ipAddress] An IP Address that Domain Name currently
+   * resolves to.
+   */
+  ipAddress?: string;
+  /**
+   * @member {number} [port] The port an endpoint is connected to.
+   */
+  port?: number;
+  /**
+   * @member {number} [latency] The time in milliseconds it takes for a TCP
+   * connection to be created from the App Service Environment to this
+   * IpAddress at this Port.
+   */
+  latency?: number;
+  /**
+   * @member {boolean} [isAccessable] Whether it is possible to create a TCP
+   * connection from the App Service Environment to this IpAddress at this
+   * Port.
+   */
+  isAccessable?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing EndpointDependency.
+ * A domain name that a service is reached at, including details of the current
+ * connection status.
+ *
+ */
+export interface EndpointDependency {
+  /**
+   * @member {string} [domainName] The domain name of the dependency.
+   */
+  domainName?: string;
+  /**
+   * @member {EndpointDetail[]} [endpointDetails] The IP Addresses and Ports
+   * used when connecting to DomainName.
+   */
+  endpointDetails?: EndpointDetail[];
+}
+
+/**
+ * @interface
  * An interface representing HostingEnvironmentDiagnostics.
  * Diagnostics for an App Service Environment.
  *
@@ -9121,6 +9171,31 @@ export interface HostingEnvironmentDiagnostics {
    * @member {string} [diagnosicsOutput] Diagnostics output.
    */
   diagnosicsOutput?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InboundEnvironmentEndpoint.
+ * The IP Addresses and Ports that require inbound network access to and within
+ * the subnet of the App Service Environment.
+ *
+ */
+export interface InboundEnvironmentEndpoint {
+  /**
+   * @member {string} [description] Short text describing the purpose of the
+   * network traffic.
+   */
+  description?: string;
+  /**
+   * @member {string[]} [endpoints] The IP addresses that network traffic will
+   * originate from in cidr notation.
+   */
+  endpoints?: string[];
+  /**
+   * @member {string[]} [ports] The ports that network traffic will arrive to
+   * the App Service Environment at.
+   */
+  ports?: string[];
 }
 
 /**
@@ -9173,6 +9248,27 @@ export interface MetricDefinition extends ProxyOnlyResource {
    * the server.**
    */
   readonly displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OutboundEnvironmentEndpoint.
+ * Endpoints accessed for a common purpose that the App Service Environment
+ * requires outbound network access to.
+ *
+ */
+export interface OutboundEnvironmentEndpoint {
+  /**
+   * @member {string} [category] The type of service accessed by the App
+   * Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure
+   * Active Directory.
+   */
+  category?: string;
+  /**
+   * @member {EndpointDependency[]} [endpoints] The endpoints that the App
+   * Service Environment reaches the service at.
+   */
+  endpoints?: EndpointDependency[];
 }
 
 /**
@@ -21342,6 +21438,25 @@ export type AppServiceEnvironmentsGetDiagnosticsItemResponse = HostingEnvironmen
 };
 
 /**
+ * Contains response data for the getInboundNetworkDependenciesEndpoints operation.
+ */
+export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse = Array<InboundEnvironmentEndpoint> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundEnvironmentEndpoint[];
+    };
+};
+
+/**
  * Contains response data for the listMetricDefinitions operation.
  */
 export type AppServiceEnvironmentsListMetricDefinitionsResponse = MetricDefinition & {
@@ -21585,6 +21700,25 @@ export type AppServiceEnvironmentsListOperationsResponse = Array<Operation> & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Operation[];
+    };
+};
+
+/**
+ * Contains response data for the getOutboundNetworkDependenciesEndpoints operation.
+ */
+export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse = Array<OutboundEnvironmentEndpoint> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundEnvironmentEndpoint[];
     };
 };
 

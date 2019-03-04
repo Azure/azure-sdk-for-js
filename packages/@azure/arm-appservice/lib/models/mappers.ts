@@ -12483,6 +12483,68 @@ export const AppServiceEnvironmentPatchResource: msRest.CompositeMapper = {
   }
 };
 
+export const EndpointDetail: msRest.CompositeMapper = {
+  serializedName: "EndpointDetail",
+  type: {
+    name: "Composite",
+    className: "EndpointDetail",
+    modelProperties: {
+      ipAddress: {
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      },
+      latency: {
+        serializedName: "latency",
+        type: {
+          name: "Number"
+        }
+      },
+      isAccessable: {
+        serializedName: "isAccessable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointDependency: msRest.CompositeMapper = {
+  serializedName: "EndpointDependency",
+  type: {
+    name: "Composite",
+    className: "EndpointDependency",
+    modelProperties: {
+      domainName: {
+        serializedName: "domainName",
+        type: {
+          name: "String"
+        }
+      },
+      endpointDetails: {
+        serializedName: "endpointDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HostingEnvironmentDiagnostics: msRest.CompositeMapper = {
   serializedName: "HostingEnvironmentDiagnostics",
   type: {
@@ -12499,6 +12561,44 @@ export const HostingEnvironmentDiagnostics: msRest.CompositeMapper = {
         serializedName: "diagnosicsOutput",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InboundEnvironmentEndpoint: msRest.CompositeMapper = {
+  serializedName: "InboundEnvironmentEndpoint",
+  type: {
+    name: "Composite",
+    className: "InboundEnvironmentEndpoint",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      ports: {
+        serializedName: "ports",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -12566,6 +12666,34 @@ export const MetricDefinition: msRest.CompositeMapper = {
         serializedName: "properties.displayName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpoint: msRest.CompositeMapper = {
+  serializedName: "OutboundEnvironmentEndpoint",
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpoint",
+    modelProperties: {
+      category: {
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDependency"
+            }
+          }
         }
       }
     }
