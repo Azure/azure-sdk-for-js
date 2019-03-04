@@ -16,7 +16,7 @@ import { ClientEntityContext } from "./clientEntityContext";
  */
 export class TopicClient implements Client {
   /**
-   * @property {string} The entitypath for the Service Bus entity for which this client is created.
+   * @property {string} The entitypath for the Service Bus Topic for which this client is created.
    */
   readonly entityPath: string;
   /**
@@ -85,9 +85,11 @@ export class TopicClient implements Client {
   }
 
   /**
-   * Will reconnect the client if neccessary.
+   * Will reconnect the topicClient and its sender links.
+   * This is meant for the library to use to resume sending when retryable errors are seen.
+   * This is not meant for the consumer of this library to use.
    * @ignore
-   * @param error Error if any
+   * @param error Error if any due to which we are attempting to reconnect
    */
   async detached(error?: AmqpError | Error): Promise<void> {
     try {

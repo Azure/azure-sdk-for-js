@@ -108,9 +108,11 @@ export class QueueClient implements Client {
   }
 
   /**
-   * Will reconnect the client if neccessary.
+   * Will reconnect the queueClient and all its sender/receiver links.
+   * This is meant for the library to use to resume sending/receiving when retryable errors are seen.
+   * This is not meant for the consumer of this library to use.
    * @ignore
-   * @param error Error if any
+   * @param error Error if any due to which we are attempting to reconnect
    */
   async detached(error?: AmqpError | Error): Promise<void> {
     try {

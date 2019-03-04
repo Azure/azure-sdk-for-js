@@ -16,7 +16,7 @@ export interface Client {
    */
   readonly id: string;
   /**
-   * Closes the client. This is an abstract method.
+   * Closes the client.
    */
   close(): Promise<void>;
   /**
