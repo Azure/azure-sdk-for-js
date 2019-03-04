@@ -10,9 +10,10 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
- * An abstraction over the underlying sender link.
- * This Sender can be used to send messages, schedule messages to be sent at a later time
+ * The Sender class can be used to send messages, schedule messages to be sent at a later time
  * and cancel such scheduled messages.
+ * Use the `getSender` function on the QueueClient or TopicClient to instantiate a Sender.
+ * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
 export class Sender {
@@ -23,12 +24,16 @@ export class Sender {
   private _isClosed: boolean = false;
 
   /**
-   * Denotes if close() was called on this sender.
+   * @property {boolean} [isClosed] Denotes if close() was called on this sender.
+   * @readonly
    */
   public get isClosed(): boolean {
     return this._isClosed;
   }
 
+  /**
+   * @internal
+   */
   constructor(context: ClientEntityContext) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
@@ -134,6 +139,8 @@ export class Sender {
 
   /**
    * Closes the underlying AMQP sender link.
+   * Once closed, the sender cannot be used for any further operations.
+   * Use the `getSender` function on the QueueClient or TopicClient to instantiate a new Sender
    *
    * @returns {Promise<void>}
    */

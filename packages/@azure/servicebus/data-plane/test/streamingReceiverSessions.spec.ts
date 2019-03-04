@@ -75,12 +75,14 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
   sender = senderClient.getSender();
 
   if (receiverClient instanceof QueueClient) {
-    deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.name));
+    deadLetterClient = ns.createQueueClient(
+      Namespace.getDeadLetterQueuePath(receiverClient.entityPath)
+    );
   }
 
   if (receiverClient instanceof SubscriptionClient) {
     deadLetterClient = ns.createSubscriptionClient(
-      Namespace.getDeadLetterTopicPath(senderClient.name, receiverClient.subscriptionName),
+      Namespace.getDeadLetterTopicPath(senderClient.entityPath, receiverClient.subscriptionName),
       receiverClient.subscriptionName
     );
   }
@@ -370,7 +372,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
           abandonFlag = 1;
-          if (sessionReceiver.isOpen()) {
+          if (sessionReceiver.isReceivingMessages()) {
             return sessionReceiver.close();
           }
           return Promise.resolve();
@@ -383,7 +385,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
     const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
     should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-    if (sessionReceiver.isOpen()) {
+    if (sessionReceiver.isReceivingMessages()) {
       await sessionReceiver.close();
     }
 

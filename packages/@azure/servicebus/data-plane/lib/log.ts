@@ -3,97 +3,97 @@
 
 import debugModule from "debug";
 /**
- * @ignore
+ * @internal
  * log statements for linkEntity
  */
 export const link = debugModule("azure:service-bus:linkEntity");
 /**
- * @ignore
+ * @internal
  * log statements for error
  */
 export const error = debugModule("azure:service-bus:error");
 /**
- * @ignore
+ * @internal
  * log statements for management
  */
 export const mgmt = debugModule("azure:service-bus:management");
 /**
- * @ignore
+ * @internal
  * log statements for sender
  */
 export const sender = debugModule("azure:service-bus:sender");
 /**
- * @ignore
+ * @internal
  * log statements for receiver
  */
 export const receiver = debugModule("azure:service-bus:receiver");
 /**
- * @ignore
+ * @internal
  * log statements for receiverbatching
  */
 export const batching = debugModule("azure:service-bus:receiverbatching");
 /**
- * @ignore
+ * @internal
  * log statements for receiverstreaming
  */
 export const streaming = debugModule("azure:service-bus:receiverstreaming");
 /**
- * @ignore
+ * @internal
  * log statements for connectionContext
  */
 export const connectionCtxt = debugModule("azure:service-bus:connectionContext");
 /**
- * @ignore
+ * @internal
  * log statements for clientEntityContext
  */
 export const entityCtxt = debugModule("azure:service-bus:clientEntityContext");
 /**
- * @ignore
+ * @internal
  * log statements for queue client
  */
 export const qClient = debugModule("azure:service-bus:queueClient");
 /**
- * @ignore
+ * @internal
  * log statements for topic client
  */
 export const topicClient = debugModule("azure:service-bus:topicClient");
 /**
- * @ignore
+ * @internal
  * log statements for subscription client
  */
 export const subscriptionClient = debugModule("azure:service-bus:subscriptionClient");
 /**
- * @ignore
+ * @internal
  * log statements for namespace
  */
 export const ns = debugModule("azure:service-bus:namespace");
 /**
- * @ignore
+ * @internal
  * log statements for servicebusMessage
  */
 export const message = debugModule("azure:service-bus:servicebusMessage");
 /**
- * @ignore
+ * @internal
  * log statements for map
  */
 export const map = debugModule("azure:service-bus:concurrentMap");
 /**
- * @ignore
+ * @internal
  * log statements for utils
  */
 export const utils = debugModule("azure:service-bus:utils");
 /**
- * @ignore
+ * @internal
  * log statements for messageSession
  */
 export const messageSession = debugModule("azure:service-bus:messageSession");
 /**
- * @ignore
+ * @internal
  * log statements for semaphore
  */
 export const semaphore = debugModule("azure:service-bus:semaphore");
 /**
- * @ignore
+ * @internal
  * log statements for sessionManager
  */
 export const sessionManager = debugModule("azure:service-bus:sessionManager");
