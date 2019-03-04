@@ -11,15 +11,28 @@
 export {
   discriminators,
   Application,
+  ApplicationBase,
   DirectoryObject,
   AppRole,
+  InformationalUrl,
+  KeyCredential,
+  OAuth2Permission,
+  OptionalClaims,
+  OptionalClaim,
+  PasswordCredential,
+  PreAuthorizedApplication,
+  PreAuthorizedApplicationPermission,
+  PreAuthorizedApplicationExtension,
   RequiredResourceAccess,
   ResourceAccess,
   GraphError,
   ApplicationListResult,
+  ApplicationCreateParameters,
+  ApplicationUpdateParameters,
   ADGroup,
   ServicePrincipal,
   User,
-  SignInName
+  SignInName,
+  ServicePrincipalCreateParameters
 } from "../models/mappers";
 
