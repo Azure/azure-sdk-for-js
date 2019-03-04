@@ -205,16 +205,11 @@ export class Namespace {
       throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
     }
     if (!host.endsWith("/")) host += "/";
-    const config: ConnectionConfig = {
-      connectionString: "",
-      endpoint: `sb://${host}`,
-      host,
-      sharedAccessKeyName: "defaultKeyName",
-      sharedAccessKey: "defaultKeyValue"
-    };
-    config.connectionString = `Endpoint=${config.endpoint};SharedAccessKeyName=${
-      config.sharedAccessKeyName
-    };SharedAccessKey=${config.sharedAccessKey}`;
+    const connectionString =
+      `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue`;
+    const config = ConnectionConfig.create(connectionString);
+    ConnectionConfig.validate(config);
     return new Namespace(config, tokenProvider, options);
   }
 
