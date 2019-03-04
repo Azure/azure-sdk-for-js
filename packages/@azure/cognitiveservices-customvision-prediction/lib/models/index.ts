@@ -14,10 +14,12 @@ import * as msRest from "@azure/ms-rest-js";
 /**
  * @interface
  * An interface representing ImageUrl.
+ * Image url.
+ *
  */
 export interface ImageUrl {
   /**
-   * @member {string} [url]
+   * @member {string} [url] Url of the image.
    */
   url?: string;
 }
@@ -25,22 +27,24 @@ export interface ImageUrl {
 /**
  * @interface
  * An interface representing BoundingBox.
+ * Bounding box that defines a region of an image.
+ *
  */
 export interface BoundingBox {
   /**
-   * @member {number} [left]
+   * @member {number} [left] Coordinate of the left boundary.
    */
   left?: number;
   /**
-   * @member {number} [top]
+   * @member {number} [top] Coordinate of the top boundary.
    */
   top?: number;
   /**
-   * @member {number} [width]
+   * @member {number} [width] Width.
    */
   width?: number;
   /**
-   * @member {number} [height]
+   * @member {number} [height] Height.
    */
   height?: number;
 }
@@ -48,26 +52,32 @@ export interface BoundingBox {
 /**
  * @interface
  * An interface representing Prediction.
+ * Prediction result.
+ *
  */
 export interface Prediction {
   /**
-   * @member {number} [probability] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {number} [probability] Probability of the tag.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly probability?: number;
   /**
-   * @member {string} [tagId] **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [tagId] Id of the predicted tag.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly tagId?: string;
   /**
-   * @member {string} [tagName] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [tagName] Name of the predicted tag.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly tagName?: string;
   /**
-   * @member {BoundingBox} [boundingBox] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {BoundingBox} [boundingBox] Bounding box of the prediction.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly boundingBox?: BoundingBox;
 }
@@ -75,123 +85,293 @@ export interface Prediction {
 /**
  * @interface
  * An interface representing ImagePrediction.
+ * Result of an image prediction request.
+ *
  */
 export interface ImagePrediction {
   /**
-   * @member {string} [id] **NOTE: This property will not be serialized. It can
-   * only be populated by the server.**
+   * @member {string} [id] Prediction Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly id?: string;
   /**
-   * @member {string} [project] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [project] Project Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly project?: string;
   /**
-   * @member {string} [iteration] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [iteration] Iteration Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly iteration?: string;
   /**
-   * @member {Date} [created] **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {Date} [created] Date this prediction was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly created?: Date;
   /**
-   * @member {Prediction[]} [predictions] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {Prediction[]} [predictions] List of predictions.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly predictions?: Prediction[];
 }
 
 /**
  * @interface
- * An interface representing PredictionAPIClientPredictImageUrlOptionalParams.
+ * An interface representing CustomVisionError.
+ */
+export interface CustomVisionError {
+  /**
+   * @member {CustomVisionErrorCodes} code The error code. Possible values
+   * include: 'NoError', 'BadRequest', 'BadRequestExceededBatchSize',
+   * 'BadRequestNotSupported', 'BadRequestInvalidIds', 'BadRequestProjectName',
+   * 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
+   * 'BadRequestProjectUnknownDomain',
+   * 'BadRequestProjectUnknownClassification',
+   * 'BadRequestProjectUnsupportedDomainTypeChange',
+   * 'BadRequestProjectUnsupportedExportPlatform', 'BadRequestIterationName',
+   * 'BadRequestIterationNameNotUnique', 'BadRequestIterationDescription',
+   * 'BadRequestIterationIsNotTrained', 'BadRequestWorkspaceCannotBeModified',
+   * 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName',
+   * 'BadRequestTagNameNotUnique', 'BadRequestTagDescription',
+   * 'BadRequestTagType', 'BadRequestMultipleNegativeTag',
+   * 'BadRequestImageTags', 'BadRequestImageRegions',
+   * 'BadRequestNegativeAndRegularTagOnSameImage',
+   * 'BadRequestIterationIsPublished', 'BadRequestInvalidPublishName',
+   * 'BadRequestSubscriptionApi', 'BadRequestPublishFailed',
+   * 'BadRequestUnpublishFailed', 'BadRequestExceedProjectLimit',
+   * 'BadRequestExceedIterationPerProjectLimit',
+   * 'BadRequestExceedTagPerProjectLimit', 'BadRequestExceedTagPerImageLimit',
+   * 'BadRequestExceededQuota', 'BadRequestCannotMigrateProjectWithName',
+   * 'BadRequestNotLimitedTrial', 'BadRequestImageBatch',
+   * 'BadRequestImageStream', 'BadRequestImageUrl', 'BadRequestImageFormat',
+   * 'BadRequestImageSizeBytes', 'BadRequestImageExceededCount',
+   * 'BadRequestTrainingNotNeeded',
+   * 'BadRequestTrainingNotNeededButTrainingPipelineUpdated',
+   * 'BadRequestTrainingValidationFailed',
+   * 'BadRequestClassificationTrainingValidationFailed',
+   * 'BadRequestMultiClassClassificationTrainingValidationFailed',
+   * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
+   * 'BadRequestDetectionTrainingValidationFailed',
+   * 'BadRequestTrainingAlreadyInProgress',
+   * 'BadRequestDetectionTrainingNotAllowNegativeTag',
+   * 'BadRequestInvalidEmailAddress', 'BadRequestBakingAlreadyInProgress',
+   * 'BadRequestExportValidationFailed', 'BadRequestExportAlreadyInProgress',
+   * 'BadRequestPredictionIdsMissing', 'BadRequestPredictionIdsExceededCount',
+   * 'BadRequestPredictionTagsExceededCount',
+   * 'BadRequestPredictionResultsExceededCount',
+   * 'BadRequestPredictionInvalidApplicationName',
+   * 'BadRequestPredictionInvalidQueryParameters', 'BadRequestInvalid',
+   * 'UnsupportedMediaType', 'Forbidden', 'ForbiddenUser',
+   * 'ForbiddenUserResource', 'ForbiddenUserSignupDisabled',
+   * 'ForbiddenUserSignupAllowanceExceeded', 'ForbiddenUserDoesNotExist',
+   * 'ForbiddenUserDisabled', 'ForbiddenUserInsufficientCapability',
+   * 'ForbiddenDRModeEnabled', 'ForbiddenInvalid', 'NotFound',
+   * 'NotFoundProject', 'NotFoundProjectDefaultIteration', 'NotFoundIteration',
+   * 'NotFoundIterationPerformance', 'NotFoundTag', 'NotFoundImage',
+   * 'NotFoundDomain', 'NotFoundApimSubscription', 'NotFoundInvalid',
+   * 'Conflict', 'ConflictInvalid', 'ErrorUnknown',
+   * 'ErrorProjectInvalidWorkspace',
+   * 'ErrorProjectInvalidPipelineConfiguration', 'ErrorProjectInvalidDomain',
+   * 'ErrorProjectTrainingRequestFailed', 'ErrorProjectExportRequestFailed',
+   * 'ErrorFeaturizationServiceUnavailable', 'ErrorFeaturizationQueueTimeout',
+   * 'ErrorFeaturizationInvalidFeaturizer',
+   * 'ErrorFeaturizationAugmentationUnavailable',
+   * 'ErrorFeaturizationUnrecognizedJob',
+   * 'ErrorFeaturizationAugmentationError', 'ErrorExporterInvalidPlatform',
+   * 'ErrorExporterInvalidFeaturizer', 'ErrorExporterInvalidClassifier',
+   * 'ErrorPredictionServiceUnavailable', 'ErrorPredictionModelNotFound',
+   * 'ErrorPredictionModelNotCached', 'ErrorPrediction',
+   * 'ErrorPredictionStorage', 'ErrorRegionProposal', 'ErrorInvalid'
+   */
+  code: CustomVisionErrorCodes;
+  /**
+   * @member {string} message A message explaining the error reported by the
+   * service.
+   */
+  message: string;
+}
+
+/**
+ * @interface
+ * An interface representing PredictionAPIClientClassifyImageUrlOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface PredictionAPIClientPredictImageUrlOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [iterationId] Optional. Specifies the id of a particular
-   * iteration to evaluate against.
-   * The default iteration for the project will be used when not specified
-   */
-  iterationId?: string;
+export interface PredictionAPIClientClassifyImageUrlOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [application] Optional. Specifies the name of application
-   * using the endpoint
+   * using the endpoint.
    */
   application?: string;
 }
 
 /**
  * @interface
- * An interface representing PredictionAPIClientPredictImageOptionalParams.
+ * An interface representing PredictionAPIClientClassifyImageOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface PredictionAPIClientPredictImageOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [iterationId] Optional. Specifies the id of a particular
-   * iteration to evaluate against.
-   * The default iteration for the project will be used when not specified
-   */
-  iterationId?: string;
+export interface PredictionAPIClientClassifyImageOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [application] Optional. Specifies the name of application
-   * using the endpoint
+   * using the endpoint.
    */
   application?: string;
 }
 
 /**
  * @interface
- * An interface representing PredictionAPIClientPredictImageUrlWithNoStoreOptionalParams.
+ * An interface representing PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface PredictionAPIClientPredictImageUrlWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [iterationId] Optional. Specifies the id of a particular
-   * iteration to evaluate against.
-   * The default iteration for the project will be used when not specified
-   */
-  iterationId?: string;
+export interface PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [application] Optional. Specifies the name of application
-   * using the endpoint
+   * using the endpoint.
    */
   application?: string;
 }
 
 /**
  * @interface
- * An interface representing PredictionAPIClientPredictImageWithNoStoreOptionalParams.
+ * An interface representing PredictionAPIClientClassifyImageWithNoStoreOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface PredictionAPIClientPredictImageWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [iterationId] Optional. Specifies the id of a particular
-   * iteration to evaluate against.
-   * The default iteration for the project will be used when not specified
-   */
-  iterationId?: string;
+export interface PredictionAPIClientClassifyImageWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [application] Optional. Specifies the name of application
-   * using the endpoint
+   * using the endpoint.
    */
   application?: string;
 }
 
 /**
- * Contains response data for the predictImageUrl operation.
+ * @interface
+ * An interface representing PredictionAPIClientDetectImageUrlOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
  */
-export type PredictImageUrlResponse = ImagePrediction & {
+export interface PredictionAPIClientDetectImageUrlOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [application] Optional. Specifies the name of application
+   * using the endpoint.
+   */
+  application?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PredictionAPIClientDetectImageOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface PredictionAPIClientDetectImageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [application] Optional. Specifies the name of application
+   * using the endpoint.
+   */
+  application?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [application] Optional. Specifies the name of application
+   * using the endpoint.
+   */
+  application?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PredictionAPIClientDetectImageWithNoStoreOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface PredictionAPIClientDetectImageWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [application] Optional. Specifies the name of application
+   * using the endpoint.
+   */
+  application?: string;
+}
+
+/**
+ * Defines values for CustomVisionErrorCodes.
+ * Possible values include: 'NoError', 'BadRequest', 'BadRequestExceededBatchSize',
+ * 'BadRequestNotSupported', 'BadRequestInvalidIds', 'BadRequestProjectName',
+ * 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
+ * 'BadRequestProjectUnknownDomain', 'BadRequestProjectUnknownClassification',
+ * 'BadRequestProjectUnsupportedDomainTypeChange', 'BadRequestProjectUnsupportedExportPlatform',
+ * 'BadRequestIterationName', 'BadRequestIterationNameNotUnique', 'BadRequestIterationDescription',
+ * 'BadRequestIterationIsNotTrained', 'BadRequestWorkspaceCannotBeModified',
+ * 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName', 'BadRequestTagNameNotUnique',
+ * 'BadRequestTagDescription', 'BadRequestTagType', 'BadRequestMultipleNegativeTag',
+ * 'BadRequestImageTags', 'BadRequestImageRegions', 'BadRequestNegativeAndRegularTagOnSameImage',
+ * 'BadRequestIterationIsPublished', 'BadRequestInvalidPublishName', 'BadRequestSubscriptionApi',
+ * 'BadRequestPublishFailed', 'BadRequestUnpublishFailed', 'BadRequestExceedProjectLimit',
+ * 'BadRequestExceedIterationPerProjectLimit', 'BadRequestExceedTagPerProjectLimit',
+ * 'BadRequestExceedTagPerImageLimit', 'BadRequestExceededQuota',
+ * 'BadRequestCannotMigrateProjectWithName', 'BadRequestNotLimitedTrial', 'BadRequestImageBatch',
+ * 'BadRequestImageStream', 'BadRequestImageUrl', 'BadRequestImageFormat',
+ * 'BadRequestImageSizeBytes', 'BadRequestImageExceededCount', 'BadRequestTrainingNotNeeded',
+ * 'BadRequestTrainingNotNeededButTrainingPipelineUpdated', 'BadRequestTrainingValidationFailed',
+ * 'BadRequestClassificationTrainingValidationFailed',
+ * 'BadRequestMultiClassClassificationTrainingValidationFailed',
+ * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
+ * 'BadRequestDetectionTrainingValidationFailed', 'BadRequestTrainingAlreadyInProgress',
+ * 'BadRequestDetectionTrainingNotAllowNegativeTag', 'BadRequestInvalidEmailAddress',
+ * 'BadRequestBakingAlreadyInProgress', 'BadRequestExportValidationFailed',
+ * 'BadRequestExportAlreadyInProgress', 'BadRequestPredictionIdsMissing',
+ * 'BadRequestPredictionIdsExceededCount', 'BadRequestPredictionTagsExceededCount',
+ * 'BadRequestPredictionResultsExceededCount', 'BadRequestPredictionInvalidApplicationName',
+ * 'BadRequestPredictionInvalidQueryParameters', 'BadRequestInvalid', 'UnsupportedMediaType',
+ * 'Forbidden', 'ForbiddenUser', 'ForbiddenUserResource', 'ForbiddenUserSignupDisabled',
+ * 'ForbiddenUserSignupAllowanceExceeded', 'ForbiddenUserDoesNotExist', 'ForbiddenUserDisabled',
+ * 'ForbiddenUserInsufficientCapability', 'ForbiddenDRModeEnabled', 'ForbiddenInvalid', 'NotFound',
+ * 'NotFoundProject', 'NotFoundProjectDefaultIteration', 'NotFoundIteration',
+ * 'NotFoundIterationPerformance', 'NotFoundTag', 'NotFoundImage', 'NotFoundDomain',
+ * 'NotFoundApimSubscription', 'NotFoundInvalid', 'Conflict', 'ConflictInvalid', 'ErrorUnknown',
+ * 'ErrorProjectInvalidWorkspace', 'ErrorProjectInvalidPipelineConfiguration',
+ * 'ErrorProjectInvalidDomain', 'ErrorProjectTrainingRequestFailed',
+ * 'ErrorProjectExportRequestFailed', 'ErrorFeaturizationServiceUnavailable',
+ * 'ErrorFeaturizationQueueTimeout', 'ErrorFeaturizationInvalidFeaturizer',
+ * 'ErrorFeaturizationAugmentationUnavailable', 'ErrorFeaturizationUnrecognizedJob',
+ * 'ErrorFeaturizationAugmentationError', 'ErrorExporterInvalidPlatform',
+ * 'ErrorExporterInvalidFeaturizer', 'ErrorExporterInvalidClassifier',
+ * 'ErrorPredictionServiceUnavailable', 'ErrorPredictionModelNotFound',
+ * 'ErrorPredictionModelNotCached', 'ErrorPrediction', 'ErrorPredictionStorage',
+ * 'ErrorRegionProposal', 'ErrorInvalid'
+ * @readonly
+ * @enum {string}
+ */
+export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExceededBatchSize' | 'BadRequestNotSupported' | 'BadRequestInvalidIds' | 'BadRequestProjectName' | 'BadRequestProjectNameNotUnique' | 'BadRequestProjectDescription' | 'BadRequestProjectUnknownDomain' | 'BadRequestProjectUnknownClassification' | 'BadRequestProjectUnsupportedDomainTypeChange' | 'BadRequestProjectUnsupportedExportPlatform' | 'BadRequestIterationName' | 'BadRequestIterationNameNotUnique' | 'BadRequestIterationDescription' | 'BadRequestIterationIsNotTrained' | 'BadRequestWorkspaceCannotBeModified' | 'BadRequestWorkspaceNotDeletable' | 'BadRequestTagName' | 'BadRequestTagNameNotUnique' | 'BadRequestTagDescription' | 'BadRequestTagType' | 'BadRequestMultipleNegativeTag' | 'BadRequestImageTags' | 'BadRequestImageRegions' | 'BadRequestNegativeAndRegularTagOnSameImage' | 'BadRequestIterationIsPublished' | 'BadRequestInvalidPublishName' | 'BadRequestSubscriptionApi' | 'BadRequestPublishFailed' | 'BadRequestUnpublishFailed' | 'BadRequestExceedProjectLimit' | 'BadRequestExceedIterationPerProjectLimit' | 'BadRequestExceedTagPerProjectLimit' | 'BadRequestExceedTagPerImageLimit' | 'BadRequestExceededQuota' | 'BadRequestCannotMigrateProjectWithName' | 'BadRequestNotLimitedTrial' | 'BadRequestImageBatch' | 'BadRequestImageStream' | 'BadRequestImageUrl' | 'BadRequestImageFormat' | 'BadRequestImageSizeBytes' | 'BadRequestImageExceededCount' | 'BadRequestTrainingNotNeeded' | 'BadRequestTrainingNotNeededButTrainingPipelineUpdated' | 'BadRequestTrainingValidationFailed' | 'BadRequestClassificationTrainingValidationFailed' | 'BadRequestMultiClassClassificationTrainingValidationFailed' | 'BadRequestMultiLabelClassificationTrainingValidationFailed' | 'BadRequestDetectionTrainingValidationFailed' | 'BadRequestTrainingAlreadyInProgress' | 'BadRequestDetectionTrainingNotAllowNegativeTag' | 'BadRequestInvalidEmailAddress' | 'BadRequestBakingAlreadyInProgress' | 'BadRequestExportValidationFailed' | 'BadRequestExportAlreadyInProgress' | 'BadRequestPredictionIdsMissing' | 'BadRequestPredictionIdsExceededCount' | 'BadRequestPredictionTagsExceededCount' | 'BadRequestPredictionResultsExceededCount' | 'BadRequestPredictionInvalidApplicationName' | 'BadRequestPredictionInvalidQueryParameters' | 'BadRequestInvalid' | 'UnsupportedMediaType' | 'Forbidden' | 'ForbiddenUser' | 'ForbiddenUserResource' | 'ForbiddenUserSignupDisabled' | 'ForbiddenUserSignupAllowanceExceeded' | 'ForbiddenUserDoesNotExist' | 'ForbiddenUserDisabled' | 'ForbiddenUserInsufficientCapability' | 'ForbiddenDRModeEnabled' | 'ForbiddenInvalid' | 'NotFound' | 'NotFoundProject' | 'NotFoundProjectDefaultIteration' | 'NotFoundIteration' | 'NotFoundIterationPerformance' | 'NotFoundTag' | 'NotFoundImage' | 'NotFoundDomain' | 'NotFoundApimSubscription' | 'NotFoundInvalid' | 'Conflict' | 'ConflictInvalid' | 'ErrorUnknown' | 'ErrorProjectInvalidWorkspace' | 'ErrorProjectInvalidPipelineConfiguration' | 'ErrorProjectInvalidDomain' | 'ErrorProjectTrainingRequestFailed' | 'ErrorProjectExportRequestFailed' | 'ErrorFeaturizationServiceUnavailable' | 'ErrorFeaturizationQueueTimeout' | 'ErrorFeaturizationInvalidFeaturizer' | 'ErrorFeaturizationAugmentationUnavailable' | 'ErrorFeaturizationUnrecognizedJob' | 'ErrorFeaturizationAugmentationError' | 'ErrorExporterInvalidPlatform' | 'ErrorExporterInvalidFeaturizer' | 'ErrorExporterInvalidClassifier' | 'ErrorPredictionServiceUnavailable' | 'ErrorPredictionModelNotFound' | 'ErrorPredictionModelNotCached' | 'ErrorPrediction' | 'ErrorPredictionStorage' | 'ErrorRegionProposal' | 'ErrorInvalid';
+
+/**
+ * Contains response data for the classifyImageUrl operation.
+ */
+export type ClassifyImageUrlResponse = ImagePrediction & {
   /**
    * The underlying HTTP response.
    */
@@ -208,9 +388,9 @@ export type PredictImageUrlResponse = ImagePrediction & {
 };
 
 /**
- * Contains response data for the predictImage operation.
+ * Contains response data for the classifyImage operation.
  */
-export type PredictImageResponse = ImagePrediction & {
+export type ClassifyImageResponse = ImagePrediction & {
   /**
    * The underlying HTTP response.
    */
@@ -227,9 +407,9 @@ export type PredictImageResponse = ImagePrediction & {
 };
 
 /**
- * Contains response data for the predictImageUrlWithNoStore operation.
+ * Contains response data for the classifyImageUrlWithNoStore operation.
  */
-export type PredictImageUrlWithNoStoreResponse = ImagePrediction & {
+export type ClassifyImageUrlWithNoStoreResponse = ImagePrediction & {
   /**
    * The underlying HTTP response.
    */
@@ -246,9 +426,85 @@ export type PredictImageUrlWithNoStoreResponse = ImagePrediction & {
 };
 
 /**
- * Contains response data for the predictImageWithNoStore operation.
+ * Contains response data for the classifyImageWithNoStore operation.
  */
-export type PredictImageWithNoStoreResponse = ImagePrediction & {
+export type ClassifyImageWithNoStoreResponse = ImagePrediction & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImagePrediction;
+    };
+};
+
+/**
+ * Contains response data for the detectImageUrl operation.
+ */
+export type DetectImageUrlResponse = ImagePrediction & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImagePrediction;
+    };
+};
+
+/**
+ * Contains response data for the detectImage operation.
+ */
+export type DetectImageResponse = ImagePrediction & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImagePrediction;
+    };
+};
+
+/**
+ * Contains response data for the detectImageUrlWithNoStore operation.
+ */
+export type DetectImageUrlWithNoStoreResponse = ImagePrediction & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImagePrediction;
+    };
+};
+
+/**
+ * Contains response data for the detectImageWithNoStore operation.
+ */
+export type DetectImageWithNoStoreResponse = ImagePrediction & {
   /**
    * The underlying HTTP response.
    */

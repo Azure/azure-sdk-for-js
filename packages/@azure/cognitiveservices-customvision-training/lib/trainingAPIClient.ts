@@ -17,8 +17,8 @@ import { TrainingAPIClientContext } from "./trainingAPIClientContext";
 class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * Initializes a new instance of the TrainingAPIClient class.
-   * @param apiKey
-   * @param endpoint Supported Cognitive Services endpoints
+   * @param apiKey API key.
+   * @param endpoint Supported Cognitive Services endpoints.
    * @param [options] The parameter options
    */
   constructor(apiKey: string, endpoint: string, options?: msRest.ServiceClientOptions) {
@@ -175,7 +175,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @summary Remove a set of tags from a set of images.
    * @param projectId The project id.
    * @param imageIds Image ids. Limited to 64 images.
-   * @param tagIds Tags to be deleted from the specified images. Limted to 20 tags.
+   * @param tagIds Tags to be deleted from the specified images. Limited to 20 tags.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -183,14 +183,14 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * @param projectId The project id.
    * @param imageIds Image ids. Limited to 64 images.
-   * @param tagIds Tags to be deleted from the specified images. Limted to 20 tags.
+   * @param tagIds Tags to be deleted from the specified images. Limited to 20 tags.
    * @param callback The callback
    */
   deleteImageTags(projectId: string, imageIds: string[], tagIds: string[], callback: msRest.ServiceCallback<void>): void;
   /**
    * @param projectId The project id.
    * @param imageIds Image ids. Limited to 64 images.
-   * @param tagIds Tags to be deleted from the specified images. Limted to 20 tags.
+   * @param tagIds Tags to be deleted from the specified images. Limited to 20 tags.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -408,20 +408,20 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * @summary Delete images from the set of training images.
    * @param projectId The project id.
-   * @param imageIds Ids of the images to be deleted. Limted to 256 images per batch.
+   * @param imageIds Ids of the images to be deleted. Limited to 256 images per batch.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   deleteImages(projectId: string, imageIds: string[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param projectId The project id.
-   * @param imageIds Ids of the images to be deleted. Limted to 256 images per batch.
+   * @param imageIds Ids of the images to be deleted. Limited to 256 images per batch.
    * @param callback The callback
    */
   deleteImages(projectId: string, imageIds: string[], callback: msRest.ServiceCallback<void>): void;
   /**
    * @param projectId The project id.
-   * @param imageIds Ids of the images to be deleted. Limted to 256 images per batch.
+   * @param imageIds Ids of the images to be deleted. Limited to 256 images per batch.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -510,20 +510,20 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * images and 20 tags.
    * @summary Add the specified predicted images to the set of training images.
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limted to 64 images and 20 tags per batch.
+   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateImagesFromPredictionsResponse>
    */
   createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, options?: msRest.RequestOptionsBase): Promise<Models.CreateImagesFromPredictionsResponse>;
   /**
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limted to 64 images and 20 tags per batch.
+   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
    * @param callback The callback
    */
   createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
   /**
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limted to 64 images and 20 tags per batch.
+   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1085,7 +1085,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrainProjectResponse>
    */
-  trainProject(projectId: string, options?: msRest.RequestOptionsBase): Promise<Models.TrainProjectResponse>;
+  trainProject(projectId: string, options?: Models.TrainingAPIClientTrainProjectOptionalParams): Promise<Models.TrainProjectResponse>;
   /**
    * @param projectId The project id.
    * @param callback The callback
@@ -1096,8 +1096,8 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainProject(projectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Iteration>): void;
-  trainProject(projectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Iteration>, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.TrainProjectResponse> {
+  trainProject(projectId: string, options: Models.TrainingAPIClientTrainProjectOptionalParams, callback: msRest.ServiceCallback<Models.Iteration>): void;
+  trainProject(projectId: string, options?: Models.TrainingAPIClientTrainProjectOptionalParams | msRest.ServiceCallback<Models.Iteration>, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.TrainProjectResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1105,6 +1105,78 @@ class TrainingAPIClient extends TrainingAPIClientContext {
       },
       trainProjectOperationSpec,
       callback) as Promise<Models.TrainProjectResponse>;
+  }
+
+  /**
+   * @summary Publish a specific iteration.
+   * @param projectId The project id.
+   * @param iterationId The iteration id.
+   * @param name The updated iteration name.
+   * @param predictionId The id of the prediction resource to publish to.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PublishIterationResponse>
+   */
+  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, options?: msRest.RequestOptionsBase): Promise<Models.PublishIterationResponse>;
+  /**
+   * @param projectId The project id.
+   * @param iterationId The iteration id.
+   * @param name The updated iteration name.
+   * @param predictionId The id of the prediction resource to publish to.
+   * @param callback The callback
+   */
+  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, callback: msRest.ServiceCallback<boolean>): void;
+  /**
+   * @param projectId The project id.
+   * @param iterationId The iteration id.
+   * @param name The updated iteration name.
+   * @param predictionId The id of the prediction resource to publish to.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.PublishIterationResponse> {
+    return this.sendOperationRequest(
+      {
+        projectId,
+        iterationId,
+        name,
+        predictionId,
+        options
+      },
+      publishIterationOperationSpec,
+      callback) as Promise<Models.PublishIterationResponse>;
+  }
+
+  /**
+   * @summary Unpublish a specific iteration.
+   * @param projectId The project id.
+   * @param iterationId The iteration id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UnpublishIterationResponse>
+   */
+  unpublishIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase): Promise<Models.UnpublishIterationResponse>;
+  /**
+   * @param projectId The project id.
+   * @param iterationId The iteration id.
+   * @param callback The callback
+   */
+  unpublishIteration(projectId: string, iterationId: string, callback: msRest.ServiceCallback<boolean>): void;
+  /**
+   * @param projectId The project id.
+   * @param iterationId The iteration id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  unpublishIteration(projectId: string, iterationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  unpublishIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.UnpublishIterationResponse> {
+    return this.sendOperationRequest(
+      {
+        projectId,
+        iterationId,
+        options
+      },
+      unpublishIterationOperationSpec,
+      callback) as Promise<Models.UnpublishIterationResponse>;
   }
 
   /**
@@ -1365,7 +1437,9 @@ const getDomainsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1384,7 +1458,9 @@ const getDomainOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Domain
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1412,7 +1488,9 @@ const getTaggedImageCountOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1439,7 +1517,9 @@ const getUntaggedImageCountOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1465,7 +1545,9 @@ const createImageTagsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImageTagCreateSummary
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1486,7 +1568,9 @@ const deleteImageTagsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1512,7 +1596,9 @@ const createImageRegionsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImageRegionCreateSummary
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1532,7 +1618,9 @@ const deleteImageRegionsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1569,7 +1657,9 @@ const getTaggedImagesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1605,7 +1695,9 @@ const getUntaggedImagesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1639,7 +1731,9 @@ const getImagesByIdsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1665,7 +1759,9 @@ const createImagesFromDataOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImageCreateSummary
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1685,7 +1781,9 @@ const deleteImagesOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1711,7 +1809,9 @@ const createImagesFromFilesOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImageCreateSummary
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1737,7 +1837,9 @@ const createImagesFromUrlsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImageCreateSummary
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1763,14 +1865,16 @@ const createImagesFromPredictionsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImageCreateSummary
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
 
 const getImageRegionProposalsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{projectId}/images/{imageId}/regionproposals",
+  path: "projects/{projectId}/images/{imageId}/regionproposals",
   urlParameters: [
     Parameters.endpoint,
     Parameters.projectId,
@@ -1783,7 +1887,9 @@ const getImageRegionProposalsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImageRegionProposal
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1803,7 +1909,9 @@ const deletePredictionOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1832,7 +1940,9 @@ const quickTestImageUrlOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImagePrediction
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1858,7 +1968,9 @@ const quickTestImageOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ImagePrediction
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1884,7 +1996,9 @@ const queryPredictionsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.PredictionQueryResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1908,7 +2022,9 @@ const getIterationPerformanceOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.IterationPerformance
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1945,7 +2061,9 @@ const getImagePerformancesOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -1973,7 +2091,9 @@ const getImagePerformanceCountOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2002,7 +2122,9 @@ const getProjectsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2017,7 +2139,8 @@ const createProjectOperationSpec: msRest.OperationSpec = {
     Parameters.name,
     Parameters.description,
     Parameters.domainId1,
-    Parameters.classificationType
+    Parameters.classificationType,
+    Parameters.targetExportPlatforms
   ],
   headerParameters: [
     Parameters.apiKey
@@ -2026,7 +2149,9 @@ const createProjectOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Project
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2045,7 +2170,9 @@ const getProjectOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Project
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2062,7 +2189,9 @@ const deleteProjectOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2088,7 +2217,9 @@ const updateProjectOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Project
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2118,7 +2249,9 @@ const getIterationsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2138,7 +2271,9 @@ const getIterationOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Iteration
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2156,7 +2291,9 @@ const deleteIterationOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2183,7 +2320,9 @@ const updateIterationOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Iteration
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2195,6 +2334,12 @@ const trainProjectOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.projectId
   ],
+  queryParameters: [
+    Parameters.trainingType,
+    Parameters.reservedBudgetInHours,
+    Parameters.forceTrain,
+    Parameters.notificationEmailAddress
+  ],
   headerParameters: [
     Parameters.apiKey
   ],
@@ -2202,7 +2347,67 @@ const trainProjectOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Iteration
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
+  },
+  serializer
+};
+
+const publishIterationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "projects/{projectId}/iterations/{iterationId}/publish",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.projectId,
+    Parameters.iterationId1
+  ],
+  queryParameters: [
+    Parameters.name,
+    Parameters.predictionId
+  ],
+  headerParameters: [
+    Parameters.apiKey
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Boolean"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
+  },
+  serializer
+};
+
+const unpublishIterationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "projects/{projectId}/iterations/{iterationId}/publish",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.projectId,
+    Parameters.iterationId1
+  ],
+  headerParameters: [
+    Parameters.apiKey
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Boolean"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2233,7 +2438,9 @@ const getExportsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2257,7 +2464,9 @@ const exportIterationOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ExportModel
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2280,7 +2489,9 @@ const getTagOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Tag
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2298,7 +2509,9 @@ const deleteTagOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2325,7 +2538,9 @@ const updateTagOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Tag
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2358,7 +2573,9 @@ const getTagsOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
@@ -2382,7 +2599,9 @@ const createTagOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Tag
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
   },
   serializer
 };
