@@ -10,6 +10,8 @@
     
     "outDir": "./dist-esm" /* Redirect output structure to the directory. */,
     "declarationDir": "./typings", /* Output directory for generated declaration files.*/
+ 
+    "stripInternal": true, /* Do not emit declarations for code with @internal annotation*/
 
     "importHelpers": true /* Import emit helpers from 'tslib'. */,
     

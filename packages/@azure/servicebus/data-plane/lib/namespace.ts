@@ -53,7 +53,7 @@ export class Namespace {
   /**
    * @property {string} name The namespace name of the service bus.
    */
-  name: string;
+  readonly name: string;
   /**
    * @property {ConnectionContext} _context Describes the amqp connection context for the Namespace.
    * @private
@@ -133,6 +133,9 @@ export class Namespace {
   /**
    * Closes the AMQP connection created by this namespace along with AMQP links for sender/receivers
    * created by the queue/topic/subscription clients created in this namespace.
+   * Once closed,
+   * - the namespace cannot be used to create anymore clients for queues/topics/subscriptions
+   * - the clients created in this namespace cannot be used to send/receive messages anymore
    * @returns {Promise<any>}
    */
   async close(): Promise<any> {
@@ -218,7 +221,7 @@ export class Namespace {
    * @param {TokenCredentials} credentials - The AAD Token credentials.
    * It can be one of the following: ApplicationTokenCredentials | UserTokenCredentials |
    * DeviceTokenCredentials | MSITokenCredentials.
-   * @param {NamespaceOptionsBase} options - The options that can be provided during namespace creation.
+   * @param {NamespaceOptions} options - The options that can be provided during namespace creation.
    * @returns {Namespace} An instance of the Namespace.
    */
   static createFromAadTokenCredentials(

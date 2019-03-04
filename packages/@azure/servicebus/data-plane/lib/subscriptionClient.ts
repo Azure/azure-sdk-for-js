@@ -9,29 +9,46 @@ import { Client } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 import { throwErrorIfConnectionClosed } from "./util/utils";
+import { AmqpError, generate_uuid } from "rhea-promise";
+import { ClientEntityContext } from "./clientEntityContext";
 
 /**
- * Describes the client that will maintain an AMQP connection to a ServiceBus Subscription.
+ * Describes the client that allows interacting with a Service Bus Subscription.
+ * Use the `createSubscriptionClient` function on the Namespace object to instantiate a
+ * SubscriptionClient
  * @class SubscriptionClient
  */
-export class SubscriptionClient extends Client {
+export class SubscriptionClient implements Client {
   /**
-   * @property {string} topicPath The topic path.
+   * @property {string}  The topic name.
    */
-  topicPath: string;
+  readonly topicName: string;
   /**
-   * @property {string} subscriptionName The subscription name.
+   * @property {string}  The subscription name.
    */
-  subscriptionName: string;
-  /**
-   * @property {number} receiveMode The mode in which messages should be received.
-   * Default: ReceiveMode.peekLock
-   */
+  readonly subscriptionName: string;
 
   /**
    * @property {string} defaultRuleName Name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
+
+  /**
+   * @property {string} The entitypath for the Service Bus Subscription for which this client is created.
+   */
+  readonly entityPath: string;
+  /**
+   * @property {string} A unique identifier for the client.
+   */
+  readonly id: string;
+  /**
+   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   */
+  private _isClosed: boolean = false;
+  /**
+   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   */
+  private _context: ClientEntityContext;
 
   private _currentReceiver: Receiver | undefined;
 
@@ -41,19 +58,27 @@ export class SubscriptionClient extends Client {
    * The user should use the `createSubscriptionClient` on the Namespace instead.
    *
    * @constructor
-   * @param topicPath - The Topic path.
+   * @internal
+   * @param topicName - The Topic name.
    * @param subscriptionName - The Subscription name.
    * @param context - The connection context to create the SubscriptionClient.
    */
-  constructor(topicPath: string, subscriptionName: string, context: ConnectionContext) {
-    super(`${topicPath}/Subscriptions/${subscriptionName}`, context);
+  constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
+    throwErrorIfConnectionClosed(context);
 
-    this.topicPath = topicPath;
+    this.entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
+    this.id = `${this.entityPath}/${generate_uuid()}`;
+    this._context = ClientEntityContext.create(this.entityPath, context);
+
+    this.topicName = topicName;
     this.subscriptionName = subscriptionName;
   }
 
   /**
    * Closes the AMQP link for the receivers created by this client.
+   * Once closed, neither the SubscriptionClient nor its recievers can be used for any
+   * further operations. Use the `createSubscriptionClient` function on the Namespace object to
+   * instantiate a new SubscriptionClient.
    *
    * @returns {Promise<void>}
    */
@@ -96,7 +121,27 @@ export class SubscriptionClient extends Client {
   }
 
   /**
-   * Gets the Receiver to be used for receiving messages in batches or by registering handlers.
+   * Will reconnect the subscritpionClient and its receiver links.
+   * This is meant for the library to use to resume receiving when retryable errors are seen.
+   * This is not meant for the consumer of this library to use.
+   * @ignore
+   * @param error Error if any due to which we are attempting to reconnect
+   */
+  async detached(error?: AmqpError | Error): Promise<void> {
+    try {
+      await this._context.detached(error);
+    } catch (err) {
+      log.error(
+        "[%s] [%s] An error occurred while reconnecting the client: %O.",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
+    }
+  }
+
+  /**
+   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
    *
    * @param options Options for creating the receiver.
    */
@@ -207,7 +252,7 @@ export class SubscriptionClient extends Client {
   // }
 
   /**
-   * Gets the SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Subscription. When no sessionId is given, a random session among the available
    * sessions is used.
    *
