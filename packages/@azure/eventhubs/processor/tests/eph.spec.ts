@@ -477,6 +477,8 @@ describe("EPH", function (): void {
           await host.getPartitionInformation("");
         } catch (err) {
           err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
+        } finally {
+          await host.stop();
         }
       };
       test().then(() => { done(); }).catch((err) => { done(err); });
@@ -498,6 +500,8 @@ describe("EPH", function (): void {
           await host.getPartitionInformation(-1);
         } catch (err) {
           err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
+        } finally {
+          await host.stop();
         }
       };
       test().then(() => { done(); }).catch((err) => { done(err); });
