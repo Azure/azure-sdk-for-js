@@ -29,26 +29,26 @@ export class Accounts {
 
   /**
    * Lists all NetApp accounts in the resource group
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListResponse>
    */
-  list(resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListResponse>;
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListResponse>;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroup: string, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
-  list(resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccountList>, callback?: msRest.ServiceCallback<Models.NetAppAccountList>): Promise<Models.AccountsListResponse> {
+  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccountList>, callback?: msRest.ServiceCallback<Models.NetAppAccountList>): Promise<Models.AccountsListResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroup,
+        resourceGroupName,
         options
       },
       listOperationSpec,
@@ -57,29 +57,29 @@ export class Accounts {
 
   /**
    * Get the NetApp account
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsGetResponse>
    */
-  get(resourceGroup: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsGetResponse>;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsGetResponse>;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param callback The callback
    */
-  get(resourceGroup: string, accountName: string, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
+  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroup: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
-  get(resourceGroup: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccount>, callback?: msRest.ServiceCallback<Models.NetAppAccount>): Promise<Models.AccountsGetResponse> {
+  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccount>, callback?: msRest.ServiceCallback<Models.NetAppAccount>): Promise<Models.AccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         options
       },
@@ -89,54 +89,54 @@ export class Accounts {
 
   /**
    * Create or update a NetApp account
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param location Resource location
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroup: string, accountName: string, location: string, options?: Models.AccountsCreateOrUpdateOptionalParams): Promise<Models.AccountsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroup,accountName,location,options)
+  createOrUpdate(resourceGroupName: string, accountName: string, location: string, options?: Models.AccountsCreateOrUpdateOptionalParams): Promise<Models.AccountsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,accountName,location,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AccountsCreateOrUpdateResponse>;
   }
 
   /**
    * Delete a NetApp account
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroup: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroup,accountName,options)
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,accountName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
    * Patch a NetApp account
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsUpdateResponse>
    */
-  update(resourceGroup: string, accountName: string, options?: Models.AccountsUpdateOptionalParams): Promise<Models.AccountsUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, options?: Models.AccountsUpdateOptionalParams): Promise<Models.AccountsUpdateResponse>;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param callback The callback
    */
-  update(resourceGroup: string, accountName: string, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
+  update(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroup: string, accountName: string, options: Models.AccountsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
-  update(resourceGroup: string, accountName: string, options?: Models.AccountsUpdateOptionalParams | msRest.ServiceCallback<Models.NetAppAccount>, callback?: msRest.ServiceCallback<Models.NetAppAccount>): Promise<Models.AccountsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, options: Models.AccountsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
+  update(resourceGroupName: string, accountName: string, options?: Models.AccountsUpdateOptionalParams | msRest.ServiceCallback<Models.NetAppAccount>, callback?: msRest.ServiceCallback<Models.NetAppAccount>): Promise<Models.AccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         options
       },
@@ -146,16 +146,16 @@ export class Accounts {
 
   /**
    * Create or update a NetApp account
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param location Resource location
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroup: string, accountName: string, location: string, options?: Models.AccountsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, accountName: string, location: string, options?: Models.AccountsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         location,
         options
@@ -166,15 +166,15 @@ export class Accounts {
 
   /**
    * Delete a NetApp account
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroup: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         options
       },
@@ -187,10 +187,10 @@ export class Accounts {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup
+    Parameters.resourceGroupName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -211,10 +211,10 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
@@ -236,10 +236,10 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
@@ -273,10 +273,10 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
@@ -312,10 +312,10 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
