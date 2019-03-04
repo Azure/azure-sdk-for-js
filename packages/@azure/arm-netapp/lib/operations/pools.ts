@@ -29,29 +29,29 @@ export class Pools {
 
   /**
    * Lists all capacity pools in the NetApp Account
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsListResponse>
    */
-  list(resourceGroup: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsListResponse>;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param callback The callback
    */
-  list(resourceGroup: string, accountName: string, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroup: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
-  list(resourceGroup: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPoolList>, callback?: msRest.ServiceCallback<Models.CapacityPoolList>): Promise<Models.PoolsListResponse> {
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPoolList>, callback?: msRest.ServiceCallback<Models.CapacityPoolList>): Promise<Models.PoolsListResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         options
       },
@@ -61,32 +61,32 @@ export class Pools {
 
   /**
    * Get a capacity pool
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsGetResponse>
    */
-  get(resourceGroup: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsGetResponse>;
+  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsGetResponse>;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param callback The callback
    */
-  get(resourceGroup: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
+  get(resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroup: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
-  get(resourceGroup: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPool>, callback?: msRest.ServiceCallback<Models.CapacityPool>): Promise<Models.PoolsGetResponse> {
+  get(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
+  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPool>, callback?: msRest.ServiceCallback<Models.CapacityPool>): Promise<Models.PoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         poolName,
         options
@@ -98,45 +98,45 @@ export class Pools {
   /**
    * Create or Update a capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsCreateOrUpdateResponse>
    */
-  createOrUpdate(body: Models.CapacityPool, resourceGroup: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(body,resourceGroup,accountName,poolName,options)
+  createOrUpdate(body: Models.CapacityPool, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(body,resourceGroupName,accountName,poolName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoolsCreateOrUpdateResponse>;
   }
 
   /**
    * Patch a capacity pool
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsUpdateResponse>
    */
-  update(resourceGroup: string, accountName: string, poolName: string, options?: Models.PoolsUpdateOptionalParams): Promise<Models.PoolsUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, poolName: string, options?: Models.PoolsUpdateOptionalParams): Promise<Models.PoolsUpdateResponse>;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param callback The callback
    */
-  update(resourceGroup: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
+  update(resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroup: string, accountName: string, poolName: string, options: Models.PoolsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
-  update(resourceGroup: string, accountName: string, poolName: string, options?: Models.PoolsUpdateOptionalParams | msRest.ServiceCallback<Models.CapacityPool>, callback?: msRest.ServiceCallback<Models.CapacityPool>): Promise<Models.PoolsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, poolName: string, options: Models.PoolsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
+  update(resourceGroupName: string, accountName: string, poolName: string, options?: Models.PoolsUpdateOptionalParams | msRest.ServiceCallback<Models.CapacityPool>, callback?: msRest.ServiceCallback<Models.CapacityPool>): Promise<Models.PoolsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         poolName,
         options
@@ -147,31 +147,31 @@ export class Pools {
 
   /**
    * Delete a capacity pool
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroup: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroup,accountName,poolName,options)
+  deleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,accountName,poolName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
    * Create or Update a capacity pool
    * @param body Capacity pool object supplied in the body of the operation.
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(body: Models.CapacityPool, resourceGroup: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(body: Models.CapacityPool, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         body,
-        resourceGroup,
+        resourceGroupName,
         accountName,
         poolName,
         options
@@ -182,16 +182,16 @@ export class Pools {
 
   /**
    * Delete a capacity pool
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroup: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         poolName,
         options
@@ -205,10 +205,10 @@ export class Pools {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
@@ -230,10 +230,10 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
@@ -256,10 +256,10 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
@@ -294,10 +294,10 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
@@ -331,10 +331,10 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
