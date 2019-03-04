@@ -69,7 +69,7 @@ async function sendMessage(ns, scientist, sessionId) {
 }
 
 async function receiveMessages(ns, sessionId) {
-  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const client = ns.createQueueClient(queueName);
   const receiver = await client.getSessionReceiver({ sessionId: sessionId });
 

@@ -58,7 +58,7 @@ async function sendScheduledMessages(ns){
 }
 
 async function receiveMessages(ns) {
-  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const client = ns.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
