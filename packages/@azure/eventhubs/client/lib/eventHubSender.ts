@@ -248,6 +248,12 @@ export class EventHubSender extends LinkEntity {
         throw new Error("data is required and it must be of type object.");
       }
 
+      if (data.partitionKey){
+        if (typeof data.partitionKey !== "string") {
+          throw new Error("'partitionKey' must be of type 'string'.");
+        }
+      }
+
       if (!this.isOpen()) {
         log.sender("Acquiring lock %s for initializing the session, sender and " +
           "possibly the connection.", this.senderLock);
