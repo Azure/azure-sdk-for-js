@@ -14438,6 +14438,36 @@ export const StampCapacityCollection: msRest.CompositeMapper = {
   }
 };
 
+export const InboundEnvironmentEndpointCollection: msRest.CompositeMapper = {
+  serializedName: "InboundEnvironmentEndpointCollection",
+  type: {
+    name: "Composite",
+    className: "InboundEnvironmentEndpointCollection",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundEnvironmentEndpoint"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkerPoolCollection: msRest.CompositeMapper = {
   serializedName: "WorkerPoolCollection",
   type: {
@@ -14513,6 +14543,36 @@ export const UsageCollection: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Usage"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpointCollection: msRest.CompositeMapper = {
+  serializedName: "OutboundEnvironmentEndpointCollection",
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpointCollection",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OutboundEnvironmentEndpoint"
             }
           }
         }
