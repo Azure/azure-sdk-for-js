@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+/// <reference lib="es2015" />
+
 export { Namespace, NamespaceOptions, NamespaceOptionsBase } from "./namespace";
 export {
   TokenInfo,
@@ -31,4 +33,4 @@ export {
   DeadLetterOptions,
   ReceiveMode
 } from "./serviceBusMessage";
-export { AmqpError, Delivery, Dictionary } from "rhea-promise";
+export { AmqpError, Delivery } from "rhea-promise";

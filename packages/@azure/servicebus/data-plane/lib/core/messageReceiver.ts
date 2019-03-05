@@ -16,7 +16,6 @@ import {
   EventContext,
   ReceiverOptions,
   AmqpError,
-  Dictionary,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
@@ -28,7 +27,7 @@ import { MessageHandlerOptions } from "./streamingReceiver";
 import { messageDispositionTimeout } from "../util/constants";
 
 /**
- * @ignore
+ * @internal
  */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEventAsPromise;
@@ -40,14 +39,14 @@ interface CreateReceiverOptions {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface PromiseLike {
   resolve: (value?: any) => void;
@@ -56,15 +55,15 @@ export interface PromiseLike {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface DispositionOptions {
-  propertiesToModify?: Dictionary<any>;
+  propertiesToModify?: { [key: string]: any };
   error?: AmqpError;
 }
 
 /**
- * @ignore
+ * @internal
  */
 export enum ReceiverType {
   batching = "batching",
@@ -72,7 +71,7 @@ export enum ReceiverType {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface ReceiveOptions extends MessageHandlerOptions {
   /**
@@ -103,6 +102,7 @@ export interface OnError {
 }
 
 /**
+ * @internal
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
@@ -222,7 +222,6 @@ export class MessageReceiver extends LinkEntity {
   protected _newMessageReceivedTimer?: NodeJS.Timer;
   /**
    * Resets the `_newMessageReceivedTimer` timer when a new message is received.
-   * @ignore
    */
   protected resetTimerOnNewMessageReceived: () => void;
   /**
@@ -698,7 +697,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Will reconnect the receiver link if necessary.
-   * @ignore
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
@@ -870,7 +868,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @ignore
    * @return {boolean} boolean
    */
   isOpen(): boolean {
@@ -980,7 +977,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @ignore
    */
   protected _createReceiverOptions(
     useNewName?: boolean,
