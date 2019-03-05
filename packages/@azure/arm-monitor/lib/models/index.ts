@@ -192,14 +192,14 @@ export interface ScaleRule {
 export interface TimeWindow {
   /**
    * @member {string} [timeZone] the timezone of the start and end times for
-   * the profile. Some examples of valid timezones are: Dateline Standard Time,
-   * UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard
-   * Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain
-   * Standard Time (Mexico), Mountain Standard Time, Central America Standard
-   * Time, Central Standard Time, Central Standard Time (Mexico), Canada
-   * Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US
-   * Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time,
-   * Atlantic Standard Time, Central Brazilian Standard Time, SA Western
+   * the profile. Some examples of valid time zones are: Dateline Standard
+   * Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific
+   * Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time,
+   * Mountain Standard Time (Mexico), Mountain Standard Time, Central America
+   * Standard Time, Central Standard Time, Central Standard Time (Mexico),
+   * Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard
+   * Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard
+   * Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western
    * Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E.
    * South America Standard Time, Argentina Standard Time, SA Eastern Standard
    * Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard
@@ -250,7 +250,7 @@ export interface TimeWindow {
 export interface RecurrentSchedule {
   /**
    * @member {string} timeZone the timezone for the hours of the profile. Some
-   * examples of valid timezones are: Dateline Standard Time, UTC-11, Hawaiian
+   * examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian
    * Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico),
    * Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time
    * (Mexico), Mountain Standard Time, Central America Standard Time, Central
@@ -2098,7 +2098,7 @@ export interface MetricDefinition {
    */
   resourceId?: string;
   /**
-   * @member {string} [namespace] the namespace the metric blongs to.
+   * @member {string} [namespace] the namespace the metric belongs to.
    */
   namespace?: string;
   /**
@@ -2260,7 +2260,7 @@ export interface Response {
   cost?: number;
   /**
    * @member {string} timespan The timespan for which the data was retrieved.
-   * Its value consists of two datatimes concatenated, separated by '/'.  This
+   * Its value consists of two datetimes concatenated, separated by '/'.  This
    * may be adjusted in the future and returned back from what was originally
    * requested.
    */
@@ -2354,7 +2354,7 @@ export interface BaselineResponse {
   readonly name?: LocalizableString;
   /**
    * @member {string} [timespan] The timespan for which the data was retrieved.
-   * Its value consists of two datatimes concatenated, separated by '/'.  This
+   * Its value consists of two datetimes concatenated, separated by '/'.  This
    * may be adjusted in the future and returned back from what was originally
    * requested.
    */
@@ -2411,7 +2411,7 @@ export interface TimeSeriesInformation {
 /**
  * @interface
  * An interface representing CalculateBaselineResponse.
- * The response to a calcualte baseline call.
+ * The response to a calculate baseline call.
  *
  */
 export interface CalculateBaselineResponse {
@@ -2793,7 +2793,7 @@ export interface MetricAlertSingleResourceMultipleMetricCriteria {
 /**
  * @interface
  * An interface representing MetricAlertMultipleResourceMultipleMetricCriteria.
- * Speficies the metric alert criteria for multiple resource that has multiple
+ * Specifies the metric alert criteria for multiple resource that has multiple
  * metric criteria.
  *
  */
@@ -2903,7 +2903,7 @@ export interface LogSearchRuleResource extends Resource {
   readonly lastUpdatedTime?: Date;
   /**
    * @member {ProvisioningState} [provisioningState] Provisioning state of the
-   * scheduledquery rule. Possible values include: 'Succeeded', 'Deploying',
+   * scheduled query rule. Possible values include: 'Succeeded', 'Deploying',
    * 'Canceled', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2914,7 +2914,7 @@ export interface LogSearchRuleResource extends Resource {
    */
   source: Source;
   /**
-   * @member {Schedule} [schedule] Schedule (Frequnecy, Time Window) for rule.
+   * @member {Schedule} [schedule] Schedule (Frequency, Time Window) for rule.
    * Required for action type - AlertingAction
    */
   schedule?: Schedule;
@@ -3015,7 +3015,7 @@ export interface AzNsActionGroup {
   emailSubject?: string;
   /**
    * @member {string} [customWebhookPayload] Custom payload to be sent for all
-   * webook URI in Azure action group
+   * webhook URI in Azure action group
    */
   customWebhookPayload?: string;
 }
@@ -3023,7 +3023,7 @@ export interface AzNsActionGroup {
 /**
  * @interface
  * An interface representing AlertingAction.
- * Specifiy action need to be taken when rule type is Alert
+ * Specify action need to be taken when rule type is Alert
  *
  */
 export interface AlertingAction {
@@ -3037,9 +3037,9 @@ export interface AlertingAction {
    */
   severity: AlertSeverity;
   /**
-   * @member {AzNsActionGroup} aznsAction Azure action group reference.
+   * @member {AzNsActionGroup} [aznsAction] Azure action group reference.
    */
-  aznsAction: AzNsActionGroup;
+  aznsAction?: AzNsActionGroup;
   /**
    * @member {number} [throttlingInMin] time (in minutes) for which Alerts
    * should be throttled or suppressed.
@@ -3089,7 +3089,7 @@ export interface Criteria {
 /**
  * @interface
  * An interface representing LogToMetricAction.
- * Specifiy action need to be taken when rule type is converting log to metric
+ * Specify action need to be taken when rule type is converting log to metric
  *
  */
 export interface LogToMetricAction {
@@ -3140,6 +3140,133 @@ export interface MetricNamespace {
    * fully qualified namespace name.
    */
   properties?: MetricNamespaceName;
+}
+
+/**
+ * @interface
+ * An interface representing ProxyResource.
+ * An azure resource object
+ *
+ * @extends BaseResource
+ */
+export interface ProxyResource extends BaseResource {
+  /**
+   * @member {string} [id] Azure resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Azure resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Azure resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ * Error details.
+ *
+ */
+export interface ErrorModel {
+  /**
+   * @member {string} code Error code identifying the specific error.
+   */
+  code: string;
+  /**
+   * @member {string} [message] Error message in the caller's locale.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResponseWithError.
+ * An error response from the API.
+ *
+ */
+export interface ResponseWithError {
+  /**
+   * @member {ErrorModel} error Error information.
+   */
+  error: ErrorModel;
+}
+
+/**
+ * @interface
+ * An interface representing WorkspaceInfo.
+ * Information about a Log Analytics Workspace.
+ *
+ */
+export interface WorkspaceInfo {
+  /**
+   * @member {string} id Azure Resource Manager identifier of the Log Analytics
+   * Workspace.
+   */
+  id: string;
+  /**
+   * @member {string} location Location of the Log Analytics workspace.
+   */
+  location: string;
+  /**
+   * @member {string} customerId Log Analytics workspace identifier.
+   */
+  customerId: string;
+}
+
+/**
+ * @interface
+ * An interface representing DataContainer.
+ * Information about a container with data for a given resource.
+ *
+ */
+export interface DataContainer {
+  /**
+   * @member {WorkspaceInfo} workspace Log Analytics workspace information.
+   */
+  workspace: WorkspaceInfo;
+}
+
+/**
+ * @interface
+ * An interface representing VMInsightsOnboardingStatus.
+ * VM Insights onboarding status for a resource.
+ *
+ * @extends ProxyResource
+ */
+export interface VMInsightsOnboardingStatus extends ProxyResource {
+  /**
+   * @member {string} resourceId Azure Resource Manager identifier of the
+   * resource whose onboarding status is being represented.
+   */
+  resourceId: string;
+  /**
+   * @member {OnboardingStatus} onboardingStatus The onboarding status for the
+   * resource. Note that, a higher level scope, e.g., resource group or
+   * subscription, is considered onboarded if at least one resource under it is
+   * onboarded. Possible values include: 'onboarded', 'notOnboarded', 'unknown'
+   */
+  onboardingStatus: OnboardingStatus;
+  /**
+   * @member {DataStatus} dataStatus The status of VM Insights data from the
+   * resource. When reported as `present` the data array will contain
+   * information about the data containers to which data for the specified
+   * resource is being routed. Possible values include: 'present', 'notPresent'
+   */
+  dataStatus: DataStatus;
+  /**
+   * @member {DataContainer[]} [data] Containers that currently store VM
+   * Insights data for the specified resource.
+   */
+  data?: DataContainer[];
 }
 
 /**
@@ -3701,6 +3828,22 @@ export type MetricTriggerType = 'Consecutive' | 'Total';
  * @enum {string}
  */
 export type AlertSeverity = '0' | '1' | '2' | '3' | '4';
+
+/**
+ * Defines values for OnboardingStatus.
+ * Possible values include: 'onboarded', 'notOnboarded', 'unknown'
+ * @readonly
+ * @enum {string}
+ */
+export type OnboardingStatus = 'onboarded' | 'notOnboarded' | 'unknown';
+
+/**
+ * Defines values for DataStatus.
+ * Possible values include: 'present', 'notPresent'
+ * @readonly
+ * @enum {string}
+ */
+export type DataStatus = 'present' | 'notPresent';
 
 /**
  * Defines values for ResultType.
@@ -4771,5 +4914,24 @@ export type MetricNamespacesListResponse = MetricNamespaceCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MetricNamespaceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getOnboardingStatus operation.
+ */
+export type VMInsightsGetOnboardingStatusResponse = VMInsightsOnboardingStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VMInsightsOnboardingStatus;
     };
 };
