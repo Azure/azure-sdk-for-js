@@ -816,19 +816,21 @@ export interface CelebrityResults {
 /**
  * @interface
  * An interface representing Word.
+ * Json object representing a recognized word.
+ *
  */
 export interface Word {
   /**
-   * @member {number[]} boundingBox
+   * @member {number[]} boundingBox Bounding box of a recognized word.
    */
   boundingBox: number[];
   /**
-   * @member {string} text
+   * @member {string} text The text content of the word.
    */
   text: string;
   /**
-   * @member {TextRecognitionResultConfidenceClass} [confidence] Possible
-   * values include: 'High', 'Low'
+   * @member {TextRecognitionResultConfidenceClass} [confidence] Qualitative
+   * confidence measure. Possible values include: 'High', 'Low'
    */
   confidence?: TextRecognitionResultConfidenceClass;
 }
@@ -836,18 +838,20 @@ export interface Word {
 /**
  * @interface
  * An interface representing Line.
+ * Json object representing a recognized text line.
+ *
  */
 export interface Line {
   /**
-   * @member {number[]} [boundingBox]
+   * @member {number[]} [boundingBox] Bounding box of a recognized line.
    */
   boundingBox?: number[];
   /**
-   * @member {string} [text]
+   * @member {string} [text] The text content of the line.
    */
   text?: string;
   /**
-   * @member {Word[]} [words]
+   * @member {Word[]} [words] List of words in the text line.
    */
   words?: Word[];
 }
@@ -855,38 +859,46 @@ export interface Line {
 /**
  * @interface
  * An interface representing TextRecognitionResult.
+ * Json object representing a recognized text region
+ *
  */
 export interface TextRecognitionResult {
   /**
-   * @member {Line[]} lines
-   */
-  lines: Line[];
-  /**
-   * @member {number} [page]
+   * @member {number} [page] The page number of the recognition result.
    */
   page?: number;
   /**
-   * @member {number} [width]
-   */
-  width?: number;
-  /**
-   * @member {number} [height]
-   */
-  height?: number;
-  /**
-   * @member {number} [clockwiseOrientation]
+   * @member {number} [clockwiseOrientation] The orientation of the image in
+   * degrees in the clockwise direction. Range between [0, 360).
    */
   clockwiseOrientation?: number;
   /**
-   * @member {TextRecognitionResultDimensionUnit} [unit] Possible values
-   * include: 'pixel', 'inch'
+   * @member {number} [width] The width of the image in pixels or the PDF in
+   * inches.
+   */
+  width?: number;
+  /**
+   * @member {number} [height] The height of the image in pixels or the PDF in
+   * inches.
+   */
+  height?: number;
+  /**
+   * @member {TextRecognitionResultDimensionUnit} [unit] The unit used in the
+   * Width, Height and BoundingBox. For images, the unit is "pixel". For PDF,
+   * the unit is "inch". Possible values include: 'pixel', 'inch'
    */
   unit?: TextRecognitionResultDimensionUnit;
+  /**
+   * @member {Line[]} lines A list of recognized text lines.
+   */
+  lines: Line[];
 }
 
 /**
  * @interface
  * An interface representing TextOperationResult.
+ * Result of recognition text operation.
+ *
  */
 export interface TextOperationResult {
   /**
@@ -895,7 +907,8 @@ export interface TextOperationResult {
    */
   status?: TextOperationStatusCodes;
   /**
-   * @member {TextRecognitionResult} [recognitionResult]
+   * @member {TextRecognitionResult} [recognitionResult] Text recognition
+   * result of the text operation.
    */
   recognitionResult?: TextRecognitionResult;
 }
@@ -903,15 +916,18 @@ export interface TextOperationResult {
 /**
  * @interface
  * An interface representing ReadOperationResult.
+ * OCR result of the read operation.
+ *
  */
 export interface ReadOperationResult {
   /**
-   * @member {TextOperationStatusCodes} [status] Status of the text operation.
+   * @member {TextOperationStatusCodes} [status] Status of the read operation.
    * Possible values include: 'Not Started', 'Running', 'Failed', 'Succeeded'
    */
   status?: TextOperationStatusCodes;
   /**
-   * @member {TextRecognitionResult[]} [recognitionResults]
+   * @member {TextRecognitionResult[]} [recognitionResults] A array of text
+   * recognition result of the read operation.
    */
   recognitionResults?: TextRecognitionResult[];
 }
@@ -1259,20 +1275,20 @@ export type Gender = 'Male' | 'Female';
 export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
 
 /**
- * Defines values for TextRecognitionResultConfidenceClass.
- * Possible values include: 'High', 'Low'
- * @readonly
- * @enum {string}
- */
-export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
-
-/**
  * Defines values for TextRecognitionResultDimensionUnit.
  * Possible values include: 'pixel', 'inch'
  * @readonly
  * @enum {string}
  */
 export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
+
+/**
+ * Defines values for TextRecognitionResultConfidenceClass.
+ * Possible values include: 'High', 'Low'
+ * @readonly
+ * @enum {string}
+ */
+export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
 
 /**
  * Defines values for OcrLanguages.

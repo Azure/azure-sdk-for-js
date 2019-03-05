@@ -1271,21 +1271,14 @@ export const TextRecognitionResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "TextRecognitionResult",
     modelProperties: {
-      lines: {
-        required: true,
-        serializedName: "lines",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Line"
-            }
-          }
-        }
-      },
       page: {
         serializedName: "page",
+        type: {
+          name: "Number"
+        }
+      },
+      clockwiseOrientation: {
+        serializedName: "clockwiseOrientation",
         type: {
           name: "Number"
         }
@@ -1302,12 +1295,6 @@ export const TextRecognitionResult: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      clockwiseOrientation: {
-        serializedName: "clockwiseOrientation",
-        type: {
-          name: "Number"
-        }
-      },
       unit: {
         nullable: true,
         serializedName: "unit",
@@ -1317,6 +1304,19 @@ export const TextRecognitionResult: msRest.CompositeMapper = {
             "pixel",
             "inch"
           ]
+        }
+      },
+      lines: {
+        required: true,
+        serializedName: "lines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Line"
+            }
+          }
         }
       }
     }
