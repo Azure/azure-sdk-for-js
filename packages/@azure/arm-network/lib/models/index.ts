@@ -4233,8 +4233,8 @@ export interface ExpressRouteCircuitSku {
   name?: string;
   /**
    * @member {ExpressRouteCircuitSkuTier} [tier] The tier of the SKU. Possible
-   * values are 'Standard', 'Premium' or 'Basic'. Possible values include:
-   * 'Standard', 'Premium', 'Basic'
+   * values are 'Standard', 'Premium' or 'Local'. Possible values include:
+   * 'Standard', 'Premium', 'Basic', 'Local'
    */
   tier?: ExpressRouteCircuitSkuTier;
   /**
@@ -11953,11 +11953,11 @@ export type ExpressRouteCircuitPeeringState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for ExpressRouteCircuitSkuTier.
- * Possible values include: 'Standard', 'Premium', 'Basic'
+ * Possible values include: 'Standard', 'Premium', 'Basic', 'Local'
  * @readonly
  * @enum {string}
  */
-export type ExpressRouteCircuitSkuTier = 'Standard' | 'Premium' | 'Basic';
+export type ExpressRouteCircuitSkuTier = 'Standard' | 'Premium' | 'Basic' | 'Local';
 
 /**
  * Defines values for ExpressRouteCircuitSkuFamily.
