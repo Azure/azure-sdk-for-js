@@ -621,7 +621,6 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
     className: "FilesNotSyncingError",
     modelProperties: {
       errorCode: {
-        required: true,
         readOnly: true,
         serializedName: "errorCode",
         type: {
@@ -629,7 +628,6 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
         }
       },
       persistentCount: {
-        required: true,
         readOnly: true,
         serializedName: "persistentCount",
         type: {
@@ -637,7 +635,6 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
         }
       },
       transientCount: {
-        required: true,
         readOnly: true,
         serializedName: "transientCount",
         type: {
@@ -655,7 +652,6 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
     className: "SyncSessionStatus",
     modelProperties: {
       lastSyncResult: {
-        required: true,
         readOnly: true,
         serializedName: "lastSyncResult",
         type: {
@@ -663,7 +659,6 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
         }
       },
       lastSyncTimestamp: {
-        required: true,
         readOnly: true,
         serializedName: "lastSyncTimestamp",
         type: {
@@ -678,7 +673,6 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
         }
       },
       lastSyncPerItemErrorCount: {
-        required: true,
         readOnly: true,
         serializedName: "lastSyncPerItemErrorCount",
         type: {
@@ -723,7 +717,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
     className: "SyncActivityStatus",
     modelProperties: {
       timestamp: {
-        required: true,
         readOnly: true,
         serializedName: "timestamp",
         type: {
@@ -731,7 +724,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
         }
       },
       perItemErrorCount: {
-        required: true,
         readOnly: true,
         serializedName: "perItemErrorCount",
         type: {
@@ -739,7 +731,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
         }
       },
       appliedItemCount: {
-        required: true,
         readOnly: true,
         serializedName: "appliedItemCount",
         type: {
@@ -754,7 +745,6 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
         }
       },
       appliedBytes: {
-        required: true,
         readOnly: true,
         serializedName: "appliedBytes",
         type: {

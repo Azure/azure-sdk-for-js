@@ -479,25 +479,25 @@ export interface ServerEndpointUpdateParameters {
  */
 export interface FilesNotSyncingError {
   /**
-   * @member {number} errorCode Error code (HResult)
+   * @member {number} [errorCode] Error code (HResult)
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly errorCode: number;
+  readonly errorCode?: number;
   /**
-   * @member {number} persistentCount Count of persistent files not syncing
+   * @member {number} [persistentCount] Count of persistent files not syncing
    * with the specified error code
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly persistentCount: number;
+  readonly persistentCount?: number;
   /**
-   * @member {number} transientCount Count of transient files not syncing with
-   * the specified error code
+   * @member {number} [transientCount] Count of transient files not syncing
+   * with the specified error code
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly transientCount: number;
+  readonly transientCount?: number;
 }
 
 /**
@@ -508,17 +508,17 @@ export interface FilesNotSyncingError {
  */
 export interface SyncSessionStatus {
   /**
-   * @member {number} lastSyncResult Last sync result (HResult)
+   * @member {number} [lastSyncResult] Last sync result (HResult)
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly lastSyncResult: number;
+  readonly lastSyncResult?: number;
   /**
-   * @member {Date} lastSyncTimestamp Last sync timestamp
+   * @member {Date} [lastSyncTimestamp] Last sync timestamp
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly lastSyncTimestamp: Date;
+  readonly lastSyncTimestamp?: Date;
   /**
    * @member {Date} [lastSyncSuccessTimestamp] Last sync success timestamp
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -526,11 +526,12 @@ export interface SyncSessionStatus {
    */
   readonly lastSyncSuccessTimestamp?: Date;
   /**
-   * @member {number} lastSyncPerItemErrorCount Last sync per item error count.
+   * @member {number} [lastSyncPerItemErrorCount] Last sync per item error
+   * count.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly lastSyncPerItemErrorCount: number;
+  readonly lastSyncPerItemErrorCount?: number;
   /**
    * @member {number} [persistentFilesNotSyncingCount] Count of persistent
    * files not syncing. Reserved for future use.
@@ -562,23 +563,23 @@ export interface SyncSessionStatus {
  */
 export interface SyncActivityStatus {
   /**
-   * @member {Date} timestamp Timestamp when properties were updated
+   * @member {Date} [timestamp] Timestamp when properties were updated
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly timestamp: Date;
+  readonly timestamp?: Date;
   /**
-   * @member {number} perItemErrorCount Per item error count
+   * @member {number} [perItemErrorCount] Per item error count
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly perItemErrorCount: number;
+  readonly perItemErrorCount?: number;
   /**
-   * @member {number} appliedItemCount Applied item count.
+   * @member {number} [appliedItemCount] Applied item count.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly appliedItemCount: number;
+  readonly appliedItemCount?: number;
   /**
    * @member {number} [totalItemCount] Total item count (if available)
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -586,11 +587,11 @@ export interface SyncActivityStatus {
    */
   readonly totalItemCount?: number;
   /**
-   * @member {number} appliedBytes Applied bytes
+   * @member {number} [appliedBytes] Applied bytes
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly appliedBytes: number;
+  readonly appliedBytes?: number;
   /**
    * @member {number} [totalBytes] Total bytes (if available)
    * **NOTE: This property will not be serialized. It can only be populated by
