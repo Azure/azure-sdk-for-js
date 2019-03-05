@@ -342,15 +342,15 @@ export class AppServiceEnvironments {
    * @param name Name of the App Service Environment.
    * @param callback The callback
    */
-  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>): void;
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>): void;
-  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>, callback?: msRest.ServiceCallback<Models.InboundEnvironmentEndpoint[]>): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse> {
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -800,15 +800,15 @@ export class AppServiceEnvironments {
    * @param name Name of the App Service Environment.
    * @param callback The callback
    */
-  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>): void;
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>): void;
-  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpoint[]>): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse> {
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1577,6 +1577,36 @@ export class AppServiceEnvironments {
   }
 
   /**
+   * Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * @summary Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns
+   * Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse>
+   */
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getInboundNetworkDependenciesEndpointsNextOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse>;
+  }
+
+  /**
    * Get global metrics of an App Service Environment.
    * @summary Get global metrics of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -1809,6 +1839,36 @@ export class AppServiceEnvironments {
       },
       listMultiRoleUsagesNextOperationSpec,
       callback) as Promise<Models.AppServiceEnvironmentsListMultiRoleUsagesNextResponse>;
+  }
+
+  /**
+   * Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * @summary Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns
+   * Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse>
+   */
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getOutboundNetworkDependenciesEndpointsNextOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse>;
   }
 
   /**
@@ -2419,18 +2479,7 @@ const getInboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec 
   ],
   responses: {
     200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "InboundEnvironmentEndpoint"
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.InboundEnvironmentEndpointCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -2789,18 +2838,7 @@ const getOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec
   ],
   responses: {
     200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OutboundEnvironmentEndpoint"
-            }
-          }
-        }
-      }
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -3461,6 +3499,27 @@ const listCapacitiesNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getInboundNetworkDependenciesEndpointsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.InboundEnvironmentEndpointCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listMetricsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -3621,6 +3680,27 @@ const listMultiRoleUsagesNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UsageCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOutboundNetworkDependenciesEndpointsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

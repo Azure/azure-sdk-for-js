@@ -11534,6 +11534,22 @@ export interface StampCapacityCollection extends Array<StampCapacity> {
 
 /**
  * @interface
+ * An interface representing the InboundEnvironmentEndpointCollection.
+ * Collection of Inbound Environment Endpoints
+ *
+ * @extends Array<InboundEnvironmentEndpoint>
+ */
+export interface InboundEnvironmentEndpointCollection extends Array<InboundEnvironmentEndpoint> {
+  /**
+   * @member {string} [nextLink] Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the WorkerPoolCollection.
  * Collection of worker pools.
  *
@@ -11572,6 +11588,22 @@ export interface SkuInfoCollection extends Array<SkuInfo> {
  * @extends Array<Usage>
  */
 export interface UsageCollection extends Array<Usage> {
+  /**
+   * @member {string} [nextLink] Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the OutboundEnvironmentEndpointCollection.
+ * Collection of Outbound Environment Endpoints
+ *
+ * @extends Array<OutboundEnvironmentEndpoint>
+ */
+export interface OutboundEnvironmentEndpointCollection extends Array<OutboundEnvironmentEndpoint> {
   /**
    * @member {string} [nextLink] Link to next page of resources.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -21440,7 +21472,7 @@ export type AppServiceEnvironmentsGetDiagnosticsItemResponse = HostingEnvironmen
 /**
  * Contains response data for the getInboundNetworkDependenciesEndpoints operation.
  */
-export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse = Array<InboundEnvironmentEndpoint> & {
+export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse = InboundEnvironmentEndpointCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -21452,7 +21484,7 @@ export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: InboundEnvironmentEndpoint[];
+      parsedBody: InboundEnvironmentEndpointCollection;
     };
 };
 
@@ -21706,7 +21738,7 @@ export type AppServiceEnvironmentsListOperationsResponse = Array<Operation> & {
 /**
  * Contains response data for the getOutboundNetworkDependenciesEndpoints operation.
  */
-export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse = Array<OutboundEnvironmentEndpoint> & {
+export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -21718,7 +21750,7 @@ export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsRespons
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OutboundEnvironmentEndpoint[];
+      parsedBody: OutboundEnvironmentEndpointCollection;
     };
 };
 
@@ -22198,6 +22230,25 @@ export type AppServiceEnvironmentsChangeVnetNextResponse = WebAppCollection & {
 };
 
 /**
+ * Contains response data for the getInboundNetworkDependenciesEndpointsNext operation.
+ */
+export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse = InboundEnvironmentEndpointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InboundEnvironmentEndpointCollection;
+    };
+};
+
+/**
  * Contains response data for the listMetricsNext operation.
  */
 export type AppServiceEnvironmentsListMetricsNextResponse = ResourceMetricCollection & {
@@ -22346,6 +22397,25 @@ export type AppServiceEnvironmentsListMultiRoleUsagesNextResponse = UsageCollect
        * The response body as parsed JSON or XML
        */
       parsedBody: UsageCollection;
+    };
+};
+
+/**
+ * Contains response data for the getOutboundNetworkDependenciesEndpointsNext operation.
+ */
+export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OutboundEnvironmentEndpointCollection;
     };
 };
 
