@@ -15,109 +15,6 @@ export { BaseResource, CloudError };
 
 
 /**
- * Contains the possible cases for ApplyRecoveryPointProviderSpecificInput.
- */
-export type ApplyRecoveryPointProviderSpecificInputUnion = ApplyRecoveryPointProviderSpecificInput | A2AApplyRecoveryPointInput | HyperVReplicaAzureApplyRecoveryPointInput | InMageAzureV2ApplyRecoveryPointInput;
-
-/**
- * @interface
- * An interface representing ApplyRecoveryPointProviderSpecificInput.
- * Provider specific input for apply recovery point.
- *
- */
-export interface ApplyRecoveryPointProviderSpecificInput {
-  /**
-   * @member {string} instanceType Polymorphic Discriminator
-   */
-  instanceType: "ApplyRecoveryPointProviderSpecificInput";
-}
-
-/**
- * @interface
- * An interface representing A2AApplyRecoveryPointInput.
- * ApplyRecoveryPoint input specific to A2A provider.
- *
- */
-export interface A2AApplyRecoveryPointInput {
-  /**
-   * @member {string} instanceType Polymorphic Discriminator
-   */
-  instanceType: "A2A";
-}
-
-/**
- * Contains the possible cases for ReplicationProviderSpecificContainerCreationInput.
- */
-export type ReplicationProviderSpecificContainerCreationInputUnion = ReplicationProviderSpecificContainerCreationInput | A2AContainerCreationInput;
-
-/**
- * @interface
- * An interface representing ReplicationProviderSpecificContainerCreationInput.
- * Provider specific input for container creation operation.
- *
- */
-export interface ReplicationProviderSpecificContainerCreationInput {
-  /**
-   * @member {string} instanceType Polymorphic Discriminator
-   */
-  instanceType: "ReplicationProviderSpecificContainerCreationInput";
-}
-
-/**
- * @interface
- * An interface representing A2AContainerCreationInput.
- * A2A cloud creation input.
- *
- */
-export interface A2AContainerCreationInput {
-  /**
-   * @member {string} instanceType Polymorphic Discriminator
-   */
-  instanceType: "A2A";
-}
-
-/**
- * Contains the possible cases for ReplicationProviderSpecificContainerMappingInput.
- */
-export type ReplicationProviderSpecificContainerMappingInputUnion = ReplicationProviderSpecificContainerMappingInput | A2AContainerMappingInput;
-
-/**
- * @interface
- * An interface representing ReplicationProviderSpecificContainerMappingInput.
- * Provider specific input for pairing operations.
- *
- */
-export interface ReplicationProviderSpecificContainerMappingInput {
-  /**
-   * @member {string} instanceType Polymorphic Discriminator
-   */
-  instanceType: "ReplicationProviderSpecificContainerMappingInput";
-}
-
-/**
- * @interface
- * An interface representing A2AContainerMappingInput.
- * A2A container mapping input.
- *
- */
-export interface A2AContainerMappingInput {
-  /**
-   * @member {string} instanceType Polymorphic Discriminator
-   */
-  instanceType: "A2A";
-  /**
-   * @member {AgentAutoUpdateStatus} [agentAutoUpdateStatus] A value indicating
-   * whether the auto update is enabled. Possible values include: 'Disabled',
-   * 'Enabled'
-   */
-  agentAutoUpdateStatus?: AgentAutoUpdateStatus;
-  /**
-   * @member {string} [automationAccountArmId] The automation account arm id.
-   */
-  automationAccountArmId?: string;
-}
-
-/**
  * @interface
  * An interface representing A2AVmDiskInputDetails.
  * Azure VM disk input details.
@@ -176,6 +73,149 @@ export interface A2AVmManagedDiskInputDetails {
 }
 
 /**
+ * Contains the possible cases for AddDisksProviderSpecificInput.
+ */
+export type AddDisksProviderSpecificInputUnion = AddDisksProviderSpecificInput | A2AAddDisksInput;
+
+/**
+ * @interface
+ * An interface representing AddDisksProviderSpecificInput.
+ * Add Disks provider specific input.
+ *
+ */
+export interface AddDisksProviderSpecificInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "AddDisksProviderSpecificInput";
+}
+
+/**
+ * @interface
+ * An interface representing A2AAddDisksInput.
+ * A2A add disk(s) input.
+ *
+ */
+export interface A2AAddDisksInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "A2A";
+  /**
+   * @member {A2AVmDiskInputDetails[]} [vmDisks] The list of vm disk details.
+   */
+  vmDisks?: A2AVmDiskInputDetails[];
+  /**
+   * @member {A2AVmManagedDiskInputDetails[]} [vmManagedDisks] The list of vm
+   * managed disk details.
+   */
+  vmManagedDisks?: A2AVmManagedDiskInputDetails[];
+}
+
+/**
+ * Contains the possible cases for ApplyRecoveryPointProviderSpecificInput.
+ */
+export type ApplyRecoveryPointProviderSpecificInputUnion = ApplyRecoveryPointProviderSpecificInput | A2AApplyRecoveryPointInput | HyperVReplicaAzureApplyRecoveryPointInput | InMageAzureV2ApplyRecoveryPointInput;
+
+/**
+ * @interface
+ * An interface representing ApplyRecoveryPointProviderSpecificInput.
+ * Provider specific input for apply recovery point.
+ *
+ */
+export interface ApplyRecoveryPointProviderSpecificInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "ApplyRecoveryPointProviderSpecificInput";
+}
+
+/**
+ * @interface
+ * An interface representing A2AApplyRecoveryPointInput.
+ * ApplyRecoveryPoint input specific to A2A provider.
+ *
+ */
+export interface A2AApplyRecoveryPointInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "A2A";
+}
+
+/**
+ * Contains the possible cases for ReplicationProviderSpecificContainerCreationInput.
+ */
+export type ReplicationProviderSpecificContainerCreationInputUnion = ReplicationProviderSpecificContainerCreationInput | A2AContainerCreationInput | VMwareCbtContainerCreationInput;
+
+/**
+ * @interface
+ * An interface representing ReplicationProviderSpecificContainerCreationInput.
+ * Provider specific input for container creation operation.
+ *
+ */
+export interface ReplicationProviderSpecificContainerCreationInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "ReplicationProviderSpecificContainerCreationInput";
+}
+
+/**
+ * @interface
+ * An interface representing A2AContainerCreationInput.
+ * A2A cloud creation input.
+ *
+ */
+export interface A2AContainerCreationInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "A2A";
+}
+
+/**
+ * Contains the possible cases for ReplicationProviderSpecificContainerMappingInput.
+ */
+export type ReplicationProviderSpecificContainerMappingInputUnion = ReplicationProviderSpecificContainerMappingInput | A2AContainerMappingInput | VMwareCbtContainerMappingInput;
+
+/**
+ * @interface
+ * An interface representing ReplicationProviderSpecificContainerMappingInput.
+ * Provider specific input for pairing operations.
+ *
+ */
+export interface ReplicationProviderSpecificContainerMappingInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "ReplicationProviderSpecificContainerMappingInput";
+}
+
+/**
+ * @interface
+ * An interface representing A2AContainerMappingInput.
+ * A2A container mapping input.
+ *
+ */
+export interface A2AContainerMappingInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "A2A";
+  /**
+   * @member {AgentAutoUpdateStatus} [agentAutoUpdateStatus] A value indicating
+   * whether the auto update is enabled. Possible values include: 'Disabled',
+   * 'Enabled'
+   */
+  agentAutoUpdateStatus?: AgentAutoUpdateStatus;
+  /**
+   * @member {string} [automationAccountArmId] The automation account arm id.
+   */
+  automationAccountArmId?: string;
+}
+
+/**
  * @interface
  * An interface representing DiskEncryptionKeyInfo.
  * Disk Encryption Key Information (BitLocker Encryption Key (BEK) on Windows).
@@ -183,11 +223,11 @@ export interface A2AVmManagedDiskInputDetails {
  */
 export interface DiskEncryptionKeyInfo {
   /**
-   * @member {string} [secretIdentifier] The secret url / identifier.
+   * @member {string} [secretIdentifier] The secret url / identifier.
    */
   secretIdentifier?: string;
   /**
-   * @member {string} [keyVaultResourceArmId] The KeyVault resource ARM id for
+   * @member {string} [keyVaultResourceArmId] The KeyVault resource ARM id for
    * secret.
    */
   keyVaultResourceArmId?: string;
@@ -201,11 +241,11 @@ export interface DiskEncryptionKeyInfo {
  */
 export interface KeyEncryptionKeyInfo {
   /**
-   * @member {string} [keyIdentifier] The key url / identifier.
+   * @member {string} [keyIdentifier] The key url / identifier.
    */
   keyIdentifier?: string;
   /**
-   * @member {string} [keyVaultResourceArmId] The KeyVault resource ARM id for
+   * @member {string} [keyVaultResourceArmId] The KeyVault resource ARM id for
    * key.
    */
   keyVaultResourceArmId?: string;
@@ -582,6 +622,15 @@ export interface A2AProtectedDiskDetails {
    */
   dataPendingAtSourceAgentInMB?: number;
   /**
+   * @member {string} [diskState] The disk state.
+   */
+  diskState?: string;
+  /**
+   * @member {string[]} [allowedDiskLevelOperation] The disk level operations
+   * list.
+   */
+  allowedDiskLevelOperation?: string[];
+  /**
    * @member {boolean} [isDiskEncrypted] A value indicating whether vm has
    * encrypted os disk or not.
    */
@@ -691,6 +740,15 @@ export interface A2AProtectedManagedDiskDetails {
    */
   dataPendingAtSourceAgentInMB?: number;
   /**
+   * @member {string} [diskState] The disk state.
+   */
+  diskState?: string;
+  /**
+   * @member {string[]} [allowedDiskLevelOperation] The disk level operations
+   * list.
+   */
+  allowedDiskLevelOperation?: string[];
+  /**
    * @member {boolean} [isDiskEncrypted] A value indicating whether vm has
    * encrypted os disk or not.
    */
@@ -723,7 +781,7 @@ export interface A2AProtectedManagedDiskDetails {
 /**
  * Contains the possible cases for ProtectionContainerMappingProviderSpecificDetails.
  */
-export type ProtectionContainerMappingProviderSpecificDetailsUnion = ProtectionContainerMappingProviderSpecificDetails | A2AProtectionContainerMappingDetails;
+export type ProtectionContainerMappingProviderSpecificDetailsUnion = ProtectionContainerMappingProviderSpecificDetails | A2AProtectionContainerMappingDetails | VMwareCbtProtectionContainerMappingDetails;
 
 /**
  * @interface
@@ -804,6 +862,49 @@ export interface A2ARecoveryPointDetails {
    * include: 'MultiVmSyncRecoveryPoint', 'PerVmRecoveryPoint'
    */
   recoveryPointSyncType?: RecoveryPointSyncType;
+  /**
+   * @member {string[]} [disks] List of disk ids representing a recovery point.
+   */
+  disks?: string[];
+}
+
+/**
+ * Contains the possible cases for RemoveDisksProviderSpecificInput.
+ */
+export type RemoveDisksProviderSpecificInputUnion = RemoveDisksProviderSpecificInput | A2ARemoveDisksInput;
+
+/**
+ * @interface
+ * An interface representing RemoveDisksProviderSpecificInput.
+ * Remove Disk provider specific input.
+ *
+ */
+export interface RemoveDisksProviderSpecificInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "RemoveDisksProviderSpecificInput";
+}
+
+/**
+ * @interface
+ * An interface representing A2ARemoveDisksInput.
+ * A2A remove disk(s) input.
+ *
+ */
+export interface A2ARemoveDisksInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "A2A";
+  /**
+   * @member {string[]} [vmDisksUris] The list of vm disk vhd URIs.
+   */
+  vmDisksUris?: string[];
+  /**
+   * @member {string[]} [vmManagedDisksIds] The list of vm managed disk Ids.
+   */
+  vmManagedDisksIds?: string[];
 }
 
 /**
@@ -866,38 +967,9 @@ export interface VMNicDetails {
   recoveryNicIpAddressType?: string;
   /**
    * @member {boolean} [enableAcceleratedNetworkingOnRecovery] A value
-   * indicating whether the NIC has accerated networking enabled.
+   * indicating whether the NIC has accelerated networking enabled.
    */
   enableAcceleratedNetworkingOnRecovery?: boolean;
-}
-
-/**
- * @interface
- * An interface representing RoleAssignment.
- * Azure role assignment details.
- *
- */
-export interface RoleAssignment {
-  /**
-   * @member {string} [id] The ARM Id of the role assignment.
-   */
-  id?: string;
-  /**
-   * @member {string} [name] The name of the role assignment.
-   */
-  name?: string;
-  /**
-   * @member {string} [scope] Role assignment scope.
-   */
-  scope?: string;
-  /**
-   * @member {string} [principalId] Principal Id.
-   */
-  principalId?: string;
-  /**
-   * @member {string} [roleDefinitionId] Role definition id.
-   */
-  roleDefinitionId?: string;
 }
 
 /**
@@ -936,10 +1008,6 @@ export interface AzureToAzureVmSyncedConfigDetails {
    * @member {{ [propertyName: string]: string }} [tags] The Azure VM tags.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * @member {RoleAssignment[]} [roleAssignments] The Azure role assignments.
-   */
-  roleAssignments?: RoleAssignment[];
   /**
    * @member {InputEndpoint[]} [inputEndpoints] The Azure VM input endpoints.
    */
@@ -1377,6 +1445,112 @@ export interface A2AUpdateReplicationProtectedItemInput {
 
 /**
  * @interface
+ * An interface representing AddDisksInputProperties.
+ * Add Disks input properties.
+ *
+ */
+export interface AddDisksInputProperties {
+  /**
+   * @member {AddDisksProviderSpecificInputUnion} [providerSpecificDetails] The
+   * ReplicationProviderInput. For HyperVReplicaAzure provider, it will be
+   * AzureEnableProtectionInput object. For San provider, it will be
+   * SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can
+   * be null.
+   */
+  providerSpecificDetails?: AddDisksProviderSpecificInputUnion;
+}
+
+/**
+ * @interface
+ * An interface representing AddDisksInput.
+ * Input for add disk(s) operation.
+ *
+ */
+export interface AddDisksInput {
+  /**
+   * @member {AddDisksInputProperties} [properties] Add disks input properties.
+   */
+  properties?: AddDisksInputProperties;
+}
+
+/**
+ * @interface
+ * An interface representing IdentityProviderInput.
+ * Identity provider input.
+ *
+ */
+export interface IdentityProviderInput {
+  /**
+   * @member {string} tenantId The tenant Id for the service principal with
+   * which the on-premise management/data plane components would communicate
+   * with our Azure services.
+   */
+  tenantId: string;
+  /**
+   * @member {string} applicationId The application/client Id for the service
+   * principal with which the on-premise management/data plane components would
+   * communicate with our Azure services.
+   */
+  applicationId: string;
+  /**
+   * @member {string} objectId The object Id of the service principal with
+   * which the on-premise management/data plane components would communicate
+   * with our Azure services.
+   */
+  objectId: string;
+  /**
+   * @member {string} audience The intended Audience of the service principal
+   * with which the on-premise management/data plane components would
+   * communicate with our Azure services.
+   */
+  audience: string;
+  /**
+   * @member {string} aadAuthority The base authority for Azure Active
+   * Directory authentication.
+   */
+  aadAuthority: string;
+}
+
+/**
+ * @interface
+ * An interface representing AddRecoveryServicesProviderInputProperties.
+ * The properties of an add provider request.
+ *
+ */
+export interface AddRecoveryServicesProviderInputProperties {
+  /**
+   * @member {string} machineName The name of the machine where the provider is
+   * getting added.
+   */
+  machineName: string;
+  /**
+   * @member {IdentityProviderInput} authenticationIdentityInput The identity
+   * provider input for DRA authentication.
+   */
+  authenticationIdentityInput: IdentityProviderInput;
+  /**
+   * @member {IdentityProviderInput} resourceAccessIdentityInput The identity
+   * provider input for resource access.
+   */
+  resourceAccessIdentityInput: IdentityProviderInput;
+}
+
+/**
+ * @interface
+ * An interface representing AddRecoveryServicesProviderInput.
+ * Input required to add a provider.
+ *
+ */
+export interface AddRecoveryServicesProviderInput {
+  /**
+   * @member {AddRecoveryServicesProviderInputProperties} properties The
+   * properties of an add provider request.
+   */
+  properties: AddRecoveryServicesProviderInputProperties;
+}
+
+/**
+ * @interface
  * An interface representing AddVCenterRequestProperties.
  * The properties of an add vCenter request.
  *
@@ -1424,7 +1598,7 @@ export interface AddVCenterRequest {
 /**
  * @interface
  * An interface representing AlertProperties.
- * The proprties of an alert.
+ * The properties of an alert.
  *
  */
 export interface AlertProperties {
@@ -1907,8 +2081,8 @@ export interface FabricSpecificCreateNetworkMappingInput {
 /**
  * @interface
  * An interface representing AzureToAzureCreateNetworkMappingInput.
- * Create network mappings input properties/behaviour specific to Azure to
- * Azure Network mapping.
+ * Create network mappings input properties/behavior specific to Azure to Azure
+ * Network mapping.
  *
  */
 export interface AzureToAzureCreateNetworkMappingInput {
@@ -2137,7 +2311,7 @@ export interface InconsistentVmDetails {
  * @interface
  * An interface representing ConsistencyCheckTaskDetails.
  * This class contains monitoring details of all the inconsistent Protected
- * Entites in Vmm.
+ * Entities in Vmm.
  *
  */
 export interface ConsistencyCheckTaskDetails {
@@ -2414,6 +2588,27 @@ export interface CreateRecoveryPlanInput {
 
 /**
  * @interface
+ * An interface representing CurrentJobDetails.
+ * Current job details of the migration item.
+ *
+ */
+export interface CurrentJobDetails {
+  /**
+   * @member {string} [jobName] The job name.
+   */
+  jobName?: string;
+  /**
+   * @member {string} [jobId] The ARM Id of the job being executed.
+   */
+  jobId?: string;
+  /**
+   * @member {Date} [startTime] The start time of the job.
+   */
+  startTime?: Date;
+}
+
+/**
+ * @interface
  * An interface representing CurrentScenarioDetails.
  * Current scenario details of the protected entity.
  *
@@ -2436,7 +2631,7 @@ export interface CurrentScenarioDetails {
 /**
  * @interface
  * An interface representing DataStore.
- * The datastore details of the MT.
+ * The data store details of the MT.
  *
  */
 export interface DataStore {
@@ -2553,7 +2748,7 @@ export interface DiscoverProtectableItemRequest {
 /**
  * @interface
  * An interface representing DiskDetails.
- * Onprem disk details data.
+ * On-prem disk details data.
  *
  */
 export interface DiskDetails {
@@ -2640,6 +2835,56 @@ export interface Display {
    * any 'display.resource' 'ActionName' any 'display.resources'
    */
   description?: string;
+}
+
+/**
+ * Contains the possible cases for EnableMigrationProviderSpecificInput.
+ */
+export type EnableMigrationProviderSpecificInputUnion = EnableMigrationProviderSpecificInput | VMwareCbtEnableMigrationInput;
+
+/**
+ * @interface
+ * An interface representing EnableMigrationProviderSpecificInput.
+ * Enable migration provider specific input.
+ *
+ */
+export interface EnableMigrationProviderSpecificInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "EnableMigrationProviderSpecificInput";
+}
+
+/**
+ * @interface
+ * An interface representing EnableMigrationInputProperties.
+ * Enable migration input properties.
+ *
+ */
+export interface EnableMigrationInputProperties {
+  /**
+   * @member {string} policyId The policy Id.
+   */
+  policyId: string;
+  /**
+   * @member {EnableMigrationProviderSpecificInputUnion}
+   * providerSpecificDetails The provider specific details.
+   */
+  providerSpecificDetails: EnableMigrationProviderSpecificInputUnion;
+}
+
+/**
+ * @interface
+ * An interface representing EnableMigrationInput.
+ * Enable migration input.
+ *
+ */
+export interface EnableMigrationInput {
+  /**
+   * @member {EnableMigrationInputProperties} properties Enable migration input
+   * properties.
+   */
+  properties: EnableMigrationInputProperties;
 }
 
 /**
@@ -2848,6 +3093,16 @@ export interface HealthError {
    * @member {string} [entityId] ID of the entity.
    */
   entityId?: string;
+  /**
+   * @member {string} [errorId] The health error unique id.
+   */
+  errorId?: string;
+  /**
+   * @member {HealthErrorCustomerResolvability} [customerResolvability] Value
+   * indicating whether the health error is customer resolvable. Possible
+   * values include: 'Allowed', 'NotAllowed'
+   */
+  customerResolvability?: HealthErrorCustomerResolvability;
 }
 
 /**
@@ -2880,7 +3135,7 @@ export interface EventProperties {
    */
   severity?: string;
   /**
-   * @member {Date} [timeOfOccurrence] The time of occurence of the event.
+   * @member {Date} [timeOfOccurrence] The time of occurrence of the event.
    */
   timeOfOccurrence?: Date;
   /**
@@ -4413,17 +4668,11 @@ export interface HyperVVirtualMachineDetails {
 
 /**
  * @interface
- * An interface representing IdentityInformation.
- * Identity details.
+ * An interface representing IdentityProviderDetails.
+ * Identity provider details.
  *
  */
-export interface IdentityInformation {
-  /**
-   * @member {IdentityProviderType} [identityProviderType] The identity
-   * provider type. Value is the ToString() of a IdentityProviderType value.
-   * Possible values include: 'RecoveryServicesActiveDirectory'
-   */
-  identityProviderType?: IdentityProviderType;
+export interface IdentityProviderDetails {
   /**
    * @member {string} [tenantId] The tenant Id for the service principal with
    * which the on-premise management/data plane components would communicate
@@ -4453,12 +4702,6 @@ export interface IdentityInformation {
    * Directory authentication.
    */
   aadAuthority?: string;
-  /**
-   * @member {string} [certificateThumbprint] The certificate thumbprint.
-   * Applicable only if IdentityProviderType is
-   * RecoveryServicesActiveDirectory.
-   */
-  certificateThumbprint?: string;
 }
 
 /**
@@ -4557,6 +4800,28 @@ export interface InMageAzureV2ApplyRecoveryPointInput {
 
 /**
  * @interface
+ * An interface representing InMageAzureV2DiskInputDetails.
+ * Disk input details.
+ *
+ */
+export interface InMageAzureV2DiskInputDetails {
+  /**
+   * @member {string} [diskId] The DiskId.
+   */
+  diskId?: string;
+  /**
+   * @member {string} [logStorageAccountId] The LogStorageAccountId.
+   */
+  logStorageAccountId?: string;
+  /**
+   * @member {DiskAccountType} [diskType] The DiskType. Possible values
+   * include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
+   */
+  diskType?: DiskAccountType;
+}
+
+/**
+ * @interface
  * An interface representing InMageAzureV2EnableProtectionInput.
  * VMware Azure specific enable protection input.
  *
@@ -4575,9 +4840,9 @@ export interface InMageAzureV2EnableProtectionInput {
    */
   processServerId?: string;
   /**
-   * @member {string} storageAccountId The storage account name.
+   * @member {string} [storageAccountId] The storage account name.
    */
-  storageAccountId: string;
+  storageAccountId?: string;
   /**
    * @member {string} [runAsAccountId] The CS account Id.
    */
@@ -4591,9 +4856,10 @@ export interface InMageAzureV2EnableProtectionInput {
    */
   multiVmGroupName?: string;
   /**
-   * @member {string[]} [disksToInclude] The disks to include list.
+   * @member {InMageAzureV2DiskInputDetails[]} [disksToInclude] The disks to
+   * include list.
    */
-  disksToInclude?: string[];
+  disksToInclude?: InMageAzureV2DiskInputDetails[];
   /**
    * @member {string} [targetAzureNetworkId] The selected target Azure network
    * Id.
@@ -4632,10 +4898,10 @@ export interface InMageAzureV2EnableProtectionInput {
    */
   targetAzureV2ResourceGroupId?: string;
   /**
-   * @member {string} [useManagedDisks] A value indicating whether managed
-   * disks should be used during failover.
+   * @member {DiskAccountType} [diskType] The DiskType. Possible values
+   * include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
    */
-  useManagedDisks?: string;
+  diskType?: DiskAccountType;
 }
 
 /**
@@ -4702,6 +4968,27 @@ export interface InMageAzureV2FailoverProviderInput {
    * null should be passed.
    */
   recoveryPointId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InMageAzureV2ManagedDiskDetails.
+ * InMageAzureV2 Managed disk details.
+ *
+ */
+export interface InMageAzureV2ManagedDiskDetails {
+  /**
+   * @member {string} [diskId] The disk id.
+   */
+  diskId?: string;
+  /**
+   * @member {string} [seedManagedDiskId] Seed managed disk Id.
+   */
+  seedManagedDiskId?: string;
+  /**
+   * @member {string} [replicaDiskType] The replica disk type.
+   */
+  replicaDiskType?: string;
 }
 
 /**
@@ -5055,8 +5342,8 @@ export interface InMageAzureV2ReplicationDetails {
    */
   enableRdpOnTargetOption?: string;
   /**
-   * @member {string[]} [datastores] The datastores of the on-premise machine.
-   * Value can be list of strings that contain datastore names.
+   * @member {string[]} [datastores] The data stores of the on-premise machine.
+   * Value can be list of strings that contain data store names.
    */
   datastores?: string[];
   /**
@@ -5106,6 +5393,11 @@ export interface InMageAzureV2ReplicationDetails {
    * @member {string} [osVersion] The OS Version of the protected item.
    */
   osVersion?: string;
+  /**
+   * @member {InMageAzureV2ManagedDiskDetails[]} [protectedManagedDisks] The
+   * list of protected managed disks.
+   */
+  protectedManagedDisks?: InMageAzureV2ManagedDiskDetails[];
 }
 
 /**
@@ -5360,7 +5652,7 @@ export interface InMageEnableProtectionInput {
    */
   multiVmGroupName: string;
   /**
-   * @member {string} [datastoreName] The target datastore name.
+   * @member {string} [datastoreName] The target data store name.
    */
   datastoreName?: string;
   /**
@@ -5715,8 +6007,8 @@ export interface InMageReplicationDetails {
    */
   azureStorageAccountId?: string;
   /**
-   * @member {string[]} [datastores] The datastores of the on-premise machine
-   * Value can be list of strings that contain datastore names
+   * @member {string[]} [datastores] The data stores of the on-premise machine
+   * Value can be list of strings that contain data store names
    */
   datastores?: string[];
   /**
@@ -5771,7 +6063,7 @@ export interface InMageReprotectInput {
    */
   runAsAccountId?: string;
   /**
-   * @member {string} [datastoreName] The target datastore name.
+   * @member {string} [datastoreName] The target data store name.
    */
   datastoreName?: string;
   /**
@@ -5887,7 +6179,7 @@ export interface JobQueryParameter {
    */
   startTime?: string;
   /**
-   * @member {string} [endTime] Date time to get jobs upto.
+   * @member {string} [endTime] Date time to get jobs up to.
    */
   endTime?: string;
   /**
@@ -6155,6 +6447,239 @@ export interface MasterTargetServer {
 }
 
 /**
+ * Contains the possible cases for MigrateProviderSpecificInput.
+ */
+export type MigrateProviderSpecificInputUnion = MigrateProviderSpecificInput | VMwareCbtMigrateInput;
+
+/**
+ * @interface
+ * An interface representing MigrateProviderSpecificInput.
+ * Migrate provider specific input.
+ *
+ */
+export interface MigrateProviderSpecificInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "MigrateProviderSpecificInput";
+}
+
+/**
+ * @interface
+ * An interface representing MigrateInputProperties.
+ * Migrate input properties.
+ *
+ */
+export interface MigrateInputProperties {
+  /**
+   * @member {MigrateProviderSpecificInputUnion} providerSpecificDetails The
+   * provider specific details.
+   */
+  providerSpecificDetails: MigrateProviderSpecificInputUnion;
+}
+
+/**
+ * @interface
+ * An interface representing MigrateInput.
+ * Input for migrate.
+ *
+ */
+export interface MigrateInput {
+  /**
+   * @member {MigrateInputProperties} properties Migrate input properties.
+   */
+  properties: MigrateInputProperties;
+}
+
+/**
+ * Contains the possible cases for MigrationProviderSpecificSettings.
+ */
+export type MigrationProviderSpecificSettingsUnion = MigrationProviderSpecificSettings | VMwareCbtMigrationDetails;
+
+/**
+ * @interface
+ * An interface representing MigrationProviderSpecificSettings.
+ * Migration provider specific settings.
+ *
+ */
+export interface MigrationProviderSpecificSettings {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "MigrationProviderSpecificSettings";
+}
+
+/**
+ * @interface
+ * An interface representing MigrationItemProperties.
+ * Migration item properties.
+ *
+ */
+export interface MigrationItemProperties {
+  /**
+   * @member {string} [machineName] The on-premise virtual machine name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly machineName?: string;
+  /**
+   * @member {string} [policyId] The ARM Id of policy governing this item.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly policyId?: string;
+  /**
+   * @member {string} [policyFriendlyName] The name of policy governing this
+   * item.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly policyFriendlyName?: string;
+  /**
+   * @member {string} [recoveryServicesProviderId] The recovery services
+   * provider ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recoveryServicesProviderId?: string;
+  /**
+   * @member {MigrationState} [migrationState] The migration status. Possible
+   * values include: 'None', 'EnableMigrationInProgress',
+   * 'EnableMigrationFailed', 'DisableMigrationInProgress',
+   * 'DisableMigrationFailed', 'InitialSeedingInProgress',
+   * 'InitialSeedingFailed', 'Replicating', 'MigrationInProgress',
+   * 'MigrationSucceeded', 'MigrationFailed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly migrationState?: MigrationState;
+  /**
+   * @member {string} [migrationStateDescription] The migration state
+   * description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly migrationStateDescription?: string;
+  /**
+   * @member {TestMigrationState} [testMigrateState] The test migrate state.
+   * Possible values include: 'None', 'TestMigrationInProgress',
+   * 'TestMigrationSucceeded', 'TestMigrationFailed',
+   * 'TestMigrationCleanupInProgress'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly testMigrateState?: TestMigrationState;
+  /**
+   * @member {string} [testMigrateStateDescription] The test migrate state
+   * description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly testMigrateStateDescription?: string;
+  /**
+   * @member {string} [health] The consolidated health.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly health?: string;
+  /**
+   * @member {HealthError[]} [healthErrors] The list of health errors.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthErrors?: HealthError[];
+  /**
+   * @member {MigrationItemOperation[]} [allowedOperations] The allowed
+   * operations on the migration item, based on the current migration state of
+   * the item.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly allowedOperations?: MigrationItemOperation[];
+  /**
+   * @member {CurrentJobDetails} [currentJob] The current job details.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentJob?: CurrentJobDetails;
+  /**
+   * @member {MigrationProviderSpecificSettingsUnion} [providerSpecificDetails]
+   * The migration provider custom settings.
+   */
+  providerSpecificDetails?: MigrationProviderSpecificSettingsUnion;
+}
+
+/**
+ * @interface
+ * An interface representing MigrationItem.
+ * Migration item.
+ *
+ * @extends Resource
+ */
+export interface MigrationItem extends Resource {
+  /**
+   * @member {MigrationItemProperties} [properties] The migration item
+   * properties.
+   */
+  properties?: MigrationItemProperties;
+}
+
+/**
+ * @interface
+ * An interface representing MigrationItemsQueryParameter.
+ * Query parameter to enumerate migration items.
+ *
+ */
+export interface MigrationItemsQueryParameter {
+  /**
+   * @member {string} [sourceFabricName] The source fabric name filter.
+   */
+  sourceFabricName?: string;
+  /**
+   * @member {string} [instanceType] The replication provider type.
+   */
+  instanceType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MigrationRecoveryPointProperties.
+ * Migration item recovery point properties.
+ *
+ */
+export interface MigrationRecoveryPointProperties {
+  /**
+   * @member {Date} [recoveryPointTime] The recovery point time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recoveryPointTime?: Date;
+  /**
+   * @member {MigrationRecoveryPointType} [recoveryPointType] The recovery
+   * point type. Possible values include: 'NotSpecified',
+   * 'ApplicationConsistent', 'CrashConsistent'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recoveryPointType?: MigrationRecoveryPointType;
+}
+
+/**
+ * @interface
+ * An interface representing MigrationRecoveryPoint.
+ * Recovery point for a migration item.
+ *
+ * @extends Resource
+ */
+export interface MigrationRecoveryPoint extends Resource {
+  /**
+   * @member {MigrationRecoveryPointProperties} [properties] Recovery point
+   * properties.
+   */
+  properties?: MigrationRecoveryPointProperties;
+}
+
+/**
  * @interface
  * An interface representing MobilityServiceUpdate.
  * The Mobility Service update details.
@@ -6296,7 +6821,7 @@ export interface NetworkMappingProperties {
  * in structure or method signature. Since there were no base Models for
  * certain fields and methods viz NetworkMappingProperties and Load with
  * required return type, the class has been introduced in its entirety with
- * references to base models to facilitate exensions in subsequent versions.
+ * references to base models to facilitate extensions in subsequent versions.
  *
  * @extends Resource
  */
@@ -6351,6 +6876,23 @@ export interface OperationsDiscovery {
    * @member {any} [properties] Properties. Reserved for future use.
    */
   properties?: any;
+}
+
+/**
+ * @interface
+ * An interface representing OSVersionWrapper.
+ * Wrapper model for OSVersion to include version and service pack info.
+ *
+ */
+export interface OSVersionWrapper {
+  /**
+   * @member {string} [version] The version.
+   */
+  version?: string;
+  /**
+   * @member {string} [servicePack] Service pack.
+   */
+  servicePack?: string;
 }
 
 /**
@@ -6651,7 +7193,7 @@ export interface ProtectedItemsQueryParameter {
  */
 export interface ProtectionContainerFabricSpecificDetails {
   /**
-   * @member {string} [instanceType] Gets the class type. Overriden in derived
+   * @member {string} [instanceType] Gets the class type. Overridden in derived
    * classes.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -7447,9 +7989,15 @@ export interface RecoveryServicesProviderProperties {
    */
   draIdentifier?: string;
   /**
-   * @member {IdentityInformation} [identityDetails] The identity details.
+   * @member {IdentityProviderDetails} [authenticationIdentityDetails] The
+   * authentication identity details.
    */
-  identityDetails?: IdentityInformation;
+  authenticationIdentityDetails?: IdentityProviderDetails;
+  /**
+   * @member {IdentityProviderDetails} [resourceAccessIdentityDetails] The
+   * resource access identity details.
+   */
+  resourceAccessIdentityDetails?: IdentityProviderDetails;
   /**
    * @member {VersionDetails} [providerVersionDetails] The provider version
    * details.
@@ -7470,6 +8018,37 @@ export interface RecoveryServicesProvider extends Resource {
    * properties.
    */
   properties?: RecoveryServicesProviderProperties;
+}
+
+/**
+ * @interface
+ * An interface representing RemoveDisksInputProperties.
+ * Remove Disk input properties.
+ *
+ */
+export interface RemoveDisksInputProperties {
+  /**
+   * @member {RemoveDisksProviderSpecificInputUnion} [providerSpecificDetails]
+   * The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be
+   * AzureEnableProtectionInput object. For San provider, it will be
+   * SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can
+   * be null.
+   */
+  providerSpecificDetails?: RemoveDisksProviderSpecificInputUnion;
+}
+
+/**
+ * @interface
+ * An interface representing RemoveDisksInput.
+ * Input for remove disk(s) operation.
+ *
+ */
+export interface RemoveDisksInput {
+  /**
+   * @member {RemoveDisksInputProperties} [properties] Remove disk input
+   * properties.
+   */
+  properties?: RemoveDisksInputProperties;
 }
 
 /**
@@ -7704,6 +8283,46 @@ export interface ReplicationProtectedItem extends Resource {
 
 /**
  * @interface
+ * An interface representing ResolveHealthError.
+ * Resolve health errors input properties.
+ *
+ */
+export interface ResolveHealthError {
+  /**
+   * @member {string} [healthErrorId] Health error id.
+   */
+  healthErrorId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResolveHealthInputProperties.
+ * Resolve health input properties.
+ *
+ */
+export interface ResolveHealthInputProperties {
+  /**
+   * @member {ResolveHealthError[]} [healthErrors] Health errors.
+   */
+  healthErrors?: ResolveHealthError[];
+}
+
+/**
+ * @interface
+ * An interface representing ResolveHealthInput.
+ * Resolve health input.
+ *
+ */
+export interface ResolveHealthInput {
+  /**
+   * @member {ResolveHealthInputProperties} [properties] Disable resolve health
+   * input properties.
+   */
+  properties?: ResolveHealthInputProperties;
+}
+
+/**
+ * @interface
  * An interface representing ResourceHealthSummary.
  * Base class to define the health summary of the resources contained under an
  * Arm resource.
@@ -7711,7 +8330,7 @@ export interface ReplicationProtectedItem extends Resource {
  */
 export interface ResourceHealthSummary {
   /**
-   * @member {number} [resourceCount] The count of total resources umder the
+   * @member {number} [resourceCount] The count of total resources under the
    * container.
    */
   resourceCount?: number;
@@ -7778,6 +8397,35 @@ export interface ReverseReplicationInput {
    * replication properties
    */
   properties?: ReverseReplicationInputProperties;
+}
+
+/**
+ * @interface
+ * An interface representing RoleAssignment.
+ * Azure role assignment details.
+ *
+ */
+export interface RoleAssignment {
+  /**
+   * @member {string} [id] The ARM Id of the role assignment.
+   */
+  id?: string;
+  /**
+   * @member {string} [name] The name of the role assignment.
+   */
+  name?: string;
+  /**
+   * @member {string} [scope] Role assignment scope.
+   */
+  scope?: string;
+  /**
+   * @member {string} [principalId] Principal Id.
+   */
+  principalId?: string;
+  /**
+   * @member {string} [roleDefinitionId] Role definition id.
+   */
+  roleDefinitionId?: string;
 }
 
 /**
@@ -7863,7 +8511,7 @@ export interface StorageClassificationProperties {
  */
 export interface StorageClassification extends Resource {
   /**
-   * @member {StorageClassificationProperties} [properties] Proprties of the
+   * @member {StorageClassificationProperties} [properties] Properties of the
    * storage object.
    */
   properties?: StorageClassificationProperties;
@@ -7891,8 +8539,8 @@ export interface StorageClassificationMappingProperties {
  */
 export interface StorageClassificationMapping extends Resource {
   /**
-   * @member {StorageClassificationMappingProperties} [properties] Proprties of
-   * the storage mappping object.
+   * @member {StorageClassificationMappingProperties} [properties] Properties
+   * of the storage mapping object.
    */
   properties?: StorageClassificationMappingProperties;
 }
@@ -7923,6 +8571,74 @@ export interface StorageClassificationMappingInput {
    * properties.
    */
   properties?: StorageMappingInputProperties;
+}
+
+/**
+ * @interface
+ * An interface representing SupportedOSDetails.
+ * Supported Operating system details.
+ *
+ */
+export interface SupportedOSDetails {
+  /**
+   * @member {string} [osName] The name.
+   */
+  osName?: string;
+  /**
+   * @member {string} [osType] The type.
+   */
+  osType?: string;
+  /**
+   * @member {OSVersionWrapper[]} [osVersions] List of version for OS.
+   */
+  osVersions?: OSVersionWrapper[];
+}
+
+/**
+ * @interface
+ * An interface representing SupportedOSProperty.
+ * Property object for supported OS api.
+ *
+ */
+export interface SupportedOSProperty {
+  /**
+   * @member {string} [instanceType] Gets the replication provider type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instanceType?: string;
+  /**
+   * @member {SupportedOSDetails[]} [supportedOs] List of supported OS.
+   */
+  supportedOs?: SupportedOSDetails[];
+}
+
+/**
+ * @interface
+ * An interface representing SupportedOSProperties.
+ * Properties model for supported OS API.
+ *
+ */
+export interface SupportedOSProperties {
+  /**
+   * @member {SupportedOSProperty[]} [supportedOsList] The supported OS List.
+   */
+  supportedOsList?: SupportedOSProperty[];
+}
+
+/**
+ * @interface
+ * An interface representing SupportedOperatingSystems.
+ * Response object for supported operating systems API.
+ *
+ * @extends Resource
+ */
+export interface SupportedOperatingSystems extends Resource {
+  /**
+   * @member {SupportedOSProperties} [properties] Properties model for
+   * supported OS API.
+   */
+  properties?: SupportedOSProperties;
 }
 
 /**
@@ -8174,6 +8890,79 @@ export interface TestFailoverJobDetails {
 
 /**
  * @interface
+ * An interface representing TestMigrateCleanupInputProperties.
+ * Test migrate cleanup input properties.
+ *
+ */
+export interface TestMigrateCleanupInputProperties {
+  /**
+   * @member {string} [comments] Test migrate cleanup comments.
+   */
+  comments?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TestMigrateCleanupInput.
+ * Input for test migrate cleanup.
+ *
+ */
+export interface TestMigrateCleanupInput {
+  /**
+   * @member {TestMigrateCleanupInputProperties} properties Test migrate
+   * cleanup input properties.
+   */
+  properties: TestMigrateCleanupInputProperties;
+}
+
+/**
+ * Contains the possible cases for TestMigrateProviderSpecificInput.
+ */
+export type TestMigrateProviderSpecificInputUnion = TestMigrateProviderSpecificInput | VMwareCbtTestMigrateInput;
+
+/**
+ * @interface
+ * An interface representing TestMigrateProviderSpecificInput.
+ * Test migrate provider specific input.
+ *
+ */
+export interface TestMigrateProviderSpecificInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "TestMigrateProviderSpecificInput";
+}
+
+/**
+ * @interface
+ * An interface representing TestMigrateInputProperties.
+ * Test migrate input properties.
+ *
+ */
+export interface TestMigrateInputProperties {
+  /**
+   * @member {TestMigrateProviderSpecificInputUnion} providerSpecificDetails
+   * The provider specific details.
+   */
+  providerSpecificDetails: TestMigrateProviderSpecificInputUnion;
+}
+
+/**
+ * @interface
+ * An interface representing TestMigrateInput.
+ * Input for test migrate.
+ *
+ */
+export interface TestMigrateInput {
+  /**
+   * @member {TestMigrateInputProperties} properties Test migrate input
+   * properties.
+   */
+  properties: TestMigrateInputProperties;
+}
+
+/**
+ * @interface
  * An interface representing UnplannedFailoverInputProperties.
  * Input definition for planned failover input properties.
  *
@@ -8206,6 +8995,53 @@ export interface UnplannedFailoverInput {
    * input properties
    */
   properties?: UnplannedFailoverInputProperties;
+}
+
+/**
+ * Contains the possible cases for UpdateMigrationItemProviderSpecificInput.
+ */
+export type UpdateMigrationItemProviderSpecificInputUnion = UpdateMigrationItemProviderSpecificInput | VMwareCbtUpdateMigrationItemInput;
+
+/**
+ * @interface
+ * An interface representing UpdateMigrationItemProviderSpecificInput.
+ * Update migration item provider specific input.
+ *
+ */
+export interface UpdateMigrationItemProviderSpecificInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "UpdateMigrationItemProviderSpecificInput";
+}
+
+/**
+ * @interface
+ * An interface representing UpdateMigrationItemInputProperties.
+ * Update migration item input properties.
+ *
+ */
+export interface UpdateMigrationItemInputProperties {
+  /**
+   * @member {UpdateMigrationItemProviderSpecificInputUnion}
+   * providerSpecificDetails The provider specific input to update migration
+   * item.
+   */
+  providerSpecificDetails: UpdateMigrationItemProviderSpecificInputUnion;
+}
+
+/**
+ * @interface
+ * An interface representing UpdateMigrationItemInput.
+ * Update migration item input.
+ *
+ */
+export interface UpdateMigrationItemInput {
+  /**
+   * @member {UpdateMigrationItemInputProperties} [properties] Update migration
+   * item input properties.
+   */
+  properties?: UpdateMigrationItemInputProperties;
 }
 
 /**
@@ -8331,7 +9167,7 @@ export interface UpdateProtectionContainerMappingInput {
 /**
  * @interface
  * An interface representing UpdateRecoveryPlanInputProperties.
- * Recovery plan updation properties.
+ * Recovery plan update properties.
  *
  */
 export interface UpdateRecoveryPlanInputProperties {
@@ -8381,7 +9217,7 @@ export interface VMNicInputDetails {
   selectionType?: string;
   /**
    * @member {boolean} [enableAcceleratedNetworkingOnRecovery] Whether the NIC
-   * has accerated networking enabled.
+   * has accelerated networking enabled.
    */
   enableAcceleratedNetworkingOnRecovery?: boolean;
 }
@@ -8479,7 +9315,7 @@ export interface UpdateVCenterRequestProperties {
    */
   port?: string;
   /**
-   * @member {string} [runAsAccountId] The CS account Id which has priviliges
+   * @member {string} [runAsAccountId] The CS account Id which has privileges
    * to update the vCenter.
    */
   runAsAccountId?: string;
@@ -8559,7 +9395,7 @@ export interface VCenterProperties {
   internalId?: string;
   /**
    * @member {Date} [lastHeartbeat] The time when the last heartbeat was
-   * reveived by vCenter.
+   * received by vCenter.
    */
   lastHeartbeat?: Date;
   /**
@@ -8653,7 +9489,7 @@ export interface VmmDetails {
 /**
  * @interface
  * An interface representing VmmToAzureCreateNetworkMappingInput.
- * Create network mappings input properties/behaviour specific to Vmm to Azure
+ * Create network mappings input properties/behavior specific to Vmm to Azure
  * Network mapping.
  *
  */
@@ -8680,7 +9516,7 @@ export interface VmmToAzureNetworkMappingSettings {
 /**
  * @interface
  * An interface representing VmmToAzureUpdateNetworkMappingInput.
- * Update network mappings input properties/behaviour specific to vmm to azure.
+ * Update network mappings input properties/behavior specific to vmm to azure.
  *
  */
 export interface VmmToAzureUpdateNetworkMappingInput {
@@ -8693,7 +9529,7 @@ export interface VmmToAzureUpdateNetworkMappingInput {
 /**
  * @interface
  * An interface representing VmmToVmmCreateNetworkMappingInput.
- * Create network mappings input properties/behaviour specific to vmm to vmm
+ * Create network mappings input properties/behavior specific to vmm to vmm
  * Network mapping.
  *
  */
@@ -8720,7 +9556,7 @@ export interface VmmToVmmNetworkMappingSettings {
 /**
  * @interface
  * An interface representing VmmToVmmUpdateNetworkMappingInput.
- * Update network mappings input properties/behaviour specific to vmm to vmm.
+ * Update network mappings input properties/behavior specific to vmm to vmm.
  *
  */
 export interface VmmToVmmUpdateNetworkMappingInput {
@@ -8807,8 +9643,431 @@ export interface VmNicUpdatesTaskDetails {
 
 /**
  * @interface
+ * An interface representing VMwareCbtContainerCreationInput.
+ * VMwareCbt container creation input.
+ *
+ */
+export interface VMwareCbtContainerCreationInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "6c7da455-506f-43ff-a16a-8eb101aebb70";
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtContainerMappingInput.
+ * VMwareCbt container mapping input.
+ *
+ */
+export interface VMwareCbtContainerMappingInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "VMwareCbt";
+  /**
+   * @member {string} keyVaultId The target key vault ARM Id.
+   */
+  keyVaultId: string;
+  /**
+   * @member {string} keyVaultUri The target key vault URL.
+   */
+  keyVaultUri: string;
+  /**
+   * @member {string} storageAccountId The storage account ARM Id.
+   */
+  storageAccountId: string;
+  /**
+   * @member {string} storageAccountSasSecretName The secret name of the
+   * storage account.
+   */
+  storageAccountSasSecretName: string;
+  /**
+   * @member {string} serviceBusConnectionStringSecretName The secret name of
+   * the service bus connection string.
+   */
+  serviceBusConnectionStringSecretName: string;
+  /**
+   * @member {string} targetLocation The target location.
+   */
+  targetLocation: string;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtDiskInput.
+ * VMwareCbt disk input.
+ *
+ */
+export interface VMwareCbtDiskInput {
+  /**
+   * @member {string} diskId The disk Id.
+   */
+  diskId: string;
+  /**
+   * @member {string} isOSDisk A value indicating whether the disk is the OS
+   * disk.
+   */
+  isOSDisk: string;
+  /**
+   * @member {string} logStorageAccountId The log storage account ARM Id.
+   */
+  logStorageAccountId: string;
+  /**
+   * @member {string} logStorageAccountSasSecretName The key vault secret name
+   * of the log storage account.
+   */
+  logStorageAccountSasSecretName: string;
+  /**
+   * @member {DiskAccountType} [diskType] The disk type. Possible values
+   * include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
+   */
+  diskType?: DiskAccountType;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtEnableMigrationInput.
+ * VMwareCbt specific enable migration input.
+ *
+ */
+export interface VMwareCbtEnableMigrationInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "VMwareCbt";
+  /**
+   * @member {string} vmwareMachineId The ARM Id of the VM discovered in
+   * VMware.
+   */
+  vmwareMachineId: string;
+  /**
+   * @member {VMwareCbtDiskInput[]} disksToInclude The disks to include list.
+   */
+  disksToInclude: VMwareCbtDiskInput[];
+  /**
+   * @member {LicenseType} [licenseType] License type. Possible values include:
+   * 'NotSpecified', 'NoLicenseType', 'WindowsServer'
+   */
+  licenseType?: LicenseType;
+  /**
+   * @member {string} dataMoverRunAsAccountId The data mover RunAs account Id.
+   */
+  dataMoverRunAsAccountId: string;
+  /**
+   * @member {string} snapshotRunAsAccountId The snapshot RunAs account Id.
+   */
+  snapshotRunAsAccountId: string;
+  /**
+   * @member {string} [targetVmName] The target VM name.
+   */
+  targetVmName?: string;
+  /**
+   * @member {string} [targetVmSize] The target VM size.
+   */
+  targetVmSize?: string;
+  /**
+   * @member {string} targetResourceGroupId The target resource group ARM Id.
+   */
+  targetResourceGroupId: string;
+  /**
+   * @member {string} targetNetworkId The target network ARM Id.
+   */
+  targetNetworkId: string;
+  /**
+   * @member {string} [targetSubnetName] The target subnet name.
+   */
+  targetSubnetName?: string;
+  /**
+   * @member {string} [targetAvailabilitySetId] The target availability set ARM
+   * Id.
+   */
+  targetAvailabilitySetId?: string;
+  /**
+   * @member {string} [targetBootDiagnosticsStorageAccountId] The target boot
+   * diagnostics storage account ARM Id.
+   */
+  targetBootDiagnosticsStorageAccountId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtMigrateInput.
+ * VMwareCbt specific migrate input.
+ *
+ */
+export interface VMwareCbtMigrateInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "VMwareCbt";
+  /**
+   * @member {string} performShutdown A value indicating whether VM is to be
+   * shutdown.
+   */
+  performShutdown: string;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtProtectedDiskDetails.
+ * VMwareCbt protected disk details.
+ *
+ */
+export interface VMwareCbtProtectedDiskDetails {
+  /**
+   * @member {string} [diskId] The disk id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly diskId?: string;
+  /**
+   * @member {string} [diskName] The disk name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly diskName?: string;
+  /**
+   * @member {string} [diskPath] The disk path.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly diskPath?: string;
+  /**
+   * @member {string} [isOSDisk] A value indicating whether the disk is the OS
+   * disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isOSDisk?: string;
+  /**
+   * @member {number} [capacityInBytes] The disk capacity in bytes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly capacityInBytes?: number;
+  /**
+   * @member {string} [logStorageAccountId] The log storage account ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly logStorageAccountId?: string;
+  /**
+   * @member {string} [logStorageAccountSasSecretName] The key vault secret
+   * name of the log storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly logStorageAccountSasSecretName?: string;
+  /**
+   * @member {string} [seedManagedDiskId] The ARM Id of the seed managed disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly seedManagedDiskId?: string;
+  /**
+   * @member {string} [targetManagedDiskId] The ARM Id of the target managed
+   * disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetManagedDiskId?: string;
+  /**
+   * @member {DiskType} [diskType] The disk type. Possible values include:
+   * 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
+   */
+  diskType?: DiskType;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtNicDetails.
+ * VMwareCbt NIC details.
+ *
+ */
+export interface VMwareCbtNicDetails {
+  /**
+   * @member {string} [nicId] The NIC Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nicId?: string;
+  /**
+   * @member {string} [isPrimaryNic] A value indicating whether this is the
+   * primary NIC.
+   */
+  isPrimaryNic?: string;
+  /**
+   * @member {string} [sourceIPAddress] The source IP address.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceIPAddress?: string;
+  /**
+   * @member {EthernetAddressType} [sourceIPAddressType] The source IP address
+   * type. Possible values include: 'Dynamic', 'Static'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceIPAddressType?: EthernetAddressType;
+  /**
+   * @member {string} [sourceNetworkId] Source network Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sourceNetworkId?: string;
+  /**
+   * @member {string} [targetIPAddress] The target IP address.
+   */
+  targetIPAddress?: string;
+  /**
+   * @member {EthernetAddressType} [targetIPAddressType] The target IP address
+   * type. Possible values include: 'Dynamic', 'Static'
+   */
+  targetIPAddressType?: EthernetAddressType;
+  /**
+   * @member {string} [targetSubnetName] Target subnet name.
+   */
+  targetSubnetName?: string;
+  /**
+   * @member {string} [isSelectedForMigration] A value indicating whether this
+   * NIC is selected for migration.
+   */
+  isSelectedForMigration?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtMigrationDetails.
+ * VMwareCbt provider specific settings
+ *
+ */
+export interface VMwareCbtMigrationDetails {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "VMwareCbt";
+  /**
+   * @member {string} [vmwareMachineId] The ARM Id of the VM discovered in
+   * VMware.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly vmwareMachineId?: string;
+  /**
+   * @member {string} [osType] The type of the OS on the VM.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly osType?: string;
+  /**
+   * @member {string} [licenseType] License Type of the VM to be used.
+   */
+  licenseType?: string;
+  /**
+   * @member {string} [dataMoverRunAsAccountId] The data mover RunAs account
+   * Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly dataMoverRunAsAccountId?: string;
+  /**
+   * @member {string} [snapshotRunAsAccountId] The snapshot RunAs account Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly snapshotRunAsAccountId?: string;
+  /**
+   * @member {string} [targetVmName] Target VM name.
+   */
+  targetVmName?: string;
+  /**
+   * @member {string} [targetVmSize] The target VM size.
+   */
+  targetVmSize?: string;
+  /**
+   * @member {string} [targetLocation] The target location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetLocation?: string;
+  /**
+   * @member {string} [targetResourceGroupId] The target resource group Id.
+   */
+  targetResourceGroupId?: string;
+  /**
+   * @member {string} [targetAvailabilitySetId] The target availability set Id.
+   */
+  targetAvailabilitySetId?: string;
+  /**
+   * @member {string} [targetBootDiagnosticsStorageAccountId] The target boot
+   * diagnostics storage account ARM Id.
+   */
+  targetBootDiagnosticsStorageAccountId?: string;
+  /**
+   * @member {VMwareCbtProtectedDiskDetails[]} [protectedDisks] The list of
+   * protected disks.
+   */
+  protectedDisks?: VMwareCbtProtectedDiskDetails[];
+  /**
+   * @member {string} [targetNetworkId] The target network Id.
+   */
+  targetNetworkId?: string;
+  /**
+   * @member {VMwareCbtNicDetails[]} [vmNics] The network details.
+   */
+  vmNics?: VMwareCbtNicDetails[];
+  /**
+   * @member {string} [migrationRecoveryPointId] The recovery point Id to which
+   * the VM was migrated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly migrationRecoveryPointId?: string;
+  /**
+   * @member {Date} [lastRecoveryPointReceived] The last recovery point
+   * received time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastRecoveryPointReceived?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtNicInput.
+ * VMwareCbt NIC input.
+ *
+ */
+export interface VMwareCbtNicInput {
+  /**
+   * @member {string} nicId The NIC Id.
+   */
+  nicId: string;
+  /**
+   * @member {string} isPrimaryNic A value indicating whether this is the
+   * primary NIC.
+   */
+  isPrimaryNic: string;
+  /**
+   * @member {string} [targetSubnetName] Target subnet name.
+   */
+  targetSubnetName?: string;
+  /**
+   * @member {string} [targetStaticIPAddress] The static IP address.
+   */
+  targetStaticIPAddress?: string;
+  /**
+   * @member {string} [isSelectedForMigration] A value indicating whether this
+   * NIC is selected for migration.
+   */
+  isSelectedForMigration?: string;
+}
+
+/**
+ * @interface
  * An interface representing VMwareCbtPolicyCreationInput.
- * VMware Cbt Policy creation input.
+ * VMware Cbt policy creation input.
  *
  */
 export interface VMwareCbtPolicyCreationInput {
@@ -8817,10 +10076,10 @@ export interface VMwareCbtPolicyCreationInput {
    */
   instanceType: "VMwareCbt";
   /**
-   * @member {number} [recoveryPointHistory] The duration in minutes until
-   * which the recovery points need to be stored.
+   * @member {number} [recoveryPointHistoryInMinutes] The duration in minutes
+   * until which the recovery points need to be stored.
    */
-  recoveryPointHistory?: number;
+  recoveryPointHistoryInMinutes?: number;
   /**
    * @member {number} [crashConsistentFrequencyInMinutes] The crash consistent
    * snapshot frequency (in minutes).
@@ -8845,15 +10104,10 @@ export interface VmwareCbtPolicyDetails {
    */
   instanceType: "VMwareCbt";
   /**
-   * @member {number} [recoveryPointThresholdInMinutes] The recovery point
-   * threshold in minutes.
+   * @member {number} [recoveryPointHistoryInMinutes] The duration in minutes
+   * until which the recovery points need to be stored.
    */
-  recoveryPointThresholdInMinutes?: number;
-  /**
-   * @member {number} [recoveryPointHistory] The duration in minutes until
-   * which the recovery points need to be stored.
-   */
-  recoveryPointHistory?: number;
+  recoveryPointHistoryInMinutes?: number;
   /**
    * @member {number} [appConsistentFrequencyInMinutes] The app consistent
    * snapshot frequency in minutes.
@@ -8864,6 +10118,126 @@ export interface VmwareCbtPolicyDetails {
    * snapshot frequency in minutes.
    */
   crashConsistentFrequencyInMinutes?: number;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtProtectionContainerMappingDetails.
+ * VMwareCbt provider specific container mapping details.
+ *
+ */
+export interface VMwareCbtProtectionContainerMappingDetails {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "VMwareCbt";
+  /**
+   * @member {string} [keyVaultId] The target key vault ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly keyVaultId?: string;
+  /**
+   * @member {string} [keyVaultUri] The target key vault URI.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly keyVaultUri?: string;
+  /**
+   * @member {string} [storageAccountId] The storage account ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly storageAccountId?: string;
+  /**
+   * @member {string} [storageAccountSasSecretName] The secret name of the
+   * storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly storageAccountSasSecretName?: string;
+  /**
+   * @member {string} [serviceBusConnectionStringSecretName] The secret name of
+   * the service bus connection string.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceBusConnectionStringSecretName?: string;
+  /**
+   * @member {string} [targetLocation] The target location.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetLocation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtTestMigrateInput.
+ * VMwareCbt specific test migrate input.
+ *
+ */
+export interface VMwareCbtTestMigrateInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "VMwareCbt";
+  /**
+   * @member {string} recoveryPointId The recovery point Id.
+   */
+  recoveryPointId: string;
+  /**
+   * @member {string} networkId The test network Id.
+   */
+  networkId: string;
+}
+
+/**
+ * @interface
+ * An interface representing VMwareCbtUpdateMigrationItemInput.
+ * VMwareCbt specific update migration item input.
+ *
+ */
+export interface VMwareCbtUpdateMigrationItemInput {
+  /**
+   * @member {string} instanceType Polymorphic Discriminator
+   */
+  instanceType: "VMwareCbt";
+  /**
+   * @member {string} [targetVmName] The target VM name.
+   */
+  targetVmName?: string;
+  /**
+   * @member {string} [targetVmSize] The target VM size.
+   */
+  targetVmSize?: string;
+  /**
+   * @member {string} [targetResourceGroupId] The target resource group ARM Id.
+   */
+  targetResourceGroupId?: string;
+  /**
+   * @member {string} [targetAvailabilitySetId] The target availability set ARM
+   * Id.
+   */
+  targetAvailabilitySetId?: string;
+  /**
+   * @member {string} [targetBootDiagnosticsStorageAccountId] The target boot
+   * diagnostics storage account ARM Id.
+   */
+  targetBootDiagnosticsStorageAccountId?: string;
+  /**
+   * @member {string} [targetNetworkId] The target network ARM Id.
+   */
+  targetNetworkId?: string;
+  /**
+   * @member {VMwareCbtNicInput[]} [vmNics] The list of NIC details.
+   */
+  vmNics?: VMwareCbtNicInput[];
+  /**
+   * @member {LicenseType} [licenseType] The license type. Possible values
+   * include: 'NotSpecified', 'NoLicenseType', 'WindowsServer'
+   */
+  licenseType?: LicenseType;
 }
 
 /**
@@ -9016,7 +10390,7 @@ export interface VMwareDetails {
 /**
  * @interface
  * An interface representing VMwareV2FabricCreationInput.
- * Fabric provider specific settings.
+ * VMwareV2 fabric provider specific settings.
  *
  */
 export interface VMwareV2FabricCreationInput {
@@ -9025,19 +10399,19 @@ export interface VMwareV2FabricCreationInput {
    */
   instanceType: "VMwareV2";
   /**
-   * @member {string} [keyVaultUrl] The Key Vault URL.
+   * @member {string} vmwareSiteId The ARM Id of the VMware site.
    */
-  keyVaultUrl?: string;
+  vmwareSiteId: string;
   /**
-   * @member {string} [keyVaultResourceArmId] The Key Vault ARM Id.
+   * @member {string} migrationSolutionId The ARM Id of the migration solution.
    */
-  keyVaultResourceArmId?: string;
+  migrationSolutionId: string;
 }
 
 /**
  * @interface
  * An interface representing VMwareV2FabricSpecificDetails.
- * VMwareV2 fabric Specific Details.
+ * VMwareV2 fabric specific details.
  *
  */
 export interface VMwareV2FabricSpecificDetails {
@@ -9046,23 +10420,23 @@ export interface VMwareV2FabricSpecificDetails {
    */
   instanceType: "VMwareV2";
   /**
-   * @member {string} [srsServiceEndpoint] The endpoint for making requests to
-   * the SRS Service.
+   * @member {string} [vmwareSiteId] The ARM Id of the VMware site.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  srsServiceEndpoint?: string;
+  readonly vmwareSiteId?: string;
   /**
-   * @member {string} [rcmServiceEndpoint] The endpoint for making requests to
-   * the RCM Service.
+   * @member {string} [migrationSolutionId] The Migration solution ARM Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  rcmServiceEndpoint?: string;
+  readonly migrationSolutionId?: string;
   /**
-   * @member {string} [keyVaultUrl] The Key Vault URL.
+   * @member {string} [serviceEndpoint] The service endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  keyVaultUrl?: string;
-  /**
-   * @member {string} [keyVaultResourceArmId] The Key Vault ARM Id.
-   */
-  keyVaultResourceArmId?: string;
+  readonly serviceEndpoint?: string;
 }
 
 /**
@@ -9109,7 +10483,7 @@ export interface VMwareVirtualMachineDetails {
    */
   vCenterInfrastructureId?: string;
   /**
-   * @member {string} [discoveryType] A value inidicating the discovery type of
+   * @member {string} [discoveryType] A value indicating the discovery type of
    * the machine. Value can be vCenter or physical.
    */
   discoveryType?: string;
@@ -9135,6 +10509,52 @@ export interface ReplicationEventsListOptionalParams extends msRest.RequestOptio
    * @member {string} [filter] OData filter options.
    */
   filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ReplicationMigrationItemsDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ReplicationMigrationItemsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [deleteOption] The delete option.
+   */
+  deleteOption?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ReplicationMigrationItemsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ReplicationMigrationItemsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [skipToken] The pagination token.
+   */
+  skipToken?: string;
+  /**
+   * @member {string} [filter] OData filter options.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ReplicationMigrationItemsBeginDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ReplicationMigrationItemsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [deleteOption] The delete option.
+   */
+  deleteOption?: string;
 }
 
 /**
@@ -9307,6 +10727,34 @@ export interface NetworkMappingCollection extends Array<NetworkMapping> {
  * @extends Array<ProtectionContainer>
  */
 export interface ProtectionContainerCollection extends Array<ProtectionContainer> {
+  /**
+   * @member {string} [nextLink] The value of next link.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the MigrationItemCollection.
+ * Migration item collection.
+ *
+ * @extends Array<MigrationItem>
+ */
+export interface MigrationItemCollection extends Array<MigrationItem> {
+  /**
+   * @member {string} [nextLink] The value of next link.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the MigrationRecoveryPointCollection.
+ * Collection of migration recovery points.
+ *
+ * @extends Array<MigrationRecoveryPoint>
+ */
+export interface MigrationRecoveryPointCollection extends Array<MigrationRecoveryPoint> {
   /**
    * @member {string} [nextLink] The value of next link.
    */
@@ -9556,6 +11004,14 @@ export type PossibleOperationsDirections = 'PrimaryToRecovery' | 'RecoveryToPrim
 export type DisableProtectionReason = 'NotSpecified' | 'MigrationComplete';
 
 /**
+ * Defines values for HealthErrorCustomerResolvability.
+ * Possible values include: 'Allowed', 'NotAllowed'
+ * @readonly
+ * @enum {string}
+ */
+export type HealthErrorCustomerResolvability = 'Allowed' | 'NotAllowed';
+
+/**
  * Defines values for HealthErrorCategory.
  * Possible values include: 'None', 'Replication', 'TestFailover', 'Configuration',
  * 'FabricInfrastructure', 'VersionExpiry', 'AgentAutoUpdate'
@@ -9581,14 +11037,6 @@ export type Severity = 'NONE' | 'Warning' | 'Error' | 'Info';
 export type PresenceStatus = 'Unknown' | 'Present' | 'NotPresent';
 
 /**
- * Defines values for IdentityProviderType.
- * Possible values include: 'RecoveryServicesActiveDirectory'
- * @readonly
- * @enum {string}
- */
-export type IdentityProviderType = 'RecoveryServicesActiveDirectory';
-
-/**
  * Defines values for AgentVersionStatus.
  * Possible values include: 'Supported', 'NotSupported', 'Deprecated', 'UpdateRequired',
  * 'SecurityUpdateRequired'
@@ -9598,12 +11046,56 @@ export type IdentityProviderType = 'RecoveryServicesActiveDirectory';
 export type AgentVersionStatus = 'Supported' | 'NotSupported' | 'Deprecated' | 'UpdateRequired' | 'SecurityUpdateRequired';
 
 /**
+ * Defines values for DiskAccountType.
+ * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskAccountType = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS';
+
+/**
  * Defines values for RecoveryPointType.
  * Possible values include: 'LatestTime', 'LatestTag', 'Custom'
  * @readonly
  * @enum {string}
  */
 export type RecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
+
+/**
+ * Defines values for MigrationState.
+ * Possible values include: 'None', 'EnableMigrationInProgress', 'EnableMigrationFailed',
+ * 'DisableMigrationInProgress', 'DisableMigrationFailed', 'InitialSeedingInProgress',
+ * 'InitialSeedingFailed', 'Replicating', 'MigrationInProgress', 'MigrationSucceeded',
+ * 'MigrationFailed'
+ * @readonly
+ * @enum {string}
+ */
+export type MigrationState = 'None' | 'EnableMigrationInProgress' | 'EnableMigrationFailed' | 'DisableMigrationInProgress' | 'DisableMigrationFailed' | 'InitialSeedingInProgress' | 'InitialSeedingFailed' | 'Replicating' | 'MigrationInProgress' | 'MigrationSucceeded' | 'MigrationFailed';
+
+/**
+ * Defines values for TestMigrationState.
+ * Possible values include: 'None', 'TestMigrationInProgress', 'TestMigrationSucceeded',
+ * 'TestMigrationFailed', 'TestMigrationCleanupInProgress'
+ * @readonly
+ * @enum {string}
+ */
+export type TestMigrationState = 'None' | 'TestMigrationInProgress' | 'TestMigrationSucceeded' | 'TestMigrationFailed' | 'TestMigrationCleanupInProgress';
+
+/**
+ * Defines values for MigrationItemOperation.
+ * Possible values include: 'DisableMigration', 'TestMigrate', 'TestMigrateCleanup', 'Migrate'
+ * @readonly
+ * @enum {string}
+ */
+export type MigrationItemOperation = 'DisableMigration' | 'TestMigrate' | 'TestMigrateCleanup' | 'Migrate';
+
+/**
+ * Defines values for MigrationRecoveryPointType.
+ * Possible values include: 'NotSpecified', 'ApplicationConsistent', 'CrashConsistent'
+ * @readonly
+ * @enum {string}
+ */
+export type MigrationRecoveryPointType = 'NotSpecified' | 'ApplicationConsistent' | 'CrashConsistent';
 
 /**
  * Defines values for MultiVmSyncStatus.
@@ -9694,6 +11186,22 @@ export type SourceSiteOperations = 'Required' | 'NotRequired';
  * @enum {string}
  */
 export type LicenseType = 'NotSpecified' | 'NoLicenseType' | 'WindowsServer';
+
+/**
+ * Defines values for DiskType.
+ * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskType = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS';
+
+/**
+ * Defines values for EthernetAddressType.
+ * Possible values include: 'Dynamic', 'Static'
+ * @readonly
+ * @enum {string}
+ */
+export type EthernetAddressType = 'Dynamic' | 'Static';
 
 /**
  * Contains response data for the list operation.
@@ -10610,6 +12118,348 @@ export type ReplicationProtectionContainersListNextResponse = ProtectionContaine
 /**
  * Contains response data for the listByReplicationProtectionContainers operation.
  */
+export type ReplicationMigrationItemsListByReplicationProtectionContainersResponse = MigrationItemCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItemCollection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ReplicationMigrationItemsGetResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type ReplicationMigrationItemsCreateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ReplicationMigrationItemsUpdateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the migrate operation.
+ */
+export type ReplicationMigrationItemsMigrateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the testMigrate operation.
+ */
+export type ReplicationMigrationItemsTestMigrateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the testMigrateCleanup operation.
+ */
+export type ReplicationMigrationItemsTestMigrateCleanupResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ReplicationMigrationItemsListResponse = MigrationItemCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItemCollection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type ReplicationMigrationItemsBeginCreateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ReplicationMigrationItemsBeginUpdateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the beginMigrate operation.
+ */
+export type ReplicationMigrationItemsBeginMigrateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the beginTestMigrate operation.
+ */
+export type ReplicationMigrationItemsBeginTestMigrateResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the beginTestMigrateCleanup operation.
+ */
+export type ReplicationMigrationItemsBeginTestMigrateCleanupResponse = MigrationItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItem;
+    };
+};
+
+/**
+ * Contains response data for the listByReplicationProtectionContainersNext operation.
+ */
+export type ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse = MigrationItemCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItemCollection;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ReplicationMigrationItemsListNextResponse = MigrationItemCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationItemCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByReplicationMigrationItems operation.
+ */
+export type MigrationRecoveryPointsListByReplicationMigrationItemsResponse = MigrationRecoveryPointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationRecoveryPointCollection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type MigrationRecoveryPointsGetResponse = MigrationRecoveryPoint & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationRecoveryPoint;
+    };
+};
+
+/**
+ * Contains response data for the listByReplicationMigrationItemsNext operation.
+ */
+export type MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse = MigrationRecoveryPointCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MigrationRecoveryPointCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByReplicationProtectionContainers operation.
+ */
 export type ReplicationProtectableItemsListByReplicationProtectionContainersResponse = ProtectableItemCollection & {
   /**
    * The underlying HTTP response.
@@ -10741,6 +12591,25 @@ export type ReplicationProtectedItemsUpdateResponse = ReplicationProtectedItem &
 };
 
 /**
+ * Contains response data for the addDisks operation.
+ */
+export type ReplicationProtectedItemsAddDisksResponse = ReplicationProtectedItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReplicationProtectedItem;
+    };
+};
+
+/**
  * Contains response data for the applyRecoveryPoint operation.
  */
 export type ReplicationProtectedItemsApplyRecoveryPointResponse = ReplicationProtectedItem & {
@@ -10798,6 +12667,25 @@ export type ReplicationProtectedItemsPlannedFailoverResponse = ReplicationProtec
 };
 
 /**
+ * Contains response data for the removeDisks operation.
+ */
+export type ReplicationProtectedItemsRemoveDisksResponse = ReplicationProtectedItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReplicationProtectedItem;
+    };
+};
+
+/**
  * Contains response data for the repairReplication operation.
  */
 export type ReplicationProtectedItemsRepairReplicationResponse = ReplicationProtectedItem & {
@@ -10820,6 +12708,25 @@ export type ReplicationProtectedItemsRepairReplicationResponse = ReplicationProt
  * Contains response data for the reprotect operation.
  */
 export type ReplicationProtectedItemsReprotectResponse = ReplicationProtectedItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReplicationProtectedItem;
+    };
+};
+
+/**
+ * Contains response data for the resolveHealthErrors operation.
+ */
+export type ReplicationProtectedItemsResolveHealthErrorsResponse = ReplicationProtectedItem & {
   /**
    * The underlying HTTP response.
    */
@@ -10969,6 +12876,25 @@ export type ReplicationProtectedItemsBeginUpdateResponse = ReplicationProtectedI
 };
 
 /**
+ * Contains response data for the beginAddDisks operation.
+ */
+export type ReplicationProtectedItemsBeginAddDisksResponse = ReplicationProtectedItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReplicationProtectedItem;
+    };
+};
+
+/**
  * Contains response data for the beginApplyRecoveryPoint operation.
  */
 export type ReplicationProtectedItemsBeginApplyRecoveryPointResponse = ReplicationProtectedItem & {
@@ -11026,6 +12952,25 @@ export type ReplicationProtectedItemsBeginPlannedFailoverResponse = ReplicationP
 };
 
 /**
+ * Contains response data for the beginRemoveDisks operation.
+ */
+export type ReplicationProtectedItemsBeginRemoveDisksResponse = ReplicationProtectedItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReplicationProtectedItem;
+    };
+};
+
+/**
  * Contains response data for the beginRepairReplication operation.
  */
 export type ReplicationProtectedItemsBeginRepairReplicationResponse = ReplicationProtectedItem & {
@@ -11048,6 +12993,25 @@ export type ReplicationProtectedItemsBeginRepairReplicationResponse = Replicatio
  * Contains response data for the beginReprotect operation.
  */
 export type ReplicationProtectedItemsBeginReprotectResponse = ReplicationProtectedItem & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReplicationProtectedItem;
+    };
+};
+
+/**
+ * Contains response data for the beginResolveHealthErrors operation.
+ */
+export type ReplicationProtectedItemsBeginResolveHealthErrorsResponse = ReplicationProtectedItem & {
   /**
    * The underlying HTTP response.
    */
@@ -11482,6 +13446,25 @@ export type ReplicationRecoveryServicesProvidersGetResponse = RecoveryServicesPr
 };
 
 /**
+ * Contains response data for the create operation.
+ */
+export type ReplicationRecoveryServicesProvidersCreateResponse = RecoveryServicesProvider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryServicesProvider;
+    };
+};
+
+/**
  * Contains response data for the refreshProvider operation.
  */
 export type ReplicationRecoveryServicesProvidersRefreshProviderResponse = RecoveryServicesProvider & {
@@ -11516,6 +13499,25 @@ export type ReplicationRecoveryServicesProvidersListResponse = RecoveryServicesP
        * The response body as parsed JSON or XML
        */
       parsedBody: RecoveryServicesProviderCollection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type ReplicationRecoveryServicesProvidersBeginCreateResponse = RecoveryServicesProvider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryServicesProvider;
     };
 };
 
@@ -12675,6 +14677,25 @@ export type ReplicationRecoveryPlansListNextResponse = RecoveryPlanCollection & 
        * The response body as parsed JSON or XML
        */
       parsedBody: RecoveryPlanCollection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SupportedOperatingSystemsGetResponse = SupportedOperatingSystems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SupportedOperatingSystems;
     };
 };
 
