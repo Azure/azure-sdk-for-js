@@ -7,6 +7,13 @@ import { generate_uuid, string_to_uuid } from "rhea-promise";
 import { isBuffer } from "util";
 import { ConnectionContext } from "../connectionContext";
 
+// This is the only dependency we have on DOM types, so rather than require
+// the DOM lib we can just shim this in.
+interface Navigator {
+  hardwareConcurrency: number;
+}
+declare var navigator: Navigator;
+
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
