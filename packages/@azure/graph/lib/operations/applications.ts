@@ -141,21 +141,21 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  patch(applicationObjectId: string, parameters: Models.Application, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param parameters Parameters to update an existing application.
    * @param callback The callback
    */
-  patch(applicationObjectId: string, parameters: Models.Application, callback: msRest.ServiceCallback<void>): void;
+  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param parameters Parameters to update an existing application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  patch(applicationObjectId: string, parameters: Models.Application, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  patch(applicationObjectId: string, parameters: Models.Application, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -558,7 +558,7 @@ const patchOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.Application,
+      ...Mappers.ApplicationUpdateParameters,
       required: true
     }
   },

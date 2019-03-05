@@ -11,7 +11,6 @@
 export {
   discriminators,
   Application,
-  ApplicationBase,
   DirectoryObject,
   AppRole,
   InformationalUrl,
@@ -27,12 +26,9 @@ export {
   ResourceAccess,
   GraphError,
   ApplicationListResult,
-  ApplicationCreateParameters,
-  ApplicationUpdateParameters,
   ADGroup,
   ServicePrincipal,
   User,
-  SignInName,
-  ServicePrincipalCreateParameters
+  SignInName
 } from "../models/mappers";
 

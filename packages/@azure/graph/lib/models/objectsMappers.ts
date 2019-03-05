@@ -14,7 +14,7 @@ export {
   DirectoryObjectListResult,
   DirectoryObject,
   CloudError,
-  ApplicationBase,
+  Application,
   AppRole,
   InformationalUrl,
   KeyCredential,
@@ -27,13 +27,9 @@ export {
   PreAuthorizedApplicationExtension,
   RequiredResourceAccess,
   ResourceAccess,
-  ApplicationCreateParameters,
-  ApplicationUpdateParameters,
-  Application,
   ADGroup,
   ServicePrincipal,
   User,
-  SignInName,
-  ServicePrincipalCreateParameters
+  SignInName
 } from "../models/mappers";
 

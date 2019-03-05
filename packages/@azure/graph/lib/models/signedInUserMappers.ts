@@ -15,7 +15,7 @@ export {
   SignInName,
   GraphError,
   DirectoryObjectListResult,
-  ApplicationBase,
+  Application,
   AppRole,
   InformationalUrl,
   KeyCredential,
@@ -28,11 +28,7 @@ export {
   PreAuthorizedApplicationExtension,
   RequiredResourceAccess,
   ResourceAccess,
-  ApplicationCreateParameters,
-  ApplicationUpdateParameters,
-  Application,
   ADGroup,
-  ServicePrincipal,
-  ServicePrincipalCreateParameters
+  ServicePrincipal
 } from "../models/mappers";
 

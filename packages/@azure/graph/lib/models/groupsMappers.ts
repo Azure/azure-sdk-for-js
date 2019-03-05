@@ -22,7 +22,7 @@ export {
   GroupGetMemberGroupsParameters,
   GroupGetMemberGroupsResult,
   AddOwnerParameters,
-  ApplicationBase,
+  Application,
   AppRole,
   InformationalUrl,
   KeyCredential,
@@ -35,12 +35,8 @@ export {
   PreAuthorizedApplicationExtension,
   RequiredResourceAccess,
   ResourceAccess,
-  ApplicationCreateParameters,
-  ApplicationUpdateParameters,
-  Application,
   ServicePrincipal,
   User,
-  SignInName,
-  ServicePrincipalCreateParameters
+  SignInName
 } from "../models/mappers";
 
