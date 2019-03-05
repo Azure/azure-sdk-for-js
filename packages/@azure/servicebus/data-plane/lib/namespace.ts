@@ -55,7 +55,7 @@ export class Namespace {
    * @constructor
    * @param {ConnectionConfig} config - The connection configuration to create the Namespace.
    * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
-   * authentication. Default value: `SasTokenProvider`.
+   * authentication.
    * @param {NamespaceOptions} - Options to create the Namespace.
    */
   private constructor(
