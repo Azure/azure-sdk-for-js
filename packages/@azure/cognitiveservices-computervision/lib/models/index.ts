@@ -864,7 +864,7 @@ export interface Line {
  */
 export interface TextRecognitionResult {
   /**
-   * @member {number} [page] The page number of the recognition result.
+   * @member {number} [page] The 1-based page number of the recognition result.
    */
   page?: number;
   /**
