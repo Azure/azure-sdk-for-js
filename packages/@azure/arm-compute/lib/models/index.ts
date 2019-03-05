@@ -4775,6 +4775,8 @@ export interface KeyVaultAndKeyReference {
 /**
  * @interface
  * An interface representing EncryptionSettingsElement.
+ * Encryption settings for one disk volume.
+ *
  */
 export interface EncryptionSettingsElement {
   /**
