@@ -16,13 +16,15 @@ This library is currently in preview and may change prior to release.
 npm install @azure/service-bus
 ```
 
-TypeScript users need to install Node types:
+### TypeScript
+
+TypeScript users need to have Node type definitions installed:
 
 ```bash
 npm install @types/node
 ```
 
-And also enable `compilerOptions.esModuleInterop` in tsconfig.json.
+You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default.
 
 ## Examples
 
