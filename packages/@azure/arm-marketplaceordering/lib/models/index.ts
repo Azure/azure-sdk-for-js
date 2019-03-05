@@ -115,8 +115,9 @@ export interface ErrorResponseError {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates Microsoft.MarketplaceOrdering service is not able to
- * process the incoming request. The reason is provided in the error message.
+ * Error response indicates Microsoft.MarketplaceOrdering service is not able
+ * to process the incoming request. The reason is provided in the error
+ * message.
  *
  */
 export interface ErrorResponse {
@@ -234,6 +235,82 @@ export type MarketplaceAgreementsCreateResponse = AgreementTerms & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AgreementTerms;
+    };
+};
+
+/**
+ * Contains response data for the sign operation.
+ */
+export type MarketplaceAgreementsSignResponse = AgreementTerms & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgreementTerms;
+    };
+};
+
+/**
+ * Contains response data for the cancel operation.
+ */
+export type MarketplaceAgreementsCancelResponse = AgreementTerms & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgreementTerms;
+    };
+};
+
+/**
+ * Contains response data for the getAgreement operation.
+ */
+export type MarketplaceAgreementsGetAgreementResponse = AgreementTerms & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgreementTerms;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type MarketplaceAgreementsListResponse = Array<AgreementTerms> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgreementTerms[];
     };
 };
 
