@@ -40,3 +40,6 @@ Copy the sample to your samples folder and use `ts-node` to run it.
 ```bash
 ts-node sample.ts
 ```
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fservicebus%2Fdata-plane%2Fexamples%2FREADME.png)
