@@ -78,7 +78,7 @@ export interface Sku {
    */
   tier?: SkuTier;
   /**
-   * @member {number} [capacity] The Event Hubs throughput units, vaule should
+   * @member {number} [capacity] The Event Hubs throughput units, value should
    * be 0 to 20 throughput units.
    */
   capacity?: number;
@@ -134,7 +134,7 @@ export interface EHNamespace extends TrackedResource {
   isAutoInflateEnabled?: boolean;
   /**
    * @member {number} [maximumThroughputUnits] Upper limit of throughput units
-   * when AutoInflate is enabled, vaule should be within 0 to 20 throughput
+   * when AutoInflate is enabled, value should be within 0 to 20 throughput
    * units. ( '0' if AutoInflateEnabled = true)
    */
   maximumThroughputUnits?: number;
@@ -220,7 +220,7 @@ export interface AccessKeys {
  * @interface
  * An interface representing RegenerateAccessKeyParameters.
  * Parameters supplied to the Regenerate Authorization Rule operation,
- * specifies which key neeeds to be reset.
+ * specifies which key needs to be reset.
  *
  */
 export interface RegenerateAccessKeyParameters {
@@ -302,6 +302,11 @@ export interface CaptureDescription {
    * capture will be stored. (Storage Account, Blob Names)
    */
   destination?: Destination;
+  /**
+   * @member {boolean} [skipEmptyArchives] A value that indicates whether to
+   * Skip Empty Archives
+   */
+  skipEmptyArchives?: boolean;
 }
 
 /**
@@ -376,7 +381,7 @@ export interface ConsumerGroup extends Resource {
    */
   readonly updatedAt?: Date;
   /**
-   * @member {string} [userMetadata] Usermetadata is a placeholder to store
+   * @member {string} [userMetadata] User Metadata is a placeholder to store
    * user-defined string data with maximum length 1024. e.g. it can be used to
    * store descriptive data, such as list of teams and their contact
    * information also user-defined configuration settings can be stored.
@@ -476,8 +481,8 @@ export interface Operation {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates EventHub service is not able to process the incoming
- * request. The reason is provided in the error message.
+ * Error response indicates EventHub service is not able to process the
+ * incoming request. The reason is provided in the error message.
  *
  */
 export interface ErrorResponse {
@@ -511,7 +516,7 @@ export interface ArmDisasterRecovery extends Resource {
   readonly provisioningState?: ProvisioningStateDR;
   /**
    * @member {string} [partnerNamespace] ARM Id of the Primary/Secondary
-   * eventhub namespace name, which is part of GEO DR pairning
+   * eventhub namespace name, which is part of GEO DR pairing
    */
   partnerNamespace?: string;
   /**
