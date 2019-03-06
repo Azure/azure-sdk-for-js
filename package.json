@@ -61,7 +61,10 @@
     "audit-client-keyvault": "cd packages/@azure/keyvault && npm i --package-lock-only && npm audit",
     "audit-client-template": "cd packages/@azure/template && npm i --package-lock-only && npm audit",
     "audit-client-servicebus": "cd packages/@azure/servicebus/data-plane && npm i --package-lock-only && npm audit",
-    "audit-client": "npm-run-all -p -l audit-client-*"
+    "audit-client": "npm-run-all -p -l audit-client-*",
+    "lint-client-template": "cd packages/@azure/template && npm run eslint",
+    "lint-client": "npm-run-all -p -l lint-client-*",
+    "analyze-client": "npm run audit-client && npm run lint-client"
   },
   "devDependencies": {
     "@octokit/rest": "15.17.0",
