@@ -26,3 +26,6 @@ The overall build pipeline looks like the following:
 3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/index.js`.
 
 Tests follow a similar pipeline, however output folders have the `test-` prefix.
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Ftemplate%2FREADME.png)
