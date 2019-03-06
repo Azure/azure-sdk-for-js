@@ -15,15 +15,16 @@ import {
   ConnectionConfig,
   DataTransformer,
   TokenProvider,
-  AadTokenProvider
+  AadTokenProvider,
+  SasTokenProvider
 } from "@azure/amqp-common";
 import { SubscriptionClient } from "./subscriptionClient";
 
 /**
- * Describes the base namespace options.
- * @interface NamespaceOptionsBase
+ * Describes the options that can be provided while creating the Namespace.
+ * @interface NamespaceOptions
  */
-export interface NamespaceOptionsBase {
+export interface NamespaceOptions {
   /**
    * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
    * and decode the sent and received messages respectively. If not provided then we will use the
@@ -34,20 +35,8 @@ export interface NamespaceOptionsBase {
 }
 
 /**
- * Describes the options that can be provided while creating the Namespace.
- * @interface NamespaceOptions
- */
-export interface NamespaceOptions extends NamespaceOptionsBase {
-  /**
-   * @property {TokenProvider} [tokenProvider] - The token provider that provides the token
-   * for authentication. Default value: SasTokenProvider.
-   */
-  tokenProvider?: TokenProvider;
-}
-
-/**
- * Describes the Service Bus Namespace and is the entry point for using Queues, Topics and
- * Subscriptions.
+ * Holds the AMQP connection to the Service Bus Namespace and is the entry point for using Queues,
+ * Topics and Subscriptions.
  */
 export class Namespace {
   /**
@@ -61,17 +50,22 @@ export class Namespace {
   private _context: ConnectionContext;
 
   /**
-   * Instantiates a client pointing to the ServiceBus Queue given by this configuration.
+   * Instantiates a client pointing to the Service Bus Namespace.
    *
    * @constructor
    * @param {ConnectionConfig} config - The connection configuration to create the Namespace.
    * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
-   * authentication. Default value: `SasTokenProvider`.
+   * authentication.
+   * @param {NamespaceOptions} - Options to create the Namespace.
    */
-  private constructor(config: ConnectionConfig, options?: NamespaceOptions) {
+  private constructor(
+    config: ConnectionConfig,
+    tokenProvider: TokenProvider,
+    options?: NamespaceOptions
+  ) {
     if (!options) options = {};
     this.name = config.endpoint;
-    this._context = ConnectionContext.create(config, options);
+    this._context = ConnectionContext.create(config, tokenProvider, options);
   }
 
   /**
@@ -182,7 +176,13 @@ export class Namespace {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const config = ConnectionConfig.create(connectionString);
-    return new Namespace(config, options);
+    ConnectionConfig.validate(config);
+    const tokenProvider = new SasTokenProvider(
+      config.endpoint,
+      config.sharedAccessKeyName,
+      config.sharedAccessKey
+    );
+    return new Namespace(config, tokenProvider, options);
   }
 
   /**
@@ -190,13 +190,13 @@ export class Namespace {
    * @param {string} host - Fully qualified domain name for Servicebus. Most likely,
    * `<yournamespace>.servicebus.windows.net`.
    * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
-   * @param {NamespaceOptionsBase} options - The options that can be provided during namespace creation.
+   * @param {NamespaceOptions} options - The options that can be provided during namespace creation.
    * @returns {Namespace} An instance of the Namespace.
    */
   static createFromTokenProvider(
     host: string,
     tokenProvider: TokenProvider,
-    options?: NamespaceOptionsBase
+    options?: NamespaceOptions
   ): Namespace {
     if (!host || (host && typeof host !== "string")) {
       throw new Error("'host' is a required parameter and must be of type: 'string'.");
@@ -208,10 +208,9 @@ export class Namespace {
     const connectionString =
       `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
       `SharedAccessKey=defaultKeyValue`;
-    if (!options) options = {};
-    const nsOptions: NamespaceOptions = options;
-    nsOptions.tokenProvider = tokenProvider;
-    return Namespace.createFromConnectionString(connectionString, nsOptions);
+    const config = ConnectionConfig.create(connectionString);
+    ConnectionConfig.validate(config);
+    return new Namespace(config, tokenProvider, options);
   }
 
   /**
