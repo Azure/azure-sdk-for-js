@@ -111,19 +111,19 @@ export interface ImageRegionCreateEntry {
    */
   tagId?: string;
   /**
-   * @member {number} [left]
+   * @member {number} [left] Coordinate of the left boundary.
    */
   left?: number;
   /**
-   * @member {number} [top]
+   * @member {number} [top] Coordinate of the top boundary.
    */
   top?: number;
   /**
-   * @member {number} [width]
+   * @member {number} [width] Width.
    */
   width?: number;
   /**
-   * @member {number} [height]
+   * @member {number} [height] Height.
    */
   height?: number;
 }
@@ -171,19 +171,19 @@ export interface ImageRegionCreateResult {
    */
   tagId?: string;
   /**
-   * @member {number} [left]
+   * @member {number} [left] Coordinate of the left boundary.
    */
   left?: number;
   /**
-   * @member {number} [top]
+   * @member {number} [top] Coordinate of the top boundary.
    */
   top?: number;
   /**
-   * @member {number} [width]
+   * @member {number} [width] Width.
    */
   width?: number;
   /**
-   * @member {number} [height]
+   * @member {number} [height] Height.
    */
   height?: number;
 }
@@ -254,19 +254,19 @@ export interface ImageRegion {
    */
   tagId?: string;
   /**
-   * @member {number} [left]
+   * @member {number} [left] Coordinate of the left boundary.
    */
   left?: number;
   /**
-   * @member {number} [top]
+   * @member {number} [top] Coordinate of the top boundary.
    */
   top?: number;
   /**
-   * @member {number} [width]
+   * @member {number} [width] Width.
    */
   width?: number;
   /**
-   * @member {number} [height]
+   * @member {number} [height] Height.
    */
   height?: number;
 }
@@ -396,19 +396,19 @@ export interface Region {
    */
   tagId?: string;
   /**
-   * @member {number} [left]
+   * @member {number} [left] Coordinate of the left boundary.
    */
   left?: number;
   /**
-   * @member {number} [top]
+   * @member {number} [top] Coordinate of the top boundary.
    */
   top?: number;
   /**
-   * @member {number} [width]
+   * @member {number} [width] Width.
    */
   width?: number;
   /**
-   * @member {number} [height]
+   * @member {number} [height] Height.
    */
   height?: number;
 }
@@ -457,7 +457,7 @@ export interface ImageFileCreateBatch {
  */
 export interface ImageUrlCreateEntry {
   /**
-   * @member {string} [url]
+   * @member {string} [url] Url of the image.
    */
   url?: string;
   /**
@@ -491,7 +491,7 @@ export interface ImageUrlCreateBatch {
  */
 export interface ImageIdCreateEntry {
   /**
-   * @member {string} [id]
+   * @member {string} [id] Id of the image.
    */
   id?: string;
   /**
@@ -522,22 +522,24 @@ export interface ImageIdCreateBatch {
 /**
  * @interface
  * An interface representing BoundingBox.
+ * Bounding box that defines a region of an image.
+ *
  */
 export interface BoundingBox {
   /**
-   * @member {number} [left]
+   * @member {number} [left] Coordinate of the left boundary.
    */
   left?: number;
   /**
-   * @member {number} [top]
+   * @member {number} [top] Coordinate of the top boundary.
    */
   top?: number;
   /**
-   * @member {number} [width]
+   * @member {number} [width] Width.
    */
   width?: number;
   /**
-   * @member {number} [height]
+   * @member {number} [height] Height.
    */
   height?: number;
 }
@@ -584,10 +586,12 @@ export interface ImageRegionProposal {
 /**
  * @interface
  * An interface representing ImageUrl.
+ * Image url.
+ *
  */
 export interface ImageUrl {
   /**
-   * @member {string} [url]
+   * @member {string} [url] Url of the image.
    */
   url?: string;
 }
@@ -595,26 +599,32 @@ export interface ImageUrl {
 /**
  * @interface
  * An interface representing Prediction.
+ * Prediction result.
+ *
  */
 export interface Prediction {
   /**
-   * @member {number} [probability] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {number} [probability] Probability of the tag.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly probability?: number;
   /**
-   * @member {string} [tagId] **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [tagId] Id of the predicted tag.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly tagId?: string;
   /**
-   * @member {string} [tagName] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [tagName] Name of the predicted tag.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly tagName?: string;
   /**
-   * @member {BoundingBox} [boundingBox] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {BoundingBox} [boundingBox] Bounding box of the prediction.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly boundingBox?: BoundingBox;
 }
@@ -622,31 +632,38 @@ export interface Prediction {
 /**
  * @interface
  * An interface representing ImagePrediction.
+ * Result of an image prediction request.
+ *
  */
 export interface ImagePrediction {
   /**
-   * @member {string} [id] **NOTE: This property will not be serialized. It can
-   * only be populated by the server.**
+   * @member {string} [id] Prediction Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly id?: string;
   /**
-   * @member {string} [project] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [project] Project Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly project?: string;
   /**
-   * @member {string} [iteration] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [iteration] Iteration Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly iteration?: string;
   /**
-   * @member {Date} [created] **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {Date} [created] Date this prediction was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly created?: Date;
   /**
-   * @member {Prediction[]} [predictions] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {Prediction[]} [predictions] List of predictions.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly predictions?: Prediction[];
 }
@@ -752,28 +769,33 @@ export interface StoredImagePrediction {
    */
   readonly domain?: string;
   /**
-   * @member {string} [id] **NOTE: This property will not be serialized. It can
-   * only be populated by the server.**
+   * @member {string} [id] Prediction Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly id?: string;
   /**
-   * @member {string} [project] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [project] Project Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly project?: string;
   /**
-   * @member {string} [iteration] **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
+   * @member {string} [iteration] Iteration Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly iteration?: string;
   /**
-   * @member {Date} [created] **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {Date} [created] Date this prediction was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly created?: Date;
   /**
-   * @member {Prediction[]} [predictions] **NOTE: This property will not be
-   * serialized. It can only be populated by the server.**
+   * @member {Prediction[]} [predictions] List of predictions.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
   readonly predictions?: Prediction[];
 }
@@ -967,6 +989,11 @@ export interface ProjectSettings {
    * type of the project. Possible values include: 'Multiclass', 'Multilabel'
    */
   classificationType?: Classifier;
+  /**
+   * @member {string[]} [targetExportPlatforms] A list of ExportPlatform that
+   * the trained model should be able to support.
+   */
+  targetExportPlatforms?: string[];
 }
 
 /**
@@ -977,7 +1004,7 @@ export interface ProjectSettings {
  */
 export interface Project {
   /**
-   * @member {string} [id] Gets The project id.
+   * @member {string} [id] Gets the project id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1002,18 +1029,25 @@ export interface Project {
    */
   readonly created?: Date;
   /**
-   * @member {Date} [lastModified] Gets the date this project was last modifed.
+   * @member {Date} [lastModified] Gets the date this project was last
+   * modified.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly lastModified?: Date;
   /**
    * @member {string} [thumbnailUri] Gets the thumbnail url representing the
-   * project.
+   * image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly thumbnailUri?: string;
+  /**
+   * @member {boolean} [drModeEnabled] Gets if the DR mode is on.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly drModeEnabled?: boolean;
 }
 
 /**
@@ -1033,11 +1067,6 @@ export interface Iteration {
    * @member {string} [name] Gets or sets the name of the iteration.
    */
   name?: string;
-  /**
-   * @member {boolean} [isDefault] Gets or sets a value indicating whether the
-   * iteration is the default iteration for the project.
-   */
-  isDefault?: boolean;
   /**
    * @member {string} [status] Gets the current iteration status.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1064,7 +1093,7 @@ export interface Iteration {
    */
   readonly trainedAt?: Date;
   /**
-   * @member {string} [projectId] Gets The project id. of the iteration.
+   * @member {string} [projectId] Gets the project id of the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1076,6 +1105,13 @@ export interface Iteration {
    * the server.**
    */
   readonly exportable?: boolean;
+  /**
+   * @member {string[]} [exportableTo] A set of platforms this iteration can
+   * export to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly exportableTo?: string[];
   /**
    * @member {string} [domainId] Get or sets a guid of the domain the iteration
    * has been trained on.
@@ -1090,6 +1126,26 @@ export interface Iteration {
    * the server.**
    */
   readonly classificationType?: Classifier;
+  /**
+   * @member {TrainingType} [trainingType] Gets the training type of the
+   * iteration. Possible values include: 'Regular', 'Advanced'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trainingType?: TrainingType;
+  /**
+   * @member {number} [reservedBudgetInHours] Gets the reserved baking budget
+   * for the iteration.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservedBudgetInHours?: number;
+  /**
+   * @member {string} [publishName] Name of the published model.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publishName?: string;
 }
 
 /**
@@ -1098,19 +1154,19 @@ export interface Iteration {
  */
 export interface ExportModel {
   /**
-   * @member {ExportPlatformModel} [platform] Platform of the export. Possible
-   * values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX'
+   * @member {ExportPlatform} [platform] Platform of the export. Possible
+   * values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX', 'VAIDK'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly platform?: ExportPlatformModel;
+  readonly platform?: ExportPlatform;
   /**
-   * @member {ExportStatusModel} [status] Status of the export. Possible values
+   * @member {ExportStatus} [status] Status of the export. Possible values
    * include: 'Exporting', 'Failed', 'Done'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly status?: ExportStatusModel;
+  readonly status?: ExportStatus;
   /**
    * @member {string} [downloadUri] URI used to download the model.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1118,12 +1174,12 @@ export interface ExportModel {
    */
   readonly downloadUri?: string;
   /**
-   * @member {ExportFlavorModel} [flavor] Flavor of the export. Possible values
-   * include: 'Linux', 'Windows', 'ONNX10', 'ONNX12'
+   * @member {ExportFlavor} [flavor] Flavor of the export. Possible values
+   * include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly flavor?: ExportFlavorModel;
+  readonly flavor?: ExportFlavor;
   /**
    * @member {boolean} [newerVersionAvailable] Indicates an updated version of
    * the export package is available and should be re-exported for the latest
@@ -1166,6 +1222,82 @@ export interface Tag {
    * the server.**
    */
   readonly imageCount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing CustomVisionError.
+ */
+export interface CustomVisionError {
+  /**
+   * @member {CustomVisionErrorCodes} code The error code. Possible values
+   * include: 'NoError', 'BadRequest', 'BadRequestExceededBatchSize',
+   * 'BadRequestNotSupported', 'BadRequestInvalidIds', 'BadRequestProjectName',
+   * 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
+   * 'BadRequestProjectUnknownDomain',
+   * 'BadRequestProjectUnknownClassification',
+   * 'BadRequestProjectUnsupportedDomainTypeChange',
+   * 'BadRequestProjectUnsupportedExportPlatform', 'BadRequestIterationName',
+   * 'BadRequestIterationNameNotUnique', 'BadRequestIterationDescription',
+   * 'BadRequestIterationIsNotTrained', 'BadRequestWorkspaceCannotBeModified',
+   * 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName',
+   * 'BadRequestTagNameNotUnique', 'BadRequestTagDescription',
+   * 'BadRequestTagType', 'BadRequestMultipleNegativeTag',
+   * 'BadRequestImageTags', 'BadRequestImageRegions',
+   * 'BadRequestNegativeAndRegularTagOnSameImage',
+   * 'BadRequestIterationIsPublished', 'BadRequestInvalidPublishName',
+   * 'BadRequestSubscriptionApi', 'BadRequestPublishFailed',
+   * 'BadRequestUnpublishFailed', 'BadRequestExceedProjectLimit',
+   * 'BadRequestExceedIterationPerProjectLimit',
+   * 'BadRequestExceedTagPerProjectLimit', 'BadRequestExceedTagPerImageLimit',
+   * 'BadRequestExceededQuota', 'BadRequestCannotMigrateProjectWithName',
+   * 'BadRequestNotLimitedTrial', 'BadRequestImageBatch',
+   * 'BadRequestImageStream', 'BadRequestImageUrl', 'BadRequestImageFormat',
+   * 'BadRequestImageSizeBytes', 'BadRequestImageExceededCount',
+   * 'BadRequestTrainingNotNeeded',
+   * 'BadRequestTrainingNotNeededButTrainingPipelineUpdated',
+   * 'BadRequestTrainingValidationFailed',
+   * 'BadRequestClassificationTrainingValidationFailed',
+   * 'BadRequestMultiClassClassificationTrainingValidationFailed',
+   * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
+   * 'BadRequestDetectionTrainingValidationFailed',
+   * 'BadRequestTrainingAlreadyInProgress',
+   * 'BadRequestDetectionTrainingNotAllowNegativeTag',
+   * 'BadRequestInvalidEmailAddress', 'BadRequestBakingAlreadyInProgress',
+   * 'BadRequestExportValidationFailed', 'BadRequestExportAlreadyInProgress',
+   * 'BadRequestPredictionIdsMissing', 'BadRequestPredictionIdsExceededCount',
+   * 'BadRequestPredictionTagsExceededCount',
+   * 'BadRequestPredictionResultsExceededCount',
+   * 'BadRequestPredictionInvalidApplicationName',
+   * 'BadRequestPredictionInvalidQueryParameters', 'BadRequestInvalid',
+   * 'UnsupportedMediaType', 'Forbidden', 'ForbiddenUser',
+   * 'ForbiddenUserResource', 'ForbiddenUserSignupDisabled',
+   * 'ForbiddenUserSignupAllowanceExceeded', 'ForbiddenUserDoesNotExist',
+   * 'ForbiddenUserDisabled', 'ForbiddenUserInsufficientCapability',
+   * 'ForbiddenDRModeEnabled', 'ForbiddenInvalid', 'NotFound',
+   * 'NotFoundProject', 'NotFoundProjectDefaultIteration', 'NotFoundIteration',
+   * 'NotFoundIterationPerformance', 'NotFoundTag', 'NotFoundImage',
+   * 'NotFoundDomain', 'NotFoundApimSubscription', 'NotFoundInvalid',
+   * 'Conflict', 'ConflictInvalid', 'ErrorUnknown',
+   * 'ErrorProjectInvalidWorkspace',
+   * 'ErrorProjectInvalidPipelineConfiguration', 'ErrorProjectInvalidDomain',
+   * 'ErrorProjectTrainingRequestFailed', 'ErrorProjectExportRequestFailed',
+   * 'ErrorFeaturizationServiceUnavailable', 'ErrorFeaturizationQueueTimeout',
+   * 'ErrorFeaturizationInvalidFeaturizer',
+   * 'ErrorFeaturizationAugmentationUnavailable',
+   * 'ErrorFeaturizationUnrecognizedJob',
+   * 'ErrorFeaturizationAugmentationError', 'ErrorExporterInvalidPlatform',
+   * 'ErrorExporterInvalidFeaturizer', 'ErrorExporterInvalidClassifier',
+   * 'ErrorPredictionServiceUnavailable', 'ErrorPredictionModelNotFound',
+   * 'ErrorPredictionModelNotCached', 'ErrorPrediction',
+   * 'ErrorPredictionStorage', 'ErrorRegionProposal', 'ErrorInvalid'
+   */
+  code: CustomVisionErrorCodes;
+  /**
+   * @member {string} message A message explaining the error reported by the
+   * service.
+   */
+  message: string;
 }
 
 /**
@@ -1418,6 +1550,42 @@ export interface TrainingAPIClientCreateProjectOptionalParams extends msRest.Req
    * 'Multilabel'
    */
   classificationType?: ClassificationType;
+  /**
+   * @member {string[]} [targetExportPlatforms] List of platforms the trained
+   * model is intending exporting to.
+   */
+  targetExportPlatforms?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing TrainingAPIClientTrainProjectOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TrainingAPIClientTrainProjectOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {TrainingType1} [trainingType] The type of training to use to
+   * train the project (default: Regular). Possible values include: 'Regular',
+   * 'Advanced'
+   */
+  trainingType?: TrainingType1;
+  /**
+   * @member {number} [reservedBudgetInHours] The number of hours reserved as
+   * budget for training (if applicable). Default value: 0 .
+   */
+  reservedBudgetInHours?: number;
+  /**
+   * @member {boolean} [forceTrain] Whether to force train even if dataset and
+   * configuration does not change (default: false). Default value: false .
+   */
+  forceTrain?: boolean;
+  /**
+   * @member {string} [notificationEmailAddress] The email address to send
+   * notification to when training finishes (default: null).
+   */
+  notificationEmailAddress?: string;
 }
 
 /**
@@ -1430,7 +1598,7 @@ export interface TrainingAPIClientCreateProjectOptionalParams extends msRest.Req
 export interface TrainingAPIClientExportIterationOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {Flavor} [flavor] The flavor of the target platform. Possible
-   * values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12'
+   * values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
    */
   flavor?: Flavor;
 }
@@ -1518,28 +1686,36 @@ export type OrderBy = 'Newest' | 'Oldest' | 'Suggested';
 export type Classifier = 'Multiclass' | 'Multilabel';
 
 /**
- * Defines values for ExportPlatformModel.
- * Possible values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX'
+ * Defines values for TrainingType.
+ * Possible values include: 'Regular', 'Advanced'
  * @readonly
  * @enum {string}
  */
-export type ExportPlatformModel = 'CoreML' | 'TensorFlow' | 'DockerFile' | 'ONNX';
+export type TrainingType = 'Regular' | 'Advanced';
 
 /**
- * Defines values for ExportStatusModel.
+ * Defines values for ExportPlatform.
+ * Possible values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX', 'VAIDK'
+ * @readonly
+ * @enum {string}
+ */
+export type ExportPlatform = 'CoreML' | 'TensorFlow' | 'DockerFile' | 'ONNX' | 'VAIDK';
+
+/**
+ * Defines values for ExportStatus.
  * Possible values include: 'Exporting', 'Failed', 'Done'
  * @readonly
  * @enum {string}
  */
-export type ExportStatusModel = 'Exporting' | 'Failed' | 'Done';
+export type ExportStatus = 'Exporting' | 'Failed' | 'Done';
 
 /**
- * Defines values for ExportFlavorModel.
- * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12'
+ * Defines values for ExportFlavor.
+ * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
  * @readonly
  * @enum {string}
  */
-export type ExportFlavorModel = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12';
+export type ExportFlavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM';
 
 /**
  * Defines values for TagType.
@@ -1548,6 +1724,57 @@ export type ExportFlavorModel = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12';
  * @enum {string}
  */
 export type TagType = 'Regular' | 'Negative';
+
+/**
+ * Defines values for CustomVisionErrorCodes.
+ * Possible values include: 'NoError', 'BadRequest', 'BadRequestExceededBatchSize',
+ * 'BadRequestNotSupported', 'BadRequestInvalidIds', 'BadRequestProjectName',
+ * 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
+ * 'BadRequestProjectUnknownDomain', 'BadRequestProjectUnknownClassification',
+ * 'BadRequestProjectUnsupportedDomainTypeChange', 'BadRequestProjectUnsupportedExportPlatform',
+ * 'BadRequestIterationName', 'BadRequestIterationNameNotUnique', 'BadRequestIterationDescription',
+ * 'BadRequestIterationIsNotTrained', 'BadRequestWorkspaceCannotBeModified',
+ * 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName', 'BadRequestTagNameNotUnique',
+ * 'BadRequestTagDescription', 'BadRequestTagType', 'BadRequestMultipleNegativeTag',
+ * 'BadRequestImageTags', 'BadRequestImageRegions', 'BadRequestNegativeAndRegularTagOnSameImage',
+ * 'BadRequestIterationIsPublished', 'BadRequestInvalidPublishName', 'BadRequestSubscriptionApi',
+ * 'BadRequestPublishFailed', 'BadRequestUnpublishFailed', 'BadRequestExceedProjectLimit',
+ * 'BadRequestExceedIterationPerProjectLimit', 'BadRequestExceedTagPerProjectLimit',
+ * 'BadRequestExceedTagPerImageLimit', 'BadRequestExceededQuota',
+ * 'BadRequestCannotMigrateProjectWithName', 'BadRequestNotLimitedTrial', 'BadRequestImageBatch',
+ * 'BadRequestImageStream', 'BadRequestImageUrl', 'BadRequestImageFormat',
+ * 'BadRequestImageSizeBytes', 'BadRequestImageExceededCount', 'BadRequestTrainingNotNeeded',
+ * 'BadRequestTrainingNotNeededButTrainingPipelineUpdated', 'BadRequestTrainingValidationFailed',
+ * 'BadRequestClassificationTrainingValidationFailed',
+ * 'BadRequestMultiClassClassificationTrainingValidationFailed',
+ * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
+ * 'BadRequestDetectionTrainingValidationFailed', 'BadRequestTrainingAlreadyInProgress',
+ * 'BadRequestDetectionTrainingNotAllowNegativeTag', 'BadRequestInvalidEmailAddress',
+ * 'BadRequestBakingAlreadyInProgress', 'BadRequestExportValidationFailed',
+ * 'BadRequestExportAlreadyInProgress', 'BadRequestPredictionIdsMissing',
+ * 'BadRequestPredictionIdsExceededCount', 'BadRequestPredictionTagsExceededCount',
+ * 'BadRequestPredictionResultsExceededCount', 'BadRequestPredictionInvalidApplicationName',
+ * 'BadRequestPredictionInvalidQueryParameters', 'BadRequestInvalid', 'UnsupportedMediaType',
+ * 'Forbidden', 'ForbiddenUser', 'ForbiddenUserResource', 'ForbiddenUserSignupDisabled',
+ * 'ForbiddenUserSignupAllowanceExceeded', 'ForbiddenUserDoesNotExist', 'ForbiddenUserDisabled',
+ * 'ForbiddenUserInsufficientCapability', 'ForbiddenDRModeEnabled', 'ForbiddenInvalid', 'NotFound',
+ * 'NotFoundProject', 'NotFoundProjectDefaultIteration', 'NotFoundIteration',
+ * 'NotFoundIterationPerformance', 'NotFoundTag', 'NotFoundImage', 'NotFoundDomain',
+ * 'NotFoundApimSubscription', 'NotFoundInvalid', 'Conflict', 'ConflictInvalid', 'ErrorUnknown',
+ * 'ErrorProjectInvalidWorkspace', 'ErrorProjectInvalidPipelineConfiguration',
+ * 'ErrorProjectInvalidDomain', 'ErrorProjectTrainingRequestFailed',
+ * 'ErrorProjectExportRequestFailed', 'ErrorFeaturizationServiceUnavailable',
+ * 'ErrorFeaturizationQueueTimeout', 'ErrorFeaturizationInvalidFeaturizer',
+ * 'ErrorFeaturizationAugmentationUnavailable', 'ErrorFeaturizationUnrecognizedJob',
+ * 'ErrorFeaturizationAugmentationError', 'ErrorExporterInvalidPlatform',
+ * 'ErrorExporterInvalidFeaturizer', 'ErrorExporterInvalidClassifier',
+ * 'ErrorPredictionServiceUnavailable', 'ErrorPredictionModelNotFound',
+ * 'ErrorPredictionModelNotCached', 'ErrorPrediction', 'ErrorPredictionStorage',
+ * 'ErrorRegionProposal', 'ErrorInvalid'
+ * @readonly
+ * @enum {string}
+ */
+export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExceededBatchSize' | 'BadRequestNotSupported' | 'BadRequestInvalidIds' | 'BadRequestProjectName' | 'BadRequestProjectNameNotUnique' | 'BadRequestProjectDescription' | 'BadRequestProjectUnknownDomain' | 'BadRequestProjectUnknownClassification' | 'BadRequestProjectUnsupportedDomainTypeChange' | 'BadRequestProjectUnsupportedExportPlatform' | 'BadRequestIterationName' | 'BadRequestIterationNameNotUnique' | 'BadRequestIterationDescription' | 'BadRequestIterationIsNotTrained' | 'BadRequestWorkspaceCannotBeModified' | 'BadRequestWorkspaceNotDeletable' | 'BadRequestTagName' | 'BadRequestTagNameNotUnique' | 'BadRequestTagDescription' | 'BadRequestTagType' | 'BadRequestMultipleNegativeTag' | 'BadRequestImageTags' | 'BadRequestImageRegions' | 'BadRequestNegativeAndRegularTagOnSameImage' | 'BadRequestIterationIsPublished' | 'BadRequestInvalidPublishName' | 'BadRequestSubscriptionApi' | 'BadRequestPublishFailed' | 'BadRequestUnpublishFailed' | 'BadRequestExceedProjectLimit' | 'BadRequestExceedIterationPerProjectLimit' | 'BadRequestExceedTagPerProjectLimit' | 'BadRequestExceedTagPerImageLimit' | 'BadRequestExceededQuota' | 'BadRequestCannotMigrateProjectWithName' | 'BadRequestNotLimitedTrial' | 'BadRequestImageBatch' | 'BadRequestImageStream' | 'BadRequestImageUrl' | 'BadRequestImageFormat' | 'BadRequestImageSizeBytes' | 'BadRequestImageExceededCount' | 'BadRequestTrainingNotNeeded' | 'BadRequestTrainingNotNeededButTrainingPipelineUpdated' | 'BadRequestTrainingValidationFailed' | 'BadRequestClassificationTrainingValidationFailed' | 'BadRequestMultiClassClassificationTrainingValidationFailed' | 'BadRequestMultiLabelClassificationTrainingValidationFailed' | 'BadRequestDetectionTrainingValidationFailed' | 'BadRequestTrainingAlreadyInProgress' | 'BadRequestDetectionTrainingNotAllowNegativeTag' | 'BadRequestInvalidEmailAddress' | 'BadRequestBakingAlreadyInProgress' | 'BadRequestExportValidationFailed' | 'BadRequestExportAlreadyInProgress' | 'BadRequestPredictionIdsMissing' | 'BadRequestPredictionIdsExceededCount' | 'BadRequestPredictionTagsExceededCount' | 'BadRequestPredictionResultsExceededCount' | 'BadRequestPredictionInvalidApplicationName' | 'BadRequestPredictionInvalidQueryParameters' | 'BadRequestInvalid' | 'UnsupportedMediaType' | 'Forbidden' | 'ForbiddenUser' | 'ForbiddenUserResource' | 'ForbiddenUserSignupDisabled' | 'ForbiddenUserSignupAllowanceExceeded' | 'ForbiddenUserDoesNotExist' | 'ForbiddenUserDisabled' | 'ForbiddenUserInsufficientCapability' | 'ForbiddenDRModeEnabled' | 'ForbiddenInvalid' | 'NotFound' | 'NotFoundProject' | 'NotFoundProjectDefaultIteration' | 'NotFoundIteration' | 'NotFoundIterationPerformance' | 'NotFoundTag' | 'NotFoundImage' | 'NotFoundDomain' | 'NotFoundApimSubscription' | 'NotFoundInvalid' | 'Conflict' | 'ConflictInvalid' | 'ErrorUnknown' | 'ErrorProjectInvalidWorkspace' | 'ErrorProjectInvalidPipelineConfiguration' | 'ErrorProjectInvalidDomain' | 'ErrorProjectTrainingRequestFailed' | 'ErrorProjectExportRequestFailed' | 'ErrorFeaturizationServiceUnavailable' | 'ErrorFeaturizationQueueTimeout' | 'ErrorFeaturizationInvalidFeaturizer' | 'ErrorFeaturizationAugmentationUnavailable' | 'ErrorFeaturizationUnrecognizedJob' | 'ErrorFeaturizationAugmentationError' | 'ErrorExporterInvalidPlatform' | 'ErrorExporterInvalidFeaturizer' | 'ErrorExporterInvalidClassifier' | 'ErrorPredictionServiceUnavailable' | 'ErrorPredictionModelNotFound' | 'ErrorPredictionModelNotCached' | 'ErrorPrediction' | 'ErrorPredictionStorage' | 'ErrorRegionProposal' | 'ErrorInvalid';
 
 /**
  * Defines values for OrderBy1.
@@ -1582,12 +1809,20 @@ export type OrderBy3 = 'Newest' | 'Oldest';
 export type ClassificationType = 'Multiclass' | 'Multilabel';
 
 /**
- * Defines values for Flavor.
- * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12'
+ * Defines values for TrainingType1.
+ * Possible values include: 'Regular', 'Advanced'
  * @readonly
  * @enum {string}
  */
-export type Flavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12';
+export type TrainingType1 = 'Regular' | 'Advanced';
+
+/**
+ * Defines values for Flavor.
+ * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
+ * @readonly
+ * @enum {string}
+ */
+export type Flavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM';
 
 /**
  * Defines values for Type.
@@ -2146,6 +2381,52 @@ export type TrainProjectResponse = Iteration & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Iteration;
+    };
+};
+
+/**
+ * Contains response data for the publishIteration operation.
+ */
+export type PublishIterationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
+};
+
+/**
+ * Contains response data for the unpublishIteration operation.
+ */
+export type UnpublishIterationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
     };
 };
 

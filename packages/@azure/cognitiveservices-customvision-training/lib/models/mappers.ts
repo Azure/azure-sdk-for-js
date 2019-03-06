@@ -1605,6 +1605,18 @@ export const ProjectSettings: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      targetExportPlatforms: {
+        nullable: true,
+        serializedName: "targetExportPlatforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1668,6 +1680,14 @@ export const Project: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      drModeEnabled: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "drModeEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1692,13 +1712,6 @@ export const Iteration: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String"
-        }
-      },
-      isDefault: {
-        nullable: false,
-        serializedName: "isDefault",
-        type: {
-          name: "Boolean"
         }
       },
       status: {
@@ -1749,6 +1762,19 @@ export const Iteration: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      exportableTo: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "exportableTo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       domainId: {
         nullable: true,
         readOnly: true,
@@ -1761,6 +1787,30 @@ export const Iteration: msRest.CompositeMapper = {
         nullable: true,
         readOnly: true,
         serializedName: "classificationType",
+        type: {
+          name: "String"
+        }
+      },
+      trainingType: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "trainingType",
+        type: {
+          name: "String"
+        }
+      },
+      reservedBudgetInHours: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "reservedBudgetInHours",
+        type: {
+          name: "Number"
+        }
+      },
+      publishName: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "publishName",
         type: {
           name: "String"
         }
@@ -1860,6 +1910,31 @@ export const Tag: msRest.CompositeMapper = {
         serializedName: "imageCount",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CustomVisionError: msRest.CompositeMapper = {
+  serializedName: "CustomVisionError",
+  type: {
+    name: "Composite",
+    className: "CustomVisionError",
+    modelProperties: {
+      code: {
+        required: true,
+        nullable: false,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
         }
       }
     }

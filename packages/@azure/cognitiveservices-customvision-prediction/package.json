@@ -51,6 +51,5 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-customvision-prediction.js.map'\" -o ./dist/cognitiveservices-customvision-prediction.min.js ./dist/cognitiveservices-customvision-prediction.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false,
-  "authPublish": true
+  "sideEffects": false
 }

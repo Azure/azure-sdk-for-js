@@ -163,3 +163,28 @@ export const ImagePrediction: msRest.CompositeMapper = {
     }
   }
 };
+
+export const CustomVisionError: msRest.CompositeMapper = {
+  serializedName: "CustomVisionError",
+  type: {
+    name: "Composite",
+    className: "CustomVisionError",
+    modelProperties: {
+      code: {
+        required: true,
+        nullable: false,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};

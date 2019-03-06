@@ -55,19 +55,6 @@ export const imageData: msRest.OperationParameter = {
     }
   }
 };
-export const iterationId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "iterationId"
-  ],
-  mapper: {
-    nullable: true,
-    serializedName: "iterationId",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
 export const projectId: msRest.OperationURLParameter = {
   parameterPath: "projectId",
   mapper: {
@@ -76,6 +63,17 @@ export const projectId: msRest.OperationURLParameter = {
     serializedName: "projectId",
     type: {
       name: "Uuid"
+    }
+  }
+};
+export const publishedModelName: msRest.OperationURLParameter = {
+  parameterPath: "publishedModelName",
+  mapper: {
+    required: true,
+    nullable: true,
+    serializedName: "publishedModelName",
+    type: {
+      name: "String"
     }
   }
 };
