@@ -429,6 +429,24 @@ export const A2AEnableProtectionInput: msRest.CompositeMapper = {
           name: "Composite",
           className: "DiskEncryptionInfo"
         }
+      },
+      recoveryAvailabilityZone: {
+        serializedName: "recoveryAvailabilityZone",
+        type: {
+          name: "String"
+        }
+      },
+      recoveryAzureNetworkId: {
+        serializedName: "recoveryAzureNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      recoverySubnetName: {
+        serializedName: "recoverySubnetName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1528,6 +1546,12 @@ export const A2AReplicationDetails: msRest.CompositeMapper = {
         serializedName: "lastRpoCalculatedTime",
         type: {
           name: "DateTime"
+        }
+      },
+      recoveryAvailabilityZone: {
+        serializedName: "recoveryAvailabilityZone",
+        type: {
+          name: "String"
         }
       }
     }

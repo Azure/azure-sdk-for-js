@@ -346,6 +346,20 @@ export interface A2AEnableProtectionInput {
    * encryption information.
    */
   diskEncryptionInfo?: DiskEncryptionInfo;
+  /**
+   * @member {string} [recoveryAvailabilityZone] The recovery availability
+   * zone.
+   */
+  recoveryAvailabilityZone?: string;
+  /**
+   * @member {string} [recoveryAzureNetworkId] The recovery Azure virtual
+   * network ARM id.
+   */
+  recoveryAzureNetworkId?: string;
+  /**
+   * @member {string} [recoverySubnetName] The recovery subnet name.
+   */
+  recoverySubnetName?: string;
 }
 
 /**
@@ -1190,6 +1204,11 @@ export interface A2AReplicationDetails {
    * value was calculated by Protection Service.
    */
   lastRpoCalculatedTime?: Date;
+  /**
+   * @member {string} [recoveryAvailabilityZone] The recovery availability
+   * zone.
+   */
+  recoveryAvailabilityZone?: string;
 }
 
 /**
