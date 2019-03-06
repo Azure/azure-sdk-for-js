@@ -169,13 +169,13 @@ export class LinkEntity {
     if (link) {
       try {
         if (link.isOpen()){
-        // Closing the link if the connection is open and it's underlying session. This should also
+        // Closing the link and its underlying session if the link is open. This should also
         // remove them from the internal map.
         await link.close();
         log.link("[%s] %s '%s' with address '%s' closed.", this._context.connectionId, this._type,
           this.name, this.address);
         }else{
-        // The connection was not open therefore removing the link and it's underlying session from the internal map.
+        //  The link is already closed. Removing it and it's underlying session from the internal map and releasing its listeners.
           await link.remove();
           log.link("[%s] %s '%s' with address '%s' was not open and is now removed.", this._context.connectionId, this._type,
           this.name, this.address);
