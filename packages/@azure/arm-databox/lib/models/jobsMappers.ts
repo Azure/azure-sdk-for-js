@@ -51,6 +51,8 @@ export {
   ShareCredentialDetails,
   DataBoxJobDetails,
   DataboxJobSecrets,
-  DataBoxSecret
+  DataBoxSecret,
+  DestinationManagedDiskDetails,
+  DestinationStorageAccountDetails
 } from "../models/mappers";
 

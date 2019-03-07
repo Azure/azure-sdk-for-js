@@ -30,7 +30,7 @@ export interface ShareCredentialDetails {
   /**
    * @member {ShareDestinationFormatType} [shareType] Type of the share.
    * Possible values include: 'UnknownType', 'HCS', 'BlockBlob', 'PageBlob',
-   * 'AzureFile'
+   * 'AzureFile', 'ManagedDisk'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -364,7 +364,7 @@ export interface SkuInformation {
   /**
    * @member {SkuDisabledReason} [disabledReason] Reason why the Sku is
    * disabled. Possible values include: 'None', 'Country', 'Region', 'Feature',
-   * 'OfferType'
+   * 'OfferType', 'NoSubscriptionInfo'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -505,6 +505,20 @@ export interface CopyProgress {
    * the server.**
    */
   readonly totalBytesToProcess?: number;
+  /**
+   * @member {number} [filesProcessed] Number of files processed by the job as
+   * of now.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly filesProcessed?: number;
+  /**
+   * @member {number} [totalFilesToProcess] Total number of files to be
+   * processed by the job.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalFilesToProcess?: number;
 }
 
 /**
@@ -617,7 +631,7 @@ export interface JobDetails {
   jobDetailsType: "JobDetails";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -651,10 +665,10 @@ export interface JobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * @member {DestinationAccountDetails[]} destinationAccountDetails
+   * @member {DestinationAccountDetailsUnion[]} destinationAccountDetails
    * Destination account details.
    */
-  destinationAccountDetails: DestinationAccountDetails[];
+  destinationAccountDetails: DestinationAccountDetailsUnion[];
   /**
    * @member {JobErrorDetails[]} [errorDetails] Error details for failure. This
    * is optional.
@@ -701,7 +715,7 @@ export interface DataBoxDiskJobDetails {
   jobDetailsType: "DataBoxDisk";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -735,10 +749,10 @@ export interface DataBoxDiskJobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * @member {DestinationAccountDetails[]} destinationAccountDetails
+   * @member {DestinationAccountDetailsUnion[]} destinationAccountDetails
    * Destination account details.
    */
-  destinationAccountDetails: DestinationAccountDetails[];
+  destinationAccountDetails: DestinationAccountDetailsUnion[];
   /**
    * @member {JobErrorDetails[]} [errorDetails] Error details for failure. This
    * is optional.
@@ -873,7 +887,7 @@ export interface DataBoxDiskJobSecrets {
 /**
  * @interface
  * An interface representing DataBoxHeavyAccountCopyLogDetails.
- * Copy log details for a storage account for Databox heavy
+ * Copy log details for a storage account for DataBoxHeavy
  *
  */
 export interface DataBoxHeavyAccountCopyLogDetails {
@@ -898,7 +912,7 @@ export interface DataBoxHeavyAccountCopyLogDetails {
 /**
  * @interface
  * An interface representing DataBoxHeavyJobDetails.
- * Databox Heavy Device Job Details
+ * DataBoxHeavy Device Job Details
  *
  */
 export interface DataBoxHeavyJobDetails {
@@ -908,7 +922,7 @@ export interface DataBoxHeavyJobDetails {
   jobDetailsType: "DataBoxHeavy";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -942,10 +956,10 @@ export interface DataBoxHeavyJobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * @member {DestinationAccountDetails[]} destinationAccountDetails
+   * @member {DestinationAccountDetailsUnion[]} destinationAccountDetails
    * Destination account details.
    */
-  destinationAccountDetails: DestinationAccountDetails[];
+  destinationAccountDetails: DestinationAccountDetailsUnion[];
   /**
    * @member {JobErrorDetails[]} [errorDetails] Error details for failure. This
    * is optional.
@@ -988,7 +1002,7 @@ export interface DataBoxHeavyJobDetails {
 /**
  * @interface
  * An interface representing DataBoxHeavySecret.
- * The secrets related to a databox heavy.
+ * The secrets related to a DataBoxHeavy.
  *
  */
 export interface DataBoxHeavySecret {
@@ -1032,7 +1046,7 @@ export interface DataBoxHeavySecret {
 /**
  * @interface
  * An interface representing DataBoxHeavyJobSecrets.
- * The secrets related to a databox heavy job.
+ * The secrets related to a DataBoxHeavy job.
  *
  */
 export interface DataBoxHeavyJobSecrets {
@@ -1042,7 +1056,7 @@ export interface DataBoxHeavyJobSecrets {
   jobSecretsType: "DataBoxHeavy";
   /**
    * @member {DataBoxHeavySecret[]} [cabinetPodSecrets] Contains the list of
-   * secret objects for a databox heavy job.
+   * secret objects for a DataBoxHeavy job.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1052,7 +1066,7 @@ export interface DataBoxHeavyJobSecrets {
 /**
  * @interface
  * An interface representing DataBoxJobDetails.
- * Databox Job Details
+ * DataBox Job Details
  *
  */
 export interface DataBoxJobDetails {
@@ -1062,7 +1076,7 @@ export interface DataBoxJobDetails {
   jobDetailsType: "DataBox";
   /**
    * @member {number} [expectedDataSizeInTeraBytes] The expected size of the
-   * data, which needs to be transfered in this job, in tera bytes.
+   * data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTeraBytes?: number;
   /**
@@ -1096,10 +1110,10 @@ export interface DataBoxJobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * @member {DestinationAccountDetails[]} destinationAccountDetails
+   * @member {DestinationAccountDetailsUnion[]} destinationAccountDetails
    * Destination account details.
    */
-  destinationAccountDetails: DestinationAccountDetails[];
+  destinationAccountDetails: DestinationAccountDetailsUnion[];
   /**
    * @member {JobErrorDetails[]} [errorDetails] Error details for failure. This
    * is optional.
@@ -1186,7 +1200,7 @@ export interface DataBoxSecret {
 /**
  * @interface
  * An interface representing DataboxJobSecrets.
- * The secrets related to a databox job.
+ * The secrets related to a DataBox job.
  *
  */
 export interface DataboxJobSecrets {
@@ -1202,16 +1216,76 @@ export interface DataboxJobSecrets {
 }
 
 /**
+ * Contains the possible cases for DestinationAccountDetails.
+ */
+export type DestinationAccountDetailsUnion = DestinationAccountDetails | DestinationManagedDiskDetails | DestinationStorageAccountDetails;
+
+/**
  * @interface
  * An interface representing DestinationAccountDetails.
- * Details for the destination account.
+ * Details of the destination of the data
  *
  */
 export interface DestinationAccountDetails {
   /**
-   * @member {string} accountId Destination storage account id.
+   * @member {string} dataDestinationType Polymorphic Discriminator
    */
-  accountId: string;
+  dataDestinationType: "DestinationAccountDetails";
+  /**
+   * @member {string} [accountId] Arm Id of the destination where the data has
+   * to be moved.
+   */
+  accountId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DestinationManagedDiskDetails.
+ * Details for the destination compute disks.
+ *
+ */
+export interface DestinationManagedDiskDetails {
+  /**
+   * @member {string} dataDestinationType Polymorphic Discriminator
+   */
+  dataDestinationType: "ManagedDisk";
+  /**
+   * @member {string} [accountId] Arm Id of the destination where the data has
+   * to be moved.
+   */
+  accountId?: string;
+  /**
+   * @member {string} resourceGroupId Destination Resource Group Id where the
+   * Compute disks should be created.
+   */
+  resourceGroupId: string;
+  /**
+   * @member {string} stagingStorageAccountId Arm Id of the storage account
+   * that can be used to copy the vhd for staging.
+   */
+  stagingStorageAccountId: string;
+}
+
+/**
+ * @interface
+ * An interface representing DestinationStorageAccountDetails.
+ * Details for the destination storage account.
+ *
+ */
+export interface DestinationStorageAccountDetails {
+  /**
+   * @member {string} dataDestinationType Polymorphic Discriminator
+   */
+  dataDestinationType: "StorageAccount";
+  /**
+   * @member {string} [accountId] Arm Id of the destination where the data has
+   * to be moved.
+   */
+  accountId?: string;
+  /**
+   * @member {string} storageAccountId Destination Storage Account Arm Id.
+   */
+  storageAccountId: string;
 }
 
 /**
@@ -1504,10 +1578,10 @@ export interface JobResourceUpdateParameter {
    */
   details?: UpdateJobDetails;
   /**
-   * @member {DestinationAccountDetails[]} [destinationAccountDetails]
+   * @member {DestinationAccountDetailsUnion[]} [destinationAccountDetails]
    * Destination account details.
    */
-  destinationAccountDetails?: DestinationAccountDetails[];
+  destinationAccountDetails?: DestinationAccountDetailsUnion[];
   /**
    * @member {{ [propertyName: string]: string }} [tags] The list of key value
    * pairs that describe the resource. These tags can be used in viewing and
@@ -1813,11 +1887,12 @@ export interface AvailableSkusResult extends Array<SkuInformation> {
 
 /**
  * Defines values for ShareDestinationFormatType.
- * Possible values include: 'UnknownType', 'HCS', 'BlockBlob', 'PageBlob', 'AzureFile'
+ * Possible values include: 'UnknownType', 'HCS', 'BlockBlob', 'PageBlob', 'AzureFile',
+ * 'ManagedDisk'
  * @readonly
  * @enum {string}
  */
-export type ShareDestinationFormatType = 'UnknownType' | 'HCS' | 'BlockBlob' | 'PageBlob' | 'AzureFile';
+export type ShareDestinationFormatType = 'UnknownType' | 'HCS' | 'BlockBlob' | 'PageBlob' | 'AzureFile' | 'ManagedDisk';
 
 /**
  * Defines values for AccessProtocol.
@@ -1853,11 +1928,12 @@ export type SkuName = 'DataBox' | 'DataBoxDisk' | 'DataBoxHeavy';
 
 /**
  * Defines values for SkuDisabledReason.
- * Possible values include: 'None', 'Country', 'Region', 'Feature', 'OfferType'
+ * Possible values include: 'None', 'Country', 'Region', 'Feature', 'OfferType',
+ * 'NoSubscriptionInfo'
  * @readonly
  * @enum {string}
  */
-export type SkuDisabledReason = 'None' | 'Country' | 'Region' | 'Feature' | 'OfferType';
+export type SkuDisabledReason = 'None' | 'Country' | 'Region' | 'Feature' | 'OfferType' | 'NoSubscriptionInfo';
 
 /**
  * Defines values for NotificationStageName.
