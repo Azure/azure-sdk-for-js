@@ -16,20 +16,23 @@ export {
   BaseResource,
   CloudError,
   Pricing,
+  AscLocation,
   WorkspaceSetting,
   AutoProvisioningSetting,
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
+  SettingResource,
   InformationProtectionPolicy,
   SensitivityLabel,
   InformationType,
   InformationProtectionKeyword,
   SecurityTask,
   SecurityTaskParameters,
-  AscLocation,
   Alert,
   AlertEntity,
-  AlertConfidenceReason
+  AlertConfidenceReason,
+  Setting,
+  DataExportSetting
 } from "../models/mappers";
 
