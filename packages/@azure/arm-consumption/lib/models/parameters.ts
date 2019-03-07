@@ -73,26 +73,6 @@ export const budgetName: msRest.OperationURLParameter = {
     }
   }
 };
-export const departmentId: msRest.OperationURLParameter = {
-  parameterPath: "departmentId",
-  mapper: {
-    required: true,
-    serializedName: "departmentId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const enrollmentAccountId: msRest.OperationURLParameter = {
-  parameterPath: "enrollmentAccountId",
-  mapper: {
-    required: true,
-    serializedName: "enrollmentAccountId",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const expand: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -178,15 +158,16 @@ export const reservationOrderId: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const scope: msRest.OperationURLParameter = {
+  parameterPath: "scope",
   mapper: {
     required: true,
-    serializedName: "resourceGroupName",
+    serializedName: "scope",
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const skiptoken: msRest.OperationQueryParameter = {
   parameterPath: [
