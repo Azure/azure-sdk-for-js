@@ -278,6 +278,11 @@ export interface Identity {
    * the server.**
    */
   readonly tenantId?: string;
+  /**
+   * @member {IdentityType} type The identity type. Possible values include:
+   * 'None', 'SystemAssigned'
+   */
+  type: IdentityType;
 }
 
 /**
@@ -505,6 +510,21 @@ export interface ServicesListByResourceGroupOptionalParams extends msRest.Reques
 
 /**
  * @interface
+ * An interface representing ServicesListBySubscriptionOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ServicesListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {SearchManagementRequestOptions} [searchManagementRequestOptions]
+   * Additional parameters for the operation
+   */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+/**
+ * @interface
  * An interface representing ServicesCheckNameAvailabilityOptionalParams.
  * Optional Parameters.
  *
@@ -623,6 +643,14 @@ export type SearchServiceStatus = 'running' | 'provisioning' | 'deleting' | 'deg
  * @enum {string}
  */
 export type ProvisioningState = 'succeeded' | 'provisioning' | 'failed';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'None', 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'None' | 'SystemAssigned';
 
 /**
  * Defines values for AdminKeyKind.
@@ -788,6 +816,25 @@ export type ServicesGetResponse = SearchService & {
  * Contains response data for the listByResourceGroup operation.
  */
 export type ServicesListByResourceGroupResponse = SearchServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ServicesListBySubscriptionResponse = SearchServiceListResult & {
   /**
    * The underlying HTTP response.
    */
