@@ -96,7 +96,7 @@ export class ChangeFeedIterator<T> {
     if (!this.isPartitionSpecified && isParittionedContainer) {
       throw new Error("Container is partitioned, but no partition key or partition key range id was specified.");
     }
-    const feedOptions: FeedOptions = { initialHeaders: {}, a_im: "Incremental feed" };
+    const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
 
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
       feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;

@@ -1,5 +1,5 @@
 import { Constants, getContainerLink, trimSlashes } from "../common";
-import { IHeaders } from "../queryExecutionContext";
+import { CosmosHeaders } from "../queryExecutionContext";
 import { SessionContext } from "./SessionContext";
 import { VectorSessionToken } from "./VectorSessionToken";
 
@@ -35,7 +35,7 @@ export class SessionContainer {
     }
   }
 
-  public set(request: SessionContext, resHeaders: IHeaders) {
+  public set(request: SessionContext, resHeaders: CosmosHeaders) {
     // TODO: we check the master logic a few different places. Might not need it.
     if (!resHeaders || SessionContainer.isReadingFromMaster(request.resourceType, request.operationType)) {
       return;
@@ -146,7 +146,7 @@ export class SessionContainer {
     return false;
   }
 
-  private getContainerName(request: SessionContext, headers: IHeaders) {
+  private getContainerName(request: SessionContext, headers: CosmosHeaders) {
     let ownerFullName = headers[Constants.HttpHeaders.OwnerFullName];
     if (!ownerFullName) {
       ownerFullName = trimSlashes(request.resourceAddress);

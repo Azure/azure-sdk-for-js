@@ -1,14 +1,11 @@
 import { ClientContext } from "../ClientContext";
-import { StatusCodes, SubStatusCodes } from "../common";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { Response } from "../request/request";
-import {
-  DefaultQueryExecutionContext,
-  FetchFunctionCallback,
-  IExecutionContext,
-  PartitionedQueryExecutionContextInfo,
-  PipelinedQueryExecutionContext,
-  SqlQuerySpec
-} from "./index";
+import { DefaultQueryExecutionContext, FetchFunctionCallback } from "./defaultQueryExecutionContext";
+import { IExecutionContext } from "./IExecutionContext";
+import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";
+import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
+import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
 export class ProxyQueryExecutionContext implements IExecutionContext {

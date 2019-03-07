@@ -28,7 +28,7 @@ describe("NodeJS CRUD Tests", function() {
           containerDefinition.partitionKey = { paths: ["/id"], kind: PartitionKind.Hash };
         }
 
-        const { body: containerDef } = await database.containers.create(containerDefinition);
+        const { resource: containerDef } = await database.containers.create(containerDefinition);
         const container = database.container(containerDef.id);
         assert.equal(containerDefinition.id, containerDef.id);
         assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
@@ -37,7 +37,7 @@ describe("NodeJS CRUD Tests", function() {
           assert.deepEqual(containerDef.partitionKey.paths, containerDefinition.partitionKey.paths);
         }
         // read containers after creation
-        const { result: containers } = await database.containers.readAll().toArray();
+        const { resources: containers } = await database.containers.readAll().fetchAll();
 
         assert.equal(containers.length, 1, "create should increase the number of containers");
         // query containers
@@ -50,15 +50,15 @@ describe("NodeJS CRUD Tests", function() {
             }
           ]
         };
-        const { result: results } = await database.containers.query(querySpec).toArray();
+        const { resources: results } = await database.containers.query(querySpec).fetchAll();
         assert(results.length > 0, "number of results for the query should be > 0");
 
-        const { result: ranges } = await container.readPartitionKeyRanges().toArray();
+        const { resources: ranges } = await container.readPartitionKeyRanges().fetchAll();
         assert(ranges.length > 0, "container should have at least 1 partition");
 
         // Replacing indexing policy is allowed.
         containerDef.indexingPolicy.indexingMode = IndexingMode.lazy;
-        const { body: replacedContainer } = await container.replace(containerDef);
+        const { resource: replacedContainer } = await container.replace(containerDef);
         assert.equal("lazy", replacedContainer.indexingPolicy.indexingMode);
 
         // Replacing partition key is not allowed.
@@ -84,7 +84,7 @@ describe("NodeJS CRUD Tests", function() {
 
         // read container
         containerDef.id = containerDefinition.id; // Resume Id.
-        const { body: readcontainer } = await container.read();
+        const { resource: readcontainer } = await container.read();
         assert.equal(containerDefinition.id, readcontainer.id);
 
         // delete container
@@ -169,7 +169,7 @@ describe("NodeJS CRUD Tests", function() {
       const database = await getTestDatabase("container test database");
 
       // create container
-      const { body: containerDef } = await database.containers.create({ id: "container test container" });
+      const { resource: containerDef } = await database.containers.create({ id: "container test container" });
       const container = database.container(containerDef.id);
 
       assert.equal(
@@ -184,7 +184,7 @@ describe("NodeJS CRUD Tests", function() {
         indexingPolicy: { indexingMode: IndexingMode.lazy }
       };
 
-      const { body: lazyContainerDef } = await database.containers.create(lazyContainerDefinition);
+      const { resource: lazyContainerDef } = await database.containers.create(lazyContainerDefinition);
       const lazyContainer = database.container(lazyContainerDef.id);
 
       assert.equal(lazyContainerDef.indexingPolicy.indexingMode, IndexingMode.lazy, "indexing mode should be lazy");
@@ -196,7 +196,7 @@ describe("NodeJS CRUD Tests", function() {
         uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/foo"] }] }
       };
 
-      const { body: uniqueKeysContainerDef } = await database.containers.create(uniqueKeysContainerDefinition);
+      const { resource: uniqueKeysContainerDef } = await database.containers.create(uniqueKeysContainerDefinition);
       const uniqueKeysContainer = database.container(uniqueKeysContainerDef.id);
 
       assert.equal(uniqueKeysContainerDef.uniqueKeyPolicy.uniqueKeys[0].paths, "/foo");
@@ -207,7 +207,7 @@ describe("NodeJS CRUD Tests", function() {
         id: "lazy container",
         indexingPolicy: { indexingMode: "consistent" } // tests the type flexibility
       };
-      const { body: consistentContainerDef } = await database.containers.create(consistentcontainerDefinition);
+      const { resource: consistentContainerDef } = await database.containers.create(consistentcontainerDefinition);
       const consistentContainer = database.container(consistentContainerDef.id);
       assert.equal(
         containerDef.indexingPolicy.indexingMode,
@@ -241,7 +241,7 @@ describe("NodeJS CRUD Tests", function() {
         }
       };
 
-      const { body: containerWithIndexingPolicyDef } = await database.containers.create(containerDefinition);
+      const { resource: containerWithIndexingPolicyDef } = await database.containers.create(containerDefinition);
 
       // Two included paths.
       assert.equal(
@@ -287,7 +287,7 @@ describe("NodeJS CRUD Tests", function() {
 
         // create container with no indexing policy specified.
         const containerDefinition01: ContainerDefinition = { id: "TestCreateDefaultPolicy01" };
-        const { body: containerNoIndexPolicyDef } = await database.containers.create(containerDefinition01);
+        const { resource: containerNoIndexPolicyDef } = await database.containers.create(containerDefinition01);
         checkDefaultIndexingPolicyPaths(containerNoIndexPolicyDef["indexingPolicy"]);
 
         // create container with partial policy specified.
@@ -299,7 +299,7 @@ describe("NodeJS CRUD Tests", function() {
           }
         };
 
-        const { body: containerWithPartialPolicyDef } = await database.containers.create(containerDefinition02);
+        const { resource: containerWithPartialPolicyDef } = await database.containers.create(containerDefinition02);
         checkDefaultIndexingPolicyPaths((containerWithPartialPolicyDef as any)["indexingPolicy"]);
 
         // create container with default policy.
@@ -307,7 +307,7 @@ describe("NodeJS CRUD Tests", function() {
           id: "TestCreateDefaultPolicy03",
           indexingPolicy: {}
         };
-        const { body: containerDefaultPolicy } = await database.containers.create(containerDefinition03);
+        const { resource: containerDefaultPolicy } = await database.containers.create(containerDefinition03);
         checkDefaultIndexingPolicyPaths((containerDefaultPolicy as any)["indexingPolicy"]);
 
         // create container with indexing policy missing indexes.
@@ -321,7 +321,7 @@ describe("NodeJS CRUD Tests", function() {
             ]
           }
         };
-        const { body: containerMissingIndexes } = await database.containers.create(containerDefinition04);
+        const { resource: containerMissingIndexes } = await database.containers.create(containerDefinition04);
         checkDefaultIndexingPolicyPaths((containerMissingIndexes as any)["indexingPolicy"]);
 
         // create container with indexing policy missing precision.
@@ -345,7 +345,7 @@ describe("NodeJS CRUD Tests", function() {
             ]
           }
         };
-        const { body: containerMissingPrecision } = await database.containers.create(containerDefinition05);
+        const { resource: containerMissingPrecision } = await database.containers.create(containerDefinition05);
         checkDefaultIndexingPolicyPaths((containerMissingPrecision as any)["indexingPolicy"]);
       } catch (err) {
         throw err;
@@ -362,9 +362,9 @@ describe("NodeJS CRUD Tests", function() {
   });
 
   describe("Validate response headers", function() {
-    const createThenReadcontainer = async function(database: Database, body: ContainerDefinition) {
+    const createThenReadcontainer = async function(database: Database, definition: ContainerDefinition) {
       try {
-        const { body: createdcontainer, headers } = await database.containers.create(body);
+        const { container: createdcontainer, headers } = await database.containers.create(definition);
         const response = await database.container(createdcontainer.id).read();
         return response;
       } catch (err) {
@@ -419,7 +419,7 @@ describe("containers.createIfNotExists", function() {
   it("should handle container does not exist", async function() {
     const def: ContainerDefinition = { id: "does not exist" };
     const { container } = await database.containers.createIfNotExists(def);
-    const { body: readDef } = await container.read();
+    const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
   });
 
@@ -428,7 +428,7 @@ describe("containers.createIfNotExists", function() {
     await database.containers.create(def);
 
     const { container } = await database.containers.createIfNotExists(def);
-    const { body: readDef } = await container.read();
+    const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
   });
 });

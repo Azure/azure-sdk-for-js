@@ -45,7 +45,7 @@ describe("Change Feed Iterator", function() {
         assert.equal(items[0].id, "item2", "should find the newest item, but not the old");
         const item = { id: "item2", name: "xyz" };
 
-        const { body: replaced } = await container.item(item.id).replace(item);
+        const { resource: replaced } = await container.item(item.id).replace(item);
         assert.deepEqual(replaced.name, "xyz", "replaced item should be valid");
 
         // Should continue from last etag
@@ -89,7 +89,7 @@ describe("Change Feed Iterator", function() {
         const item = items[1];
         item.name = "xyz";
 
-        const { body: replaced } = await container.item(item.id).replace(item);
+        const { resource: replaced } = await container.item(item.id).replace(item);
         assert.deepEqual(replaced.name, "xyz", "replaced item should be valid");
 
         // Should continue from last etag
@@ -137,7 +137,7 @@ describe("Change Feed Iterator", function() {
         const item = items[1];
         item.name = "xyz";
 
-        const { body: replaced } = await container.item(item.id).replace(item);
+        const { resource: replaced } = await container.item(item.id).replace(item);
         assert.deepEqual(replaced.name, "xyz", "replaced item should be valid");
 
         // Should continue from last etag
@@ -174,7 +174,7 @@ describe("Change Feed Iterator", function() {
         assert(headers.etag, "change feed response should have etag header");
         assert.equal(items.length, 0, "change feed response should have no items on it initially");
 
-        const { body: itemThatWasCreated } = await container.items.create({
+        const { resource: itemThatWasCreated } = await container.items.create({
           id: "item2",
           prop: 1
         });
@@ -259,7 +259,7 @@ describe("Change Feed Iterator", function() {
         const item = items[1];
         item.name = "xyz";
 
-        const { body: replaced } = await container.item(item.id).replace(item);
+        const { resource: replaced } = await container.item(item.id).replace(item);
         assert.deepEqual(replaced.name, "xyz", "replaced item should be valid");
 
         const { result: itemsAfterUpdate } = await iterator.executeNext();
@@ -302,7 +302,7 @@ describe("Change Feed Iterator", function() {
         assert(headers.etag, "change feed response should have etag header");
         assert.equal(items.length, 0, "change feed response should have no items on it initially");
 
-        const { body: itemThatWasCreated, headers: createHeaders } = await container.items.create({
+        const { resource: itemThatWasCreated, headers: createHeaders } = await container.items.create({
           id: "item2",
           prop: 1,
           key: "0"

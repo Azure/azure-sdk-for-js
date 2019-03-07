@@ -1,5 +1,6 @@
-import { Document, PartitionKey } from "../documents";
-import { CompareFunction, Range } from "./index";
+import { Document } from "../documents/Document";
+import { PartitionKey } from "../documents/PartitionKey";
+import { CompareFunction, Range } from "./Range";
 
 /** @hidden */
 export type PartitionKeyExtractorFunction = (obj: object) => PartitionKey;

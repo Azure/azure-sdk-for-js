@@ -1,5 +1,5 @@
 import { PartitionKey } from "../documents";
-import { IHeaders } from "../index";
+import { CosmosHeaders } from "../index";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
@@ -46,7 +46,7 @@ export interface RequestOptions {
   /** Token for use with Session consistency. */
   sessionToken?: string;
   /** (Advanced use case) Initial headers to start with when sending requests to Cosmos */
-  initialHeaders?: IHeaders;
+  initialHeaders?: CosmosHeaders;
   /** (Advanced use case) The url to connect to. */
   urlConnection?: string;
   /** (Advanced use case) Skip getting info on the parititon key from the container. */

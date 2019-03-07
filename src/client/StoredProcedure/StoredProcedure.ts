@@ -1,6 +1,6 @@
 import { ClientContext } from "../../ClientContext";
 import { createStoredProcedureUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import { CosmosResponse, RequestOptions } from "../../request";
+import { RequestOptions, ResourceResponse } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 import { StoredProcedureResponse } from "./StoredProcedureResponse";
@@ -43,8 +43,7 @@ export class StoredProcedure {
       undefined,
       options
     );
-
-    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
+    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -73,8 +72,7 @@ export class StoredProcedure {
       undefined,
       options
     );
-
-    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
+    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -92,7 +90,7 @@ export class StoredProcedure {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
+    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -100,7 +98,7 @@ export class StoredProcedure {
    * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
    * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
    */
-  public async execute(params?: any[], options?: RequestOptions): Promise<CosmosResponse<any, StoredProcedure>>;
+  public async execute(params?: any[], options?: RequestOptions): Promise<ResourceResponse<any>>;
   /**
    * Execute the given {@link StoredProcedure}.
    *
@@ -110,9 +108,9 @@ export class StoredProcedure {
    * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
    * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
    */
-  public async execute<T>(params?: any[], options?: RequestOptions): Promise<CosmosResponse<T, StoredProcedure>>;
-  public async execute<T>(params?: any[], options?: RequestOptions): Promise<CosmosResponse<T, StoredProcedure>> {
+  public async execute<T>(params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>>;
+  public async execute<T>(params?: any[], options?: RequestOptions): Promise<ResourceResponse<T>> {
     const response = await this.clientContext.execute<T>(this.url, params, options);
-    return { body: response.result, headers: response.headers, ref: this };
+    return new ResourceResponse<T>(response.result, response.headers, response.statusCode);
   }
 }

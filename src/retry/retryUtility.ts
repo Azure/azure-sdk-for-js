@@ -1,15 +1,19 @@
 import { RequestOptions } from "https";
 import * as url from "url";
-import { Constants, sleep, StatusCodes, SubStatusCodes } from "../common";
-import { ConnectionPolicy } from "../documents";
+import { Constants } from "../common/constants";
+import { sleep } from "../common/helper";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
+import { ConnectionPolicy } from "../documents/ConnectionPolicy";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { Response } from "../request";
 import { LocationRouting } from "../request/LocationRouting";
 import { RequestContext } from "../request/RequestContext";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
-import { EndpointDiscoveryRetryPolicy, ResourceThrottleRetryPolicy, SessionRetryPolicy } from "./index";
+import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
 import { IRetryPolicy } from "./IRetryPolicy";
+import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
 import { RetryContext } from "./RetryContext";
+import { SessionRetryPolicy } from "./sessionRetryPolicy";
 
 /** @hidden */
 export type CreateRequestObjectStubFunction = (

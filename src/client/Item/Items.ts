@@ -144,7 +144,7 @@ export class Items {
       path,
       partitionKey,
       async () => {
-        const bodyWillBeTruthyIfPartitioned = (await this.container.getPartitionKeyDefinition()).body;
+        const bodyWillBeTruthyIfPartitioned = (await this.container.getPartitionKeyDefinition()).resource;
         return !!bodyWillBeTruthyIfPartitioned;
       },
       changeFeedOptions
@@ -205,7 +205,7 @@ export class Items {
   public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async create<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
     if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
-      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -231,12 +231,7 @@ export class Items {
       (options && options.partitionKey) as string,
       this.clientContext
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      item: ref
-    };
+    return new ItemResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -262,7 +257,7 @@ export class Items {
   public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
     if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
-      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -289,11 +284,6 @@ export class Items {
       (options && options.partitionKey) as string,
       this.clientContext
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      item: ref
-    };
+    return new ItemResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

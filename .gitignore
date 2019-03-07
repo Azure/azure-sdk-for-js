@@ -263,6 +263,7 @@ lib/**
 
 dist-esm/
 dist-test/
+dist-commonjs/
 temp/
 ts-test/package-lock.json
 ts-test/package.json

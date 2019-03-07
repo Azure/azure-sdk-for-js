@@ -3,7 +3,7 @@ import * as sinon from "sinon";
 import { ClientContext } from "../../ClientContext";
 import { trimSlashes } from "../../common";
 import { ConsistencyLevel, PartitionKind } from "../../documents";
-import { Constants, CosmosClient, IHeaders } from "../../index";
+import { Constants, CosmosClient, CosmosHeaders } from "../../index";
 import { RequestHandler } from "../../request";
 import { SessionContainer } from "../../session/sessionContainer";
 import { VectorSessionToken } from "../../session/VectorSessionToken";
@@ -50,7 +50,7 @@ describe("Session Token", function() {
   it("validate session tokens for sequence of operations", async function() {
     const database = await getTestDatabase("session test", client);
 
-    const { body: createdContainerDef } = await database.containers.create(containerDefinition, containerOptions);
+    const { resource: createdContainerDef } = await database.containers.create(containerDefinition, containerOptions);
     const container = database.container(createdContainerDef.id);
     assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], undefined);
     // TODO: testing implementation detail by looking at containerResourceIdToSesssionTokens
@@ -58,7 +58,7 @@ describe("Session Token", function() {
       .collectionResourceIdToSessionTokens;
     assert.equal(collRid2SessionToken.size, 0, "Should have no tokens in container");
 
-    const { body: document1 } = await container.items.create({ id: "1" });
+    const { resource: document1 } = await container.items.create({ id: "1" });
     assert.equal(
       postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
       undefined,
@@ -81,7 +81,7 @@ describe("Session Token", function() {
       resourceType: "docs",
       resourceId: "2"
     });
-    const { body: document2 } = await container.items.create({ id: "2" });
+    const { resource: document2 } = await container.items.create({ id: "2" });
     assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], token, "create token should be equal");
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
@@ -131,7 +131,10 @@ describe("Session Token", function() {
       resourceType: "docs",
       resourceId: "1"
     });
-    const { body: document13 } = await container.items.upsert({ id: "1", operation: "upsert" }, { partitionKey: "1" });
+    const { resource: document13 } = await container.items.upsert(
+      { id: "1", operation: "upsert" },
+      { partitionKey: "1" }
+    );
     assert.equal(
       postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
       upsertToken,
@@ -226,7 +229,7 @@ describe("Session Token", function() {
       resourceAddress: container.url,
       resourceType: "docs"
     });
-    await queryIterator.toArray();
+    await queryIterator.fetchAll();
     assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], queryToken);
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
@@ -285,7 +288,7 @@ describe("Session Token", function() {
     await database.containers.create(containerDefinition, containerOptions);
     const container = database.container(containerDefinition.id);
     const { headers } = await container.items.create({ id: "1" });
-    const callbackSpy = sinon.spy(function(path: string, reqHeaders: IHeaders) {
+    const callbackSpy = sinon.spy(function(path: string, reqHeaders: CosmosHeaders) {
       const oldTokens = getCollection2TokenMap(sessionContainer);
       reqHeaders[Constants.HttpHeaders.SessionToken] = increaseLSN(oldTokens);
     });
@@ -338,10 +341,10 @@ describe("Session Token", function() {
 
     const db = await getTestDatabase("session test", client);
 
-    const { body: createdContainerDef } = await db.containers.create(containerDefinition, containerOptions);
+    const { resource: createdContainerDef } = await db.containers.create(containerDefinition, containerOptions);
     const createdContainer = db.container(createdContainerDef.id);
 
-    const { body: createdDocument } = await createdContainer.items.create({
+    const { resource: createdDocument } = await createdContainer.items.create({
       id: "1"
     });
     const requestOptions = { partitionKey: "1" };

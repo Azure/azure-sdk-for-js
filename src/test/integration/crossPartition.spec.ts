@@ -109,63 +109,11 @@ describe("Cross Partition", function() {
       ////////////////////////////////
       options.continuation = undefined;
       try {
-        const { result: results } = await queryIterator.toArray();
+        const { resources: results } = await queryIterator.fetchAll();
         assert.equal(results.length, expectedOrderIds.length, "invalid number of results");
         assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
 
         return validateResults(results, expectedOrderIds);
-      } catch (err) {
-        throw err;
-      }
-    };
-
-    const validateNextItem = async function(queryIterator: QueryIterator<any>, expectedOrderIds: string[]) {
-      ////////////////////////////////
-      // validate nextItem()
-      ////////////////////////////////
-      const results: any[] = [];
-      try {
-        while (results.length < expectedOrderIds.length) {
-          assert(queryIterator.hasMoreResults(), "hasMoreResults must indicate more results");
-          const { result: item } = await queryIterator.nextItem();
-          if (item === undefined) {
-            break;
-          }
-          results.push(item);
-        }
-
-        assert(!queryIterator.hasMoreResults(), "hasMoreResults must signal results exhausted");
-        validateResults(results, expectedOrderIds);
-      } catch (err) {
-        throw err;
-      }
-    };
-
-    const validateNextItemAndCurrentAndHasMoreResults = async function(
-      queryIterator: QueryIterator<any>,
-      expectedOrderIds: string[]
-    ) {
-      // curent and nextItem recursively invoke each other till queryIterator is exhausted
-      ////////////////////////////////
-      // validate nextItem()
-      ////////////////////////////////
-      const results: any[] = [];
-      try {
-        while (results.length <= expectedOrderIds.length) {
-          const { result: currentItem } = await queryIterator.current();
-          const { result: item } = await queryIterator.nextItem();
-          if (!item) {
-            break;
-          }
-          results.push(item);
-          if (results.length < expectedOrderIds.length) {
-            assert(queryIterator.hasMoreResults(), "hasMoreResults must indicate more results");
-          }
-          assert.equal(item, currentItem, "current must give the previously item returned by nextItem");
-        }
-
-        assert(!queryIterator.hasMoreResults(), "hasMoreResults must signal results exhausted");
-        validateResults(results, expectedOrderIds);
       } catch (err) {
         throw err;
       }
@@ -184,15 +132,13 @@ describe("Cross Partition", function() {
       ////////////////////////////////
 
       const listOfResultPages: any[] = [];
-      const listOfHeaders: any[] = [];
 
       let totalFetchedResults: any[] = [];
 
       try {
         while (totalFetchedResults.length <= expectedOrderIds.length) {
-          const { result: results, headers } = await queryIterator.executeNext();
+          const { resources: results } = await queryIterator.fetchNext();
           listOfResultPages.push(results);
-          listOfHeaders.push(headers);
 
           if (results === undefined || totalFetchedResults.length === expectedOrderIds.length) {
             break;
@@ -240,28 +186,29 @@ describe("Cross Partition", function() {
       // validate forEach()
       ////////////////////////////////
       const results: any[] = [];
-      let callbackSingnalledEnd = false;
+      let completed = false;
       // forEach uses callbacks still, so just wrap in a promise
-      for await (const { result: item } of queryIterator.getAsyncIterator()) {
+      for await (const { resources: items } of queryIterator.getAsyncIterator()) {
         // if the previous invocation returned false, forEach must avoid invoking the callback again!
-        assert.equal(callbackSingnalledEnd, false, "forEach called callback after the first false returned");
-        results.push(item);
+        assert.equal(completed, false, "forEach called callback after the first false returned");
+        results.push(...items);
         if (results.length === expectedOrderIds.length) {
-          callbackSingnalledEnd = true;
+          completed = true;
         }
       }
+      assert.equal(completed, true, "AsyncIterator should see all expected results");
       validateResults(results, expectedOrderIds);
     };
 
     const validateQueryMetrics = async function(queryIterator: QueryIterator<any>) {
       try {
         while (queryIterator.hasMoreResults()) {
-          const { result: results, headers } = await queryIterator.executeNext();
+          const { resources: results, queryMetrics } = await queryIterator.fetchNext();
           if (results === undefined) {
             break;
           }
 
-          assert.notEqual(headers[Constants.HttpHeaders.QueryMetrics], null);
+          assert.notEqual(queryMetrics, null);
         }
       } catch (err) {
         throw err;
@@ -287,7 +234,6 @@ describe("Cross Partition", function() {
         validateExecuteNextWithContinuationToken
       );
       queryIterator.reset();
-      await validateNextItemAndCurrentAndHasMoreResults(queryIterator, expectedOrderIds);
       await validateForEach(queryIterator, expectedOrderIds);
       await validateQueryMetrics(queryIterator);
     };
@@ -297,11 +243,10 @@ describe("Cross Partition", function() {
       let totalRequestCharge = 0;
 
       while (queryIterator.hasMoreResults()) {
-        const { result: results, headers } = await queryIterator.executeNext();
-        const rc: number = (headers || {})[Constants.HttpHeaders.RequestCharge] as number;
+        const { resources: results, requestCharge } = await queryIterator.fetchNext();
 
         if (counter === 0) {
-          assert(rc > 0);
+          assert(requestCharge > 0);
           counter += 1;
         }
 
@@ -309,8 +254,8 @@ describe("Cross Partition", function() {
           assert(totalRequestCharge > 0);
           return;
         } else {
-          totalRequestCharge += rc;
-          assert(rc >= 0);
+          totalRequestCharge += requestCharge;
+          assert(requestCharge >= 0);
         }
       }
     };
@@ -660,7 +605,7 @@ describe("Cross Partition", function() {
       // prepare expected behaviour verifier
       const queryIterator = container.items.query(query, options);
 
-      const { result: results } = await queryIterator.toArray();
+      const { resources: results } = await queryIterator.fetchAll();
       assert.equal(results.length, topCount);
 
       // select unique ids
@@ -687,7 +632,7 @@ describe("Cross Partition", function() {
       // prepare expected behaviour verifier
       const queryIterator = container.items.query(query, options);
 
-      const { result: results } = await queryIterator.toArray();
+      const { resources: results } = await queryIterator.fetchAll();
       assert.equal(results.length, topCount);
 
       // select unique ids
@@ -714,7 +659,7 @@ describe("Cross Partition", function() {
       // prepare expected behaviour verifier
       const queryIterator = container.items.query(query, options);
 
-      const { result: results } = await queryIterator.toArray();
+      const { resources: results } = await queryIterator.fetchAll();
       assert.equal(results.length, topCount);
 
       // select unique ids
@@ -745,7 +690,7 @@ describe("Cross Partition", function() {
       // prepare expected behaviour verifier
       const queryIterator = container.items.query(querySpec, options);
 
-      const { result: results } = await queryIterator.toArray();
+      const { resources: results } = await queryIterator.fetchAll();
       assert.equal(results.length, topCount);
 
       // select unique ids
@@ -820,7 +765,7 @@ describe("Cross Partition", function() {
       // prepare expected behaviour verifier
       try {
         const queryIterator = container.items.query(query, options);
-        await queryIterator.toArray();
+        await queryIterator.fetchAll();
       } catch (err) {
         assert.notEqual(err, undefined);
       }
@@ -867,7 +812,7 @@ describe("Cross Partition", function() {
       };
 
       const queryIterator = container.items.query(query, options);
-      const { result: results } = await queryIterator.toArray();
+      const { resources: results } = await queryIterator.fetchAll();
       assert.equal(results.length, documentDefinitions.length);
 
       let index = 0;
@@ -903,7 +848,7 @@ describe("Cross Partition", function() {
 
       let firstTime = true;
 
-      const { result } = await queryIterator.current();
+      await queryIterator.fetchNext();
 
       if (firstTime) {
         firstTime = false;

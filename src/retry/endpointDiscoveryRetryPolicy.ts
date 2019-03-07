@@ -1,4 +1,4 @@
-﻿import { isReadRequest } from "../common";
+﻿import { isReadRequest } from "../common/helper";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request/request";
 import { RequestContext } from "../request/RequestContext";

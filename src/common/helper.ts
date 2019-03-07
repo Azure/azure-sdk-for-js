@@ -1,7 +1,7 @@
-import { ConnectionPolicy } from "../documents";
-import { IHeaders } from "../index";
+import { ConnectionPolicy } from "../documents/ConnectionPolicy";
+import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { RequestContext } from "../request/RequestContext";
-import { Constants } from "./index";
+import { Constants } from "./constants";
 
 /** @hidden */
 const Regexes = Constants.RegularExpressions;
@@ -98,16 +98,16 @@ export function getHexaDigit() {
   return Math.floor(Math.random() * 16).toString(16);
 }
 
-export function setIsUpsertHeader(headers: IHeaders) {
+export function setIsUpsertHeader(headers: CosmosHeaders) {
   if (headers === undefined || headers === null) {
     throw new Error('The "headers" parameter must not be null or undefined');
   }
 
-  if (!(headers instanceof Object)) {
-    throw new Error(`The "headers" parameter must be an instance of "Object". Actual type is: "${typeof headers}".`);
+  if (typeof headers !== "object") {
+    throw new Error('The "headers" parameter must be an instance of "Object". Actual type is: "string".');
   }
 
-  (headers as IHeaders)[Constants.HttpHeaders.IsUpsert] = true;
+  headers[Constants.HttpHeaders.IsUpsert] = true;
 }
 
 // TODO: replace with well known library?

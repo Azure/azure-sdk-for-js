@@ -76,12 +76,7 @@ export class Item {
     const id = getIdFromLink(this.url);
     const response = await this.clientContext.read<T>(path, ResourceType.item, id, undefined, options);
 
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      item: this
-    };
+    return new ItemResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -111,7 +106,7 @@ export class Item {
       options.partitionKey = this.primaryKey;
     }
     if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
-      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -124,12 +119,7 @@ export class Item {
     const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.replace<T>(body, path, ResourceType.item, id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      item: this
-    };
+    return new ItemResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -155,11 +145,6 @@ export class Item {
     const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete<T>(path, ResourceType.item, id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      item: this
-    };
+    return new ItemResponse(response.result, response.headers, response.statusCode, this);
   }
 }

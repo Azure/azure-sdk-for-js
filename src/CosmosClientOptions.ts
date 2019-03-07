@@ -1,6 +1,6 @@
 import { AuthOptions } from "./auth";
 import { ConnectionPolicy, ConsistencyLevel, QueryCompatibilityMode } from "./documents";
-import { IHeaders } from "./queryExecutionContext/IHeaders";
+import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 interface Agent {
@@ -26,7 +26,7 @@ export interface CosmosClientOptions {
    * It can take any value from {@link ConsistencyLevel}.
    */
   consistencyLevel?: keyof typeof ConsistencyLevel;
-  defaultHeaders?: IHeaders;
+  defaultHeaders?: CosmosHeaders;
   /** An optional custom http(s) Agent to be used in NodeJS enironments
    * Use an agent such as https://github.com/TooTallNate/node-proxy-agent if you need to connect to Cosmos via a proxy
    */

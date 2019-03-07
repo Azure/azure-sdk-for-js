@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "importHelpers": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "./dist-esm",
+    "outDir": "./dist-commonjs",
     "preserveConstEnums": true,
     "removeComments": false,
     "target": "es6",
@@ -15,13 +15,6 @@
     "newLine": "LF",
     "resolveJsonModule": true
   },
-  "include": [
-    "./src/**/*",
-    "./test/**/*.spec.ts",
-    "./samples/MultiRegionWrite/**.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "samples"
-  ]
+  "include": ["./src/**/*", "./test/**/*.spec.ts", "./samples/MultiRegionWrite/**.ts"],
+  "exclude": ["node_modules", "samples"]
 }

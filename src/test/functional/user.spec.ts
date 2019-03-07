@@ -13,17 +13,17 @@ describe("NodeJS CRUD Tests", function() {
       const database = await getTestDatabase("Validate user CRUD");
 
       // list users
-      const { result: users } = await database.users.readAll().toArray();
+      const { resources: users } = await database.users.readAll().fetchAll();
       assert.equal(users.constructor, Array, "Value should be an array");
       const beforeCreateCount = users.length;
 
       // create user
-      const { body: userDef } = await createOrUpsertUser(database, { id: "new user" }, undefined, isUpsertTest);
+      const { resource: userDef } = await createOrUpsertUser(database, { id: "new user" }, undefined, isUpsertTest);
       assert.equal(userDef.id, "new user", "user name error");
       let user = database.user(userDef.id);
 
       // list users after creation
-      const { result: usersAfterCreation } = await database.users.readAll().toArray();
+      const { resources: usersAfterCreation } = await database.users.readAll().fetchAll();
       assert.equal(usersAfterCreation.length, beforeCreateCount + 1);
 
       // query users
@@ -36,7 +36,7 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { result: results } = await database.users.query(querySpec).toArray();
+      const { resources: results } = await database.users.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
 
       // replace user
@@ -44,21 +44,21 @@ describe("NodeJS CRUD Tests", function() {
       let replacedUser: UserDefinition;
       if (isUpsertTest) {
         const r = await database.users.upsert(userDef);
-        replacedUser = r.body;
+        replacedUser = r.resource;
       } else {
         const r = await user.replace(userDef);
-        replacedUser = r.body;
+        replacedUser = r.resource;
       }
       assert.equal(replacedUser.id, "replaced user", "user name should change");
       assert.equal(userDef.id, replacedUser.id, "user id should stay the same");
       user = database.user(replacedUser.id);
 
       // read user
-      const { body: userAfterReplace } = await user.read();
+      const { resource: userAfterReplace } = await user.read();
       assert.equal(replacedUser.id, userAfterReplace.id);
 
       // delete user
-      const { body: res } = await user.delete();
+      const { resource: res } = await user.delete();
 
       // read user after deletion
       try {

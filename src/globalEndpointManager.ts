@@ -1,11 +1,10 @@
 import * as url from "url";
 import { Constants, sleep } from "./common";
-import { CosmosClient } from "./CosmosClient";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { LocationCache } from "./LocationCache";
-import { CosmosResponse } from "./request";
+import { ResourceResponse } from "./request";
 import { RequestContext } from "./request/RequestContext";
 
 /**
@@ -33,7 +32,7 @@ export class GlobalEndpointManager {
    */
   constructor(
     options: CosmosClientOptions,
-    private readDatabaseAccount: (opts: RequestOptions) => Promise<CosmosResponse<DatabaseAccount, CosmosClient>>
+    private readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
     this.defaultEndpoint = options.endpoint;
     this.enableEndpointDiscovery = options.connectionPolicy.EnableEndpointDiscovery;
@@ -158,7 +157,7 @@ export class GlobalEndpointManager {
   private async getDatabaseAccountFromAnyEndpoint(): Promise<DatabaseAccount> {
     try {
       const options = { urlConnection: this.defaultEndpoint };
-      const { body: databaseAccount } = await this.readDatabaseAccount(options);
+      const { resource: databaseAccount } = await this.readDatabaseAccount(options);
       return databaseAccount;
       // If for any reason(non - globaldb related), we are not able to get the database
       // account from the above call to readDatabaseAccount,
@@ -175,7 +174,7 @@ export class GlobalEndpointManager {
         try {
           const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(this.defaultEndpoint, location);
           const options = { urlConnection: locationalEndpoint };
-          const { body: databaseAccount } = await this.readDatabaseAccount(options);
+          const { resource: databaseAccount } = await this.readDatabaseAccount(options);
           if (databaseAccount) {
             return databaseAccount;
           }

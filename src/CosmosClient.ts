@@ -1,13 +1,13 @@
-import { Agent, AgentOptions } from "https";
-import * as url from "url";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
-import { Constants, getPlatformDefaultHeaders, getUserAgent, parseConnectionPolicy } from "./common";
+import { Constants } from "./common/constants";
+import { parseConnectionPolicy } from "./common/helper";
+import { getPlatformDefaultHeaders, getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
-import { CosmosResponse, RequestOptions } from "./request";
+import { RequestOptions, ResourceResponse } from "./request";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -36,7 +36,7 @@ export class CosmosClient {
    *
    * @example Create a new database
    * ```typescript
-   * const {body: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
+   * const {resource: databaseDefinition, database} = await client.databases.create({id: "<name here>"});
    * ```
    */
   public readonly databases: Databases;
@@ -86,9 +86,9 @@ export class CosmosClient {
   /**
    * Get information about the current {@link DatabaseAccount} (including which regions are supported, etc.)
    */
-  public async getDatabaseAccount(options?: RequestOptions): Promise<CosmosResponse<DatabaseAccount, CosmosClient>> {
+  public async getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>> {
     const response = await this.clientContext.getDatabaseAccount(options);
-    return { body: response.result, headers: response.headers, ref: this };
+    return new ResourceResponse<DatabaseAccount>(response.result, response.headers, response.statusCode);
   }
 
   /**

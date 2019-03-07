@@ -1,7 +1,7 @@
 import assert from "assert";
 import { Constants, CosmosClient } from "../..";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { getEntropy, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
@@ -41,7 +41,7 @@ describe("NodeJS CRUD Tests", function() {
       );
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 
-      const { result: offers } = await client.offers.readAll().toArray();
+      const { resources: offers } = await client.offers.readAll().fetchAll();
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];
       assert.equal(
@@ -52,7 +52,7 @@ describe("NodeJS CRUD Tests", function() {
       validateOfferResponseBody(expectedOffer);
 
       // Read the offer
-      const { body: readOffer } = await client.offer(expectedOffer.id).read();
+      const { resource: readOffer } = await client.offer(expectedOffer.id).read();
       validateOfferResponseBody(readOffer);
       // Check if the read offer is what we expected.
       assert.equal(expectedOffer.id, readOffer.id);
@@ -70,7 +70,7 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { result: offers2 } = await client.offers.query(querySpec).toArray();
+      const { resources: offers2 } = await client.offers.query(querySpec).fetchAll();
       assert.equal(offers2.length, 1);
       const oneOffer = offers2[0];
       validateOfferResponseBody(oneOffer);
@@ -88,7 +88,7 @@ describe("NodeJS CRUD Tests", function() {
 
     it("nativeApi Should do offer replace operations successfully name based", async function() {
       const container = await getTestContainer("Validate Offer CRUD");
-      const { result: offers } = await client.offers.readAll().toArray();
+      const { resources: offers } = await client.offers.readAll().fetchAll();
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];
       validateOfferResponseBody(expectedOffer);
@@ -96,7 +96,7 @@ describe("NodeJS CRUD Tests", function() {
       const offerToReplace = Object.assign({}, expectedOffer);
       const oldThroughput = offerToReplace.content.offerThroughput;
       offerToReplace.content.offerThroughput = oldThroughput + 100;
-      const { body: replacedOffer } = await client.offer(offerToReplace.id).replace(offerToReplace);
+      const { resource: replacedOffer } = await client.offer(offerToReplace.id).replace(offerToReplace);
       validateOfferResponseBody(replacedOffer);
       // Check if the replaced offer is what we expect.
       assert.equal(replacedOffer.id, offerToReplace.id);

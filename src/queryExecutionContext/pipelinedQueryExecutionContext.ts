@@ -1,5 +1,6 @@
 import { ClientContext } from "../ClientContext";
 import { Response } from "../request/request";
+import { CosmosHeaders } from "./CosmosHeaders";
 import {
   AggregateEndpointComponent,
   IEndpointComponent,
@@ -7,19 +8,16 @@ import {
   TopEndpointComponent
 } from "./EndpointComponent";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import {
-  IExecutionContext,
-  IHeaders,
-  OrderByQueryExecutionContext,
-  ParallelQueryExecutionContext,
-  PartitionedQueryExecutionContextInfo
-} from "./index";
+import { IExecutionContext } from "./IExecutionContext";
+import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
+import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import * as PartitionedQueryExecutionContextInfoParser from "./partitionedQueryExecutionContextInfoParser";
+import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements IExecutionContext {
   private fetchBuffer: any[];
-  private fetchMoreRespHeaders: IHeaders;
+  private fetchMoreRespHeaders: CosmosHeaders;
   private endpoint: IEndpointComponent;
   private pageSize: number;
   private static DEFAULT_PAGE_SIZE = 10;

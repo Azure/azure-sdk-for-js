@@ -13,6 +13,7 @@ import {
 import { StoredProcedureResponse } from "../../client/StoredProcedure/StoredProcedureResponse";
 import { UserResponse } from "../../client/User/UserResponse";
 import { endpoint, masterKey } from "./_testConfig";
+import { PrivateContainer } from "./PrivateContainer";
 
 const defaultClient = new CosmosClient({ endpoint, auth: { masterKey } });
 
@@ -26,7 +27,7 @@ export function getEntropy(): string {
 
 export async function removeAllDatabases(client: CosmosClient = defaultClient) {
   try {
-    const { result: databases } = await client.databases.readAll().toArray();
+    const { resources: databases } = await client.databases.readAll().fetchAll();
     const length = databases.length;
 
     if (length === 0) {
@@ -67,6 +68,11 @@ export async function getTestContainer(
   return db.container(id);
 }
 
+export function createPrivateContainer(container: Container) {
+  // This is a hack to access trigger and udf for existing tests while we figure out what we're going to do
+  return new PrivateContainer(container.database, container.id, (container as any).clientContext);
+}
+
 export async function bulkInsertItems(
   container: Container,
   documents: any[]
@@ -74,7 +80,7 @@ export async function bulkInsertItems(
   const returnedDocuments = [];
   for (const doc of documents) {
     try {
-      const { body: document } = await container.items.create(doc);
+      const { resource: document } = await container.items.create(doc);
       returnedDocuments.push(document);
     } catch (err) {
       throw err;
@@ -92,7 +98,7 @@ export async function bulkReadItems(container: Container, documents: any[], part
           : { partitionKey: {} };
 
       // TODO: should we block or do all requests in parallel?
-      const { body: doc } = await container.item(document.id).read(options);
+      const { resource: doc } = await container.item(document.id).read(options);
 
       assert.equal(JSON.stringify(doc), JSON.stringify(document));
     } catch (err) {
@@ -105,7 +111,7 @@ export async function bulkReplaceItems(container: Container, documents: any[]): 
   const returnedDocuments: any[] = [];
   for (const document of documents) {
     try {
-      const { body: doc } = await container.item(document.id).replace(document);
+      const { resource: doc } = await container.item(document.id).replace(document);
       const expectedModifiedDocument = JSON.parse(JSON.stringify(document));
       delete expectedModifiedDocument._etag;
       delete expectedModifiedDocument._ts;
@@ -161,9 +167,9 @@ export async function bulkQueryItemsWithPartitionKey(
         ]
       };
 
-      const { result: results } = await container.items.query(querySpec).toArray();
-      assert.equal(results.length, 1, "Expected exactly 1 document");
-      assert.equal(JSON.stringify(results[0]), JSON.stringify(document));
+      const { resources } = await container.items.query(querySpec).fetchAll();
+      assert.equal(resources.length, 1, "Expected exactly 1 document");
+      assert.equal(JSON.stringify(resources[0]), JSON.stringify(document));
     } catch (err) {
       throw err;
     }
@@ -251,7 +257,7 @@ export function replaceOrUpsertPermission(
 
 // Trigger
 export function createOrUpsertTrigger(
-  container: Container,
+  container: PrivateContainer,
   body: any,
   options: any,
   isUpsertTest: boolean
@@ -263,7 +269,7 @@ export function createOrUpsertTrigger(
   }
 }
 export function replaceOrUpsertTrigger(
-  container: Container,
+  container: PrivateContainer,
   body: any,
   options: any,
   isUpsertTest: boolean
@@ -277,7 +283,7 @@ export function replaceOrUpsertTrigger(
 
 // User Defined Function
 export function createOrUpsertUserDefinedFunction(
-  container: Container,
+  container: PrivateContainer,
   body: any,
   options: any,
   isUpsertTest: boolean
@@ -289,7 +295,7 @@ export function createOrUpsertUserDefinedFunction(
   }
 }
 export function replaceOrUpsertUserDefinedFunction(
-  container: Container,
+  container: PrivateContainer,
   body: any,
   options: any,
   isUpsertTest: boolean

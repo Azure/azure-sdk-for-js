@@ -1,7 +1,7 @@
 import assert from "assert";
-import { Container } from "../..";
 import { UserDefinedFunctionDefinition } from "../../client";
-import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { PrivateContainer } from "../common/PrivateContainer";
+import { createPrivateContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const containerId = "sample container";
 
@@ -13,7 +13,7 @@ describe("NodeJS CRUD Tests", function() {
   });
 
   describe("User Defined Function", function() {
-    let container: Container;
+    let container: PrivateContainer;
 
     beforeEach(async function() {
       // create database
@@ -22,10 +22,10 @@ describe("NodeJS CRUD Tests", function() {
       // create container
       await database.containers.create({ id: containerId });
 
-      container = await database.container(containerId);
+      container = createPrivateContainer(await database.container(containerId));
     });
     it("nativeApi Should do UDF CRUD operations successfully", async function() {
-      const { result: udfs } = await container.userDefinedFunctions.readAll().toArray();
+      const { resources: udfs } = await container.userDefinedFunctions.readAll().fetchAll();
 
       // create a udf
       const beforeCreateUdfsCount = udfs.length;
@@ -35,13 +35,13 @@ describe("NodeJS CRUD Tests", function() {
       };
 
       // TODO also handle upsert case
-      const { body: udf } = await container.userDefinedFunctions.create(udfDefinition);
+      const { resource: udf } = await container.userDefinedFunctions.create(udfDefinition);
 
       assert.equal(udf.id, udfDefinition.id);
       assert.equal(udf.body, "function () { const x = 10; }");
 
       // read udfs after creation
-      const { result: udfsAfterCreate } = await container.userDefinedFunctions.readAll().toArray();
+      const { resources: udfsAfterCreate } = await container.userDefinedFunctions.readAll().fetchAll();
       assert.equal(udfsAfterCreate.length, beforeCreateUdfsCount + 1, "create should increase the number of udfs");
 
       // query udfs
@@ -54,27 +54,27 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { result: results } = await container.userDefinedFunctions.query(querySpec).toArray();
+      const { resources: results } = await container.userDefinedFunctions.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
 
       // replace udf
       udfDefinition.body = "function () { const x = 10; }";
-      const { body: replacedUdf } = await container.userDefinedFunction(udfDefinition.id).replace(udfDefinition);
+      const { resource: replacedUdf } = await container.userDefinedFunction(udfDefinition.id).replace(udfDefinition);
 
       assert.equal(replacedUdf.id, udfDefinition.id);
       assert.equal(replacedUdf.body, "function () { const x = 10; }");
 
       // read udf
-      const { body: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
+      const { resource: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
 
       assert.equal(replacedUdf.id, udfAfterReplace.id);
 
       // delete udf
-      const { body: res } = await container.userDefinedFunction(replacedUdf.id).delete();
+      const { resource: res } = await container.userDefinedFunction(replacedUdf.id).delete();
 
       // read udfs after deletion
       try {
-        const { body: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
+        const { resource: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
         assert.fail("Must fail to read after delete");
       } catch (err) {
         const notFoundErrorCode = 404;
@@ -83,7 +83,7 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     it("nativeApi Should do UDF CRUD operations successfully", async function() {
-      const { result: udfs } = await container.userDefinedFunctions.readAll().toArray();
+      const { resources: udfs } = await container.userDefinedFunctions.readAll().fetchAll();
 
       // create a udf
       const beforeCreateUdfsCount = udfs.length;
@@ -92,13 +92,13 @@ describe("NodeJS CRUD Tests", function() {
         body: "function () { const x = 10; }"
       };
 
-      const { body: udf } = await container.userDefinedFunctions.upsert(udfDefinition);
+      const { resource: udf } = await container.userDefinedFunctions.upsert(udfDefinition);
 
       assert.equal(udf.id, udfDefinition.id);
       assert.equal(udf.body, "function () { const x = 10; }");
 
       // read udfs after creation
-      const { result: udfsAfterCreate } = await container.userDefinedFunctions.readAll().toArray();
+      const { resources: udfsAfterCreate } = await container.userDefinedFunctions.readAll().fetchAll();
       assert.equal(udfsAfterCreate.length, beforeCreateUdfsCount + 1, "create should increase the number of udfs");
 
       // query udfs
@@ -111,27 +111,27 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { result: results } = await container.userDefinedFunctions.query(querySpec).toArray();
+      const { resources: results } = await container.userDefinedFunctions.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
 
       // replace udf
       udfDefinition.body = "function () { const x = 10; }";
-      const { body: replacedUdf } = await container.userDefinedFunctions.upsert(udfDefinition);
+      const { resource: replacedUdf } = await container.userDefinedFunctions.upsert(udfDefinition);
 
       assert.equal(replacedUdf.id, udfDefinition.id);
       assert.equal(replacedUdf.body, "function () { const x = 10; }");
 
       // read udf
-      const { body: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
+      const { resource: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
 
       assert.equal(replacedUdf.id, udfAfterReplace.id);
 
       // delete udf
-      const { body: res } = await container.userDefinedFunction(replacedUdf.id).delete();
+      const { resource: res } = await container.userDefinedFunction(replacedUdf.id).delete();
 
       // read udfs after deletion
       try {
-        const { body: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
+        const { resource: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
         assert.fail("Must fail to read after delete");
       } catch (err) {
         const notFoundErrorCode = 404;

@@ -10,7 +10,7 @@ import {
 import { PartitionKeyDefinition } from "../../documents";
 import { PartitionKey } from "../../index";
 import { QueryIterator } from "../../queryIterator";
-import { CosmosResponse, FeedOptions, RequestOptions } from "../../request";
+import { FeedOptions, RequestOptions, ResourceResponse } from "../../request";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
@@ -32,6 +32,7 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
  * do this once on application start up.
  */
 export class Container {
+  private $items: Items;
   /**
    * Operations for creating new items, and reading/querying all items
    *
@@ -42,27 +43,64 @@ export class Container {
    * const {body: createdItem} = await container.items.create({id: "<item id>", properties: {}});
    * ```
    */
-  public readonly items: Items;
+  public get items(): Items {
+    if (!this.$items) {
+      this.$items = new Items(this, this.clientContext);
+    }
+    return this.$items;
+  }
+
+  private $sprocs: StoredProcedures;
   /**
    * Operations for creating new stored procedures, and reading/querying all stored procedures.
    *
    * For reading, replacing, or deleting an existing stored procedure, use `.storedProcedure(id)`.
    */
-  public readonly storedProcedures: StoredProcedures;
+  public get storedProcedures(): StoredProcedures {
+    if (!this.$sprocs) {
+      this.$sprocs = new StoredProcedures(this, this.clientContext);
+    }
+    return this.$sprocs;
+  }
+
+  private $triggers: Triggers;
   /**
    * Operations for creating new triggers, and reading/querying all triggers.
    *
    * For reading, replacing, or deleting an existing trigger, use `.trigger(id)`.
    */
-  public readonly triggers: Triggers;
+  protected get __triggers(): Triggers {
+    if (!this.$triggers) {
+      this.$triggers = new Triggers(this, this.clientContext);
+    }
+    return this.$triggers;
+  }
+
+  private $udfs: UserDefinedFunctions;
   /**
    * Operations for creating new user defined functions, and reading/querying all user defined functions.
    *
    * For reading, replacing, or deleting an existing user defined function, use `.userDefinedFunction(id)`.
    */
-  public readonly userDefinedFunctions: UserDefinedFunctions;
+  protected get __userDefinedFunctions(): UserDefinedFunctions {
+    if (!this.$udfs) {
+      this.$udfs = new UserDefinedFunctions(this, this.clientContext);
+    }
+    return this.$udfs;
+  }
 
-  public readonly conflicts: Conflicts;
+  private $conflicts: Conflicts;
+  /**
+   * Opertaions for reading and querying conflicts for the given container.
+   *
+   * For reading or deleting a specific conflict, use `.conflict(id)`.
+   */
+  public get conflicts(): Conflicts {
+    if (!this.$conflicts) {
+      this.$conflicts = new Conflicts(this, this.clientContext);
+    }
+    return this.$conflicts;
+  }
 
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
@@ -81,13 +119,7 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext
-  ) {
-    this.items = new Items(this, this.clientContext);
-    this.storedProcedures = new StoredProcedures(this, this.clientContext);
-    this.triggers = new Triggers(this, this.clientContext);
-    this.userDefinedFunctions = new UserDefinedFunctions(this, this.clientContext);
-    this.conflicts = new Conflicts(this, this.clientContext);
-  }
+  ) {}
 
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
@@ -109,7 +141,7 @@ export class Container {
    * Use `.userDefinedFunctions` for creating new user defined functions, or querying/reading all user defined functions.
    * @param id The id of the {@link UserDefinedFunction}.
    */
-  public userDefinedFunction(id: string): UserDefinedFunction {
+  protected __userDefinedFunction(id: string): UserDefinedFunction {
     return new UserDefinedFunction(this, id, this.clientContext);
   }
 
@@ -139,7 +171,7 @@ export class Container {
    * Use `.triggers` for creating new triggers, or querying/reading all triggers.
    * @param id The id of the {@link Trigger}.
    */
-  public trigger(id: string): Trigger {
+  protected __trigger(id: string): Trigger {
     return new Trigger(this, id, this.clientContext);
   }
 
@@ -156,12 +188,7 @@ export class Container {
       options
     );
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      container: this
-    };
+    return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /** Replace the container's definition */
@@ -182,12 +209,7 @@ export class Container {
       undefined,
       options
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      container: this
-    };
+    return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /** Delete the container */
@@ -202,12 +224,7 @@ export class Container {
       undefined,
       options
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      container: this
-    };
+    return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -217,22 +234,23 @@ export class Container {
    * @param {function} callback       - \
    * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
    */
-  public async getPartitionKeyDefinition(): Promise<CosmosResponse<PartitionKeyDefinition, Container>> {
+  public async getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
     if (this.url in this.clientContext.partitionKeyDefinitionCache) {
-      return {
-        body: this.clientContext.partitionKeyDefinitionCache[this.url],
-        ref: this
-      };
+      return new ResourceResponse<PartitionKeyDefinition>(
+        this.clientContext.partitionKeyDefinitionCache[this.url],
+        {},
+        0
+      );
     }
 
-    const { headers } = await this.read();
-    return {
-      body: this.clientContext.partitionKeyDefinitionCache[this.url],
+    const { headers, statusCode } = await this.read();
+    return new ResourceResponse<PartitionKeyDefinition>(
+      this.clientContext.partitionKeyDefinitionCache[this.url],
       headers,
-      ref: this
-    };
+      statusCode
+    );
   }
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {

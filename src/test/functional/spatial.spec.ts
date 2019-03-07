@@ -32,7 +32,7 @@ describe("NodeJS CRUD Tests", function() {
           ]
         };
         const entropy = Math.floor(Math.random() * 10000);
-        const { body: containerDef } = await database.containers.create({
+        const { resource: containerDef } = await database.containers.create({
           id: `sample container${entropy}`,
           indexingPolicy
         });
@@ -56,7 +56,7 @@ describe("NodeJS CRUD Tests", function() {
         await createOrUpsertItem(container, location2, undefined, isUpsertTest);
         const query =
           "SELECT * FROM root WHERE (ST_DISTANCE(root.Location, {type: 'Point', coordinates: [20.1, 20]}) < 20000) ";
-        const { result: results } = await container.items.query(query).toArray();
+        const { resources: results } = await container.items.query(query).fetchAll();
         assert.equal(1, results.length);
         assert.equal("location1", results[0].id);
       } catch (err) {

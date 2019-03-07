@@ -14,19 +14,19 @@ describe("NodeJS CRUD Tests", function() {
     it("should handle all the key options", async function() {
       const clientOptionsKey = new CosmosClient({ endpoint, key: masterKey });
       assert(
-        undefined !== (await clientOptionsKey.databases.readAll().toArray()),
+        undefined !== (await clientOptionsKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
       );
 
       const clientOptionsAuthKey = new CosmosClient({ endpoint, auth: { key: masterKey } });
       assert(
-        undefined !== (await clientOptionsAuthKey.databases.readAll().toArray()),
+        undefined !== (await clientOptionsAuthKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
       );
 
       const clientOptionsAuthMasterKey = new CosmosClient({ endpoint, auth: { masterKey } });
       assert(
-        undefined !== (await clientOptionsAuthMasterKey.databases.readAll().toArray()),
+        undefined !== (await clientOptionsAuthMasterKey.databases.readAll().fetchAll()),
         "Should be able to fetch list of databases"
       );
     });
@@ -36,28 +36,28 @@ describe("NodeJS CRUD Tests", function() {
       const database = await getTestDatabase("Validate Authorization database");
       // create container1
 
-      const { body: container1 } = await database.containers.create({ id: "Validate Authorization container" });
+      const { resource: container1 } = await database.containers.create({ id: "Validate Authorization container" });
       // create document1
-      const { body: document1 } = await database
+      const { resource: document1 } = await database
         .container(container1.id)
         .items.create({ id: "coll1doc1", foo: "bar", key: "value" });
       // create document 2
-      const { body: document2 } = await database
+      const { resource: document2 } = await database
         .container(container1.id)
         .items.create({ id: "coll1doc2", foo: "bar2", key: "value2" });
 
       // create container 2
-      const { body: container2 } = await database.containers.create({ id: "sample container2" });
+      const { resource: container2 } = await database.containers.create({ id: "sample container2" });
 
       // create user1
-      const { body: user1 } = await database.users.create({ id: "user1" });
+      const { resource: user1 } = await database.users.create({ id: "user1" });
       let permission = {
         id: "permission On Coll1",
         permissionMode: PermissionMode.Read,
         resource: (container1 as any)._self
       }; // TODO: any rid stuff
       // create permission for container1
-      const { body: permissionOnColl1 } = await createOrUpsertPermission(
+      const { resource: permissionOnColl1 } = await createOrUpsertPermission(
         database.user(user1.id),
         permission,
         undefined,
@@ -70,7 +70,7 @@ describe("NodeJS CRUD Tests", function() {
         resource: (document2 as any)._self // TODO: any rid
       };
       // create permission for document 2
-      const { body: permissionOnDoc2 } = await createOrUpsertPermission(
+      const { resource: permissionOnDoc2 } = await createOrUpsertPermission(
         database.user(user1.id),
         permission,
         undefined,
@@ -79,14 +79,14 @@ describe("NodeJS CRUD Tests", function() {
       assert((permissionOnDoc2 as any)._token !== undefined, "permission token is invalid"); // TODO: any rid
 
       // create user 2
-      const { body: user2 } = await database.users.create({ id: "user2" });
+      const { resource: user2 } = await database.users.create({ id: "user2" });
       permission = {
         id: "permission On coll2",
         permissionMode: PermissionMode.All,
         resource: (container2 as any)._self // TODO: any rid
       };
       // create permission on container 2
-      const { body: permissionOnColl2 } = await createOrUpsertPermission(
+      const { resource: permissionOnColl2 } = await createOrUpsertPermission(
         database.user(user2.id),
         permission,
         undefined,
@@ -111,7 +111,7 @@ describe("NodeJS CRUD Tests", function() {
     const authorizationCRUDTest = async function(isUpsertTest: boolean) {
       try {
         const badclient = new CosmosClient({ endpoint, auth: undefined });
-        const { result: databases } = await badclient.databases.readAll().toArray();
+        const { resources: databases } = await badclient.databases.readAll().fetchAll();
         assert.fail("Must fail");
       } catch (err) {
         assert(err !== undefined, "error should not be undefined");
@@ -129,7 +129,7 @@ describe("NodeJS CRUD Tests", function() {
       const col1Client = new CosmosClient({ endpoint, auth: { resourceTokens } });
 
       // 1. Success-- Use Col1 Permission to Read
-      const { body: successColl1 } = await col1Client
+      const { resource: successColl1 } = await col1Client
         .database(entities.database.id)
         .container(entities.coll1.id)
         .read();
@@ -148,16 +148,16 @@ describe("NodeJS CRUD Tests", function() {
       }
 
       // 3. Success-- Use Col1 Permission to Read All Docs
-      const { result: successDocuments } = await col1Client
+      const { resources: successDocuments } = await col1Client
         .database(entities.database.id)
         .container(entities.coll1.id)
         .items.readAll()
-        .toArray();
+        .fetchAll();
       assert(successDocuments !== undefined, "error reading documents");
       assert.equal(successDocuments.length, 2, "Expected 2 Documents to be succesfully read");
 
       // 4. Success-- Use Col1 Permission to Read Col1Doc1
-      const { body: successDoc } = await col1Client
+      const { resource: successDoc } = await col1Client
         .database(entities.database.id)
         .container(entities.coll1.id)
         .item(entities.doc1.id)
@@ -174,7 +174,7 @@ describe("NodeJS CRUD Tests", function() {
             const doc = { id: "new doc", CustomProperty1: "BBBBBB", customProperty2: 1000 };
             const col2Container = await col2Client.databaseDatabase(entities.db.id)
                 .containerContainer(entities.coll2.id);
-            const { result: successDoc2 } = await createOrUpsertItem(
+            const { resources: successDoc2 } = await createOrUpsertItem(
                 col2Container, doc, undefined, isUpsertTest);
             assert(successDoc2 !== undefined, "error creating document");
             assert.equal(successDoc2.CustomProperty1, doc.CustomProperty1,
@@ -192,7 +192,7 @@ describe("NodeJS CRUD Tests", function() {
       };
       const container = await getTestContainer("authorization CRUD multiple partitons", undefined, containerDefinition);
       // create user
-      const { body: userDef } = await container.database.users.create({ id: "user1" });
+      const { resource: userDef } = await container.database.users.create({ id: "user1" });
       const user = container.database.user(userDef.id);
 
       const key = 1;
@@ -204,7 +204,7 @@ describe("NodeJS CRUD Tests", function() {
       };
 
       // create permission
-      const { body: permission } = await user.permissions.create(permissionDefinition);
+      const { resource: permission } = await user.permissions.create(permissionDefinition);
       assert((permission as any)._token !== undefined, "permission token is invalid");
       const resourceTokens: any = {};
       resourceTokens[container.id] = (permission as any)._token;

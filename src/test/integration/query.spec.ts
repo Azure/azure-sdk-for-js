@@ -35,8 +35,8 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
     const queryOptions = { partitionKey: "pk" };
     const queryIterator = container.items.query(query, queryOptions);
 
-    const { result } = await queryIterator.toArray();
-    assert.equal(result[0]["id"], "myId");
+    const { resources } = await queryIterator.fetchAll();
+    assert.equal(resources[0]["id"], "myId");
   });
 });
 
@@ -51,7 +51,10 @@ describe("Test Query Metrics On Single Partition Collection", function() {
       const collectionDefinition = { id: collectionId };
       const collectionOptions = { offerThroughput: 4000 };
 
-      const { body: createdCollectionDef } = await database.containers.create(collectionDefinition, collectionOptions);
+      const { resource: createdCollectionDef } = await database.containers.create(
+        collectionDefinition,
+        collectionOptions
+      );
       const createdContainer = database.container(createdCollectionDef.id);
 
       await createdContainer.items.create(document);
@@ -61,14 +64,14 @@ describe("Test Query Metrics On Single Partition Collection", function() {
       const queryIterator = createdContainer.items.query(query, queryOptions);
 
       while (queryIterator.hasMoreResults()) {
-        const { result: results, headers } = await queryIterator.executeNext();
+        const { resources: results, queryMetrics } = await queryIterator.fetchNext();
 
         if (results === undefined) {
           // no more results
           break;
         }
 
-        assert.notEqual(headers[Constants.HttpHeaders.QueryMetrics]["0"], null);
+        assert.notEqual(queryMetrics, null);
       }
     } catch (err) {
       throw err;

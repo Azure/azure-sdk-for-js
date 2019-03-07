@@ -52,7 +52,7 @@ describe("NodeJS CRUD Tests", function() {
           id: "sample container1",
           defaultTtl: 5
         };
-        const { body: containerResult } = await database.containers.create(containerDefinition);
+        const { resource: containerResult } = await database.containers.create(containerDefinition);
 
         assert.equal(containerDefinition.defaultTtl, containerResult.defaultTtl);
         const container = database.container(containerResult.id);
@@ -89,7 +89,7 @@ describe("NodeJS CRUD Tests", function() {
     }
 
     async function checkItemExists(container: Container, createdItem: any) {
-      const { body: readItem } = await container.item(createdItem.id).read();
+      const { resource: readItem } = await container.item(createdItem.id).read();
       assert.equal(readItem.ttl, createdItem.ttl);
     }
 
@@ -106,7 +106,7 @@ describe("NodeJS CRUD Tests", function() {
       itemDefinition.id = "doc4";
       itemDefinition.ttl = 8;
 
-      const { body: doc } = await container.items.create(itemDefinition);
+      const { resource: doc } = await container.items.create(itemDefinition);
       await sleep(6000);
       await positiveDefaultTtlStep4(container, doc);
     }
@@ -117,7 +117,7 @@ describe("NodeJS CRUD Tests", function() {
       itemDefinition.id = "doc3";
       itemDefinition.ttl = 2;
 
-      const { body: doc } = await container.items.create(itemDefinition);
+      const { resource: doc } = await container.items.create(itemDefinition);
       await sleep(4000);
       await positiveDefaultTtlStep3(container, doc, itemDefinition);
     }
@@ -128,7 +128,7 @@ describe("NodeJS CRUD Tests", function() {
       itemDefinition.id = "doc2";
       itemDefinition.ttl = -1;
 
-      const { body: doc } = await container.items.create(itemDefinition);
+      const { resource: doc } = await container.items.create(itemDefinition);
       await sleep(5000);
       await positiveDefaultTtlStep2(container, doc, itemDefinition);
     }
@@ -141,7 +141,7 @@ describe("NodeJS CRUD Tests", function() {
         defaultTtl: 5
       };
 
-      const { body: containerResult } = await database.containers.create(containerDefinition);
+      const { resource: containerResult } = await database.containers.create(containerDefinition);
 
       const container = await database.container(containerResult.id);
 
@@ -151,7 +151,7 @@ describe("NodeJS CRUD Tests", function() {
         key: "value"
       };
 
-      const { body: createdItem } = await container.items.create(itemDefinition);
+      const { resource: createdItem } = await container.items.create(itemDefinition);
       await sleep(7000);
       await positiveDefaultTtlStep1(container, createdItem, itemDefinition);
     });
@@ -166,10 +166,10 @@ describe("NodeJS CRUD Tests", function() {
       await checkItemGone(container, createdItem3);
 
       // The Items with id doc1 and doc2 will never expire
-      const { body: readItem1 } = await container.item(createdItem1.id).read();
+      const { resource: readItem1 } = await container.item(createdItem1.id).read();
       assert.equal(readItem1.id, createdItem1.id);
 
-      const { body: readItem2 } = await container.item(createdItem2.id).read();
+      const { resource: readItem2 } = await container.item(createdItem2.id).read();
       assert.equal(readItem2.id, createdItem2.id);
     }
 
@@ -181,7 +181,7 @@ describe("NodeJS CRUD Tests", function() {
         defaultTtl: -1
       };
 
-      const { body: createdContainer } = await database.containers.create(containerDefinition);
+      const { resource: createdContainer } = await database.containers.create(containerDefinition);
 
       const container = await database.container(createdContainer.id);
 
@@ -192,18 +192,18 @@ describe("NodeJS CRUD Tests", function() {
       };
 
       // the created Item 's ttl value would be -1 inherited from the container' s defaultTtl and this Item will never expire
-      const { body: createdItem1 } = await container.items.create(itemDefinition);
+      const { resource: createdItem1 } = await container.items.create(itemDefinition);
 
       // This Item is also set to never expire explicitly
       itemDefinition.id = "doc2";
       itemDefinition.ttl = -1;
 
-      const { body: createdItem2 } = await container.items.create(itemDefinition);
+      const { resource: createdItem2 } = await container.items.create(itemDefinition);
 
       itemDefinition.id = "doc3";
       itemDefinition.ttl = 2;
 
-      const { body: createdItem3 } = await container.items.create(itemDefinition);
+      const { resource: createdItem3 } = await container.items.create(itemDefinition);
       await sleep(4000);
       await minusOneDefaultTtlStep1(container, createdItem1, createdItem2, createdItem3);
     });
@@ -213,7 +213,7 @@ describe("NodeJS CRUD Tests", function() {
 
       const containerDefinition = { id: "sample container" };
 
-      const { body: createdContainer } = await database.containers.create(containerDefinition);
+      const { resource: createdContainer } = await database.containers.create(containerDefinition);
 
       const container = await database.container(createdContainer.id);
 
@@ -224,7 +224,7 @@ describe("NodeJS CRUD Tests", function() {
         ttl: 5
       };
 
-      const { body: createdItem } = await container.items.create(itemDefinition);
+      const { resource: createdItem } = await container.items.create(itemDefinition);
 
       // Created Item still exists even after ttl time has passed since the TTL is disabled at container level(no defaultTtl property defined)
       await sleep(7000);
@@ -240,7 +240,7 @@ describe("NodeJS CRUD Tests", function() {
       // the upserted Item should be gone now after 10 secs from the last write(upsert) of the Item
       await checkItemGone(container, upsertedItem);
       const query = "SELECT * FROM root r";
-      const { result: results } = await container.items.query(query).toArray();
+      const { resources: results } = await container.items.query(query).fetchAll();
       assert.equal(results.length, 0);
 
       // Use a container definition without defaultTtl to disable ttl at container level
@@ -250,7 +250,7 @@ describe("NodeJS CRUD Tests", function() {
 
       itemDefinition.id = "doc2";
 
-      const { body: createdItem } = await container.items.create(itemDefinition);
+      const { resource: createdItem } = await container.items.create(itemDefinition);
       await sleep(5000);
       await miscCasesStep4(container, createdItem, itemDefinition);
     }
@@ -258,7 +258,7 @@ describe("NodeJS CRUD Tests", function() {
     async function miscCasesStep2(container: Container, itemDefinition: any) {
       // Upsert the Item after 3 secs to reset the Item 's ttl
       itemDefinition.key = "value2";
-      const { body: upsertedItem } = await container.items.upsert(itemDefinition);
+      const { resource: upsertedItem } = await container.items.upsert(itemDefinition);
       await sleep(7000);
       // Upserted Item still exists after (3+7)10 secs from Item creation time( with container 's defaultTtl set to 8) since it' s ttl was reset after 3 secs by upserting it
       await checkItemExists(container, upsertedItem);
@@ -270,7 +270,7 @@ describe("NodeJS CRUD Tests", function() {
       // the created Item should be gone now as the ttl time expired
       await checkItemGone(container, createdItem);
       // We can create a Item with the same id after the ttl time has expired
-      const { body: doc } = await container.items.create(itemDefinition);
+      const { resource: doc } = await container.items.create(itemDefinition);
       assert.equal(itemDefinition.id, doc.id);
       await sleep(3000);
       await miscCasesStep2(container, itemDefinition);
@@ -284,7 +284,7 @@ describe("NodeJS CRUD Tests", function() {
         defaultTtl: 8
       };
 
-      const { body: containerResult } = await database.containers.create(containerDefinition);
+      const { resource: containerResult } = await database.containers.create(containerDefinition);
 
       const container = await database.container(containerResult.id);
 
@@ -294,7 +294,7 @@ describe("NodeJS CRUD Tests", function() {
         key: "value"
       };
 
-      const { body: createdItem } = await container.items.create(itemDefinition);
+      const { resource: createdItem } = await container.items.create(itemDefinition);
 
       await sleep(10000);
       await miscCasesStep1(container, createdItem, itemDefinition);

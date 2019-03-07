@@ -1,6 +1,6 @@
 import { ClientContext } from "../../ClientContext";
 import { Constants, getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
-import { IHeaders, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import { CosmosHeaders, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "../Database";
@@ -97,7 +97,7 @@ export class Containers {
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
-    let initialHeaders: IHeaders;
+    let initialHeaders: CosmosHeaders;
 
     if (body.throughput) {
       initialHeaders = { [Constants.HttpHeaders.OfferThroughput]: body.throughput };
@@ -113,12 +113,7 @@ export class Containers {
       options
     );
     const ref = new Container(this.database, response.result.id, this.clientContext);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      container: ref
-    };
+    return new ContainerResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**

@@ -1,9 +1,10 @@
 import { Agent, OutgoingHttpHeaders } from "http";
 import { RequestOptions } from "https"; // TYPES ONLY
 import * as querystring from "querystring";
+import { Constants } from "../common/constants";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
-import { Constants, IHeaders } from "../index";
+import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import * as RetryUtility from "../retry/retryUtility";
 import { bodyFromData, createRequestObject, parse, Response } from "./request";
 import { RequestContext } from "./RequestContext";
@@ -45,7 +46,7 @@ export class RequestHandler {
     request: RequestContext,
     data: string | Buffer,
     queryParams: any, // TODO: any query params types
-    headers: IHeaders
+    headers: CosmosHeaders
   ): Promise<Response<any>> {
     // TODO: any
     const path = (request as { path: string }).path === undefined ? request : (request as { path: string }).path;
@@ -117,7 +118,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public get(urlString: string, request: RequestContext, headers: IHeaders) {
+  public get(urlString: string, request: RequestContext, headers: CosmosHeaders) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -133,7 +134,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public post(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
+  public post(urlString: string, request: RequestContext, body: any, headers: CosmosHeaders) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -149,7 +150,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public put(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
+  public put(urlString: string, request: RequestContext, body: any, headers: CosmosHeaders) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -165,7 +166,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public head(urlString: string, request: any, headers: IHeaders) {
+  public head(urlString: string, request: any, headers: CosmosHeaders) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -181,7 +182,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public delete(urlString: string, request: RequestContext, headers: IHeaders) {
+  public delete(urlString: string, request: RequestContext, headers: CosmosHeaders) {
     return RequestHandler.request(
       this.globalEndpointManager,
       this.connectionPolicy,

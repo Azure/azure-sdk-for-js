@@ -1,3 +1,3 @@
-export interface IHeaders {
+export interface CosmosHeaders {
   [key: string]: string | boolean | number;
 }

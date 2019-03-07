@@ -2,7 +2,7 @@ import assert from "assert";
 import { Agent } from "http";
 import { ConnectionPolicy, CosmosClient } from "../..";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { getTestDatabase } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

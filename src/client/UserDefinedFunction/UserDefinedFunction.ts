@@ -49,7 +49,7 @@ export class UserDefinedFunction {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -81,7 +81,7 @@ export class UserDefinedFunction {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -93,6 +93,6 @@ export class UserDefinedFunction {
     const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete(path, ResourceType.udf, id, undefined, options);
-    return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
+    return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
   }
 }

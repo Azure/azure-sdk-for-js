@@ -1,6 +1,6 @@
 import { Constants } from "../common";
-import { IHeaders } from "../queryExecutionContext";
-import { ConsistencyLevel } from "./index";
+import { CosmosHeaders } from "../queryExecutionContext";
+import { ConsistencyLevel } from "./ConsistencyLevel";
 
 /**
  * Represents a DatabaseAccount in the Azure Cosmos DB database service.
@@ -28,7 +28,7 @@ export class DatabaseAccount {
   public readonly enableMultipleWritableLocations: boolean;
 
   // TODO: body - any
-  public constructor(body: { [key: string]: any }, headers: IHeaders) {
+  public constructor(body: { [key: string]: any }, headers: CosmosHeaders) {
     this.DatabasesLink = "/dbs/";
     this.MediaLink = "/media/";
     this.MaxMediaStorageUsageInMB = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];

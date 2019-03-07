@@ -1,5 +1,5 @@
+import { Constants } from "./constants";
 import { trimSlashFromLeftAndRight, validateResourceId } from "./helper";
-import { Constants } from "./index";
 
 /** @hidden */
 /**

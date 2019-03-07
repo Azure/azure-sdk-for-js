@@ -112,7 +112,7 @@ export class StoredProcedures {
       options
     );
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
+    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -147,6 +147,6 @@ export class StoredProcedures {
       options
     );
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
+    return new StoredProcedureResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

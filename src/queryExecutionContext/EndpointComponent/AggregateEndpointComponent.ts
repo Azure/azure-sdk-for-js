@@ -1,7 +1,7 @@
 import { Response } from "../../request/request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
 import { IExecutionContext } from "../IExecutionContext";
-import { IHeaders } from "../index";
+import { CosmosHeaders } from "../index";
 import { IEndpointComponent } from "./IEndpointComponent";
 
 /** @hidden */
@@ -105,7 +105,7 @@ export class AggregateEndpointComponent implements IEndpointComponent {
    */
   public async nextItem(): Promise<Response<any>> {
     try {
-      let resHeaders: IHeaders;
+      let resHeaders: CosmosHeaders;
       let resources: any;
       if (this.aggregateValues === undefined) {
         ({ result: resources, headers: resHeaders } = await this._getAggregateResult());

@@ -27,7 +27,7 @@ export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
 export { Constants } from "./common";
 export { RetryOptions } from "./retry";
 export { Response, RequestOptions, FeedOptions, MediaOptions, ErrorResponse } from "./request";
-export { IHeaders, SqlParameter, SqlQuerySpec } from "./queryExecutionContext";
+export { CosmosHeaders, SqlParameter, SqlQuerySpec } from "./queryExecutionContext";
 export { QueryIterator } from "./queryIterator";
 export * from "./queryMetrics";
 export { CosmosClient } from "./CosmosClient";

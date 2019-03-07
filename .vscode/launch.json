@@ -9,13 +9,22 @@
       "request": "launch",
       "name": "Mocha Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["-u", "tdd", "--colors", "${workspaceFolder}/lib/test/**/*.js", "-g", ".*Location Cache.*"],
+      "args": [
+        //"-r",
+        //"ts-node/register",
+        "-u",
+        "tdd",
+        "--colors",
+        "${workspaceFolder}/dist-commonjs/src/test/**/*.js",
+        "-g",
+        ".*Single Boundary Case Query Range.*"
+      ],
       "internalConsoleOptions": "openOnSessionStart",
-      "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/lib/**"],
       "env": {
+        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}",
         "MOCHA_TIMEOUT": "999999"
-      }
+      },
+      "protocol": "inspector"
     },
     {
       "type": "node",

@@ -1,10 +1,20 @@
-import { CosmosResponse } from "../../request/CosmosResponse";
+import { CosmosHeaders } from "../../queryExecutionContext";
+import { ResourceResponse } from "../../request/ResourceResponse";
 import { Resource } from "../Resource";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { Container } from "./index";
 
 /** Response object for Container operations */
-export interface ContainerResponse extends CosmosResponse<ContainerDefinition & Resource, Container> {
+export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {
+  constructor(
+    resource: ContainerDefinition & Resource,
+    headers: CosmosHeaders,
+    statusCode: number,
+    container: Container
+  ) {
+    super(resource, headers, statusCode);
+    this.container = container;
+  }
   /** A reference to the {@link Container} that the returned {@link ContainerDefinition} corresponds to. */
-  container: Container;
+  public readonly container: Container;
 }

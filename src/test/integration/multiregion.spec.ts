@@ -13,7 +13,7 @@ import { endpoint, masterKey } from "../common/_testConfig";
 
   before(async function() {
     const client = new CosmosClient({ endpoint, auth: { masterKey } });
-    ({ body: dbAccount } = await client.getDatabaseAccount());
+    ({ resource: dbAccount } = await client.getDatabaseAccount());
     // We reverse the order of the preferred locations list to make sure
     // we don't just follow the order we got back from the server
     preferredLocations = dbAccount.readableLocations.map(v => v.name).reverse();

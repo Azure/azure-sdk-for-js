@@ -2,11 +2,15 @@ import * as bs from "binary-search-bounds";
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";
-import { StatusCodes, SubStatusCodes } from "../common";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { Response } from "../request/request";
-import { PARITIONKEYRANGE, QueryRange, SmartRoutingMapProvider } from "../routing";
+import { QueryRange } from "../routing/QueryRange";
+import { PARITIONKEYRANGE, SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
+import { CosmosHeaders } from "./CosmosHeaders";
+import { DocumentProducer } from "./documentProducer";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import { DocumentProducer, IExecutionContext, IHeaders, PartitionedQueryExecutionContextInfo } from "./index";
+import { IExecutionContext } from "./IExecutionContext";
+import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";
 import * as PartitionedQueryExecutionContextInfoParser from "./partitionedQueryExecutionContextInfoParser";
 
 /** @hidden */
@@ -27,7 +31,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
   protected sortOrders: any;
   private pageSize: any;
   private requestContinuation: any;
-  private respHeaders: IHeaders;
+  private respHeaders: CosmosHeaders;
   private orderByPQ: PriorityQueue<DocumentProducer>;
   private sem: any;
   private waitingForInternalExecutionContexts: number;
@@ -213,7 +217,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
     }
   }
 
-  private _mergeWithActiveResponseHeaders(headers: IHeaders) {
+  private _mergeWithActiveResponseHeaders(headers: CosmosHeaders) {
     mergeHeaders(this.respHeaders, headers);
   }
 
@@ -403,7 +407,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
           }
 
           let item: any;
-          let headers: IHeaders;
+          let headers: CosmosHeaders;
           try {
             const response = await documentProducer.nextItem();
             item = response.result;

@@ -76,7 +76,7 @@ export class Users {
       options
     );
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, user: ref };
+    return new UserResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -102,6 +102,6 @@ export class Users {
       options
     );
     const ref = new User(this.database, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, user: ref };
+    return new UserResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

@@ -2,7 +2,7 @@ import { ClientContext } from "../../ClientContext";
 import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
-import { IHeaders } from "../../queryExecutionContext/IHeaders";
+import { CosmosHeaders } from "../../queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Resource } from "../Resource";
@@ -96,7 +96,7 @@ export class Databases {
       throw err;
     }
 
-    let initialHeaders: IHeaders;
+    let initialHeaders: CosmosHeaders;
 
     if (body.throughput) {
       initialHeaders = { [Constants.HttpHeaders.OfferThroughput]: body.throughput };
@@ -113,12 +113,7 @@ export class Databases {
       options
     );
     const ref = new Database(this.client, body.id, this.clientContext);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      database: ref
-    };
+    return new DatabaseResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**

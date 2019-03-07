@@ -1,9 +1,14 @@
-import { CosmosResponse } from "../../request";
+import { CosmosHeaders } from "../../queryExecutionContext";
+import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
 import { Trigger } from "./index";
 import { TriggerDefinition } from "./TriggerDefinition";
 
-export interface TriggerResponse extends CosmosResponse<TriggerDefinition & Resource, Trigger> {
+export class TriggerResponse extends ResourceResponse<TriggerDefinition & Resource> {
+  constructor(resource: TriggerDefinition & Resource, headers: CosmosHeaders, statusCode: number, trigger: Trigger) {
+    super(resource, headers, statusCode);
+    this.trigger = trigger;
+  }
   /** A reference to the {@link Trigger} corresponding to the returned {@link TriggerDefinition}. */
-  trigger: Trigger;
+  public readonly trigger: Trigger;
 }

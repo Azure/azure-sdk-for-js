@@ -37,7 +37,7 @@ export class Conflict {
     const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.read<ConflictDefinition>(path, ResourceType.user, id, undefined, options);
-    return { body: response.result, headers: response.headers, ref: this, conflict: this };
+    return new ConflictResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -55,6 +55,6 @@ export class Conflict {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, conflict: this };
+    return new ConflictResponse(response.result, response.headers, response.statusCode, this);
   }
 }

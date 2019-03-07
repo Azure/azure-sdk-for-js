@@ -1,5 +1,5 @@
 import assert from "assert";
-import { IHeaders } from "../..";
+import { CosmosHeaders } from "../..";
 import { Constants, isResourceValid, setIsUpsertHeader } from "../../common";
 
 describe("Helper methods", function() {
@@ -24,7 +24,7 @@ describe("Helper methods", function() {
     });
 
     it("Should update is-upsert header.", function(done) {
-      const headers: IHeaders = {};
+      const headers: CosmosHeaders = {};
       headers[Constants.HttpHeaders.IsUpsert] = false;
       assert.equal(false, headers[Constants.HttpHeaders.IsUpsert]);
       setIsUpsertHeader(headers);
@@ -43,36 +43,6 @@ describe("Helper methods", function() {
       assert.throws(function() {
         setIsUpsertHeader(null);
       }, /The "headers" parameter must not be null or undefined/);
-      done();
-    });
-
-    it("Should throw on invalid string headers", function(done) {
-      assert.throws(
-        function() {
-          setIsUpsertHeader("" as any);
-        }, // Any type is intentional for test failure
-        /The "headers" parameter must be an instance of "Object". Actual type is: "string"./
-      );
-      done();
-    });
-
-    it("Should throw on invalid number headers", function(done) {
-      assert.throws(
-        function() {
-          setIsUpsertHeader(0 as any);
-        }, // Any type is intentional for test failure
-        /The "headers" parameter must be an instance of "Object". Actual type is: "number"./
-      );
-      done();
-    });
-
-    it("Should throw on invalid boolean headers", function(done) {
-      assert.throws(
-        function() {
-          setIsUpsertHeader(false as any);
-        }, // Any type is intentional for test failure
-        /The "headers" parameter must be an instance of "Object". Actual type is: "boolean"./
-      );
       done();
     });
   });

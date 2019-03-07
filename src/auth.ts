@@ -1,7 +1,7 @@
 import { generateHeaders } from "@azure/cosmos-sign";
 import { PermissionDefinition } from "./client";
 import { Constants, getResourceIdFromPath, HTTPMethod, ResourceType } from "./common";
-import { IHeaders } from "./queryExecutionContext";
+import { CosmosHeaders } from "./queryExecutionContext";
 
 /** @hidden */
 export interface RequestInfo {
@@ -9,7 +9,7 @@ export interface RequestInfo {
   path: string;
   resourceId: string;
   resourceType: ResourceType;
-  headers: IHeaders;
+  headers: CosmosHeaders;
 }
 
 export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
@@ -37,7 +37,7 @@ export async function setAuthorizationHeader(
   path: string,
   resourceId: string,
   resourceType: ResourceType,
-  headers: IHeaders
+  headers: CosmosHeaders
 ): Promise<void> {
   if (authOptions.permissionFeed) {
     authOptions.resourceTokens = {};
@@ -71,7 +71,7 @@ export function setAuthorizationTokenHeaderUsingMasterKey(
   verb: HTTPMethod,
   resourceId: string,
   resourceType: ResourceType,
-  headers: IHeaders,
+  headers: CosmosHeaders,
   masterKey: string
 ) {
   // TODO This should live in cosmos-sign

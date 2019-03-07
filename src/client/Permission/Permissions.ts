@@ -87,12 +87,7 @@ export class Permissions {
       options
     );
     const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      permission: ref
-    };
+    return new PermissionResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -119,11 +114,6 @@ export class Permissions {
       options
     );
     const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      permission: ref
-    };
+    return new PermissionResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

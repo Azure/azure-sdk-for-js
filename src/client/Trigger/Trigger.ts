@@ -49,7 +49,7 @@ export class Trigger {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, trigger: this };
+    return new TriggerResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -78,8 +78,7 @@ export class Trigger {
       undefined,
       options
     );
-
-    return { body: response.result, headers: response.headers, ref: this, trigger: this };
+    return new TriggerResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -97,7 +96,6 @@ export class Trigger {
       undefined,
       options
     );
-
-    return { body: response.result, headers: response.headers, ref: this, trigger: this };
+    return new TriggerResponse(response.result, response.headers, response.statusCode, this);
   }
 }

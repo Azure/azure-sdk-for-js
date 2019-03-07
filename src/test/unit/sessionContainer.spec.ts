@@ -1,6 +1,6 @@
 import assert from "assert";
 import { Constants } from "../../common";
-import { IHeaders } from "../../queryExecutionContext/IHeaders";
+import { CosmosHeaders } from "../../queryExecutionContext/CosmosHeaders";
 import { SessionContainer } from "../../session/sessionContainer";
 import { SessionContext } from "../../session/SessionContext";
 
@@ -21,7 +21,7 @@ describe("SessionContainer", function() {
       operationType: "create"
     };
 
-    const resHeadersNameBased: IHeaders = {};
+    const resHeadersNameBased: CosmosHeaders = {};
     resHeadersNameBased[Constants.HttpHeaders.OwnerFullName] = collectionLink;
     resHeadersNameBased[Constants.HttpHeaders.OwnerId] = collectionId;
     resHeadersNameBased[Constants.HttpHeaders.SessionToken] = tokenString;

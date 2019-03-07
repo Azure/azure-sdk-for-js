@@ -69,62 +69,9 @@ describe("NodeJS Aggregate Query Tests", async function() {
 
     const validateToArray = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
       try {
-        const { result: results } = await queryIterator.toArray();
+        const { resources: results } = await queryIterator.fetchAll();
         assert.equal(results.length, expectedResults.length, "invalid number of results");
         assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
-      } catch (err) {
-        throw err;
-      }
-    };
-
-    const validateNextItem = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
-      let results: any = [];
-
-      try {
-        while (results.length < expectedResults.length) {
-          const { result: item } = await queryIterator.nextItem();
-          if (item === undefined) {
-            assert(!queryIterator.hasMoreResults(), "hasMoreResults must signal results exhausted");
-            validateResult(results, expectedResults);
-            return;
-          }
-          results = results.concat(item);
-
-          if (results.length < expectedResults.length) {
-            assert(queryIterator.hasMoreResults(), "hasMoreResults must indicate more results");
-          }
-        }
-      } catch (err) {
-        throw err;
-      }
-    };
-
-    const validateNextItemAndCurrentAndHasMoreResults = async function(
-      queryIterator: QueryIterator<any>,
-      expectedResults: any[]
-    ) {
-      // curent and nextItem recursively invoke each other till queryIterator is exhausted
-      ////////////////////////////////
-      // validate nextItem()
-      ////////////////////////////////
-
-      const results: any[] = [];
-      try {
-        while (results.length <= expectedResults.length) {
-          const { result: item } = await queryIterator.nextItem();
-          const { result: currentItem } = await queryIterator.current();
-          if (item === undefined) {
-            break;
-          }
-          results.push(item);
-          if (results.length < expectedResults.length) {
-            assert(queryIterator.hasMoreResults(), "hasMoreResults must indicate more results");
-          }
-          assert.equal(item, currentItem, "current must give the previously item returned by nextItem");
-        }
-
-        assert(!queryIterator.hasMoreResults(), "hasMoreResults must signal results exhausted");
-        validateResult(results, expectedResults);
       } catch (err) {
         throw err;
       }
@@ -140,15 +87,12 @@ describe("NodeJS Aggregate Query Tests", async function() {
       ////////////////////////////////
       const pageSize = options["maxItemCount"];
       const listOfResultPages: any[] = [];
-      const listOfHeaders: any[] = [];
-
       let totalFetchedResults: any[] = [];
 
       try {
         while (totalFetchedResults.length <= expectedResults.length) {
-          const { result: results, headers } = await queryIterator.executeNext();
+          const { resources: results } = await queryIterator.fetchNext();
           listOfResultPages.push(results);
-          listOfHeaders.push(headers);
 
           if (results === undefined || totalFetchedResults.length === expectedResults.length) {
             break;
@@ -180,22 +124,23 @@ describe("NodeJS Aggregate Query Tests", async function() {
       }
     };
 
-    const validateForEach = async function(queryIterator: QueryIterator<any>, expectedResults: any[]) {
+    const ValidateAsyncIterator = async function(queryIterator: QueryIterator<any>, expectedResults: any[]) {
       ////////////////////////////////
-      // validate forEach()
+      // validate AsyncIterator()
       ////////////////////////////////
 
       const results: any[] = [];
-      let callbackSingnalledEnd = false;
+      let completed = false;
       // forEach uses callbacks still, so just wrap in a promise
-      for await (const { result: item } of queryIterator.getAsyncIterator()) {
+      for await (const { resources: items } of queryIterator.getAsyncIterator()) {
         // if the previous invocation returned false, forEach must avoid invoking the callback again!
-        assert.equal(callbackSingnalledEnd, false, "forEach called callback after the first false returned");
-        results.push(item);
+        assert.equal(completed, false, "forEach called callback after the first false returned");
+        results.push(...items);
         if (results.length === expectedResults.length) {
-          callbackSingnalledEnd = true;
+          completed = true;
         }
       }
+      assert.equal(completed, true, "AsyncIterator should fetch expected number of results");
       validateResult(results, expectedResults);
     };
 
@@ -207,8 +152,7 @@ describe("NodeJS Aggregate Query Tests", async function() {
       queryIterator.reset();
       await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults);
       queryIterator.reset();
-      await validateNextItemAndCurrentAndHasMoreResults(queryIterator, expectedResults);
-      await validateForEach(queryIterator, expectedResults);
+      await ValidateAsyncIterator(queryIterator, expectedResults);
     };
 
     const generateTestConfigs = function() {
@@ -221,7 +165,8 @@ describe("NodeJS Aggregate Query Tests", async function() {
           expected: testdata.sum / testdata.numberOfDocumentsWithNumbericId,
           condition: util.format("IS_NUMBER(r.%s)", partitionKey)
         },
-        { operator: "AVG", expected: undefined, condition: "true" },
+        // TODO: Remove this test since query team says its invalid now
+        // { operator: "AVG", expected: undefined, condition: "true" },
         {
           operator: "COUNT",
           expected: testdata.numberOfDocuments,
@@ -233,8 +178,9 @@ describe("NodeJS Aggregate Query Tests", async function() {
           operator: "SUM",
           expected: testdata.sum,
           condition: util.format("IS_NUMBER(r.%s)", partitionKey)
-        },
-        { operator: "SUM", expected: undefined, condition: "true" }
+        }
+        // TODO: Remove this test since query team says its invalid now
+        // { operator: "SUM", expected: undefined, condition: "true" }
       ];
 
       aggregateConfigs.forEach(function(config) {

@@ -92,7 +92,7 @@ export class Triggers {
       options
     );
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, trigger: ref };
+    return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
   }
 
   /**
@@ -127,6 +127,6 @@ export class Triggers {
       options
     );
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
-    return { body: response.result, headers: response.headers, ref, trigger: ref };
+    return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
   }
 }

@@ -40,12 +40,7 @@ export class Permission {
       undefined,
       options
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      permission: this
-    };
+    return new PermissionResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -70,12 +65,7 @@ export class Permission {
       undefined,
       options
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      permission: this
-    };
+    return new PermissionResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -93,11 +83,6 @@ export class Permission {
       undefined,
       options
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      permission: this
-    };
+    return new PermissionResponse(response.result, response.headers, response.statusCode, this);
   }
 }

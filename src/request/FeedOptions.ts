@@ -1,4 +1,4 @@
-import { IHeaders } from "../index";
+import { CosmosHeaders } from "../index";
 
 /**
  * The feed options and query methods.
@@ -32,9 +32,9 @@ export interface FeedOptions {
   /** Token for use with Session consistency. */
   sessionToken?: string;
   /** (Advanced use case) Initial headers to start with when sending requests to Cosmos */
-  initialHeaders?: IHeaders;
+  initialHeaders?: CosmosHeaders;
   /** Indicates a change feed request. Must be set to "Incremental feed", or omitted otherwise. */
-  a_im?: string;
+  useIncrementalFeed?: boolean;
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */

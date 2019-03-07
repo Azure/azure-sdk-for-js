@@ -36,11 +36,11 @@ describe("NodeJS CRUD Tests", function() {
       // create database
       const database = await getTestDatabase("sample 中文 database");
       // create container
-      const { body: containerdef } = await database.containers.create({ id: "sample container" });
+      const { resource: containerdef } = await database.containers.create({ id: "sample container" });
       const container: Container = database.container(containerdef.id);
 
       // read items
-      const { result: items } = await container.items.readAll().toArray();
+      const { resources: items } = await container.items.readAll().fetchAll();
       assert(Array.isArray(items), "Value should be an array");
 
       // create an item
@@ -57,11 +57,11 @@ describe("NodeJS CRUD Tests", function() {
       } catch (err) {
         assert(err !== undefined, "should throw an error because automatic id generation is disabled");
       }
-      const { body: document } = await createOrUpsertItem(container, itemDefinition, undefined, isUpsertTest);
+      const { resource: document } = await createOrUpsertItem(container, itemDefinition, undefined, isUpsertTest);
       assert.equal(document.name, itemDefinition.name);
       assert(document.id !== undefined);
       // read documents after creation
-      const { result: documents2 } = await container.items.readAll().toArray();
+      const { resources: documents2 } = await container.items.readAll().fetchAll();
       assert.equal(documents2.length, beforeCreateDocumentsCount + 1, "create should increase the number of documents");
       // query documents
       const querySpec = {
@@ -73,27 +73,27 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { result: results } = await container.items.query(querySpec).toArray();
+      const { resources: results } = await container.items.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
-      const { result: results2 } = await container.items.query(querySpec, { enableScanInQuery: true }).toArray();
+      const { resources: results2 } = await container.items.query(querySpec, { enableScanInQuery: true }).fetchAll();
       assert(results2.length > 0, "number of results for the query should be > 0");
 
       // replace document
       document.name = "replaced document";
       document.foo = "not bar";
-      const { body: replacedDocument } = await replaceOrUpsertItem(container, document, undefined, isUpsertTest);
+      const { resource: replacedDocument } = await replaceOrUpsertItem(container, document, undefined, isUpsertTest);
       assert.equal(replacedDocument.name, "replaced document", "document name property should change");
       assert.equal(replacedDocument.foo, "not bar", "property should have changed");
       assert.equal(document.id, replacedDocument.id, "document id should stay the same");
       // read document
-      const { body: document2 } = await container.item(replacedDocument.id).read<TestItem>();
+      const { resource: document2 } = await container.item(replacedDocument.id).read<TestItem>();
       assert.equal(replacedDocument.id, document2.id);
       // delete document
-      const { body: res } = await container.item(replacedDocument.id).delete();
+      const { resource: res } = await container.item(replacedDocument.id).delete();
 
       // read documents after deletion
       try {
-        const { body: document3 } = await container.item(replacedDocument.id).read();
+        const { resource: document3 } = await container.item(replacedDocument.id).read();
         assert.fail("must throw if document doesn't exist");
       } catch (err) {
         const notFoundErrorCode = 404;
@@ -112,7 +112,9 @@ describe("NodeJS CRUD Tests", function() {
         partitionKey: { paths: ["/" + partitionKey], kind: PartitionKind.Hash }
       };
 
-      const { body: containerdef } = await database.containers.create(containerDefinition, { offerThroughput: 12000 });
+      const { resource: containerdef } = await database.containers.create(containerDefinition, {
+        offerThroughput: 12000
+      });
       const container = database.container(containerdef.id);
 
       const documents = [
@@ -131,7 +133,7 @@ describe("NodeJS CRUD Tests", function() {
         return doc1.id.localeCompare(doc2.id);
       });
       await bulkReadItems(container, returnedDocuments, partitionKey);
-      const { result: successDocuments } = await container.items.readAll().toArray();
+      const { resources: successDocuments } = await container.items.readAll().fetchAll();
       assert(successDocuments !== undefined, "error reading documents");
       assert.equal(
         successDocuments.length,
@@ -157,15 +159,15 @@ describe("NodeJS CRUD Tests", function() {
         query: "SELECT * FROM Root"
       };
       try {
-        const { result: badUpdate } = await container.items.query(querySpec, { enableScanInQuery: true }).toArray();
+        const { resources: badUpdate } = await container.items.query(querySpec, { enableScanInQuery: true }).fetchAll();
         assert.fail("Must fail");
       } catch (err) {
         const badRequestErrorCode = 400;
         assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
       }
-      const { result: results } = await container.items
+      const { resources: results } = await container.items
         .query<ItemDefinition>(querySpec, { enableScanInQuery: true, enableCrossPartitionQuery: true })
-        .toArray();
+        .fetchAll();
       assert(results !== undefined, "error querying documents");
       results.sort(function(doc1, doc2) {
         return doc1.id.localeCompare(doc2.id);

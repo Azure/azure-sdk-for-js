@@ -14,17 +14,17 @@ describe("NodeJS CRUD Tests", function() {
   describe("Validate Database CRUD", async function() {
     const databaseCRUDTest = async function() {
       // read databases
-      const { result: databases } = await client.databases.readAll().toArray();
+      const { resources: databases } = await client.databases.readAll().fetchAll();
       assert.equal(databases.constructor, Array, "Value should be an array");
 
       // create a database
       const beforeCreateDatabasesCount = databases.length;
       const databaseDefinition = { id: "database test database", throughput: 400 };
-      const { body: db } = await client.databases.create(databaseDefinition);
+      const { resource: db } = await client.databases.create(databaseDefinition);
       assert.equal(db.id, databaseDefinition.id);
 
       // read databases after creation
-      const { result: databases2 } = await client.databases.readAll().toArray();
+      const { resources: databases2 } = await client.databases.readAll().fetchAll();
       assert.equal(databases2.length, beforeCreateDatabasesCount + 1, "create should increase the number of databases");
       // query databases
       const querySpec = {
@@ -36,7 +36,7 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { result: results } = await client.databases.query(querySpec).toArray();
+      const { resources: results } = await client.databases.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
 
       // delete database
@@ -59,7 +59,7 @@ describe("NodeJS CRUD Tests", function() {
       it("should handle does not exist", async function() {
         const def: DatabaseDefinition = { id: addEntropy("does not exist") };
         const { database } = await client.databases.createIfNotExists(def);
-        const { body: readDef } = await database.read();
+        const { resource: readDef } = await database.read();
         assert.equal(def.id, readDef.id);
       });
 
@@ -70,7 +70,7 @@ describe("NodeJS CRUD Tests", function() {
 
         // Now call createIfNotExists on existing db
         const { database } = await client.databases.createIfNotExists(def);
-        const { body: readDef } = await database.read();
+        const { resource: readDef } = await database.read();
         assert.equal(def.id, readDef.id);
       });
     });

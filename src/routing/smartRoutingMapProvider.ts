@@ -1,6 +1,7 @@
 import { ClientContext } from "../ClientContext";
-import { Constants } from "../common";
-import { PartitionKeyRangeCache, QueryRange } from "./index";
+import { Constants } from "../common/constants";
+import { PartitionKeyRangeCache } from "./partitionKeyRangeCache";
+import { QueryRange } from "./QueryRange";
 
 /** @hidden */
 export const PARITIONKEYRANGE = Constants.PartitionKeyRange;

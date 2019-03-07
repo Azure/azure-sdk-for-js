@@ -1,13 +1,13 @@
 ﻿import { Constants } from "../common";
 import { QueryMetrics } from "../queryMetrics";
 
-export interface IHeaders {
+export interface CosmosHeaders {
   [key: string]: any;
 }
 
 /** @hidden */
 // TODO: docs
-export function getRequestChargeIfAny(headers: IHeaders): number {
+export function getRequestChargeIfAny(headers: CosmosHeaders): number {
   if (typeof headers === "number") {
     return headers;
   } else if (typeof headers === "string") {
@@ -26,15 +26,15 @@ export function getRequestChargeIfAny(headers: IHeaders): number {
   }
 }
 
-export function getInitialHeader(): IHeaders {
-  const headers: IHeaders = {};
+export function getInitialHeader(): CosmosHeaders {
+  const headers: CosmosHeaders = {};
   headers[Constants.HttpHeaders.RequestCharge] = 0;
   headers[Constants.HttpHeaders.QueryMetrics] = {};
   return headers;
 }
 
 // TODO: The name of this method isn't very accurate to what it does
-export function mergeHeaders(headers: IHeaders, toBeMergedHeaders: IHeaders) {
+export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders) {
   if (headers[Constants.HttpHeaders.RequestCharge] === undefined) {
     headers[Constants.HttpHeaders.RequestCharge] = 0;
   }

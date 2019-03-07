@@ -1,10 +1,10 @@
-import { IHeaders } from "../index";
+import { CosmosHeaders } from "../index";
 
 export interface ErrorResponse {
   code?: number;
   substatus?: number;
   body?: any;
-  headers?: IHeaders;
+  headers?: CosmosHeaders;
   activityId?: string;
   retryAfterInMilliseconds?: number;
   [key: string]: any;

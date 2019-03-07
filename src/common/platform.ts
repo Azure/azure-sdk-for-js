@@ -1,5 +1,5 @@
 ﻿import * as os from "os";
-import { Constants } from "./index";
+import { Constants } from "./constants";
 
 /** @hidden */
 

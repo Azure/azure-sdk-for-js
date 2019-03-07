@@ -4,7 +4,7 @@ import { FeedOptions } from "../request";
 import { Response } from "../request/request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
-import { getInitialHeader, IHeaders, mergeHeaders } from "./headerUtils";
+import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
 import { FetchFunctionCallback, SqlQuerySpec } from "./index";
 
 /** @hidden */
@@ -31,7 +31,7 @@ export class DocumentProducer {
   private err: Error;
   public previousContinuationToken: string;
   public continuationToken: string;
-  private respHeaders: IHeaders;
+  private respHeaders: CosmosHeaders;
   private internalExecutionContext: DefaultQueryExecutionContext;
 
   /**

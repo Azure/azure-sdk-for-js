@@ -57,7 +57,7 @@ export class User {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
     const response = await this.clientContext.read<UserDefinition>(path, ResourceType.user, id, undefined, options);
-    return { body: response.result, headers: response.headers, ref: this, user: this };
+    return new UserResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -82,7 +82,7 @@ export class User {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, user: this };
+    return new UserResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -94,6 +94,6 @@ export class User {
     const id = getIdFromLink(this.url);
 
     const response = await this.clientContext.delete<UserDefinition>(path, ResourceType.user, id, undefined, options);
-    return { body: response.result, headers: response.headers, ref: this, user: this };
+    return new UserResponse(response.result, response.headers, response.statusCode, this);
   }
 }

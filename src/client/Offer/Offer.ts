@@ -40,7 +40,7 @@ export class Offer {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, offer: this };
+    return new OfferResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /**
@@ -61,6 +61,6 @@ export class Offer {
       undefined,
       options
     );
-    return { body: response.result, headers: response.headers, ref: this, offer: this };
+    return new OfferResponse(response.result, response.headers, response.statusCode, this);
   }
 }

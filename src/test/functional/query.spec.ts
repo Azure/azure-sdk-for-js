@@ -33,15 +33,15 @@ describe("NodeJS CRUD Tests", function() {
             }
           ]
         };
-        const { result: results } = await client.databases.query(querySpec0).toArray();
+        const { resources: results } = await client.databases.query(querySpec0).fetchAll();
         assert(results.length > 0, "number of results for the query should be > 0");
         const querySpec1 = {
           query: "SELECT * FROM root r WHERE r.id='" + database.id + "'"
         };
-        const { result: results2 } = await client.databases.query(querySpec1).toArray();
+        const { resources: results2 } = await client.databases.query(querySpec1).fetchAll();
         assert(results2.length > 0, "number of results for the query should be > 0");
         const querySpec2 = "SELECT * FROM root r WHERE r.id='" + database.id + "'";
-        const { result: results3 } = await client.databases.query(querySpec2).toArray();
+        const { resources: results3 } = await client.databases.query(querySpec2).fetchAll();
         assert(results3.length > 0, "number of results for the query should be > 0");
       } catch (err) {
         throw err;
@@ -84,20 +84,6 @@ describe("NodeJS CRUD Tests", function() {
       container = await getTestContainer("query CRUD database 中文", client, containerDefinition, containerOptions);
       await bulkInsertItems(container, documentDefinitions);
     });
-
-    it("nativeApi validate QueryIterator nextItem on Multiple Partition Colleciton", async function() {
-      // obtain an instance of queryIterator
-      const queryIterator = container.items.readAll();
-      let cnt = 0;
-      while (queryIterator.hasMoreResults()) {
-        const { result } = await queryIterator.nextItem();
-        if (result === undefined) {
-          break;
-        }
-        cnt++;
-      }
-      assert.equal(cnt, documentDefinitions.length);
-    });
   });
 
   describe("Validate QueryIterator Functionality", function() {
@@ -105,15 +91,15 @@ describe("NodeJS CRUD Tests", function() {
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
     beforeEach(async function() {
       const container = await getTestContainer("Validate QueryIterator Functionality", client);
-      const { body: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
-      const { body: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
-      const { body: doc3 } = await container.items.create({ id: "doc3", prop1: "value3" });
+      const { resource: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
+      const { resource: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
+      const { resource: doc3 } = await container.items.create({ id: "doc3", prop1: "value3" });
       resources = { container, doc1, doc2, doc3 };
     });
 
     const queryIteratorToArrayTest = async function() {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
-      const { result: docs } = await queryIterator.toArray();
+      const { resources: docs } = await queryIterator.fetchAll();
       assert.equal(docs.length, 3, "queryIterator should return all documents using continuation");
       assert.equal(docs[0].id, resources.doc1.id);
       assert.equal(docs[1].id, resources.doc2.id);
@@ -123,17 +109,16 @@ describe("NodeJS CRUD Tests", function() {
     const queryIteratorAsyncIteratorTest = async function() {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
       let counter = 0;
-      for await (const { result: doc } of queryIterator.getAsyncIterator()) {
-        counter++;
-        if (counter === 1) {
-          assert.equal(doc.id, resources.doc1.id, "first document should be doc1");
-        } else if (counter === 2) {
-          assert.equal(doc.id, resources.doc2.id, "second document should be doc2");
-        } else if (counter === 3) {
-          assert.equal(doc.id, resources.doc3.id, "third document should be doc3");
+      for await (const { resources: docs } of queryIterator.getAsyncIterator()) {
+        if (counter === 0) {
+          assert.equal(docs[0].id, resources.doc1.id, "first document should be doc1");
+          assert.equal(docs[1].id, resources.doc2.id, "second document should be doc2");
+        } else {
+          assert.equal(docs[0].id, resources.doc3.id, "third document should be doc3");
         }
+        counter++;
       }
-      assert(counter === 3, "iterator should have run 3 times");
+      assert(counter === 2, "iterator should have run 3 times");
     };
 
     const queryIteratorForEachTest = async function() {
@@ -152,53 +137,27 @@ describe("NodeJS CRUD Tests", function() {
       assert(counter === 3, "iterator should have run 3 times");
     };
 
-    const queryIteratorNextAndMoreTest = async function() {
-      const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
-      assert.equal(queryIterator.hasMoreResults(), true);
-      const { result: doc2 } = await queryIterator.nextItem();
-      assert.equal(doc2.id, resources.doc1.id, "call queryIterator.nextItem after reset should return first document");
-      const { result: doc1 } = await queryIterator.current();
-      assert.equal(doc1.id, resources.doc1.id, "call queryIterator.current after reset should return first document");
-      assert.equal(queryIterator.hasMoreResults(), true);
-      const { result: doc4 } = await queryIterator.nextItem();
-      assert.equal(doc4.id, resources.doc2.id, "call queryIterator.nextItem again should return second document");
-      const { result: doc3 } = await queryIterator.current();
-      assert.equal(doc3.id, resources.doc2.id, "call queryIterator.current should return second document");
-      assert.equal(queryIterator.hasMoreResults(), true);
-      const { result: doc6 } = await queryIterator.nextItem();
-      assert.equal(doc6.id, resources.doc3.id, "call queryIterator.nextItem again should return third document");
-      const { result: doc5 } = await queryIterator.current();
-      assert.equal(doc5.id, resources.doc3.id, "call queryIterator.current should return third document");
-      const { result: doc7 } = await queryIterator.nextItem();
-      assert.equal(doc7, undefined, "queryIterator should return undefined if there is no elements");
-    };
-
     const queryIteratorExecuteNextTest = async function() {
       let queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
-      const { result: docs, headers } = await queryIterator.executeNext();
+      const firstResponse = await queryIterator.fetchNext();
 
-      assert(headers !== undefined, "executeNext should pass headers as the third parameter to the callback");
-      assert(headers[Constants.HttpHeaders.RequestCharge] > 0, "RequestCharge has to be non-zero");
-      assert.equal(docs.length, 2, "first batch size should be 2");
-      assert.equal(docs[0].id, resources.doc1.id, "first batch first document should be doc1");
-      assert.equal(docs[1].id, resources.doc2.id, "batch first second document should be doc2");
-      const { result: docs2 } = await queryIterator.executeNext();
+      assert(firstResponse.requestCharge > 0, "RequestCharge has to be non-zero");
+      assert.equal(firstResponse.resources.length, 2, "first batch size should be 2");
+      assert.equal(firstResponse.resources[0].id, resources.doc1.id, "first batch first document should be doc1");
+      assert.equal(firstResponse.resources[1].id, resources.doc2.id, "batch first second document should be doc2");
+      const { resources: docs2 } = await queryIterator.fetchNext();
       assert.equal(docs2.length, 1, "second batch size is unexpected");
       assert.equal(docs2[0].id, resources.doc3.id, "second batch element should be doc3");
 
       // validate Iterator.executeNext with continuation token
       queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
-        continuation: headers[Constants.HttpHeaders.Continuation] as string
+        continuation: firstResponse.continuation as string
       });
-      const { result: docsWithContinuation, headers: headersWithContinuation } = await queryIterator.executeNext();
-      assert(
-        headersWithContinuation !== undefined,
-        "executeNext should pass headers as the third parameter to the callback"
-      );
-      assert(headersWithContinuation[Constants.HttpHeaders.RequestCharge] > 0, "RequestCharge has to be non-zero");
-      assert.equal(docsWithContinuation.length, 1, "second batch size with continuation token is unexpected");
-      assert.equal(docsWithContinuation[0].id, resources.doc3.id, "second batch element should be doc3");
+      const secondResponse = await queryIterator.fetchNext();
+      assert(secondResponse.requestCharge > 0, "RequestCharge has to be non-zero");
+      assert.equal(secondResponse.resources.length, 1, "second batch size with continuation token is unexpected");
+      assert.equal(secondResponse.resources[0].id, resources.doc3.id, "second batch element should be doc3");
     };
 
     it("nativeApi validate QueryIterator iterator toArray name based", async function() {
@@ -211,10 +170,6 @@ describe("NodeJS CRUD Tests", function() {
 
     it("validate queryIterator forEach", async function() {
       await queryIteratorForEachTest();
-    });
-
-    it("nativeApi validate queryIterator nextItem and hasMoreResults name based", async function() {
-      await queryIteratorNextAndMoreTest();
     });
 
     it("nativeApi validate queryIterator iterator executeNext name based", async function() {

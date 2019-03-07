@@ -1,5 +1,5 @@
-import { Constants } from "../common";
-import { InMemoryCollectionRoutingMap } from "./index";
+import { Constants } from "../common/constants";
+import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 
 function compareRanges(a: any, b: any) {
   const aVal = a[0][Constants.PartitionKeyRange.MinInclusive];

@@ -20,10 +20,10 @@ describe("NodeJS CRUD Tests", function() {
         const container = await getTestContainer("Validate Permission Crud");
 
         // create user
-        const { body: userDef } = await container.database.users.create({ id: "new user" });
+        const { resource: userDef } = await container.database.users.create({ id: "new user" });
         const user = container.database.user(userDef.id);
         // list permissions
-        const { result: permissions } = await user.permissions.readAll().toArray();
+        const { resources: permissions } = await user.permissions.readAll().fetchAll();
         assert.equal(permissions.constructor, Array, "Value should be an array");
         const beforeCreateCount = permissions.length;
         const permissionDef: PermissionDefinition = {
@@ -33,7 +33,7 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         // create permission
-        const { body: createdPermission } = await createOrUpsertPermission(
+        const { resource: createdPermission } = await createOrUpsertPermission(
           user,
           permissionDef,
           undefined,
@@ -43,7 +43,7 @@ describe("NodeJS CRUD Tests", function() {
         assert.equal(createdPermission.id, "new permission", "permission name error");
 
         // list permissions after creation
-        const { result: permissionsAfterCreation } = await user.permissions.readAll().toArray();
+        const { resources: permissionsAfterCreation } = await user.permissions.readAll().fetchAll();
         assert.equal(permissionsAfterCreation.length, beforeCreateCount + 1);
 
         // query permissions
@@ -56,11 +56,11 @@ describe("NodeJS CRUD Tests", function() {
             }
           ]
         };
-        const { result: results } = await user.permissions.query(querySpec).toArray();
+        const { resources: results } = await user.permissions.query(querySpec).fetchAll();
         assert(results.length > 0, "number of results for the query should be > 0");
 
         permissionDef.permissionMode = PermissionMode.All;
-        const { body: replacedPermission } = await replaceOrUpsertPermission(
+        const { resource: replacedPermission } = await replaceOrUpsertPermission(
           user,
           permissionDef,
           undefined,
@@ -71,17 +71,17 @@ describe("NodeJS CRUD Tests", function() {
 
         // to change the id of an existing resourcewe have to use replace
         permissionDef.id = "replaced permission";
-        const { body: replacedPermission2 } = await permission.replace(permissionDef);
+        const { resource: replacedPermission2 } = await permission.replace(permissionDef);
         assert.equal(replacedPermission2.id, "replaced permission", "permission name should change");
         assert.equal(permissionDef.id, replacedPermission2.id, "permission id should stay the same");
         permission = user.permission(replacedPermission2.id);
 
         // read permission
-        const { body: permissionAfterReplace } = await permission.read();
+        const { resource: permissionAfterReplace } = await permission.read();
         assert.equal(permissionAfterReplace.id, permissionDef.id);
 
         // delete permission
-        const { body: res } = await permission.delete();
+        const { resource: res } = await permission.delete();
 
         // read permission after deletion
         try {
@@ -112,11 +112,11 @@ describe("NodeJS CRUD Tests", function() {
         );
 
         // create user
-        const { body: userDef } = await container.database.users.create({ id: "new user" });
+        const { resource: userDef } = await container.database.users.create({ id: "new user" });
         const user = container.database.user(userDef.id);
 
         // list permissions
-        const { result: permissions } = await user.permissions.readAll().toArray();
+        const { resources: permissions } = await user.permissions.readAll().fetchAll();
         assert(Array.isArray(permissions), "Value should be an array");
         const beforeCreateCount = permissions.length;
         const permissionDefinition = {
@@ -128,7 +128,7 @@ describe("NodeJS CRUD Tests", function() {
 
         // create permission
         const response = await createOrUpsertPermission(user, permissionDefinition, undefined, isUpsertTest);
-        const permissionDef = response.body;
+        const permissionDef = response.resource;
         let permission = user.permission(permissionDef.id);
         assert.equal(permissionDef.id, permissionDefinition.id, "permission name error");
         assert.equal(
@@ -138,7 +138,7 @@ describe("NodeJS CRUD Tests", function() {
         );
 
         // list permissions after creation
-        const { result: permissionsAfterCreation } = await user.permissions.readAll().toArray();
+        const { resources: permissionsAfterCreation } = await user.permissions.readAll().fetchAll();
         assert.equal(permissionsAfterCreation.length, beforeCreateCount + 1);
 
         // query permissions
@@ -151,12 +151,12 @@ describe("NodeJS CRUD Tests", function() {
             }
           ]
         };
-        const { result: results } = await user.permissions.query(querySpec).toArray();
+        const { resources: results } = await user.permissions.query(querySpec).fetchAll();
         assert(results.length > 0, "number of results for the query should be > 0");
 
         // Replace permission
         permissionDef.permissionMode = PermissionMode.All;
-        const { body: replacedPermission } = await replaceOrUpsertPermission(
+        const { resource: replacedPermission } = await replaceOrUpsertPermission(
           user,
           permissionDef,
           undefined,
@@ -172,16 +172,16 @@ describe("NodeJS CRUD Tests", function() {
 
         // to change the id of an existing resourcewe have to use replace
         permissionDef.id = "replaced permission";
-        const { body: replacedPermission2 } = await permission.replace(permissionDef);
+        const { resource: replacedPermission2 } = await permission.replace(permissionDef);
         assert.equal(replacedPermission2.id, permissionDef.id);
         permission = user.permission(replacedPermission2.id);
 
         // read permission
-        const { body: permissionAfterReplace } = await permission.read();
+        const { resource: permissionAfterReplace } = await permission.read();
         assert.equal(permissionAfterReplace.id, replacedPermission2.id);
 
         // delete permission
-        const { body: res } = await permission.delete();
+        const { resource: res } = await permission.delete();
 
         // read permission after deletion
         try {

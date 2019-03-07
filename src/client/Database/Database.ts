@@ -86,12 +86,7 @@ export class Database {
       undefined,
       options
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      database: this
-    };
+    return new DatabaseResponse(response.result, response.headers, response.statusCode, this);
   }
 
   /** Delete the given Database. */
@@ -105,11 +100,6 @@ export class Database {
       undefined,
       options
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      database: this
-    };
+    return new DatabaseResponse(response.result, response.headers, response.statusCode, this);
   }
 }
