@@ -304,11 +304,13 @@ export const Identity: msRest.CompositeMapper = {
       },
       type: {
         required: true,
-        isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "SystemAssigned"
+          ]
         }
       }
     }
