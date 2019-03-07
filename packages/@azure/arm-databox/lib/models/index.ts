@@ -492,12 +492,10 @@ export interface CopyProgress {
    */
   readonly accountId?: string;
   /**
-   * @member {number} [bytesSentToCloud] Amount of data uploaded by the job as
-   * of now.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [bytesSentToCloud] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
    */
-  readonly bytesSentToCloud?: number;
+  readonly bytesSentToCloud?: string;
   /**
    * @member {number} [totalBytesToProcess] Total amount of data to be
    * processed by the job.

@@ -691,7 +691,7 @@ export const CopyProgress: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "bytesSentToCloud",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       totalBytesToProcess: {
