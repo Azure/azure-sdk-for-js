@@ -131,6 +131,16 @@ describe("ConnectionConfig", function () {
       config.getReceiverAudience(0, "cg").should.equal("sb://hostname.servicebus.windows.net/ep/ConsumerGroups/cg/Partitions/0");
       done();
     });
+
+    it("requires that Endpoint be present in the connection string", done => {
+      const connectionString = `Endpoint=sb://a`;
+
+      should.throw(() => {
+        EventHubConnectionConfig.create(connectionString);
+      }, /must contain EntityPath/);
+
+      done();
+    });
   });
 
   describe("IotHub", function () {
