@@ -93,6 +93,7 @@ export {
   ContentKeyPolicySymmetricTokenKey,
   ContentKeyPolicyRsaTokenKey,
   ContentKeyPolicyX509CertificateTokenKey,
+  FaceDetectorPreset,
   AudioAnalyzerPreset,
   BuiltInStandardEncoderPreset,
   StandardEncoderPreset,
