@@ -372,6 +372,12 @@ export const CaptureDescription: msRest.CompositeMapper = {
           name: "Composite",
           className: "Destination"
         }
+      },
+      skipEmptyArchives: {
+        serializedName: "skipEmptyArchives",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
