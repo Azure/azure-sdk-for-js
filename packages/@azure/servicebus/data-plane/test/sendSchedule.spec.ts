@@ -550,6 +550,8 @@ describe("Message validations", function(): void {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     const sender = senderClient.getSender();
     let errorMessageIdDecimal = false;
+    const longString =
+      "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
     await sender.send({ body: "", messageId: 1.5 }).catch((err) => {
       errorMessageIdDecimal =
         err &&
@@ -563,23 +565,45 @@ describe("Message validations", function(): void {
     );
 
     let errorMessageIdLongString = false;
-    await sender
-      .send({
-        body: "",
-        messageId:
-          "A very very very very very very very very very very very very very very very very very very very very very very very very very long string."
-      })
-      .catch((err) => {
-        errorMessageIdLongString =
-          err &&
-          err.message ===
-            "Length of 'messageId' of type 'string' cannot be greater than 128 characters.";
-      });
+    await sender.send({ body: "", messageId: longString }).catch((err) => {
+      errorMessageIdLongString =
+        err &&
+        err.message ===
+          "Length of 'messageId' of type 'string' cannot be greater than 128 characters.";
+    });
 
     should.equal(
       errorMessageIdLongString,
       true,
-      "Error not thrown when messageId is not a whole number"
+      "Error not thrown when the length of messageId is greater than 128 characters"
+    );
+
+    let errorPartitionKeyLongString = false;
+    await sender.send({ body: "", partitionKey: longString }).catch((err) => {
+      errorPartitionKeyLongString =
+        err &&
+        err.message ===
+          "'partitionKey' must be of type 'string' with a length less than 128 characters.";
+    });
+
+    should.equal(
+      errorPartitionKeyLongString,
+      true,
+      "Error not thrown when the length of partitionKey is greater than 128 characters"
+    );
+
+    let errorSessionIdLongString = false;
+    await sender.send({ body: "", sessionId: longString }).catch((err) => {
+      errorSessionIdLongString =
+        err &&
+        err.message ===
+          "Length of 'sessionId' of type 'string' cannot be greater than 128 characters.";
+    });
+
+    should.equal(
+      errorSessionIdLongString,
+      true,
+      "Error not thrown when the length of sessionId is greater than 128 characters"
     );
   });
 });
