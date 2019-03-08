@@ -369,6 +369,7 @@ const deleteFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "jobs/{jobId}/tasks/{taskId}/files/{filePath}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId,
     Parameters.taskId,
     Parameters.filePath
@@ -376,13 +377,13 @@ const deleteFromTaskOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
-    Parameters.timeout38
+    Parameters.timeout37
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId47,
-    Parameters.returnClientRequestId47,
-    Parameters.ocpDate47
+    Parameters.clientRequestId46,
+    Parameters.returnClientRequestId46,
+    Parameters.ocpDate46
   ],
   responses: {
     200: {
@@ -399,22 +400,23 @@ const getFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/tasks/{taskId}/files/{filePath}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId,
     Parameters.taskId,
     Parameters.filePath
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout39
+    Parameters.timeout38
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId48,
-    Parameters.returnClientRequestId48,
-    Parameters.ocpDate48,
+    Parameters.clientRequestId47,
+    Parameters.returnClientRequestId47,
+    Parameters.ocpDate47,
     Parameters.ocpRange0,
-    Parameters.ifModifiedSince16,
-    Parameters.ifUnmodifiedSince16
+    Parameters.ifModifiedSince15,
+    Parameters.ifUnmodifiedSince15
   ],
   responses: {
     200: {
@@ -437,21 +439,22 @@ const getPropertiesFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "jobs/{jobId}/tasks/{taskId}/files/{filePath}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId,
     Parameters.taskId,
     Parameters.filePath
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout40
+    Parameters.timeout39
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId49,
-    Parameters.returnClientRequestId49,
-    Parameters.ocpDate49,
-    Parameters.ifModifiedSince17,
-    Parameters.ifUnmodifiedSince17
+    Parameters.clientRequestId48,
+    Parameters.returnClientRequestId48,
+    Parameters.ocpDate48,
+    Parameters.ifModifiedSince16,
+    Parameters.ifUnmodifiedSince16
   ],
   responses: {
     200: {
@@ -468,6 +471,7 @@ const deleteFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "pools/{poolId}/nodes/{nodeId}/files/{filePath}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId,
     Parameters.filePath
@@ -475,13 +479,13 @@ const deleteFromComputeNodeOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
-    Parameters.timeout41
+    Parameters.timeout40
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId50,
-    Parameters.returnClientRequestId50,
-    Parameters.ocpDate50
+    Parameters.clientRequestId49,
+    Parameters.returnClientRequestId49,
+    Parameters.ocpDate49
   ],
   responses: {
     200: {
@@ -498,22 +502,23 @@ const getFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}/files/{filePath}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId,
     Parameters.filePath
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout42
+    Parameters.timeout41
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId51,
-    Parameters.returnClientRequestId51,
-    Parameters.ocpDate51,
+    Parameters.clientRequestId50,
+    Parameters.returnClientRequestId50,
+    Parameters.ocpDate50,
     Parameters.ocpRange1,
-    Parameters.ifModifiedSince18,
-    Parameters.ifUnmodifiedSince18
+    Parameters.ifModifiedSince17,
+    Parameters.ifUnmodifiedSince17
   ],
   responses: {
     200: {
@@ -536,21 +541,22 @@ const getPropertiesFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "pools/{poolId}/nodes/{nodeId}/files/{filePath}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId,
     Parameters.filePath
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout43
+    Parameters.timeout42
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId52,
-    Parameters.returnClientRequestId52,
-    Parameters.ocpDate52,
-    Parameters.ifModifiedSince19,
-    Parameters.ifUnmodifiedSince19
+    Parameters.clientRequestId51,
+    Parameters.returnClientRequestId51,
+    Parameters.ocpDate51,
+    Parameters.ifModifiedSince18,
+    Parameters.ifUnmodifiedSince18
   ],
   responses: {
     200: {
@@ -567,6 +573,7 @@ const listFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/tasks/{taskId}/files",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.jobId,
     Parameters.taskId
   ],
@@ -575,13 +582,13 @@ const listFromTaskOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter8,
     Parameters.maxResults9,
-    Parameters.timeout44
+    Parameters.timeout43
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId53,
-    Parameters.returnClientRequestId53,
-    Parameters.ocpDate53
+    Parameters.clientRequestId52,
+    Parameters.returnClientRequestId52,
+    Parameters.ocpDate52
   ],
   responses: {
     200: {
@@ -599,6 +606,7 @@ const listFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}/files",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.poolId,
     Parameters.nodeId
   ],
@@ -607,13 +615,13 @@ const listFromComputeNodeOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter9,
     Parameters.maxResults10,
-    Parameters.timeout45
+    Parameters.timeout44
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId54,
-    Parameters.returnClientRequestId54,
-    Parameters.ocpDate54
+    Parameters.clientRequestId53,
+    Parameters.returnClientRequestId53,
+    Parameters.ocpDate53
   ],
   responses: {
     200: {
@@ -629,16 +637,16 @@ const listFromComputeNodeOperationSpec: msRest.OperationSpec = {
 
 const listFromTaskNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId55,
-    Parameters.returnClientRequestId55,
-    Parameters.ocpDate55
+    Parameters.clientRequestId54,
+    Parameters.returnClientRequestId54,
+    Parameters.ocpDate54
   ],
   responses: {
     200: {
@@ -654,16 +662,16 @@ const listFromTaskNextOperationSpec: msRest.OperationSpec = {
 
 const listFromComputeNodeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId56,
-    Parameters.returnClientRequestId56,
-    Parameters.ocpDate56
+    Parameters.clientRequestId55,
+    Parameters.returnClientRequestId55,
+    Parameters.ocpDate55
   ],
   responses: {
     200: {

@@ -124,6 +124,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "applications",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxResults0,
@@ -151,6 +154,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "applications/{applicationId}",
   urlParameters: [
+    Parameters.batchUrl,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -177,7 +181,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
