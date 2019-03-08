@@ -13,6 +13,7 @@ export {
   DdosProtectionPlan,
   BaseResource,
   SubResource,
+  TagsObject,
   DdosProtectionPlanListResult,
   NetworkInterfaceTapConfiguration,
   VirtualNetworkTap,

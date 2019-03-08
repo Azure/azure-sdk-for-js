@@ -13374,6 +13374,25 @@ export type DdosProtectionPlansCreateOrUpdateResponse = DdosProtectionPlan & {
 };
 
 /**
+ * Contains response data for the updateTags operation.
+ */
+export type DdosProtectionPlansUpdateTagsResponse = DdosProtectionPlan & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosProtectionPlan;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type DdosProtectionPlansListResponse = DdosProtectionPlanListResult & {
@@ -13415,6 +13434,25 @@ export type DdosProtectionPlansListByResourceGroupResponse = DdosProtectionPlanL
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type DdosProtectionPlansBeginCreateOrUpdateResponse = DdosProtectionPlan & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DdosProtectionPlan;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type DdosProtectionPlansBeginUpdateTagsResponse = DdosProtectionPlan & {
   /**
    * The underlying HTTP response.
    */
