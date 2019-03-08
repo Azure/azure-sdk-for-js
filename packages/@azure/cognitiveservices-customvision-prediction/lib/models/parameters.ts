@@ -66,12 +66,12 @@ export const projectId: msRest.OperationURLParameter = {
     }
   }
 };
-export const publishedModelName: msRest.OperationURLParameter = {
-  parameterPath: "publishedModelName",
+export const publishedName: msRest.OperationURLParameter = {
+  parameterPath: "publishedName",
   mapper: {
     required: true,
     nullable: true,
-    serializedName: "publishedModelName",
+    serializedName: "publishedName",
     type: {
       name: "String"
     }

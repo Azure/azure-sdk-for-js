@@ -34,12 +34,12 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new PredictionAPIClient(creds, subscriptionId);
   const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-  const publishedModelName = "testpublishedModelName";
+  const publishedName = "testpublishedName";
   const imageUrl: PredictionAPIModels.ImageUrl = {
     url: "testurl"
   };
   const application = "testapplication";
-  client.classifyImageUrl(projectId, publishedModelName, imageUrl, application).then((result) => {
+  client.classifyImageUrl(projectId, publishedName, imageUrl, application).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -82,12 +82,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.CognitiveservicesCustomvisionPrediction.PredictionAPIClient(res.creds, subscriptionId);
         const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-        const publishedModelName = "testpublishedModelName";
+        const publishedName = "testpublishedName";
         const imageUrl = {
           url: "testurl"
         };
         const application = "testapplication";
-        client.classifyImageUrl(projectId, publishedModelName, imageUrl, application).then((result) => {
+        client.classifyImageUrl(projectId, publishedName, imageUrl, application).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

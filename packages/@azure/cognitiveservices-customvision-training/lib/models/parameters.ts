@@ -114,6 +114,10 @@ export const ids: msRest.OperationQueryParameter = {
     required: true,
     nullable: true,
     serializedName: "ids",
+    constraints: {
+      MaxItems: 64,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
@@ -152,6 +156,10 @@ export const imageIds0: msRest.OperationQueryParameter = {
     required: true,
     nullable: true,
     serializedName: "imageIds",
+    constraints: {
+      MaxItems: 64,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
@@ -171,6 +179,31 @@ export const imageIds1: msRest.OperationQueryParameter = {
   mapper: {
     nullable: true,
     serializedName: "imageIds",
+    constraints: {
+      MaxItems: 256,
+      MinItems: 0
+    },
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
+export const imageIds2: msRest.OperationQueryParameter = {
+  parameterPath: "imageIds",
+  mapper: {
+    required: true,
+    nullable: true,
+    serializedName: "imageIds",
+    constraints: {
+      MaxItems: 256,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
@@ -288,12 +321,27 @@ export const projectId: msRest.OperationURLParameter = {
     }
   }
 };
+export const publishName: msRest.OperationQueryParameter = {
+  parameterPath: "publishName",
+  mapper: {
+    required: true,
+    nullable: true,
+    serializedName: "publishName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const regionIds: msRest.OperationQueryParameter = {
   parameterPath: "regionIds",
   mapper: {
     required: true,
     nullable: true,
     serializedName: "regionIds",
+    constraints: {
+      MaxItems: 64,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
@@ -367,6 +415,33 @@ export const tagIds1: msRest.OperationQueryParameter = {
     required: true,
     nullable: true,
     serializedName: "tagIds",
+    constraints: {
+      MaxItems: 20,
+      MinItems: 0
+    },
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
+export const tagIds2: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "tagIds"
+  ],
+  mapper: {
+    nullable: true,
+    serializedName: "tagIds",
+    constraints: {
+      MaxItems: 20,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
@@ -386,6 +461,10 @@ export const take: msRest.OperationQueryParameter = {
   mapper: {
     serializedName: "take",
     defaultValue: 50,
+    constraints: {
+      InclusiveMaximum: 256,
+      InclusiveMinimum: 0
+    },
     type: {
       name: "Number"
     }
@@ -408,7 +487,7 @@ export const targetExportPlatforms: msRest.OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: msRest.QueryCollectionFormat.Multi
+  collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const threshold: msRest.OperationQueryParameter = {
   parameterPath: [

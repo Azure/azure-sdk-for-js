@@ -376,20 +376,23 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * multiple image files can be sent at once, with a maximum of 64 files
    * @summary Add the provided images to the set of training images.
    * @param projectId The project id.
-   * @param imageData Binary image data.
+   * @param imageData Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports
+   * images up to 6MB.
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateImagesFromDataResponse>
    */
   createImagesFromData(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.TrainingAPIClientCreateImagesFromDataOptionalParams): Promise<Models.CreateImagesFromDataResponse>;
   /**
    * @param projectId The project id.
-   * @param imageData Binary image data.
+   * @param imageData Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports
+   * images up to 6MB.
    * @param callback The callback
    */
   createImagesFromData(projectId: string, imageData: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
   /**
    * @param projectId The project id.
-   * @param imageData Binary image data.
+   * @param imageData Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports
+   * images up to 6MB.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -608,23 +611,20 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * @summary Quick test an image url.
    * @param projectId The project to evaluate against.
-   * @param imageUrl An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be
-   * evaluated.
+   * @param imageUrl An ImageUrl that contains the url of the image to be evaluated.
    * @param [options] The optional parameters
    * @returns Promise<Models.QuickTestImageUrlResponse>
    */
   quickTestImageUrl(projectId: string, imageUrl: Models.ImageUrl, options?: Models.TrainingAPIClientQuickTestImageUrlOptionalParams): Promise<Models.QuickTestImageUrlResponse>;
   /**
    * @param projectId The project to evaluate against.
-   * @param imageUrl An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be
-   * evaluated.
+   * @param imageUrl An ImageUrl that contains the url of the image to be evaluated.
    * @param callback The callback
    */
   quickTestImageUrl(projectId: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
   /**
    * @param projectId The project to evaluate against.
-   * @param imageUrl An {Iris.Web.Api.Models.ImageUrl} that contains the url of the image to be
-   * evaluated.
+   * @param imageUrl An ImageUrl that contains the url of the image to be evaluated.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -643,20 +643,23 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * @summary Quick test an image.
    * @param projectId The project id.
-   * @param imageData Binary image data.
+   * @param imageData Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports
+   * images up to 6MB.
    * @param [options] The optional parameters
    * @returns Promise<Models.QuickTestImageResponse>
    */
   quickTestImage(projectId: string, imageData: msRest.HttpRequestBody, options?: Models.TrainingAPIClientQuickTestImageOptionalParams): Promise<Models.QuickTestImageResponse>;
   /**
    * @param projectId The project id.
-   * @param imageData Binary image data.
+   * @param imageData Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports
+   * images up to 6MB.
    * @param callback The callback
    */
   quickTestImage(projectId: string, imageData: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
   /**
    * @param projectId The project id.
-   * @param imageData Binary image data.
+   * @param imageData Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports
+   * images up to 6MB.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -952,6 +955,34 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   }
 
   /**
+   * @summary Queues project for training.
+   * @param projectId The project id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TrainProjectResponse>
+   */
+  trainProject(projectId: string, options?: Models.TrainingAPIClientTrainProjectOptionalParams): Promise<Models.TrainProjectResponse>;
+  /**
+   * @param projectId The project id.
+   * @param callback The callback
+   */
+  trainProject(projectId: string, callback: msRest.ServiceCallback<Models.Iteration>): void;
+  /**
+   * @param projectId The project id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  trainProject(projectId: string, options: Models.TrainingAPIClientTrainProjectOptionalParams, callback: msRest.ServiceCallback<Models.Iteration>): void;
+  trainProject(projectId: string, options?: Models.TrainingAPIClientTrainProjectOptionalParams | msRest.ServiceCallback<Models.Iteration>, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.TrainProjectResponse> {
+    return this.sendOperationRequest(
+      {
+        projectId,
+        options
+      },
+      trainProjectOperationSpec,
+      callback) as Promise<Models.TrainProjectResponse>;
+  }
+
+  /**
    * @summary Get iterations for the project.
    * @param projectId The project id.
    * @param [options] The optional parameters
@@ -1080,66 +1111,38 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   }
 
   /**
-   * @summary Queues project for training.
-   * @param projectId The project id.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.TrainProjectResponse>
-   */
-  trainProject(projectId: string, options?: Models.TrainingAPIClientTrainProjectOptionalParams): Promise<Models.TrainProjectResponse>;
-  /**
-   * @param projectId The project id.
-   * @param callback The callback
-   */
-  trainProject(projectId: string, callback: msRest.ServiceCallback<Models.Iteration>): void;
-  /**
-   * @param projectId The project id.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  trainProject(projectId: string, options: Models.TrainingAPIClientTrainProjectOptionalParams, callback: msRest.ServiceCallback<Models.Iteration>): void;
-  trainProject(projectId: string, options?: Models.TrainingAPIClientTrainProjectOptionalParams | msRest.ServiceCallback<Models.Iteration>, callback?: msRest.ServiceCallback<Models.Iteration>): Promise<Models.TrainProjectResponse> {
-    return this.sendOperationRequest(
-      {
-        projectId,
-        options
-      },
-      trainProjectOperationSpec,
-      callback) as Promise<Models.TrainProjectResponse>;
-  }
-
-  /**
    * @summary Publish a specific iteration.
    * @param projectId The project id.
    * @param iterationId The iteration id.
-   * @param name The updated iteration name.
+   * @param publishName The name to give the published iteration.
    * @param predictionId The id of the prediction resource to publish to.
    * @param [options] The optional parameters
    * @returns Promise<Models.PublishIterationResponse>
    */
-  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, options?: msRest.RequestOptionsBase): Promise<Models.PublishIterationResponse>;
+  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options?: msRest.RequestOptionsBase): Promise<Models.PublishIterationResponse>;
   /**
    * @param projectId The project id.
    * @param iterationId The iteration id.
-   * @param name The updated iteration name.
+   * @param publishName The name to give the published iteration.
    * @param predictionId The id of the prediction resource to publish to.
    * @param callback The callback
    */
-  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, callback: msRest.ServiceCallback<boolean>): void;
+  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
    * @param projectId The project id.
    * @param iterationId The iteration id.
-   * @param name The updated iteration name.
+   * @param publishName The name to give the published iteration.
    * @param predictionId The id of the prediction resource to publish to.
    * @param options The optional parameters
    * @param callback The callback
    */
-  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  publishIteration(projectId: string, iterationId: string, name: string, predictionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.PublishIterationResponse> {
+  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.PublishIterationResponse> {
     return this.sendOperationRequest(
       {
         projectId,
         iterationId,
-        name,
+        publishName,
         predictionId,
         options
       },
@@ -1216,7 +1219,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param projectId The project id.
    * @param iterationId The iteration id.
    * @param platform The target platform. Possible values include: 'CoreML', 'TensorFlow',
-   * 'DockerFile', 'ONNX'
+   * 'DockerFile', 'ONNX', 'VAIDK'
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportIterationResponse>
    */
@@ -1225,7 +1228,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param projectId The project id.
    * @param iterationId The iteration id.
    * @param platform The target platform. Possible values include: 'CoreML', 'TensorFlow',
-   * 'DockerFile', 'ONNX'
+   * 'DockerFile', 'ONNX', 'VAIDK'
    * @param callback The callback
    */
   exportIteration(projectId: string, iterationId: string, platform: Models.Platform, callback: msRest.ServiceCallback<Models.ExportModel>): void;
@@ -1233,7 +1236,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param projectId The project id.
    * @param iterationId The iteration id.
    * @param platform The target platform. Possible values include: 'CoreML', 'TensorFlow',
-   * 'DockerFile', 'ONNX'
+   * 'DockerFile', 'ONNX', 'VAIDK'
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1634,7 +1637,7 @@ const getTaggedImagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.iterationId0,
-    Parameters.tagIds0,
+    Parameters.tagIds2,
     Parameters.orderBy,
     Parameters.take,
     Parameters.skip
@@ -1746,7 +1749,7 @@ const createImagesFromDataOperationSpec: msRest.OperationSpec = {
     Parameters.projectId
   ],
   queryParameters: [
-    Parameters.tagIds0
+    Parameters.tagIds2
   ],
   headerParameters: [
     Parameters.apiKey
@@ -1774,7 +1777,7 @@ const deleteImagesOperationSpec: msRest.OperationSpec = {
     Parameters.projectId
   ],
   queryParameters: [
-    Parameters.imageIds0
+    Parameters.imageIds2
   ],
   headerParameters: [
     Parameters.apiKey
@@ -2038,7 +2041,7 @@ const getImagePerformancesOperationSpec: msRest.OperationSpec = {
     Parameters.iterationId1
   ],
   queryParameters: [
-    Parameters.tagIds0,
+    Parameters.tagIds2,
     Parameters.orderBy,
     Parameters.take,
     Parameters.skip
@@ -2224,6 +2227,33 @@ const updateProjectOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const trainProjectOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "projects/{projectId}/train",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.projectId
+  ],
+  queryParameters: [
+    Parameters.trainingType,
+    Parameters.reservedBudgetInHours,
+    Parameters.forceTrain,
+    Parameters.notificationEmailAddress
+  ],
+  headerParameters: [
+    Parameters.apiKey
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Iteration
+    },
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
+  },
+  serializer
+};
+
 const getIterationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "projects/{projectId}/iterations",
@@ -2327,33 +2357,6 @@ const updateIterationOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const trainProjectOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "projects/{projectId}/train",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId
-  ],
-  queryParameters: [
-    Parameters.trainingType,
-    Parameters.reservedBudgetInHours,
-    Parameters.forceTrain,
-    Parameters.notificationEmailAddress
-  ],
-  headerParameters: [
-    Parameters.apiKey
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.Iteration
-    },
-    default: {
-      bodyMapper: Mappers.CustomVisionError
-    }
-  },
-  serializer
-};
-
 const publishIterationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "projects/{projectId}/iterations/{iterationId}/publish",
@@ -2363,7 +2366,7 @@ const publishIterationOperationSpec: msRest.OperationSpec = {
     Parameters.iterationId1
   ],
   queryParameters: [
-    Parameters.name,
+    Parameters.publishName,
     Parameters.predictionId
   ],
   headerParameters: [
