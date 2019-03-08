@@ -4,10 +4,9 @@ export interface Resource {
   /** System generated property. The resource ID (_rid) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the item resource. */
   _rid: string;
   /** System generated property. Specifies the last updated timestamp of the resource. The value is a timestamp. */
-  _ts: string;
+  _ts: number;
   /** System generated property. The unique addressable URI for the resource. */
   _self: string;
   /** System generated property. Represents the resource etag required for optimistic concurrency control. */
   _etag: string;
-  /** System generated property. Specifies the addressable path for the attachments resource. */
 }
