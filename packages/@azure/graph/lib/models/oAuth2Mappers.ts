@@ -10,7 +10,9 @@
 
 export {
   discriminators,
+  PermissionsListResult,
   Permissions,
-  CloudError
+  CloudError,
+  GraphError
 } from "../models/mappers";
 
