@@ -136,17 +136,20 @@ const serializer = new msRest.Serializer(Mappers);
 const listNodeAgentSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "nodeagentskus",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter2,
     Parameters.maxResults3,
-    Parameters.timeout18
+    Parameters.timeout17
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId21,
-    Parameters.returnClientRequestId21,
-    Parameters.ocpDate21
+    Parameters.clientRequestId20,
+    Parameters.returnClientRequestId20,
+    Parameters.ocpDate20
   ],
   responses: {
     200: {
@@ -163,17 +166,20 @@ const listNodeAgentSkusOperationSpec: msRest.OperationSpec = {
 const listPoolNodeCountsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "nodecounts",
+  urlParameters: [
+    Parameters.batchUrl
+  ],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter3,
     Parameters.maxResults4,
-    Parameters.timeout19
+    Parameters.timeout18
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId22,
-    Parameters.returnClientRequestId22,
-    Parameters.ocpDate22
+    Parameters.clientRequestId21,
+    Parameters.returnClientRequestId21,
+    Parameters.ocpDate21
   ],
   responses: {
     200: {
@@ -189,16 +195,16 @@ const listPoolNodeCountsOperationSpec: msRest.OperationSpec = {
 
 const listNodeAgentSkusNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId23,
-    Parameters.returnClientRequestId23,
-    Parameters.ocpDate23
+    Parameters.clientRequestId22,
+    Parameters.returnClientRequestId22,
+    Parameters.ocpDate22
   ],
   responses: {
     200: {
@@ -214,16 +220,16 @@ const listNodeAgentSkusNextOperationSpec: msRest.OperationSpec = {
 
 const listPoolNodeCountsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://batch.core.windows.net",
+  baseUrl: "{batchUrl}",
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId24,
-    Parameters.returnClientRequestId24,
-    Parameters.ocpDate24
+    Parameters.clientRequestId23,
+    Parameters.returnClientRequestId23,
+    Parameters.ocpDate23
   ],
   responses: {
     200: {
