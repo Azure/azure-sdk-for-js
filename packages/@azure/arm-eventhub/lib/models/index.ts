@@ -610,6 +610,79 @@ export interface MessagingPlan extends TrackedResource {
 
 /**
  * @interface
+ * An interface representing Subnet.
+ * Properties supplied for Subnet
+ *
+ */
+export interface Subnet {
+  /**
+   * @member {string} [id] Resource ID of Virtual Network Subnet
+   */
+  id?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NWRuleSetIpRules.
+ * The response from the List namespace operation.
+ *
+ */
+export interface NWRuleSetIpRules {
+  /**
+   * @member {string} [ipMask] IP Mask
+   */
+  ipMask?: string;
+  /**
+   * @member {NetworkRuleIPAction} [action] The IP Filter Action. Possible
+   * values include: 'Allow'
+   */
+  action?: NetworkRuleIPAction;
+}
+
+/**
+ * @interface
+ * An interface representing NWRuleSetVirtualNetworkRules.
+ * The response from the List namespace operation.
+ *
+ */
+export interface NWRuleSetVirtualNetworkRules {
+  /**
+   * @member {Subnet} [subnet] Subnet properties
+   */
+  subnet?: Subnet;
+  /**
+   * @member {boolean} [ignoreMissingVnetServiceEndpoint] Value that indicates
+   * whether to ignore missing Vnet Service Endpoint
+   */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkRuleSet.
+ * Description of topic resource.
+ *
+ * @extends Resource
+ */
+export interface NetworkRuleSet extends Resource {
+  /**
+   * @member {DefaultAction} [defaultAction] Default Action for Network Rule
+   * Set. Possible values include: 'Allow', 'Deny'
+   */
+  defaultAction?: DefaultAction;
+  /**
+   * @member {NWRuleSetVirtualNetworkRules[]} [virtualNetworkRules] List
+   * VirtualNetwork Rules
+   */
+  virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
+  /**
+   * @member {NWRuleSetIpRules[]} [ipRules] List of IpRules
+   */
+  ipRules?: NWRuleSetIpRules[];
+}
+
+/**
+ * @interface
  * An interface representing EventHubsListByNamespaceOptionalParams.
  * Optional Parameters.
  *
@@ -850,6 +923,22 @@ export type ProvisioningStateDR = 'Accepted' | 'Succeeded' | 'Failed';
  * @enum {string}
  */
 export type RoleDisasterRecovery = 'Primary' | 'PrimaryNotReplicating' | 'Secondary';
+
+/**
+ * Defines values for NetworkRuleIPAction.
+ * Possible values include: 'Allow'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkRuleIPAction = 'Allow';
+
+/**
+ * Defines values for DefaultAction.
+ * Possible values include: 'Allow', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Contains response data for the list operation.
@@ -1114,6 +1203,44 @@ export type NamespacesRegenerateKeysResponse = AccessKeys & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AccessKeys;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateNetworkRuleSet operation.
+ */
+export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSet;
+    };
+};
+
+/**
+ * Contains response data for the getNetworkRuleSet operation.
+ */
+export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSet;
     };
 };
 

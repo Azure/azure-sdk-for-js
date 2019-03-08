@@ -759,6 +759,108 @@ export const MessagingPlan: msRest.CompositeMapper = {
   }
 };
 
+export const Subnet: msRest.CompositeMapper = {
+  serializedName: "Subnet",
+  type: {
+    name: "Composite",
+    className: "Subnet",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NWRuleSetIpRules: msRest.CompositeMapper = {
+  serializedName: "NWRuleSetIpRules",
+  type: {
+    name: "Composite",
+    className: "NWRuleSetIpRules",
+    modelProperties: {
+      ipMask: {
+        serializedName: "ipMask",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NWRuleSetVirtualNetworkRules: msRest.CompositeMapper = {
+  serializedName: "NWRuleSetVirtualNetworkRules",
+  type: {
+    name: "Composite",
+    className: "NWRuleSetVirtualNetworkRules",
+    modelProperties: {
+      subnet: {
+        serializedName: "subnet",
+        type: {
+          name: "Composite",
+          className: "Subnet"
+        }
+      },
+      ignoreMissingVnetServiceEndpoint: {
+        serializedName: "ignoreMissingVnetServiceEndpoint",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkRuleSet: msRest.CompositeMapper = {
+  serializedName: "NetworkRuleSet",
+  type: {
+    name: "Composite",
+    className: "NetworkRuleSet",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      defaultAction: {
+        serializedName: "properties.defaultAction",
+        type: {
+          name: "String"
+        }
+      },
+      virtualNetworkRules: {
+        serializedName: "properties.virtualNetworkRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NWRuleSetVirtualNetworkRules"
+            }
+          }
+        }
+      },
+      ipRules: {
+        serializedName: "properties.ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NWRuleSetIpRules"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const OperationListResult: msRest.CompositeMapper = {
   serializedName: "OperationListResult",
   type: {
