@@ -8,12 +8,22 @@
 #   Example: --fgrep "test description"
 
 variables:
-  OSName: 'Linux'
-  OSVmImage: 'ubuntu-16.04'
   NodeVersion: '10.x'
 
 jobs:
   - job: 'Test'
+
+    strategy:
+      # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
+      # since the tests would attempt to use the same resources which causes conflicts.
+      maxParallel: 1
+      matrix:
+        Linux:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+        Windows:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
 
     pool:
       vmImage: '$(OSVmImage)'
