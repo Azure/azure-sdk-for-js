@@ -11,7 +11,7 @@
     "database",
     "cloud"
   ],
-  "version": "2.1.2",
+  "version": "2.1.3",
   "author": "Microsoft Corporation",
   "main": "./lib/src/index.js",
   "types": "./lib/src/index.d.ts",
