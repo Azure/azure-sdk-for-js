@@ -1827,13 +1827,6 @@ export const ManagementPolicySchema: msRest.CompositeMapper = {
     name: "Composite",
     className: "ManagementPolicySchema",
     modelProperties: {
-      version: {
-        required: true,
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      },
       rules: {
         required: true,
         serializedName: "rules",
