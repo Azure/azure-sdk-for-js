@@ -44,15 +44,52 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
- * An interface representing Kind.
- * Describes an Azure resource with kind
+ * An interface representing Pricing.
+ * Pricing tier will be applied for the scope based on the resource ID
+ *
+ * @extends Resource
+ */
+export interface Pricing extends Resource {
+  /**
+   * @member {PricingTier} pricingTier The pricing tier value. Possible values
+   * include: 'Free', 'Standard'
+   */
+  pricingTier: PricingTier;
+  /**
+   * @member {string} [freeTrialRemainingTime] The duration left for the
+   * subscriptions free trial period - in ISO 8601 format (e.g.
+   * P3Y6M4DT12H30M5S).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly freeTrialRemainingTime?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PricingList.
+ * List of pricing configurations response
  *
  */
-export interface Kind {
+export interface PricingList {
   /**
-   * @member {string} [kind] Kind of the resource
+   * @member {Pricing[]} value List of pricing configurations
    */
-  kind?: string;
+  value: Pricing[];
+}
+
+/**
+ * @interface
+ * An interface representing AscLocation.
+ * The ASC location of the subscription is in the "name" field
+ *
+ * @extends Resource
+ */
+export interface AscLocation extends Resource {
+  /**
+   * @member {any} [properties]
+   */
+  properties?: any;
 }
 
 /**
@@ -82,21 +119,6 @@ export interface SecurityContact extends Resource {
    * notifications to subscription admins. Possible values include: 'On', 'Off'
    */
   alertsToAdmins: AlertsToAdmins;
-}
-
-/**
- * @interface
- * An interface representing Pricing.
- * Pricing tier will be applied for the scope based on the resource ID
- *
- * @extends Resource
- */
-export interface Pricing extends Resource {
-  /**
-   * @member {PricingTier} pricingTier Pricing tier type. Possible values
-   * include: 'Free', 'Standard'
-   */
-  pricingTier: PricingTier;
 }
 
 /**
@@ -205,39 +227,29 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 }
 
 /**
- * Contains the possible cases for Setting.
+ * @interface
+ * An interface representing SettingResource.
+ * The kind of the security setting
+ *
+ * @extends Resource
  */
-export type SettingUnion = Setting | DataExportSetting;
+export interface SettingResource extends Resource {
+  /**
+   * @member {SettingKind} kind the kind of the settings string
+   * (DataExportSetting). Possible values include: 'DataExportSetting',
+   * 'AlertSuppressionSetting'
+   */
+  kind: SettingKind;
+}
 
 /**
  * @interface
  * An interface representing Setting.
  * Represents a security setting in Azure Security Center.
  *
+ * @extends SettingResource
  */
-export interface Setting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "Setting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface Setting extends SettingResource {
 }
 
 /**
@@ -245,48 +257,13 @@ export interface Setting {
  * An interface representing DataExportSetting.
  * Represents a data export setting
  *
+ * @extends Setting
  */
-export interface DataExportSetting {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "DataExportSetting";
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface DataExportSetting extends Setting {
   /**
    * @member {boolean} enabled Is the data export setting is enabled
    */
   enabled: boolean;
-}
-
-/**
- * @interface
- * An interface representing SettingKind1.
- * The kind of the security setting
- *
- */
-export interface SettingKind1 {
-  /**
-   * @member {SettingKind} [kind] the kind of the settings string. Possible
-   * values include: 'DataExportSetting'
-   */
-  kind?: SettingKind;
 }
 
 /**
@@ -399,21 +376,6 @@ export interface InformationProtectionPolicy extends Resource {
    * The sensitivity information types.
    */
   informationTypes?: { [propertyName: string]: InformationType };
-}
-
-/**
- * @interface
- * An interface representing Location.
- * Describes an Azure resource with location
- *
- */
-export interface Location {
-  /**
-   * @member {string} [location] Location where the resource is stored
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly location?: string;
 }
 
 /**
@@ -537,20 +499,6 @@ export interface SecurityTask extends Resource {
 
 /**
  * @interface
- * An interface representing AscLocation.
- * The ASC location of the subscription is in the "name" field
- *
- * @extends Resource
- */
-export interface AscLocation extends Resource {
-  /**
-   * @member {any} [properties]
-   */
-  properties?: any;
-}
-
-/**
- * @interface
  * An interface representing AlertEntity.
  * Changing set of properties depending on the entity type.
  *
@@ -659,11 +607,12 @@ export interface Alert extends Resource {
    */
   readonly actionTaken?: string;
   /**
-   * @member {string} [reportedSeverity] Estimated severity of this alert
+   * @member {ReportedSeverity} [reportedSeverity] Estimated severity of this
+   * alert. Possible values include: 'Informational', 'Low', 'Medium', 'High'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly reportedSeverity?: string;
+  readonly reportedSeverity?: ReportedSeverity;
   /**
    * @member {string} [compromisedEntity] The entity that the incident happened
    * on
@@ -696,6 +645,13 @@ export interface Alert extends Resource {
    * the server.**
    */
   readonly canBeInvestigated?: boolean;
+  /**
+   * @member {boolean} [isIncident] Whether this alert is for incident type or
+   * not (otherwise - single alert)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isIncident?: boolean;
   /**
    * @member {AlertEntity[]} [entities] objects that are related to this alerts
    */
@@ -786,135 +742,17 @@ export interface DiscoveredSecuritySolution {
 
 /**
  * @interface
- * An interface representing TopologySingleResourceParent.
+ * An interface representing Location.
+ * Describes an Azure resource with location
+ *
  */
-export interface TopologySingleResourceParent {
-  /**
-   * @member {string} [resourceId] Azure resource id which serves as parent
-   * resource in topology view
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly resourceId?: string;
-}
-
-/**
- * @interface
- * An interface representing TopologySingleResourceChild.
- */
-export interface TopologySingleResourceChild {
-  /**
-   * @member {string} [resourceId] Azure resource id which serves as child
-   * resource in topology view
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly resourceId?: string;
-}
-
-/**
- * @interface
- * An interface representing TopologySingleResource.
- */
-export interface TopologySingleResource {
-  /**
-   * @member {string} [resourceId] Azure resource id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly resourceId?: string;
-  /**
-   * @member {string} [severity] The security severity of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly severity?: string;
-  /**
-   * @member {boolean} [recommendationsExist] Indicates if the resource has
-   * security recommendations
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly recommendationsExist?: boolean;
-  /**
-   * @member {string} [networkZones] Indicates the resource connectivity level
-   * to the Internet (InternetFacing, Internal ,etc.)
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly networkZones?: string;
-  /**
-   * @member {number} [topologyScore] Score of the resource based on its
-   * security severity
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly topologyScore?: number;
-  /**
-   * @member {string} [location] The location of this resource
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly location?: string;
-  /**
-   * @member {TopologySingleResourceParent[]} [parents] Azure resources
-   * connected to this resource which are in higher level in the topology view
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly parents?: TopologySingleResourceParent[];
-  /**
-   * @member {TopologySingleResourceChild[]} [children] Azure resources
-   * connected to this resource which are in lower level in the topology view
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly children?: TopologySingleResourceChild[];
-}
-
-/**
- * @interface
- * An interface representing TopologyResource.
- */
-export interface TopologyResource {
-  /**
-   * @member {string} [id] Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
+export interface Location {
   /**
    * @member {string} [location] Location where the resource is stored
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly location?: string;
-  /**
-   * @member {Date} [calculatedDateTime] The UTC time on which the topology was
-   * calculated
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly calculatedDateTime?: Date;
-  /**
-   * @member {TopologySingleResource[]} [topologyResources] Azure resources
-   * which are part of this topology resource
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly topologyResources?: TopologySingleResource[];
 }
 
 /**
@@ -1140,6 +978,19 @@ export interface JitNetworkAccessPolicyInitiateRequest {
 }
 
 /**
+ * @interface
+ * An interface representing Kind.
+ * Describes an Azure resource with kind
+ *
+ */
+export interface Kind {
+  /**
+   * @member {string} [kind] Kind of the resource
+   */
+  kind?: string;
+}
+
+/**
  * Contains the possible cases for ExternalSecuritySolution.
  */
 export type ExternalSecuritySolutionUnion = ExternalSecuritySolution | CefExternalSecuritySolution | AtaExternalSecuritySolution | AadExternalSecuritySolution;
@@ -1148,8 +999,8 @@ export type ExternalSecuritySolutionUnion = ExternalSecuritySolution | CefExtern
  * @interface
  * An interface representing ExternalSecuritySolution.
  * Represents a security solution external to Azure Security Center which sends
- * information to an OMS workspace and whos data is displayed by Azure Security
- * Center.
+ * information to an OMS workspace and whose data is displayed by Azure
+ * Security Center.
  *
  */
 export interface ExternalSecuritySolution {
@@ -1440,6 +1291,139 @@ export interface AadConnectivityState1 {
 
 /**
  * @interface
+ * An interface representing TopologySingleResourceParent.
+ */
+export interface TopologySingleResourceParent {
+  /**
+   * @member {string} [resourceId] Azure resource id which serves as parent
+   * resource in topology view
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TopologySingleResourceChild.
+ */
+export interface TopologySingleResourceChild {
+  /**
+   * @member {string} [resourceId] Azure resource id which serves as child
+   * resource in topology view
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TopologySingleResource.
+ */
+export interface TopologySingleResource {
+  /**
+   * @member {string} [resourceId] Azure resource id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceId?: string;
+  /**
+   * @member {string} [severity] The security severity of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly severity?: string;
+  /**
+   * @member {boolean} [recommendationsExist] Indicates if the resource has
+   * security recommendations
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recommendationsExist?: boolean;
+  /**
+   * @member {string} [networkZones] Indicates the resource connectivity level
+   * to the Internet (InternetFacing, Internal ,etc.)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly networkZones?: string;
+  /**
+   * @member {number} [topologyScore] Score of the resource based on its
+   * security severity
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly topologyScore?: number;
+  /**
+   * @member {string} [location] The location of this resource
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly location?: string;
+  /**
+   * @member {TopologySingleResourceParent[]} [parents] Azure resources
+   * connected to this resource which are in higher level in the topology view
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly parents?: TopologySingleResourceParent[];
+  /**
+   * @member {TopologySingleResourceChild[]} [children] Azure resources
+   * connected to this resource which are in lower level in the topology view
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly children?: TopologySingleResourceChild[];
+}
+
+/**
+ * @interface
+ * An interface representing TopologyResource.
+ */
+export interface TopologyResource {
+  /**
+   * @member {string} [id] Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [location] Location where the resource is stored
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly location?: string;
+  /**
+   * @member {Date} [calculatedDateTime] The UTC time on which the topology was
+   * calculated
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly calculatedDateTime?: Date;
+  /**
+   * @member {TopologySingleResource[]} [topologyResources] Azure resources
+   * which are part of this topology resource
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly topologyResources?: TopologySingleResource[];
+}
+
+/**
+ * @interface
  * An interface representing ConnectedResource.
  * Describes properties of a connected resource
  *
@@ -1688,22 +1672,6 @@ export interface SecurityCenterOptions extends AzureServiceClientOptions {
 
 /**
  * @interface
- * An interface representing the PricingList.
- * List of pricing configurations response
- *
- * @extends Array<Pricing>
- */
-export interface PricingList extends Array<Pricing> {
-  /**
-   * @member {string} [nextLink] The URI to fetch the next page.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the SecurityContactList.
  * List of security contacts response
  *
@@ -1771,9 +1739,9 @@ export interface ComplianceList extends Array<Compliance> {
  * An interface representing the SettingsList.
  * Subscription settings list.
  *
- * @extends Array<SettingUnion>
+ * @extends Array<Setting>
  */
-export interface SettingsList extends Array<SettingUnion> {
+export interface SettingsList extends Array<Setting> {
   /**
    * @member {string} [nextLink] The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1935,6 +1903,14 @@ export interface AllowedConnectionsList extends Array<AllowedConnectionsResource
 }
 
 /**
+ * Defines values for PricingTier.
+ * Possible values include: 'Free', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type PricingTier = 'Free' | 'Standard';
+
+/**
  * Defines values for AlertNotifications.
  * Possible values include: 'On', 'Off'
  * @readonly
@@ -1951,14 +1927,6 @@ export type AlertNotifications = 'On' | 'Off';
 export type AlertsToAdmins = 'On' | 'Off';
 
 /**
- * Defines values for PricingTier.
- * Possible values include: 'Free', 'Standard'
- * @readonly
- * @enum {string}
- */
-export type PricingTier = 'Free' | 'Standard';
-
-/**
  * Defines values for AutoProvision.
  * Possible values include: 'On', 'Off'
  * @readonly
@@ -1968,11 +1936,19 @@ export type AutoProvision = 'On' | 'Off';
 
 /**
  * Defines values for SettingKind.
- * Possible values include: 'DataExportSetting'
+ * Possible values include: 'DataExportSetting', 'AlertSuppressionSetting'
  * @readonly
  * @enum {string}
  */
-export type SettingKind = 'DataExportSetting';
+export type SettingKind = 'DataExportSetting' | 'AlertSuppressionSetting';
+
+/**
+ * Defines values for ReportedSeverity.
+ * Possible values include: 'Informational', 'Low', 'Medium', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type ReportedSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for SecurityFamily.
@@ -2114,28 +2090,9 @@ export type PricingsListResponse = PricingList & {
 };
 
 /**
- * Contains response data for the listByResourceGroup operation.
+ * Contains response data for the get operation.
  */
-export type PricingsListByResourceGroupResponse = PricingList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PricingList;
-    };
-};
-
-/**
- * Contains response data for the getSubscriptionPricing operation.
- */
-export type PricingsGetSubscriptionPricingResponse = Pricing & {
+export type PricingsGetResponse = Pricing & {
   /**
    * The underlying HTTP response.
    */
@@ -2152,9 +2109,9 @@ export type PricingsGetSubscriptionPricingResponse = Pricing & {
 };
 
 /**
- * Contains response data for the updateSubscriptionPricing operation.
+ * Contains response data for the update operation.
  */
-export type PricingsUpdateSubscriptionPricingResponse = Pricing & {
+export type PricingsUpdateResponse = Pricing & {
   /**
    * The underlying HTTP response.
    */
@@ -2167,82 +2124,6 @@ export type PricingsUpdateSubscriptionPricingResponse = Pricing & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Pricing;
-    };
-};
-
-/**
- * Contains response data for the getResourceGroupPricing operation.
- */
-export type PricingsGetResourceGroupPricingResponse = Pricing & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Pricing;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateResourceGroupPricing operation.
- */
-export type PricingsCreateOrUpdateResourceGroupPricingResponse = Pricing & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Pricing;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PricingsListNextResponse = PricingList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PricingList;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PricingsListByResourceGroupNextResponse = PricingList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PricingList;
     };
 };
 
@@ -2629,7 +2510,7 @@ export type SettingsListResponse = SettingsList & {
 /**
  * Contains response data for the get operation.
  */
-export type SettingsGetResponse = SettingUnion & {
+export type SettingsGetResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2641,14 +2522,14 @@ export type SettingsGetResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type SettingsUpdateResponse = SettingUnion & {
+export type SettingsUpdateResponse = Setting & {
   /**
    * The underlying HTTP response.
    */
@@ -2660,7 +2541,7 @@ export type SettingsUpdateResponse = SettingUnion & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SettingUnion;
+      parsedBody: Setting;
     };
 };
 
