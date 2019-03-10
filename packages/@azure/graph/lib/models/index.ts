@@ -1688,12 +1688,12 @@ export interface OAuth2PermissionGrantListOptionalParams extends msRest.RequestO
 
 /**
  * @interface
- * An interface representing OAuth2GrantOptionalParams.
+ * An interface representing OAuth2PermissionGrantCreateOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface OAuth2GrantOptionalParams extends msRest.RequestOptionsBase {
+export interface OAuth2PermissionGrantCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {OAuth2PermissionGrant} [body] The relevant app Service Principal
    * Object Id and the Service Principal Object Id you want to grant.
@@ -2663,6 +2663,25 @@ export type OAuth2PermissionGrantListResponse = OAuth2PermissionGrantListResult 
 };
 
 /**
+ * Contains response data for the create operation.
+ */
+export type OAuth2PermissionGrantCreateResponse = OAuth2PermissionGrant & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OAuth2PermissionGrant;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type OAuth2PermissionGrantListNextResponse = OAuth2PermissionGrantListResult & {
@@ -2678,24 +2697,5 @@ export type OAuth2PermissionGrantListNextResponse = OAuth2PermissionGrantListRes
        * The response body as parsed JSON or XML
        */
       parsedBody: OAuth2PermissionGrantListResult;
-    };
-};
-
-/**
- * Contains response data for the grant operation.
- */
-export type OAuth2GrantResponse = OAuth2PermissionGrant & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OAuth2PermissionGrant;
     };
 };
