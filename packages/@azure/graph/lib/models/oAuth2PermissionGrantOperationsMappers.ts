@@ -10,6 +10,7 @@
 
 export {
   discriminators,
+  OAuth2PermissionGrantListResult,
   OAuth2PermissionGrant,
   CloudError,
   GraphError

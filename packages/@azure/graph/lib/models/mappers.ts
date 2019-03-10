@@ -2106,11 +2106,11 @@ export const Domain: msRest.CompositeMapper = {
   }
 };
 
-export const Permissions: msRest.CompositeMapper = {
-  serializedName: "Permissions",
+export const OAuth2PermissionGrant: msRest.CompositeMapper = {
+  serializedName: "OAuth2PermissionGrant",
   type: {
     name: "Composite",
-    className: "Permissions",
+    className: "OAuth2PermissionGrant",
     modelProperties: {
       odatatype: {
         serializedName: "odata\\.type",
@@ -2139,7 +2139,7 @@ export const Permissions: msRest.CompositeMapper = {
       principalId: {
         serializedName: "principalId",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       resourceId: {
@@ -2442,11 +2442,11 @@ export const DomainListResult: msRest.CompositeMapper = {
   }
 };
 
-export const PermissionsListResult: msRest.CompositeMapper = {
-  serializedName: "PermissionsListResult",
+export const OAuth2PermissionGrantListResult: msRest.CompositeMapper = {
+  serializedName: "OAuth2PermissionGrantListResult",
   type: {
     name: "Composite",
-    className: "PermissionsListResult",
+    className: "OAuth2PermissionGrantListResult",
     modelProperties: {
       value: {
         serializedName: "",
@@ -2455,7 +2455,7 @@ export const PermissionsListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Permissions"
+              className: "OAuth2PermissionGrant"
             }
           }
         }

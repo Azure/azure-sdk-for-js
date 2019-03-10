@@ -1537,38 +1537,44 @@ export interface Domain {
 
 /**
  * @interface
- * An interface representing Permissions.
+ * An interface representing OAuth2PermissionGrant.
  */
-export interface Permissions {
+export interface OAuth2PermissionGrant {
   /**
    * @member {string} [odatatype]
    * Microsoft.DirectoryServices.OAuth2PermissionGrant
    */
   odatatype?: string;
   /**
-   * @member {string} [clientId] The objectId of the Service Principal
-   * associated with the app
+   * @member {string} [clientId] The id of the resource's service principal
+   * granted consent to impersonate the user when accessing the resource
+   * (represented by the resourceId property).
    */
   clientId?: string;
   /**
-   * @member {string} [objectId] The objectId of the permission grant
+   * @member {string} [objectId] The id of the permission grant
    */
   objectId?: string;
   /**
-   * @member {string} [consentType] Typically set to AllPrincipals
+   * @member {ConsentType} [consentType] Indicates if consent was provided by
+   * the administrator (on behalf of the organization) or by an individual.
+   * Possible values include: 'AllPrincipals', 'Principal'
    */
-  consentType?: string;
+  consentType?: ConsentType;
   /**
-   * @member {any} [principalId] Set to null if AllPrincipals is set
+   * @member {string} [principalId] When consent type is Principal, this
+   * property specifies the id of the user that granted consent and applies
+   * only for that user.
    */
-  principalId?: any;
+  principalId?: string;
   /**
-   * @member {string} [resourceId] Service Principal Id of the resource you
-   * want to grant
+   * @member {string} [resourceId] Object Id of the resource you want to grant
    */
   resourceId?: string;
   /**
-   * @member {string} [scope] Typically set to user_impersonation
+   * @member {string} [scope] Specifies the value of the scope claim that the
+   * resource application should expect in the OAuth 2.0 access token. For
+   * example, User.Read
    */
   scope?: string;
   /**
@@ -1667,12 +1673,12 @@ export interface DomainsListOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing OAuth2GetOptionalParams.
+ * An interface representing OAuth2PermissionGrantListOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface OAuth2GetOptionalParams extends msRest.RequestOptionsBase {
+export interface OAuth2PermissionGrantListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] This is the Service Principal ObjectId
    * associated with the app
@@ -1689,10 +1695,10 @@ export interface OAuth2GetOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface OAuth2GrantOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {Permissions} [body] The relevant app Service Principal Object Id
-   * and the Service Principal Object Id you want to grant.
+   * @member {OAuth2PermissionGrant} [body] The relevant app Service Principal
+   * Object Id and the Service Principal Object Id you want to grant.
    */
-  body?: Permissions;
+  body?: OAuth2PermissionGrant;
 }
 
 /**
@@ -1830,12 +1836,12 @@ export interface DomainListResult extends Array<Domain> {
 
 /**
  * @interface
- * An interface representing the PermissionsListResult.
- * Server response for get permissions grants
+ * An interface representing the OAuth2PermissionGrantListResult.
+ * Server response for get oauth2 permissions grants
  *
- * @extends Array<Permissions>
+ * @extends Array<OAuth2PermissionGrant>
  */
-export interface PermissionsListResult extends Array<Permissions> {
+export interface OAuth2PermissionGrantListResult extends Array<OAuth2PermissionGrant> {
   /**
    * @member {string} [odatanextLink] the URL to get the next set of results.
    */
@@ -1849,6 +1855,14 @@ export interface PermissionsListResult extends Array<Permissions> {
  * @enum {string}
  */
 export type UserType = 'Member' | 'Guest';
+
+/**
+ * Defines values for ConsentType.
+ * Possible values include: 'AllPrincipals', 'Principal'
+ * @readonly
+ * @enum {string}
+ */
+export type ConsentType = 'AllPrincipals' | 'Principal';
 
 /**
  * Contains response data for the get operation.
@@ -2630,9 +2644,9 @@ export type DomainsGetResponse = Domain & {
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the list operation.
  */
-export type OAuth2GetResponse = PermissionsListResult & {
+export type OAuth2PermissionGrantListResponse = OAuth2PermissionGrantListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -2644,14 +2658,33 @@ export type OAuth2GetResponse = PermissionsListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PermissionsListResult;
+      parsedBody: OAuth2PermissionGrantListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OAuth2PermissionGrantListNextResponse = OAuth2PermissionGrantListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OAuth2PermissionGrantListResult;
     };
 };
 
 /**
  * Contains response data for the grant operation.
  */
-export type OAuth2GrantResponse = Permissions & {
+export type OAuth2GrantResponse = OAuth2PermissionGrant & {
   /**
    * The underlying HTTP response.
    */
@@ -2663,25 +2696,6 @@ export type OAuth2GrantResponse = Permissions & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Permissions;
-    };
-};
-
-/**
- * Contains response data for the getNext operation.
- */
-export type OAuth2GetNextResponse = PermissionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionsListResult;
+      parsedBody: OAuth2PermissionGrant;
     };
 };
