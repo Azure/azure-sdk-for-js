@@ -1,6 +1,6 @@
 # Azure SDK for Javascript
 
-| Component            | Build Status                                                                                                                                                                                                 |
+| Component            | Buiild Status                                                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Management Libraries | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/js/public.sdk-for-js?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=136&branchName=master) |
 | Client Libraries     | [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/45?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=45&branchName=master)                    |
