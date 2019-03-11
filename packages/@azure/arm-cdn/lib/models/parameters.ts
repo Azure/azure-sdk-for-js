@@ -30,52 +30,31 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const customDomainName: msRest.OperationURLParameter = {
-  parameterPath: "customDomainName",
+export const kind: msRest.OperationQueryParameter = {
+  parameterPath: "kind",
   mapper: {
     required: true,
-    serializedName: "customDomainName",
+    serializedName: "kind",
     type: {
       name: "String"
     }
   }
 };
-export const endpointName: msRest.OperationURLParameter = {
-  parameterPath: "endpointName",
+export const peeringLocation: msRest.OperationQueryParameter = {
+  parameterPath: "peeringLocation",
   mapper: {
     required: true,
-    serializedName: "endpointName",
+    serializedName: "peeringLocation",
     type: {
       name: "String"
     }
   }
 };
-export const nextPageLink: msRest.OperationURLParameter = {
-  parameterPath: "nextPageLink",
+export const peeringName: msRest.OperationURLParameter = {
+  parameterPath: "peeringName",
   mapper: {
     required: true,
-    serializedName: "nextLink",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const originName: msRest.OperationURLParameter = {
-  parameterPath: "originName",
-  mapper: {
-    required: true,
-    serializedName: "originName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const profileName: msRest.OperationURLParameter = {
-  parameterPath: "profileName",
-  mapper: {
-    required: true,
-    serializedName: "profileName",
+    serializedName: "peeringName",
     type: {
       name: "String"
     }
@@ -86,11 +65,6 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[-\w\._\(\)]+$/
-    },
     type: {
       name: "String"
     }
