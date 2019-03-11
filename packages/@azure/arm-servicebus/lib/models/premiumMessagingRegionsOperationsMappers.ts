@@ -34,6 +34,10 @@ export {
   CaptureDescription,
   Destination,
   ArmDisasterRecovery,
-  MigrationConfigProperties
+  MigrationConfigProperties,
+  NetworkRuleSet,
+  NWRuleSetVirtualNetworkRules,
+  Subnet,
+  NWRuleSetIpRules
 } from "../models/mappers";
 
