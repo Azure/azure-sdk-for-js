@@ -27,6 +27,10 @@ export {
   ArmDisasterRecovery,
   MessagingRegions,
   MessagingRegionsProperties,
-  MessagingPlan
+  MessagingPlan,
+  NetworkRuleSet,
+  NWRuleSetVirtualNetworkRules,
+  Subnet,
+  NWRuleSetIpRules
 } from "../models/mappers";
 
