@@ -34,6 +34,10 @@ export {
   PremiumMessagingRegions,
   PremiumMessagingRegionsProperties,
   ArmDisasterRecovery,
-  MigrationConfigProperties
+  MigrationConfigProperties,
+  NetworkRuleSet,
+  NWRuleSetVirtualNetworkRules,
+  Subnet,
+  NWRuleSetIpRules
 } from "../models/mappers";
 
