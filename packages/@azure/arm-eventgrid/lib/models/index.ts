@@ -12,9 +12,199 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * Contains the possible cases for InputSchemaMapping.
+ */
+export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMapping;
+
+/**
+ * By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
+ * schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only
+ * supported type of InputSchemaMapping is 'JsonInputSchemaMapping'.
+ */
+export interface InputSchemaMapping {
+  /**
+   * Polymorphic Discriminator
+   */
+  inputSchemaMappingType: "InputSchemaMapping";
+}
+
+/**
+ * Definition of a Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified identifier of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * This is used to express the source of an input schema mapping for a single target field in the
+ * Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and
+ * 'eventtime' properties. This represents a field in the input event schema.
+ */
+export interface JsonField {
+  /**
+   * Name of a field in the input event schema that's to be used as the source of a mapping.
+   */
+  sourceField?: string;
+}
+
+/**
+ * This is used to express the source of an input schema mapping for a single target field
+ * in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+ * 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+ * along with a default value to be used, and at least one of these two properties should be
+ * provided.
+ */
+export interface JsonFieldWithDefault {
+  /**
+   * Name of a field in the input event schema that's to be used as the source of a mapping.
+   */
+  sourceField?: string;
+  /**
+   * The default value to be used for mapping when a SourceField is not provided or if there's no
+   * property with the specified name in the published JSON event payload.
+   */
+  defaultValue?: string;
+}
+
+/**
+ * This enables publishing to Event Grid using a custom input schema. This can be used to map
+ * properties from a custom input JSON schema to the Event Grid event schema.
+ */
+export interface JsonInputSchemaMapping {
+  /**
+   * Polymorphic Discriminator
+   */
+  inputSchemaMappingType: "Json";
+  /**
+   * The mapping information for the Id property of the Event Grid Event.
+   */
+  id?: JsonField;
+  /**
+   * The mapping information for the Topic property of the Event Grid Event.
+   */
+  topic?: JsonField;
+  /**
+   * The mapping information for the EventTime property of the Event Grid Event.
+   */
+  eventTime?: JsonField;
+  /**
+   * The mapping information for the EventType property of the Event Grid Event.
+   */
+  eventType?: JsonFieldWithDefault;
+  /**
+   * The mapping information for the Subject property of the Event Grid Event.
+   */
+  subject?: JsonFieldWithDefault;
+  /**
+   * The mapping information for the DataVersion property of the Event Grid Event.
+   */
+  dataVersion?: JsonFieldWithDefault;
+}
+
+/**
+ * Definition of a Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Location of the resource
+   */
+  location: string;
+  /**
+   * Tags of the resource
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * EventGrid Domain
+ */
+export interface Domain extends TrackedResource {
+  /**
+   * Provisioning state of the domain. Possible values include: 'Creating', 'Updating', 'Deleting',
+   * 'Succeeded', 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: DomainProvisioningState;
+  /**
+   * Endpoint for the domain.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endpoint?: string;
+  /**
+   * This determines the format that Event Grid should expect for incoming events published to the
+   * domain. Possible values include: 'EventGridSchema', 'CustomEventSchema',
+   * 'CloudEventV01Schema'. Default value: 'EventGridSchema'.
+   */
+  inputSchema?: InputSchema;
+  /**
+   * Information about the InputSchemaMapping which specified the info about mapping event payload.
+   */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+}
+
+/**
+ * Properties of the Domain update
+ */
+export interface DomainUpdateParameters {
+  /**
+   * Tags of the domains resource
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Shared access keys of the Domain
+ */
+export interface DomainSharedAccessKeys {
+  /**
+   * Shared access key1 for the domain.
+   */
+  key1?: string;
+  /**
+   * Shared access key2 for the domain.
+   */
+  key2?: string;
+}
+
+/**
+ * Domain regenerate share access key request
+ */
+export interface DomainRegenerateKeyRequest {
+  /**
+   * Key name to regenerate key1 or key2
+   */
+  keyName: string;
+}
+
+/**
+ * Domain Topic
+ */
+export interface DomainTopic extends Resource {
+  /**
+   * Provisioning state of the domain topic. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   */
+  provisioningState?: DomainTopicProvisioningState;
+}
+
+/**
  * Contains the possible cases for EventSubscriptionDestination.
  */
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination;
+export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination;
 
 /**
  * Information about the destination for an event subscription
@@ -24,6 +214,28 @@ export interface EventSubscriptionDestination {
    * Polymorphic Discriminator
    */
   endpointType: "EventSubscriptionDestination";
+}
+
+/**
+ * Contains the possible cases for AdvancedFilter.
+ */
+export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter;
+
+/**
+ * This is the base type that represents an advanced filter. To configure an advanced filter, do
+ * not directly instantiate an object of this class. Instead, instantiate an object of a derived
+ * class such as BoolEqualsAdvancedFilter, NumberInAdvancedFilter, StringEqualsAdvancedFilter etc.
+ * depending on the type of the key based on which you want to filter.
+ */
+export interface AdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "AdvancedFilter";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
 }
 
 /**
@@ -42,9 +254,8 @@ export interface EventSubscriptionFilter {
    */
   subjectEndsWith?: string;
   /**
-   * A list of applicable event types that need to be part of the event subscription.
-   * If it is desired to subscribe to all event types, the string "all" needs to be specified as an
-   * element in this list.
+   * A list of applicable event types that need to be part of the event subscription. If it is
+   * desired to subscribe to all default event types, set the IncludedEventTypes to null.
    */
   includedEventTypes?: string[];
   /**
@@ -52,6 +263,10 @@ export interface EventSubscriptionFilter {
    * should be compared in a case sensitive manner. Default value: false.
    */
   isSubjectCaseSensitive?: boolean;
+  /**
+   * An array of advanced filters that are used for filtering event subscriptions.
+   */
+  advancedFilters?: AdvancedFilterUnion[];
 }
 
 /**
@@ -87,24 +302,21 @@ export interface DeadLetterDestination {
 }
 
 /**
- * Definition of a Resource
+ * NumberIn Advanced Filter.
  */
-export interface Resource extends BaseResource {
+export interface NumberInAdvancedFilter {
   /**
-   * Fully qualified identifier of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Polymorphic Discriminator
    */
-  readonly id?: string;
+  operatorType: "NumberIn";
   /**
-   * Name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The field/property in the event based on which you want to filter.
    */
-  readonly name?: string;
+  key?: string;
   /**
-   * Type of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The set of filter values.
    */
-  readonly type?: string;
+  values?: number[];
 }
 
 /**
@@ -116,15 +328,211 @@ export interface StorageBlobDeadLetterDestination {
    */
   endpointType: "StorageBlob";
   /**
-   * The Azure Resource ID of the storage account that is the destination of the deadletter events.
-   * For example:
-   * /subscriptions/{AzureSubscriptionId}/resourceGroups/{ResourceGroupName}/providers/microsoft.Storage/storageAccounts/{StorageAccountName}
+   * The Azure Resource ID of the storage account that is the destination of the deadletter events
    */
   resourceId?: string;
   /**
    * The name of the Storage blob container that is the destination of the deadletter events
    */
   blobContainerName?: string;
+}
+
+/**
+ * NumberNotIn Advanced Filter.
+ */
+export interface NumberNotInAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "NumberNotIn";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The set of filter values.
+   */
+  values?: number[];
+}
+
+/**
+ * NumberLessThan Advanced Filter.
+ */
+export interface NumberLessThanAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "NumberLessThan";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The filter value.
+   */
+  value?: number;
+}
+
+/**
+ * NumberGreaterThan Advanced Filter.
+ */
+export interface NumberGreaterThanAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "NumberGreaterThan";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The filter value.
+   */
+  value?: number;
+}
+
+/**
+ * NumberLessThanOrEquals Advanced Filter.
+ */
+export interface NumberLessThanOrEqualsAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "NumberLessThanOrEquals";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The filter value.
+   */
+  value?: number;
+}
+
+/**
+ * NumberGreaterThanOrEquals Advanced Filter.
+ */
+export interface NumberGreaterThanOrEqualsAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "NumberGreaterThanOrEquals";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The filter value.
+   */
+  value?: number;
+}
+
+/**
+ * BoolEquals Advanced Filter.
+ */
+export interface BoolEqualsAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "BoolEquals";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The boolean filter value.
+   */
+  value?: boolean;
+}
+
+/**
+ * StringIn Advanced Filter.
+ */
+export interface StringInAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "StringIn";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The set of filter values.
+   */
+  values?: string[];
+}
+
+/**
+ * StringNotIn Advanced Filter.
+ */
+export interface StringNotInAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "StringNotIn";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The set of filter values.
+   */
+  values?: string[];
+}
+
+/**
+ * StringBeginsWith Advanced Filter.
+ */
+export interface StringBeginsWithAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "StringBeginsWith";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The set of filter values.
+   */
+  values?: string[];
+}
+
+/**
+ * StringEndsWith Advanced Filter.
+ */
+export interface StringEndsWithAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "StringEndsWith";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The set of filter values.
+   */
+  values?: string[];
+}
+
+/**
+ * StringContains Advanced Filter.
+ */
+export interface StringContainsAdvancedFilter {
+  /**
+   * Polymorphic Discriminator
+   */
+  operatorType: "StringContains";
+  /**
+   * The field/property in the event based on which you want to filter.
+   */
+  key?: string;
+  /**
+   * The set of filter values.
+   */
+  values?: string[];
 }
 
 /**
@@ -197,6 +605,21 @@ export interface HybridConnectionEventSubscriptionDestination {
 }
 
 /**
+ * Information about the service bus destination for an event subscription
+ */
+export interface ServiceBusQueueEventSubscriptionDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "ServiceBusQueue";
+  /**
+   * The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
+   * subscription.
+   */
+  resourceId?: string;
+}
+
+/**
  * Event Subscription
  */
 export interface EventSubscription extends Resource {
@@ -225,6 +648,15 @@ export interface EventSubscription extends Resource {
    */
   labels?: string[];
   /**
+   * Expiration time of the event subscription.
+   */
+  expirationTimeUtc?: Date;
+  /**
+   * The event delivery schema for the event subscription. Possible values include:
+   * 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
+   */
+  eventDeliverySchema?: EventDeliverySchema;
+  /**
    * The retry policy for events. This can be used to configure maximum number of delivery attempts
    * and time to live for events.
    */
@@ -252,6 +684,15 @@ export interface EventSubscriptionUpdateParameters {
    * List of user defined labels.
    */
   labels?: string[];
+  /**
+   * Information about the expiration time for the event subscription.
+   */
+  expirationTimeUtc?: Date;
+  /**
+   * The event delivery schema for the event subscription. Possible values include:
+   * 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
+   */
+  eventDeliverySchema?: EventDeliverySchema;
   /**
    * The retry policy for events. This can be used to configure maximum number of delivery attempts
    * and time to live for events.
@@ -318,20 +759,6 @@ export interface Operation {
 }
 
 /**
- * Definition of a Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Location of the resource
-   */
-  location: string;
-  /**
-   * Tags of the resource
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
  * EventGrid Topic
  */
 export interface Topic extends TrackedResource {
@@ -346,6 +773,18 @@ export interface Topic extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly endpoint?: string;
+  /**
+   * This determines the format that Event Grid should expect for incoming events published to the
+   * topic. Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventV01Schema'.
+   * Default value: 'EventGridSchema'.
+   */
+  inputSchema?: InputSchema;
+  /**
+   * This enables publishing using custom event schemas. An InputSchemaMapping can be specified to
+   * map various properties of a source schema to various required properties of the EventGridEvent
+   * schema.
+   */
+  inputSchemaMapping?: InputSchemaMappingUnion;
 }
 
 /**
@@ -398,6 +837,10 @@ export interface EventType extends Resource {
    * Url of the schema for this event type.
    */
   schemaUrl?: string;
+  /**
+   * IsInDefaultSet flag of the event type.
+   */
+  isInDefaultSet?: boolean;
 }
 
 /**
@@ -432,6 +875,256 @@ export interface TopicTypeInfo extends Resource {
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface DomainsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DomainsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DomainTopicsListByDomainOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListByResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+  /**
+   * The label used to filter the results for event subscriptions list.
+   */
+  label?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter the results using OData syntax.
+   */
+  filter?: string;
+  /**
+   * The number of results to return.
+   */
+  top?: number;
+}
+
+/**
  * An interface representing EventGridManagementClientOptions.
  */
 export interface EventGridManagementClientOptions extends AzureServiceClientOptions {
@@ -440,10 +1133,38 @@ export interface EventGridManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
+ * Result of the List Domains operation
+ * @extends Array<Domain>
+ */
+export interface DomainsListResult extends Array<Domain> {
+  /**
+   * A link for the next page of domains
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the List Domain Topics operation
+ * @extends Array<DomainTopic>
+ */
+export interface DomainTopicsListResult extends Array<DomainTopic> {
+  /**
+   * A link for the next page of domain topics
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the List EventSubscriptions operation
  * @extends Array<EventSubscription>
  */
 export interface EventSubscriptionsListResult extends Array<EventSubscription> {
+  /**
+   * A link for the next page of event subscriptions
+   */
+  nextLink?: string;
 }
 
 /**
@@ -460,6 +1181,10 @@ export interface OperationsListResult extends Array<Operation> {
  * @extends Array<Topic>
  */
 export interface TopicsListResult extends Array<Topic> {
+  /**
+   * A link for the next page of topics
+   */
+  nextLink?: string;
 }
 
 /**
@@ -479,6 +1204,30 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
 }
 
 /**
+ * Defines values for DomainProvisioningState.
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+
+/**
+ * Defines values for InputSchema.
+ * Possible values include: 'EventGridSchema', 'CustomEventSchema', 'CloudEventV01Schema'
+ * @readonly
+ * @enum {string}
+ */
+export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventV01Schema';
+
+/**
+ * Defines values for DomainTopicProvisioningState.
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+
+/**
  * Defines values for EventSubscriptionProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed',
  * 'AwaitingManualAction'
@@ -486,6 +1235,14 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
  * @enum {string}
  */
 export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
+
+/**
+ * Defines values for EventDeliverySchema.
+ * Possible values include: 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
+ * @readonly
+ * @enum {string}
+ */
+export type EventDeliverySchema = 'EventGridSchema' | 'CloudEventV01Schema' | 'CustomInputSchema';
 
 /**
  * Defines values for TopicProvisioningState.
@@ -510,6 +1267,326 @@ export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
  * @enum {string}
  */
 export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DomainsGetResponse = Domain & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Domain;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DomainsCreateOrUpdateResponse = Domain & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Domain;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type DomainsUpdateResponse = Domain & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Domain;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type DomainsListBySubscriptionResponse = DomainsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type DomainsListByResourceGroupResponse = DomainsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listSharedAccessKeys operation.
+ */
+export type DomainsListSharedAccessKeysResponse = DomainSharedAccessKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainSharedAccessKeys;
+    };
+};
+
+/**
+ * Contains response data for the regenerateKey operation.
+ */
+export type DomainsRegenerateKeyResponse = DomainSharedAccessKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainSharedAccessKeys;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DomainsBeginCreateOrUpdateResponse = Domain & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Domain;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type DomainsBeginUpdateResponse = Domain & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Domain;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type DomainsListBySubscriptionNextResponse = DomainsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type DomainsListByResourceGroupNextResponse = DomainsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DomainTopicsGetResponse = DomainTopic & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainTopic;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DomainTopicsCreateOrUpdateResponse = DomainTopic & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainTopic;
+    };
+};
+
+/**
+ * Contains response data for the listByDomain operation.
+ */
+export type DomainTopicsListByDomainResponse = DomainTopicsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainTopicsListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DomainTopicsBeginCreateOrUpdateResponse = DomainTopic & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainTopic;
+    };
+};
+
+/**
+ * Contains response data for the listByDomainNext operation.
+ */
+export type DomainTopicsListByDomainNextResponse = DomainTopicsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DomainTopicsListResult;
+    };
+};
 
 /**
  * Contains response data for the get operation.
@@ -772,6 +1849,26 @@ export type EventSubscriptionsListByResourceResponse = EventSubscriptionsListRes
 };
 
 /**
+ * Contains response data for the listByDomainTopic operation.
+ */
+export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type EventSubscriptionsBeginCreateOrUpdateResponse = EventSubscription & {
@@ -808,6 +1905,206 @@ export type EventSubscriptionsBeginUpdateResponse = EventSubscription & {
        * The response body as parsed JSON or XML
        */
       parsedBody: EventSubscription;
+    };
+};
+
+/**
+ * Contains response data for the listGlobalBySubscriptionNext operation.
+ */
+export type EventSubscriptionsListGlobalBySubscriptionNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listGlobalBySubscriptionForTopicTypeNext operation.
+ */
+export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listGlobalByResourceGroupNext operation.
+ */
+export type EventSubscriptionsListGlobalByResourceGroupNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listGlobalByResourceGroupForTopicTypeNext operation.
+ */
+export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRegionalBySubscriptionNext operation.
+ */
+export type EventSubscriptionsListRegionalBySubscriptionNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRegionalByResourceGroupNext operation.
+ */
+export type EventSubscriptionsListRegionalByResourceGroupNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRegionalBySubscriptionForTopicTypeNext operation.
+ */
+export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listRegionalByResourceGroupForTopicTypeNext operation.
+ */
+export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceNext operation.
+ */
+export type EventSubscriptionsListByResourceNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDomainTopicNext operation.
+ */
+export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
     };
 };
 
@@ -1028,6 +2325,46 @@ export type TopicsBeginUpdateResponse = Topic & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Topic;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type TopicsListBySubscriptionNextResponse = TopicsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TopicsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type TopicsListByResourceGroupNextResponse = TopicsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TopicsListResult;
     };
 };
 

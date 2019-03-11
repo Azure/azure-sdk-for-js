@@ -15,12 +15,12 @@ export {
   DeadLetterDestination,
   Domain,
   DomainTopic,
+  DomainTopicsListResult,
   EventHubEventSubscriptionDestination,
   EventSubscription,
   EventSubscriptionDestination,
   EventSubscriptionFilter,
   EventType,
-  EventTypesListResult,
   HybridConnectionEventSubscriptionDestination,
   InputSchemaMapping,
   JsonField,
@@ -44,7 +44,6 @@ export {
   StringNotInAdvancedFilter,
   Topic,
   TopicTypeInfo,
-  TopicTypesListResult,
   TrackedResource,
   WebHookEventSubscriptionDestination
 } from "../models/mappers";
