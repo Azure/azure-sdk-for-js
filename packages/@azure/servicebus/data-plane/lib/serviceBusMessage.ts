@@ -320,7 +320,7 @@ export module SendableMessageInfo {
       typeof msg.messageId === "number" &&
       Math.floor(msg.messageId) !== msg.messageId
     ) {
-      throw new Error("'messageId must be a whole integer. Decimal points are not allowed.");
+      throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
     }
 
     if (
