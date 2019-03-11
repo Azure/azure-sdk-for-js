@@ -145,6 +145,11 @@ export interface CognitiveServicesAccount extends BaseResource {
    */
   internalId?: string;
   /**
+   * @member {string} [customSubDomainName] Optional subdomain name used for
+   * token-based authentication.
+   */
+  customSubDomainName?: string;
+  /**
    * @member {Sku} [sku] The SKU of Cognitive Services account.
    */
   sku?: Sku;
@@ -423,6 +428,23 @@ export interface CheckSkuAvailabilityParameter {
 
 /**
  * @interface
+ * An interface representing CheckDomainAvailabilityParameter.
+ * Check Domain availability parameter.
+ *
+ */
+export interface CheckDomainAvailabilityParameter {
+  /**
+   * @member {string} subdomainName The subdomain name to use.
+   */
+  subdomainName: string;
+  /**
+   * @member {string} type The Type of the resource.
+   */
+  type: string;
+}
+
+/**
+ * @interface
  * An interface representing CheckSkuAvailabilityResult.
  * Check SKU availability result.
  *
@@ -467,6 +489,32 @@ export interface CheckSkuAvailabilityResultList {
    * result list.
    */
   value?: CheckSkuAvailabilityResult[];
+}
+
+/**
+ * @interface
+ * An interface representing CheckDomainAvailabilityResult.
+ * Check Domain availability result.
+ *
+ */
+export interface CheckDomainAvailabilityResult {
+  /**
+   * @member {boolean} [isSubdomainAvailable] Indicates the given SKU is
+   * available or not.
+   */
+  isSubdomainAvailable?: boolean;
+  /**
+   * @member {string} [reason] Reason why the SKU is not available.
+   */
+  reason?: string;
+  /**
+   * @member {string} [subdomainName] The subdomain name to use.
+   */
+  subdomainName?: string;
+  /**
+   * @member {string} [type] The Type of the resource.
+   */
+  type?: string;
 }
 
 /**
@@ -1030,5 +1078,24 @@ export type CheckSkuAvailabilityListResponse = CheckSkuAvailabilityResultList & 
        * The response body as parsed JSON or XML
        */
       parsedBody: CheckSkuAvailabilityResultList;
+    };
+};
+
+/**
+ * Contains response data for the checkDomainAvailabilityPost operation.
+ */
+export type AccountCheckDomainAvailabilityPostResponse = CheckDomainAvailabilityResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckDomainAvailabilityResult;
     };
 };
