@@ -60,6 +60,7 @@ export {
   SyncGroupSchemaTableColumn,
   SyncMember,
   SubscriptionUsage,
+  VirtualCluster,
   VirtualNetworkRule,
   ExtendedDatabaseBlobAuditingPolicy,
   ExtendedServerBlobAuditingPolicy,
@@ -90,6 +91,10 @@ export {
   AutomaticTuningServerOptions,
   ServerDnsAlias,
   ServerSecurityAlertPolicy,
+  RestorableDroppedManagedDatabase,
+  ManagedDatabaseSecurityAlertPolicy,
+  ManagedServerSecurityAlertPolicy,
+  SensitivityLabel,
   DatabaseOperation,
   ElasticPoolOperation,
   Database,
@@ -107,6 +112,7 @@ export {
   TdeCertificate,
   ManagedInstanceKey,
   ManagedInstanceEncryptionProtector,
+  RecoverableManagedDatabase,
   ManagedInstanceVulnerabilityAssessment,
   ServerVulnerabilityAssessment
 } from "../models/mappers";
