@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Debug sample",
-            "program": "${workspaceFolder}/examples/simpleSend.ts",
+            "program": "${file}",
             "preLaunchTask": "npm: build-samples",
             "outFiles": [
                 "${workspaceFolder}/dist-esm/**/*.js"

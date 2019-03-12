@@ -75,12 +75,14 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
   sender = senderClient.getSender();
 
   if (receiverClient instanceof QueueClient) {
-    deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.name));
+    deadLetterClient = ns.createQueueClient(
+      Namespace.getDeadLetterQueuePath(receiverClient.entityPath)
+    );
   }
 
   if (receiverClient instanceof SubscriptionClient) {
     deadLetterClient = ns.createSubscriptionClient(
-      Namespace.getDeadLetterTopicPath(senderClient.name, receiverClient.subscriptionName),
+      Namespace.getDeadLetterTopicPath(senderClient.entityPath, receiverClient.subscriptionName),
       receiverClient.subscriptionName
     );
   }
@@ -370,7 +372,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
           abandonFlag = 1;
-          if (sessionReceiver.isOpen()) {
+          if (sessionReceiver.isReceivingMessages()) {
             return sessionReceiver.close();
           }
           return Promise.resolve();
@@ -383,7 +385,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
     const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
     should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-    if (sessionReceiver.isOpen()) {
+    if (sessionReceiver.isReceivingMessages()) {
       await sessionReceiver.close();
     }
 
@@ -1080,5 +1082,180 @@ describe("Sessions Streaming - User Error", function(): void {
       ClientType.UnpartitionedSubscriptionWithSessions
     );
     await testUserError();
+  });
+});
+
+describe("Sessions Streaming - maxConcurrentCalls", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
+    if (
+      typeof maxConcurrentCalls === "number" &&
+      (maxConcurrentCalls < 1 || maxConcurrentCalls > 2)
+    ) {
+      chai.assert.fail(
+        "Sorry, the tests here only support cases when maxConcurrentCalls is set to 1 or 2"
+      );
+    }
+
+    const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
+    await sender.sendBatch(testMessages);
+
+    const settledMsgs: ServiceBusMessage[] = [];
+    const receivedMsgs: ServiceBusMessage[] = [];
+
+    sessionReceiver.receive(
+      async (msg: ServiceBusMessage) => {
+        if (receivedMsgs.length === 1) {
+          if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
+            throw new Error(
+              "onMessage for the second message should not have been called before the first message got settled"
+            );
+          }
+        } else {
+          if (maxConcurrentCalls === 2 && settledMsgs.length !== 0) {
+            throw new Error(
+              "onMessage for the second message should have been called before the first message got settled"
+            );
+          }
+        }
+
+        receivedMsgs.push(msg);
+        await delay(2000);
+        await msg.complete().then(() => {
+          settledMsgs.push(msg);
+        });
+      },
+      unExpectedErrorHandler,
+      maxConcurrentCalls ? { maxConcurrentCalls } : {}
+    );
+
+    await checkWithTimeout(() => settledMsgs.length === 2);
+    await sessionReceiver.close();
+
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+    should.equal(settledMsgs.length, 2, `Expected 2, received ${settledMsgs.length} messages.`);
+  }
+
+  it("Partitioned Queue: no maxConcurrentCalls passed(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Partitioned Queue: pass 1 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Partitioned Queue: pass 2 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Unpartitioned Queue: no maxConcurrentCalls passed(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Partitioned Subscription: no maxConcurrentCalls passed(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Partitioned Queue: pass 1 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testConcurrency(1);
+  });
+
+  it("Partitioned Queue: pass 2 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await testConcurrency(2);
+  });
+
+  it("Unpartitioned Subscription: no maxConcurrentCalls passed(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await testConcurrency();
+  });
+
+  it("Unpartitioned Queue: pass 1 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await testConcurrency(1);
+  });
+
+  it("Unpartitioned Queue: pass 2 for maxConcurrentCalls(with sessions)", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await testConcurrency(2);
   });
 });

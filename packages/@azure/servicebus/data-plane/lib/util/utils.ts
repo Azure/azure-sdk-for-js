@@ -7,17 +7,20 @@ import { generate_uuid, string_to_uuid } from "rhea-promise";
 import { isBuffer } from "util";
 import { ConnectionContext } from "../connectionContext";
 
+// This is the only dependency we have on DOM types, so rather than require
+// the DOM lib we can just shim this in.
+interface Navigator {
+  hardwareConcurrency: number;
+}
+declare var navigator: Navigator;
+
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
- * Defines a concrete type that can be anything but `null` or `undefined`
- */
-export type Concrete = string | number | boolean | symbol | object;
-
-/**
+ * @internal
  * Provides a uniue name by appending a string guid to the given string in the following format:
  * `{name}-{uuid}`.
  * @param name The nme of the entity
@@ -37,7 +40,7 @@ export function getUniqueName(name: string): string {
  * @param lockToken The lock token whose bytes need to be reorded.
  * @returns Buffer - Buffer representing reordered bytes.
  */
-export function reorderLockToken(lockToken: string): Buffer {
+function reorderLockToken(lockToken: string): Buffer {
   if (!lockToken || typeof lockToken !== "string") {
     throw new Error("'lockToken' is a required parameter and must be of type 'string'.");
   }
@@ -71,6 +74,7 @@ export function reorderLockToken(lockToken: string): Buffer {
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
  *
+ * @internal
  * @param lockTokens An array of lock tokens whose bytes need to be reorderd.
  * @returns Buffer[] An array of Buffer representing reordered bytes.
  */
@@ -87,6 +91,7 @@ export function reorderLockTokens(lockTokens: string[]): Buffer[] {
 }
 
 /**
+ * @internal
  * Provides the time in milliseconds after which the lock renewal should occur.
  * @param lockedUntilUtc - The time until which the message is locked.
  */
@@ -107,6 +112,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 }
 
 /**
+ * @internal
  * Converts the .net ticks to a JS Date object.
  *
  * - The epoch for the DateTimeOffset type is `0000-01-01`, while the epoch for JS Dates is
@@ -132,6 +138,7 @@ export function convertTicksToDate(buf: number[]): Date {
 }
 
 /**
+ * @internal
  * Returns the number of logical processors in the system.
  */
 export function getProcessorCount(): number {
@@ -144,6 +151,7 @@ export function getProcessorCount(): number {
 }
 
 /**
+ * @internal
  * Converts any given input to a Buffer.
  * @param input The input that needs to be converted to a Buffer.
  */
@@ -177,6 +185,7 @@ export function toBuffer(input: any): Buffer {
 }
 
 /**
+ * @internal
  * Throws InvalidOperationError if the current AMQP connection is closed.
  * @param context The ConnectionContext associated with the current AMQP connection.
  */

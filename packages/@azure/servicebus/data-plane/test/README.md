@@ -6,8 +6,7 @@
 
   Note that the tests will empty the messages in these entities to get a clean start before running each test.
 
-  We suggest to name your entities as defined below. If you have these entities with different names, ensure
-  that you have the corresponding environment variables populated with your entity names.
+  We suggest to name your entities as defined below. If you have these entities with different names, ensure that you have the corresponding environment variables populated with your entity names.
 
  
   
@@ -52,8 +51,42 @@
     TOPIC_FILTER_NAME=topic-filter
     TOPIC_FILTER_SUBSCRIPTION_NAME=topic-filter-subscription
     TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME=topic-filter-default-subscription
-
     ```
+
+## Setup
+Go through the following setup in order to delete and create the required servicebus-entities(just before running each test). This would need authenticating to Service Bus using `AadTokenCredentials` instead of `ConnectionString`. The below setup is also needed to run the tests that specifically uses `AadTokenCredentials` to authenticate.
+
+**Register a new application in AAD**
+
+- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory(in the azure-portal).
+- Note down the `CLIENT_ID` and `TENANT_ID`.
+- In the "Certificates & Secrets" tab, create a secret and note that down.
+
+**Assign owner role to the registered application**
+
+- In the azure-portal, go to your servicebus-namespace and assign **owner** role to the registered application.
+- This can be done from `Access control (IAM)` tab(in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
+_Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
+_**Note:** AAD RBAC is enabled only on the new namespaces in this region for the preview. Please ensure that your servicebus-namespace is present in one of these regions: **US East, US East 2, or West Europe**. If not, create the namespace in one of those regions._
+
+
+**Update your environment variables**
+
+Populate the following variables along with the above mentioned environment variables in the `.env`.
+```
+AAD_CLIENT_ID=""
+AAD_CLIENT_SECRET=""
+AAD_TENANT_ID=""
+RESOURCE_GROUP=""
+AZURE_SUBSCRIPTION_ID=""
+CLEAN_NAMESPACE="true"
+```
+
+**Note:**
+* `RESOURCE_GROUP` and `AZURE_SUBSCRIPTION_ID` can be found at your servicebus-namespace in the azure-portal.
+* `CLEAN_NAMESPACE` env variable is used it in testUtils.ts.
+
+_If `CLEAN_NAMESPACE` is `undefined`, then the deletion/creation of the required servicebus-entities(for each test) will not happen._
 
 ## Run all tests
 
@@ -78,3 +111,6 @@ Then run `npm run unit` from your terminal.
 - Start Debugging
 
 
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fservicebus%2Fdata-plane%2Ftest%2FREADME.png)

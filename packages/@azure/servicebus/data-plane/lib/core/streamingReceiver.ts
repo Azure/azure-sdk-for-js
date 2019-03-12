@@ -44,9 +44,17 @@ export interface MessageHandlerOptions {
    * If this option is not provided, then receiver link will stay open until manually closed.
    */
   newMessageWaitTimeoutInSeconds?: number;
+  /**
+   * @property {number} [maxConcurrentCalls] The maximum number of concurrent calls that the library
+   * can make to the user's message handler. Once this limit has been reached, more messages will
+   * not be received until atleast one of the calls to the user's message handler has completed.
+   * - **Default**: `1`.
+   */
+  maxConcurrentCalls?: number;
 }
 
 /**
+ * @internal
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver
@@ -102,9 +110,15 @@ export class StreamingReceiver extends MessageReceiver {
         `Either wait for current receiver to complete or create a new receiver.`;
       throw new Error(msg);
     }
-    this._init().catch((err) => {
-      this._onError!(err);
-    });
+    this._init()
+      .then(() => {
+        if (this._receiver) {
+          this._receiver.addCredit(this.maxConcurrentCalls);
+        }
+      })
+      .catch((err) => {
+        this._onError!(err);
+      });
   }
 
   /**

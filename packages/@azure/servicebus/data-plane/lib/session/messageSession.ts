@@ -34,14 +34,18 @@ import {
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { messageDispositionTimeout } from "../util/constants";
 
-export enum Callee {
+/**
+ * Enum to denote who is calling the session receiver
+ * @internal
+ */
+export enum SessionCallee {
   standalone = "standalone",
   sessionManager = "sessionManager"
 }
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
- * @ignore
+ * @internal
  */
 export interface CreateMessageSessionReceiverLinkOptions {
   onClose: OnAmqpEventAsPromise;
@@ -57,7 +61,8 @@ export interface CreateMessageSessionReceiverLinkOptions {
  */
 export interface SessionReceiverOptions {
   /**
-   * @property {string} [sessionId] The sessionId for the message session.
+   * @property {string} [sessionId] The sessionId for the message session. If none is provided,
+   * the SessionReceiver gets created for a randomly chosen session from available sessions
    */
   sessionId?: string;
   /**
@@ -97,8 +102,16 @@ export interface SessionMessageHandlerOptions {
    * If this option is not provided, then receiver link will stay open until manually closed.
    */
   newMessageWaitTimeoutInSeconds?: number;
+  /**
+   * @property {number} [maxConcurrentCalls] The maximum number of concurrent calls that the library
+   * can make to the user's message handler. Once this limit has been reached, more messages will
+   * not be received until atleast one of the calls to the user's message handler has completed.
+   * - **Default**: `1`.
+   */
+  maxConcurrentCalls?: number;
 }
 /**
+ * @internal
  * Describes the options for creating a Session Manager.
  */
 export interface SessionManagerOptions extends SessionMessageHandlerOptions {
@@ -111,14 +124,16 @@ export interface SessionManagerOptions extends SessionMessageHandlerOptions {
 }
 
 /**
+ * @internal
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = SessionManagerOptions &
   SessionReceiverOptions & {
-    callee?: Callee;
+    callee?: SessionCallee;
   };
 
 /**
+ * @internal
  * Describes the receiver for a Message Session.
  */
 export class MessageSession extends LinkEntity {
@@ -137,12 +152,12 @@ export class MessageSession extends LinkEntity {
    */
   maxConcurrentSessions?: number;
   /**
-   * @property {number} [maxConcurrentCallsPerSession] The maximum number of messages that should be
-   * processed concurrently in a session while in peek lock mode. Once this limit has been reached,
-   * more messages will not be received until messages currently being processed have been settled.
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * processed concurrently in a session while in streaming mode. Once this limit has been reached,
+   * more messages will not be received until the user's message handler has completed processing current message.
    * - **Default**: `1` (message in a session at a time).
    */
-  maxConcurrentCallsPerSession?: number;
+  maxConcurrentCalls: number = 1;
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
@@ -173,11 +188,15 @@ export class MessageSession extends LinkEntity {
    */
   autoRenewLock: boolean;
   /**
-   * @property {Callee} callee Describes who instantied the MessageSession. Whether it was called
-   * by the SessionManager or it was called standalone.
+   * @property {SessionCallee} callee Describes who instantied the MessageSession. Whether it was
+   * called by the SessionManager or it was called standalone.
    * - Default: "standalone"
    */
-  callee: Callee;
+  callee: SessionCallee;
+  /**
+   * Denotes if we are currently receiving messages
+   */
+  isReceivingMessages: boolean;
   /**
    * @property {Receiver} [_receiver] The AMQP receiver link.
    */
@@ -240,7 +259,6 @@ export class MessageSession extends LinkEntity {
    */
   private _newMessageReceivedTimer?: NodeJS.Timer;
 
-  private _isReceivingMessages: boolean;
   private _totalAutoLockRenewDuration: number;
 
   constructor(context: ClientEntityContext, options?: MessageSessionOptions) {
@@ -249,12 +267,12 @@ export class MessageSession extends LinkEntity {
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
     this._context.isSessionEnabled = true;
-    this._isReceivingMessages = false;
+    this.isReceivingMessages = false;
     if (!options) options = {};
     this.autoComplete = false;
     this.sessionId = options.sessionId;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this.callee = options.callee || Callee.standalone;
+    this.callee = options.callee || SessionCallee.standalone;
     this.maxAutoRenewDurationInSeconds =
       options.maxSessionAutoRenewLockDurationInSeconds != undefined
         ? options.maxSessionAutoRenewLockDurationInSeconds
@@ -467,7 +485,7 @@ export class MessageSession extends LinkEntity {
         this.name
       );
 
-      this._isReceivingMessages = false;
+      this.isReceivingMessages = false;
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
       log.messageSession(
@@ -521,7 +539,7 @@ export class MessageSession extends LinkEntity {
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isReceivingMessages) {
+    if (this.isReceivingMessages) {
       throw new Error(
         `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
           `already receiving messages.`
@@ -534,8 +552,10 @@ export class MessageSession extends LinkEntity {
       throw new Error("'onError' is a required parameter and must be of type 'function'.");
     }
     if (!options) options = {};
-    this._isReceivingMessages = true;
-    this.maxConcurrentCallsPerSession = 1;
+    this.isReceivingMessages = true;
+    if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
+      this.maxConcurrentCalls = options.maxConcurrentCalls;
+    }
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
     // If explicitly set to false then autoComplete is false else true (default).
@@ -548,7 +568,6 @@ export class MessageSession extends LinkEntity {
      * Resets the timer when a new message is received for Session Manager.
      * It will close the receiver gracefully, if no
      * messages were received for the configured newMessageWaitTimeoutInSeconds
-     * @ignore
      */
     const resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -561,7 +580,7 @@ export class MessageSession extends LinkEntity {
             } seconds. Hence closing it.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
-          if (this.callee === Callee.sessionManager) {
+          if (this.callee === SessionCallee.sessionManager) {
             // The session manager will not forward this error to user.
             // Instead, this is taken as a indicator to create a new session client for the next session.
             const error = translate({
@@ -577,6 +596,21 @@ export class MessageSession extends LinkEntity {
 
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext) => {
+        // If the receiver got closed in PeekLock mode, avoid processing the message as we
+        // cannot settle the message.
+        if (
+          this.receiveMode === ReceiveMode.peekLock &&
+          (!this._receiver || !this._receiver.isOpen())
+        ) {
+          log.error(
+            "[%s] Not calling the user's message handler for the current message " +
+              "as the receiver '%s' is closed",
+            connectionId,
+            this.name
+          );
+          return;
+        }
+
         resetTimerOnNewMessageReceived();
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
@@ -588,6 +622,14 @@ export class MessageSession extends LinkEntity {
         } catch (err) {
           // This ensures we call users' error handler when users' message handler throws.
           if (!isAmqpError(err)) {
+            log.error(
+              "[%s] An error occurred while running user's message handler for the message " +
+                "with id '%s' on the receiver '%s': %O",
+              connectionId,
+              bMessage.messageId,
+              this.name,
+              err
+            );
             this._onError!(err);
           }
 
@@ -660,9 +702,9 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this._receiver!.addCredit(this.maxConcurrentCallsPerSession);
+      this._receiver!.addCredit(this.maxConcurrentCalls);
     } else {
-      this._isReceivingMessages = false;
+      this.isReceivingMessages = false;
       const msg =
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
@@ -687,7 +729,7 @@ export class MessageSession extends LinkEntity {
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isReceivingMessages) {
+    if (this.isReceivingMessages) {
       throw new Error(
         `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
           `already receiving messages.`
@@ -705,7 +747,7 @@ export class MessageSession extends LinkEntity {
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
-    this._isReceivingMessages = true;
+    this.isReceivingMessages = true;
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEventAsPromise;
@@ -720,7 +762,7 @@ export class MessageSession extends LinkEntity {
       setnewMessageWaitTimeoutInSeconds(1);
 
       this._onError = (error: MessagingError | Error) => {
-        this._isReceivingMessages = false;
+        this.isReceivingMessages = false;
         // Resetting the newMessageWaitTimeoutInSeconds to undefined since we are done receiving
         // a batch of messages.
         setnewMessageWaitTimeoutInSeconds();
@@ -769,7 +811,7 @@ export class MessageSession extends LinkEntity {
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
 
-          this._isReceivingMessages = false;
+          this.isReceivingMessages = false;
           log.messageSession(
             "[%s] Receiver '%s': Resolving receiveBatch() with %d messages.",
             this._context.namespace.connectionId,
@@ -783,8 +825,7 @@ export class MessageSession extends LinkEntity {
       /**
        * Resets the timer when a new message is received. If no messages were received for
        * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
-       * receiver link stays open for the next receive call, but doesnt receive messages until then
-       * @ignore
+       * receiver link stays open for the next receive call, but doesnt receive messages until
        */
       const resetTimerOnNewMessageReceived = () => {
         if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -797,7 +838,7 @@ export class MessageSession extends LinkEntity {
               } seconds. Hence closing it.`;
             log.error("[%s] %s", this._context.namespace.connectionId, msg);
             finalAction();
-            if (this.callee === Callee.sessionManager) {
+            if (this.callee === SessionCallee.sessionManager) {
               await this.close();
             }
           }, this.newMessageWaitTimeoutInSeconds * 1000);
@@ -820,7 +861,7 @@ export class MessageSession extends LinkEntity {
         this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         this._receiver!.drain = false;
 
-        this._isReceivingMessages = false;
+        this.isReceivingMessages = false;
 
         log.messageSession(
           "[%s] Receiver '%s' drained. Resolving receiveBatch() with %d messages.",
@@ -951,7 +992,6 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Deletes the MessageSession from the internal cache.
-   * @ignore
    */
   private _deleteFromCache(): void {
     this._receiver = undefined;
@@ -966,7 +1006,6 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @ignore
    */
   private async _init(): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
@@ -1075,7 +1114,6 @@ export class MessageSession extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @ignore
    */
   private _createMessageSessionOptions(): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
@@ -1109,7 +1147,6 @@ export class MessageSession extends LinkEntity {
   /**
    * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
    * more than the configured totalAutoLockRenewDuration.
-   * @ignore
    */
   private _ensureSessionLockRenewal(): void {
     if (
