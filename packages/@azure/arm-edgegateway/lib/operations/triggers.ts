@@ -34,7 +34,7 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>;
+  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: Models.TriggersListByDataBoxEdgeDeviceOptionalParams): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
@@ -47,8 +47,8 @@ export class Triggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerList>): void;
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerList>, callback?: msRest.ServiceCallback<Models.TriggerList>): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse> {
+  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options: Models.TriggersListByDataBoxEdgeDeviceOptionalParams, callback: msRest.ServiceCallback<Models.TriggerList>): void;
+  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: Models.TriggersListByDataBoxEdgeDeviceOptionalParams | msRest.ServiceCallback<Models.TriggerList>, callback?: msRest.ServiceCallback<Models.TriggerList>): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -204,7 +204,8 @@ const listByDataBoxEdgeDeviceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.expand
   ],
   headerParameters: [
     Parameters.acceptLanguage
