@@ -1151,25 +1151,25 @@ export interface Iteration {
  */
 export interface ExportModel {
   /**
-   * @member {ExportPlatform} platform Platform of the export. Possible values
-   * include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX', 'VAIDK'
+   * @member {ExportPlatform} [platform] Platform of the export. Possible
+   * values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX', 'VAIDK'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly platform: ExportPlatform;
+  readonly platform?: ExportPlatform;
   /**
-   * @member {ExportStatus} status Status of the export. Possible values
+   * @member {ExportStatus} [status] Status of the export. Possible values
    * include: 'Exporting', 'Failed', 'Done'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly status: ExportStatus;
+  readonly status?: ExportStatus;
   /**
-   * @member {string} downloadUri URI used to download the model.
+   * @member {string} [downloadUri] URI used to download the model.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly downloadUri: string;
+  readonly downloadUri?: string;
   /**
    * @member {ExportFlavor} [flavor] Flavor of the export. Possible values
    * include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
@@ -1178,13 +1178,13 @@ export interface ExportModel {
    */
   readonly flavor?: ExportFlavor;
   /**
-   * @member {boolean} newerVersionAvailable Indicates an updated version of
+   * @member {boolean} [newerVersionAvailable] Indicates an updated version of
    * the export package is available and should be re-exported for the latest
    * changes.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly newerVersionAvailable: boolean;
+  readonly newerVersionAvailable?: boolean;
 }
 
 /**

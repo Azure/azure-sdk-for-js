@@ -1835,7 +1835,6 @@ export const ExportModel: msRest.CompositeMapper = {
     className: "ExportModel",
     modelProperties: {
       platform: {
-        required: true,
         readOnly: true,
         serializedName: "platform",
         type: {
@@ -1843,7 +1842,6 @@ export const ExportModel: msRest.CompositeMapper = {
         }
       },
       status: {
-        required: true,
         readOnly: true,
         serializedName: "status",
         type: {
@@ -1851,7 +1849,6 @@ export const ExportModel: msRest.CompositeMapper = {
         }
       },
       downloadUri: {
-        required: true,
         readOnly: true,
         serializedName: "downloadUri",
         type: {
@@ -1867,7 +1864,6 @@ export const ExportModel: msRest.CompositeMapper = {
         }
       },
       newerVersionAvailable: {
-        required: true,
         readOnly: true,
         serializedName: "newerVersionAvailable",
         type: {
