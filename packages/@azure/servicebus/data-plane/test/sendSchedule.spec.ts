@@ -548,14 +548,14 @@ describe("Message validations", function(): void {
     await afterEachTest();
   });
 
-  async function validationTest(msg: any, catchErrorMsg: string): Promise<void> {
-    let errorFlag = false;
+  async function validationTest(msg: any, expectedErrorMsg: string): Promise<void> {
+    let actualErrorMsg = "";
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     const sender = senderClient.getSender();
     await sender.send(msg).catch((err) => {
-      errorFlag = err && err.message === catchErrorMsg;
+      actualErrorMsg = err.message;
     });
-    should.equal(errorFlag, true, "errorFlag is not true(Error not thrown as expected)");
+    should.equal(actualErrorMsg, expectedErrorMsg, "Error not thrown as expected");
   }
 
   it("Error thrown when the 'msg' is undefined", async function(): Promise<void> {
@@ -631,7 +631,7 @@ describe("Message validations", function(): void {
     );
   });
 
-  it("Error thrown when the length of viaPartitionKey is greater than 128 characters.", async function(): Promise<
+  it("Error thrown when the length of 'viaPartitionKey' is greater than 128 characters.", async function(): Promise<
     void
   > {
     await validationTest(
