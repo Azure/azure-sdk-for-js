@@ -17,32 +17,32 @@ import * as msRest from "@azure/ms-rest-js";
  */
 export interface Domain {
   /**
-   * @member {string} id **NOTE: This property will not be serialized. It can
+   * @member {string} [id] **NOTE: This property will not be serialized. It can
    * only be populated by the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {string} name **NOTE: This property will not be serialized. It can
-   * only be populated by the server.**
+   * @member {string} [name] **NOTE: This property will not be serialized. It
+   * can only be populated by the server.**
    */
-  readonly name: string;
+  readonly name?: string;
   /**
-   * @member {DomainType} type Possible values include: 'Classification',
+   * @member {DomainType} [type] Possible values include: 'Classification',
    * 'ObjectDetection'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly type: DomainType;
+  readonly type?: DomainType;
   /**
-   * @member {boolean} exportable **NOTE: This property will not be serialized.
+   * @member {boolean} [exportable] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
+   */
+  readonly exportable?: boolean;
+  /**
+   * @member {boolean} [enabled] **NOTE: This property will not be serialized.
    * It can only be populated by the server.**
    */
-  readonly exportable: boolean;
-  /**
-   * @member {boolean} enabled **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
-   */
-  readonly enabled: boolean;
+  readonly enabled?: boolean;
 }
 
 /**
@@ -147,25 +147,25 @@ export interface ImageRegionCreateBatch {
  */
 export interface ImageRegionCreateResult {
   /**
-   * @member {string} imageId **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [imageId] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly imageId: string;
+  readonly imageId?: string;
   /**
-   * @member {string} regionId **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [regionId] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly regionId: string;
+  readonly regionId?: string;
   /**
-   * @member {string} tagName **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [tagName] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly tagName: string;
+  readonly tagName?: string;
   /**
-   * @member {Date} created **NOTE: This property will not be serialized. It
+   * @member {Date} [created] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
    * @member {string} tagId Id of the tag associated with this region.
    */
@@ -213,20 +213,20 @@ export interface ImageRegionCreateSummary {
  */
 export interface ImageTag {
   /**
-   * @member {string} tagId **NOTE: This property will not be serialized. It
+   * @member {string} [tagId] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */
-  readonly tagId: string;
+  readonly tagId?: string;
   /**
-   * @member {string} tagName **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [tagName] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly tagName: string;
+  readonly tagName?: string;
   /**
-   * @member {Date} created **NOTE: This property will not be serialized. It
+   * @member {Date} [created] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
 }
 
 /**
@@ -235,20 +235,20 @@ export interface ImageTag {
  */
 export interface ImageRegion {
   /**
-   * @member {string} regionId **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [regionId] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly regionId: string;
+  readonly regionId?: string;
   /**
-   * @member {string} tagName **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [tagName] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly tagName: string;
+  readonly tagName?: string;
   /**
-   * @member {Date} created **NOTE: This property will not be serialized. It
+   * @member {Date} [created] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
    * @member {string} tagId Id of the tag associated with this region.
    */
@@ -279,49 +279,50 @@ export interface ImageRegion {
  */
 export interface Image {
   /**
-   * @member {string} id Id of the image.
+   * @member {string} [id] Id of the image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {Date} created Date the image was created.
+   * @member {Date} [created] Date the image was created.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
-   * @member {number} width Width of the image.
+   * @member {number} [width] Width of the image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly width: number;
+  readonly width?: number;
   /**
-   * @member {number} height Height of the image.
+   * @member {number} [height] Height of the image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly height: number;
+  readonly height?: number;
   /**
-   * @member {string} resizedImageUri The URI to the (resized) image used for
+   * @member {string} [resizedImageUri] The URI to the (resized) image used for
    * training.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly resizedImageUri: string;
+  readonly resizedImageUri?: string;
   /**
-   * @member {string} thumbnailUri The URI to the thumbnail of the original
+   * @member {string} [thumbnailUri] The URI to the thumbnail of the original
    * image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly thumbnailUri: string;
+  readonly thumbnailUri?: string;
   /**
-   * @member {string} originalImageUri The URI to the original uploaded image.
+   * @member {string} [originalImageUri] The URI to the original uploaded
+   * image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly originalImageUri: string;
+  readonly originalImageUri?: string;
   /**
    * @member {ImageTag[]} [tags] Tags associated with this image.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -342,27 +343,27 @@ export interface Image {
  */
 export interface ImageCreateResult {
   /**
-   * @member {string} sourceUrl Source URL of the image.
+   * @member {string} [sourceUrl] Source URL of the image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly sourceUrl: string;
+  readonly sourceUrl?: string;
   /**
-   * @member {ImageCreateStatus} status Status of the image creation. Possible
-   * values include: 'OK', 'OKDuplicate', 'ErrorSource', 'ErrorImageFormat',
-   * 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed',
+   * @member {ImageCreateStatus} [status] Status of the image creation.
+   * Possible values include: 'OK', 'OKDuplicate', 'ErrorSource',
+   * 'ErrorImageFormat', 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed',
    * 'ErrorTagLimitExceed', 'ErrorRegionLimitExceed', 'ErrorUnknown',
    * 'ErrorNegativeAndRegularTagOnSameImage'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly status: ImageCreateStatus;
+  readonly status?: ImageCreateStatus;
   /**
-   * @member {Image} image The image.
+   * @member {Image} [image] The image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly image: Image;
+  readonly image?: Image;
 }
 
 /**
@@ -371,18 +372,18 @@ export interface ImageCreateResult {
  */
 export interface ImageCreateSummary {
   /**
-   * @member {boolean} isBatchSuccessful True if all of the images in the batch
-   * were created successfully, otherwise false.
+   * @member {boolean} [isBatchSuccessful] True if all of the images in the
+   * batch were created successfully, otherwise false.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly isBatchSuccessful: boolean;
+  readonly isBatchSuccessful?: boolean;
   /**
-   * @member {ImageCreateResult[]} images List of the image creation results.
+   * @member {ImageCreateResult[]} [images] List of the image creation results.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly images: ImageCreateResult[];
+  readonly images?: ImageCreateResult[];
 }
 
 /**
@@ -549,15 +550,15 @@ export interface BoundingBox {
  */
 export interface RegionProposal {
   /**
-   * @member {number} confidence **NOTE: This property will not be serialized.
-   * It can only be populated by the server.**
-   */
-  readonly confidence: number;
-  /**
-   * @member {BoundingBox} boundingBox **NOTE: This property will not be
+   * @member {number} [confidence] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
    */
-  readonly boundingBox: BoundingBox;
+  readonly confidence?: number;
+  /**
+   * @member {BoundingBox} [boundingBox] **NOTE: This property will not be
+   * serialized. It can only be populated by the server.**
+   */
+  readonly boundingBox?: BoundingBox;
 }
 
 /**
@@ -566,20 +567,20 @@ export interface RegionProposal {
  */
 export interface ImageRegionProposal {
   /**
-   * @member {string} projectId **NOTE: This property will not be serialized.
+   * @member {string} [projectId] **NOTE: This property will not be serialized.
    * It can only be populated by the server.**
    */
-  readonly projectId: string;
+  readonly projectId?: string;
   /**
-   * @member {string} imageId **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [imageId] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly imageId: string;
+  readonly imageId?: string;
   /**
-   * @member {RegionProposal[]} proposals **NOTE: This property will not be
+   * @member {RegionProposal[]} [proposals] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
    */
-  readonly proposals: RegionProposal[];
+  readonly proposals?: RegionProposal[];
 }
 
 /**
@@ -603,17 +604,17 @@ export interface ImageUrl {
  */
 export interface Prediction {
   /**
-   * @member {number} probability Probability of the tag.
+   * @member {number} [probability] Probability of the tag.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly probability: number;
+  readonly probability?: number;
   /**
-   * @member {string} tagId Id of the predicted tag.
+   * @member {string} [tagId] Id of the predicted tag.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly tagId: string;
+  readonly tagId?: string;
   /**
    * @member {string} [tagName] Name of the predicted tag.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -636,35 +637,35 @@ export interface Prediction {
  */
 export interface ImagePrediction {
   /**
-   * @member {string} id Prediction Id.
+   * @member {string} [id] Prediction Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {string} project Project Id.
+   * @member {string} [project] Project Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly project: string;
+  readonly project?: string;
   /**
-   * @member {string} iteration Iteration Id.
+   * @member {string} [iteration] Iteration Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly iteration: string;
+  readonly iteration?: string;
   /**
-   * @member {Date} created Date this prediction was created.
+   * @member {Date} [created] Date this prediction was created.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
-   * @member {Prediction[]} predictions List of predictions.
+   * @member {Prediction[]} [predictions] List of predictions.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly predictions: Prediction[];
+  readonly predictions?: Prediction[];
 }
 
 /**
@@ -673,20 +674,20 @@ export interface ImagePrediction {
  */
 export interface PredictionQueryTag {
   /**
-   * @member {string} id **NOTE: This property will not be serialized. It can
+   * @member {string} [id] **NOTE: This property will not be serialized. It can
    * only be populated by the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {number} minThreshold **NOTE: This property will not be
+   * @member {number} [minThreshold] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
    */
-  readonly minThreshold: number;
+  readonly minThreshold?: number;
   /**
-   * @member {number} maxThreshold **NOTE: This property will not be
+   * @member {number} [maxThreshold] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
    */
-  readonly maxThreshold: number;
+  readonly maxThreshold?: number;
 }
 
 /**
@@ -741,62 +742,62 @@ export interface PredictionQueryToken {
  */
 export interface StoredImagePrediction {
   /**
-   * @member {string} resizedImageUri The URI to the (resized) prediction
+   * @member {string} [resizedImageUri] The URI to the (resized) prediction
    * image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly resizedImageUri: string;
+  readonly resizedImageUri?: string;
   /**
-   * @member {string} thumbnailUri The URI to the thumbnail of the original
+   * @member {string} [thumbnailUri] The URI to the thumbnail of the original
    * prediction image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly thumbnailUri: string;
+  readonly thumbnailUri?: string;
   /**
-   * @member {string} originalImageUri The URI to the original prediction
+   * @member {string} [originalImageUri] The URI to the original prediction
    * image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly originalImageUri: string;
+  readonly originalImageUri?: string;
   /**
-   * @member {string} domain Domain used for the prediction.
+   * @member {string} [domain] Domain used for the prediction.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly domain: string;
+  readonly domain?: string;
   /**
-   * @member {string} id Prediction Id.
+   * @member {string} [id] Prediction Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {string} project Project Id.
+   * @member {string} [project] Project Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly project: string;
+  readonly project?: string;
   /**
-   * @member {string} iteration Iteration Id.
+   * @member {string} [iteration] Iteration Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly iteration: string;
+  readonly iteration?: string;
   /**
-   * @member {Date} created Date this prediction was created.
+   * @member {Date} [created] Date this prediction was created.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
-   * @member {Prediction[]} predictions List of predictions.
+   * @member {Prediction[]} [predictions] List of predictions.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly predictions: Prediction[];
+  readonly predictions?: Prediction[];
 }
 
 /**
@@ -805,15 +806,15 @@ export interface StoredImagePrediction {
  */
 export interface PredictionQueryResult {
   /**
-   * @member {PredictionQueryToken} token **NOTE: This property will not be
+   * @member {PredictionQueryToken} [token] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
    */
-  readonly token: PredictionQueryToken;
+  readonly token?: PredictionQueryToken;
   /**
-   * @member {StoredImagePrediction[]} results **NOTE: This property will not
+   * @member {StoredImagePrediction[]} [results] **NOTE: This property will not
    * be serialized. It can only be populated by the server.**
    */
-  readonly results: StoredImagePrediction[];
+  readonly results?: StoredImagePrediction[];
 }
 
 /**
@@ -824,41 +825,41 @@ export interface PredictionQueryResult {
  */
 export interface TagPerformance {
   /**
-   * @member {string} id **NOTE: This property will not be serialized. It can
+   * @member {string} [id] **NOTE: This property will not be serialized. It can
    * only be populated by the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {string} name **NOTE: This property will not be serialized. It can
-   * only be populated by the server.**
+   * @member {string} [name] **NOTE: This property will not be serialized. It
+   * can only be populated by the server.**
    */
-  readonly name: string;
+  readonly name?: string;
   /**
-   * @member {number} precision Gets the precision.
+   * @member {number} [precision] Gets the precision.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly precision: number;
+  readonly precision?: number;
   /**
-   * @member {number} precisionStdDeviation Gets the standard deviation for the
-   * precision.
+   * @member {number} [precisionStdDeviation] Gets the standard deviation for
+   * the precision.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly precisionStdDeviation: number;
+  readonly precisionStdDeviation?: number;
   /**
-   * @member {number} recall Gets the recall.
+   * @member {number} [recall] Gets the recall.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly recall: number;
+  readonly recall?: number;
   /**
-   * @member {number} recallStdDeviation Gets the standard deviation for the
+   * @member {number} [recallStdDeviation] Gets the standard deviation for the
    * recall.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly recallStdDeviation: number;
+  readonly recallStdDeviation?: number;
   /**
    * @member {number} [averagePrecision] Gets the average precision when
    * applicable.
@@ -876,38 +877,38 @@ export interface TagPerformance {
  */
 export interface IterationPerformance {
   /**
-   * @member {TagPerformance[]} perTagPerformance Gets the per-tag performance
-   * details for this iteration.
+   * @member {TagPerformance[]} [perTagPerformance] Gets the per-tag
+   * performance details for this iteration.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly perTagPerformance: TagPerformance[];
+  readonly perTagPerformance?: TagPerformance[];
   /**
-   * @member {number} precision Gets the precision.
+   * @member {number} [precision] Gets the precision.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly precision: number;
+  readonly precision?: number;
   /**
-   * @member {number} precisionStdDeviation Gets the standard deviation for the
-   * precision.
+   * @member {number} [precisionStdDeviation] Gets the standard deviation for
+   * the precision.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly precisionStdDeviation: number;
+  readonly precisionStdDeviation?: number;
   /**
-   * @member {number} recall Gets the recall.
+   * @member {number} [recall] Gets the recall.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly recall: number;
+  readonly recall?: number;
   /**
-   * @member {number} recallStdDeviation Gets the standard deviation for the
+   * @member {number} [recallStdDeviation] Gets the standard deviation for the
    * recall.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly recallStdDeviation: number;
+  readonly recallStdDeviation?: number;
   /**
    * @member {number} [averagePrecision] Gets the average precision when
    * applicable.
@@ -930,35 +931,35 @@ export interface ImagePerformance {
    */
   readonly predictions?: Prediction[];
   /**
-   * @member {string} id **NOTE: This property will not be serialized. It can
+   * @member {string} [id] **NOTE: This property will not be serialized. It can
    * only be populated by the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {Date} created **NOTE: This property will not be serialized. It
+   * @member {Date} [created] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
-   * @member {number} width **NOTE: This property will not be serialized. It
+   * @member {number} [width] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */
-  readonly width: number;
+  readonly width?: number;
   /**
-   * @member {number} height **NOTE: This property will not be serialized. It
+   * @member {number} [height] **NOTE: This property will not be serialized. It
    * can only be populated by the server.**
    */
-  readonly height: number;
+  readonly height?: number;
   /**
-   * @member {string} imageUri **NOTE: This property will not be serialized. It
-   * can only be populated by the server.**
+   * @member {string} [imageUri] **NOTE: This property will not be serialized.
+   * It can only be populated by the server.**
    */
-  readonly imageUri: string;
+  readonly imageUri?: string;
   /**
-   * @member {string} thumbnailUri **NOTE: This property will not be
+   * @member {string} [thumbnailUri] **NOTE: This property will not be
    * serialized. It can only be populated by the server.**
    */
-  readonly thumbnailUri: string;
+  readonly thumbnailUri?: string;
   /**
    * @member {ImageTag[]} [tags] **NOTE: This property will not be serialized.
    * It can only be populated by the server.**
@@ -1003,11 +1004,11 @@ export interface ProjectSettings {
  */
 export interface Project {
   /**
-   * @member {string} id Gets the project id.
+   * @member {string} [id] Gets the project id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
    * @member {string} name Gets or sets the name of the project.
    */
@@ -1021,24 +1022,25 @@ export interface Project {
    */
   settings: ProjectSettings;
   /**
-   * @member {Date} created Gets the date this project was created.
+   * @member {Date} [created] Gets the date this project was created.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
-   * @member {Date} lastModified Gets the date this project was last modified.
+   * @member {Date} [lastModified] Gets the date this project was last
+   * modified.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly lastModified: Date;
+  readonly lastModified?: Date;
   /**
-   * @member {string} thumbnailUri Gets the thumbnail url representing the
+   * @member {string} [thumbnailUri] Gets the thumbnail url representing the
    * image.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly thumbnailUri: string;
+  readonly thumbnailUri?: string;
   /**
    * @member {boolean} [drModeEnabled] Gets if the DR mode is on.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1055,34 +1057,34 @@ export interface Project {
  */
 export interface Iteration {
   /**
-   * @member {string} id Gets the id of the iteration.
+   * @member {string} [id] Gets the id of the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
    * @member {string} name Gets or sets the name of the iteration.
    */
   name: string;
   /**
-   * @member {string} status Gets the current iteration status.
+   * @member {string} [status] Gets the current iteration status.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly status: string;
+  readonly status?: string;
   /**
-   * @member {Date} created Gets the time this iteration was completed.
+   * @member {Date} [created] Gets the time this iteration was completed.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
-   * @member {Date} lastModified Gets the time this iteration was last
+   * @member {Date} [lastModified] Gets the time this iteration was last
    * modified.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly lastModified: Date;
+  readonly lastModified?: Date;
   /**
    * @member {Date} [trainedAt] Gets the time this iteration was last modified.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1090,25 +1092,25 @@ export interface Iteration {
    */
   readonly trainedAt?: Date;
   /**
-   * @member {string} projectId Gets the project id of the iteration.
+   * @member {string} [projectId] Gets the project id of the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly projectId: string;
+  readonly projectId?: string;
   /**
-   * @member {boolean} exportable Whether the iteration can be exported to
+   * @member {boolean} [exportable] Whether the iteration can be exported to
    * another format for download.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly exportable: boolean;
+  readonly exportable?: boolean;
   /**
-   * @member {string[]} exportableTo A set of platforms this iteration can
+   * @member {string[]} [exportableTo] A set of platforms this iteration can
    * export to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly exportableTo: string[];
+  readonly exportableTo?: string[];
   /**
    * @member {string} [domainId] Get or sets a guid of the domain the iteration
    * has been trained on.
@@ -1124,25 +1126,25 @@ export interface Iteration {
    */
   readonly classificationType?: Classifier;
   /**
-   * @member {TrainingType} trainingType Gets the training type of the
+   * @member {TrainingType} [trainingType] Gets the training type of the
    * iteration. Possible values include: 'Regular', 'Advanced'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly trainingType: TrainingType;
+  readonly trainingType?: TrainingType;
   /**
-   * @member {number} reservedBudgetInHours Gets the reserved advanced training
-   * budget for the iteration.
+   * @member {number} [reservedBudgetInHours] Gets the reserved advanced
+   * training budget for the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly reservedBudgetInHours: number;
+  readonly reservedBudgetInHours?: number;
   /**
-   * @member {string} publishName Name of the published model.
+   * @member {string} [publishName] Name of the published model.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly publishName: string;
+  readonly publishName?: string;
 }
 
 /**
