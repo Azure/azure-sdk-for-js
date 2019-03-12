@@ -21,7 +21,7 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
   resourceSkus: operations.ResourceSkus;
   operations: operations.Operations;
   checkSkuAvailability: operations.CheckSkuAvailability;
-  account: operations.Account;
+  locations: operations.Locations;
 
   /**
    * Initializes a new instance of the CognitiveServicesManagementClient class.
@@ -35,7 +35,7 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
     this.resourceSkus = new operations.ResourceSkus(this);
     this.operations = new operations.Operations(this);
     this.checkSkuAvailability = new operations.CheckSkuAvailability(this);
-    this.account = new operations.Account(this);
+    this.locations = new operations.Locations(this);
   }
 }
 

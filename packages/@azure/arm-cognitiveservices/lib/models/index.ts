@@ -1084,7 +1084,7 @@ export type CheckSkuAvailabilityListResponse = CheckSkuAvailabilityResultList & 
 /**
  * Contains response data for the checkDomainAvailabilityPost operation.
  */
-export type AccountCheckDomainAvailabilityPostResponse = CheckDomainAvailabilityResult & {
+export type LocationsCheckDomainAvailabilityPostResponse = CheckDomainAvailabilityResult & {
   /**
    * The underlying HTTP response.
    */
