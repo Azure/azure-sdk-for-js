@@ -18,7 +18,7 @@ import { SessionManager } from "./session/sessionManager";
  * @interface ClientEntityContext
  * Provides contextual information like the underlying amqp connection, cbs session,
  * management session, tokenProvider, senders, receivers, etc. about the ServiceBus client.
- * @ignore
+ * @internal
  */
 export interface ClientEntityContextBase {
   /**
@@ -77,15 +77,16 @@ export interface ClientEntityContextBase {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   detached(error?: AmqpError | Error): Promise<void>;
   getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession;
+  clearClientReference(clientId: string): Promise<void>;
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface ClientEntityContextOptions {
   managementClientAddress?: string;
@@ -94,11 +95,11 @@ export interface ClientEntityContextOptions {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export namespace ClientEntityContext {
   /**
-   * @ignore
+   * @internal
    */
   export function create(
     entityPath: string,
@@ -207,6 +208,26 @@ export namespace ClientEntityContext {
         }
       }
     };
+
+    (entityContext as ClientEntityContext).clearClientReference = async (clientId: string) => {
+      delete context.clients[clientId];
+
+      if (!entityContext.managementClient) {
+        return;
+      }
+      let isManagementClientInUse = false;
+      for (const id of Object.keys(context.clients)) {
+        if (context.clients[id].entityPath === entityContext.entityPath) {
+          isManagementClientInUse = true;
+          break;
+        }
+      }
+      if (!isManagementClientInUse) {
+        await entityContext.managementClient.close();
+        entityContext.managementClient = undefined;
+      }
+    };
+
     let managementClient = getManagementClient(context.clients, entityPath);
     if (!managementClient) {
       const mOptions: ManagementClientOptions = {
@@ -224,11 +245,11 @@ export namespace ClientEntityContext {
 // Multiple Queue clients for the same queue should be using the same management client.
 function getManagementClient(
   clients: Dictionary<Client>,
-  name: string
+  entityPath: string
 ): ManagementClient | undefined {
   let result: ManagementClient | undefined;
   for (const id of Object.keys(clients)) {
-    if (clients[id].name === name) {
+    if (clients[id].entityPath === entityPath) {
       result = (clients[id] as any)._context.managementClient;
       break;
     }

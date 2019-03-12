@@ -45,3 +45,6 @@ ts-node <sample>.ts
 ```bash
 "program": "${workspaceFolder}/client/examples/<sample>.ts"
 ```
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Feventhubs%2Fclient%2Fexamples%2FREADME.png)

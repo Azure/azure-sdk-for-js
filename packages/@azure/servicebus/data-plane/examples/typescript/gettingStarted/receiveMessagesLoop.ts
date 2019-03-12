@@ -14,8 +14,11 @@ const queueName = "";
 async function main(): Promise<void> {
   const ns = Namespace.createFromConnectionString(connectionString);
 
-  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const client = ns.createQueueClient(queueName);
+
+  // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
+  // the sample in sessions.ts file
   const receiver = client.getReceiver();
 
   try {

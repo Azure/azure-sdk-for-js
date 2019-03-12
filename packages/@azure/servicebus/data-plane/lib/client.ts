@@ -1,80 +1,27 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { ClientEntityContext } from "./clientEntityContext";
-import { AmqpError, generate_uuid } from "rhea-promise";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import { AmqpError } from "rhea-promise";
 
 /**
- * Describes the base class for a client.
- * @abstract
- * @class Client
+ * Interface for Queue/Topic/Subscription clients
  */
-export abstract class Client {
+export interface Client {
   /**
-   * @property {string} name The name of the entity (queue, topic, subscription, etc.)
+   * @property {string} The entitypath for the Service Bus entity for which this client is created.
    */
-  name: string;
+  readonly entityPath: string;
   /**
-   * @property {string} id A unique identifier for the client. It is usually a combination of
-   * the name and a Guid.
+   * @property {string} A unique identifier for the client.
    */
-  id: string;
+  readonly id: string;
   /**
-   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   * Closes the client.
    */
-  protected _context: ClientEntityContext;
-
-  /**
-   * Instantiates a client pointing to the ServiceBus entity given by this configuration.
-   *
-   * @constructor
-   * @param {string} name The entity name.
-   * @param {ConnectionContext} context The connection context to create the QueueClient.
-   * @param {TokenProvider} [tokenProvider] The token provider that provides the token for authentication.
-   * Default value: SasTokenProvider.
-   */
-  constructor(name: string, context: ConnectionContext) {
-    throwErrorIfConnectionClosed(context);
-    this.name = name;
-    this.id = `${name}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(name, context);
-  }
-
-  /**
-   * Closes the client. This is an abstract method.
-   */
-  abstract async close(): Promise<void>;
-
+  close(): Promise<void>;
   /**
    * Will reconnect the client if neccessary.
-   * @ignore
    * @param error Error if any
    */
-  async detached(error?: AmqpError | Error): Promise<void> {
-    try {
-      await this._context.detached(error);
-    } catch (err) {
-      log.error(
-        "[%s] [%s] An error occurred while reconnecting the client: %O.",
-        this._context.namespace.connectionId,
-        this.id,
-        err
-      );
-    }
-  }
-
-  /**
-   * Provides the current type of the Client.
-   * @return {string} The entity type.
-   */
-  protected get _type(): string {
-    let result = "Client";
-    if ((this as any).constructor && (this as any).constructor.name) {
-      result = (this as any).constructor.name;
-    }
-    return result;
-  }
+  detached(error?: AmqpError | Error): Promise<void>;
 }

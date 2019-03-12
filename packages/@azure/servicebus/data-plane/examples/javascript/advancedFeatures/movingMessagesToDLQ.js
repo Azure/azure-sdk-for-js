@@ -40,7 +40,7 @@ async function sendMessage() {
 }
 
 async function receiveMessage() {
-  // If using Topics, use createSubscriptionClient to receive from a topic subscription
+  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const client = ns.createQueueClient(queueName);
   const receiver = client.getReceiver();
 

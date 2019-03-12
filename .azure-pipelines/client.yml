@@ -5,7 +5,7 @@ variables:
   NodeVersion: '10.x'
 
 jobs:
-  - job: 'Publish'
+  - job: 'Build'
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -50,9 +50,12 @@ jobs:
         displayName: 'Copy Packages'
 
       - task: PublishBuildArtifacts@1
-        displayName: 'Publish Package'
+        condition: succeededOrFailed()
+        displayName: 'Publish Artifacts'
+        inputs:
+          artifactName: packages
 
-  - job: 'Audit'
+  - job: 'Analyze'
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -117,7 +120,7 @@ jobs:
         macOS_Node11:
           OSName: 'macOS'
           OSVmImage: 'macOS-10.13'
-          NodeVersion: '11.x'       
+          NodeVersion: '11.x'
         Windows_Node8:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
@@ -142,7 +145,7 @@ jobs:
 
       # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
       # which is the minimum required to run the composite script commands.
-      # 
+      #
       # Also, "npm install" in the repo root fails when using Node11 on Windows or Linux
       # (https://github.com/Azure/azure-sdk-for-js/issues/845)
       - task: Npm@1

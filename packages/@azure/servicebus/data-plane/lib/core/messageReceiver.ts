@@ -16,7 +16,6 @@ import {
   EventContext,
   ReceiverOptions,
   AmqpError,
-  Dictionary,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
@@ -28,7 +27,7 @@ import { MessageHandlerOptions } from "./streamingReceiver";
 import { messageDispositionTimeout } from "../util/constants";
 
 /**
- * @ignore
+ * @internal
  */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEventAsPromise;
@@ -40,14 +39,14 @@ interface CreateReceiverOptions {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface PromiseLike {
   resolve: (value?: any) => void;
@@ -56,15 +55,15 @@ export interface PromiseLike {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface DispositionOptions {
-  propertiesToModify?: Dictionary<any>;
+  propertiesToModify?: { [key: string]: any };
   error?: AmqpError;
 }
 
 /**
- * @ignore
+ * @internal
  */
 export enum ReceiverType {
   batching = "batching",
@@ -72,7 +71,7 @@ export enum ReceiverType {
 }
 
 /**
- * @ignore
+ * @internal
  */
 export interface ReceiveOptions extends MessageHandlerOptions {
   /**
@@ -80,13 +79,6 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    * Default: ReceiveMode.peekLock
    */
   receiveMode?: ReceiveMode;
-  /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   * - **Default**: `1` (message at a time).
-   */
-  maxConcurrentCalls?: number;
 }
 
 /**
@@ -110,6 +102,7 @@ export interface OnError {
 }
 
 /**
+ * @internal
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
@@ -120,11 +113,11 @@ export class MessageReceiver extends LinkEntity {
   receiverType: ReceiverType;
   /**
    * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
+   * processed concurrently while in streaming mode. Once this limit has been reached, more
+   * messages will not be received until the user's message handler has completed processing current message.
    * Default: 1
    */
-  maxConcurrentCalls?: number;
+  maxConcurrentCalls: number = 1;
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
@@ -229,7 +222,6 @@ export class MessageReceiver extends LinkEntity {
   protected _newMessageReceivedTimer?: NodeJS.Timer;
   /**
    * Resets the `_newMessageReceivedTimer` timer when a new message is received.
-   * @ignore
    */
   protected resetTimerOnNewMessageReceived: () => void;
   /**
@@ -252,8 +244,9 @@ export class MessageReceiver extends LinkEntity {
     if (!options) options = {};
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this.maxConcurrentCalls =
-      options.maxConcurrentCalls != undefined ? options.maxConcurrentCalls : 1;
+    if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
+      this.maxConcurrentCalls = options.maxConcurrentCalls;
+    }
     this.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
     this.resetTimerOnNewMessageReceived = () => {
       /** */
@@ -327,6 +320,21 @@ export class MessageReceiver extends LinkEntity {
     };
 
     this._onAmqpMessage = async (context: EventContext) => {
+      // If the receiver got closed in PeekLock mode, avoid processing the message as we
+      // cannot settle the message.
+      if (
+        this.receiveMode === ReceiveMode.peekLock &&
+        (!this._receiver || !this._receiver.isOpen())
+      ) {
+        log.error(
+          "[%s] Not calling the user's message handler for the current message " +
+            "as the receiver '%s' is closed",
+          this._context.namespace.connectionId,
+          this.name
+        );
+        return;
+      }
+
       this.resetTimerOnNewMessageReceived();
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessage = new ServiceBusMessage(
@@ -442,6 +450,14 @@ export class MessageReceiver extends LinkEntity {
       } catch (err) {
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
+          log.error(
+            "[%s] An error occurred while running user's message handler for the message " +
+              "with id '%s' on the receiver '%s': %O",
+            connectionId,
+            bMessage.messageId,
+            this.name,
+            err
+          );
           this._onError!(err);
         }
 
@@ -480,6 +496,10 @@ export class MessageReceiver extends LinkEntity {
           }
         }
         return;
+      } finally {
+        if (this._receiver) {
+          this._receiver.addCredit(1);
+        }
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -677,7 +697,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Will reconnect the receiver link if necessary.
-   * @ignore
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
@@ -849,7 +868,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @ignore
    * @return {boolean} boolean
    */
   isOpen(): boolean {
@@ -959,7 +977,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @ignore
    */
   protected _createReceiverOptions(
     useNewName?: boolean,
@@ -994,7 +1011,7 @@ export class MessageReceiver extends LinkEntity {
       source: {
         address: this.address
       },
-      credit_window: this.maxConcurrentCalls,
+      credit_window: 0,
       ...options
     };
     return rcvrOptions;

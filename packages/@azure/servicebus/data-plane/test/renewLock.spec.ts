@@ -542,7 +542,8 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    const unprocessedMsgs = await receiver.receiveBatch(1);
+    const newReceiver = receiverClient.getReceiver();
+    const unprocessedMsgs = await newReceiver.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }
 }

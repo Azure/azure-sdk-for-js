@@ -10,13 +10,15 @@ import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   Dictionary,
-  delay
+  delay,
+  TokenProvider
 } from "@azure/amqp-common";
 import { NamespaceOptions } from "./namespace";
 import { Client } from "./client";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
+ * @internal
  * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the ServiceBus client.
@@ -29,6 +31,9 @@ export interface ConnectionContext extends ConnectionContextBase {
   clients: Dictionary<Client>;
 }
 
+/**
+ * @internal
+ */
 export namespace ConnectionContext {
   /**
    * @property {string} userAgent The user agent string for the ServiceBus client.
@@ -38,11 +43,15 @@ export namespace ConnectionContext {
     packageJsonInfo.version
   } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
-  export function create(config: ConnectionConfig, options?: NamespaceOptions): ConnectionContext {
+  export function create(
+    config: ConnectionConfig,
+    tokenProvider: TokenProvider,
+    options?: NamespaceOptions
+  ): ConnectionContext {
     if (!options) options = {};
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenProvider: options.tokenProvider,
+      tokenProvider: tokenProvider,
       dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
       connectionProperties: {

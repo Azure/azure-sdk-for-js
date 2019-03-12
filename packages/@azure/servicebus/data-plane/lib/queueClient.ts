@@ -10,12 +10,32 @@ import { MessageSession, SessionReceiverOptions } from "./session/messageSession
 import { Sender } from "./sender";
 import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
 import { throwErrorIfConnectionClosed } from "./util/utils";
+import { AmqpError, generate_uuid } from "rhea-promise";
+import { ClientEntityContext } from "./clientEntityContext";
 
 /**
- * Describes the client that will maintain an AMQP connection to a ServiceBus Queue.
+ * Describes the client that allows interacting with a Service Bus Queue.
+ * Use the `createQueueClient` function on the Namespace object to instantiate a QueueClient
  * @class QueueClient
  */
-export class QueueClient extends Client {
+export class QueueClient implements Client {
+  /**
+   * @property {string} The entitypath for the Service Bus Queue for which this client is created.
+   */
+  readonly entityPath: string;
+  /**
+   * @property {string} A unique identifier for the client.
+   */
+  readonly id: string;
+  /**
+   * @property {boolean} _isClosed Denotes if close() was called on this client.
+   */
+  private _isClosed: boolean = false;
+  /**
+   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
+   */
+  private _context: ClientEntityContext;
+
   private _currentReceiver: Receiver | undefined;
   private _currentSender: Sender | undefined;
 
@@ -30,11 +50,17 @@ export class QueueClient extends Client {
    * @param context The connection context to create the QueueClient.
    */
   constructor(name: string, context: ConnectionContext) {
-    super(name, context);
+    throwErrorIfConnectionClosed(context);
+    this.entityPath = name;
+    this.id = `${this.entityPath}/${generate_uuid()}`;
+    this._context = ClientEntityContext.create(this.entityPath, context);
   }
 
   /**
    * Closes all the AMQP links for sender/receivers created by this client.
+   * Once closed, neither the QueueClient nor its sender/recievers can be used for any
+   * further operations. Use the `createQueueClient` function on the Namespace object to
+   * instantiate a new QueueClient
    *
    * @returns {Promise<void>}
    */
@@ -42,8 +68,8 @@ export class QueueClient extends Client {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         // Close the sender.
-        if (this._context.sender) {
-          await this._context.sender.close();
+        if (this._currentSender) {
+          await this._currentSender.close();
         }
 
         // Close the sessionManager.
@@ -51,14 +77,9 @@ export class QueueClient extends Client {
           this._context.sessionManager.close();
         }
 
-        // Close the streaming receiver.
-        if (this._context.streamingReceiver) {
-          await this._context.streamingReceiver.close();
-        }
-
-        // Close the batching receiver.
-        if (this._context.batchingReceiver) {
-          await this._context.batchingReceiver.close();
+        // Close the streaming and batching receivers.
+        if (this._currentReceiver) {
+          await this._currentReceiver.close();
         }
 
         // Close all the MessageSessions.
@@ -68,6 +89,12 @@ export class QueueClient extends Client {
 
         // Make sure that we clear the map of deferred messages
         this._context.requestResponseLockedMessages.clear();
+
+        // Delete the reference in ConnectionContext
+        await this._context.clearClientReference(this.id);
+
+        // Mark this client as closed, so that we can show appropriate errors for subsequent usage
+        this._isClosed = true;
 
         log.qClient("Closed the Queue client '%s'.", this.id);
       }
@@ -81,25 +108,45 @@ export class QueueClient extends Client {
   }
 
   /**
-   * Gets the Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Will reconnect the queueClient and all its sender/receiver links.
+   * This is meant for the library to use to resume sending/receiving when retryable errors are seen.
+   * This is not meant for the consumer of this library to use.
+   * @ignore
+   * @param error Error if any due to which we are attempting to reconnect
+   */
+  async detached(error?: AmqpError | Error): Promise<void> {
+    try {
+      await this._context.detached(error);
+    } catch (err) {
+      log.error(
+        "[%s] [%s] An error occurred while reconnecting the client: %O.",
+        this._context.namespace.connectionId,
+        this.id,
+        err
+      );
+    }
+  }
+
+  /**
+   * Gets a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
    */
   getSender(): Sender {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (!this._currentSender) {
+    this.throwErrorIfClientOrConnectionClosed();
+    if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
     }
     return this._currentSender;
   }
 
   /**
-   * Gets the Receiver to be used for receiving messages in batches or by registering handlers.
+   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
    *
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (!this._currentReceiver) {
+    this.throwErrorIfClientOrConnectionClosed();
+    if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
     }
     return this._currentReceiver;
@@ -117,6 +164,7 @@ export class QueueClient extends Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peek(messageCount);
   }
 
@@ -135,6 +183,7 @@ export class QueueClient extends Client {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
+    this.throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -150,6 +199,7 @@ export class QueueClient extends Client {
   //   maxNumberOfSessions: number,
   //   lastUpdatedTime?: Date
   // ): Promise<string[]> {
+  // this.throwErrorIfClientOrConnectionClosed();
   //   return this._context.managementClient!.listMessageSessions(
   //     0,
   //     maxNumberOfSessions,
@@ -158,7 +208,7 @@ export class QueueClient extends Client {
   // }
 
   /**
-   * Gets the SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Queue. When no sessionId is given, a random session among the available
    * sessions is used.
    *
@@ -168,7 +218,7 @@ export class QueueClient extends Client {
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    this.throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {
       if (
@@ -188,5 +238,16 @@ export class QueueClient extends Client {
       delete this._context.expiredMessageSessions[messageSession.sessionId];
     }
     return new SessionReceiver(this._context, messageSession);
+  }
+
+  /**
+   * Throws error if this queueClient has been closed
+   * @param client
+   */
+  private throwErrorIfClientOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this._isClosed) {
+      throw new Error("The queueClient has been closed and can no longer be used.");
+    }
   }
 }
