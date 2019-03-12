@@ -89,7 +89,7 @@ describe("EventHub Receiver", function (): void {
       };
       await client.send(ed, partitionId);
       debug(">>>>>>> Sent the new message after creating the receiver. We should only receive this message.");
-      const data2 = await breceiver.receive(10, 20);
+      const data2 = await breceiver.receive(10, 40);
       debug("received messages: ", data2);
       data2.length.should.equal(1, "Failed to receive the expected one single message");
       data2[0].applicationProperties!.stamp.should.equal(uid, "Message received with unexpected uid");
@@ -105,7 +105,7 @@ describe("EventHub Receiver", function (): void {
       breceiver = BatchingReceiver.create((client as any)._context, parseInt(partitionId), { eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset) });
       debug("Establishing the receiver link...");
       const d = await breceiver.receive(10, 10);
-      d.length.should.equal(0);
+      d.length.should.equal(0, "Unexpected message received before sending any.");
       // send a new message. We should only receive this new message.
       const uid = uuid();
       const ed: EventData = {
@@ -118,11 +118,11 @@ describe("EventHub Receiver", function (): void {
       debug("Sent the new message after creating the receiver. We should only receive this message.");
       const data = await breceiver.receive(10, 20);
       debug("received messages: ", data);
-      data.length.should.equal(1);
+      data.length.should.equal(1, "Failed to receive the one single message.");
       data[0].applicationProperties!.stamp.should.equal(uid);
       debug("Next receive on this partition should not receive any messages.");
       const data2 = await breceiver.receive(10, 10);
-      data2.length.should.equal(0);
+      data2.length.should.equal(0, "Unexpected message received after batch receiving.");
     });
 
     it("'after a particular offset with isInclusive true' should receive messages correctly", async function (): Promise<void> {
@@ -177,7 +177,7 @@ describe("EventHub Receiver", function (): void {
       };
       await client.send(ed, partitionId);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const data = await breceiver.receive(10, 20);
+      const data = await breceiver.receive(10, 30);
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to received the expected single message");
       data[0].applicationProperties!.stamp.should.equal(uid);

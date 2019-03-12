@@ -80,7 +80,7 @@ describe("Misc tests", function (): void {
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
-    data.length.should.equal(1);
+    data.length.should.equal(1, "Failed to receive the one single JSON message");
     debug("Received message: %O", data);
     assert.deepEqual(data[0].body, msgBody);
     should.not.exist((data[0].properties || {}).message_id);
@@ -153,11 +153,11 @@ describe("Misc tests", function (): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 30);
+      data = await breceiver.receive(5, 60);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
-      data.length.should.equal(5);
+      data.length.should.equal(5, "Failed to receive the expected five messages.");
       for (const message of data) {
         should.not.exist((message.properties || {}).message_id);
       }
@@ -202,12 +202,12 @@ describe("Misc tests", function (): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 30);
+      data = await breceiver.receive(5, 60);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
-      data[0].body.count.should.equal(0);
-      data.length.should.equal(5);
+      data.length.should.equal(5, "Failed to receive the expected five messages.");
+      data[0].body.count.should.equal(0, "The first message should contain count 0.");
       for (const [index, message] of data.entries()) {
         assert.strictEqual(message.properties!.message_id, d[index].properties!.message_id);
       }
