@@ -379,6 +379,7 @@ export class EventHubReceiver extends LinkEntity {
           connectionId: this._context.connectionId,
           operationType: RetryOperationType.receiverLink,
           times: Constants.defaultConnectionRetryAttempts,
+          connectionHost: this._context.config.host,
           delayInSeconds: 15
         };
         await retry<void>(config);

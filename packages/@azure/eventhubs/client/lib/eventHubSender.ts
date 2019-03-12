@@ -200,6 +200,7 @@ export class EventHubSender extends LinkEntity {
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
             times: Constants.defaultConnectionRetryAttempts,
+            connectionHost: this._context.config.host,
             delayInSeconds: 15
           };
           return retry<void>(config);
