@@ -541,7 +541,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
   });
 });
 
-describe.only("Message validations", function(): void {
+describe("Message validations", function(): void {
   const longString =
     "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
   const num = 1;
