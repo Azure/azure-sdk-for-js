@@ -264,3 +264,6 @@ lib/**
 ts-test/package-lock.json
 ts-test/package.json
 ts-test/*.js
+
+dist-esm
+dist-test
