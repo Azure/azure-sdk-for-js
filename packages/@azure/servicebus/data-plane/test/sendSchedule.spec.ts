@@ -541,196 +541,153 @@ describe("Cancel multiple Scheduled messages", function(): void {
   });
 });
 
-describe("Message validations", function(): void {
+describe.only("Message validations", function(): void {
+  const longString =
+    "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
+  const num = 1;
   afterEach(async () => {
     await afterEachTest();
   });
 
-  it("MessageId validations", async function(): Promise<void> {
+  async function validationTest(msg: any, catchErrorMsg: string): Promise<void> {
+    let errorFlag = false;
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     const sender = senderClient.getSender();
-    const num = 1;
-    let errorFlag = false;
-    const longString =
-      "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
-
-    await sender.send(undefined!).catch((err) => {
-      errorFlag = err && err.message === "data is required and it must be of type object.";
+    await sender.send(msg).catch((err) => {
+      errorFlag = err && err.message === catchErrorMsg;
     });
-    should.equal(errorFlag, true, "Error not thrown when the 'msg' is undefined.");
+    should.equal(errorFlag, true, "errorFlag is not true(Error not thrown as expected)");
+  }
 
-    errorFlag = false;
-    await sender.send({ body: "", contentType: num as any }).catch((err) => {
-      errorFlag = err && err.message === "'contentType' must be of type 'string'.";
-    });
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'contentType' is not of type 'string'."
+  it("Error thrown when the 'msg' is undefined", async function(): Promise<void> {
+    await validationTest(undefined!, "data is required and it must be of type object.");
+  });
+
+  it("Error thrown when the 'contentType' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", contentType: num as any },
+      "'contentType' must be of type 'string'."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", label: num as any }).catch((err) => {
-      errorFlag = err && err.message === "'label' must be of type 'string'.";
-    });
-    should.equal(errorFlag, true, "Error not thrown when the 'label' is not of type 'string'.");
+  it("Error thrown when the 'label' is not of type 'string'", async function(): Promise<void> {
+    await validationTest({ body: "", label: num as any }, "'label' must be of type 'string'.");
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", to: num as any }).catch((err) => {
-      errorFlag = err && err.message === "'to' must be of type 'string'.";
-    });
-    should.equal(errorFlag, true, "Error not thrown when the 'to' is not of type 'string'.");
+  it("Error thrown when the 'to' is not of type 'string'", async function(): Promise<void> {
+    await validationTest({ body: "", to: num as any }, "'to' must be of type 'string'.");
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", replyToSessionId: num as any }).catch((err) => {
-      errorFlag = err && err.message === "'replyToSessionId' must be of type 'string'.";
-    });
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'replyToSessionId' is not of type 'string'."
+  it("Error thrown when the 'replyToSessionId' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", replyToSessionId: num as any },
+      "'replyToSessionId' must be of type 'string'."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", timeToLive: "" as any }).catch((err) => {
-      errorFlag = err && err.message === "'timeToLive' must be of type 'number'.";
-    });
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'timeToLive' is not of type 'number'."
+  it("Error thrown when the 'timeToLive' is not of type 'number'", async function(): Promise<void> {
+    await validationTest(
+      { body: "", timeToLive: "" as any },
+      "'timeToLive' must be of type 'number'."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", scheduledEnqueueTimeUtc: new Date("foo") }).catch((err) => {
-      errorFlag =
-        err && err.message === "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.";
-    });
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'scheduledEnqueueTimeUtc' is not an instance of a valid 'Date'."
+  it("Error thrown when the 'scheduledEnqueueTimeUtc' is not an instance of a valid 'Date'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", scheduledEnqueueTimeUtc: new Date("foo") },
+      "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", scheduledEnqueueTimeUtc: num as any }).catch((err) => {
-      errorFlag =
-        err && err.message === "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.";
-    });
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'scheduledEnqueueTimeUtc' is a number(not an instance of 'Date')."
+  it("Error thrown when the 'scheduledEnqueueTimeUtc' is a number(not an instance of 'Date')", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", scheduledEnqueueTimeUtc: num as any },
+      "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", partitionKey: longString }).catch((err) => {
-      errorFlag =
-        err &&
-        err.message ===
-          "'partitionKey' must be of type 'string' with a length less than 128 characters.";
-    });
-
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the length of 'partitionKey' is greater than 128 characters."
+  it("Error thrown when the length of 'partitionKey' is greater than 128 characters", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", partitionKey: longString },
+      "'partitionKey' must be of type 'string' with a length less than 128 characters."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", partitionKey: num as any }).catch((err) => {
-      errorFlag =
-        err &&
-        err.message ===
-          "'partitionKey' must be of type 'string' with a length less than 128 characters.";
-    });
-
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'partitionKey' is not of type 'string'."
+  it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", partitionKey: num as any },
+      "'partitionKey' must be of type 'string' with a length less than 128 characters."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", viaPartitionKey: longString }).catch((err) => {
-      errorFlag =
-        err &&
-        err.message ===
-          "'viaPartitionKey' must be of type 'string' with a length less than 128 characters.";
-    });
-
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the length of viaPartitionKey is greater than 128 characters."
+  it("Error thrown when the length of viaPartitionKey is greater than 128 characters.", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", viaPartitionKey: longString },
+      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", viaPartitionKey: num as any }).catch((err) => {
-      errorFlag =
-        err &&
-        err.message ===
-          "'viaPartitionKey' must be of type 'string' with a length less than 128 characters.";
-    });
-
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'viaPartitionKey' is not of type 'string'."
+  it("Error thrown when the 'viaPartitionKey' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", viaPartitionKey: num as any },
+      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", sessionId: num as any }).catch((err) => {
-      errorFlag = err && err.message === "'sessionId' must be of type 'string'.";
-    });
-
-    should.equal(errorFlag, true, "Error not thrown when the 'sessionId' is not of type 'string'.");
-
-    errorFlag = false;
-    await sender.send({ body: "", sessionId: longString }).catch((err) => {
-      errorFlag =
-        err &&
-        err.message ===
-          "Length of 'sessionId' of type 'string' cannot be greater than 128 characters.";
-    });
-
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the length of 'sessionId' is greater than 128 characters."
+  it("Error thrown when the 'sessionId' is not of type 'string'", async function(): Promise<void> {
+    await validationTest(
+      { body: "", sessionId: num as any },
+      "'sessionId' must be of type 'string'."
     );
-    errorFlag = false;
-    await sender.send({ body: "", messageId: 1.5 }).catch((err) => {
-      errorFlag =
-        err &&
-        err.message === "'messageId' must be a whole integer. Decimal points are not allowed.";
-    });
+  });
 
-    should.equal(errorFlag, true, "Error not thrown when 'messageId' is not a whole number.");
-
-    errorFlag = false;
-    await sender.send({ body: "", messageId: longString }).catch((err) => {
-      errorFlag =
-        err &&
-        err.message ===
-          "Length of 'messageId' of type 'string' cannot be greater than 128 characters.";
-    });
-
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the length of 'messageId' is greater than 128 characters."
+  it("Error thrown when the length of 'sessionId' is greater than 128 characters", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", sessionId: longString },
+      "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
     );
+  });
 
-    errorFlag = false;
-    await sender.send({ body: "", correlationId: [] as any }).catch((err) => {
-      errorFlag =
-        err && err.message === "'correlationId' must be of type 'string' | 'number' | Buffer.";
-    });
-    should.equal(
-      errorFlag,
-      true,
-      "Error not thrown when the 'correlationId' is not an instance of 'string' | 'number' | Buffer."
+  it("Error thrown when the 'messageId' is not a whole number.", async function(): Promise<void> {
+    await validationTest(
+      { body: "", messageId: 1.5 },
+      "'messageId' must be a whole integer. Decimal points are not allowed."
+    );
+  });
+
+  it("Error thrown when the length of 'messageId' is greater than 128 characters", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", messageId: longString },
+      "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
+    );
+  });
+
+  it("Error thrown when the 'correlationId' is not an instance of 'string' | 'number' | Buffer", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", correlationId: [] as any },
+      "'correlationId' must be of type 'string' | 'number' | Buffer."
     );
   });
 });
