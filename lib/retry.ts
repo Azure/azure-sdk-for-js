@@ -5,6 +5,7 @@ import { translate, MessagingError } from "./errors";
 import { delay } from ".";
 import * as log from "./log";
 import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
+import { resolve } from "dns";
 
 /**
  * Determines whether the object is a Delivery object.
@@ -62,6 +63,11 @@ export interface RetryConfig<T> {
    * next attempt. Default: 15.
    */
   delayInSeconds?: number;
+  /**
+   * @property {string} connectionHost The host "<yournamespace>.servicebus.windows.net".
+   * Used to check network connectivity.
+   */
+  connectionHost?: string;
 }
 
 /**
@@ -90,6 +96,20 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
     throw new Error("'delayInSeconds' must be of type 'number'.");
   }
 }
+
+
+async function checkNetworkConnection(host: string): Promise<boolean> {
+  return new Promise((res) => {
+    resolve(host, function (err: any): void {
+      if (err && err.code === "ECONNREFUSED") {
+        res(false);
+      } else {
+        res(true);
+      }
+    });
+  });
+}
+
 
 /**
  * It will attempt to linearly retry an operation specified number of times with a specified
@@ -121,6 +141,14 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
     } catch (err) {
       if (!err.translated) {
         err = translate(err);
+      }
+
+      if (!err.retryable && err.name === "ServiceCommunicationError" && config.connectionHost) {
+        const isConnected = await checkNetworkConnection(config.connectionHost);
+        if (!isConnected) {
+          err.name = "ConnectionLostError";
+          err.retryable = true;
+        }
       }
       lastError = err;
       log.error("[%s] Error occured for '%s' in attempt number %d: %O", config.connectionId,
