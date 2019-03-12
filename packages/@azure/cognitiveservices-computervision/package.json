@@ -2,9 +2,9 @@
   "name": "@azure/cognitiveservices-computervision",
   "author": "Microsoft Corporation",
   "description": "ComputerVisionClient Library with typescript type definitions for node.js and browser.",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.2.6",
+    "@azure/ms-rest-js": "^1.6.0",
     "tslib": "^1.9.3"
   },
   "keywords": [

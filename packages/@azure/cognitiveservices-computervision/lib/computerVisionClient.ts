@@ -21,8 +21,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
-    super(endpoint, credentials, options);
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+    super(credentials, endpoint, options);
   }
 
   /**
@@ -416,6 +416,74 @@ class ComputerVisionClient extends ComputerVisionClientContext {
   }
 
   /**
+   * Use this interface to get the result of a Read operation, employing the state-of-the-art Optical
+   * Character Recognition (OCR) algorithms optimized for text-heavy documents. When you use the Read
+   * File interface, the response contains a field called "Operation-Location". The
+   * "Operation-Location" field contains the URL that you must use for your "Read Operation Result"
+   * operation to access OCR results.​
+   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
+   * @param url Publicly reachable URL of an image.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BatchReadFileResponse>
+   */
+  batchReadFile(mode: Models.TextRecognitionMode, url: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadFileResponse>;
+  /**
+   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
+   * @param url Publicly reachable URL of an image.
+   * @param callback The callback
+   */
+  batchReadFile(mode: Models.TextRecognitionMode, url: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
+   * @param url Publicly reachable URL of an image.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  batchReadFile(mode: Models.TextRecognitionMode, url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  batchReadFile(mode: Models.TextRecognitionMode, url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadFileResponse> {
+    return this.sendOperationRequest(
+      {
+        mode,
+        url,
+        options
+      },
+      batchReadFileOperationSpec,
+      callback) as Promise<Models.BatchReadFileResponse>;
+  }
+
+  /**
+   * This interface is used for getting OCR results of Read operation. The URL to this interface
+   * should be retrieved from "Operation-Location" field returned from Batch Read File interface.
+   * @param operationId Id of read operation returned in the response of the "Batch Read File"
+   * interface.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetReadOperationResultResponse>
+   */
+  getReadOperationResult(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetReadOperationResultResponse>;
+  /**
+   * @param operationId Id of read operation returned in the response of the "Batch Read File"
+   * interface.
+   * @param callback The callback
+   */
+  getReadOperationResult(operationId: string, callback: msRest.ServiceCallback<Models.ReadOperationResult>): void;
+  /**
+   * @param operationId Id of read operation returned in the response of the "Batch Read File"
+   * interface.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getReadOperationResult(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReadOperationResult>): void;
+  getReadOperationResult(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReadOperationResult>, callback?: msRest.ServiceCallback<Models.ReadOperationResult>): Promise<Models.GetReadOperationResultResponse> {
+    return this.sendOperationRequest(
+      {
+        operationId,
+        options
+      },
+      getReadOperationResultOperationSpec,
+      callback) as Promise<Models.GetReadOperationResultResponse>;
+  }
+
+  /**
    * This operation extracts a rich set of visual features based on the image content.
    * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL. Within
    * your request, there is an optional parameter to allow you to choose which features to return. By
@@ -747,6 +815,42 @@ class ComputerVisionClient extends ComputerVisionClientContext {
       recognizeTextInStreamOperationSpec,
       callback) as Promise<Models.RecognizeTextInStreamResponse>;
   }
+
+  /**
+   * Use this interface to get the result of a Read Document operation, employing the
+   * state-of-the-art Optical Character Recognition (OCR) algorithms optimized for text-heavy
+   * documents. When you use the Read Document interface, the response contains a field called
+   * "Operation-Location". The "Operation-Location" field contains the URL that you must use for your
+   * "Get Read Result operation" to access OCR results.​
+   * @param image An image stream.
+   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BatchReadFileInStreamResponse>
+   */
+  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadFileInStreamResponse>;
+  /**
+   * @param image An image stream.
+   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
+   * @param callback The callback
+   */
+  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param image An image stream.
+   * @param mode Type of text to recognize. Possible values include: 'Handwritten', 'Printed'
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  batchReadFileInStream(image: msRest.HttpRequestBody, mode: Models.TextRecognitionMode, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadFileInStreamResponse> {
+    return this.sendOperationRequest(
+      {
+        image,
+        mode,
+        options
+      },
+      batchReadFileInStreamOperationSpec,
+      callback) as Promise<Models.BatchReadFileInStreamResponse>;
+  }
 }
 
 // Operation Specifications
@@ -1051,6 +1155,53 @@ const getTextOperationResultOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const batchReadFileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "read/core/asyncBatchAnalyze",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.mode
+  ],
+  requestBody: {
+    parameterPath: {
+      url: "url"
+    },
+    mapper: {
+      ...Mappers.ImageUrl,
+      required: true
+    }
+  },
+  responses: {
+    202: {
+      headersMapper: Mappers.BatchReadFileHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const getReadOperationResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "read/operations/{operationId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.operationId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReadOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
 const analyzeImageInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "analyze",
@@ -1326,6 +1477,37 @@ const recognizeTextInStreamOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {
       headersMapper: Mappers.RecognizeTextInStreamHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ComputerVisionError
+    }
+  },
+  serializer
+};
+
+const batchReadFileInStreamOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "read/core/asyncBatchAnalyze",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.mode
+  ],
+  requestBody: {
+    parameterPath: "image",
+    mapper: {
+      required: true,
+      serializedName: "Image",
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  contentType: "application/octet-stream",
+  responses: {
+    202: {
+      headersMapper: Mappers.BatchReadFileInStreamHeaders
     },
     default: {
       bodyMapper: Mappers.ComputerVisionError

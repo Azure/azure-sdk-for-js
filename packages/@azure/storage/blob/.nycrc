@@ -1,0 +1,27 @@
+{
+    "include": [
+      "lib/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "lib/BlobDownloadResponse.browser.ts",
+      "lib/highlevel.browser.ts",
+      "lib/highlevel.common.ts",
+      "lib/models.ts",
+      "lib/generated/lib/storageClient.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html",
+      "cobertura"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "all": true
+  }
