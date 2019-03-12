@@ -57,17 +57,17 @@ export interface BoundingBox {
  */
 export interface Prediction {
   /**
-   * @member {number} probability Probability of the tag.
+   * @member {number} [probability] Probability of the tag.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly probability: number;
+  readonly probability?: number;
   /**
-   * @member {string} tagId Id of the predicted tag.
+   * @member {string} [tagId] Id of the predicted tag.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly tagId: string;
+  readonly tagId?: string;
   /**
    * @member {string} [tagName] Name of the predicted tag.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -90,35 +90,35 @@ export interface Prediction {
  */
 export interface ImagePrediction {
   /**
-   * @member {string} id Prediction Id.
+   * @member {string} [id] Prediction Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
-   * @member {string} project Project Id.
+   * @member {string} [project] Project Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly project: string;
+  readonly project?: string;
   /**
-   * @member {string} iteration Iteration Id.
+   * @member {string} [iteration] Iteration Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly iteration: string;
+  readonly iteration?: string;
   /**
-   * @member {Date} created Date this prediction was created.
+   * @member {Date} [created] Date this prediction was created.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created: Date;
+  readonly created?: Date;
   /**
-   * @member {Prediction[]} predictions List of predictions.
+   * @member {Prediction[]} [predictions] List of predictions.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly predictions: Prediction[];
+  readonly predictions?: Prediction[];
 }
 
 /**

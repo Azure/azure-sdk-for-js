@@ -1195,11 +1195,11 @@ export interface ExportModel {
  */
 export interface Tag {
   /**
-   * @member {string} id Gets the Tag ID.
+   * @member {string} [id] Gets the Tag ID.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly id: string;
+  readonly id?: string;
   /**
    * @member {string} name Gets or sets the name of the tag.
    */
@@ -1214,11 +1214,11 @@ export interface Tag {
    */
   type: TagType;
   /**
-   * @member {number} imageCount Gets the number of images with this tag.
+   * @member {number} [imageCount] Gets the number of images with this tag.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly imageCount: number;
+  readonly imageCount?: number;
 }
 
 /**

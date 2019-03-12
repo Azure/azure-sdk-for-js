@@ -1885,7 +1885,6 @@ export const Tag: msRest.CompositeMapper = {
     className: "Tag",
     modelProperties: {
       id: {
-        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "id",
@@ -1915,7 +1914,6 @@ export const Tag: msRest.CompositeMapper = {
         }
       },
       imageCount: {
-        required: true,
         readOnly: true,
         serializedName: "imageCount",
         type: {

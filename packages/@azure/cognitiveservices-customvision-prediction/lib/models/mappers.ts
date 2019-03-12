@@ -73,7 +73,6 @@ export const Prediction: msRest.CompositeMapper = {
     className: "Prediction",
     modelProperties: {
       probability: {
-        required: true,
         readOnly: true,
         serializedName: "probability",
         type: {
@@ -81,7 +80,6 @@ export const Prediction: msRest.CompositeMapper = {
         }
       },
       tagId: {
-        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "tagId",
@@ -117,7 +115,6 @@ export const ImagePrediction: msRest.CompositeMapper = {
     className: "ImagePrediction",
     modelProperties: {
       id: {
-        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "id",
@@ -126,7 +123,6 @@ export const ImagePrediction: msRest.CompositeMapper = {
         }
       },
       project: {
-        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "project",
@@ -135,7 +131,6 @@ export const ImagePrediction: msRest.CompositeMapper = {
         }
       },
       iteration: {
-        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "iteration",
@@ -144,7 +139,6 @@ export const ImagePrediction: msRest.CompositeMapper = {
         }
       },
       created: {
-        required: true,
         readOnly: true,
         serializedName: "created",
         type: {
@@ -152,7 +146,6 @@ export const ImagePrediction: msRest.CompositeMapper = {
         }
       },
       predictions: {
-        required: true,
         readOnly: true,
         serializedName: "predictions",
         type: {
