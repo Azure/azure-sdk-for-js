@@ -30,11 +30,55 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const domainName: msRest.OperationURLParameter = {
+  parameterPath: "domainName",
+  mapper: {
+    required: true,
+    serializedName: "domainName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const domainTopicName: msRest.OperationURLParameter = {
+  parameterPath: "domainTopicName",
+  mapper: {
+    required: true,
+    serializedName: "domainTopicName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const eventSubscriptionName: msRest.OperationURLParameter = {
   parameterPath: "eventSubscriptionName",
   mapper: {
     required: true,
     serializedName: "eventSubscriptionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const filter: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "filter"
+  ],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const label: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "label"
+  ],
+  mapper: {
+    serializedName: "label",
     type: {
       name: "String"
     }
@@ -49,6 +93,17 @@ export const location: msRest.OperationURLParameter = {
       name: "String"
     }
   }
+};
+export const nextPageLink: msRest.OperationURLParameter = {
+  parameterPath: "nextPageLink",
+  mapper: {
+    required: true,
+    serializedName: "nextLink",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const providerNamespace: msRest.OperationURLParameter = {
   parameterPath: "providerNamespace",
@@ -108,6 +163,18 @@ export const subscriptionId: msRest.OperationURLParameter = {
     serializedName: "subscriptionId",
     type: {
       name: "String"
+    }
+  }
+};
+export const top: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "top"
+  ],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number"
     }
   }
 };

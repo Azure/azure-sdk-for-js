@@ -15,7 +15,7 @@ npm install @azure/arm-eventgrid
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get eventSubscriptions as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get domains as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -34,9 +34,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new EventGridManagementClient(creds, subscriptionId);
-  const scope = "testscope";
-  const eventSubscriptionName = "testeventSubscriptionName";
-  client.eventSubscriptions.get(scope, eventSubscriptionName).then((result) => {
+  const resourceGroupName = "testresourceGroupName";
+  const domainName = "testdomainName";
+  client.domains.get(resourceGroupName, domainName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get eventSubscriptions as an example written in JavaScript.
+#### browser - Authentication, client creation and get domains as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -79,9 +79,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmEventgrid.EventGridManagementClient(res.creds, subscriptionId);
-        const scope = "testscope";
-        const eventSubscriptionName = "testeventSubscriptionName";
-        client.eventSubscriptions.get(scope, eventSubscriptionName).then((result) => {
+        const resourceGroupName = "testresourceGroupName";
+        const domainName = "testdomainName";
+        client.domains.get(resourceGroupName, domainName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -98,6 +98,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Farm-eventgrid%2FREADME.png)
