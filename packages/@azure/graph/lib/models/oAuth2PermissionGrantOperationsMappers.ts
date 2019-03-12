@@ -8,12 +8,11 @@
  * regenerated.
  */
 
-export * from "./signedInUser";
-export * from "./applications";
-export * from "./deletedApplications";
-export * from "./groups";
-export * from "./servicePrincipals";
-export * from "./users";
-export * from "./objects";
-export * from "./domains";
-export * from "./oAuth2PermissionGrantOperations";
+export {
+  discriminators,
+  OAuth2PermissionGrantListResult,
+  OAuth2PermissionGrant,
+  CloudError,
+  GraphError
+} from "../models/mappers";
+
