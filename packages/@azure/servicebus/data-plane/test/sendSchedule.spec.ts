@@ -544,7 +544,6 @@ describe("Cancel multiple Scheduled messages", function(): void {
 describe("Message validations", function(): void {
   const longString =
     "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
-  const num = 1;
   afterEach(async () => {
     await afterEachTest();
   });
@@ -567,24 +566,24 @@ describe("Message validations", function(): void {
     void
   > {
     await validationTest(
-      { body: "", contentType: num as any },
+      { body: "", contentType: 1 as any },
       "'contentType' must be of type 'string'."
     );
   });
 
   it("Error thrown when the 'label' is not of type 'string'", async function(): Promise<void> {
-    await validationTest({ body: "", label: num as any }, "'label' must be of type 'string'.");
+    await validationTest({ body: "", label: 1 as any }, "'label' must be of type 'string'.");
   });
 
   it("Error thrown when the 'to' is not of type 'string'", async function(): Promise<void> {
-    await validationTest({ body: "", to: num as any }, "'to' must be of type 'string'.");
+    await validationTest({ body: "", to: 1 as any }, "'to' must be of type 'string'.");
   });
 
   it("Error thrown when the 'replyToSessionId' is not of type 'string'", async function(): Promise<
     void
   > {
     await validationTest(
-      { body: "", replyToSessionId: num as any },
+      { body: "", replyToSessionId: 1 as any },
       "'replyToSessionId' must be of type 'string'."
     );
   });
@@ -609,7 +608,7 @@ describe("Message validations", function(): void {
     void
   > {
     await validationTest(
-      { body: "", scheduledEnqueueTimeUtc: num as any },
+      { body: "", scheduledEnqueueTimeUtc: 1 as any },
       "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'."
     );
   });
@@ -627,7 +626,7 @@ describe("Message validations", function(): void {
     void
   > {
     await validationTest(
-      { body: "", partitionKey: num as any },
+      { body: "", partitionKey: 1 as any },
       "'partitionKey' must be of type 'string' with a length less than 128 characters."
     );
   });
@@ -645,14 +644,14 @@ describe("Message validations", function(): void {
     void
   > {
     await validationTest(
-      { body: "", viaPartitionKey: num as any },
+      { body: "", viaPartitionKey: 1 as any },
       "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
     );
   });
 
   it("Error thrown when the 'sessionId' is not of type 'string'", async function(): Promise<void> {
     await validationTest(
-      { body: "", sessionId: num as any },
+      { body: "", sessionId: 1 as any },
       "'sessionId' must be of type 'string'."
     );
   });
