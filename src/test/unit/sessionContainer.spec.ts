@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Constants } from "../../common";
+import { Constants, OperationType, ResourceType } from "../../common";
 import { CosmosHeaders } from "../../queryExecutionContext/CosmosHeaders";
 import { SessionContainer } from "../../session/sessionContainer";
 import { SessionContext } from "../../session/SessionContext";
@@ -17,8 +17,8 @@ describe("SessionContainer", function() {
       isNameBased: true,
       resourceId: null,
       resourceAddress: "/" + collectionLink + "/",
-      resourceType: "docs",
-      operationType: "create"
+      resourceType: ResourceType.item,
+      operationType: OperationType.Create
     };
 
     const resHeadersNameBased: CosmosHeaders = {};

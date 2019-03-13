@@ -1,4 +1,4 @@
-import { Constants, getContainerLink, trimSlashes } from "../common";
+import { Constants, getContainerLink, OperationType, ResourceType, trimSlashes } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { SessionContext } from "./SessionContext";
 import { VectorSessionToken } from "./VectorSessionToken";
@@ -129,7 +129,7 @@ export class SessionContainer {
   }
 
   // TODO: have a assert if the type doesn't mastch known types
-  private static isReadingFromMaster(resourceType: string, operationType: string): boolean {
+  private static isReadingFromMaster(resourceType: ResourceType, operationType: OperationType): boolean {
     if (
       resourceType === Constants.Path.OffersPathSegment ||
       resourceType === Constants.Path.DatabasesPathSegment ||
@@ -138,7 +138,7 @@ export class SessionContainer {
       resourceType === Constants.Path.TopologyPathSegment ||
       resourceType === Constants.Path.DatabaseAccountPathSegment ||
       resourceType === Constants.Path.PartitionKeyRangesPathSegment ||
-      (resourceType === Constants.Path.CollectionsPathSegment && operationType === Constants.OperationTypes.Query)
+      (resourceType === Constants.Path.CollectionsPathSegment && operationType === OperationType.Query)
     ) {
       return true;
     }

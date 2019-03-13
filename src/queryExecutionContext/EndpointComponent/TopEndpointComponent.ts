@@ -1,4 +1,4 @@
-import { Response } from "../../request/request";
+import { Response } from "../../request";
 import { IExecutionContext } from "../IExecutionContext";
 import { IEndpointComponent } from "./IEndpointComponent";
 

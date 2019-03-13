@@ -1,13 +1,18 @@
+import { AbortController } from "abort-controller";
+import fetch from "cross-fetch";
 import { Agent, OutgoingHttpHeaders } from "http";
 import { RequestOptions } from "https"; // TYPES ONLY
-import * as querystring from "querystring";
-import { Constants } from "../common/constants";
+import { parse } from "url";
+import { Constants, HTTPMethod } from "../common/constants";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import * as RetryUtility from "../retry/retryUtility";
-import { bodyFromData, createRequestObject, parse, Response } from "./request";
+import { ErrorResponse } from "./ErrorResponse";
+import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
+import { Response } from "./Response";
+import { TimeoutError } from "./TimeoutError";
 
 /** @hidden */
 export class RequestHandler {
@@ -19,9 +24,73 @@ export class RequestHandler {
   public static async createRequestObjectStub(
     connectionPolicy: ConnectionPolicy,
     requestOptions: RequestOptions,
-    body: Buffer
+    body?: any
   ) {
-    return createRequestObject(connectionPolicy, requestOptions, body);
+    let didTimeout: boolean;
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const timeout = setTimeout(() => {
+      didTimeout = true;
+      controller.abort();
+    }, connectionPolicy.RequestTimeout);
+
+    let response: any;
+
+    try {
+      // TODO Remove any
+      response = await fetch((requestOptions as any).href + requestOptions.path, {
+        method: requestOptions.method,
+        headers: requestOptions.headers as any,
+        agent: requestOptions.agent,
+        signal,
+        ...(body && { body })
+      } as any); // TODO Remove any. Upstream issue https://github.com/lquixada/cross-fetch/issues/42
+    } catch (error) {
+      if (error.name === "AbortError") {
+        if (didTimeout === true) {
+          throw new TimeoutError();
+        }
+        // TODO handle user requested cancellation here
+      }
+      throw error;
+    }
+
+    clearTimeout(timeout);
+
+    const result = response.status === 204 || response.status === 304 ? null : await response.json();
+
+    const headers = {} as any;
+    response.headers.forEach((value: string, key: string) => {
+      headers[key] = value;
+    });
+
+    if (response.status >= 400) {
+      const errorResponse: ErrorResponse = {
+        code: response.status,
+        // TODO Upstream code expects this as a string.
+        // So after parsing to JSON we convert it back to string if there is an error
+        body: JSON.stringify(result),
+        headers
+      };
+      if (Constants.HttpHeaders.ActivityId in headers) {
+        errorResponse.activityId = headers[Constants.HttpHeaders.ActivityId];
+      }
+
+      if (Constants.HttpHeaders.SubStatus in headers) {
+        errorResponse.substatus = parseInt(headers[Constants.HttpHeaders.SubStatus], 10);
+      }
+
+      if (Constants.HttpHeaders.RetryAfterInMilliseconds in headers) {
+        errorResponse.retryAfterInMilliseconds = parseInt(headers[Constants.HttpHeaders.RetryAfterInMilliseconds], 10);
+      }
+
+      return Promise.reject(errorResponse);
+    }
+    return Promise.resolve({
+      headers,
+      result,
+      statusCode: response.status
+    });
   }
 
   /**
@@ -41,11 +110,10 @@ export class RequestHandler {
     globalEndpointManager: GlobalEndpointManager,
     connectionPolicy: ConnectionPolicy,
     requestAgent: Agent,
-    method: string,
+    method: HTTPMethod,
     hostname: string,
     request: RequestContext,
     data: string | Buffer,
-    queryParams: any, // TODO: any query params types
     headers: CosmosHeaders
   ): Promise<Response<any>> {
     // TODO: any
@@ -64,22 +132,6 @@ export class RequestHandler {
       }
     }
 
-    let buffer;
-    if (body) {
-      if (Buffer.isBuffer(body)) {
-        buffer = body;
-      } else if (typeof body === "string") {
-        buffer = Buffer.from(body, "utf8");
-      } else {
-        return {
-          result: {
-            message: "body must be string or Buffer"
-          },
-          headers: undefined
-        };
-      }
-    }
-
     const requestOptions: RequestOptions = parse(hostname);
     requestOptions.method = method;
     requestOptions.path += path;
@@ -91,30 +143,14 @@ export class RequestHandler {
       requestOptions.rejectUnauthorized = false;
     }
 
-    if (queryParams) {
-      requestOptions.path += "?" + querystring.stringify(queryParams);
-    }
-
-    if (buffer) {
-      requestOptions.headers[Constants.HttpHeaders.ContentLength] = buffer.length;
-      return RetryUtility.execute(
-        globalEndpointManager,
-        buffer,
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
-    } else {
-      return RetryUtility.execute(
-        globalEndpointManager,
-        null,
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
-    }
+    return RetryUtility.execute({
+      globalEndpointManager,
+      body,
+      createRequestObjectFunc: this.createRequestObjectStub,
+      connectionPolicy,
+      requestOptions,
+      request
+    });
   }
 
   /** @ignore */
@@ -124,11 +160,10 @@ export class RequestHandler {
       this.globalEndpointManager,
       this.connectionPolicy,
       this.requestAgent,
-      "GET",
+      HTTPMethod.get,
       urlString,
       request,
       undefined,
-      "",
       headers
     );
   }
@@ -140,11 +175,10 @@ export class RequestHandler {
       this.globalEndpointManager,
       this.connectionPolicy,
       this.requestAgent,
-      "POST",
+      HTTPMethod.post,
       urlString,
       request,
       body,
-      "",
       headers
     );
   }
@@ -156,27 +190,10 @@ export class RequestHandler {
       this.globalEndpointManager,
       this.connectionPolicy,
       this.requestAgent,
-      "PUT",
+      HTTPMethod.put,
       urlString,
       request,
       body,
-      "",
-      headers
-    );
-  }
-
-  /** @ignore */
-  public head(urlString: string, request: any, headers: CosmosHeaders) {
-    // TODO: any
-    return RequestHandler.request(
-      this.globalEndpointManager,
-      this.connectionPolicy,
-      this.requestAgent,
-      "HEAD",
-      urlString,
-      request,
-      undefined,
-      "",
       headers
     );
   }
@@ -187,11 +204,10 @@ export class RequestHandler {
       this.globalEndpointManager,
       this.connectionPolicy,
       this.requestAgent,
-      "DELETE",
+      HTTPMethod.delete,
       urlString,
       request,
       undefined,
-      "",
       headers
     );
   }

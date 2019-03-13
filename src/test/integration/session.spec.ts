@@ -1,7 +1,7 @@
 import assert from "assert";
 import * as sinon from "sinon";
 import { ClientContext } from "../../ClientContext";
-import { trimSlashes } from "../../common";
+import { OperationType, ResourceType, trimSlashes } from "../../common";
 import { ConsistencyLevel, PartitionKind } from "../../documents";
 import { Constants, CosmosClient, CosmosHeaders } from "../../index";
 import { RequestHandler } from "../../request";
@@ -76,9 +76,9 @@ describe("Session Token", function() {
 
     const token = sessionContainer.get({
       isNameBased: true,
-      operationType: "create",
+      operationType: OperationType.Create,
       resourceAddress: container.url,
-      resourceType: "docs",
+      resourceType: ResourceType.item,
       resourceId: "2"
     });
     const { resource: document2 } = await container.items.create({ id: "2" });
@@ -101,9 +101,9 @@ describe("Session Token", function() {
 
     const readToken = sessionContainer.get({
       isNameBased: true,
-      operationType: "read",
+      operationType: OperationType.Read,
       resourceAddress: container.url,
-      resourceType: "docs",
+      resourceType: ResourceType.item,
       resourceId: "1"
     });
     await container.item(document1.id, "1").read();
@@ -126,9 +126,9 @@ describe("Session Token", function() {
 
     const upsertToken = sessionContainer.get({
       isNameBased: true,
-      operationType: "upsert",
+      operationType: OperationType.Upsert,
       resourceAddress: container.url,
-      resourceType: "docs",
+      resourceType: ResourceType.item,
       resourceId: "1"
     });
     const { resource: document13 } = await container.items.upsert(
@@ -160,9 +160,9 @@ describe("Session Token", function() {
 
     const deleteToken = sessionContainer.get({
       isNameBased: true,
-      operationType: "delete",
+      operationType: OperationType.Delete,
       resourceAddress: container.url,
-      resourceType: "docs",
+      resourceType: ResourceType.item,
       resourceId: "2"
     });
     await container.item(document2.id, "2").delete();
@@ -191,9 +191,9 @@ describe("Session Token", function() {
 
     const replaceToken = sessionContainer.get({
       isNameBased: true,
-      operationType: "replace",
+      operationType: OperationType.Replace,
       resourceAddress: container.url,
-      resourceType: "docs",
+      resourceType: ResourceType.item,
       resourceId: "1"
     });
     await container.item(document13.id).replace({ id: "1", operation: "replace" }, { partitionKey: "1" });
@@ -225,9 +225,9 @@ describe("Session Token", function() {
 
     const queryToken = sessionContainer.get({
       isNameBased: true,
-      operationType: "query",
+      operationType: OperationType.Query,
       resourceAddress: container.url,
-      resourceType: "docs"
+      resourceType: ResourceType.item
     });
     await queryIterator.fetchAll();
     assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], queryToken);
@@ -249,9 +249,9 @@ describe("Session Token", function() {
 
     const deleteContainerToken = sessionContainer.get({
       isNameBased: true,
-      operationType: "delete",
+      operationType: OperationType.Delete,
       resourceAddress: container.url,
-      resourceType: "container",
+      resourceType: ResourceType.container,
       resourceId: container.id
     });
     await container.delete();

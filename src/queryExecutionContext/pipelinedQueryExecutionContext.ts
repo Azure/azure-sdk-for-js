@@ -1,5 +1,5 @@
 import { ClientContext } from "../ClientContext";
-import { Response } from "../request/request";
+import { Response } from "../request";
 import { CosmosHeaders } from "./CosmosHeaders";
 import {
   AggregateEndpointComponent,

@@ -1,7 +1,7 @@
 import { ClientContext } from "../ClientContext";
 import { Constants, getIdFromLink, getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "../common";
 import { FeedOptions } from "../request";
-import { Response } from "../request/request";
+import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";

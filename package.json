@@ -74,7 +74,9 @@
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
+    "abort-controller": "2.0.3",
     "binary-search-bounds": "2.0.3",
+    "cross-fetch": "3.0.1",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
     "tslib": "^1.9.3"

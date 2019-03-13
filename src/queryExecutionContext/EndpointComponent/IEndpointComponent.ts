@@ -1,4 +1,4 @@
-import { Response } from "../../request/request";
+import { Response } from "../../request";
 
 /** @hidden */
 export interface IEndpointComponent {

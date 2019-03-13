@@ -1,5 +1,5 @@
 import * as url from "url";
-import { Constants, sleep } from "./common";
+import { Constants, OperationType, ResourceType, sleep } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
@@ -84,8 +84,8 @@ export class GlobalEndpointManager {
     this.locationCache.markCurrentLocationUnavailableForWrite(endpoint);
   }
 
-  public canUseMultipleWriteLocations(request: RequestContext) {
-    return this.locationCache.canUseMultipleWriteLocations(request);
+  public canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType) {
+    return this.locationCache.canUseMultipleWriteLocations(resourceType, operationType);
   }
 
   public async resolveServiceEndpoint(request: RequestContext) {

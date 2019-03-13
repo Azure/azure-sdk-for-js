@@ -1,7 +1,7 @@
 import { ConnectionPolicy } from "../documents/ConnectionPolicy";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { RequestContext } from "../request/RequestContext";
-import { Constants } from "./constants";
+import { Constants, OperationType, ResourceType } from "./constants";
 
 /** @hidden */
 const Regexes = Constants.RegularExpressions;
@@ -45,15 +45,15 @@ export function parseLink(resourcePath: string) {
         */
   const pathParts = resourcePath.split("/");
   let id;
-  let type;
+  let type: ResourceType;
   if (pathParts.length % 2 === 0) {
     // request in form /[resourceType]/[resourceId]/ .... /[resourceType]/[resourceId].
     id = pathParts[pathParts.length - 2];
-    type = pathParts[pathParts.length - 3];
+    type = pathParts[pathParts.length - 3] as ResourceType;
   } else {
     // request in form /[resourceType]/[resourceId]/ .... /[resourceType]/.
     id = pathParts[pathParts.length - 3];
-    type = pathParts[pathParts.length - 2];
+    type = pathParts[pathParts.length - 2] as ResourceType;
   }
 
   const result = {
@@ -67,10 +67,8 @@ export function parseLink(resourcePath: string) {
   return result;
 }
 
-export function isReadRequest(request: RequestContext): boolean {
-  return (
-    request.operationType === Constants.OperationTypes.Read || request.operationType === Constants.OperationTypes.Query
-  );
+export function isReadRequest(operationType: OperationType): boolean {
+  return operationType === OperationType.Read || operationType === OperationType.Query;
 }
 
 export function sleep(time: number): Promise<void> {

@@ -1,6 +1,6 @@
 import { ClientContext } from "../ClientContext";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { Response } from "../request/request";
+import { Response } from "../request";
 import { DefaultQueryExecutionContext, FetchFunctionCallback } from "./defaultQueryExecutionContext";
 import { IExecutionContext } from "./IExecutionContext";
 import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";

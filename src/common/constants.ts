@@ -210,16 +210,6 @@ export const Constants = {
     DatabaseAccountPathSegment: "databaseaccount"
   },
 
-  OperationTypes: {
-    Create: "create",
-    Replace: "replace",
-    Upsert: "upsert",
-    Delete: "delete",
-    Read: "read",
-    Query: "query",
-    Execute: "execute"
-  },
-
   PartitionKeyRange: {
     // Partition Key Range Constants
     MinInclusive: "minInclusive",
@@ -260,4 +250,14 @@ export enum HTTPMethod {
   post = "POST",
   put = "PUT",
   delete = "DELETE"
+}
+
+export enum OperationType {
+  Create = "create",
+  Replace = "replace",
+  Upsert = "upsert",
+  Delete = "delete",
+  Read = "read",
+  Query = "query",
+  Execute = "execute"
 }

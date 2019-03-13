@@ -1,4 +1,4 @@
-import { Response } from "../../request/request";
+import { Response } from "../../request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
 import { IExecutionContext } from "../IExecutionContext";
 import { CosmosHeaders } from "../index";

@@ -1,4 +1,4 @@
-import { Constants, isReadRequest, ResourceType } from "./common";
+import { Constants, isReadRequest, OperationType, ResourceType } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, Location } from "./documents";
 import { LocationInfo } from "./LocationInfo";
@@ -115,7 +115,8 @@ export class LocationCache {
     // then default to the first two write locations, alternating (or the default endpoint)
     if (
       request.locationRouting.ignorePreferredLocation ||
-      (!isReadRequest(request) && !this.canUseMultipleWriteLocations(request))
+      (!isReadRequest(request.operationType) &&
+        !this.canUseMultipleWriteLocations(request.resourceType, request.operationType))
     ) {
       const currentInfo = this.locationInfo;
       if (currentInfo.orderedWriteLocations.length > 0) {
@@ -127,7 +128,9 @@ export class LocationCache {
       }
     } else {
       // If we're using preferred regions, then choose the correct endpoint based on the location index
-      const endpoints = isReadRequest(request) ? this.locationInfo.readEndpoints : this.locationInfo.writeEndpoints;
+      const endpoints = isReadRequest(request.operationType)
+        ? this.locationInfo.readEndpoints
+        : this.locationInfo.writeEndpoints;
       return endpoints[locationIndex % endpoints.length];
     }
   }
@@ -180,14 +183,14 @@ export class LocationCache {
     return { shouldRefresh: false, canRefreshInBackground };
   }
 
-  public canUseMultipleWriteLocations(request?: RequestContext): boolean {
+  public canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean {
     let canUse = this.options.connectionPolicy.UseMultipleWriteLocations && this.enableMultipleWritableLocations;
 
-    if (request) {
+    if (resourceType) {
       canUse =
         canUse &&
-        (request.resourceType === ResourceType.item ||
-          (request.resourceType === ResourceType.sproc && request.operationType === Constants.OperationTypes.Execute));
+        (resourceType === ResourceType.item ||
+          (resourceType === ResourceType.sproc && operationType === OperationType.Execute));
     }
 
     return canUse;

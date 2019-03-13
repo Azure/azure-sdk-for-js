@@ -19,7 +19,7 @@ describe("NodeJS CRUD Tests", function() {
         await getTestDatabase("request timeout", client);
         assert.fail("Must throw when trying to connect to database");
       } catch (err) {
-        assert.equal(err.code, "ECONNRESET", "client should throw exception");
+        assert.equal(err.name, "TimeoutError", "client should throw exception");
       }
     });
   });
