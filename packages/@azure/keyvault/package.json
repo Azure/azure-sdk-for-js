@@ -6,6 +6,7 @@
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.1.0",
     "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-nodeauth": "^0.9.1",
     "tslib": "^1.9.3"
   },
   "keywords": [
