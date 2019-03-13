@@ -27,3 +27,4 @@ export * from "./metricAlerts";
 export * from "./metricAlertsStatus";
 export * from "./scheduledQueryRules";
 export * from "./metricNamespaces";
+export * from "./vMInsights";
