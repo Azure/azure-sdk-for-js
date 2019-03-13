@@ -115,7 +115,7 @@ export interface OptionalClaim {
    */
   source?: string;
   /**
-   * @member {boolean} [essential] Is this a requied claim.
+   * @member {boolean} [essential] Is this a required claim.
    */
   essential?: boolean;
   /**
@@ -553,7 +553,7 @@ export interface ApplicationBase {
   passwordCredentials?: PasswordCredential[];
   /**
    * @member {PreAuthorizedApplication[]} [preAuthorizedApplications] list of
-   * pre-authorizaed applications.
+   * pre-authorized applications.
    */
   preAuthorizedApplications?: PreAuthorizedApplication[];
   /**
@@ -587,8 +587,8 @@ export interface ApplicationBase {
   samlMetadataUrl?: string;
   /**
    * @member {string} [signInAudience] Audience for signing in to the
-   * application (AzureADMyOrganizatio, AzureADAllorganizations,
-   * AzureADAndMicrosofAccounts).
+   * application (AzureADMyOrganization, AzureADAllOrganizations,
+   * AzureADAndMicrosoftAccounts).
    */
   signInAudience?: string;
   /**
@@ -786,7 +786,7 @@ export interface Application {
   passwordCredentials?: PasswordCredential[];
   /**
    * @member {PreAuthorizedApplication[]} [preAuthorizedApplications] list of
-   * pre-authorizaed applications.
+   * pre-authorized applications.
    */
   preAuthorizedApplications?: PreAuthorizedApplication[];
   /**
@@ -820,8 +820,8 @@ export interface Application {
   samlMetadataUrl?: string;
   /**
    * @member {string} [signInAudience] Audience for signing in to the
-   * application (AzureADMyOrganizatio, AzureADAllorganizations,
-   * AzureADAndMicrosofAccounts).
+   * application (AzureADMyOrganization, AzureADAllOrganizations,
+   * AzureADAndMicrosoftAccounts).
    */
   signInAudience?: string;
   /**
@@ -1036,7 +1036,7 @@ export interface CheckGroupMembershipResult {
 /**
  * @interface
  * An interface representing ServicePrincipalBase.
- * Active Directory service principal common perperties shared among GET, POST
+ * Active Directory service principal common properties shared among GET, POST
  * and PATCH
  *
  */
@@ -1063,7 +1063,7 @@ export interface ServicePrincipalBase {
    */
   passwordCredentials?: PasswordCredential[];
   /**
-   * @member {string} [servicePrincipalType] the type of the servie principal
+   * @member {string} [servicePrincipalType] the type of the service principal
    */
   servicePrincipalType?: string;
   /**
@@ -1127,7 +1127,7 @@ export interface ServicePrincipal {
    */
   accountEnabled?: string;
   /**
-   * @member {string[]} [alternativeNames] altenative names
+   * @member {string[]} [alternativeNames] alterative names
    */
   alternativeNames?: string[];
   /**
@@ -1195,7 +1195,7 @@ export interface ServicePrincipal {
    */
   passwordCredentials?: PasswordCredential[];
   /**
-   * @member {string} [preferredTokenSigningKeyThumbprint] The thubmbprint of
+   * @member {string} [preferredTokenSigningKeyThumbprint] The thumbprint of
    * preferred certificate to sign the token
    */
   preferredTokenSigningKeyThumbprint?: string;
@@ -1222,7 +1222,7 @@ export interface ServicePrincipal {
    */
   servicePrincipalNames?: string[];
   /**
-   * @member {string} [servicePrincipalType] the type of the servie principal
+   * @member {string} [servicePrincipalType] the type of the service principal
    */
   servicePrincipalType?: string;
   /**
