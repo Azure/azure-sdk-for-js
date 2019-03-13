@@ -10,6 +10,7 @@
 
 export {
   discriminators,
+  OpenShiftManagedClusterListResult,
   OpenShiftManagedCluster,
   Resource,
   BaseResource,
@@ -37,8 +38,11 @@ export {
   ContainerServiceSshPublicKey,
   ContainerServiceDiagnosticsProfile,
   ContainerServiceVMDiagnostics,
+  SubResource,
+  AgentPool,
   ManagedCluster,
   ManagedClusterAgentPoolProfile,
+  ManagedClusterAgentPoolProfileProperties,
   ManagedClusterServicePrincipalProfile,
   ManagedClusterAddonProfile,
   ContainerServiceNetworkProfile,
