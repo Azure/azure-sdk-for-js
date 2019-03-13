@@ -229,8 +229,8 @@ export interface Sku {
    * @member {SkuName} name Gets or sets the SKU name. Required for account
    * creation; optional for update. Note that in older versions, SKU name was
    * called accountType. Possible values include: 'Standard_LRS',
-   * 'Standard_GRS', 'Standard_GZRS', 'Standard_RAGRS', 'Standard_RAGZRS',
-   * 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS'
+   * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS',
+   * 'Premium_ZRS'
    */
   name: SkuName;
   /**
@@ -2206,12 +2206,12 @@ export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_GZRS', 'Standard_RAGRS',
- * 'Standard_RAGZRS', 'Standard_ZRS', 'Premium_LRS', 'Premium_ZRS'
+ * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS',
+ * 'Premium_LRS', 'Premium_ZRS'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_GZRS' | 'Standard_RAGRS' | 'Standard_RAGZRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS';
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS';
 
 /**
  * Defines values for SkuTier.

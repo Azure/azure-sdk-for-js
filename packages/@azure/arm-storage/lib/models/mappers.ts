@@ -297,9 +297,7 @@ export const Sku: msRest.CompositeMapper = {
           allowedValues: [
             "Standard_LRS",
             "Standard_GRS",
-            "Standard_GZRS",
             "Standard_RAGRS",
-            "Standard_RAGZRS",
             "Standard_ZRS",
             "Premium_LRS",
             "Premium_ZRS"
