@@ -478,13 +478,13 @@ describe("EventHub Receiver", function (): void {
       const partitionId = hubInfo.partitionIds[0];
       const rcvHndlrs: ReceiveHandler[] = [];
       const rcvrs: any[] = [];
-      
+
       // This test does not require recieving any messages.  Just attempting to connect the 6th receiver causes
       // onerr2() to be called with QuotaExceededError.  So it's fastest to use EventPosition.fromEnd().
       // Using EventPosition.fromStart() can cause timeouts or ServiceUnavailableException if the EventHub has
       // a large number of messages.
       const eventPosition = EventPosition.fromEnd();
-      
+
       debug(">>> Receivers length: ", rcvHndlrs.length);
       for (let i = 1; i <= 5; i++) {
         const rcvrId = `rcvr-${i}`;
