@@ -14,8 +14,6 @@ describe("retry policy tests", function() {
     key: "value"
   };
 
-  const connectionPolicy = new ConnectionPolicy();
-
   // mocked database account to return the WritableLocations and ReadableLocations
   // set with the default endpoint
   // const mockGetDatabaseAccount = function (options, callback) {

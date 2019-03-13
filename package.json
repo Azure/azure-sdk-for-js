@@ -30,6 +30,7 @@
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run bundle && npm run bundle-types",
+    "test:ci": "npm test -- --forbid-only ",
     "test": "mocha -r ./src/test/common/setup.ts ./dist-test/index.js --timeout 100000 -i",
     "prepack": "npm install && npm run build",
     "test-browser": "karma start ./karma.config.js --single-run",

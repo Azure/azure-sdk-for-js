@@ -35,7 +35,7 @@ export class GlobalEndpointManager {
     private readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
     this.defaultEndpoint = options.endpoint;
-    this.enableEndpointDiscovery = options.connectionPolicy.EnableEndpointDiscovery;
+    this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isEndpointCacheInitialized = false;
     this.locationCache = new LocationCache(options);
     this.isRefreshing = false;
@@ -98,7 +98,7 @@ export class GlobalEndpointManager {
   /**
    * Refreshes the endpoint list by retrieving the writable and readable locations
    *  from the geo-replicated database account and then updating the locations cache.
-   *   We skip the refreshing if EnableEndpointDiscovery is set to False
+   *   We skip the refreshing if enableEndpointDiscovery is set to False
    */
   public async refreshEndpointList(): Promise<void> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {

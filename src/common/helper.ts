@@ -305,19 +305,3 @@ export function getResourceIdFromPath(resourcePath: string) {
 
   return pathSegments[pathSegments.length - 1];
 }
-
-export function parseConnectionPolicy(policy: any): ConnectionPolicy {
-  if (!policy) {
-    return new ConnectionPolicy();
-  } else if (policy instanceof ConnectionPolicy) {
-    return policy;
-  } else {
-    const connectionPolicy = new ConnectionPolicy();
-    for (const key of Object.getOwnPropertyNames(connectionPolicy)) {
-      if ((policy as any)[key] !== undefined) {
-        (connectionPolicy as any)[key] = (policy as any)[key];
-      }
-    }
-    return connectionPolicy;
-  }
-}

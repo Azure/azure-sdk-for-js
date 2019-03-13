@@ -2,10 +2,9 @@ import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
 import { Constants } from "./common/constants";
-import { parseConnectionPolicy } from "./common/helper";
 import { getPlatformDefaultHeaders, getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { DatabaseAccount } from "./documents";
+import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
 
@@ -58,7 +57,7 @@ export class CosmosClient {
       options.auth.key = options.key;
     }
 
-    options.connectionPolicy = parseConnectionPolicy(options.connectionPolicy);
+    options.connectionPolicy = Object.assign({}, defaultConnectionPolicy, options.connectionPolicy);
 
     options.defaultHeaders = options.defaultHeaders || {};
     options.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";

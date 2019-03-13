@@ -59,9 +59,9 @@ export async function execute({
     retryPolicies = {
       endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(globalEndpointManager, request.operationType),
       resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
-        connectionPolicy.RetryOptions.MaxRetryAttemptCount,
-        connectionPolicy.RetryOptions.FixedRetryIntervalInMilliseconds,
-        connectionPolicy.RetryOptions.MaxWaitTimeInSeconds
+        connectionPolicy.retryOptions.maxRetryAttemptCount,
+        connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
+        connectionPolicy.retryOptions.maxWaitTimeInSeconds
       ),
       sessionReadRetryPolicy: new SessionRetryPolicy(
         globalEndpointManager,

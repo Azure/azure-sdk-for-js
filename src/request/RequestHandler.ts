@@ -32,7 +32,7 @@ export class RequestHandler {
     const timeout = setTimeout(() => {
       didTimeout = true;
       controller.abort();
-    }, connectionPolicy.RequestTimeout);
+    }, connectionPolicy.requestTimeout);
 
     let response: any;
 
@@ -139,7 +139,7 @@ export class RequestHandler {
     requestOptions.agent = requestAgent;
     requestOptions.secureProtocol = "TLSv1_client_method"; // TODO: Should be a constant
 
-    if (connectionPolicy.DisableSSLVerification === true) {
+    if (connectionPolicy.disableSSLVerification === true) {
       requestOptions.rejectUnauthorized = false;
     }
 

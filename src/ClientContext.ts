@@ -1,13 +1,11 @@
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
-
-import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, QueryCompatibilityMode } from "./documents";
-import { GlobalEndpointManager } from "./globalEndpointManager";
-
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
-import { getIdFromLink, getPathFromLink, parseConnectionPolicy, parseLink, setIsUpsertHeader } from "./common/helper";
+import { getIdFromLink, getPathFromLink, parseLink, setIsUpsertHeader } from "./common/helper";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { CosmosClientOptions } from "./CosmosClientOptions";
+import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, QueryCompatibilityMode } from "./documents";
+import { GlobalEndpointManager } from "./globalEndpointManager";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "./queryIterator";
@@ -32,7 +30,7 @@ export class ClientContext {
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager
   ) {
-    this.connectionPolicy = parseConnectionPolicy(cosmosClientOptions.connectionPolicy);
+    this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.requestHandler = new RequestHandler(
       globalEndpointManager,
@@ -59,7 +57,7 @@ export class ClientContext {
         type,
         options,
         undefined,
-        this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+        this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
       );
       this.applySessionToken(path, requestHeaders);
 
@@ -114,7 +112,7 @@ export class ClientContext {
         type,
         options,
         partitionKeyRangeId,
-        this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+        this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
       );
       this.applySessionToken(path, reqHeaders);
 
@@ -146,7 +144,7 @@ export class ClientContext {
         type,
         options,
         partitionKeyRangeId,
-        this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+        this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
       );
       this.applySessionToken(path, reqHeaders);
 
@@ -183,7 +181,7 @@ export class ClientContext {
         type,
         options,
         undefined,
-        this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+        this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
       );
 
       const request: RequestContext = {
@@ -246,7 +244,7 @@ export class ClientContext {
         type,
         options,
         undefined,
-        this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+        this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
       );
 
       const request: RequestContext = {
@@ -324,7 +322,7 @@ export class ClientContext {
         type,
         options,
         undefined,
-        this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+        this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
       );
 
       const request: RequestContext = {
@@ -381,7 +379,7 @@ export class ClientContext {
         type,
         options,
         undefined,
-        this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+        this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
       );
 
       const request: RequestContext = {
@@ -429,7 +427,7 @@ export class ClientContext {
       ResourceType.sproc,
       options,
       undefined,
-      this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+      this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
     );
 
     const request: RequestContext = {
@@ -461,7 +459,7 @@ export class ClientContext {
       ResourceType.none,
       {},
       undefined,
-      this.cosmosClientOptions.connectionPolicy.UseMultipleWriteLocations
+      this.cosmosClientOptions.connectionPolicy.useMultipleWriteLocations
     );
 
     const request: RequestContext = {
@@ -503,22 +501,6 @@ export class ClientContext {
     ) {
       this.sessionContainer.set(request, resHeaders);
     }
-  }
-
-  // TODO: some session tests are using this, but I made them use type coercsion to call this method because I don't think it should be public.
-  private getSessionToken(collectionLink: string) {
-    if (!collectionLink) {
-      throw new Error("collectionLink cannot be null");
-    }
-
-    const paths = parseLink(collectionLink);
-
-    if (paths === undefined) {
-      return "";
-    }
-
-    const request = this.getSessionParams(collectionLink);
-    return this.sessionContainer.get(request);
   }
 
   public clearSessionToken(path: string) {

@@ -42,7 +42,7 @@ export class SessionRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (!this.connectionPolicy.EnableEndpointDiscovery) {
+    if (!this.connectionPolicy.enableEndpointDiscovery) {
       return false;
     }
 

@@ -39,11 +39,11 @@ export class LocationCache {
 
   public constructor(private options: CosmosClientOptions) {
     this.defaultEndpoint = options.endpoint;
-    this.locationInfo = new LocationInfo(options.connectionPolicy.PreferredLocations, options.endpoint);
+    this.locationInfo = new LocationInfo(options.connectionPolicy.preferredLocations, options.endpoint);
   }
 
   public get prefferredLocations(): string[] {
-    return this.options.connectionPolicy.PreferredLocations;
+    return this.options.connectionPolicy.preferredLocations;
   }
 
   public getWriteEndpoint(): string {
@@ -103,7 +103,7 @@ export class LocationCache {
 
     let locationIndex = request.locationRouting.locationIndexToRoute || 0;
 
-    if (!this.options.connectionPolicy.EnableEndpointDiscovery) {
+    if (!this.options.connectionPolicy.enableEndpointDiscovery) {
       return this.defaultEndpoint;
     }
 
@@ -143,10 +143,10 @@ export class LocationCache {
       currentInfo.preferredLocations ? currentInfo.preferredLocations[0] : null
     );
 
-    if (this.options.connectionPolicy.EnableEndpointDiscovery) {
+    if (this.options.connectionPolicy.enableEndpointDiscovery) {
       // Refresh if client opts-in to use multiple write locations, but it's not enabled on the server.
       const shouldRefresh =
-        this.options.connectionPolicy.UseMultipleWriteLocations && !this.enableMultipleWritableLocations;
+        this.options.connectionPolicy.useMultipleWriteLocations && !this.enableMultipleWritableLocations;
 
       if (mostPreferredLocation) {
         if (currentInfo.availableReadEndpointByLocation.size > 0) {
@@ -184,7 +184,7 @@ export class LocationCache {
   }
 
   public canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean {
-    let canUse = this.options.connectionPolicy.UseMultipleWriteLocations && this.enableMultipleWritableLocations;
+    let canUse = this.options.connectionPolicy.useMultipleWriteLocations && this.enableMultipleWritableLocations;
 
     if (resourceType) {
       canUse =
@@ -258,7 +258,7 @@ export class LocationCache {
 
     // TODO: To sstay consistent with .NET, grab a local copy of the locationInfo
 
-    if (this.options.connectionPolicy.EnableEndpointDiscovery) {
+    if (this.options.connectionPolicy.enableEndpointDiscovery) {
       if (readLocations) {
         ({
           endpointsByLocation: this.locationInfo.availableReadEndpointByLocation,
@@ -299,11 +299,11 @@ export class LocationCache {
   ): string[] {
     const endpoints = [];
 
-    if (this.options.connectionPolicy.EnableEndpointDiscovery && endpointsByLocation && endpointsByLocation.size > 0) {
+    if (this.options.connectionPolicy.enableEndpointDiscovery && endpointsByLocation && endpointsByLocation.size > 0) {
       if (this.canUseMultipleWriteLocations() || expectedAvailableOperation === EndpointOperationType.Read) {
         const unavailableEndpoints: string[] = [];
-        if (this.options.connectionPolicy.PreferredLocations) {
-          for (const location of this.options.connectionPolicy.PreferredLocations) {
+        if (this.options.connectionPolicy.preferredLocations) {
+          for (const location of this.options.connectionPolicy.preferredLocations) {
             const endpoint = endpointsByLocation.get(LocationCache.normalizeLocationName(location));
             if (endpoint) {
               if (this.isEndpointUnavailable(endpoint, expectedAvailableOperation)) {

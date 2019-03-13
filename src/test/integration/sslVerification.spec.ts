@@ -1,5 +1,5 @@
 ﻿import assert from "assert";
-import { ConnectionPolicy, CosmosClient } from "../..";
+import { CosmosClient } from "../..";
 import { getTestDatabase } from "../common/TestHelpers";
 
 const endpoint = "https://localhost:443";
@@ -22,13 +22,12 @@ describe.skip("Validate SSL verification check for emulator", function() {
   });
 
   it("nativeApi Client Should successfully execute request", async function() {
-    const connectionPolicy = new ConnectionPolicy();
-    // Disable SSL verification explicitly
-    connectionPolicy.DisableSSLVerification = true;
     const client = new CosmosClient({
       endpoint,
       auth: { masterKey },
-      connectionPolicy
+      connectionPolicy: {
+        disableSSLVerification: true
+      }
     });
 
     // create database
