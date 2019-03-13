@@ -89,7 +89,7 @@ describe("EventHub Receiver", function (): void {
       };
       await client.send(ed, partitionId);
       debug(">>>>>>> Sent the new message after creating the receiver. We should only receive this message.");
-      const data2 = await breceiver.receive(10, 40);
+      const data2 = await breceiver.receive(10, 120);
       debug("received messages: ", data2);
       data2.length.should.equal(1, "Failed to receive the expected one single message");
       data2[0].applicationProperties!.stamp.should.equal(uid, "Message received with unexpected uid");
@@ -177,7 +177,7 @@ describe("EventHub Receiver", function (): void {
       };
       await client.send(ed, partitionId);
       debug("Sent the new message after creating the receiver. We should only receive this message.");
-      const data = await breceiver.receive(10, 30);
+      const data = await breceiver.receive(10, 60);
       debug("received messages: ", data);
       data.length.should.equal(1, "Failed to received the expected single message");
       data[0].applicationProperties!.stamp.should.equal(uid);
@@ -529,4 +529,4 @@ describe("EventHub Receiver", function (): void {
       }, 5000);
     });
   });
-}).timeout(90000);
+}).timeout(180000);

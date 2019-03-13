@@ -153,7 +153,7 @@ describe("Misc tests", function (): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 60);
+      data = await breceiver.receive(5, 120);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
@@ -202,7 +202,7 @@ describe("Misc tests", function (): void {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 60);
+      data = await breceiver.receive(5, 120);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
@@ -256,4 +256,4 @@ describe("Misc tests", function (): void {
     }
     totalReceived.should.equal(msgToSendCount);
   });
-}).timeout(60000);
+}).timeout(180000);
