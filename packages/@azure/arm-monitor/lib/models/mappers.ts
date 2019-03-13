@@ -1694,6 +1694,13 @@ export const EmailReceiver: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      useCommonAlertSchema: {
+        required: true,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean"
+        }
+      },
       status: {
         readOnly: true,
         serializedName: "status",
@@ -1771,6 +1778,13 @@ export const WebhookReceiver: msRest.CompositeMapper = {
         serializedName: "serviceUri",
         type: {
           name: "String"
+        }
+      },
+      useCommonAlertSchema: {
+        required: true,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1891,6 +1905,13 @@ export const AutomationRunbookReceiver: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useCommonAlertSchema: {
+        required: true,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1953,6 +1974,13 @@ export const LogicAppReceiver: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useCommonAlertSchema: {
+        required: true,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1991,6 +2019,13 @@ export const AzureFunctionReceiver: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useCommonAlertSchema: {
+        required: true,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2014,6 +2049,13 @@ export const ArmRoleReceiver: msRest.CompositeMapper = {
         serializedName: "roleId",
         type: {
           name: "String"
+        }
+      },
+      useCommonAlertSchema: {
+        required: true,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean"
         }
       }
     }
