@@ -482,7 +482,7 @@ describe("EventHub Receiver", function (): void {
       // This test does not require recieving any messages.  Just attempting to connect the 6th receiver causes
       // onerr2() to be called with QuotaExceededError.  So it's fastest to use EventPosition.fromEnd().
       // Using EventPosition.fromStart() can cause timeouts or ServiceUnavailableException if the EventHub has
-      ///a large number of messages.
+      // a large number of messages.
       const eventPosition = EventPosition.fromEnd();
       
       debug(">>> Receivers length: ", rcvHndlrs.length);
