@@ -109,3 +109,6 @@ Options:
 
 #### Debug
 - If you would like to see more in-depth information about what is happening, `export DEBUG=azure*` or `export DEBUG=azure*,rhea*`.
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Feventhubs%2Ftesthub%2FREADME.png)
