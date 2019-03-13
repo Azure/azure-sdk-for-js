@@ -478,6 +478,13 @@ describe("EventHub Receiver", function (): void {
       const partitionId = hubInfo.partitionIds[0];
       const rcvHndlrs: ReceiveHandler[] = [];
       const rcvrs: any[] = [];
+      
+      // This test does not require recieving any messages.  Just attempting to connect the 6th receiver causes
+      // onerr2() to be called with QuotaExceededError.  So it's fastest to use EventPosition.fromEnd().
+      // Using EventPosition.fromStart() can cause timeouts or ServiceUnavailableException if the EventHub has
+      ///a large number of messages.
+      const eventPosition = EventPosition.fromEnd();
+      
       debug(">>> Receivers length: ", rcvHndlrs.length);
       for (let i = 1; i <= 5; i++) {
         const rcvrId = `rcvr-${i}`;
@@ -492,7 +499,7 @@ describe("EventHub Receiver", function (): void {
           debug("@@@@ Error received by receiver %s", rcvrId);
           debug(err);
         };
-        const rcvHndlr = client.receive(partitionId, onMsg, onError, { eventPosition: EventPosition.fromStart(), identifier: rcvrId });
+        const rcvHndlr = client.receive(partitionId, onMsg, onError, { eventPosition: eventPosition, identifier: rcvrId });
         rcvHndlrs.push(rcvHndlr);
       }
       debug(">>> Attached message handlers to each receiver.");
@@ -517,7 +524,7 @@ describe("EventHub Receiver", function (): void {
             done();
           });
         };
-        const failedRcvHandler = client.receive(partitionId, onmsg2, onerr2, { eventPosition: EventPosition.fromStart(), identifier: "rcvr-6" });
+        const failedRcvHandler = client.receive(partitionId, onmsg2, onerr2, { eventPosition: eventPosition, identifier: "rcvr-6" });
         rcvHndlrs.push(failedRcvHandler);
       }, 5000);
     });
