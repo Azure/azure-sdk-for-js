@@ -1338,6 +1338,11 @@ export interface EmailReceiver {
    */
   emailAddress: string;
   /**
+   * @member {boolean} useCommonAlertSchema Indicates whether to use common
+   * alert schema.
+   */
+  useCommonAlertSchema: boolean;
+  /**
    * @member {ReceiverStatus} [status] The receiver status of the e-mail.
    * Possible values include: 'NotSpecified', 'Enabled', 'Disabled'
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -1391,6 +1396,11 @@ export interface WebhookReceiver {
    * @member {string} serviceUri The URI where webhooks should be sent.
    */
   serviceUri: string;
+  /**
+   * @member {boolean} useCommonAlertSchema Indicates whether to use common
+   * alert schema.
+   */
+  useCommonAlertSchema: boolean;
 }
 
 /**
@@ -1480,6 +1490,11 @@ export interface AutomationRunbookReceiver {
    * @member {string} [serviceUri] The URI where webhooks should be sent.
    */
   serviceUri?: string;
+  /**
+   * @member {boolean} useCommonAlertSchema Indicates whether to use common
+   * alert schema.
+   */
+  useCommonAlertSchema: boolean;
 }
 
 /**
@@ -1525,6 +1540,11 @@ export interface LogicAppReceiver {
    * @member {string} callbackUrl The callback url where http request sent to.
    */
   callbackUrl: string;
+  /**
+   * @member {boolean} useCommonAlertSchema Indicates whether to use common
+   * alert schema.
+   */
+  useCommonAlertSchema: boolean;
 }
 
 /**
@@ -1553,6 +1573,11 @@ export interface AzureFunctionReceiver {
    * sent to.
    */
   httpTriggerUrl: string;
+  /**
+   * @member {boolean} useCommonAlertSchema Indicates whether to use common
+   * alert schema.
+   */
+  useCommonAlertSchema: boolean;
 }
 
 /**
@@ -1571,6 +1596,11 @@ export interface ArmRoleReceiver {
    * @member {string} roleId The arm role id.
    */
   roleId: string;
+  /**
+   * @member {boolean} useCommonAlertSchema Indicates whether to use common
+   * alert schema.
+   */
+  useCommonAlertSchema: boolean;
 }
 
 /**
