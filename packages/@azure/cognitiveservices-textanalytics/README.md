@@ -9,23 +9,23 @@ This package contains an isomorphic SDK for TextAnalyticsClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/cognitiveservices-textanalytics
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and keyPhrases  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and detectLanguage  as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { TextAnalyticsClient, TextAnalyticsModels, TextAnalyticsMappers } from "@azure/cognitiveservices-textanalytics";
@@ -33,14 +33,15 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new TextAnalyticsClient(creds, subscriptionId);
-  const input: TextAnalyticsModels.MultiLanguageBatchInput = {
+  const showStats = true;
+  const languageBatchInput: TextAnalyticsModels.LanguageBatchInput = {
     documents: [{
-      language: "testlanguage",
+      countryHint: "testcountryHint",
       id: "testid",
       text: "testtext"
     }]
   };
-  client.keyPhrases(input).then((result) => {
+  client.detectLanguage(showStats, languageBatchInput).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -49,11 +50,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and keyPhrases  as an example written in JavaScript.
+#### browser - Authentication, client creation and detectLanguage  as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -82,14 +83,15 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.CognitiveservicesTextanalytics.TextAnalyticsClient(res.creds, subscriptionId);
-        const input = {
+        const showStats = true;
+        const languageBatchInput = {
           documents: [{
-            language: "testlanguage",
+            countryHint: "testcountryHint",
             id: "testid",
             text: "testtext"
           }]
         };
-        client.keyPhrases(input).then((result) => {
+        client.detectLanguage(showStats, languageBatchInput).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -106,6 +108,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fcognitiveservices-textanalytics%2FREADME.png)
