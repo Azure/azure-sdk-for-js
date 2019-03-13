@@ -176,6 +176,7 @@ export class CbsClient {
     }
   }
 
+
   /**
    * Closes the AMQP cbs session to the EventHub/ServiceBus for this client,
    * returning a promise that will be resolved when disconnection is completed.
@@ -191,6 +192,25 @@ export class CbsClient {
       }
     } catch (err) {
       const msg = `An error occurred while closing the cbs link: ${err.stack || JSON.stringify(err)}.`;
+      log.error("[%s] %s", this.connection.id, msg);
+      throw new Error(msg);
+    }
+  }
+
+  /**
+   * Removes the AMQP cbs session to the EventHub/ServiceBus for this client,
+   * @return {Promise<void>}
+   */
+  async remove(): Promise<void> {
+    try {
+      if (this._cbsSenderReceiverLink) {
+        const cbsLink = this._cbsSenderReceiverLink;
+        this._cbsSenderReceiverLink = undefined;
+        await cbsLink!.remove();
+        log.cbs("[%s] Successfully removed the cbs session.", this.connection.id);
+      }
+    } catch (err) {
+      const msg = `An error occurred while removing the cbs link: ${err.stack || JSON.stringify(err)}.`;
       log.error("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
     }

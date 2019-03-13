@@ -186,6 +186,16 @@ export class RequestResponseLink implements ReqResLink {
   }
 
   /**
+   * Removes the sender, receiver link and it's underlying session.
+   * @returns {Promise<void>} Promise<void>
+   */
+  async remove(): Promise<void> {
+    await this.sender.remove();
+    await this.receiver.remove();
+    await this.session.remove();
+  }
+
+  /**
    * Creates an amqp request/response link.
    *
    * @param {Connection} connection The amqp connection.
