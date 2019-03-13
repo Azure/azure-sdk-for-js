@@ -155,7 +155,7 @@ export interface Operation {
  */
 export interface ActiveDirectories {
   /**
-   * @member {string} [activeDirectoryId] Id of the active drectory
+   * @member {string} [activeDirectoryId] Id of the Active Directory
    */
   activeDirectoryId?: string;
   /**
@@ -178,7 +178,7 @@ export interface ActiveDirectories {
    */
   dNS?: string;
   /**
-   * @member {string} [status] Status of the active drectory
+   * @member {string} [status] Status of the Active Directory
    */
   status?: string;
   /**
@@ -427,7 +427,7 @@ export interface ExportPolicyRule {
   nfsv4?: boolean;
   /**
    * @member {string} [allowedClients] Client ingress specification as comma
-   * seperated string with IPv4 CIDRs, IPv4 host addresses and host names
+   * separated string with IPv4 CIDRs, IPv4 host addresses and host names
    */
   allowedClients?: string;
 }
@@ -632,7 +632,7 @@ export interface MountTarget {
   netmask?: string;
   /**
    * @member {string} [smbServerFqdn] smbServerFQDN. The SMB server's Fully
-   * Qualified Doman Name, FQDN
+   * Qualified Domain Name, FQDN
    */
   smbServerFqdn?: string;
   /**
