@@ -607,17 +607,17 @@ export interface MountTarget {
    */
   readonly ipAddress?: string;
   /**
-   * @member {number} [vlanId] vlanid. Vlan Id
+   * @member {string} [subnet] subnet. The subnet
    */
-  vlanId?: number;
+  subnet?: string;
   /**
    * @member {string} [startIp] startIp. The start of IPv4 address range to use
    * when creating a new mount target
    */
   startIp?: string;
   /**
-   * @member {string} [endIp] startIp. The end of IPv4 address range to use
-   * when creating a new mount target
+   * @member {string} [endIp] endIp. The end of IPv4 address range to use when
+   * creating a new mount target
    */
   endIp?: string;
   /**
@@ -630,6 +630,11 @@ export interface MountTarget {
    * to use when creating a new mount target
    */
   netmask?: string;
+  /**
+   * @member {string} [smbServerFqdn] smbServerFQDN. The SMB server's Fully
+   * Qualified Doman Name, FQDN
+   */
+  smbServerFqdn?: string;
   /**
    * @member {string} [provisioningState] Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by

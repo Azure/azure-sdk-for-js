@@ -799,10 +799,10 @@ export const MountTarget: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      vlanId: {
-        serializedName: "properties.vlanId",
+      subnet: {
+        serializedName: "properties.subnet",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       startIp: {
@@ -825,6 +825,12 @@ export const MountTarget: msRest.CompositeMapper = {
       },
       netmask: {
         serializedName: "properties.netmask",
+        type: {
+          name: "String"
+        }
+      },
+      smbServerFqdn: {
+        serializedName: "properties.smbServerFqdn",
         type: {
           name: "String"
         }
