@@ -18,6 +18,7 @@ import { PostgreSQLManagementClientContext } from "./postgreSQLManagementClientC
 class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
   // Operation groups
   servers: operations.Servers;
+  replicas: operations.Replicas;
   firewallRules: operations.FirewallRules;
   virtualNetworkRules: operations.VirtualNetworkRules;
   databases: operations.Databases;
@@ -37,6 +38,7 @@ class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PostgreSQLManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.servers = new operations.Servers(this);
+    this.replicas = new operations.Replicas(this);
     this.firewallRules = new operations.FirewallRules(this);
     this.virtualNetworkRules = new operations.VirtualNetworkRules(this);
     this.databases = new operations.Databases(this);
