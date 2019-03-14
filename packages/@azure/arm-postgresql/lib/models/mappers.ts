@@ -221,6 +221,26 @@ export const ServerPropertiesForGeoRestore: msRest.CompositeMapper = {
   }
 };
 
+export const ServerPropertiesForReplica: msRest.CompositeMapper = {
+  serializedName: "Replica",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ServerPropertiesForCreate.type.polymorphicDiscriminator,
+    uberParent: "ServerPropertiesForCreate",
+    className: "ServerPropertiesForReplica",
+    modelProperties: {
+      ...ServerPropertiesForCreate.type.modelProperties,
+      sourceServerId: {
+        required: true,
+        serializedName: "sourceServerId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Sku: msRest.CompositeMapper = {
   serializedName: "Sku",
   type: {
@@ -323,6 +343,27 @@ export const Server: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "StorageProfile"
+        }
+      },
+      replicationRole: {
+        serializedName: "properties.replicationRole",
+        type: {
+          name: "String"
+        }
+      },
+      masterServerId: {
+        serializedName: "properties.masterServerId",
+        type: {
+          name: "String"
+        }
+      },
+      replicaCapacity: {
+        serializedName: "properties.replicaCapacity",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1083,5 +1124,6 @@ export const discriminators = {
   'ServerPropertiesForCreate' : ServerPropertiesForCreate,
   'ServerPropertiesForCreate.Default' : ServerPropertiesForDefaultCreate,
   'ServerPropertiesForCreate.PointInTimeRestore' : ServerPropertiesForRestore,
-  'ServerPropertiesForCreate.GeoRestore' : ServerPropertiesForGeoRestore
+  'ServerPropertiesForCreate.GeoRestore' : ServerPropertiesForGeoRestore,
+  'ServerPropertiesForCreate.Replica' : ServerPropertiesForReplica
 };
