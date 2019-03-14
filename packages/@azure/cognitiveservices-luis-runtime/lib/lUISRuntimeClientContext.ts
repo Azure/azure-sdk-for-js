@@ -14,38 +14,31 @@ const packageName = "@azure/cognitiveservices-luis-runtime";
 const packageVersion = "2.0.0";
 
 export class LUISRuntimeClientContext extends msRest.ServiceClient {
-  endpoint: string;
   credentials: msRest.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the LUISRuntimeClientContext class.
-   * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
-   * https://westus.api.cognitive.microsoft.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
-    if (endpoint == undefined) {
-      throw new Error("'endpoint' cannot be null.");
-    }
-    if (credentials == undefined) {
-      throw new Error("'credentials' cannot be null.");
+  constructor(credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
+    if (credentials === null || credentials === undefined) {
+      throw new Error('\'credentials\' cannot be null.');
     }
 
     if (!options) {
       options = {};
     }
-
-    if (!options.userAgent) {
+    if(!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/luis/v2.0";
+    this.baseUri = "http://{AzureRegion}.api.cognitive.microsoft.{AzureCloud}";
     this.requestContentType = "application/json; charset=utf-8";
-    this.endpoint = endpoint;
     this.credentials = credentials;
+
   }
 }

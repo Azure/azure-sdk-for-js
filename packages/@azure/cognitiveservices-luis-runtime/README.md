@@ -33,7 +33,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new LUISRuntimeClient(creds, subscriptionId);
-  const appId = "testappId";
+  const azureRegion = "westus";
+  const azureCloud = "com";
+  const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
   const query = "testquery";
   const timezoneOffset = 1.01;
   const verbose = true;
@@ -41,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const spellCheck = true;
   const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
   const log = true;
-  client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+  client.prediction.resolve(azureRegion, azureCloud, appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -83,7 +85,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.CognitiveservicesLuisRuntime.LUISRuntimeClient(res.creds, subscriptionId);
-        const appId = "testappId";
+        const azureRegion = "westus";
+        const azureCloud = "com";
+        const appId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
         const query = "testquery";
         const timezoneOffset = 1.01;
         const verbose = true;
@@ -91,7 +95,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const spellCheck = true;
         const bingSpellCheckSubscriptionKey = "testbingSpellCheckSubscriptionKey";
         const log = true;
-        client.prediction.resolve(appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
+        client.prediction.resolve(azureRegion, azureCloud, appId, query, timezoneOffset, verbose, staging, spellCheck, bingSpellCheckSubscriptionKey, log).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -108,6 +112,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fcognitiveservices-luis-runtime%2FREADME.png)

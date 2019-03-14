@@ -28,31 +28,51 @@ export class Model {
 
   /**
    * Adds an intent classifier to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentCreateObject A model object containing the name of the new intent classifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddIntentResponse>
    */
-  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddIntentResponse>;
+  addIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddIntentResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentCreateObject A model object containing the name of the new intent classifier.
    * @param callback The callback
    */
-  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentCreateObject A model object containing the name of the new intent classifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddIntentResponse> {
+  addIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddIntentResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         intentCreateObject,
@@ -64,28 +84,48 @@ export class Model {
 
   /**
    * Gets information about the intent models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListIntentsResponse>
    */
-  listIntents(appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams): Promise<Models.ModelListIntentsResponse>;
+  listIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams): Promise<Models.ModelListIntentsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listIntents(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
+  listIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listIntents(appId: string, versionId: string, options: Models.ModelListIntentsOptionalParams, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
-  listIntents(appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListIntentsResponse> {
+  listIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListIntentsOptionalParams, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
+  listIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListIntentsOptionalParams | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListIntentsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -95,32 +135,52 @@ export class Model {
   }
 
   /**
-   * Adds an entity extractor to the application.
+   * Adds a simple entity extractor to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddEntityResponse>
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddEntityResponse>;
+  addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param callback The callback
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityResponse> {
+  addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         modelCreateObject,
@@ -132,28 +192,48 @@ export class Model {
 
   /**
    * Gets information about the entity models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListEntitiesResponse>
    */
-  listEntities(appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams): Promise<Models.ModelListEntitiesResponse>;
+  listEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams): Promise<Models.ModelListEntitiesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
+  listEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEntities(appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
-  listEntities(appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListEntitiesResponse> {
+  listEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
+  listEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListEntitiesOptionalParams | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -164,6 +244,12 @@ export class Model {
 
   /**
    * Adds a hierarchical entity extractor to the application version.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hierarchicalModelCreateObject A model containing the name and children of the new entity
@@ -171,16 +257,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddHierarchicalEntityResponse>
    */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddHierarchicalEntityResponse>;
+  addHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddHierarchicalEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hierarchicalModelCreateObject A model containing the name and children of the new entity
    * extractor.
    * @param callback The callback
    */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<string>): void;
+  addHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hierarchicalModelCreateObject A model containing the name and children of the new entity
@@ -188,10 +286,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntity(appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityResponse> {
+  addHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hierarchicalModelCreateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hierarchicalModelCreateObject,
@@ -203,28 +303,48 @@ export class Model {
 
   /**
    * Gets information about the hierarchical entity models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListHierarchicalEntitiesResponse>
    */
-  listHierarchicalEntities(appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams): Promise<Models.ModelListHierarchicalEntitiesResponse>;
+  listHierarchicalEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams): Promise<Models.ModelListHierarchicalEntitiesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listHierarchicalEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
+  listHierarchicalEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHierarchicalEntities(appId: string, versionId: string, options: Models.ModelListHierarchicalEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
-  listHierarchicalEntities(appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams | msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): Promise<Models.ModelListHierarchicalEntitiesResponse> {
+  listHierarchicalEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListHierarchicalEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): void;
+  listHierarchicalEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListHierarchicalEntitiesOptionalParams | msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor[]>): Promise<Models.ModelListHierarchicalEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -235,6 +355,12 @@ export class Model {
 
   /**
    * Adds a composite entity extractor to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param compositeModelCreateObject A model containing the name and children of the new entity
@@ -242,16 +368,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddCompositeEntityResponse>
    */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCompositeEntityResponse>;
+  addCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCompositeEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param compositeModelCreateObject A model containing the name and children of the new entity
    * extractor.
    * @param callback The callback
    */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<string>): void;
+  addCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param compositeModelCreateObject A model containing the name and children of the new entity
@@ -259,10 +397,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCompositeEntity(appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityResponse> {
+  addCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, compositeModelCreateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         compositeModelCreateObject,
@@ -274,28 +414,48 @@ export class Model {
 
   /**
    * Gets information about the composite entity models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListCompositeEntitiesResponse>
    */
-  listCompositeEntities(appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams): Promise<Models.ModelListCompositeEntitiesResponse>;
+  listCompositeEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams): Promise<Models.ModelListCompositeEntitiesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCompositeEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
+  listCompositeEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCompositeEntities(appId: string, versionId: string, options: Models.ModelListCompositeEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
-  listCompositeEntities(appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams | msRest.ServiceCallback<Models.CompositeEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): Promise<Models.ModelListCompositeEntitiesResponse> {
+  listCompositeEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListCompositeEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): void;
+  listCompositeEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListCompositeEntitiesOptionalParams | msRest.ServiceCallback<Models.CompositeEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor[]>): Promise<Models.ModelListCompositeEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -306,28 +466,48 @@ export class Model {
 
   /**
    * Gets information about the closedlist models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListClosedListsResponse>
    */
-  listClosedLists(appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams): Promise<Models.ModelListClosedListsResponse>;
+  listClosedLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams): Promise<Models.ModelListClosedListsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listClosedLists(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
+  listClosedLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClosedLists(appId: string, versionId: string, options: Models.ModelListClosedListsOptionalParams, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
-  listClosedLists(appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams | msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): Promise<Models.ModelListClosedListsResponse> {
+  listClosedLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListClosedListsOptionalParams, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): void;
+  listClosedLists(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListClosedListsOptionalParams | msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor[]>): Promise<Models.ModelListClosedListsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -338,6 +518,12 @@ export class Model {
 
   /**
    * Adds a closed list model to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param closedListModelCreateObject A model containing the name and words for the new closed list
@@ -345,16 +531,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddClosedListResponse>
    */
-  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddClosedListResponse>;
+  addClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddClosedListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param closedListModelCreateObject A model containing the name and words for the new closed list
    * entity extractor.
    * @param callback The callback
    */
-  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param closedListModelCreateObject A model containing the name and words for the new closed list
@@ -362,10 +560,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddClosedListResponse> {
+  addClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddClosedListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         closedListModelCreateObject,
@@ -377,31 +577,51 @@ export class Model {
 
   /**
    * Adds a list of prebuilt entity extractors to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltExtractorNames An array of prebuilt entity extractor names.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddPrebuiltResponse>
    */
-  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase): Promise<Models.ModelAddPrebuiltResponse>;
+  addPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase): Promise<Models.ModelAddPrebuiltResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltExtractorNames An array of prebuilt entity extractor names.
    * @param callback The callback
    */
-  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
+  addPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltExtractorNames: string[], callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltExtractorNames An array of prebuilt entity extractor names.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
-  addPrebuilt(appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelAddPrebuiltResponse> {
+  addPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltExtractorNames: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
+  addPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltExtractorNames: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelAddPrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         prebuiltExtractorNames,
@@ -413,28 +633,48 @@ export class Model {
 
   /**
    * Gets information about the prebuilt entity models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListPrebuiltsResponse>
    */
-  listPrebuilts(appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams): Promise<Models.ModelListPrebuiltsResponse>;
+  listPrebuilts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams): Promise<Models.ModelListPrebuiltsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listPrebuilts(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
+  listPrebuilts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPrebuilts(appId: string, versionId: string, options: Models.ModelListPrebuiltsOptionalParams, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
-  listPrebuilts(appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelListPrebuiltsResponse> {
+  listPrebuilts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListPrebuiltsOptionalParams, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): void;
+  listPrebuilts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListPrebuiltsOptionalParams | msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor[]>): Promise<Models.ModelListPrebuiltsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -445,28 +685,48 @@ export class Model {
 
   /**
    * Gets all the available prebuilt entity extractors for the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListPrebuiltEntitiesResponse>
    */
-  listPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListPrebuiltEntitiesResponse>;
+  listPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListPrebuiltEntitiesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listPrebuiltEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
+  listPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPrebuiltEntities(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
-  listPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>, callback?: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): Promise<Models.ModelListPrebuiltEntitiesResponse> {
+  listPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): void;
+  listPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>, callback?: msRest.ServiceCallback<Models.AvailablePrebuiltEntityModel[]>): Promise<Models.ModelListPrebuiltEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -477,28 +737,48 @@ export class Model {
 
   /**
    * Gets information about the application version models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListModelsResponse>
    */
-  listModels(appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams): Promise<Models.ModelListModelsResponse>;
+  listModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams): Promise<Models.ModelListModelsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listModels(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
+  listModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listModels(appId: string, versionId: string, options: Models.ModelListModelsOptionalParams, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
-  listModels(appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams | msRest.ServiceCallback<Models.ModelInfoResponse[]>, callback?: msRest.ServiceCallback<Models.ModelInfoResponse[]>): Promise<Models.ModelListModelsResponse> {
+  listModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListModelsOptionalParams, callback: msRest.ServiceCallback<Models.ModelInfoResponse[]>): void;
+  listModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListModelsOptionalParams | msRest.ServiceCallback<Models.ModelInfoResponse[]>, callback?: msRest.ServiceCallback<Models.ModelInfoResponse[]>): Promise<Models.ModelListModelsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -509,31 +789,51 @@ export class Model {
 
   /**
    * Gets the utterances for the given model in the given app version.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param modelId The ID (GUID) of the model.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelExamplesMethodResponse>
    */
-  examplesMethod(appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams): Promise<Models.ModelExamplesMethodResponse>;
+  examplesMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams): Promise<Models.ModelExamplesMethodResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param modelId The ID (GUID) of the model.
    * @param callback The callback
    */
-  examplesMethod(appId: string, versionId: string, modelId: string, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
+  examplesMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelId: string, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param modelId The ID (GUID) of the model.
    * @param options The optional parameters
    * @param callback The callback
    */
-  examplesMethod(appId: string, versionId: string, modelId: string, options: Models.ModelExamplesMethodOptionalParams, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
-  examplesMethod(appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams | msRest.ServiceCallback<Models.LabelTextObject[]>, callback?: msRest.ServiceCallback<Models.LabelTextObject[]>): Promise<Models.ModelExamplesMethodResponse> {
+  examplesMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelId: string, options: Models.ModelExamplesMethodOptionalParams, callback: msRest.ServiceCallback<Models.LabelTextObject[]>): void;
+  examplesMethod(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, modelId: string, options?: Models.ModelExamplesMethodOptionalParams | msRest.ServiceCallback<Models.LabelTextObject[]>, callback?: msRest.ServiceCallback<Models.LabelTextObject[]>): Promise<Models.ModelExamplesMethodResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         modelId,
@@ -545,31 +845,51 @@ export class Model {
 
   /**
    * Gets information about the intent model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetIntentResponse>
    */
-  getIntent(appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetIntentResponse>;
+  getIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetIntentResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param callback The callback
    */
-  getIntent(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
+  getIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getIntent(appId: string, versionId: string, intentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
-  getIntent(appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier>, callback?: msRest.ServiceCallback<Models.IntentClassifier>): Promise<Models.ModelGetIntentResponse> {
+  getIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier>): void;
+  getIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier>, callback?: msRest.ServiceCallback<Models.IntentClassifier>): Promise<Models.ModelGetIntentResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         intentId,
@@ -581,6 +901,12 @@ export class Model {
 
   /**
    * Updates the name of an intent classifier.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
@@ -588,16 +914,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateIntentResponse>
    */
-  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateIntentResponse>;
+  updateIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateIntentResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param modelUpdateObject A model object containing the new intent classifier name.
    * @param callback The callback
    */
-  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
@@ -605,10 +943,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateIntentResponse> {
+  updateIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateIntentResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         intentId,
@@ -621,31 +961,51 @@ export class Model {
 
   /**
    * Deletes an intent classifier from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteIntentResponse>
    */
-  deleteIntent(appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams): Promise<Models.ModelDeleteIntentResponse>;
+  deleteIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams): Promise<Models.ModelDeleteIntentResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param callback The callback
    */
-  deleteIntent(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteIntent(appId: string, versionId: string, intentId: string, options: Models.ModelDeleteIntentOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteIntent(appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteIntentResponse> {
+  deleteIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: Models.ModelDeleteIntentOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelDeleteIntentOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteIntentResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         intentId,
@@ -657,31 +1017,51 @@ export class Model {
 
   /**
    * Gets information about the entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetEntityResponse>
    */
-  getEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetEntityResponse>;
+  getEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param callback The callback
    */
-  getEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
+  getEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
-  getEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor>, callback?: msRest.ServiceCallback<Models.EntityExtractor>): Promise<Models.ModelGetEntityResponse> {
+  getEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor>): void;
+  getEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor>, callback?: msRest.ServiceCallback<Models.EntityExtractor>): Promise<Models.ModelGetEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -693,6 +1073,12 @@ export class Model {
 
   /**
    * Updates the name of an entity extractor.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
@@ -700,16 +1086,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateEntityResponse>
    */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateEntityResponse>;
+  updateEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param modelUpdateObject A model object containing the new entity extractor name.
    * @param callback The callback
    */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
@@ -717,10 +1115,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateEntity(appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityResponse> {
+  updateEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, modelUpdateObject: Models.ModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -733,31 +1133,51 @@ export class Model {
 
   /**
    * Deletes an entity extractor from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteEntityResponse>
    */
-  deleteEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteEntityResponse>;
+  deleteEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param callback The callback
    */
-  deleteEntity(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteEntity(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteEntity(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityResponse> {
+  deleteEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -769,31 +1189,51 @@ export class Model {
 
   /**
    * Gets information about the hierarchical entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetHierarchicalEntityResponse>
    */
-  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityResponse>;
+  getHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param callback The callback
    */
-  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
+  getHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
-  getHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalEntityExtractor>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): Promise<Models.ModelGetHierarchicalEntityResponse> {
+  getHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): void;
+  getHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalEntityExtractor>, callback?: msRest.ServiceCallback<Models.HierarchicalEntityExtractor>): Promise<Models.ModelGetHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -805,6 +1245,12 @@ export class Model {
 
   /**
    * Updates the name and children of a hierarchical entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -813,8 +1259,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateHierarchicalEntityResponse>
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityResponse>;
+  updateHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -822,8 +1274,14 @@ export class Model {
    * entity.
    * @param callback The callback
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -832,10 +1290,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntity(appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
+  updateHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalModelUpdateObject: Models.HierarchicalEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -848,31 +1308,51 @@ export class Model {
 
   /**
    * Deletes a hierarchical entity extractor from the application version.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteHierarchicalEntityResponse>
    */
-  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteHierarchicalEntityResponse>;
+  deleteHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteHierarchicalEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param callback The callback
    */
-  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntity(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityResponse> {
+  deleteHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -884,31 +1364,51 @@ export class Model {
 
   /**
    * Gets information about the composite entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetCompositeEntityResponse>
    */
-  getCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCompositeEntityResponse>;
+  getCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCompositeEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param callback The callback
    */
-  getCompositeEntity(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
+  getCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCompositeEntity(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
-  getCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CompositeEntityExtractor>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor>): Promise<Models.ModelGetCompositeEntityResponse> {
+  getCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CompositeEntityExtractor>): void;
+  getCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CompositeEntityExtractor>, callback?: msRest.ServiceCallback<Models.CompositeEntityExtractor>): Promise<Models.ModelGetCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -920,6 +1420,12 @@ export class Model {
 
   /**
    * Updates the composite entity extractor.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -928,8 +1434,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateCompositeEntityResponse>
    */
-  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateCompositeEntityResponse>;
+  updateCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateCompositeEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -937,8 +1449,14 @@ export class Model {
    * children.
    * @param callback The callback
    */
-  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -947,10 +1465,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCompositeEntity(appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityResponse> {
+  updateCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeModelUpdateObject: Models.CompositeEntityModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -963,31 +1483,51 @@ export class Model {
 
   /**
    * Deletes a composite entity extractor from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteCompositeEntityResponse>
    */
-  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCompositeEntityResponse>;
+  deleteCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCompositeEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param callback The callback
    */
-  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntity(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityResponse> {
+  deleteCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -999,31 +1539,51 @@ export class Model {
 
   /**
    * Gets information of a closed list model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetClosedListResponse>
    */
-  getClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetClosedListResponse>;
+  getClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetClosedListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param callback The callback
    */
-  getClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
+  getClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getClosedList(appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
-  getClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClosedListEntityExtractor>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): Promise<Models.ModelGetClosedListResponse> {
+  getClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
+  getClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClosedListEntityExtractor>, callback?: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): Promise<Models.ModelGetClosedListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         clEntityId,
@@ -1035,6 +1595,12 @@ export class Model {
 
   /**
    * Updates the closed list model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
@@ -1042,16 +1608,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateClosedListResponse>
    */
-  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateClosedListResponse>;
+  updateClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateClosedListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param closedListModelUpdateObject The new entity name and words list.
    * @param callback The callback
    */
-  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
@@ -1059,10 +1637,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListResponse> {
+  updateClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         clEntityId,
@@ -1075,6 +1655,12 @@ export class Model {
 
   /**
    * Adds a batch of sublists to an existing closedlist.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
@@ -1082,16 +1668,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelPatchClosedListResponse>
    */
-  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelPatchClosedListResponse>;
+  patchClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelPatchClosedListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param closedListModelPatchObject A words list batch.
    * @param callback The callback
    */
-  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  patchClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
@@ -1099,10 +1697,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  patchClosedList(appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelPatchClosedListResponse> {
+  patchClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  patchClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, closedListModelPatchObject: Models.ClosedListModelPatchObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelPatchClosedListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         clEntityId,
@@ -1115,31 +1715,51 @@ export class Model {
 
   /**
    * Deletes a closed list model from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteClosedListResponse>
    */
-  deleteClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteClosedListResponse>;
+  deleteClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteClosedListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param callback The callback
    */
-  deleteClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list model ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteClosedList(appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteClosedList(appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListResponse> {
+  deleteClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteClosedList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         clEntityId,
@@ -1151,31 +1771,51 @@ export class Model {
 
   /**
    * Gets information about the prebuilt entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetPrebuiltResponse>
    */
-  getPrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPrebuiltResponse>;
+  getPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPrebuiltResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param callback The callback
    */
-  getPrebuilt(appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
+  getPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrebuilt(appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
-  getPrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): Promise<Models.ModelGetPrebuiltResponse> {
+  getPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): void;
+  getPrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrebuiltEntityExtractor>, callback?: msRest.ServiceCallback<Models.PrebuiltEntityExtractor>): Promise<Models.ModelGetPrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         prebuiltId,
@@ -1187,31 +1827,51 @@ export class Model {
 
   /**
    * Deletes a prebuilt entity extractor from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeletePrebuiltResponse>
    */
-  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePrebuiltResponse>;
+  deletePrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePrebuiltResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param callback The callback
    */
-  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePrebuilt(appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltResponse> {
+  deletePrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePrebuilt(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         prebuiltId,
@@ -1223,6 +1883,12 @@ export class Model {
 
   /**
    * Deletes a sublist of a specific closed list model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
@@ -1230,16 +1896,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteSubListResponse>
    */
-  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteSubListResponse>;
+  deleteSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteSubListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
    * @param subListId The sublist ID.
    * @param callback The callback
    */
-  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
@@ -1247,10 +1925,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteSubList(appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteSubListResponse> {
+  deleteSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteSubListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         clEntityId,
@@ -1263,6 +1943,12 @@ export class Model {
 
   /**
    * Updates one of the closed list's sublists.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
@@ -1272,8 +1958,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateSubListResponse>
    */
-  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateSubListResponse>;
+  updateSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateSubListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
@@ -1282,8 +1974,14 @@ export class Model {
    * the list of words.
    * @param callback The callback
    */
-  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
@@ -1293,10 +1991,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateSubList(appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateSubListResponse> {
+  updateSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, subListId: number, wordListBaseUpdateObject: Models.WordListBaseUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateSubListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         clEntityId,
@@ -1310,78 +2010,124 @@ export class Model {
 
   /**
    * Suggests examples that would improve the accuracy of the intent model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetIntentSuggestionsResponse>
+   * @returns Promise<Models.ModelListIntentSuggestionsResponse>
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams): Promise<Models.ModelGetIntentSuggestionsResponse>;
+  listIntentSuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelListIntentSuggestionsOptionalParams): Promise<Models.ModelListIntentSuggestionsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param callback The callback
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
+  listIntentSuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options: Models.ModelGetIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams | msRest.ServiceCallback<Models.IntentsSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): Promise<Models.ModelGetIntentSuggestionsResponse> {
+  listIntentSuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options: Models.ModelListIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
+  listIntentSuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, intentId: string, options?: Models.ModelListIntentSuggestionsOptionalParams | msRest.ServiceCallback<Models.IntentsSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): Promise<Models.ModelListIntentSuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         intentId,
         options
       },
-      getIntentSuggestionsOperationSpec,
-      callback) as Promise<Models.ModelGetIntentSuggestionsResponse>;
+      listIntentSuggestionsOperationSpec,
+      callback) as Promise<Models.ModelListIntentSuggestionsResponse>;
   }
 
   /**
    * Get suggestion examples that would improve the accuracy of the entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The target entity extractor model to enhance.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetEntitySuggestionsResponse>
+   * @returns Promise<Models.ModelListEntitySuggestionsResponse>
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams): Promise<Models.ModelGetEntitySuggestionsResponse>;
+  listEntitySuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: Models.ModelListEntitySuggestionsOptionalParams): Promise<Models.ModelListEntitySuggestionsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The target entity extractor model to enhance.
    * @param callback The callback
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
+  listEntitySuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The target entity extractor model to enhance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options: Models.ModelGetEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams | msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): Promise<Models.ModelGetEntitySuggestionsResponse> {
+  listEntitySuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: Models.ModelListEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
+  listEntitySuggestions(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: Models.ModelListEntitySuggestionsOptionalParams | msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): Promise<Models.ModelListEntitySuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
         options
       },
-      getEntitySuggestionsOperationSpec,
-      callback) as Promise<Models.ModelGetEntitySuggestionsResponse>;
+      listEntitySuggestionsOperationSpec,
+      callback) as Promise<Models.ModelListEntitySuggestionsResponse>;
   }
 
   /**
    * Adds a list to an existing closed list.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
@@ -1389,16 +2135,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddSubListResponse>
    */
-  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddSubListResponse>;
+  addSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddSubListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
    * @param wordListCreateObject Words list.
    * @param callback The callback
    */
-  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, callback: msRest.ServiceCallback<number>): void;
+  addSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, callback: msRest.ServiceCallback<number>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param clEntityId The closed list entity extractor ID.
@@ -1406,10 +2164,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addSubList(appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddSubListResponse> {
+  addSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
+  addSubList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, clEntityId: string, wordListCreateObject: Models.WordListObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddSubListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         clEntityId,
@@ -1422,31 +2182,51 @@ export class Model {
 
   /**
    * Adds a customizable prebuilt domain along with all of its models to this application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainObject A prebuilt domain create object containing the name of the domain.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddCustomPrebuiltDomainResponse>
    */
-  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCustomPrebuiltDomainResponse>;
+  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCustomPrebuiltDomainResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainObject A prebuilt domain create object containing the name of the domain.
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, callback: msRest.ServiceCallback<string[]>): void;
+  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, callback: msRest.ServiceCallback<string[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainObject A prebuilt domain create object containing the name of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
-  addCustomPrebuiltDomain(appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ModelAddCustomPrebuiltDomainResponse> {
+  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string[]>): void;
+  addCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainObject: Models.PrebuiltDomainCreateBaseObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string[]>, callback?: msRest.ServiceCallback<string[]>): Promise<Models.ModelAddCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         prebuiltDomainObject,
@@ -1458,6 +2238,12 @@ export class Model {
 
   /**
    * Adds a custom prebuilt intent model to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
@@ -1465,16 +2251,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddCustomPrebuiltIntentResponse>
    */
-  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCustomPrebuiltIntentResponse>;
+  addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCustomPrebuiltIntentResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
    * intent and the name of the domain to which this model belongs.
    * @param callback The callback
    */
-  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
@@ -1482,10 +2280,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltIntentResponse> {
+  addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltIntent(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltIntentResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         prebuiltDomainModelCreateObject,
@@ -1497,28 +2297,48 @@ export class Model {
 
   /**
    * Gets custom prebuilt intents information of this application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListCustomPrebuiltIntentsResponse>
    */
-  listCustomPrebuiltIntents(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltIntentsResponse>;
+  listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltIntentsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCustomPrebuiltIntents(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
+  listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCustomPrebuiltIntents(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
-  listCustomPrebuiltIntents(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListCustomPrebuiltIntentsResponse> {
+  listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntentClassifier[]>): void;
+  listCustomPrebuiltIntents(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntentClassifier[]>, callback?: msRest.ServiceCallback<Models.IntentClassifier[]>): Promise<Models.ModelListCustomPrebuiltIntentsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -1529,6 +2349,12 @@ export class Model {
 
   /**
    * Adds a custom prebuilt entity model to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
@@ -1536,16 +2362,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddCustomPrebuiltEntityResponse>
    */
-  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCustomPrebuiltEntityResponse>;
+  addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCustomPrebuiltEntityResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
    * entity and the name of the domain to which this model belongs.
    * @param callback The callback
    */
-  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
@@ -1553,10 +2391,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltEntityResponse> {
+  addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addCustomPrebuiltEntity(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCustomPrebuiltEntityResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         prebuiltDomainModelCreateObject,
@@ -1568,28 +2408,48 @@ export class Model {
 
   /**
    * Gets all custom prebuilt entities information of this application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListCustomPrebuiltEntitiesResponse>
    */
-  listCustomPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltEntitiesResponse>;
+  listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltEntitiesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCustomPrebuiltEntities(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
+  listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCustomPrebuiltEntities(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
-  listCustomPrebuiltEntities(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListCustomPrebuiltEntitiesResponse> {
+  listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityExtractor[]>): void;
+  listCustomPrebuiltEntities(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityExtractor[]>, callback?: msRest.ServiceCallback<Models.EntityExtractor[]>): Promise<Models.ModelListCustomPrebuiltEntitiesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -1600,28 +2460,48 @@ export class Model {
 
   /**
    * Gets all custom prebuilt models information of this application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelListCustomPrebuiltModelsResponse>
    */
-  listCustomPrebuiltModels(appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltModelsResponse>;
+  listCustomPrebuiltModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltModelsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listCustomPrebuiltModels(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
+  listCustomPrebuiltModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCustomPrebuiltModels(appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
-  listCustomPrebuiltModels(appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomPrebuiltModel[]>, callback?: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): Promise<Models.ModelListCustomPrebuiltModelsResponse> {
+  listCustomPrebuiltModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): void;
+  listCustomPrebuiltModels(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomPrebuiltModel[]>, callback?: msRest.ServiceCallback<Models.CustomPrebuiltModel[]>): Promise<Models.ModelListCustomPrebuiltModelsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
@@ -1632,31 +2512,51 @@ export class Model {
 
   /**
    * Deletes a prebuilt domain's models from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param domainName Domain name.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteCustomPrebuiltDomainResponse>
    */
-  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse>;
+  deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param domainName Domain name.
    * @param callback The callback
    */
-  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, domainName: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param domainName Domain name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCustomPrebuiltDomain(appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse> {
+  deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCustomPrebuiltDomain(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomPrebuiltDomainResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         domainName,
@@ -1668,6 +2568,12 @@ export class Model {
 
   /**
    * Gets information about the hierarchical entity child model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1675,16 +2581,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetHierarchicalEntityChildResponse>
    */
-  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityChildResponse>;
+  getHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityChildResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param hChildId The hierarchical entity extractor child ID.
    * @param callback The callback
    */
-  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
+  getHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1692,10 +2610,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
-  getHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalChildEntity>, callback?: msRest.ServiceCallback<Models.HierarchicalChildEntity>): Promise<Models.ModelGetHierarchicalEntityChildResponse> {
+  getHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HierarchicalChildEntity>): void;
+  getHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HierarchicalChildEntity>, callback?: msRest.ServiceCallback<Models.HierarchicalChildEntity>): Promise<Models.ModelGetHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -1708,6 +2628,12 @@ export class Model {
 
   /**
    * Renames a single child in an existing hierarchical entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1717,8 +2643,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateHierarchicalEntityChildResponse>
    */
-  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityChildResponse>;
+  updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityChildResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1727,8 +2659,14 @@ export class Model {
    * entity child.
    * @param callback The callback
    */
-  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1738,10 +2676,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityChildResponse> {
+  updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, hierarchicalChildModelUpdateObject: Models.HierarchicalChildModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -1755,6 +2695,12 @@ export class Model {
 
   /**
    * Deletes a hierarchical entity extractor child from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1762,16 +2708,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteHierarchicalEntityChildResponse>
    */
-  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteHierarchicalEntityChildResponse>;
+  deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteHierarchicalEntityChildResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param hChildId The hierarchical entity extractor child ID.
    * @param callback The callback
    */
-  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1779,10 +2737,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityChildResponse> {
+  deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -1795,6 +2755,12 @@ export class Model {
 
   /**
    * Creates a single child in an existing hierarchical entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1803,8 +2769,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddHierarchicalEntityChildResponse>
    */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddHierarchicalEntityChildResponse>;
+  addHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddHierarchicalEntityChildResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1812,8 +2784,14 @@ export class Model {
    * hierarchical child model.
    * @param callback The callback
    */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1822,10 +2800,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addHierarchicalEntityChild(appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityChildResponse> {
+  addHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addHierarchicalEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, hierarchicalChildModelCreateObject: Models.HierarchicalChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddHierarchicalEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -1838,6 +2818,12 @@ export class Model {
 
   /**
    * Creates a single child in an existing composite entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -1846,8 +2832,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddCompositeEntityChildResponse>
    */
-  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCompositeEntityChildResponse>;
+  addCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddCompositeEntityChildResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -1855,8 +2847,14 @@ export class Model {
    * child model.
    * @param callback The callback
    */
-  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  addCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -1865,10 +2863,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  addCompositeEntityChild(appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityChildResponse> {
+  addCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  addCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, compositeChildModelCreateObject: Models.CompositeChildModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelAddCompositeEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -1881,6 +2881,12 @@ export class Model {
 
   /**
    * Deletes a composite entity extractor child from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -1888,16 +2894,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteCompositeEntityChildResponse>
    */
-  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCompositeEntityChildResponse>;
+  deleteCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCompositeEntityChildResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param cChildId The hierarchical entity extractor child ID.
    * @param callback The callback
    */
-  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, cChildId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -1905,10 +2923,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntityChild(appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityChildResponse> {
+  deleteCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, cChildId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntityChild(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, cChildId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityChildResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -1921,38 +2941,64 @@ export class Model {
 
   /**
    * @summary Gets information about the regex entity models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetRegexEntityInfosResponse>
+   * @returns Promise<Models.ModelListRegexEntityInfosResponse>
    */
-  getRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams): Promise<Models.ModelGetRegexEntityInfosResponse>;
+  listRegexEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListRegexEntityInfosOptionalParams): Promise<Models.ModelListRegexEntityInfosResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getRegexEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
+  listRegexEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityInfos(appId: string, versionId: string, options: Models.ModelGetRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
-  getRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams | msRest.ServiceCallback<Models.RegexEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): Promise<Models.ModelGetRegexEntityInfosResponse> {
+  listRegexEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
+  listRegexEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListRegexEntityInfosOptionalParams | msRest.ServiceCallback<Models.RegexEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): Promise<Models.ModelListRegexEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
       },
-      getRegexEntityInfosOperationSpec,
-      callback) as Promise<Models.ModelGetRegexEntityInfosResponse>;
+      listRegexEntityInfosOperationSpec,
+      callback) as Promise<Models.ModelListRegexEntityInfosResponse>;
   }
 
   /**
    * @summary Adds a regex entity model to the application version.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityExtractorCreateObj A model object containing the name and regex pattern for
@@ -1960,16 +3006,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateRegexEntityModelResponse>
    */
-  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateRegexEntityModelResponse>;
+  createRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateRegexEntityModelResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityExtractorCreateObj A model object containing the name and regex pattern for
    * the new regex entity extractor.
    * @param callback The callback
    */
-  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityExtractorCreateObj A model object containing the name and regex pattern for
@@ -1977,10 +3035,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityModelResponse> {
+  createRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         regexEntityExtractorCreateObj,
@@ -1992,38 +3052,64 @@ export class Model {
 
   /**
    * @summary Get information about the Pattern.Any entity models.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetPatternAnyEntityInfosResponse>
+   * @returns Promise<Models.ModelListPatternAnyEntityInfosResponse>
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams): Promise<Models.ModelGetPatternAnyEntityInfosResponse>;
+  listPatternAnyEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListPatternAnyEntityInfosOptionalParams): Promise<Models.ModelListPatternAnyEntityInfosResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
+  listPatternAnyEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, options: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
-  getPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams | msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): Promise<Models.ModelGetPatternAnyEntityInfosResponse> {
+  listPatternAnyEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options: Models.ModelListPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
+  listPatternAnyEntityInfos(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, options?: Models.ModelListPatternAnyEntityInfosOptionalParams | msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): Promise<Models.ModelListPatternAnyEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         options
       },
-      getPatternAnyEntityInfosOperationSpec,
-      callback) as Promise<Models.ModelGetPatternAnyEntityInfosResponse>;
+      listPatternAnyEntityInfosOperationSpec,
+      callback) as Promise<Models.ModelListPatternAnyEntityInfosResponse>;
   }
 
   /**
    * @summary Adds a pattern.any entity extractor to the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param extractorCreateObject A model object containing the name and explicit list for the new
@@ -2031,16 +3117,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreatePatternAnyEntityModelResponse>
    */
-  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreatePatternAnyEntityModelResponse>;
+  createPatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreatePatternAnyEntityModelResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param extractorCreateObject A model object containing the name and explicit list for the new
    * Pattern.Any entity extractor.
    * @param callback The callback
    */
-  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createPatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param extractorCreateObject A model object containing the name and explicit list for the new
@@ -2048,10 +3146,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPatternAnyEntityModel(appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityModelResponse> {
+  createPatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createPatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, extractorCreateObject: Models.PatternAnyModelCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         extractorCreateObject,
@@ -2063,42 +3163,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetEntityRolesResponse>
+   * @returns Promise<Models.ModelListEntityRolesResponse>
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetEntityRolesResponse>;
+  listEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetEntityRolesResponse> {
+  listEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
         options
       },
-      getEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetEntityRolesResponse>;
+      listEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2106,16 +3232,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateEntityRoleResponse>
    */
-  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateEntityRoleResponse>;
+  createEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2123,10 +3261,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateEntityRoleResponse> {
+  createEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2139,42 +3279,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetPrebuiltEntityRolesResponse>
+   * @returns Promise<Models.ModelListPrebuiltEntityRolesResponse>
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPrebuiltEntityRolesResponse>;
+  listPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListPrebuiltEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPrebuiltEntityRolesResponse> {
+  listPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
         options
       },
-      getPrebuiltEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetPrebuiltEntityRolesResponse>;
+      listPrebuiltEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListPrebuiltEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2182,16 +3348,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreatePrebuiltEntityRoleResponse>
    */
-  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreatePrebuiltEntityRoleResponse>;
+  createPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreatePrebuiltEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2199,10 +3377,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePrebuiltEntityRoleResponse> {
+  createPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2215,42 +3395,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetClosedListEntityRolesResponse>
+   * @returns Promise<Models.ModelListClosedListEntityRolesResponse>
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetClosedListEntityRolesResponse>;
+  listClosedListEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListClosedListEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listClosedListEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param options The optional parameters
    * @param callback The callback
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetClosedListEntityRolesResponse> {
+  listClosedListEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listClosedListEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListClosedListEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
         options
       },
-      getClosedListEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetClosedListEntityRolesResponse>;
+      listClosedListEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListClosedListEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2258,16 +3464,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateClosedListEntityRoleResponse>
    */
-  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateClosedListEntityRoleResponse>;
+  createClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateClosedListEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2275,10 +3493,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createClosedListEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateClosedListEntityRoleResponse> {
+  createClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2291,42 +3511,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetRegexEntityRolesResponse>
+   * @returns Promise<Models.ModelListRegexEntityRolesResponse>
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetRegexEntityRolesResponse>;
+  listRegexEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListRegexEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listRegexEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetRegexEntityRolesResponse> {
+  listRegexEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listRegexEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListRegexEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
         options
       },
-      getRegexEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetRegexEntityRolesResponse>;
+      listRegexEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListRegexEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2334,16 +3580,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateRegexEntityRoleResponse>
    */
-  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateRegexEntityRoleResponse>;
+  createRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateRegexEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2351,10 +3609,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createRegexEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityRoleResponse> {
+  createRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2367,42 +3627,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetCompositeEntityRolesResponse>
+   * @returns Promise<Models.ModelListCompositeEntityRolesResponse>
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCompositeEntityRolesResponse>;
+  listCompositeEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCompositeEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param callback The callback
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCompositeEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCompositeEntityRolesResponse> {
+  listCompositeEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCompositeEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListCompositeEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
         options
       },
-      getCompositeEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetCompositeEntityRolesResponse>;
+      listCompositeEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListCompositeEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -2410,16 +3696,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateCompositeEntityRoleResponse>
    */
-  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateCompositeEntityRoleResponse>;
+  createCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateCompositeEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -2427,10 +3725,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createCompositeEntityRole(appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCompositeEntityRoleResponse> {
+  createCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -2443,42 +3743,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetPatternAnyEntityRolesResponse>
+   * @returns Promise<Models.ModelListPatternAnyEntityRolesResponse>
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPatternAnyEntityRolesResponse>;
+  listPatternAnyEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListPatternAnyEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPatternAnyEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPatternAnyEntityRolesResponse> {
+  listPatternAnyEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPatternAnyEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListPatternAnyEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
         options
       },
-      getPatternAnyEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetPatternAnyEntityRolesResponse>;
+      listPatternAnyEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListPatternAnyEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2486,16 +3812,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreatePatternAnyEntityRoleResponse>
    */
-  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreatePatternAnyEntityRoleResponse>;
+  createPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreatePatternAnyEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2503,10 +3841,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createPatternAnyEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityRoleResponse> {
+  createPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreatePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2519,42 +3859,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetHierarchicalEntityRolesResponse>
+   * @returns Promise<Models.ModelListHierarchicalEntityRolesResponse>
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityRolesResponse>;
+  listHierarchicalEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListHierarchicalEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param callback The callback
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listHierarchicalEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetHierarchicalEntityRolesResponse> {
+  listHierarchicalEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listHierarchicalEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListHierarchicalEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
         options
       },
-      getHierarchicalEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetHierarchicalEntityRolesResponse>;
+      listHierarchicalEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListHierarchicalEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -2562,16 +3928,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateHierarchicalEntityRoleResponse>
    */
-  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateHierarchicalEntityRoleResponse>;
+  createHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateHierarchicalEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -2579,10 +3957,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateHierarchicalEntityRoleResponse> {
+  createHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -2595,42 +3975,68 @@ export class Model {
 
   /**
    * @summary Get All Entity Roles for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse>
+   * @returns Promise<Models.ModelListCustomPrebuiltEntityRolesResponse>
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse>;
+  listCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltEntityRolesResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse> {
+  listCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCustomPrebuiltEntityRoles(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListCustomPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
         options
       },
-      getCustomPrebuiltEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse>;
+      listCustomPrebuiltEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListCustomPrebuiltEntityRolesResponse>;
   }
 
   /**
    * @summary Create an entity role for an entity in the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2638,16 +4044,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse>
    */
-  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse>;
+  createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
    * @param entityRoleCreateObject An entity role object containing the name of role.
    * @param callback The callback
    */
-  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
+  createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2655,10 +4073,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  createCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse> {
+  createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  createCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, entityRoleCreateObject: Models.EntityRoleCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ModelCreateCustomPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2671,31 +4091,51 @@ export class Model {
 
   /**
    * @summary Get the explicit list of the pattern.any entity.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity id.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetExplicitListResponse>
    */
-  getExplicitList(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetExplicitListResponse>;
+  getExplicitList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetExplicitListResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity id.
    * @param callback The callback
    */
-  getExplicitList(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
+  getExplicitList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getExplicitList(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
-  getExplicitList(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem[]>, callback?: msRest.ServiceCallback<Models.ExplicitListItem[]>): Promise<Models.ModelGetExplicitListResponse> {
+  getExplicitList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem[]>): void;
+  getExplicitList(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem[]>, callback?: msRest.ServiceCallback<Models.ExplicitListItem[]>): Promise<Models.ModelGetExplicitListResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2707,6 +4147,12 @@ export class Model {
 
   /**
    * @summary Add a new item to the explicit list for the Pattern.Any entity.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -2714,16 +4160,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddExplicitListItemResponse>
    */
-  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddExplicitListItemResponse>;
+  addExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelAddExplicitListItemResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
    * @param item The new explicit list item.
    * @param callback The callback
    */
-  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, callback: msRest.ServiceCallback<number>): void;
+  addExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, callback: msRest.ServiceCallback<number>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -2731,10 +4189,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addExplicitListItem(appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddExplicitListItemResponse> {
+  addExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
+  addExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, item: Models.ExplicitListItemCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.ModelAddExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2747,31 +4207,51 @@ export class Model {
 
   /**
    * @summary Gets information of a regex entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity model ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetRegexEntityEntityInfoResponse>
    */
-  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetRegexEntityEntityInfoResponse>;
+  getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetRegexEntityEntityInfoResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity model ID.
    * @param callback The callback
    */
-  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
+  getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity model ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
-  getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegexEntityExtractor>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor>): Promise<Models.ModelGetRegexEntityEntityInfoResponse> {
+  getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
+  getRegexEntityEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegexEntityExtractor>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor>): Promise<Models.ModelGetRegexEntityEntityInfoResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         regexEntityId,
@@ -2783,6 +4263,12 @@ export class Model {
 
   /**
    * @summary Updates the regex entity model .
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity extractor ID.
@@ -2790,16 +4276,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateRegexEntityModelResponse>
    */
-  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateRegexEntityModelResponse>;
+  updateRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateRegexEntityModelResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity extractor ID.
    * @param regexEntityUpdateObject An object containing the new entity name and regex pattern.
    * @param callback The callback
    */
-  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity extractor ID.
@@ -2807,10 +4305,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateRegexEntityModel(appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityModelResponse> {
+  updateRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, regexEntityUpdateObject: Models.RegexModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         regexEntityId,
@@ -2823,31 +4323,51 @@ export class Model {
 
   /**
    * @summary Deletes a regex entity model from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteRegexEntityModelResponse>
    */
-  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteRegexEntityModelResponse>;
+  deleteRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteRegexEntityModelResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity extractor ID.
    * @param callback The callback
    */
-  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityId The regex entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityModelResponse> {
+  deleteRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteRegexEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, regexEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         regexEntityId,
@@ -2859,31 +4379,51 @@ export class Model {
 
   /**
    * @summary Gets information about the application version's Pattern.Any model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetPatternAnyEntityInfoResponse>
    */
-  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPatternAnyEntityInfoResponse>;
+  getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPatternAnyEntityInfoResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param callback The callback
    */
-  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
+  getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
-  getPatternAnyEntityInfo(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternAnyEntityExtractor>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): Promise<Models.ModelGetPatternAnyEntityInfoResponse> {
+  getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): void;
+  getPatternAnyEntityInfo(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PatternAnyEntityExtractor>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor>): Promise<Models.ModelGetPatternAnyEntityInfoResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2895,6 +4435,12 @@ export class Model {
 
   /**
    * @summary Updates the name and explicit list of a Pattern.Any entity model.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -2902,16 +4448,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdatePatternAnyEntityModelResponse>
    */
-  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdatePatternAnyEntityModelResponse>;
+  updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdatePatternAnyEntityModelResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
    * @param patternAnyUpdateObject An object containing the explicit list of the Pattern.Any entity.
    * @param callback The callback
    */
-  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -2919,10 +4477,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternAnyEntityModel(appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityModelResponse> {
+  updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, patternAnyUpdateObject: Models.PatternAnyModelUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2935,31 +4495,51 @@ export class Model {
 
   /**
    * @summary Deletes a Pattern.Any entity extractor from the application.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeletePatternAnyEntityModelResponse>
    */
-  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePatternAnyEntityModelResponse>;
+  deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePatternAnyEntityModelResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
    * @param callback The callback
    */
-  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternAnyEntityModel(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityModelResponse> {
+  deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatternAnyEntityModel(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityModelResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -2971,6 +4551,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -2978,16 +4564,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetEntityRoleResponse>
    */
-  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetEntityRoleResponse>;
+  getEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -2995,10 +4593,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetEntityRoleResponse> {
+  getEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3011,6 +4611,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3019,8 +4625,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateEntityRoleResponse>
    */
-  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateEntityRoleResponse>;
+  updateEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3028,8 +4640,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3038,10 +4656,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityRoleResponse> {
+  updateEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3055,6 +4675,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3062,16 +4688,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteEntityRoleResponse>
    */
-  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteEntityRoleResponse>;
+  deleteEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3079,10 +4717,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityRoleResponse> {
+  deleteEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3095,6 +4735,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3102,16 +4748,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetPrebuiltEntityRoleResponse>
    */
-  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPrebuiltEntityRoleResponse>;
+  getPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPrebuiltEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3119,10 +4777,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPrebuiltEntityRoleResponse> {
+  getPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3135,6 +4795,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3143,8 +4809,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdatePrebuiltEntityRoleResponse>
    */
-  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse>;
+  updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3152,8 +4824,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3162,10 +4840,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse> {
+  updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3179,6 +4859,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3186,16 +4872,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeletePrebuiltEntityRoleResponse>
    */
-  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePrebuiltEntityRoleResponse>;
+  deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePrebuiltEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3203,10 +4901,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltEntityRoleResponse> {
+  deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3219,6 +4919,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3226,16 +4932,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetClosedListEntityRoleResponse>
    */
-  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetClosedListEntityRoleResponse>;
+  getClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetClosedListEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3243,10 +4961,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetClosedListEntityRoleResponse> {
+  getClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3259,6 +4979,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3267,8 +4993,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateClosedListEntityRoleResponse>
    */
-  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateClosedListEntityRoleResponse>;
+  updateClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateClosedListEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3276,8 +5008,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3286,10 +5024,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListEntityRoleResponse> {
+  updateClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3303,6 +5043,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3310,16 +5056,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteClosedListEntityRoleResponse>
    */
-  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteClosedListEntityRoleResponse>;
+  deleteClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteClosedListEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3327,10 +5085,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteClosedListEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListEntityRoleResponse> {
+  deleteClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteClosedListEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteClosedListEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3343,6 +5103,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3350,16 +5116,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetRegexEntityRoleResponse>
    */
-  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetRegexEntityRoleResponse>;
+  getRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetRegexEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3367,10 +5145,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetRegexEntityRoleResponse> {
+  getRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3383,6 +5163,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3391,8 +5177,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateRegexEntityRoleResponse>
    */
-  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateRegexEntityRoleResponse>;
+  updateRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateRegexEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3400,8 +5192,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3410,10 +5208,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityRoleResponse> {
+  updateRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3427,6 +5227,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3434,16 +5240,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteRegexEntityRoleResponse>
    */
-  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteRegexEntityRoleResponse>;
+  deleteRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteRegexEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3451,10 +5269,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteRegexEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityRoleResponse> {
+  deleteRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteRegexEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteRegexEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3467,6 +5287,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3474,16 +5300,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetCompositeEntityRoleResponse>
    */
-  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCompositeEntityRoleResponse>;
+  getCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCompositeEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3491,10 +5329,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCompositeEntityRoleResponse> {
+  getCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -3507,6 +5347,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3515,8 +5361,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateCompositeEntityRoleResponse>
    */
-  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateCompositeEntityRoleResponse>;
+  updateCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateCompositeEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3524,8 +5376,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3534,10 +5392,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityRoleResponse> {
+  updateCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -3551,6 +5411,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3558,16 +5424,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteCompositeEntityRoleResponse>
    */
-  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCompositeEntityRoleResponse>;
+  deleteCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCompositeEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3575,10 +5453,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCompositeEntityRole(appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityRoleResponse> {
+  deleteCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCompositeEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, cEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCompositeEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         cEntityId,
@@ -3591,6 +5471,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3598,16 +5484,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetPatternAnyEntityRoleResponse>
    */
-  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPatternAnyEntityRoleResponse>;
+  getPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPatternAnyEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3615,10 +5513,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getPatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPatternAnyEntityRoleResponse> {
+  getPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getPatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetPatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3631,6 +5531,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3639,8 +5545,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdatePatternAnyEntityRoleResponse>
    */
-  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse>;
+  updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3648,8 +5560,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3658,10 +5576,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse> {
+  updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdatePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3675,6 +5595,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3682,16 +5608,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeletePatternAnyEntityRoleResponse>
    */
-  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePatternAnyEntityRoleResponse>;
+  deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeletePatternAnyEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3699,10 +5637,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePatternAnyEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityRoleResponse> {
+  deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePatternAnyEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeletePatternAnyEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3715,6 +5655,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3722,16 +5668,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetHierarchicalEntityRoleResponse>
    */
-  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityRoleResponse>;
+  getHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3739,10 +5697,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetHierarchicalEntityRoleResponse> {
+  getHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -3755,6 +5715,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3763,8 +5729,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateHierarchicalEntityRoleResponse>
    */
-  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse>;
+  updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3772,8 +5744,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3782,10 +5760,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse> {
+  updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -3799,6 +5779,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3806,16 +5792,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteHierarchicalEntityRoleResponse>
    */
-  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse>;
+  deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3823,10 +5821,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteHierarchicalEntityRole(appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse> {
+  deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteHierarchicalEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, hEntityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteHierarchicalEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         hEntityId,
@@ -3839,6 +5839,12 @@ export class Model {
 
   /**
    * @summary Get one entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3846,16 +5852,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetCustomEntityRoleResponse>
    */
-  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCustomEntityRoleResponse>;
+  getCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCustomEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
    * @param roleId entity role ID.
    * @param callback The callback
    */
-  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.EntityRole>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3863,10 +5881,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
-  getCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCustomEntityRoleResponse> {
+  getCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole>): void;
+  getCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole>, callback?: msRest.ServiceCallback<Models.EntityRole>): Promise<Models.ModelGetCustomEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3879,6 +5899,12 @@ export class Model {
 
   /**
    * @summary Update an entity role for a given entity
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3887,8 +5913,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse>
    */
-  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse>;
+  updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3896,8 +5928,14 @@ export class Model {
    * @param entityRoleUpdateObject The new entity role.
    * @param callback The callback
    */
-  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3906,10 +5944,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateCustomPrebuiltEntityRole(appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse> {
+  updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateCustomPrebuiltEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, entityRoleUpdateObject: Models.EntityRoleUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateCustomPrebuiltEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3923,6 +5963,12 @@ export class Model {
 
   /**
    * @summary Delete an entity role.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3930,16 +5976,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteCustomEntityRoleResponse>
    */
-  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCustomEntityRoleResponse>;
+  deleteCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteCustomEntityRoleResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
    * @param roleId The entity role Id.
    * @param callback The callback
    */
-  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3947,10 +6005,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteCustomEntityRole(appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomEntityRoleResponse> {
+  deleteCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteCustomEntityRole(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, roleId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteCustomEntityRoleResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -3963,6 +6023,12 @@ export class Model {
 
   /**
    * @summary Get the explicit list of the pattern.any entity.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity Id.
@@ -3970,16 +6036,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetExplicitListItemResponse>
    */
-  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetExplicitListItemResponse>;
+  getExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetExplicitListItemResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity Id.
    * @param itemId The explicit list item Id.
    * @param callback The callback
    */
-  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
+  getExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity Id.
@@ -3987,10 +6065,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
-  getExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem>, callback?: msRest.ServiceCallback<Models.ExplicitListItem>): Promise<Models.ModelGetExplicitListItemResponse> {
+  getExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExplicitListItem>): void;
+  getExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExplicitListItem>, callback?: msRest.ServiceCallback<Models.ExplicitListItem>): Promise<Models.ModelGetExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -4003,6 +6083,12 @@ export class Model {
 
   /**
    * @summary Updates an explicit list item for a Pattern.Any entity.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -4011,8 +6097,14 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateExplicitListItemResponse>
    */
-  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateExplicitListItemResponse>;
+  updateExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.ModelUpdateExplicitListItemResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -4020,8 +6112,14 @@ export class Model {
    * @param item The new explicit list item.
    * @param callback The callback
    */
-  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -4030,10 +6128,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updateExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateExplicitListItemResponse> {
+  updateExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updateExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, item: Models.ExplicitListItemUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelUpdateExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -4047,6 +6147,12 @@ export class Model {
 
   /**
    * @summary Delete the explicit list item from the Pattern.any explicit list.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The pattern.any entity id.
@@ -4054,16 +6160,28 @@ export class Model {
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteExplicitListItemResponse>
    */
-  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteExplicitListItemResponse>;
+  deleteExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase): Promise<Models.ModelDeleteExplicitListItemResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The pattern.any entity id.
    * @param itemId The explicit list item which will be deleted.
    * @param callback The callback
    */
-  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The pattern.any entity id.
@@ -4071,10 +6189,12 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deleteExplicitListItem(appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteExplicitListItemResponse> {
+  deleteExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deleteExplicitListItem(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, versionId: string, entityId: string, itemId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ModelDeleteExplicitListItemResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         versionId,
         entityId,
@@ -4092,7 +6212,8 @@ const addIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/intents",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4121,7 +6242,8 @@ const listIntentsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/intents",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4155,7 +6277,8 @@ const addEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/entities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4186,7 +6309,8 @@ const listEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/entities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4220,7 +6344,8 @@ const addHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4251,7 +6376,8 @@ const listHierarchicalEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4285,7 +6411,8 @@ const addCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/compositeentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4316,7 +6443,8 @@ const listCompositeEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/compositeentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4350,7 +6478,8 @@ const listClosedListsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/closedlists",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4384,7 +6513,8 @@ const addClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/closedlists",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4415,7 +6545,8 @@ const addPrebuiltOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/prebuilts",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4460,7 +6591,8 @@ const listPrebuiltsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/prebuilts",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4494,7 +6626,8 @@ const listPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/listprebuilts",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4524,7 +6657,8 @@ const listModelsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/models",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -4558,7 +6692,8 @@ const examplesMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/models/{modelId}/examples",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.modelId
@@ -4593,7 +6728,8 @@ const getIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/intents/{intentId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.intentId
@@ -4613,7 +6749,8 @@ const updateIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/intents/{intentId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.intentId
@@ -4640,7 +6777,8 @@ const deleteIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/intents/{intentId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.intentId
@@ -4663,7 +6801,8 @@ const getEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -4683,7 +6822,8 @@ const updateEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -4710,7 +6850,8 @@ const deleteEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -4730,7 +6871,8 @@ const getHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
@@ -4750,7 +6892,8 @@ const updateHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
@@ -4777,7 +6920,8 @@ const deleteHierarchicalEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
@@ -4797,7 +6941,8 @@ const getCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
@@ -4817,7 +6962,8 @@ const updateCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
@@ -4844,7 +6990,8 @@ const deleteCompositeEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
@@ -4864,7 +7011,8 @@ const getClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId
@@ -4884,7 +7032,8 @@ const updateClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId
@@ -4911,7 +7060,8 @@ const patchClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId
@@ -4938,7 +7088,8 @@ const deleteClosedListOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/closedlists/{clEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId
@@ -4958,7 +7109,8 @@ const getPrebuiltOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.prebuiltId
@@ -4978,7 +7130,8 @@ const deletePrebuiltOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{prebuiltId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.prebuiltId
@@ -4998,7 +7151,8 @@ const deleteSubListOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId,
@@ -5019,7 +7173,8 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists/{subListId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId,
@@ -5043,11 +7198,12 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
+const listIntentSuggestionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/intents/{intentId}/suggest",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.intentId
@@ -5077,11 +7233,12 @@ const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
+const listEntitySuggestionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/suggest",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5115,7 +7272,8 @@ const addSubListOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/closedlists/{clEntityId}/sublists",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.clEntityId
@@ -5147,7 +7305,8 @@ const addCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/customprebuiltdomains",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5183,7 +7342,8 @@ const addCustomPrebuiltIntentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/customprebuiltintents",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5214,7 +7374,8 @@ const listCustomPrebuiltIntentsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/customprebuiltintents",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5244,7 +7405,8 @@ const addCustomPrebuiltEntityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5275,7 +7437,8 @@ const listCustomPrebuiltEntitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5305,7 +7468,8 @@ const listCustomPrebuiltModelsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/customprebuiltmodels",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5335,7 +7499,8 @@ const deleteCustomPrebuiltDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/customprebuiltdomains/{domainName}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.domainName
@@ -5355,7 +7520,8 @@ const getHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId,
@@ -5376,7 +7542,8 @@ const updateHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId,
@@ -5404,7 +7571,8 @@ const deleteHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children/{hChildId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId,
@@ -5425,7 +7593,8 @@ const addHierarchicalEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/children",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
@@ -5457,7 +7626,8 @@ const addCompositeEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
@@ -5489,7 +7659,8 @@ const deleteCompositeEntityChildOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/children/{cChildId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId,
@@ -5506,11 +7677,12 @@ const deleteCompositeEntityChildOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
+const listRegexEntityInfosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/regexentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5544,7 +7716,8 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/regexentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5571,11 +7744,12 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
+const listPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5609,7 +7783,8 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/patternanyentities",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0
   ],
@@ -5636,11 +7811,12 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityRolesOperationSpec: msRest.OperationSpec = {
+const listEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5671,7 +7847,8 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5699,11 +7876,12 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
+const listPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5734,7 +7912,8 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5762,11 +7941,12 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
+const listClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5797,7 +7977,8 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5825,11 +8006,12 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
+const listRegexEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5860,7 +8042,8 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5888,11 +8071,12 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
+const listCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
@@ -5923,7 +8107,8 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId
@@ -5951,11 +8136,12 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
+const listPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -5986,7 +8172,8 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6014,11 +8201,12 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
+const listHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
@@ -6049,7 +8237,8 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId
@@ -6077,11 +8266,12 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
+const listCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6112,7 +8302,8 @@ const createCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6144,7 +8335,8 @@ const getExplicitListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6175,7 +8367,8 @@ const addExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6207,7 +8400,8 @@ const getRegexEntityEntityInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.regexEntityId
@@ -6227,7 +8421,8 @@ const updateRegexEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.regexEntityId
@@ -6254,7 +8449,8 @@ const deleteRegexEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/regexentities/{regexEntityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.regexEntityId
@@ -6274,7 +8470,8 @@ const getPatternAnyEntityInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6294,7 +8491,8 @@ const updatePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6321,7 +8519,8 @@ const deletePatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId
@@ -6341,7 +8540,8 @@ const getEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6362,7 +8562,8 @@ const updateEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6390,7 +8591,8 @@ const deleteEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6411,7 +8613,8 @@ const getPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6432,7 +8635,8 @@ const updatePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6460,7 +8664,8 @@ const deletePrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6481,7 +8686,8 @@ const getClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6502,7 +8708,8 @@ const updateClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6530,7 +8737,8 @@ const deleteClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6551,7 +8759,8 @@ const getRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6572,7 +8781,8 @@ const updateRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6600,7 +8810,8 @@ const deleteRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6621,7 +8832,8 @@ const getCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId,
@@ -6642,7 +8854,8 @@ const updateCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId,
@@ -6670,7 +8883,8 @@ const deleteCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.cEntityId,
@@ -6691,7 +8905,8 @@ const getPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6712,7 +8927,8 @@ const updatePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6740,7 +8956,8 @@ const deletePatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6761,7 +8978,8 @@ const getHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId,
@@ -6782,7 +9000,8 @@ const updateHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId,
@@ -6810,7 +9029,8 @@ const deleteHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.hEntityId,
@@ -6831,7 +9051,8 @@ const getCustomEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6852,7 +9073,8 @@ const updateCustomPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6880,7 +9102,8 @@ const deleteCustomEntityRoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles/{roleId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6901,7 +9124,8 @@ const getExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6922,7 +9146,8 @@ const updateExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
@@ -6950,7 +9175,8 @@ const deleteExplicitListItemOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/explicitlist/{itemId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId,
     Parameters.versionId0,
     Parameters.entityId,
