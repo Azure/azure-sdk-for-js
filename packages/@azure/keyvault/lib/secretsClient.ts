@@ -1,10 +1,9 @@
-import { HttpClient as IHttpClient, HttpPipelineLogger as IHttpPipelineLogger, ServiceClientOptions as Pipeline, ServiceClientCredentials, RequestPolicyFactory, deserializationPolicy, signingPolicy, RequestOptionsBase, exponentialRetryPolicy } from "@azure/ms-rest-js";
+import { HttpClient as IHttpClient, HttpPipelineLogger as IHttpPipelineLogger, ServiceClientOptions as Pipeline, ServiceClientCredentials, RequestPolicyFactory, deserializationPolicy, signingPolicy, RequestOptionsBase, exponentialRetryPolicy, ServiceClient } from "@azure/ms-rest-js";
 import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import {
   ITelemetryOptions,
   TelemetryPolicyFactory
 } from "./TelemetryPolicyFactory";
-import { KeyVaultClient } from "./keyVaultClient";
 import * as Models from "./models";
 import { Secrets } from './secrets';
 
@@ -34,10 +33,10 @@ export class SecretsClient {
    * A static method used to create a new Pipeline object with Credential provided.
    *
    * @static
-   * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential.
+   * @param {ServiceClientCredentials} credential that implements signRequet().
    * @param {INewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
-   * @memberof StorageURL
+   * @memberof SecretsClient
    */
   public static getDefaultPipeline(
     credential: ServiceClientCredentials,
@@ -51,7 +50,7 @@ export class SecretsClient {
       new TelemetryPolicyFactory(pipelineOptions.telemetry),
       // TODO: new UniqueRequestIDPolicyFactory(),
       // TODO: new BrowserPolicyFactory(),
-      // TODO deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
       // new RetryPolicyFactory(retryOptions),
       // TODO: or use the one from ms-rest-js?
       exponentialRetryPolicy(retryOptions.maxTries, retryOptions.retryDelayInMs, retryOptions.retryDelayInMs, retryOptions.maxRetryDelayInMs),
@@ -71,31 +70,32 @@ export class SecretsClient {
 
   public readonly pipeline: Pipeline;
 
+  protected readonly credential: ServiceClientCredentials;
   protected readonly client: Secrets;
 
-  constructor(url: string, credential: ServiceClientCredentials, pipeline?: Pipeline) {
+  constructor(
+    url: string,
+    credential: ServiceClientCredentials,
+    pipelineOptions: INewPipelineOptions = {}
+  ) {
+
     this.vaultBaseUrl = url; // TODO: escape url path?
-    this.pipeline = pipeline || SecretsClient.getDefaultPipeline(credential);
-    this.client = new KeyVaultClient(
-      credential,
-      {
-        // TODO: use plain KeyVaultClient for now.  Uncomment after figuring out authentication
-        // httpClient: this.pipeline.httpClient,
-        // httpPipelineLogger: this.pipeline.httpPipelineLogger,
-        // requestPolicyFactories: this.pipeline.requestPolicyFactories
-      }
-    );
+    this.credential = credential;
+    this.pipeline = SecretsClient.getDefaultPipeline(credential as ServiceClientCredentials, pipelineOptions)
+
+    this.client = new Secrets(credential, this.pipeline);
   }
 
-  // TODO: return something more meaningful other than the response.
   // TODO: do we want Aborter as well?
-  public setSecret(secretName: string, value: string, options: Models.KeyVaultClientSetSecretOptionalParams = {}): Promise<Models.SetSecretResponse> {
-    return this.client.setSecret(
+  public async setSecret(secretName: string, value: string, options: Models.KeyVaultClientSetSecretOptionalParams = {}) {
+    const response = await this.client.setSecret(
         this.vaultBaseUrl,
         secretName,
         value,
         options
     );
+
+    return { name: secretName, value: value, version: this.secretIdToVersion(response.id) };
   }
 
   public async getSecret(secretName: string, version: string, options: RequestOptionsBase = {}): Promise<string | undefined> {
@@ -107,11 +107,23 @@ export class SecretsClient {
     return response.value;
   }
 
-  public getSecretVersions(secretName: string, options: Models.KeyVaultClientGetSecretVersionsOptionalParams = {}) {
-    return this.client.getSecretVersions(
+  public async getSecretVersions(secretName: string, options: Models.KeyVaultClientGetSecretVersionsOptionalParams = {}) {
+    const response = await this.client.getSecretVersions(
       this.vaultBaseUrl,
       secretName,
       options
     );
+
+    return response.map((secret) => this.secretIdToVersion(secret.id));
+  }
+
+  private secretIdToVersion(id: string | undefined) {
+    if (!id) {
+      return undefined;
+    }
+    const lastIndex = id.lastIndexOf("/");
+    return lastIndex > 0 && lastIndex < id.length - 1
+      ? id.substring(lastIndex + 1)
+      : undefined
   }
 }
