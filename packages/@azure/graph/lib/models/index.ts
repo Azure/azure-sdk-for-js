@@ -1127,7 +1127,7 @@ export interface ServicePrincipal {
    */
   accountEnabled?: string;
   /**
-   * @member {string[]} [alternativeNames] alterative names
+   * @member {string[]} [alternativeNames] alternative names
    */
   alternativeNames?: string[];
   /**
