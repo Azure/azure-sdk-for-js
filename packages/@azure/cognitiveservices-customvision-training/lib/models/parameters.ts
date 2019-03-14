@@ -26,7 +26,6 @@ export const classificationType: msRest.OperationQueryParameter = {
     "classificationType"
   ],
   mapper: {
-    nullable: false,
     serializedName: "classificationType",
     type: {
       name: "String"
@@ -39,7 +38,6 @@ export const description: msRest.OperationQueryParameter = {
     "description"
   ],
   mapper: {
-    nullable: true,
     serializedName: "description",
     type: {
       name: "String"
@@ -95,17 +93,33 @@ export const flavor: msRest.OperationQueryParameter = {
     }
   }
 };
+export const forceTrain: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "forceTrain"
+  ],
+  mapper: {
+    serializedName: "forceTrain",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const ids: msRest.OperationQueryParameter = {
   parameterPath: "ids",
   mapper: {
     required: true,
-    nullable: true,
     serializedName: "ids",
+    constraints: {
+      MaxItems: 64,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
+          name: "Uuid"
         }
       }
     }
@@ -137,13 +151,16 @@ export const imageIds0: msRest.OperationQueryParameter = {
   parameterPath: "imageIds",
   mapper: {
     required: true,
-    nullable: true,
     serializedName: "imageIds",
+    constraints: {
+      MaxItems: 64,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
+          name: "Uuid"
         }
       }
     }
@@ -156,13 +173,36 @@ export const imageIds1: msRest.OperationQueryParameter = {
     "imageIds"
   ],
   mapper: {
-    nullable: true,
     serializedName: "imageIds",
+    constraints: {
+      MaxItems: 256,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
+          name: "Uuid"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
+export const imageIds2: msRest.OperationQueryParameter = {
+  parameterPath: "imageIds",
+  mapper: {
+    required: true,
+    serializedName: "imageIds",
+    constraints: {
+      MaxItems: 256,
+      MinItems: 0
+    },
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Uuid"
         }
       }
     }
@@ -197,8 +237,20 @@ export const name: msRest.OperationQueryParameter = {
   parameterPath: "name",
   mapper: {
     required: true,
-    nullable: true,
     serializedName: "name",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const notificationEmailAddress: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "notificationEmailAddress"
+  ],
+  mapper: {
+    nullable: true,
+    serializedName: "notificationEmailAddress",
     type: {
       name: "String"
     }
@@ -210,7 +262,7 @@ export const orderBy: msRest.OperationQueryParameter = {
     "orderBy"
   ],
   mapper: {
-    nullable: false,
+    nullable: true,
     serializedName: "orderBy",
     type: {
       name: "String"
@@ -240,6 +292,16 @@ export const platform: msRest.OperationQueryParameter = {
     }
   }
 };
+export const predictionId: msRest.OperationQueryParameter = {
+  parameterPath: "predictionId",
+  mapper: {
+    required: true,
+    serializedName: "predictionId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const projectId: msRest.OperationURLParameter = {
   parameterPath: "projectId",
   mapper: {
@@ -251,22 +313,48 @@ export const projectId: msRest.OperationURLParameter = {
     }
   }
 };
+export const publishName: msRest.OperationQueryParameter = {
+  parameterPath: "publishName",
+  mapper: {
+    required: true,
+    serializedName: "publishName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const regionIds: msRest.OperationQueryParameter = {
   parameterPath: "regionIds",
   mapper: {
     required: true,
-    nullable: true,
     serializedName: "regionIds",
+    constraints: {
+      MaxItems: 64,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
+          name: "Uuid"
         }
       }
     }
   },
   collectionFormat: msRest.QueryCollectionFormat.Csv
+};
+export const reservedBudgetInHours: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "reservedBudgetInHours"
+  ],
+  mapper: {
+    serializedName: "reservedBudgetInHours",
+    defaultValue: 0,
+    type: {
+      name: "Number"
+    }
+  }
 };
 export const skip: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -298,13 +386,12 @@ export const tagIds0: msRest.OperationQueryParameter = {
     "tagIds"
   ],
   mapper: {
-    nullable: true,
     serializedName: "tagIds",
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
+          name: "Uuid"
         }
       }
     }
@@ -315,13 +402,38 @@ export const tagIds1: msRest.OperationQueryParameter = {
   parameterPath: "tagIds",
   mapper: {
     required: true,
-    nullable: true,
     serializedName: "tagIds",
+    constraints: {
+      MaxItems: 20,
+      MinItems: 0
+    },
     type: {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
+          name: "Uuid"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
+export const tagIds2: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "tagIds"
+  ],
+  mapper: {
+    serializedName: "tagIds",
+    constraints: {
+      MaxItems: 20,
+      MinItems: 0
+    },
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Uuid"
         }
       }
     }
@@ -336,10 +448,32 @@ export const take: msRest.OperationQueryParameter = {
   mapper: {
     serializedName: "take",
     defaultValue: 50,
+    constraints: {
+      InclusiveMaximum: 256,
+      InclusiveMinimum: 0
+    },
     type: {
       name: "Number"
     }
   }
+};
+export const targetExportPlatforms: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "targetExportPlatforms"
+  ],
+  mapper: {
+    serializedName: "targetExportPlatforms",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const threshold: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -353,13 +487,24 @@ export const threshold: msRest.OperationQueryParameter = {
     }
   }
 };
+export const trainingType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "trainingType"
+  ],
+  mapper: {
+    serializedName: "trainingType",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const type: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "type"
   ],
   mapper: {
-    nullable: false,
     serializedName: "type",
     type: {
       name: "String"
