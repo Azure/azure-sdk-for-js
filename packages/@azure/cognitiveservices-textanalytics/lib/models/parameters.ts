@@ -22,3 +22,15 @@ export const endpoint: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const showStats: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "showStats"
+  ],
+  mapper: {
+    serializedName: "showStats",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
