@@ -181,42 +181,6 @@ export class Devices {
   }
 
   /**
-   * Creates or updates the additional information of a the data box edge/gateway device.
-   * @param deviceName The device name.
-   * @param parameters The additional information.
-   * @param resourceGroupName The resource group name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DevicesCreateOrUpdateExtendedInfoResponse>
-   */
-  createOrUpdateExtendedInfo(deviceName: string, parameters: Models.DataBoxEdgeDeviceExtendedInfo, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesCreateOrUpdateExtendedInfoResponse>;
-  /**
-   * @param deviceName The device name.
-   * @param parameters The additional information.
-   * @param resourceGroupName The resource group name.
-   * @param callback The callback
-   */
-  createOrUpdateExtendedInfo(deviceName: string, parameters: Models.DataBoxEdgeDeviceExtendedInfo, resourceGroupName: string, callback: msRest.ServiceCallback<Models.DataBoxEdgeDeviceExtendedInfo>): void;
-  /**
-   * @param deviceName The device name.
-   * @param parameters The additional information.
-   * @param resourceGroupName The resource group name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateExtendedInfo(deviceName: string, parameters: Models.DataBoxEdgeDeviceExtendedInfo, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataBoxEdgeDeviceExtendedInfo>): void;
-  createOrUpdateExtendedInfo(deviceName: string, parameters: Models.DataBoxEdgeDeviceExtendedInfo, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataBoxEdgeDeviceExtendedInfo>, callback?: msRest.ServiceCallback<Models.DataBoxEdgeDeviceExtendedInfo>): Promise<Models.DevicesCreateOrUpdateExtendedInfoResponse> {
-    return this.client.sendOperationRequest(
-      {
-        deviceName,
-        parameters,
-        resourceGroupName,
-        options
-      },
-      createOrUpdateExtendedInfoOperationSpec,
-      callback) as Promise<Models.DevicesCreateOrUpdateExtendedInfoResponse>;
-  }
-
-  /**
    * Gets additional information for the specified data box edge/gateway device.
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
@@ -666,38 +630,6 @@ const updateOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DataBoxEdgeDevice
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const createOrUpdateExtendedInfoOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/getExtendedInformation",
-  urlParameters: [
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.DataBoxEdgeDeviceExtendedInfo,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataBoxEdgeDeviceExtendedInfo
     },
     default: {
       bodyMapper: Mappers.CloudError
