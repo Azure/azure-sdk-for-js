@@ -10,6 +10,24 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
+export const applyScope: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "applyScope"
+  ],
+  mapper: {
+    serializedName: "applyScope",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
 export const endpoint: msRest.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -64,6 +82,16 @@ export const largePersonGroupId: msRest.OperationURLParameter = {
     }
   }
 };
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "Uuid"
+    }
+  }
+};
 export const persistedFaceId: msRest.OperationURLParameter = {
   parameterPath: "persistedFaceId",
   mapper: {
@@ -95,6 +123,20 @@ export const personId: msRest.OperationURLParameter = {
     serializedName: "personId",
     type: {
       name: "Uuid"
+    }
+  }
+};
+export const recognitionModel: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "recognitionModel"
+  ],
+  mapper: {
+    nullable: false,
+    serializedName: "recognitionModel",
+    defaultValue: 'recognition_01',
+    type: {
+      name: "String"
     }
   }
 };
@@ -155,6 +197,16 @@ export const returnFaceLandmarks: msRest.OperationQueryParameter = {
     defaultValue: false,
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const snapshotId: msRest.OperationURLParameter = {
+  parameterPath: "snapshotId",
+  mapper: {
+    required: true,
+    serializedName: "snapshotId",
+    type: {
+      name: "Uuid"
     }
   }
 };
@@ -233,6 +285,24 @@ export const top1: msRest.OperationQueryParameter = {
     },
     type: {
       name: "Number"
+    }
+  }
+};
+export const type: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "type"
+  ],
+  mapper: {
+    serializedName: "type",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "FaceList",
+        "LargeFaceList",
+        "LargePersonGroup",
+        "PersonGroup"
+      ]
     }
   }
 };

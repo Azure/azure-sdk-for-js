@@ -27,7 +27,29 @@ export class FaceListOperations {
   }
 
   /**
-   * Create an empty face list. Up to 64 face lists are allowed to exist in one subscription.
+   * Create an empty face list with user-specified faceListId, name, an optional userData and
+   * recognitionModel. Up to 64 face lists are allowed in one subscription.
+   * <br /> Face list is a list of faces, up to 1,000 faces, and used by [Face - Find
+   * Similar](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395237).
+   * <br /> After creation, user should use [FaceList - Add
+   * Face](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395250) to import the
+   * faces. Faces are stored on server until [FaceList -
+   * Delete](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524f) is called.
+   * <br /> Find Similar is used for scenario like finding celebrity-like faces, similar face
+   * filtering, or as a light way face identification. But if the actual use is to identify person,
+   * please use
+   * [PersonGroup](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244) /
+   * [LargePersonGroup](/docs/services/563879b61984550e40cbbe8d/operations/599acdee6ac60f11b48b5a9d)
+   * and [Face -
+   * Identify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239).
+   * <br /> Please consider
+   * [LargeFaceList](/docs/services/563879b61984550e40cbbe8d/operations/5a157b68d2de3616c086f2cc)
+   * when the face number is large. It can support up to 1,000,000 faces. 'recognitionModel' should
+   * be specified to associate with this face list. The default value for 'recognitionModel' is
+   * 'recognition_01', if the latest model needed, please explicitly specify the model you need in
+   * this parameter. New faces that are added to an existing face list will use the recognition model
+   * that's already associated with the collection. Existing face features in a face list can't be
+   * updated to features extracted by another version of recognition model.
    * @param faceListId Id referencing a particular face list.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -55,7 +77,7 @@ export class FaceListOperations {
   }
 
   /**
-   * Retrieve a face list's information.
+   * Retrieve a face list’s faceListId, name, userData, recognitionModel and faces in the face list.
    * @param faceListId Id referencing a particular face list.
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceListGetResponse>
@@ -140,8 +162,9 @@ export class FaceListOperations {
   }
 
   /**
-   * Retrieve information about all existing face lists. Only faceListId, name and userData will be
-   * returned.
+   * List face lists’ faceListId, name, userData and recognitionModel. <br />
+   * To get face information inside faceList use [FaceList -
+   * Get](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524c)
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceListListResponse>
    */
@@ -165,7 +188,7 @@ export class FaceListOperations {
   }
 
   /**
-   * Delete an existing face from a face list (given by a persisitedFaceId and a faceListId).
+   * Delete an existing face from a face list (given by a persistedFaceId and a faceListId).
    * Persisted image related to the face will also be deleted.
    * @param faceListId Id referencing a particular face list.
    * @param persistedFaceId Id referencing a particular persistedFaceId of an existing face.
@@ -282,10 +305,14 @@ const createOperationSpec: msRest.OperationSpec = {
       userData: [
         "options",
         "userData"
+      ],
+      recognitionModel: [
+        "options",
+        "recognitionModel"
       ]
     },
     mapper: {
-      ...Mappers.NameAndUserDataContract,
+      ...Mappers.MetaDataContract,
       required: true
     }
   },
