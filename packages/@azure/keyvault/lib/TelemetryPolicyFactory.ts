@@ -49,7 +49,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
       }
 
       // e.g. Azure-Storage/10.0.0
-      const libInfo = `Azure-Storage/${SDK_VERSION}`;
+      const libInfo = `Azure-KeyVault-Secrets/${SDK_VERSION}`;
       if (userAgentInfo.indexOf(libInfo) === -1) {
         userAgentInfo.push(libInfo);
       }

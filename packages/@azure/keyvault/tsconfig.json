@@ -4,6 +4,7 @@
     "moduleResolution": "node",
     "strict": true,
     "target": "es5",
+    "downlevelIteration": true,
     "sourceMap": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -14,6 +15,6 @@
     "outDir": "./esm",
     "importHelpers": true
   },
-  "include": ["./lib/**/*.ts"],
+  "include": ["./lib/**/*.ts", "./samples/**/*.ts"],
   "exclude": ["node_modules"]
 }
