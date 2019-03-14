@@ -52,7 +52,7 @@ export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea
 
 #### Logging to a file
 - Set the `DEBUG` environment variable as shown above and then run your test script as follows:
-  - Logging statements from you test script go to `out.log` and logging statement from the sdk go to `debug.log`.
+  - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
     node your-test-script.js > out.log 2>debug.log
     ```
