@@ -64,7 +64,9 @@ async function beforeEachTest(
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
   if (receiverClient instanceof QueueClient) {
-    deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.entityPath));
+    deadLetterClient = ns.createQueueClient(
+      Namespace.getDeadLetterQueuePath(receiverClient.entityPath)
+    );
   }
 
   if (receiverClient instanceof SubscriptionClient) {

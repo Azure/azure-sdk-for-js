@@ -7,7 +7,7 @@ import {
   DeviceTokenCredentials,
   UserTokenCredentials,
   MSITokenCredentials
-} from "ms-rest-azure";
+} from "@azure/ms-rest-nodeauth";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";

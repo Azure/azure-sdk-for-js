@@ -7,7 +7,10 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { ApplicationTokenCredentials, loginWithServicePrincipalSecret } from "ms-rest-azure";
+import {
+  ApplicationTokenCredentials,
+  loginWithServicePrincipalSecret
+} from "@azure/ms-rest-nodeauth";
 const aadServiceBusAudience = "https://servicebus.azure.net/";
 import {
   Namespace,
@@ -372,13 +375,10 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
   it("throws error for an invalid host", async function(): Promise<void> {
     const env = getEnvVars();
-    tokenCreds = await loginWithServicePrincipalSecret(
-      env.clientId,
-      env.clientSecret,
-      env.tenantId,
-      {
+    tokenCreds = <any>(
+      await loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId, {
         tokenAudience: aadServiceBusAudience
-      }
+      })
     );
     await testCreateFromAadTokenCredentials("", tokenCreds).catch((err) => {
       errorWasThrown = true;
@@ -405,13 +405,10 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
     const env = getEnvVars();
-    tokenCreds = await loginWithServicePrincipalSecret(
-      env.clientId,
-      env.clientSecret,
-      env.tenantId,
-      {
+    tokenCreds = <any>(
+      await loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId, {
         tokenAudience: aadServiceBusAudience
-      }
+      })
     );
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
     await namespace.close();
