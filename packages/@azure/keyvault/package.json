@@ -18,8 +18,8 @@
   ],
   "license": "MIT",
   "main": "./dist/keyvault.js",
-  "module": "./esm/keyVaultClient.js",
-  "types": "./esm/keyVaultClient.d.ts",
+  "module": "./esm/lib/keyVaultClient.js",
+  "types": "./esm/lib/keyVaultClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
