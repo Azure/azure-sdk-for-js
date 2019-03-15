@@ -602,14 +602,14 @@ export interface ExpressionEvaluationDetails {
    */
   path?: string;
   /**
-   * @member {string} [expressionValue] Value of the expression.
+   * @member {any} [expressionValue] Value of the expression.
    */
-  expressionValue?: string;
+  expressionValue?: any;
   /**
-   * @member {string} [targetValue] Target value to be compared with the
+   * @member {any} [targetValue] Target value to be compared with the
    * expression value.
    */
-  targetValue?: string;
+  targetValue?: any;
   /**
    * @member {string} [operator] Operator to compare the expression value and
    * the target value.
