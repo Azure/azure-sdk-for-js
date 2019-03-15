@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\esm\\samples\\singleSecret.js",
+            "program": "${workspaceFolder}\\esm\\examples\\singleSecret.js",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/esm/**/*.js"
