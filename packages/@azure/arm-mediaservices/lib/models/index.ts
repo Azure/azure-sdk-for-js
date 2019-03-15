@@ -1533,11 +1533,11 @@ export interface AudioAnalyzerPreset {
    * The list of supported languages are English ('en-US' and 'en-GB'), Spanish
    * ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
    * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'),
-   * Arabic ('ar-EG'), Russian ('ru-RU'), Hindi ('hi-IN'), and Korean
-   * ('ko-KR'). If you know the language of your content, it is recommended
-   * that you specify it. If the language isn't specified or set to null,
-   * automatic language detection will choose the first language detected and
-   * process with the selected language for the duration of the file. This
+   * Arabic ('ar-EG' and 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and
+   * Korean ('ko-KR'). If you know the language of your content, it is
+   * recommended that you specify it. If the language isn't specified or set to
+   * null, automatic language detection will choose the first language detected
+   * and process with the selected language for the duration of the file. This
    * language detection feature currently supports English, Chinese, French,
    * German, Italian, Japanese, Spanish, Russian, and Portuguese. It does not
    * currently support dynamically switching between languages after the first
@@ -2178,16 +2178,16 @@ export interface H264Layer {
    */
   adaptiveBFrame?: boolean;
   /**
-   * @member {H264VideoProfile} [profile] Which profile of the H.264 standard
-   * should be used when encoding this layer. Default is Auto. Possible values
-   * include: 'Auto', 'Baseline', 'Main', 'High', 'High422', 'High444'
+   * @member {H264VideoProfile} [profile] We currently support Baseline, Main,
+   * High, High422, High444. Default is Auto. Possible values include: 'Auto',
+   * 'Baseline', 'Main', 'High', 'High422', 'High444'
    */
   profile?: H264VideoProfile;
   /**
-   * @member {string} [level] Which level of the H.264 standard should be used
-   * when encoding this layer. The value can be Auto, or a number that matches
-   * the H.264 profile. If not specified, the default is Auto, which lets the
-   * encoder choose the Level that is appropriate for this layer.
+   * @member {string} [level] We currently support Level up to 6.2. The value
+   * can be Auto, or a number that matches the H.264 profile. If not specified,
+   * the default is Auto, which lets the encoder choose the Level that is
+   * appropriate for this layer.
    */
   level?: string;
   /**
@@ -2553,8 +2553,9 @@ export interface BuiltInStandardEncoderPreset {
    * @member {EncoderNamedPreset} presetName The built-in preset to be used for
    * encoding videos. Possible values include: 'H264SingleBitrateSD',
    * 'H264SingleBitrate720p', 'H264SingleBitrate1080p', 'AdaptiveStreaming',
-   * 'AACGoodQualityAudio', 'H264MultipleBitrate1080p',
-   * 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+   * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental',
+   * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
+   * 'H264MultipleBitrateSD'
    */
   presetName: EncoderNamedPreset;
 }
@@ -2606,11 +2607,11 @@ export interface VideoAnalyzerPreset {
    * The list of supported languages are English ('en-US' and 'en-GB'), Spanish
    * ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
    * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'),
-   * Arabic ('ar-EG'), Russian ('ru-RU'), Hindi ('hi-IN'), and Korean
-   * ('ko-KR'). If you know the language of your content, it is recommended
-   * that you specify it. If the language isn't specified or set to null,
-   * automatic language detection will choose the first language detected and
-   * process with the selected language for the duration of the file. This
+   * Arabic ('ar-EG' and 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and
+   * Korean ('ko-KR'). If you know the language of your content, it is
+   * recommended that you specify it. If the language isn't specified or set to
+   * null, automatic language detection will choose the first language detected
+   * and process with the selected language for the duration of the file. This
    * language detection feature currently supports English, Chinese, French,
    * German, Italian, Japanese, Spanish, Russian, and Portuguese. It does not
    * currently support dynamically switching between languages after the first
@@ -2622,7 +2623,7 @@ export interface VideoAnalyzerPreset {
   /**
    * @member {InsightsType} [insightsToExtract] The type of insights to be
    * extracted. If not set then based on the content the type will selected.
-   * If the content is audio only then only audio insights are extracted and if
+   * If the content is audi only then only audio insights are extraced and if
    * it is video only. Possible values include: 'AudioInsightsOnly',
    * 'VideoInsightsOnly', 'AllInsights'
    */
@@ -2854,7 +2855,7 @@ export interface JobInputClip {
 /**
  * @interface
  * An interface representing JobInputs.
- * Describes a list of inputs to a Job.
+ * Describes a list of of inputs to a Job.
  *
  */
 export interface JobInputs {
@@ -4858,11 +4859,12 @@ export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
  * Defines values for EncoderNamedPreset.
  * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
  * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
- * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+ * 'ContentAwareEncodingExperimental', 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
+ * 'H264MultipleBitrateSD'
  * @readonly
  * @enum {string}
  */
-export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
+export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
 
 /**
  * Defines values for InsightsType.
