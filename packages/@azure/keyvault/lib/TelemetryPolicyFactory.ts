@@ -5,7 +5,8 @@ import {
   isNode,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
+  getDefaultUserAgentValue
 } from "@azure/ms-rest-js";
 import * as os from "os";
 
@@ -58,11 +59,9 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
       }
 
       // e.g. (NODE-VERSION 4.9.1; Windows_NT 10.0.16299)
-      const runtimeInfo = `(NODE-VERSION ${
-        process.version
-      }; ${os.type()} ${os.release()})`;
-      if (userAgentInfo.indexOf(runtimeInfo) === -1) {
-        userAgentInfo.push(runtimeInfo);
+      const defaultUserAgentInfo = getDefaultUserAgentValue();
+      if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
+        userAgentInfo.push(defaultUserAgentInfo);
       }
     }
 

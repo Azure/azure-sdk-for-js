@@ -18,12 +18,6 @@ async function main(): Promise<void> {
   //   tokenAudience: 'https://vault.azure.net'
   // });
 
-  // The client can be configured using INewPipelineOptions
-  // const client = new SecretsClient(url, authResponse.credentials, {
-  //   telemetry: { value: "My Customized user agent string"},
-  //   retryOptions: { retryCount: 5 }
-  // });
-
   // Or authenticate with Azure AD using MSI to get TokenCredential.
   const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
     clientId,
@@ -35,6 +29,13 @@ async function main(): Promise<void> {
   );
 
   const client = new SecretsClient(url, credential);
+
+  // The client can be configured using INewPipelineOptions
+  // const client = new SecretsClient(url, credential, {
+  //   telemetry: { value: "Customized-user-agent/0.1"},
+  //   retryOptions: { retryCount: 5 }
+  // });
+
   const result = await client.setSecret("name", "secret");
   console.log("result: ", result);
 
@@ -46,8 +47,8 @@ async function main(): Promise<void> {
     }
   }
 
-  // Pipeline can be a customized one. This allow control over the request policy factories.
-  const customPipeline: Pipeline = { userAgent: "super duper secret client/0.1.0" };
+  // Pipeline can be a customized one. This allows control over the request policy factories.
+  const customPipeline: Pipeline = { userAgent: "super-duper-secrets-client/0.1.0" };
   const client2 = new SecretsClient(url, credential, customPipeline);
 
   const secret = await client2.getSecret("Hello", "3597ab0798b043d398cde46f309010ea");
