@@ -944,27 +944,6 @@ export const CloudToDeviceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const OperationsMonitoringProperties: msRest.CompositeMapper = {
-  serializedName: "OperationsMonitoringProperties",
-  type: {
-    name: "Composite",
-    className: "OperationsMonitoringProperties",
-    modelProperties: {
-      events: {
-        serializedName: "events",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const IotHubProperties: msRest.CompositeMapper = {
   serializedName: "IotHubProperties",
   type: {
@@ -1076,13 +1055,6 @@ export const IotHubProperties: msRest.CompositeMapper = {
         serializedName: "comments",
         type: {
           name: "String"
-        }
-      },
-      operationsMonitoringProperties: {
-        serializedName: "operationsMonitoringProperties",
-        type: {
-          name: "Composite",
-          className: "OperationsMonitoringProperties"
         }
       },
       features: {
