@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { SecretsClient } from "../lib/secretsClient";
+import { SecretsClient, Pipeline } from "../lib/secretsClient";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { RestError } from '@azure/ms-rest-js';
 
@@ -17,11 +17,12 @@ async function main(): Promise<void> {
   // const authResponse = await msRestNodeAuth.interactiveLoginWithAuthResponse({
   //   tokenAudience: 'https://vault.azure.net'
   // });
-  // const client = new SecretsClient(url, authResponse.credentials,
-  //   {
-  //     telemetry: { value: "My Customized user agent string"},
-  //     retryOptions: { maxTries: 5 }
-  //   });
+
+  // The client can be configured using INewPipelineOptions
+  // const client = new SecretsClient(url, authResponse.credentials, {
+  //   telemetry: { value: "My Customized user agent string"},
+  //   retryOptions: { retryCount: 5 }
+  // });
 
   // Or authenticate with Azure AD using MSI to get TokenCredential.
   const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
@@ -32,22 +33,25 @@ async function main(): Promise<void> {
       tokenAudience: 'https://vault.azure.net'
     }
   );
+
   const client = new SecretsClient(url, credential);
-
-  const secret = await client.getSecret("Hello", "3597ab0798b043d398cde46f309010ea");
-  console.log("secret: ", secret);
-
   const result = await client.setSecret("name", "secret");
   console.log("result: ", result);
 
   try {
-    const s2 = await client.getSecret("invalid-name", "3597ab0798b043d398cde46f309010ea");
+    await client.getSecret("invalid-name", "3597ab0798b043d398cde46f309010ea");
   } catch (e) {
     if (e instanceof RestError) {
       console.log("Rest Error: ", e.message);
     }
   }
 
+  // Pipeline can be a customized one. This allow control over the request policy factories.
+  const customPipeline: Pipeline = { userAgent: "super duper secret client/0.1.0" };
+  const client2 = new SecretsClient(url, credential, customPipeline);
+
+  const secret = await client2.getSecret("Hello", "3597ab0798b043d398cde46f309010ea");
+  console.log("secret: ", secret);
 }
 
 main().catch((err) => {

@@ -23,8 +23,17 @@ import { KeyVaultClient } from "./keyVaultClient";
 import { RetryConstants } from './utils/constants';
 import { UniqueRequestIDPolicyFactory } from './UniqueRequestIDPolicyFactory';
 
+export {
+  Pipeline
+};
+
 /**
  * Option interface for Pipeline.newPipeline method.
+ *
+ * Properties of this interface should not overlap with properties of {@link Pipeline}
+ * as we use them to differentiate instances of INewPipelineOptions from instances of Pipeline.
+ * If this interface is modified, the method isINewPipelineOptions() should also be updated
+ * to adapt the changes.
  *
  * @export
  * @interface INewPipelineOptions
@@ -41,9 +50,17 @@ export interface INewPipelineOptions {
   proxyOptions?: IProxyOptions;
 
   logger?: IHttpPipelineLogger;
-  httpClient?: IHttpClient;
+  HTTPClient?: IHttpClient;
 }
 
+function isINewPipelineOptions(pipelineOrOptions: Pipeline | INewPipelineOptions): pipelineOrOptions is INewPipelineOptions {
+  // An empty object is consider options
+  function isEmptyObject(obj: Pipeline | INewPipelineOptions) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
+  const options = pipelineOrOptions as INewPipelineOptions;
+  return isEmptyObject(pipelineOrOptions) || !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient);
+}
 
 export class SecretsClient {
   /**
@@ -85,7 +102,7 @@ export class SecretsClient {
     ];
 
     return {
-      httpClient: pipelineOptions.httpClient,
+      httpClient: pipelineOptions.HTTPClient,
       httpPipelineLogger: pipelineOptions.logger,
       requestPolicyFactories
     };
@@ -98,17 +115,29 @@ export class SecretsClient {
   protected readonly credential: ServiceClientCredentials;
   protected readonly client: KeyVaultClient;
 
+  /**
+   * Creates an instance of SecretsClient.
+   * @param {string} url the base url to the key vault.
+   * @param {ServiceClientCredentials} credential credential.
+   * @param {(Pipeline | INewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
+   *                                                                  Omitting this parameter to create the default Pipeline instance.
+   * @memberof SecretsClient
+   */
   constructor(
     url: string,
     credential: ServiceClientCredentials,
-    pipelineOptions: INewPipelineOptions = {}
+    pipelineOrOptions: Pipeline | INewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
     this.credential = credential;
-    this.pipeline = SecretsClient.getDefaultPipeline(
-      credential as ServiceClientCredentials,
-      pipelineOptions
-    );
+    if (isINewPipelineOptions(pipelineOrOptions)) {
+      this.pipeline = SecretsClient.getDefaultPipeline(
+        credential as ServiceClientCredentials,
+        pipelineOrOptions
+      );
+    } else {
+      this.pipeline = pipelineOrOptions;
+    }
 
     this.client = new KeyVaultClient(credential, this.pipeline);
   }
