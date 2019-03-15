@@ -10,3 +10,4 @@
 
 export * from "./operations";
 export * from "./managedClusters";
+export * from "./agentPools";

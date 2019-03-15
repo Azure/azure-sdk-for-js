@@ -365,6 +365,9 @@ export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       name: {
         required: true,
         serializedName: "name",
+        constraints: {
+          Pattern: /^[a-z][a-z0-9]{0,11}$/
+        },
         type: {
           name: "String"
         }
@@ -470,35 +473,6 @@ export const AgentPool: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const AgentPoolListResult: msRest.CompositeMapper = {
-  serializedName: "AgentPoolListResult",
-  type: {
-    name: "Composite",
-    className: "AgentPoolListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AgentPool"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1110,6 +1084,35 @@ export const ManagedClusterListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ManagedCluster"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolListResult: msRest.CompositeMapper = {
+  serializedName: "AgentPoolListResult",
+  type: {
+    name: "Composite",
+    className: "AgentPoolListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AgentPool"
             }
           }
         }

@@ -535,26 +535,6 @@ export interface AgentPool extends SubResource {
 
 /**
  * @interface
- * An interface representing AgentPoolListResult.
- * The response from the List Agent Pools operation.
- *
- */
-export interface AgentPoolListResult {
-  /**
-   * @member {AgentPool[]} [value] The list of agent pools.
-   */
-  value?: AgentPool[];
-  /**
-   * @member {string} [nextLink] The URL to get the next set of agent pool
-   * results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing ContainerServiceWindowsProfile.
  * Profile for Windows VMs in the container service cluster.
  *
@@ -1006,6 +986,23 @@ export interface ManagedClusterListResult extends Array<ManagedCluster> {
 }
 
 /**
+ * @interface
+ * An interface representing the AgentPoolListResult.
+ * The response from the List Agent Pools operation.
+ *
+ * @extends Array<AgentPool>
+ */
+export interface AgentPoolListResult extends Array<AgentPool> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of agent pool
+   * results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for ContainerServiceStorageProfileTypes.
  * Possible values include: 'StorageAccount', 'ManagedDisks'
  * @readonly
@@ -1353,5 +1350,100 @@ export type ManagedClustersListByResourceGroupNextResponse = ManagedClusterListR
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedClusterListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AgentPoolsListResponse = AgentPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AgentPoolsGetResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type AgentPoolsCreateOrUpdateResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type AgentPoolsBeginCreateOrUpdateResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AgentPoolsListNextResponse = AgentPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolListResult;
     };
 };

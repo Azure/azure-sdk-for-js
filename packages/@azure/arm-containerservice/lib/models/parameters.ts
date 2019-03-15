@@ -20,11 +20,31 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const agentPoolName: msRest.OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    required: true,
+    serializedName: "agentPoolName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
     serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const managedClusterName: msRest.OperationURLParameter = {
+  parameterPath: "managedClusterName",
+  mapper: {
+    required: true,
+    serializedName: "managedClusterName",
     type: {
       name: "String"
     }
