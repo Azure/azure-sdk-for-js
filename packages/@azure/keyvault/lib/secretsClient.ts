@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import {
   HttpClient as IHttpClient,
   HttpPipelineLogger as IHttpPipelineLogger,
@@ -7,12 +10,18 @@ import {
   deserializationPolicy,
   signingPolicy,
   RequestOptionsBase,
-  exponentialRetryPolicy
+  exponentialRetryPolicy,
+  logPolicy,
+  redirectPolicy,
+  systemErrorRetryPolicy,
+  // generateClientRequestIdPolicy
 } from "@azure/ms-rest-js";
-import { IRetryOptions } from "./RetryPolicyFactory";
+import { IRetryOptions, IProxyOptions } from "./clientOptions";
 import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import * as Models from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
+import { RetryConstants } from './utils/constants';
+import { UniqueRequestIDPolicyFactory } from './UniqueRequestIDPolicyFactory';
 
 /**
  * Option interface for Pipeline.newPipeline method.
@@ -29,6 +38,7 @@ export interface INewPipelineOptions {
    */
   telemetry?: ITelemetryOptions;
   retryOptions?: IRetryOptions;
+  proxyOptions?: IProxyOptions;
 
   logger?: IHttpPipelineLogger;
   httpClient?: IHttpClient;
@@ -54,20 +64,23 @@ export class SecretsClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
     const requestPolicyFactories: RequestPolicyFactory[] = [
+      // TODO: proxyPolicy() is not yet exported in ms-rest-js.
+      // proxyPolicy((pipelineOptions.proxyOptions || {}).proxySettings),
       new TelemetryPolicyFactory(pipelineOptions.telemetry),
-      // TODO: new UniqueRequestIDPolicyFactory(),
-      // TODO: new BrowserPolicyFactory(),
+      // TODO: generateClientRequestIdPolicy() was not yet exported in ms-rest-js. For now use UniqueRequestIDPolicyFactory
+      // generateClientRequestIdPolicy(),
+      new UniqueRequestIDPolicyFactory(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      // new RetryPolicyFactory(retryOptions),
-      // TODO: or use the one from ms-rest-js?
+      // TODO: throttlingRetryPolicy() is not yet exported in ms-rest-js.
+      // throttlingRetryPolicy(),
+      systemErrorRetryPolicy(),
       exponentialRetryPolicy(
-        retryOptions.maxTries,
-        retryOptions.retryDelayInMs,
-        retryOptions.retryDelayInMs,
+        retryOptions.retryCount,
+        retryOptions.retryIntervalInMS,
+        RetryConstants.MIN_RETRY_INTERVAL_MS, // Minimum retry interval to prevent frequent retries
         retryOptions.maxRetryDelayInMs
       ),
-      // TODO: new LoggingPolicyFactory(),
-      // TODO: the KeyVaultClient constructor already takes a credential.
+      redirectPolicy(),
       signingPolicy(credential)
     ];
 
@@ -90,7 +103,7 @@ export class SecretsClient {
     credential: ServiceClientCredentials,
     pipelineOptions: INewPipelineOptions = {}
   ) {
-    this.vaultBaseUrl = url; // TODO: escape url path?
+    this.vaultBaseUrl = url;
     this.credential = credential;
     this.pipeline = SecretsClient.getDefaultPipeline(
       credential as ServiceClientCredentials,

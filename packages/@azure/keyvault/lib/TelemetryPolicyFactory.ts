@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import {
   isNode,
   RequestPolicy,
@@ -48,7 +51,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
         }
       }
 
-      // e.g. Azure-Storage/10.0.0
+      // e.g. Azure-KeyVault-Secrets/0.1.0
       const libInfo = `Azure-KeyVault-Secrets/${SDK_VERSION}`;
       if (userAgentInfo.indexOf(libInfo) === -1) {
         userAgentInfo.push(libInfo);

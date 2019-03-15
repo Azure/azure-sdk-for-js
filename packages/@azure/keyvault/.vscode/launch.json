@@ -12,7 +12,8 @@
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/esm/**/*.js"
-            ]
+            ],
+            "envFile": "${workspaceFolder}\\.env"
         }
     ]
 }

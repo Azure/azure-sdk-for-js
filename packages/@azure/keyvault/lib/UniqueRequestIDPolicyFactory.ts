@@ -1,0 +1,22 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
+
+import { UniqueRequestIDPolicy } from "./policies/UniqueRequestIDPolicy";
+
+/**
+ * UniqueRequestIDPolicyFactory is a factory class helping generating UniqueRequestIDPolicy objects.
+ *
+ * @export
+ * @class UniqueRequestIDPolicyFactory
+ * @implements {RequestPolicyFactory}
+ */
+export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
+  public create(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions
+  ): UniqueRequestIDPolicy {
+    return new UniqueRequestIDPolicy(nextPolicy, options);
+  }
+}

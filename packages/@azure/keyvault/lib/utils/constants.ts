@@ -1,13 +1,13 @@
-// TODO: update versions
-export const SDK_VERSION: string = "10.1.0";
-export const SERVICE_VERSION: string = "2018-03-28";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
 
-export const URLConstants = {
-  Parameters: {
-    TIMEOUT: "timeout"
-  }
-};
+export const SDK_VERSION: string = "0.1.0";
+
+export const RetryConstants = {
+  MIN_RETRY_INTERVAL_MS: 3000,
+}
 
 export const HeaderConstants = {
   USER_AGENT: "User-Agent",
+  X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
 };
