@@ -1138,6 +1138,9 @@ export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       name: {
         required: true,
         serializedName: "name",
+        constraints: {
+          Pattern: /^[a-z][a-z0-9]{0,11}$/
+        },
         type: {
           name: "String"
         }
