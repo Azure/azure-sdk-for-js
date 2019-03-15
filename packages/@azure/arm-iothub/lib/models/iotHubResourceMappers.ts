@@ -28,7 +28,6 @@ export {
   MessagingEndpointProperties,
   CloudToDeviceProperties,
   FeedbackProperties,
-  OperationsMonitoringProperties,
   IotHubSkuInfo,
   ErrorDetails,
   TagsResource,
