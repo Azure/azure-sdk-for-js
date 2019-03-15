@@ -33,9 +33,6 @@ export class SecretsClient {
     options?: Models.KeyVaultClientSetSecretOptionalParams
   ) {
     const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -53,9 +50,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -80,9 +74,6 @@ export class SecretsClient {
       secretVersion,
       options
     );
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -106,9 +97,6 @@ export class SecretsClient {
       secretVersion,
       options
     );
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -125,9 +113,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -141,11 +126,9 @@ export class SecretsClient {
    * @returns Promise<void>
    */
   public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
-    const response = await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText || undefined);
-    }
+    await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
   }
+    
 
   /**
    * Recovers the deleted secret in the specified vault. This operation can only be performed on a
@@ -160,9 +143,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<Secret> {
     const response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText || undefined);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -179,9 +159,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<Uint8Array | undefined> {
     const response = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return response.value;
   }
 
@@ -202,9 +179,6 @@ export class SecretsClient {
       secretBundleBackup,
       options
     );
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
