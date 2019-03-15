@@ -53,6 +53,45 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
+ * An interface representing PatchedResource.
+ * Azure resource.
+ *
+ * @extends BaseResource
+ */
+export interface PatchedResource extends BaseResource {
+  /**
+   * @member {string} [id] Specifies the resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Specifies the name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [location] Specifies the location of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly location?: string;
+  /**
+   * @member {string} [type] Specifies the type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Contains resource tags
+   * defined as key/value pairs.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
  * An interface representing WebServiceKeys.
  * Access keys for the web service calls.
  *
@@ -576,7 +615,7 @@ export interface WebServiceProperties {
   payloadsInBlobStorage?: boolean;
   /**
    * @member {BlobLocation} [payloadsLocation] The URI of the payload blob.
-   * This paramater contains a value only if the payloadsInBlobStorage
+   * This parameter contains a value only if the payloadsInBlobStorage
    * parameter is set to true. Otherwise is set to null.
    */
   payloadsLocation?: BlobLocation;
@@ -585,7 +624,7 @@ export interface WebServiceProperties {
 /**
  * @interface
  * An interface representing WebService.
- * Instance of an Azure ML web service resource.
+ * Instance of an Patched Azure ML web service resource.
  *
  * @extends Resource
  */
@@ -595,6 +634,21 @@ export interface WebService extends Resource {
    * payload that describes the web service.
    */
   properties: WebServicePropertiesUnion;
+}
+
+/**
+ * @interface
+ * An interface representing PatchedWebService.
+ * Instance of an Patched Azure ML web service resource.
+ *
+ * @extends PatchedResource
+ */
+export interface PatchedWebService extends PatchedResource {
+  /**
+   * @member {WebServicePropertiesUnion} [properties] Contains the property
+   * payload that describes the web service.
+   */
+  properties?: WebServicePropertiesUnion;
 }
 
 /**
@@ -866,7 +920,7 @@ export interface WebServicePropertiesForGraph {
   payloadsInBlobStorage?: boolean;
   /**
    * @member {BlobLocation} [payloadsLocation] The URI of the payload blob.
-   * This paramater contains a value only if the payloadsInBlobStorage
+   * This parameter contains a value only if the payloadsInBlobStorage
    * parameter is set to true. Otherwise is set to null.
    */
   payloadsLocation?: BlobLocation;

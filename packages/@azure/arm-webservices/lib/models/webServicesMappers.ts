@@ -32,6 +32,8 @@ export {
   ModeValueInfo,
   WebServiceParameter,
   CloudError,
+  PatchedWebService,
+  PatchedResource,
   AsyncOperationStatus,
   AsyncOperationErrorInfo,
   PaginatedWebServicesList,
