@@ -25,6 +25,8 @@ import * as Models from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
 import { RetryConstants } from './utils/constants';
 import { UniqueRequestIDPolicyFactory } from './UniqueRequestIDPolicyFactory';
+import { Secret, DeletedSecret } from "./secretsModels";
+import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
 export {
   Pipeline
@@ -163,9 +165,6 @@ export class SecretsClient {
     options?: Models.KeyVaultClientSetSecretOptionalParams
   ) {
     const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -183,9 +182,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -210,9 +206,6 @@ export class SecretsClient {
       secretVersion,
       options
     );
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -236,9 +229,6 @@ export class SecretsClient {
       secretVersion,
       options
     );
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -255,9 +245,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
     const response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -271,10 +258,7 @@ export class SecretsClient {
    * @returns Promise<void>
    */
   public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
-    const response = await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText || undefined);
-    }
+    await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
   }
 
   /**
@@ -290,9 +274,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<Secret> {
     const response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText || undefined);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -309,9 +290,6 @@ export class SecretsClient {
     options?: RequestOptionsBase
   ): Promise<Uint8Array | undefined> {
     const response = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return response.value;
   }
 
@@ -332,32 +310,14 @@ export class SecretsClient {
       secretBundleBackup,
       options
     );
-    if (response._response.status !== 200) {
-      throw new Error(response._response.bodyAsText);
-    }
     return this.getSecretFromSecretBundle(response);
   }
 
-  private getSecretIdFromVersion(id: string | undefined) {
-    if (!id) {
-      return undefined;
-    }
-    const lastIndex = id.lastIndexOf("/");
-    return lastIndex > 0 && lastIndex < id.length - 1 ? id.substring(lastIndex + 1) : undefined;
-  }
-
   private getSecretFromSecretBundle(secretBundle: Models.SecretBundle): Secret {
+    const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
     return {
       ...secretBundle,
-      version: this.getSecretIdFromVersion(secretBundle.id)
+      ...parsedId
     };
   }
-}
-
-export interface Secret extends Models.SecretBundle {
-  version?: string;
-}
-
-export interface DeletedSecret extends Models.DeletedSecretBundle {
-  version?: string;
 }
