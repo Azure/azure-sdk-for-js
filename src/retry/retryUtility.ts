@@ -125,7 +125,7 @@ export class RetryUtility {
       } else {
         retryPolicy = defaultRetryPolicy;
       }
-      const results = await retryPolicy.shouldRetry(err, retryContext);
+      const results = await retryPolicy.shouldRetry(err, retryContext, locationEndpoint);
       if (!results) {
         headers[Constants.ThrottleRetryCount] = resourceThrottleRetryPolicy.currentRetryAttemptCount;
         headers[Constants.ThrottleRetryWaitTimeInMs] = resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
@@ -134,6 +134,9 @@ export class RetryUtility {
       } else {
         request.retryCount++;
         const newUrl = (results as any)[1]; // TODO: any hack
+        if (newUrl !== undefined) {
+          RetryUtility.modifyRequestOptions(requestOptions, url.parse(newUrl));
+        }
         await Helper.sleep(retryPolicy.retryAfterInMilliseconds);
         return this.apply(
           body,
