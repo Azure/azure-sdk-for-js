@@ -72,7 +72,7 @@ jobs:
         displayName: 'Install Node.js $(NodeVersion)'
 
       - script: |
-          pip install setuptools wheel 
+          pip install setuptools wheel
           pip install doc-warden
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
         displayName: 'Verify Readmes'
