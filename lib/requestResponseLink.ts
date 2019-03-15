@@ -187,12 +187,12 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Removes the sender, receiver link and it's underlying session.
-   * @returns {Promise<void>} Promise<void>
+   * @returns {void} void
    */
-  async remove(): Promise<void> {
-    await this.sender.remove();
-    await this.receiver.remove();
-    await this.session.remove();
+  remove(): void {
+    this.sender.remove();
+    this.receiver.remove();
+    this.session.remove();
   }
 
   /**
