@@ -9,16 +9,21 @@
  */
 
 export {
+  PurchaseRequest,
+  SkuName,
+  CalculatePriceResponse,
+  CalculateResponseProperties,
+  CalculateResponsePropertiesBillingCurrencyTotal,
+  CalculateResponsePropertiesPricingCurrencyTotal,
+  ErrorModel,
+  ExtendedErrorInfo,
   ReservationOrderList,
   ReservationOrderResponse,
   BaseResource,
   ReservationResponse,
-  SkuName,
   ReservationProperties,
   ExtendedStatusInfo,
   ReservationSplitProperties,
-  ReservationMergeProperties,
-  ErrorModel,
-  ExtendedErrorInfo
+  ReservationMergeProperties
 } from "../models/mappers";
 

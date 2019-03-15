@@ -172,7 +172,7 @@ export interface ReservationProperties {
   reservedResourceType?: ReservedResourceType;
   /**
    * @member {InstanceFlexibility} [instanceFlexibility] Possible values
-   * include: 'On', 'Off', 'NotSupported'
+   * include: 'True', 'False', 'NotSupported'
    */
   instanceFlexibility?: InstanceFlexibility;
   /**
@@ -190,8 +190,7 @@ export interface ReservationProperties {
    */
   appliedScopeType?: AppliedScopeType;
   /**
-   * @member {number} [quantity] Quantity of the SKUs that are part of the
-   * Reservation.
+   * @member {number} [quantity]
    */
   quantity?: number;
   /**
@@ -322,8 +321,7 @@ export interface ReservationOrderResponse extends BaseResource {
    */
   expiryDate?: Date;
   /**
-   * @member {number} [originalQuantity] Total Quantity of the SKUs purchased
-   * in the Reservation.
+   * @member {number} [originalQuantity]
    */
   originalQuantity?: number;
   /**
@@ -345,6 +343,140 @@ export interface ReservationOrderResponse extends BaseResource {
    * the server.**
    */
   readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CalculateResponsePropertiesBillingCurrencyTotal.
+ */
+export interface CalculateResponsePropertiesBillingCurrencyTotal {
+  /**
+   * @member {string} [currencyCode]
+   */
+  currencyCode?: string;
+  /**
+   * @member {number} [estimatedTotal]
+   */
+  estimatedTotal?: number;
+}
+
+/**
+ * @interface
+ * An interface representing PurchaseRequest.
+ */
+export interface PurchaseRequest {
+  /**
+   * @member {SkuName} [sku]
+   */
+  sku?: SkuName;
+  /**
+   * @member {string} [location] The Azure Region where the reserved resource
+   * lives.
+   */
+  location?: string;
+  /**
+   * @member {ReservedResourceType} [reservedResourceType] Possible values
+   * include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb',
+   * 'RedHat'
+   */
+  reservedResourceType?: ReservedResourceType;
+  /**
+   * @member {string} [billingScopeId]
+   */
+  billingScopeId?: string;
+  /**
+   * @member {ReservationTerm} [term] Possible values include: 'P1Y', 'P3Y'
+   */
+  term?: ReservationTerm;
+  /**
+   * @member {number} [quantity]
+   */
+  quantity?: number;
+  /**
+   * @member {string} [displayName] Friendly name of the Reservation
+   */
+  displayName?: string;
+  /**
+   * @member {AppliedScopeType} [appliedScopeType] Possible values include:
+   * 'Single', 'Shared'
+   */
+  appliedScopeType?: AppliedScopeType;
+  /**
+   * @member {string[]} [appliedScopes]
+   */
+  appliedScopes?: string[];
+  /**
+   * @member {InstanceFlexibility} [instanceFlexibility] Possible values
+   * include: 'True', 'False', 'NotSupported'
+   */
+  instanceFlexibility?: InstanceFlexibility;
+}
+
+/**
+ * @interface
+ * An interface representing CalculateResponsePropertiesPricingCurrencyTotal.
+ */
+export interface CalculateResponsePropertiesPricingCurrencyTotal {
+  /**
+   * @member {string} [currencyCode]
+   */
+  currencyCode?: string;
+  /**
+   * @member {number} [estimatedTotal]
+   */
+  estimatedTotal?: number;
+}
+
+/**
+ * @interface
+ * An interface representing CalculateResponseProperties.
+ */
+export interface CalculateResponseProperties {
+  /**
+   * @member {CalculateResponsePropertiesBillingCurrencyTotal}
+   * [billingCurrencyTotal]
+   */
+  billingCurrencyTotal?: CalculateResponsePropertiesBillingCurrencyTotal;
+  /**
+   * @member {boolean} [isTaxIncluded]
+   */
+  isTaxIncluded?: boolean;
+  /**
+   * @member {PurchaseRequest} [purchaseRequest]
+   */
+  purchaseRequest?: PurchaseRequest;
+  /**
+   * @member {boolean} [isBillingPartnerManaged]
+   */
+  isBillingPartnerManaged?: boolean;
+  /**
+   * @member {string} [reservationOrderId]
+   */
+  reservationOrderId?: string;
+  /**
+   * @member {string} [skuTitle]
+   */
+  skuTitle?: string;
+  /**
+   * @member {string} [skuDescription]
+   */
+  skuDescription?: string;
+  /**
+   * @member {CalculateResponsePropertiesPricingCurrencyTotal}
+   * [pricingCurrencyTotal]
+   */
+  pricingCurrencyTotal?: CalculateResponsePropertiesPricingCurrencyTotal;
+}
+
+/**
+ * @interface
+ * An interface representing CalculatePriceResponse.
+ */
+export interface CalculatePriceResponse {
+  /**
+   * @member {CalculateResponseProperties} [properties]
+   */
+  properties?: CalculateResponseProperties;
 }
 
 /**
@@ -375,7 +507,7 @@ export interface Patch {
   appliedScopes?: string[];
   /**
    * @member {InstanceFlexibility} [instanceFlexibility] Possible values
-   * include: 'On', 'Off', 'NotSupported'
+   * include: 'True', 'False', 'NotSupported'
    */
   instanceFlexibility?: InstanceFlexibility;
   /**
@@ -657,11 +789,11 @@ export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLin
 
 /**
  * Defines values for InstanceFlexibility.
- * Possible values include: 'On', 'Off', 'NotSupported'
+ * Possible values include: 'True', 'False', 'NotSupported'
  * @readonly
  * @enum {string}
  */
-export type InstanceFlexibility = 'On' | 'Off' | 'NotSupported';
+export type InstanceFlexibility = 'True' | 'False' | 'NotSupported';
 
 /**
  * Defines values for AppliedScopeType.
@@ -710,6 +842,25 @@ export type GetAppliedReservationListResponse = AppliedReservations & {
 };
 
 /**
+ * Contains response data for the calculate operation.
+ */
+export type ReservationOrderCalculateResponse = CalculatePriceResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CalculatePriceResponse;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type ReservationOrderListResponse = ReservationOrderList & {
@@ -729,9 +880,47 @@ export type ReservationOrderListResponse = ReservationOrderList & {
 };
 
 /**
+ * Contains response data for the purchase operation.
+ */
+export type ReservationOrderPurchaseResponse = ReservationOrderResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationOrderResponse;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type ReservationOrderGetResponse = ReservationOrderResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReservationOrderResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginPurchase operation.
+ */
+export type ReservationOrderBeginPurchaseResponse = ReservationOrderResponse & {
   /**
    * The underlying HTTP response.
    */
