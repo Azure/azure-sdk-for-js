@@ -456,6 +456,74 @@ export class Namespaces {
   }
 
   /**
+   * Create or update NetworkRuleSet for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters The Namespace IpFilterRule.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>
+   */
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters The Namespace IpFilterRule.
+   * @param callback The callback
+   */
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters The Namespace IpFilterRule.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        parameters,
+        options
+      },
+      createOrUpdateNetworkRuleSetOperationSpec,
+      callback) as Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
+  }
+
+  /**
+   * Gets NetworkRuleSet for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesGetNetworkRuleSetResponse>
+   */
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetNetworkRuleSetResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param callback The callback
+   */
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesGetNetworkRuleSetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        options
+      },
+      getNetworkRuleSetOperationSpec,
+      callback) as Promise<Models.NamespacesGetNetworkRuleSetResponse>;
+  }
+
+  /**
    * Creates or updates a namespace. Once created, this namespace's resource manifest is immutable.
    * This operation is idempotent.
    * @param resourceGroupName Name of the resource group within the azure subscription.
@@ -908,6 +976,63 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AccessKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateNetworkRuleSetOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.NetworkRuleSet,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkRuleSet
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getNetworkRuleSetOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkRuleSet
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
