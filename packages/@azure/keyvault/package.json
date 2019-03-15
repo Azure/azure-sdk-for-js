@@ -21,9 +21,10 @@
   "module": "./esm/lib/keyVaultClient.js",
   "types": "./esm/lib/keyVaultClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.1.1",
     "uglify-js": "^3.4.9"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/keyvault",
