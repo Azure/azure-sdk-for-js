@@ -89,6 +89,7 @@ export {
   ContentKeyPolicyPlayReadyExplicitAnalogTelevisionRestriction,
   ContentKeyPolicyPlayReadyContentKeyLocation,
   ContentKeyPolicyFairPlayConfiguration,
+  FaceDetectorPreset,
   AudioAnalyzerPreset,
   BuiltInStandardEncoderPreset,
   StandardEncoderPreset,
