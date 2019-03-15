@@ -108,7 +108,7 @@ export async function execute({
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
-    const results = await retryPolicy.shouldRetry(err, retryContext);
+    const results = await retryPolicy.shouldRetry(err, retryContext, locationEndpoint);
     if (!results) {
       headers[Constants.ThrottleRetryCount] = retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
       headers[Constants.ThrottleRetryWaitTimeInMs] =
@@ -118,6 +118,9 @@ export async function execute({
     } else {
       request.retryCount++;
       const newUrl = (results as any)[1]; // TODO: any hack
+      if (newUrl !== undefined) {
+        modifyRequestOptions(requestOptions, url.parse(newUrl));
+      }
       await sleep(retryPolicy.retryAfterInMilliseconds);
       return execute({
         body,
