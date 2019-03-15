@@ -1,11 +1,18 @@
-import { HttpClient as IHttpClient, HttpPipelineLogger as IHttpPipelineLogger, ServiceClientOptions as Pipeline, ServiceClientCredentials, RequestPolicyFactory, deserializationPolicy, signingPolicy, RequestOptionsBase, exponentialRetryPolicy, ServiceClient } from "@azure/ms-rest-js";
-import { IRetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import {
-  ITelemetryOptions,
-  TelemetryPolicyFactory
-} from "./TelemetryPolicyFactory";
+  HttpClient as IHttpClient,
+  HttpPipelineLogger as IHttpPipelineLogger,
+  ServiceClientOptions as Pipeline,
+  ServiceClientCredentials,
+  RequestPolicyFactory,
+  deserializationPolicy,
+  signingPolicy,
+  RequestOptionsBase,
+  exponentialRetryPolicy
+} from "@azure/ms-rest-js";
+import { IRetryOptions } from "./RetryPolicyFactory";
+import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import * as Models from "./models";
-import { Secrets } from './secrets';
+import { KeyVaultClient } from "./keyVaultClient";
 
 /**
  * Option interface for Pipeline.newPipeline method.
@@ -14,18 +21,18 @@ import { Secrets } from './secrets';
  * @interface INewPipelineOptions
  */
 export interface INewPipelineOptions {
-    /**
-     * Telemetry configures the built-in telemetry policy behavior.
-     *
-     * @type {ITelemetryOptions}
-     * @memberof INewPipelineOptions
-     */
-    telemetry?: ITelemetryOptions;
-    retryOptions?: IRetryOptions;
+  /**
+   * Telemetry configures the built-in telemetry policy behavior.
+   *
+   * @type {ITelemetryOptions}
+   * @memberof INewPipelineOptions
+   */
+  telemetry?: ITelemetryOptions;
+  retryOptions?: IRetryOptions;
 
-    logger?: IHttpPipelineLogger;
-    httpClient?: IHttpClient;
-  }
+  logger?: IHttpPipelineLogger;
+  httpClient?: IHttpClient;
+}
 
 
 export class SecretsClient {
@@ -53,13 +60,18 @@ export class SecretsClient {
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
       // new RetryPolicyFactory(retryOptions),
       // TODO: or use the one from ms-rest-js?
-      exponentialRetryPolicy(retryOptions.maxTries, retryOptions.retryDelayInMs, retryOptions.retryDelayInMs, retryOptions.maxRetryDelayInMs),
+      exponentialRetryPolicy(
+        retryOptions.maxTries,
+        retryOptions.retryDelayInMs,
+        retryOptions.retryDelayInMs,
+        retryOptions.maxRetryDelayInMs
+      ),
       // TODO: new LoggingPolicyFactory(),
       // TODO: the KeyVaultClient constructor already takes a credential.
       signingPolicy(credential)
     ];
 
-    return  {
+    return {
       httpClient: pipelineOptions.httpClient,
       httpPipelineLogger: pipelineOptions.logger,
       requestPolicyFactories
@@ -71,59 +83,236 @@ export class SecretsClient {
   public readonly pipeline: Pipeline;
 
   protected readonly credential: ServiceClientCredentials;
-  protected readonly client: Secrets;
+  protected readonly client: KeyVaultClient;
 
   constructor(
     url: string,
     credential: ServiceClientCredentials,
     pipelineOptions: INewPipelineOptions = {}
   ) {
-
     this.vaultBaseUrl = url; // TODO: escape url path?
     this.credential = credential;
-    this.pipeline = SecretsClient.getDefaultPipeline(credential as ServiceClientCredentials, pipelineOptions)
+    this.pipeline = SecretsClient.getDefaultPipeline(
+      credential as ServiceClientCredentials,
+      pipelineOptions
+    );
 
-    this.client = new Secrets(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
 
   // TODO: do we want Aborter as well?
-  public async setSecret(secretName: string, value: string, options: Models.KeyVaultClientSetSecretOptionalParams = {}) {
-    const response = await this.client.setSecret(
-        this.vaultBaseUrl,
-        secretName,
-        value,
-        options
-    );
 
-    return { name: secretName, value: value, version: this.secretIdToVersion(response.id) };
+  /**
+   * The SET operation adds a secret to the Azure Key Vault. If the named secret already exists,
+   * Azure Key Vault creates a new version of that secret. This operation requires the secrets/set
+   * permission.
+   * @summary Sets a secret in a specified key vault.
+   * @param secretName The name of the secret.
+   * @param value The value of the secret.
+   * @param [options] The optional parameters
+   * @returns Promise<Secret>
+   */
+  public async setSecret(
+    secretName: string,
+    value: string,
+    options?: Models.KeyVaultClientSetSecretOptionalParams
+  ) {
+    const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText);
+    }
+    return this.getSecretFromSecretBundle(response);
   }
 
-  public async getSecret(secretName: string, version: string, options: RequestOptionsBase = {}): Promise<string | undefined> {
+  /**
+   * The DELETE operation applies to any secret stored in Azure Key Vault. DELETE cannot be applied
+   * to an individual version of a secret. This operation requires the secrets/delete permission.
+   * @summary Deletes a secret from a specified key vault.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param secretName The name of the secret.
+   * @param [options] The optional parameters
+   * @returns Promise<DeletedSecret>
+   */
+  public async deleteSecret(
+    secretName: string,
+    options?: RequestOptionsBase
+  ): Promise<DeletedSecret> {
+    const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText);
+    }
+    return this.getSecretFromSecretBundle(response);
+  }
+
+  /**
+   * The UPDATE operation changes specified attributes of an existing stored secret. Attributes that
+   * are not specified in the request are left unchanged. The value of a secret itself cannot be
+   * changed. This operation requires the secrets/set permission.
+   * @summary Updates the attributes associated with a specified secret in a given key vault.
+   * @param secretName The name of the secret.
+   * @param secretVersion The version of the secret.
+   * @param [options] The optional parameters
+   * @returns Promise<Secret>
+   */
+  public async updateSecret(
+    secretName: string,
+    secretVersion: string,
+    options?: Models.KeyVaultClientUpdateSecretOptionalParams
+  ): Promise<Secret> {
+    const response = await this.client.updateSecret(
+      this.vaultBaseUrl,
+      secretName,
+      secretVersion,
+      options
+    );
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText);
+    }
+    return this.getSecretFromSecretBundle(response);
+  }
+
+  /**
+   * The GET operation is applicable to any secret stored in Azure Key Vault. This operation requires
+   * the secrets/get permission.
+   * @summary Get a specified secret from a given key vault.
+   * @param secretName The name of the secret.
+   * @param secretVersion The version of the secret.
+   * @param [options] The optional parameters
+   * @returns Promise<Secret>
+   */
+  public async getSecret(
+    secretName: string,
+    secretVersion: string,
+    options: RequestOptionsBase = {}
+  ): Promise<Secret> {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
-      version
+      secretVersion,
+      options
     );
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText);
+    }
+    return this.getSecretFromSecretBundle(response);
+  }
+
+  /**
+   * The Get Deleted Secret operation returns the specified deleted secret along with its attributes.
+   * This operation requires the secrets/get permission.
+   * @summary Gets the specified deleted secret.
+   * @param secretName The name of the secret.
+   * @param [options] The optional parameters
+   * @returns Promise<DeletedSecret>
+   */
+  public async getDeletedSecret(
+    secretName: string,
+    options?: RequestOptionsBase
+  ): Promise<DeletedSecret> {
+    const response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, options);
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText);
+    }
+    return this.getSecretFromSecretBundle(response);
+  }
+
+  /**
+   * The purge deleted secret operation removes the secret permanently, without the possibility of
+   * recovery. This operation can only be enabled on a soft-delete enabled vault. This operation
+   * requires the secrets/purge permission.
+   * @summary Permanently deletes the specified secret.
+   * @param secretName The name of the secret.
+   * @param [options] The optional parameters
+   * @returns Promise<void>
+   */
+  public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
+    const response = await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText || undefined);
+    }
+  }
+
+  /**
+   * Recovers the deleted secret in the specified vault. This operation can only be performed on a
+   * soft-delete enabled vault. This operation requires the secrets/recover permission.
+   * @summary Recovers the deleted secret to the latest version.
+   * @param secretName The name of the deleted secret.
+   * @param [options] The optional parameters
+   * @returns Promise<Secret>
+   */
+  public async recoverDeletedSecret(
+    secretName: string,
+    options?: RequestOptionsBase
+  ): Promise<Secret> {
+    const response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, options);
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText || undefined);
+    }
+    return this.getSecretFromSecretBundle(response);
+  }
+
+  /**
+   * Requests that a backup of the specified secret be downloaded to the client. All versions of the
+   * secret will be downloaded. This operation requires the secrets/backup permission.
+   * @summary Backs up the specified secret.
+   * @param secretName The name of the secret.
+   * @param [options] The optional parameters
+   * @returns Promise<Uint8Array | undefined>
+   */
+  public async backupSecret(
+    secretName: string,
+    options?: RequestOptionsBase
+  ): Promise<Uint8Array | undefined> {
+    const response = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText);
+    }
     return response.value;
   }
 
-  public async getSecretVersions(secretName: string, options: Models.KeyVaultClientGetSecretVersionsOptionalParams = {}) {
-    const response = await this.client.getSecretVersions(
+  /**
+   * Restores a backed up secret, and all its versions, to a vault. This operation requires the
+   * secrets/restore permission.
+   * @summary Restores a backed up secret to a vault.
+   * @param secretBundleBackup The backup blob associated with a secret bundle.
+   * @param [options] The optional parameters
+   * @returns Promise<Secret>
+   */
+  public async restoreSecret(
+    secretBundleBackup: Uint8Array,
+    options?: RequestOptionsBase
+  ): Promise<Secret> {
+    const response = await this.client.restoreSecret(
       this.vaultBaseUrl,
-      secretName,
+      secretBundleBackup,
       options
     );
-
-    return response.map((secret) => this.secretIdToVersion(secret.id));
+    if (response._response.status !== 200) {
+      throw new Error(response._response.bodyAsText);
+    }
+    return this.getSecretFromSecretBundle(response);
   }
 
-  private secretIdToVersion(id: string | undefined) {
+  private getSecretIdFromVersion(id: string | undefined) {
     if (!id) {
       return undefined;
     }
     const lastIndex = id.lastIndexOf("/");
-    return lastIndex > 0 && lastIndex < id.length - 1
-      ? id.substring(lastIndex + 1)
-      : undefined
+    return lastIndex > 0 && lastIndex < id.length - 1 ? id.substring(lastIndex + 1) : undefined;
   }
+
+  private getSecretFromSecretBundle(secretBundle: Models.SecretBundle): Secret {
+    return {
+      ...secretBundle,
+      version: this.getSecretIdFromVersion(secretBundle.id)
+    };
+  }
+}
+
+export interface Secret extends Models.SecretBundle {
+  version?: string;
+}
+
+export interface DeletedSecret extends Models.DeletedSecretBundle {
+  version?: string;
 }
