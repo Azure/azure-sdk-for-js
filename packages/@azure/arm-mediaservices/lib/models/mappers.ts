@@ -1856,6 +1856,25 @@ export const AacAudio: msRest.CompositeMapper = {
   }
 };
 
+export const FaceDetectorPreset: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.FaceDetectorPreset",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Preset.type.polymorphicDiscriminator,
+    uberParent: "Preset",
+    className: "FaceDetectorPreset",
+    modelProperties: {
+      ...Preset.type.modelProperties,
+      resolution: {
+        serializedName: "resolution",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AudioAnalyzerPreset: msRest.CompositeMapper = {
   serializedName: "#Microsoft.Media.AudioAnalyzerPreset",
   type: {
@@ -1887,6 +1906,7 @@ export const Overlay: msRest.CompositeMapper = {
     className: "Overlay",
     modelProperties: {
       inputLabel: {
+        required: true,
         serializedName: "inputLabel",
         type: {
           name: "String"
@@ -1994,6 +2014,7 @@ export const Image: msRest.CompositeMapper = {
     modelProperties: {
       ...Video.type.modelProperties,
       start: {
+        required: true,
         serializedName: "start",
         type: {
           name: "String"
@@ -2027,6 +2048,7 @@ export const Format: msRest.CompositeMapper = {
     className: "Format",
     modelProperties: {
       filenamePattern: {
+        required: true,
         serializedName: "filenamePattern",
         type: {
           name: "String"
@@ -2243,6 +2265,7 @@ export const VideoLayer: msRest.CompositeMapper = {
     modelProperties: {
       ...Layer.type.modelProperties,
       bitrate: {
+        required: true,
         serializedName: "bitrate",
         type: {
           name: "Number"
@@ -2413,6 +2436,7 @@ export const OutputFile: msRest.CompositeMapper = {
     className: "OutputFile",
     modelProperties: {
       labels: {
+        required: true,
         serializedName: "labels",
         type: {
           name: "Sequence",
@@ -2540,6 +2564,7 @@ export const StandardEncoderPreset: msRest.CompositeMapper = {
         }
       },
       codecs: {
+        required: true,
         serializedName: "codecs",
         type: {
           name: "Sequence",
@@ -2552,6 +2577,7 @@ export const StandardEncoderPreset: msRest.CompositeMapper = {
         }
       },
       formats: {
+        required: true,
         serializedName: "formats",
         type: {
           name: "Sequence",
@@ -3759,6 +3785,17 @@ export const StreamingLocator: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      filters: {
+        serializedName: "properties.filters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -4886,6 +4923,7 @@ export const discriminators = {
   'Codec' : Codec,
   'Codec.#Microsoft.Media.Audio' : Audio,
   'Codec.#Microsoft.Media.AacAudio' : AacAudio,
+  'Preset.#Microsoft.Media.FaceDetectorPreset' : FaceDetectorPreset,
   'Preset.#Microsoft.Media.AudioAnalyzerPreset' : AudioAnalyzerPreset,
   'Overlay' : Overlay,
   'Overlay.#Microsoft.Media.AudioOverlay' : AudioOverlay,

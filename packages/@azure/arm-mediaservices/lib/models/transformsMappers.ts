@@ -34,6 +34,7 @@ export {
   ContentKeyPolicyOption,
   ContentKeyPolicyConfiguration,
   ContentKeyPolicyRestriction,
+  FaceDetectorPreset,
   AudioAnalyzerPreset,
   BuiltInStandardEncoderPreset,
   StandardEncoderPreset,

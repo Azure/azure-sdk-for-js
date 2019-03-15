@@ -44,7 +44,6 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "lib/**/*.ts",
-    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -53,6 +52,5 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-mediaservices.js.map'\" -o ./dist/arm-mediaservices.min.js ./dist/arm-mediaservices.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false,
-  "authPublish": true
+  "sideEffects": false
 }
