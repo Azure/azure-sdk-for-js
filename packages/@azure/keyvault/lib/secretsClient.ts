@@ -2,6 +2,8 @@ import { ServiceClientCredentials, RequestOptionsBase } from "@azure/ms-rest-js"
 import { AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
+import { Secret, DeletedSecret } from "./secretsModels";
+import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
 export class SecretsClient {
   public readonly vaultBaseUrl: string;
@@ -128,7 +130,6 @@ export class SecretsClient {
   public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
     await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
   }
-    
 
   /**
    * Recovers the deleted secret in the specified vault. This operation can only be performed on a
@@ -182,26 +183,11 @@ export class SecretsClient {
     return this.getSecretFromSecretBundle(response);
   }
 
-  private getSecretIdFromVersion(id: string | undefined) {
-    if (!id) {
-      return undefined;
-    }
-    const lastIndex = id.lastIndexOf("/");
-    return lastIndex > 0 && lastIndex < id.length - 1 ? id.substring(lastIndex + 1) : undefined;
-  }
-
   private getSecretFromSecretBundle(secretBundle: Models.SecretBundle): Secret {
+    const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
     return {
       ...secretBundle,
-      version: this.getSecretIdFromVersion(secretBundle.id)
+      ...parsedId
     };
   }
-}
-
-export interface Secret extends Models.SecretBundle {
-  version?: string;
-}
-
-export interface DeletedSecret extends Models.DeletedSecretBundle {
-  version?: string;
 }
