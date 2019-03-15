@@ -90,11 +90,11 @@ export async function execute({
   requestOptions = modifyRequestOptions(requestOptions, url.parse(locationEndpoint));
   request.locationRouting.routeToLocation(locationEndpoint);
   try {
-    const { result, headers } = await (httpsRequest as Promise<Response<any>>);
-    headers[Constants.ThrottleRetryCount] = retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
-    headers[Constants.ThrottleRetryWaitTimeInMs] =
+    const response = await (httpsRequest as Promise<Response<any>>);
+    response.headers[Constants.ThrottleRetryCount] = retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
+    response.headers[Constants.ThrottleRetryWaitTimeInMs] =
       retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
-    return { result, headers };
+    return response;
   } catch (err) {
     // TODO: any error
     let retryPolicy: RetryPolicy = null;
