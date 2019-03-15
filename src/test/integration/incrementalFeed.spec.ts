@@ -4,21 +4,6 @@ import { Container, ContainerDefinition } from "../../client";
 import { Helper } from "../../common";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-function hasDupeKey(items: any[]) {
-  if (items && items.length === 0) {
-    return false;
-  }
-  const key = items[0].key;
-  let hasDupe = false;
-  for (const item of items) {
-    if (item.key !== key) {
-      hasDupe = true;
-      break;
-    }
-  }
-  return hasDupe;
-}
-
 describe("Change Feed Iterator", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
@@ -75,6 +60,11 @@ describe("Change Feed Iterator", function() {
         assert.equal(itemsWithContinuation.length, 1, "initial number of items should be equal 1");
         assert.equal(itemsWithContinuation[0].name, "xyz", "fetched item should have 'name: xyz'");
         assert.equal(itemsWithContinuation[0].id, item.id, "fetched item should be valid");
+
+        const { result: shouldHaveNoItems } = await iterator.executeNext();
+        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+        const hasMoreResults = iterator.hasMoreResults;
+        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
       });
     });
 
@@ -119,6 +109,11 @@ describe("Change Feed Iterator", function() {
         assert.equal(itemsWithContinuation.length, 1, "initial number of items should be equal 1");
         assert.equal(itemsWithContinuation[0].name, "xyz", "fetched item should have 'name: xyz'");
         assert.equal(itemsWithContinuation[0].id, item.id, "fetched item should be valid");
+
+        const { result: shouldHaveNoItems } = await iterator.executeNext();
+        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+        const hasMoreResults = iterator.hasMoreResults;
+        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
       });
     });
 
@@ -166,6 +161,17 @@ describe("Change Feed Iterator", function() {
         assert.equal(itemsAfterUpdate.length, 1, "initial number of items should be equal 1");
         assert.equal(itemsAfterUpdate[0].name, "xyz", "fetched item should have 'name: xyz'");
         assert.equal(itemsAfterUpdate[0].id, item.id, "fetched item should be valid");
+
+        const { result: shouldHaveNoItems } = await iterator.executeNext();
+        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+        const hasMoreResults = iterator.hasMoreResults;
+        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
+
+        let count = 0;
+        for await (const page of iterator.getAsyncIterator()) {
+          ++count;
+        }
+        assert.equal(count, 0, "async iterator should return any results if there are none left to serve");
       });
     });
 
@@ -210,6 +216,11 @@ describe("Change Feed Iterator", function() {
         await container.items.create({ id: "item4" });
         const { result: itemsShouldHave2NewItems } = await iterator.executeNext();
         assert.equal(itemsShouldHave2NewItems.length, 2, "there should be 2 results");
+
+        const { result: shouldHaveNoItems } = await iterator.executeNext();
+        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+        const hasMoreResults = iterator.hasMoreResults;
+        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
       });
     });
   });
@@ -281,6 +292,11 @@ describe("Change Feed Iterator", function() {
         assert.equal(itemsAfterUpdate.length, 1, "initial number of items should be equal 1");
         assert.equal(itemsAfterUpdate[0].name, "xyz", "fetched item should have 'name: xyz'");
         assert.equal(itemsAfterUpdate[0].id, item.id, "fetched item should be valid");
+
+        const { result: shouldHaveNoItems } = await iterator.executeNext();
+        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+        const hasMoreResults = iterator.hasMoreResults;
+        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
       });
     });
 
@@ -322,7 +338,6 @@ describe("Change Feed Iterator", function() {
           prop: 1,
           key: "0"
         });
-        console.log(`createHeaders: ${createHeaders}`);
 
         const { result: itemsAfterCreate } = await iterator.executeNext();
         assert.equal(itemsAfterCreate.length, 1, "should have 1 item from create");
@@ -342,6 +357,10 @@ describe("Change Feed Iterator", function() {
         await container.items.create({ id: "item4", key: "1" });
         const { result: itemsShouldHave2NewItems } = await iterator.executeNext();
         assert.equal(itemsShouldHave2NewItems.length, 2, "there should be 2 results");
+        const { result: shouldHaveNoItems } = await iterator.executeNext();
+        assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
+        const hasMoreResults = iterator.hasMoreResults;
+        assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
       });
     });
   });

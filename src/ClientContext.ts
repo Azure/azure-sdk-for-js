@@ -111,9 +111,9 @@ export class ClientContext {
       );
       this.applySessionToken(path, reqHeaders);
 
-      const { result, headers: resHeaders } = await this.requestHandler.get(endpoint, request, reqHeaders);
-      this.captureSessionToken(undefined, path, Constants.OperationTypes.Query, resHeaders);
-      return this.processQueryFeedResponse({ result, headers: resHeaders }, !!query, resultFn);
+      const response = await this.requestHandler.get(endpoint, request, reqHeaders);
+      this.captureSessionToken(undefined, path, Constants.OperationTypes.Query, response.headers);
+      return this.processQueryFeedResponse(response, !!query, resultFn);
     } else {
       initialHeaders[Constants.HttpHeaders.IsQuery] = "true";
       switch (this.cosmosClientOptions.queryCompatibilityMode) {
@@ -144,9 +144,8 @@ export class ClientContext {
       this.applySessionToken(path, reqHeaders);
 
       const response = await this.requestHandler.post(endpoint, request, query, reqHeaders);
-      const { result, headers: resHeaders } = response;
-      this.captureSessionToken(undefined, path, Constants.OperationTypes.Query, resHeaders);
-      return this.processQueryFeedResponse({ result, headers: resHeaders }, !!query, resultFn);
+      this.captureSessionToken(undefined, path, Constants.OperationTypes.Query, response.headers);
+      return this.processQueryFeedResponse(response, !!query, resultFn);
     }
   }
 
@@ -268,10 +267,10 @@ export class ClientContext {
     resultFn: (result: { [key: string]: any }) => any[]
   ): Response<any> {
     if (isQuery) {
-      return { result: resultFn(res.result), headers: res.headers };
+      return { result: resultFn(res.result), headers: res.headers, statusCode: res.statusCode };
     } else {
       const newResult = resultFn(res.result).map((body: any) => body);
-      return { result: newResult, headers: res.headers };
+      return { result: newResult, headers: res.headers, statusCode: res.statusCode };
     }
   }
 

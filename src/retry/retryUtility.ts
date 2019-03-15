@@ -107,10 +107,11 @@ export class RetryUtility {
     requestOptions = this.modifyRequestOptions(requestOptions, url.parse(locationEndpoint));
     request.locationRouting.routeToLocation(locationEndpoint);
     try {
-      const { result, headers } = await (httpsRequest as Promise<Response<any>>);
-      headers[Constants.ThrottleRetryCount] = resourceThrottleRetryPolicy.currentRetryAttemptCount;
-      headers[Constants.ThrottleRetryWaitTimeInMs] = resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
-      return { result, headers };
+      const response = await (httpsRequest as Promise<Response<any>>);
+      response.headers[Constants.ThrottleRetryCount] = resourceThrottleRetryPolicy.currentRetryAttemptCount;
+      response.headers[Constants.ThrottleRetryWaitTimeInMs] =
+        resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
+      return response;
     } catch (err) {
       // TODO: any error
       let retryPolicy: IRetryPolicy = null;
