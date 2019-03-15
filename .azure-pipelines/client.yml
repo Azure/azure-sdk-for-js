@@ -61,16 +61,20 @@ jobs:
       vmImage: 'ubuntu-16.04'
 
     steps:
+      - task: UsePythonVersion@0
+        displayName: 'Use Python 3.6'
+        inputs:
+          versionSpec: '3.6'
+
       - task: NodeTool@0
         inputs:
           versionSpec: '$(NodeVersion)'
         displayName: 'Install Node.js $(NodeVersion)'
 
-        # sudo is required for pip install, as a console_entrypoint shim needs to be placed in bin
       - script: |
-          pip install setuptools wheel
-          sudo pip install doc-warden
-          ward scan -d $(Build.SourcesDirectory)
+          pip install setuptools wheel 
+          pip install doc-warden
+          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
         displayName: 'Verify Readmes'
 
       # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
