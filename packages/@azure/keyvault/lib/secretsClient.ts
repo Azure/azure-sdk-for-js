@@ -4,18 +4,21 @@
 import {
   HttpClient as IHttpClient,
   HttpPipelineLogger as IHttpPipelineLogger,
-  ServiceClientOptions as Pipeline,
   ServiceClientCredentials,
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
   RequestOptionsBase,
   exponentialRetryPolicy,
-  logPolicy,
   redirectPolicy,
   systemErrorRetryPolicy,
-  // generateClientRequestIdPolicy
+  // generateClientRequestIdPolicy,
+  // proxyPolicy,
+  // throttlingRetryPolicy
 } from "@azure/ms-rest-js";
+
+import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
+
 import { IRetryOptions, IProxyOptions } from "./clientOptions";
 import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import * as Models from "./models";
