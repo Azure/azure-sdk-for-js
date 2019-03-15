@@ -185,7 +185,7 @@ export class EventHubSender extends LinkEntity {
           senderError: senderError,
           _sender: this._sender
         };
-        log.error("[%s] Something is busted. State of sender '%s' with address '%s' is: %O",
+        log.error("[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
           this._context.connectionId, this.name, this.address, state);
       }
       if (shouldReopen) {
@@ -222,6 +222,17 @@ export class EventHubSender extends LinkEntity {
       const senderLink = this._sender;
       this._deleteFromCache();
       await this._closeLink(senderLink);
+    }
+  }
+
+  /**
+   * Clears the token renewal time and removes the sender link.
+   * @ignore
+   * @returns {void} void
+   */
+    remove(): void {
+    if (this._sender) {
+      this._removeLink(this._sender);
     }
   }
 

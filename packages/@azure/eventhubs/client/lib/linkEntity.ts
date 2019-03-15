@@ -168,20 +168,35 @@ export class LinkEntity {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {
-        if (link.isOpen()){
         // Closing the link and its underlying session if the link is open. This should also
         // remove them from the internal map.
         await link.close();
         log.link("[%s] %s '%s' with address '%s' closed.", this._context.connectionId, this._type,
           this.name, this.address);
-        }else{
-        //  The link is already closed. Removing it and it's underlying session from the internal map and releasing its listeners.
-          await link.remove();
-          log.link("[%s] %s '%s' with address '%s' was not open and is now removed.", this._context.connectionId, this._type,
-          this.name, this.address);
-        }
       } catch (err) {
         log.error("[%s] An error occurred while closing the %s '%s' with address '%s': %O",
+          this._context.connectionId, this._type, this.name, this.address, err);
+      }
+    }
+  }
+
+  /**
+   * Removes the Sender|Receiver link and it's underlying session and also removes it from the
+   * internal map.
+   * @ignore
+   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be removed.
+   * @returns {void} void
+   */
+  protected _removeLink(link?: Sender | Receiver): void {
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    if (link) {
+      try {
+        //  Removing the link and it's underlying session from the internal map and releasing its listeners.
+          link.remove();
+          log.link("[%s] %s '%s' with address '%s' removed.", this._context.connectionId, this._type,
+          this.name, this.address);
+      } catch (err) {
+        log.error("[%s] An error occurred while removing the %s '%s' with address '%s': %O",
           this._context.connectionId, this._type, this.name, this.address, err);
       }
     }

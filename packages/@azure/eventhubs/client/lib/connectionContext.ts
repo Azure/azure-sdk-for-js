@@ -63,6 +63,34 @@ export namespace ConnectionContext {
     return finalUserAgent;
   }
 
+  /**
+   * Removes all the sender links , receiver links, cbs session and management session to the Event Hub.
+   * @returns {void} void
+   */
+   function remove(connectionContext: ConnectionContext): void {
+    try {
+        // Remove all the senders link.
+       for (const senderName of Object.keys(connectionContext.senders)) {
+           connectionContext.senders[senderName].remove();
+        }
+        // Remove all the receivers link.
+        for (const receiverName of Object.keys(connectionContext.receivers)) {
+           connectionContext.receivers[receiverName].remove();
+        }
+        // Remove the cbs session;
+         connectionContext.cbsSession.remove();
+
+        // Remove the management session
+         connectionContext.managementSession!.remove();
+
+        log.context("[%s] Successfully removed all the senders, receivers, cbs session and management session.");
+    } catch (err) {
+      log.error("An error occurred while removing senders, receivers, cbs session and management session: %O", err);
+      throw err;
+    }
+  }
+
+
   export function create(config: EventHubConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
     if (!options) options = {};
 
@@ -116,6 +144,10 @@ export namespace ConnectionContext {
         numSenders: Object.keys(connectionContext.senders).length,
         numReceivers: Object.keys(connectionContext.receivers).length
       };
+
+      // Remove all the senders link, receivers link, cbs session and management session for this AMQP connection.
+       remove(connectionContext);
+
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connection.id, state);

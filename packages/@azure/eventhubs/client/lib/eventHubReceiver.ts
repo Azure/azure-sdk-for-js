@@ -353,7 +353,7 @@ export class EventHubReceiver extends LinkEntity {
           receiverError: receiverError,
           _receiver: this._receiver
         };
-        log.error("[%s] Something is busted. State of Receiver '%s' with address '%s' is: %O",
+        log.error("[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
           this._context.connectionId, this.name, this.address, state);
       }
       if (shouldReopen) {
@@ -400,6 +400,17 @@ export class EventHubReceiver extends LinkEntity {
       const receiverLink = this._receiver;
       this._deleteFromCache();
       await this._closeLink(receiverLink);
+    }
+  }
+
+  /**
+   * Clears the token renewal time and removes the receiver link.
+   * @ignore
+   * @returns {void} void
+   */
+   remove(): void {
+    if (this._receiver) {
+     this._removeLink(this._receiver);
     }
   }
 
