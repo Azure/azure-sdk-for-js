@@ -3,7 +3,7 @@
 
 import { SecretsClient, Pipeline } from "../lib/secretsClient";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { RestError } from '@azure/ms-rest-js';
+import { RestError, signingPolicy, exponentialRetryPolicy, deserializationPolicy } from '@azure/ms-rest-js';
 
 async function main(): Promise<void> {
   const clientId = process.env["CLIENT_ID"] || "";
@@ -47,8 +47,16 @@ async function main(): Promise<void> {
     }
   }
 
-  // Pipeline can be a customized one. This allows control over the request policy factories.
-  const customPipeline: Pipeline = { userAgent: "super-duper-secrets-client/0.1.0" };
+  // Pipeline can be a customized one. This allows control over the request policy factories,
+  // including adding your own RequestPolicy factories. This is a more advanced scenario.
+  const customPipeline: Pipeline = {
+    userAgent: "super-duper-secrets-client/0.1.0",
+    requestPolicyFactories: [
+      deserializationPolicy(),
+      exponentialRetryPolicy(),
+      signingPolicy(credential),
+    ]
+  };
   const client2 = new SecretsClient(url, credential, customPipeline);
 
   const secret = await client2.getSecret("Hello", "3597ab0798b043d398cde46f309010ea");
