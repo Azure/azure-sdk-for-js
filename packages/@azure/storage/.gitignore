@@ -57,8 +57,14 @@ typings/
 /blob/typings/
 /blob/browser/
 /blob/dist-*/
-/blob/temp
-
+/file/dist/
+/file/typings/
+/file/browser/
+/file/dist-*/
+/queue/dist/
+/queue/typings/
+/queue/browser/
+/queue/dist-*/
 test*.xml
 
 # Visual Studio Code
