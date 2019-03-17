@@ -57,6 +57,7 @@ typings/
 /blob/typings/
 /blob/browser/
 /blob/dist-*/
+/blob/temp/
 /file/dist/
 /file/typings/
 /file/browser/
