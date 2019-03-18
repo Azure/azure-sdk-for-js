@@ -44,13 +44,17 @@ async function main(): Promise<void> {
   } catch (e) {
     if (e instanceof RestError) {
       console.log("Rest Error: ", e.message);
+    } else {
+      throw e;
     }
   }
 
-  // Pipeline can be a customized one. This allows control over the request policy factories,
-  // including adding your own RequestPolicy factories. This is a more advanced scenario.
+  // The client can also be configured using a a customized Pipeline. This allows control
+  // over the request policy factories( for example, adding your own RequestPolicyFactory),
+  // as well as providng a custom-implementation of HTTP Client.
+  // This is a more advanced scenario. For more information, see
+  // https://github.com/Azure/ms-rest-js/blob/master/docs/architectureOverview.md
   const customPipeline: Pipeline = {
-    userAgent: "super-duper-secrets-client/0.1.0",
     requestPolicyFactories: [
       deserializationPolicy(),
       exponentialRetryPolicy(),
