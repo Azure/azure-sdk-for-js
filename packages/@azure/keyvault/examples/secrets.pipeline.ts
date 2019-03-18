@@ -30,7 +30,7 @@ async function main(): Promise<void> {
 
   const client = new SecretsClient(url, credential);
 
-  // The client can be configured using INewPipelineOptions
+  // The client can be configured using NewPipelineOptions
   // const client = new SecretsClient(url, credential, {
   //   telemetry: { value: "Customized-user-agent/0.1"},
   //   retryOptions: { retryCount: 5 }

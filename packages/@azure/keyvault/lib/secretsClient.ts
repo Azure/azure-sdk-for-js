@@ -36,19 +36,19 @@ export {
  * Option interface for Pipeline.newPipeline method.
  *
  * Properties of this interface should not overlap with properties of {@link Pipeline}
- * as we use them to differentiate instances of INewPipelineOptions from instances of Pipeline.
- * If this interface is modified, the method isINewPipelineOptions() should also be updated
+ * as we use them to differentiate instances of NewPipelineOptions from instances of Pipeline.
+ * If this interface is modified, the method isNewPipelineOptions() should also be updated
  * to adapt the changes.
  *
  * @export
- * @interface INewPipelineOptions
+ * @interface NewPipelineOptions
  */
-export interface INewPipelineOptions {
+export interface NewPipelineOptions {
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
    * @type {ITelemetryOptions}
-   * @memberof INewPipelineOptions
+   * @memberof NewPipelineOptions
    */
   telemetry?: ITelemetryOptions;
   retryOptions?: IRetryOptions;
@@ -58,28 +58,28 @@ export interface INewPipelineOptions {
   HTTPClient?: IHttpClient;
 }
 
-function isINewPipelineOptions(pipelineOrOptions: Pipeline | INewPipelineOptions): pipelineOrOptions is INewPipelineOptions {
+function isNewPipelineOptions(pipelineOrOptions: Pipeline | NewPipelineOptions): pipelineOrOptions is NewPipelineOptions {
   // An empty object is consider options
-  function isEmptyObject(obj: Pipeline | INewPipelineOptions) {
+  function isEmptyObject(obj: Pipeline | NewPipelineOptions) {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
-  const options = pipelineOrOptions as INewPipelineOptions;
+  const options = pipelineOrOptions as NewPipelineOptions;
   return isEmptyObject(pipelineOrOptions) || !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient);
 }
 
 export class SecretsClient {
   /**
-   * A static method used to create a new Pipeline object with Credential provided.
+   * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
    * @param {ServiceClientCredentials} credential that implements signRequet().
-   * @param {INewPipelineOptions} [pipelineOptions] Optional. Options.
+   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
    * @returns {Pipeline} A new Pipeline object.
    * @memberof SecretsClient
    */
   public static getDefaultPipeline(
     credential: ServiceClientCredentials,
-    pipelineOptions: INewPipelineOptions = {}
+    pipelineOptions: NewPipelineOptions = {}
   ): Pipeline {
     // Order is important. Closer to the API at the top & closer to the network at the bottom.
     // The credential's policy factory must appear close to the wire so it can sign any
@@ -124,18 +124,18 @@ export class SecretsClient {
    * Creates an instance of SecretsClient.
    * @param {string} url the base url to the key vault.
    * @param {ServiceClientCredentials} credential credential.
-   * @param {(Pipeline | INewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
-   *                                                                  Omitting this parameter to create the default Pipeline instance.
+   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
+   *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof SecretsClient
    */
   constructor(
     url: string,
     credential: ServiceClientCredentials,
-    pipelineOrOptions: Pipeline | INewPipelineOptions = {}
+    pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
     this.credential = credential;
-    if (isINewPipelineOptions(pipelineOrOptions)) {
+    if (isNewPipelineOptions(pipelineOrOptions)) {
       this.pipeline = SecretsClient.getDefaultPipeline(
         credential as ServiceClientCredentials,
         pipelineOrOptions
