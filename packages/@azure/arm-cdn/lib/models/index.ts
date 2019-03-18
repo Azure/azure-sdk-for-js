@@ -399,34 +399,6 @@ export interface ContactInfo {
 
 /**
  * @interface
- * An interface representing PeerAsnProperties.
- * The properties that define a peer's ASN.
- *
- */
-export interface PeerAsnProperties {
-  /**
-   * @member {number} [peerAsn] The Autonomous System Number (ASN) of the peer.
-   */
-  peerAsn?: number;
-  /**
-   * @member {ContactInfo} [peerContactInfo] The contact information of the
-   * peer.
-   */
-  peerContactInfo?: ContactInfo;
-  /**
-   * @member {string} [peerName] The name of the peer.
-   */
-  peerName?: string;
-  /**
-   * @member {ValidationState} [validationState] The validation state of the
-   * ASN associated with the peer. Possible values include: 'None', 'Pending',
-   * 'Approved', 'Failed'
-   */
-  validationState?: ValidationState;
-}
-
-/**
- * @interface
  * An interface representing PeerAsn.
  * The essential information related to the pee's ASN.
  *

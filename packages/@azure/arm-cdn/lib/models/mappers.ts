@@ -479,41 +479,6 @@ export const ContactInfo: msRest.CompositeMapper = {
   }
 };
 
-export const PeerAsnProperties: msRest.CompositeMapper = {
-  serializedName: "PeerAsnProperties",
-  type: {
-    name: "Composite",
-    className: "PeerAsnProperties",
-    modelProperties: {
-      peerAsn: {
-        serializedName: "peerAsn",
-        type: {
-          name: "Number"
-        }
-      },
-      peerContactInfo: {
-        serializedName: "peerContactInfo",
-        type: {
-          name: "Composite",
-          className: "ContactInfo"
-        }
-      },
-      peerName: {
-        serializedName: "peerName",
-        type: {
-          name: "String"
-        }
-      },
-      validationState: {
-        serializedName: "validationState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PeerAsn: msRest.CompositeMapper = {
   serializedName: "PeerAsn",
   type: {

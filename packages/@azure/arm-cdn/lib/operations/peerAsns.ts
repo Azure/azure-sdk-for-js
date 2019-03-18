@@ -58,29 +58,29 @@ export class PeerAsns {
    * Creates a new peer ASN or updates an existing peer ASN with the specified name under the given
    * subscription.
    * @param peerAsnName The peer ASN name.
-   * @param peerInfo The peer info.
+   * @param peerAsn The peer ASN.
    * @param [options] The optional parameters
    * @returns Promise<Models.PeerAsnsCreateOrUpdateResponse>
    */
-  createOrUpdate(peerAsnName: string, peerInfo: Models.PeerAsnProperties, options?: msRest.RequestOptionsBase): Promise<Models.PeerAsnsCreateOrUpdateResponse>;
+  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, options?: msRest.RequestOptionsBase): Promise<Models.PeerAsnsCreateOrUpdateResponse>;
   /**
    * @param peerAsnName The peer ASN name.
-   * @param peerInfo The peer info.
+   * @param peerAsn The peer ASN.
    * @param callback The callback
    */
-  createOrUpdate(peerAsnName: string, peerInfo: Models.PeerAsnProperties, callback: msRest.ServiceCallback<Models.PeerAsn>): void;
+  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, callback: msRest.ServiceCallback<Models.PeerAsn>): void;
   /**
    * @param peerAsnName The peer ASN name.
-   * @param peerInfo The peer info.
+   * @param peerAsn The peer ASN.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(peerAsnName: string, peerInfo: Models.PeerAsnProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeerAsn>): void;
-  createOrUpdate(peerAsnName: string, peerInfo: Models.PeerAsnProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsn>, callback?: msRest.ServiceCallback<Models.PeerAsn>): Promise<Models.PeerAsnsCreateOrUpdateResponse> {
+  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeerAsn>): void;
+  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsn>, callback?: msRest.ServiceCallback<Models.PeerAsn>): Promise<Models.PeerAsnsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         peerAsnName,
-        peerInfo,
+        peerAsn,
         options
       },
       createOrUpdateOperationSpec,
@@ -208,9 +208,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "peerInfo",
+    parameterPath: "peerAsn",
     mapper: {
-      ...Mappers.PeerAsnProperties,
+      ...Mappers.PeerAsn,
       required: true
     }
   },

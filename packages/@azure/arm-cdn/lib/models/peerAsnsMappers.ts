@@ -13,7 +13,6 @@ export {
   BaseResource,
   ContactInfo,
   ErrorResponse,
-  PeerAsnProperties,
   PeerAsnListResult,
   Peering,
   PeeringSku,
