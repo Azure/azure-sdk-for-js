@@ -147,7 +147,9 @@ export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
  */
 export class Timeout {
 
-  private _timer?: number;
+  // Node and browsers return different types from setTimeout
+  // Any is the easiest way to avoid type errors in either platform
+  private _timer?: any;
 
   set<T>(t: number, value?: T): Promise<T> {
     return new Promise<T>((resolve, reject) => {

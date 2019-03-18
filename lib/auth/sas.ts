@@ -3,8 +3,9 @@
 
 import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
 import { TokenInfo, TokenProvider, TokenType } from "./token";
-const isBuffer = require("is-buffer");
-const jssha = require("jssha");
+import { Buffer } from "buffer";
+import isBuffer from "is-buffer";
+import jssha from "jssha";
 
 /**
  * @class SasTokenProvider
@@ -37,7 +38,7 @@ export class SasTokenProvider implements TokenProvider {
   tokenValidTimeInSeconds: number;
 
   /**
-   * Initializes a new isntance of SasTokenProvider
+   * Initializes a new instance of SasTokenProvider
    * @constructor
    * @param {string} namespace - The namespace of the EventHub/ServiceBus instance.
    * @param {string} keyName - The name of the EventHub/ServiceBus key.

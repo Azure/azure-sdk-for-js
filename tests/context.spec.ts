@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import "mocha";
 import * as chai from "chai";
 const should = chai.should();
 import {
   ConnectionConfig, ConnectionContextBase, SasTokenProvider, DefaultDataTransformer, CbsClient
 } from "../lib";
 import { Connection } from "rhea-promise";
+import { isNode } from '@azure/ms-rest-js';
 
 
 describe("ConnectionContextBase", function () {
@@ -40,4 +40,46 @@ describe("ConnectionContextBase", function () {
     context.dataTransformer.should.instanceOf(DefaultDataTransformer);
     done();
   });
+
+  if (isNode) {
+    it("should accept a websocket constructor in Node", async () => {
+      const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+      const path = "mypath";
+      const config = ConnectionConfig.create(connectionString, path);
+
+      config.webSocket = require('ws');
+      config.webSocketEndpointPath = '/ws';
+
+      const context = ConnectionContextBase.create({
+        config: config,
+        connectionProperties: {
+          product: "MSJSClient",
+          userAgent: "/js-amqp-client",
+          version: "1.0.0"
+        }
+      });
+
+      should.exist(context);
+    });
+  } else {
+    it("should default to using a websocket in the browser", async () => {
+      const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+      const path = "mypath";
+      const config = ConnectionConfig.create(connectionString, path);
+
+      config.webSocketEndpointPath = '/ws';
+
+      const context = ConnectionContextBase.create({
+        config: config,
+        connectionProperties: {
+          product: "MSJSClient",
+          userAgent: "/js-amqp-client",
+          version: "1.0.0"
+        }
+      });
+
+      should.exist(context);
+      should.exist(context.connection.options.connection_details);
+    });
+  }
 });

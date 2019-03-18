@@ -7,6 +7,8 @@ import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 import { TokenProvider } from "./auth/token";
 import { ConnectionConfig } from "./connectionConfig";
 import { SasTokenProvider } from "./auth/sas";
+import rhea from "rhea";
+
 import * as Constants from "./util/constants";
 import * as os from "os";
 
@@ -132,12 +134,15 @@ export module ConnectionContextBase {
     if (!parameters || typeof parameters !== "object") {
       throw new Error("'parameters' is a required parameter and must be of type 'object'.");
     }
-    ConnectionConfig.validate(parameters.config,
-      { isEntityPathRequired: parameters.isEntityPathRequired || false });
+    ConnectionConfig.validate(parameters.config, {
+      isEntityPathRequired: parameters.isEntityPathRequired || false
+    });
     const userAgent = parameters.connectionProperties.userAgent;
     if (userAgent.length > Constants.maxUserAgentLength) {
-      throw new Error(`The user-agent string cannot be more than 128 characters in length.` +
-        `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`);
+      throw new Error(
+        `The user-agent string cannot be more than 128 characters in length.` +
+        `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`
+      );
     }
 
     const connectionOptions: ConnectionOptions = {
@@ -157,6 +162,19 @@ export module ConnectionContextBase {
       operationTimeoutInSeconds: parameters.operationTimeoutInSeconds
     };
 
+    if (parameters.config.webSocket || (typeof window !== "undefined" && (window as any).WebSocket)) {
+      const socket = parameters.config.webSocket || (window as any).WebSocket;
+      // TODO: expose websocket_connect via rhea-promise
+      const ws = rhea.websocket_connect(socket);
+      const host = parameters.config.host;
+      const endpoint = parameters.config.webSocketEndpointPath || '';
+
+      // connectionOptions is cast to any to work around type errors.
+      // The errors seem spurious and so are ignored.
+      (connectionOptions.connection_details as any) =
+        ws(`wss://${host}:443/${endpoint}`, ["AMQPWSB10"], {});
+    }
+
     const connection = new Connection(connectionOptions);
     const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
     const connectionContextBase: ConnectionContextBase = {
@@ -167,9 +185,13 @@ export module ConnectionContextBase {
       connectionId: connection.id,
       cbsSession: new CbsClient(connection, connectionLock),
       config: parameters.config,
-      tokenProvider: parameters.tokenProvider ||
-        new SasTokenProvider(parameters.config.endpoint, parameters.config.sharedAccessKeyName,
-          parameters.config.sharedAccessKey),
+      tokenProvider:
+        parameters.tokenProvider ||
+        new SasTokenProvider(
+          parameters.config.endpoint,
+          parameters.config.sharedAccessKeyName,
+          parameters.config.sharedAccessKey
+        ),
       dataTransformer: parameters.dataTransformer || new DefaultDataTransformer()
     };
 

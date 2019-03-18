@@ -2,10 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { translate, MessagingError } from "./errors";
-import { delay } from ".";
+import { delay } from "./util/utils";
 import * as log from "./log";
 import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
 import { resolve } from "dns";
+import { isNode } from '@azure/ms-rest-js';
 
 /**
  * Determines whether the object is a Delivery object.
@@ -99,15 +100,19 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
 
 
 async function checkNetworkConnection(host: string): Promise<boolean> {
-  return new Promise((res) => {
-    resolve(host, function (err: any): void {
-      if (err && err.code === "ECONNREFUSED") {
-        res(false);
-      } else {
-        res(true);
-      }
+  if (isNode) {
+    return new Promise((res) => {
+      resolve(host, function (err: any): void {
+        if (err && err.code === "ECONNREFUSED") {
+          res(false);
+        } else {
+          res(true);
+        }
+      });
     });
-  });
+  } else {
+    return window.navigator.onLine;
+  }
 }
 
 

@@ -3,8 +3,8 @@
 
 import { message } from "rhea-promise";
 import * as log from "./log";
-
-const isBuffer = require("is-buffer");
+import isBuffer from "is-buffer";
+import { Buffer } from "buffer";
 
 /**
  * Describes the transformations that can be performed to encode/decode the data before sending it

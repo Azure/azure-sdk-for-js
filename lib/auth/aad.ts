@@ -3,7 +3,7 @@
 
 import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
-} from "ms-rest-azure";
+} from "@azure/ms-rest-nodeauth";
 import { TokenInfo, TokenType, TokenProvider } from "./token";
 import * as Constants from "../util/constants";
 
@@ -50,26 +50,21 @@ export class AadTokenProvider implements TokenProvider {
    * @param {string} [audience] - The audience for which the token is desired. If not
    * provided then the Endpoint from the connection string will be applied.
    */
-  getToken(audience?: string): Promise<TokenInfo> {
+  async getToken(audience?: string): Promise<TokenInfo> {
     const self = this;
-    return new Promise<TokenInfo>((resolve, reject) => {
-      self.credentials.getToken((err, result) => {
-        if (err) {
-          reject(err);
-        }
-        let expiresOn = Date.now();
-        if (result.expiresOn && result.expiresOn instanceof Date) {
-          expiresOn = result.expiresOn.getTime();
-        }
-        const expiry = Math.floor(expiresOn / 1000) +
-          self.tokenValidTimeInSeconds - Constants.aadTokenValidityMarginSeconds;
-        const tokenObj: TokenInfo = {
-          expiry: expiry,
-          tokenType: TokenType.CbsTokenTypeJwt,
-          token: result.accessToken
-        };
-        resolve(tokenObj);
-      });
-    });
+    const result = await self.credentials.getToken();
+    let expiresOn = Date.now();
+    if (result.expiresOn && result.expiresOn instanceof Date) {
+      expiresOn = result.expiresOn.getTime();
+    }
+    const expiry = Math.floor(expiresOn / 1000) +
+      self.tokenValidTimeInSeconds - Constants.aadTokenValidityMarginSeconds;
+    const tokenObj: TokenInfo = {
+      expiry: expiry,
+      tokenType: TokenType.CbsTokenTypeJwt,
+      token: result.accessToken
+    };
+
+    return tokenObj;
   }
 }

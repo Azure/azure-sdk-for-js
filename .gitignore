@@ -56,8 +56,11 @@ obj/*
 .env
 typings/
 dist/
+dist-esm/
+browser/
 output/
 client/examples/js/lib/
 processor/examples/js/lib/
 typedoc
 out/
+

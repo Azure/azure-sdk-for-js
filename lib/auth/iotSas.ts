@@ -3,6 +3,7 @@
 
 import { SasTokenProvider } from "./sas";
 import { TokenInfo } from "./token";
+import { Buffer } from "buffer";
 
 /**
  * @class IotSasTokenProvider

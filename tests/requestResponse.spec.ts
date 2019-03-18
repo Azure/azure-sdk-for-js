@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import "mocha";
 import * as assert from "assert";
 import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper } from "../lib";
 import { Connection } from "rhea-promise";
 import { stub } from "sinon";
-import { EventEmitter } from "events";
+import EventEmitter from "events";
 
 describe("RequestResponseLink", function () {
   it("should send a request and receive a response correctly", async function () {

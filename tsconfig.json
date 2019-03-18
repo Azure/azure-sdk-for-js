@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2015",
+    "lib": [],
     "preserveConstEnums": true,
     "sourceMap": true,
     "newLine": "LF",
@@ -8,10 +9,10 @@
     "importHelpers": true,
     "moduleResolution": "node",
     "noImplicitReturns": true,
-    "outDir": "dist",
+    "outDir": "dist-esm",
     "allowJs": false,
     "esModuleInterop": true,
-    "noUnusedLocals":true,
+    "noUnusedLocals": true,
     "strict": true,
     "declaration": true,
     "declarationDir": "./typings",
@@ -26,6 +27,7 @@
   ],
   "include": [
     "./lib/**/*.ts",
+    "./tests/**/*.ts",
     "./examples/**/*.ts"
   ]
 }
