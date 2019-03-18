@@ -5,6 +5,8 @@ import { DirectoryURL } from "../lib/DirectoryURL";
 import { FileURL } from "../lib/FileURL";
 import { ShareURL } from "../lib/ShareURL";
 import { getBSU, getUniqueName } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("DirectoryURL", () => {
   const serviceURL = getBSU();
