@@ -4,6 +4,8 @@ import { Aborter } from "../lib/Aborter";
 import { QueueURL } from "../lib/QueueURL";
 import { ServiceURL } from "../lib/ServiceURL";
 import { getAlternateQSU, getQSU, getUniqueName, wait } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("ServiceURL", () => {
   it("listQueuesSegment with default parameters", async () => {

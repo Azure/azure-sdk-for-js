@@ -3,6 +3,8 @@ import * as assert from "assert";
 import { Aborter } from "../lib/Aborter";
 import { QueueURL } from "../lib/QueueURL";
 import { getQSU, getUniqueName } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("QueueURL", () => {
   const serviceURL = getQSU();
