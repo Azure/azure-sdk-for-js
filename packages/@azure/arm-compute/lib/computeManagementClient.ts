@@ -32,13 +32,6 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   virtualMachineScaleSetVMs: operations.VirtualMachineScaleSetVMs;
   logAnalytics: operations.LogAnalytics;
   virtualMachineRunCommands: operations.VirtualMachineRunCommands;
-  resourceSkus: operations.ResourceSkus;
-  disks: operations.Disks;
-  snapshots: operations.Snapshots;
-  galleries: operations.Galleries;
-  galleryImages: operations.GalleryImages;
-  galleryImageVersions: operations.GalleryImageVersions;
-  containerServices: operations.ContainerServices;
 
   /**
    * Initializes a new instance of the ComputeManagementClient class.
@@ -64,13 +57,6 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.virtualMachineScaleSetVMs = new operations.VirtualMachineScaleSetVMs(this);
     this.logAnalytics = new operations.LogAnalytics(this);
     this.virtualMachineRunCommands = new operations.VirtualMachineRunCommands(this);
-    this.resourceSkus = new operations.ResourceSkus(this);
-    this.disks = new operations.Disks(this);
-    this.snapshots = new operations.Snapshots(this);
-    this.galleries = new operations.Galleries(this);
-    this.galleryImages = new operations.GalleryImages(this);
-    this.galleryImageVersions = new operations.GalleryImageVersions(this);
-    this.containerServices = new operations.ContainerServices(this);
   }
 }
 
