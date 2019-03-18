@@ -19,19 +19,24 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
   credentials: msRest.ServiceClientCredentials;
   apiVersion?: string;
   tenantID: string;
+  applicationID: string;
 
   /**
    * Initializes a new instance of the GraphRbacManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param tenantID The tenant ID.
+   * @param applicationID The application ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, tenantID: string, options?: Models.GraphRbacManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, tenantID: string, applicationID: string, options?: Models.GraphRbacManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (tenantID == undefined) {
       throw new Error('\'tenantID\' cannot be null.');
+    }
+    if (applicationID == undefined) {
+      throw new Error('\'applicationID\' cannot be null.');
     }
 
     if (!options) {
@@ -51,6 +56,7 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.tenantID = tenantID;
+    this.applicationID = applicationID;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

@@ -832,6 +832,23 @@ export interface Application {
 
 /**
  * @interface
+ * An interface representing ServicePrincipalObjectResult.
+ * Service Principal Object Result.
+ *
+ */
+export interface ServicePrincipalObjectResult {
+  /**
+   * @member {string} [value] Service Principal Application Object Id
+   */
+  value?: string;
+  /**
+   * @member {string} [odatametadata] The URL representing edm equivalent.
+   */
+  odatametadata?: string;
+}
+
+/**
+ * @interface
  * An interface representing AddOwnerParameters.
  * Request parameters for adding a owner to an application.
  *
@@ -2485,6 +2502,25 @@ export type ServicePrincipalsListOwnersNextResponse = DirectoryObjectListResult 
        * The response body as parsed JSON or XML
        */
       parsedBody: DirectoryObjectListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServicePrincipalsByAppIdGetResponse = ServicePrincipalObjectResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServicePrincipalObjectResult;
     };
 };
 

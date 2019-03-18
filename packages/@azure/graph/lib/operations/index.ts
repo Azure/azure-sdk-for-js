@@ -13,6 +13,7 @@ export * from "./applications";
 export * from "./deletedApplications";
 export * from "./groups";
 export * from "./servicePrincipals";
+export * from "./servicePrincipalsByAppId";
 export * from "./users";
 export * from "./objects";
 export * from "./domains";
