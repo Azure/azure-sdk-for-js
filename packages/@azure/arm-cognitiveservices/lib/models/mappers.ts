@@ -178,6 +178,12 @@ export const CognitiveServicesAccount: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      customSubDomainName: {
+        serializedName: "properties.customSubDomainName",
+        type: {
+          name: "String"
+        }
+      },
       sku: {
         serializedName: "sku",
         type: {
@@ -547,6 +553,30 @@ export const CheckSkuAvailabilityParameter: msRest.CompositeMapper = {
   }
 };
 
+export const CheckDomainAvailabilityParameter: msRest.CompositeMapper = {
+  serializedName: "CheckDomainAvailabilityParameter",
+  type: {
+    name: "Composite",
+    className: "CheckDomainAvailabilityParameter",
+    modelProperties: {
+      subdomainName: {
+        required: true,
+        serializedName: "subdomainName",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CheckSkuAvailabilityResult: msRest.CompositeMapper = {
   serializedName: "CheckSkuAvailabilityResult",
   type: {
@@ -609,6 +639,40 @@ export const CheckSkuAvailabilityResultList: msRest.CompositeMapper = {
               className: "CheckSkuAvailabilityResult"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CheckDomainAvailabilityResult: msRest.CompositeMapper = {
+  serializedName: "CheckDomainAvailabilityResult",
+  type: {
+    name: "Composite",
+    className: "CheckDomainAvailabilityResult",
+    modelProperties: {
+      isSubdomainAvailable: {
+        serializedName: "isSubdomainAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      subdomainName: {
+        serializedName: "subdomainName",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }

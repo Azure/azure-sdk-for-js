@@ -8,8 +8,9 @@
  * regenerated.
  */
 
-export * from "./accounts";
-export * from "./resourceSkus";
-export * from "./operations";
-export * from "./checkSkuAvailability";
-export * from "./locations";
+export {
+  CheckDomainAvailabilityParameter,
+  CheckDomainAvailabilityResult,
+  CloudError
+} from "../models/mappers";
+
