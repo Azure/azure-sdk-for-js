@@ -6,7 +6,7 @@ async function main(): Promise<void> {
   const clientSecret = process.env["CLIENT_SECRET"] || "";
   const tenantId = process.env["TENANT_ID"] || "";
 
-
+  
   const url = "https://your-keyvault.vault.azure.net";
   const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
     clientId,
@@ -16,7 +16,7 @@ async function main(): Promise<void> {
       tokenAudience: 'https://vault.azure.net'
     }
   );
-
+  
   const client = new SecretsClient(url, credential);
 
   const result = await client.setSecret("MySecretName", "MySecretValue");
