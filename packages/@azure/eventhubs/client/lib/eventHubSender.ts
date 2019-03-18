@@ -226,17 +226,6 @@ export class EventHubSender extends LinkEntity {
   }
 
   /**
-   * Clears the token renewal time and removes the sender link.
-   * @ignore
-   * @returns {void} void
-   */
-    remove(): void {
-    if (this._sender) {
-      this._removeLink(this._sender);
-    }
-  }
-
-  /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
    * @ignore
    * @return {boolean} boolean

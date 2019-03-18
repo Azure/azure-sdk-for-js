@@ -404,17 +404,6 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * Clears the token renewal time and removes the receiver link.
-   * @ignore
-   * @returns {void} void
-   */
-   remove(): void {
-    if (this._receiver) {
-     this._removeLink(this._receiver);
-    }
-  }
-
-  /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
    * @ignore
    * @return {boolean} boolean

@@ -198,26 +198,6 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
-  /**
-   * Removes the AMQP management session to the Event Hub.
-   * @returns {void} void
-   */
-   remove(): void {
-    try {
-      if (this._mgmtReqResLink) {
-        const mgmtLink = this._mgmtReqResLink;
-        this._mgmtReqResLink = undefined;
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        mgmtLink!.remove();
-        log.mgmt("Successfully removed the management session.");
-      }
-    } catch (err) {
-      const msg = `An error occurred while removing the management session: ${err}`;
-      log.error(msg);
-      throw new Error(msg);
-    }
-  }
-
   private async _init(): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {

@@ -25,7 +25,7 @@
     "is-buffer": "2.0.2",
     "jssha": "^2.3.1",
     "ms-rest-azure": "^2.5.9",
-    "rhea-promise": "^0.1.13",
+    "rhea-promise": "git+https://github.com/shivangireja/rhea-promise.git#remove_all_session",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2"
   },

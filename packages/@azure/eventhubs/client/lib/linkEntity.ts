@@ -181,28 +181,6 @@ export class LinkEntity {
   }
 
   /**
-   * Removes the Sender|Receiver link and it's underlying session and also removes it from the
-   * internal map.
-   * @ignore
-   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be removed.
-   * @returns {void} void
-   */
-  protected _removeLink(link?: Sender | Receiver): void {
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-    if (link) {
-      try {
-        //  Removing the link and it's underlying session from the internal map and releasing its listeners.
-          link.remove();
-          log.link("[%s] %s '%s' with address '%s' removed.", this._context.connectionId, this._type,
-          this.name, this.address);
-      } catch (err) {
-        log.error("[%s] An error occurred while removing the %s '%s' with address '%s': %O",
-          this._context.connectionId, this._type, this.name, this.address, err);
-      }
-    }
-  }
-
-  /**
    * Provides the current type of the LinkEntity.
    * @return {string} The entity type.
    */
