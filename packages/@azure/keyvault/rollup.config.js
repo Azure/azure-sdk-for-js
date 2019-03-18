@@ -3,7 +3,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
  * @type {import('rollup').RollupFileOptions}
  */
 const config = {
-  input: './esm/keyVaultClient.js',
+  input: './esm/lib/keyVaultClient.js',
   external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
   output: {
     file: "./dist/keyvault.js",

@@ -1,23 +1,153 @@
-import { ServiceClientCredentials, RequestOptionsBase } from "@azure/ms-rest-js";
-import { AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+import {
+  HttpClient as IHttpClient,
+  HttpPipelineLogger as IHttpPipelineLogger,
+  ServiceClientCredentials,
+  RequestPolicyFactory,
+  deserializationPolicy,
+  signingPolicy,
+  RequestOptionsBase,
+  exponentialRetryPolicy,
+  redirectPolicy,
+  systemErrorRetryPolicy,
+  // generateClientRequestIdPolicy,
+  // proxyPolicy,
+  // throttlingRetryPolicy
+} from "@azure/ms-rest-js";
+
+import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
+
+import { IRetryOptions, IProxyOptions } from "./clientOptions";
+import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import * as Models from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
+import { RetryConstants } from './utils/constants';
+import { UniqueRequestIDPolicyFactory } from './UniqueRequestIDPolicyFactory';
 import { Secret, DeletedSecret } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
+export {
+  Pipeline
+};
+
+/**
+ * Option interface for Pipeline.newPipeline method.
+ *
+ * Properties of this interface should not overlap with properties of {@link Pipeline}
+ * as we use them to differentiate instances of NewPipelineOptions from instances of Pipeline.
+ * If this interface is modified, the method isNewPipelineOptions() should also be updated
+ * to adapt the changes.
+ *
+ * @export
+ * @interface NewPipelineOptions
+ */
+export interface NewPipelineOptions {
+  /**
+   * Telemetry configures the built-in telemetry policy behavior.
+   *
+   * @type {ITelemetryOptions}
+   * @memberof NewPipelineOptions
+   */
+  telemetry?: ITelemetryOptions;
+  retryOptions?: IRetryOptions;
+  proxyOptions?: IProxyOptions;
+
+  logger?: IHttpPipelineLogger;
+  HTTPClient?: IHttpClient;
+}
+
+function isNewPipelineOptions(pipelineOrOptions: Pipeline | NewPipelineOptions): pipelineOrOptions is NewPipelineOptions {
+  // An empty object is consider options
+  function isEmptyObject(obj: Pipeline | NewPipelineOptions) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
+  const options = pipelineOrOptions as NewPipelineOptions;
+  return isEmptyObject(pipelineOrOptions) || !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient);
+}
+
 export class SecretsClient {
+  /**
+   * A static method used to create a new Pipeline object with the provided Credential.
+   *
+   * @static
+   * @param {ServiceClientCredentials} credential that implements signRequet().
+   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+   * @returns {Pipeline} A new Pipeline object.
+   * @memberof SecretsClient
+   */
+  public static getDefaultPipeline(
+    credential: ServiceClientCredentials,
+    pipelineOptions: NewPipelineOptions = {}
+  ): Pipeline {
+    // Order is important. Closer to the API at the top & closer to the network at the bottom.
+    // The credential's policy factory must appear close to the wire so it can sign any
+    // changes made by other factories (like UniqueRequestIDPolicyFactory)
+    const retryOptions = pipelineOptions.retryOptions || {};
+    const requestPolicyFactories: RequestPolicyFactory[] = [
+      // TODO: proxyPolicy() is not yet exported in ms-rest-js.
+      // proxyPolicy((pipelineOptions.proxyOptions || {}).proxySettings),
+      new TelemetryPolicyFactory(pipelineOptions.telemetry),
+      // TODO: generateClientRequestIdPolicy() was not yet exported in ms-rest-js. For now use UniqueRequestIDPolicyFactory
+      // generateClientRequestIdPolicy(),
+      new UniqueRequestIDPolicyFactory(),
+      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+      // TODO: throttlingRetryPolicy() is not yet exported in ms-rest-js.
+      // throttlingRetryPolicy(),
+      systemErrorRetryPolicy(),
+      exponentialRetryPolicy(
+        retryOptions.retryCount,
+        retryOptions.retryIntervalInMS,
+        RetryConstants.MIN_RETRY_INTERVAL_MS, // Minimum retry interval to prevent frequent retries
+        retryOptions.maxRetryDelayInMs
+      ),
+      redirectPolicy(),
+      signingPolicy(credential)
+    ];
+
+    return {
+      httpClient: pipelineOptions.HTTPClient,
+      httpPipelineLogger: pipelineOptions.logger,
+      requestPolicyFactories
+    };
+  }
+
   public readonly vaultBaseUrl: string;
 
+  public readonly pipeline: Pipeline;
+
+  protected readonly credential: ServiceClientCredentials;
   protected readonly client: KeyVaultClient;
 
+  /**
+   * Creates an instance of SecretsClient.
+   * @param {string} url the base url to the key vault.
+   * @param {ServiceClientCredentials} credential credential.
+   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
+   *                                                                 Omitting this parameter to create the default Pipeline instance.
+   * @memberof SecretsClient
+   */
   constructor(
     url: string,
     credential: ServiceClientCredentials,
-    options?: AzureServiceClientOptions
+    pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
     this.vaultBaseUrl = url;
-    this.client = new KeyVaultClient(credential, options);
+    this.credential = credential;
+    if (isNewPipelineOptions(pipelineOrOptions)) {
+      this.pipeline = SecretsClient.getDefaultPipeline(
+        credential as ServiceClientCredentials,
+        pipelineOrOptions
+      );
+    } else {
+      this.pipeline = pipelineOrOptions;
+    }
+
+    this.client = new KeyVaultClient(credential, this.pipeline);
   }
+
+  // TODO: do we want Aborter as well?
 
   /**
    * The SET operation adds a secret to the Azure Key Vault. If the named secret already exists,

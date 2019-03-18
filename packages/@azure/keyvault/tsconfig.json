@@ -4,6 +4,7 @@
     "moduleResolution": "node",
     "strict": true,
     "target": "es5",
+    "downlevelIteration": true,
     "sourceMap": true,
     "declarationMap": true,
     "esModuleInterop": true,
