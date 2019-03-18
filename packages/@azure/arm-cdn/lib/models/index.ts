@@ -430,8 +430,9 @@ export interface PeerAsnProperties {
  * An interface representing PeerAsn.
  * The essential information related to the pee's ASN.
  *
+ * @extends BaseResource
  */
-export interface PeerAsn {
+export interface PeerAsn extends BaseResource {
   /**
    * @member {number} [peerAsn] The Autonomous System Number (ASN) of the peer.
    */

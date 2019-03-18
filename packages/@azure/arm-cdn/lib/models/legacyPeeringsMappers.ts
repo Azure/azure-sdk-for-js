@@ -18,6 +18,8 @@ export {
   BgpSession,
   PeeringPropertiesExchange,
   ExchangeConnection,
-  ErrorResponse
+  ErrorResponse,
+  PeerAsn,
+  ContactInfo
 } from "../models/mappers";
 

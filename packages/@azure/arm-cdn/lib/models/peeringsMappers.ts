@@ -19,6 +19,8 @@ export {
   ExchangeConnection,
   ErrorResponse,
   ResourceTags,
-  PeeringListResult
+  PeeringListResult,
+  PeerAsn,
+  ContactInfo
 } from "../models/mappers";
 

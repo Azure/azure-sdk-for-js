@@ -10,9 +10,17 @@
 
 export {
   PeerAsn,
+  BaseResource,
   ContactInfo,
   ErrorResponse,
   PeerAsnProperties,
-  PeerAsnListResult
+  PeerAsnListResult,
+  Peering,
+  PeeringSku,
+  PeeringPropertiesDirect,
+  DirectConnection,
+  BgpSession,
+  PeeringPropertiesExchange,
+  ExchangeConnection
 } from "../models/mappers";
 
