@@ -196,7 +196,7 @@ export class PersonGroupOperations {
   }
 
   /**
-   * List person groups’s pesonGroupId, name, userData and recognitionModel.<br />
+   * List person groups’s personGroupId, name, userData and recognitionModel.<br />
    * * Person groups are stored in alphabetical order of personGroupId.
    * * "start" parameter (string, optional) is a user-provided personGroupId value that returned
    * entries have larger ids by string comparison. "start" set to empty to indicate return from the
