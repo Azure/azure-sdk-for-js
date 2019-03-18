@@ -21,6 +21,10 @@
   "types": "./esm/lib/keyVaultClient.d.ts",
   "devDependencies": {
     "@azure/ms-rest-nodeauth": "^0.9.1",
+    "@types/mocha": "^5.2.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^6.0.2",
+    "mocha-multi-reporters": "^1.1.7",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "ts-node": "^8.0.3",
@@ -51,6 +55,7 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/keyvault.js.map'\" -o ./dist/keyvault.min.js ./dist/keyvault.js",
+    "test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --full-trace --no-timeouts tests/**/*.test.ts",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false

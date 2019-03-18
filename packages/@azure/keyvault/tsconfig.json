@@ -15,6 +15,6 @@
     "outDir": "./esm",
     "importHelpers": true
   },
-  "include": ["./lib/**/*.ts", "./examples/**/*.ts"],
+  "include": ["./lib/**/*.ts", "./examples/**/*.ts", "./tests/**/*.ts"],
   "exclude": ["node_modules"]
 }

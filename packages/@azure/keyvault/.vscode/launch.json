@@ -14,6 +14,28 @@
         "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}"
       },
       "envFile": "${workspaceFolder}\\.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Tests",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha",
+      "windows": {
+          "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha.cmd"
+      },
+      "args": [
+        "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+        "-r", "ts-node/register",
+        "--timeout",
+        "99999",
+        "--colors",
+        "${workspaceRoot}/tests/pipeline.test.ts"
+       ],
+      "sourceMaps": true,
+      "env": {
+        "TS_NODE_PROJECT": "${workspaceRoot}/tests/tsconfig.json"
+      },
+      "envFile": "${workspaceFolder}\\.env"
     }
   ]
 }
