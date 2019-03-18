@@ -22,28 +22,31 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
   deletedApplications: operations.DeletedApplications;
   groups: operations.Groups;
   servicePrincipals: operations.ServicePrincipals;
+  servicePrincipalsByAppId: operations.ServicePrincipalsByAppId;
   users: operations.Users;
   objects: operations.Objects;
   domains: operations.Domains;
-  oAuth2: operations.OAuth2;
+  oAuth2PermissionGrant: operations.OAuth2PermissionGrantOperations;
 
   /**
    * Initializes a new instance of the GraphRbacManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param tenantID The tenant ID.
+   * @param applicationID The application ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, tenantID: string, options?: Models.GraphRbacManagementClientOptions) {
-    super(credentials, tenantID, options);
+  constructor(credentials: msRest.ServiceClientCredentials, tenantID: string, applicationID: string, options?: Models.GraphRbacManagementClientOptions) {
+    super(credentials, tenantID, applicationID, options);
     this.signedInUser = new operations.SignedInUser(this);
     this.applications = new operations.Applications(this);
     this.deletedApplications = new operations.DeletedApplications(this);
     this.groups = new operations.Groups(this);
     this.servicePrincipals = new operations.ServicePrincipals(this);
+    this.servicePrincipalsByAppId = new operations.ServicePrincipalsByAppId(this);
     this.users = new operations.Users(this);
     this.objects = new operations.Objects(this);
     this.domains = new operations.Domains(this);
-    this.oAuth2 = new operations.OAuth2(this);
+    this.oAuth2PermissionGrant = new operations.OAuth2PermissionGrantOperations(this);
   }
 }
 
