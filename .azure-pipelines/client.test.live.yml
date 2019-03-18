@@ -68,7 +68,10 @@ jobs:
           EVENTHUB_NAME: $(js-event-hubs-test-name)
           IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
           STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
-
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: '**/test-results.xml'
