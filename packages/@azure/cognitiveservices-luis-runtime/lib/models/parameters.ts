@@ -16,9 +16,52 @@ export const appId: msRest.OperationURLParameter = {
     required: true,
     serializedName: "appId",
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
+};
+export const azureCloud: msRest.OperationURLParameter = {
+  parameterPath: "azureCloud",
+  mapper: {
+    required: true,
+    serializedName: "AzureCloud",
+    defaultValue: 'com',
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "com",
+        "us"
+      ]
+    }
+  },
+  skipEncoding: true
+};
+export const azureRegion: msRest.OperationURLParameter = {
+  parameterPath: "azureRegion",
+  mapper: {
+    required: true,
+    serializedName: "AzureRegion",
+    defaultValue: 'westus',
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "westus",
+        "westeurope",
+        "southeastasia",
+        "eastus2",
+        "westcentralus",
+        "westus2",
+        "eastus",
+        "southcentralus",
+        "northeurope",
+        "eastasia",
+        "australiaeast",
+        "brazilsouth",
+        "virginia"
+      ]
+    }
+  },
+  skipEncoding: true
 };
 export const bingSpellCheckSubscriptionKey: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -31,18 +74,6 @@ export const bingSpellCheckSubscriptionKey: msRest.OperationQueryParameter = {
       name: "String"
     }
   }
-};
-export const endpoint: msRest.OperationURLParameter = {
-  parameterPath: "endpoint",
-  mapper: {
-    required: true,
-    serializedName: "Endpoint",
-    defaultValue: '',
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 export const log: msRest.OperationQueryParameter = {
   parameterPath: [
