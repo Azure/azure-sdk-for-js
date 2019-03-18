@@ -29,6 +29,7 @@ export {
   CloudToDeviceProperties,
   FeedbackProperties,
   OperationsMonitoringProperties,
+  IotHubPropertiesDeviceStreams,
   IotHubSkuInfo,
   ErrorDetails,
   TagsResource,
