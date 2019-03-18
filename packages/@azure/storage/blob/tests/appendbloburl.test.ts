@@ -4,6 +4,8 @@ import { Aborter } from "../lib/Aborter";
 import { AppendBlobURL } from "../lib/AppendBlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
 import { bodyToString, getBSU, getUniqueName } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("AppendBlobURL", () => {
   const serviceURL = getBSU();

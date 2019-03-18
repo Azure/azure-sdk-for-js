@@ -3,6 +3,8 @@ import * as assert from "assert";
 import { Aborter } from "../lib/Aborter";
 import { ContainerURL } from "../lib/ContainerURL";
 import { getBSU, getUniqueName } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
