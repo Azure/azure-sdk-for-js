@@ -1,7 +1,10 @@
 import * as assert from "assert";
+import chai from "chai"
+const expect = chai.expect;
 import { getKeyvaultName, getCredentialWithServicePrincipalSecret, getUniqueName } from "./utils/utils.common";
 import { SecretsClient, Pipeline } from "../lib/secretsClient";
 import { signingPolicy, exponentialRetryPolicy, deserializationPolicy, ServiceClientCredentials, RestError } from '@azure/ms-rest-js';
+import { stringify } from 'querystring';
 
 describe("Secret client", () => {
   let credential: ServiceClientCredentials;
@@ -47,6 +50,9 @@ describe("Secret client", () => {
     const secretName = getUniqueName("secret");
     const secretValue = getUniqueName("value");
     const expiryDate = new Date("3000-01-01");
+    after(async () => {
+      await client.deleteSecret(secretName);
+    });
     await client.setSecret(secretName, secretValue);
 
     await client.updateSecret(secretName, "", {
@@ -57,8 +63,8 @@ describe("Secret client", () => {
 
     const updated = await client.getSecret(secretName);
 
-    // The service seems to update the milliseconds part of the expiry date so just
-    // compare year, month, and date in assertion.
+    // TODO: Investigate. The service seems to change the milliseconds part of the expiry date.
+    // For now just compare year, month, and date in assertion.
     assert.ok(
       updated.attributes!.expires!.getUTCFullYear() === expiryDate.getUTCFullYear()
       && updated.attributes!.expires!.getUTCMonth() === expiryDate.getUTCMonth()
@@ -83,6 +89,38 @@ describe("Secret client", () => {
         throw e;
       }
     }
+  });
+
+  it("can retrieve all versions of a secret", async () => {
+    const secretName = getUniqueName("secret");
+    const secretValue1 = getUniqueName("value");
+    const secretValue2 = getUniqueName("value");
+    const secretValue3 = getUniqueName("value");
+    after(async () => {
+      await client.deleteSecret(secretName);
+    });
+
+    const secretValues = [ secretValue1, secretValue2, secretValue3 ];
+    interface versionValuePair { version: string, value: string }
+    let versions: versionValuePair[] = [];
+    for (const v of secretValues) {
+      const response = await client.setSecret(secretName, v);
+      versions.push({ version: response.version!, value: response.value! });
+    }
+
+    let results: versionValuePair[] = [];
+    for await (const item of client.getSecretVersions(secretName)) {
+      const version = item.version!;
+      const secret = await client.getSecret(secretName, version);
+      results.push({ version: item.version!, value: secret.value! });
+    }
+
+    const comp = (a: versionValuePair, b: versionValuePair) =>
+     (a.version + a.value).localeCompare(b.version + b.value);
+    results.sort(comp);
+    versions.sort(comp);
+
+    expect(results).to.deep.equal(versions);
   });
 
 });
