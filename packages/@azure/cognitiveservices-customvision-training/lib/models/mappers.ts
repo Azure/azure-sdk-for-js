@@ -26,7 +26,7 @@ export const Domain: msRest.CompositeMapper = {
         }
       },
       name: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "name",
         type: {
@@ -92,7 +92,6 @@ export const ImageTagCreateBatch: msRest.CompositeMapper = {
     className: "ImageTagCreateBatch",
     modelProperties: {
       tags: {
-        nullable: true,
         serializedName: "tags",
         type: {
           name: "Sequence",
@@ -164,6 +163,7 @@ export const ImageRegionCreateEntry: msRest.CompositeMapper = {
     className: "ImageRegionCreateEntry",
     modelProperties: {
       imageId: {
+        required: true,
         nullable: false,
         serializedName: "imageId",
         type: {
@@ -171,6 +171,7 @@ export const ImageRegionCreateEntry: msRest.CompositeMapper = {
         }
       },
       tagId: {
+        required: true,
         nullable: false,
         serializedName: "tagId",
         type: {
@@ -178,6 +179,7 @@ export const ImageRegionCreateEntry: msRest.CompositeMapper = {
         }
       },
       left: {
+        required: true,
         nullable: false,
         serializedName: "left",
         type: {
@@ -185,6 +187,7 @@ export const ImageRegionCreateEntry: msRest.CompositeMapper = {
         }
       },
       top: {
+        required: true,
         nullable: false,
         serializedName: "top",
         type: {
@@ -192,6 +195,7 @@ export const ImageRegionCreateEntry: msRest.CompositeMapper = {
         }
       },
       width: {
+        required: true,
         nullable: false,
         serializedName: "width",
         type: {
@@ -199,6 +203,7 @@ export const ImageRegionCreateEntry: msRest.CompositeMapper = {
         }
       },
       height: {
+        required: true,
         nullable: false,
         serializedName: "height",
         type: {
@@ -216,7 +221,6 @@ export const ImageRegionCreateBatch: msRest.CompositeMapper = {
     className: "ImageRegionCreateBatch",
     modelProperties: {
       regions: {
-        nullable: true,
         serializedName: "regions",
         type: {
           name: "Sequence",
@@ -255,7 +259,7 @@ export const ImageRegionCreateResult: msRest.CompositeMapper = {
         }
       },
       tagName: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "tagName",
         type: {
@@ -271,6 +275,7 @@ export const ImageRegionCreateResult: msRest.CompositeMapper = {
         }
       },
       tagId: {
+        required: true,
         nullable: false,
         serializedName: "tagId",
         type: {
@@ -278,6 +283,7 @@ export const ImageRegionCreateResult: msRest.CompositeMapper = {
         }
       },
       left: {
+        required: true,
         nullable: false,
         serializedName: "left",
         type: {
@@ -285,6 +291,7 @@ export const ImageRegionCreateResult: msRest.CompositeMapper = {
         }
       },
       top: {
+        required: true,
         nullable: false,
         serializedName: "top",
         type: {
@@ -292,6 +299,7 @@ export const ImageRegionCreateResult: msRest.CompositeMapper = {
         }
       },
       width: {
+        required: true,
         nullable: false,
         serializedName: "width",
         type: {
@@ -299,6 +307,7 @@ export const ImageRegionCreateResult: msRest.CompositeMapper = {
         }
       },
       height: {
+        required: true,
         nullable: false,
         serializedName: "height",
         type: {
@@ -373,7 +382,7 @@ export const ImageTag: msRest.CompositeMapper = {
         }
       },
       tagName: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "tagName",
         type: {
@@ -407,7 +416,7 @@ export const ImageRegion: msRest.CompositeMapper = {
         }
       },
       tagName: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "tagName",
         type: {
@@ -423,6 +432,7 @@ export const ImageRegion: msRest.CompositeMapper = {
         }
       },
       tagId: {
+        required: true,
         nullable: false,
         serializedName: "tagId",
         type: {
@@ -430,6 +440,7 @@ export const ImageRegion: msRest.CompositeMapper = {
         }
       },
       left: {
+        required: true,
         nullable: false,
         serializedName: "left",
         type: {
@@ -437,6 +448,7 @@ export const ImageRegion: msRest.CompositeMapper = {
         }
       },
       top: {
+        required: true,
         nullable: false,
         serializedName: "top",
         type: {
@@ -444,6 +456,7 @@ export const ImageRegion: msRest.CompositeMapper = {
         }
       },
       width: {
+        required: true,
         nullable: false,
         serializedName: "width",
         type: {
@@ -451,6 +464,7 @@ export const ImageRegion: msRest.CompositeMapper = {
         }
       },
       height: {
+        required: true,
         nullable: false,
         serializedName: "height",
         type: {
@@ -500,7 +514,7 @@ export const Image: msRest.CompositeMapper = {
         }
       },
       resizedImageUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "resizedImageUri",
         type: {
@@ -508,7 +522,7 @@ export const Image: msRest.CompositeMapper = {
         }
       },
       thumbnailUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "thumbnailUri",
         type: {
@@ -516,7 +530,7 @@ export const Image: msRest.CompositeMapper = {
         }
       },
       originalImageUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "originalImageUri",
         type: {
@@ -562,7 +576,7 @@ export const ImageCreateResult: msRest.CompositeMapper = {
     className: "ImageCreateResult",
     modelProperties: {
       sourceUrl: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "sourceUrl",
         type: {
@@ -578,6 +592,7 @@ export const ImageCreateResult: msRest.CompositeMapper = {
         }
       },
       image: {
+        nullable: false,
         readOnly: true,
         serializedName: "image",
         type: {
@@ -604,7 +619,6 @@ export const ImageCreateSummary: msRest.CompositeMapper = {
         }
       },
       images: {
-        nullable: true,
         readOnly: true,
         serializedName: "images",
         type: {
@@ -628,6 +642,7 @@ export const Region: msRest.CompositeMapper = {
     className: "Region",
     modelProperties: {
       tagId: {
+        required: true,
         nullable: false,
         serializedName: "tagId",
         type: {
@@ -635,6 +650,7 @@ export const Region: msRest.CompositeMapper = {
         }
       },
       left: {
+        required: true,
         nullable: false,
         serializedName: "left",
         type: {
@@ -642,6 +658,7 @@ export const Region: msRest.CompositeMapper = {
         }
       },
       top: {
+        required: true,
         nullable: false,
         serializedName: "top",
         type: {
@@ -649,6 +666,7 @@ export const Region: msRest.CompositeMapper = {
         }
       },
       width: {
+        required: true,
         nullable: false,
         serializedName: "width",
         type: {
@@ -656,6 +674,7 @@ export const Region: msRest.CompositeMapper = {
         }
       },
       height: {
+        required: true,
         nullable: false,
         serializedName: "height",
         type: {
@@ -673,21 +692,20 @@ export const ImageFileCreateEntry: msRest.CompositeMapper = {
     className: "ImageFileCreateEntry",
     modelProperties: {
       name: {
-        nullable: true,
+        nullable: false,
         serializedName: "name",
         type: {
           name: "String"
         }
       },
       contents: {
-        nullable: true,
+        nullable: false,
         serializedName: "contents",
         type: {
           name: "ByteArray"
         }
       },
       tagIds: {
-        nullable: true,
         serializedName: "tagIds",
         type: {
           name: "Sequence",
@@ -699,7 +717,6 @@ export const ImageFileCreateEntry: msRest.CompositeMapper = {
         }
       },
       regions: {
-        nullable: true,
         serializedName: "regions",
         type: {
           name: "Sequence",
@@ -722,7 +739,6 @@ export const ImageFileCreateBatch: msRest.CompositeMapper = {
     className: "ImageFileCreateBatch",
     modelProperties: {
       images: {
-        nullable: true,
         serializedName: "images",
         type: {
           name: "Sequence",
@@ -735,7 +751,6 @@ export const ImageFileCreateBatch: msRest.CompositeMapper = {
         }
       },
       tagIds: {
-        nullable: true,
         serializedName: "tagIds",
         type: {
           name: "Sequence",
@@ -757,14 +772,14 @@ export const ImageUrlCreateEntry: msRest.CompositeMapper = {
     className: "ImageUrlCreateEntry",
     modelProperties: {
       url: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "url",
         type: {
           name: "String"
         }
       },
       tagIds: {
-        nullable: true,
         serializedName: "tagIds",
         type: {
           name: "Sequence",
@@ -776,7 +791,6 @@ export const ImageUrlCreateEntry: msRest.CompositeMapper = {
         }
       },
       regions: {
-        nullable: true,
         serializedName: "regions",
         type: {
           name: "Sequence",
@@ -799,7 +813,6 @@ export const ImageUrlCreateBatch: msRest.CompositeMapper = {
     className: "ImageUrlCreateBatch",
     modelProperties: {
       images: {
-        nullable: true,
         serializedName: "images",
         type: {
           name: "Sequence",
@@ -812,7 +825,6 @@ export const ImageUrlCreateBatch: msRest.CompositeMapper = {
         }
       },
       tagIds: {
-        nullable: true,
         serializedName: "tagIds",
         type: {
           name: "Sequence",
@@ -841,7 +853,6 @@ export const ImageIdCreateEntry: msRest.CompositeMapper = {
         }
       },
       tagIds: {
-        nullable: true,
         serializedName: "tagIds",
         type: {
           name: "Sequence",
@@ -853,7 +864,6 @@ export const ImageIdCreateEntry: msRest.CompositeMapper = {
         }
       },
       regions: {
-        nullable: true,
         serializedName: "regions",
         type: {
           name: "Sequence",
@@ -876,7 +886,6 @@ export const ImageIdCreateBatch: msRest.CompositeMapper = {
     className: "ImageIdCreateBatch",
     modelProperties: {
       images: {
-        nullable: true,
         serializedName: "images",
         type: {
           name: "Sequence",
@@ -889,7 +898,6 @@ export const ImageIdCreateBatch: msRest.CompositeMapper = {
         }
       },
       tagIds: {
-        nullable: true,
         serializedName: "tagIds",
         type: {
           name: "Sequence",
@@ -911,6 +919,7 @@ export const BoundingBox: msRest.CompositeMapper = {
     className: "BoundingBox",
     modelProperties: {
       left: {
+        required: true,
         nullable: false,
         serializedName: "left",
         type: {
@@ -918,6 +927,7 @@ export const BoundingBox: msRest.CompositeMapper = {
         }
       },
       top: {
+        required: true,
         nullable: false,
         serializedName: "top",
         type: {
@@ -925,6 +935,7 @@ export const BoundingBox: msRest.CompositeMapper = {
         }
       },
       width: {
+        required: true,
         nullable: false,
         serializedName: "width",
         type: {
@@ -932,6 +943,7 @@ export const BoundingBox: msRest.CompositeMapper = {
         }
       },
       height: {
+        required: true,
         nullable: false,
         serializedName: "height",
         type: {
@@ -957,6 +969,7 @@ export const RegionProposal: msRest.CompositeMapper = {
         }
       },
       boundingBox: {
+        nullable: false,
         readOnly: true,
         serializedName: "boundingBox",
         type: {
@@ -991,7 +1004,6 @@ export const ImageRegionProposal: msRest.CompositeMapper = {
         }
       },
       proposals: {
-        nullable: true,
         readOnly: true,
         serializedName: "proposals",
         type: {
@@ -1015,7 +1027,8 @@ export const ImageUrl: msRest.CompositeMapper = {
     className: "ImageUrl",
     modelProperties: {
       url: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "url",
         type: {
           name: "String"
@@ -1056,6 +1069,7 @@ export const Prediction: msRest.CompositeMapper = {
         }
       },
       boundingBox: {
+        nullable: true,
         readOnly: true,
         serializedName: "boundingBox",
         type: {
@@ -1106,7 +1120,6 @@ export const ImagePrediction: msRest.CompositeMapper = {
         }
       },
       predictions: {
-        nullable: true,
         readOnly: true,
         serializedName: "predictions",
         type: {
@@ -1164,14 +1177,14 @@ export const PredictionQueryToken: msRest.CompositeMapper = {
     className: "PredictionQueryToken",
     modelProperties: {
       session: {
-        nullable: true,
+        nullable: false,
         serializedName: "session",
         type: {
           name: "String"
         }
       },
       continuation: {
-        nullable: true,
+        nullable: false,
         serializedName: "continuation",
         type: {
           name: "String"
@@ -1192,7 +1205,6 @@ export const PredictionQueryToken: msRest.CompositeMapper = {
         }
       },
       tags: {
-        nullable: true,
         serializedName: "tags",
         type: {
           name: "Sequence",
@@ -1226,7 +1238,7 @@ export const PredictionQueryToken: msRest.CompositeMapper = {
         }
       },
       application: {
-        nullable: true,
+        nullable: false,
         serializedName: "application",
         type: {
           name: "String"
@@ -1243,7 +1255,7 @@ export const StoredImagePrediction: msRest.CompositeMapper = {
     className: "StoredImagePrediction",
     modelProperties: {
       resizedImageUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "resizedImageUri",
         type: {
@@ -1251,7 +1263,7 @@ export const StoredImagePrediction: msRest.CompositeMapper = {
         }
       },
       thumbnailUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "thumbnailUri",
         type: {
@@ -1259,7 +1271,7 @@ export const StoredImagePrediction: msRest.CompositeMapper = {
         }
       },
       originalImageUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "originalImageUri",
         type: {
@@ -1307,7 +1319,6 @@ export const StoredImagePrediction: msRest.CompositeMapper = {
         }
       },
       predictions: {
-        nullable: true,
         readOnly: true,
         serializedName: "predictions",
         type: {
@@ -1331,6 +1342,7 @@ export const PredictionQueryResult: msRest.CompositeMapper = {
     className: "PredictionQueryResult",
     modelProperties: {
       token: {
+        nullable: false,
         readOnly: true,
         serializedName: "token",
         type: {
@@ -1339,7 +1351,6 @@ export const PredictionQueryResult: msRest.CompositeMapper = {
         }
       },
       results: {
-        nullable: true,
         readOnly: true,
         serializedName: "results",
         type: {
@@ -1371,7 +1382,7 @@ export const TagPerformance: msRest.CompositeMapper = {
         }
       },
       name: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "name",
         type: {
@@ -1429,7 +1440,6 @@ export const IterationPerformance: msRest.CompositeMapper = {
     className: "IterationPerformance",
     modelProperties: {
       perTagPerformance: {
-        nullable: true,
         readOnly: true,
         serializedName: "perTagPerformance",
         type: {
@@ -1539,7 +1549,7 @@ export const ImagePerformance: msRest.CompositeMapper = {
         }
       },
       imageUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "imageUri",
         type: {
@@ -1547,7 +1557,7 @@ export const ImagePerformance: msRest.CompositeMapper = {
         }
       },
       thumbnailUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "thumbnailUri",
         type: {
@@ -1605,6 +1615,17 @@ export const ProjectSettings: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      targetExportPlatforms: {
+        serializedName: "targetExportPlatforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1625,20 +1646,24 @@ export const Project: msRest.CompositeMapper = {
         }
       },
       name: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "name",
         type: {
           name: "String"
         }
       },
       description: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "description",
         type: {
           name: "String"
         }
       },
       settings: {
+        required: true,
+        nullable: false,
         serializedName: "settings",
         type: {
           name: "Composite",
@@ -1662,11 +1687,19 @@ export const Project: msRest.CompositeMapper = {
         }
       },
       thumbnailUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "thumbnailUri",
         type: {
           name: "String"
+        }
+      },
+      drModeEnabled: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "drModeEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1688,21 +1721,15 @@ export const Iteration: msRest.CompositeMapper = {
         }
       },
       name: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "name",
         type: {
           name: "String"
         }
       },
-      isDefault: {
-        nullable: false,
-        serializedName: "isDefault",
-        type: {
-          name: "Boolean"
-        }
-      },
       status: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "status",
         type: {
@@ -1749,6 +1776,18 @@ export const Iteration: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      exportableTo: {
+        readOnly: true,
+        serializedName: "exportableTo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       domainId: {
         nullable: true,
         readOnly: true,
@@ -1761,6 +1800,30 @@ export const Iteration: msRest.CompositeMapper = {
         nullable: true,
         readOnly: true,
         serializedName: "classificationType",
+        type: {
+          name: "String"
+        }
+      },
+      trainingType: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "trainingType",
+        type: {
+          name: "String"
+        }
+      },
+      reservedBudgetInHours: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "reservedBudgetInHours",
+        type: {
+          name: "Number"
+        }
+      },
+      publishName: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "publishName",
         type: {
           name: "String"
         }
@@ -1792,7 +1855,7 @@ export const ExportModel: msRest.CompositeMapper = {
         }
       },
       downloadUri: {
-        nullable: true,
+        nullable: false,
         readOnly: true,
         serializedName: "downloadUri",
         type: {
@@ -1834,20 +1897,23 @@ export const Tag: msRest.CompositeMapper = {
         }
       },
       name: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "name",
         type: {
           name: "String"
         }
       },
       description: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "description",
         type: {
           name: "String"
         }
       },
       type: {
+        required: true,
         nullable: false,
         serializedName: "type",
         type: {
@@ -1860,6 +1926,30 @@ export const Tag: msRest.CompositeMapper = {
         serializedName: "imageCount",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CustomVisionError: msRest.CompositeMapper = {
+  serializedName: "CustomVisionError",
+  type: {
+    name: "Composite",
+    className: "CustomVisionError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
         }
       }
     }
