@@ -22,7 +22,6 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
   deletedApplications: operations.DeletedApplications;
   groups: operations.Groups;
   servicePrincipals: operations.ServicePrincipals;
-  servicePrincipalsByAppId: operations.ServicePrincipalsByAppId;
   users: operations.Users;
   objects: operations.Objects;
   domains: operations.Domains;
@@ -42,7 +41,6 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
     this.deletedApplications = new operations.DeletedApplications(this);
     this.groups = new operations.Groups(this);
     this.servicePrincipals = new operations.ServicePrincipals(this);
-    this.servicePrincipalsByAppId = new operations.ServicePrincipalsByAppId(this);
     this.users = new operations.Users(this);
     this.objects = new operations.Objects(this);
     this.domains = new operations.Domains(this);

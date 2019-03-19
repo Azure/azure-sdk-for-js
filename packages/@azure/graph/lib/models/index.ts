@@ -2069,6 +2069,25 @@ export type ApplicationsListPasswordCredentialsResponse = PasswordCredentialList
 };
 
 /**
+ * Contains response data for the getServicePrincipalsIdByAppId operation.
+ */
+export type ApplicationsGetServicePrincipalsIdByAppIdResponse = ServicePrincipalObjectResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServicePrincipalObjectResult;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type ApplicationsListNextResponse = ApplicationListResult & {
@@ -2502,25 +2521,6 @@ export type ServicePrincipalsListOwnersNextResponse = DirectoryObjectListResult 
        * The response body as parsed JSON or XML
        */
       parsedBody: DirectoryObjectListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServicePrincipalsByAppIdGetResponse = ServicePrincipalObjectResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicePrincipalObjectResult;
     };
 };
 
