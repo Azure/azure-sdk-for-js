@@ -9,6 +9,7 @@
 export {
   discriminators,
   AgentPool,
+  AgentPoolListResult,
   BaseResource,
   CloudError,
   ContainerService,
@@ -24,8 +25,6 @@ export {
   ContainerServiceSshPublicKey,
   ContainerServiceVMDiagnostics,
   ContainerServiceWindowsProfile,
-  CredentialResult,
-  CredentialResults,
   KeyVaultSecretRef,
   ManagedCluster,
   ManagedClusterAADProfile,
@@ -33,10 +32,7 @@ export {
   ManagedClusterAddonProfile,
   ManagedClusterAgentPoolProfile,
   ManagedClusterAgentPoolProfileProperties,
-  ManagedClusterListResult,
-  ManagedClusterPoolUpgradeProfile,
   ManagedClusterServicePrincipalProfile,
-  ManagedClusterUpgradeProfile,
   NetworkProfile,
   OpenShiftManagedCluster,
   OpenShiftManagedClusterAADIdentityProvider,
@@ -48,6 +44,5 @@ export {
   OpenShiftRouterProfile,
   PurchasePlan,
   Resource,
-  SubResource,
-  TagsObject
+  SubResource
 } from "../models/mappers";
