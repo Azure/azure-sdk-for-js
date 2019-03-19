@@ -9,34 +9,27 @@
       "request": "launch",
       "name": "Mocha Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": [
-        //"-r",
-        //"ts-node/register",
-        "-u",
-        "tdd",
-        "--colors",
-        "${workspaceFolder}/dist-commonjs/src/test/**/*.js",
-        "-g",
-        ".*Single Boundary Case Query Range.*"
-      ],
+      "outFiles": ["${workspaceFolder}/dist-esm/**/*.js"],
+      "preLaunchTask": "npm: compile",
+      "args": ["-r", "esm", "-r", "test/common/setup.js", "${workspaceFolder}/test/**/*.spec.js"],
       "internalConsoleOptions": "openOnSessionStart",
       "env": {
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}",
         "MOCHA_TIMEOUT": "999999"
       },
       "protocol": "inspector"
     },
     {
       "type": "node",
-      "request": "attach",
+      "request": "launch",
       "name": "Attach by Process ID",
       "processId": "${command:PickProcess}"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/samples/TodoApp/bin/www"
+      "name": "build",
+      "program": "${workspaceFolder}/node_modules/typescript/bin/tsc",
+      "args": ["-b --verbose"]
     },
     {
       "type": "node",

@@ -1,5 +1,3 @@
-import { version } from "../../package.json";
-
 export const Constants = {
   MediaTypes: {
     Any: "*/*",
@@ -169,7 +167,7 @@ export const Constants = {
   CurrentVersion: "2018-06-18",
 
   SDKName: "azure-cosmos-js",
-  SDKVersion: version,
+  SDKVersion: "REPLACE_SDK_VERSION",
 
   DefaultPrecisions: {
     DefaultNumberHashPrecision: 3,

@@ -20,21 +20,19 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "clean": "rimraf dist && rimraf dist-esm && rimraf dist-test",
+    "clean": "rimraf dist && rimraf dist-esm",
     "lint": "tslint --project tsconfig.json",
-    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
-    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
-    "compile": "echo Using TypeScript && tsc --version && tsc --pretty",
-    "compile-commonjs": "echo Using TypeScript && tsc --version && tsc --pretty -p ./tsconfig.commonjs.json",
-    "docs": "typedoc --excludePrivate --exclude \"**/test/**\" --mode file --out ./dist/docs ./src",
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\"",
+    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\"",
+    "compile": "echo Using TypeScript && tsc --version && tsc -b --pretty",
+    "docs": "typedoc --tsconfig ./src/tsconfig.json --excludePrivate --mode file --out ./dist/docs ./src",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
-    "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run bundle && npm run bundle-types",
-    "test:ci": "npm test -- --forbid-only ",
-    "test": "mocha -r ./src/test/common/setup.ts ./dist-test/index.js --timeout 100000 -i",
+    "build": "npm run clean && npm run check-format && npm run lint && npm run compile && node writeSDKVersion.js && npm run docs && npm run bundle && npm run bundle-types",
+    "test": "tsc -b --verbose && mocha -r esm -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000",
     "prepack": "npm install && npm run build",
     "test-browser": "karma start ./karma.config.js --single-run",
-    "ci": "npm run build && npm run test && node ts-test.js"
+    "ci": "npm run build && npm run test -- --forbid-only && node consumer-test.js"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "6.3.0",
@@ -46,6 +44,7 @@
     "@types/tunnel": "^0.0.0",
     "@types/underscore": "^1.8.8",
     "cross-env": "5.2.0",
+    "esm": "3.2.18",
     "execa": "1.0.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -59,7 +58,7 @@
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.15.0",
     "mocha-multi-reporters": "^1.1.6",
-    "prettier": "^1.14.0",
+    "prettier": "1.14.3",
     "proxy-agent": "3.0.3",
     "requirejs": "^2.3.5",
     "rollup": "^0.64.1",
@@ -67,11 +66,12 @@
     "rollup-plugin-local-resolve": "^1.0.7",
     "rollup-plugin-multi-entry": "2.0.2",
     "sinon": "^5.1.1",
+    "source-map-support": "0.5.11",
     "ts-node": "^8.0.2",
     "tslint": "5.11.0",
     "tslint-config-prettier": "^1.14.0",
     "typedoc": "0.13.0",
-    "typescript": "3.2.2"
+    "typescript": "3.4.0-rc"
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",

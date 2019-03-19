@@ -1,27 +1,5 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "./dist-esm",
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "target": "es6",
-    "sourceMap": true,
-    "newLine": "LF",
-    "resolveJsonModule": true
-  },
-  "include": [
-    "./src/**/*",
-    "./test/**/*.spec.ts",
-    "./samples/MultiRegionWrite/**.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "samples"
-  ]
+  "compilerOptions": {},
+  "files": [],
+  "references": [{ "path": "./src" }, { "path": "./test" }]
 }
