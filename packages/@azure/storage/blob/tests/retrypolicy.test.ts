@@ -7,6 +7,8 @@ import { ContainerURL } from "../lib/ContainerURL";
 import { Pipeline } from "../lib/Pipeline";
 import { getBSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("RetryPolicy", () => {
   const serviceURL = getBSU();
