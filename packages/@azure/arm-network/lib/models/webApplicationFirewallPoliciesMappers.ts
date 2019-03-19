@@ -106,7 +106,6 @@ export {
   InboundNatPool,
   InboundNatRule,
   InterfaceEndpoint,
-  IPAddressAvailabilityResult,
   IPConfiguration,
   IPConfigurationProfile,
   IpsecPolicy,
@@ -160,7 +159,6 @@ export {
   ServiceEndpointPropertiesFormat,
   Subnet,
   SubResource,
-  TagsObject,
   TunnelConnectionHealth,
   VirtualHub,
   VirtualHubId,
@@ -173,12 +171,8 @@ export {
   VirtualNetworkGatewayConnectionListEntity,
   VirtualNetworkGatewayIPConfiguration,
   VirtualNetworkGatewaySku,
-  VirtualNetworkListResult,
-  VirtualNetworkListUsageResult,
   VirtualNetworkPeering,
   VirtualNetworkTap,
-  VirtualNetworkUsage,
-  VirtualNetworkUsageName,
   VirtualWAN,
   VpnClientConfiguration,
   VpnClientConnectionHealth,
@@ -188,5 +182,6 @@ export {
   VpnGateway,
   VpnSite,
   WebApplicationFirewallCustomRule,
-  WebApplicationFirewallPolicy
+  WebApplicationFirewallPolicy,
+  WebApplicationFirewallPolicyListResult
 } from "../models/mappers";
