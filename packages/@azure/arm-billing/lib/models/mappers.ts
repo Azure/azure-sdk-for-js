@@ -1618,6 +1618,25 @@ export const Policy: msRest.CompositeMapper = {
   }
 };
 
+export const AvailableBalance: msRest.CompositeMapper = {
+  serializedName: "AvailableBalance",
+  type: {
+    name: "Composite",
+    className: "AvailableBalance",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      amount: {
+        readOnly: true,
+        serializedName: "properties.amount",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      }
+    }
+  }
+};
+
 export const PaymentMethod: msRest.CompositeMapper = {
   serializedName: "PaymentMethod",
   type: {

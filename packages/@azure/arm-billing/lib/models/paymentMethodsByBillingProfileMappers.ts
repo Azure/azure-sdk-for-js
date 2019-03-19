@@ -32,6 +32,7 @@ export {
   BillingSubscriptionSummary,
   EnrollmentAccountContext,
   TransactionsSummary,
-  Policy
+  Policy,
+  AvailableBalance
 } from "../models/mappers";
 

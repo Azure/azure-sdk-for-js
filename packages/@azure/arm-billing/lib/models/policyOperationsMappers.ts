@@ -31,6 +31,7 @@ export {
   BillingSubscriptionSummary,
   EnrollmentAccountContext,
   TransactionsSummary,
+  AvailableBalance,
   PaymentMethod
 } from "../models/mappers";
 

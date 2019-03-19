@@ -1298,6 +1298,22 @@ export interface Policy extends Resource {
 
 /**
  * @interface
+ * An interface representing AvailableBalance.
+ * Latest available balance on Monetary Credit PI.
+ *
+ * @extends Resource
+ */
+export interface AvailableBalance extends Resource {
+  /**
+   * @member {Amount} [amount] Balance Amount.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly amount?: Amount;
+}
+
+/**
+ * @interface
  * An interface representing PaymentMethod.
  * A payment method resource.
  *
@@ -2139,6 +2155,25 @@ export type BillingAccountsWithCreateInvoiceSectionPermissionListResponse = Bill
        * The response body as parsed JSON or XML
        */
       parsedBody: BillingAccountListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AvailableBalanceByBillingProfileGetResponse = AvailableBalance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailableBalance;
     };
 };
 

@@ -34,6 +34,7 @@ export {
   ProductSummary,
   TransactionsSummary,
   Policy,
+  AvailableBalance,
   PaymentMethod
 } from "../models/mappers";
 

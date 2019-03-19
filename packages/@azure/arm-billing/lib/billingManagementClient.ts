@@ -20,6 +20,7 @@ class BillingManagementClient extends BillingManagementClientContext {
   // Operation groups
   billingAccounts: operations.BillingAccounts;
   billingAccountsWithCreateInvoiceSectionPermission: operations.BillingAccountsWithCreateInvoiceSectionPermission;
+  availableBalanceByBillingProfile: operations.AvailableBalanceByBillingProfile;
   paymentMethodsByBillingProfile: operations.PaymentMethodsByBillingProfile;
   billingProfilesByBillingAccountId: operations.BillingProfilesByBillingAccountId;
   billingProfiles: operations.BillingProfiles;
@@ -56,6 +57,7 @@ class BillingManagementClient extends BillingManagementClientContext {
     super(credentials, subscriptionId, options);
     this.billingAccounts = new operations.BillingAccounts(this);
     this.billingAccountsWithCreateInvoiceSectionPermission = new operations.BillingAccountsWithCreateInvoiceSectionPermission(this);
+    this.availableBalanceByBillingProfile = new operations.AvailableBalanceByBillingProfile(this);
     this.paymentMethodsByBillingProfile = new operations.PaymentMethodsByBillingProfile(this);
     this.billingProfilesByBillingAccountId = new operations.BillingProfilesByBillingAccountId(this);
     this.billingProfiles = new operations.BillingProfiles(this);

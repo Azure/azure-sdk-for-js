@@ -10,6 +10,7 @@
 
 export * from "./billingAccounts";
 export * from "./billingAccountsWithCreateInvoiceSectionPermission";
+export * from "./availableBalanceByBillingProfile";
 export * from "./paymentMethodsByBillingProfile";
 export * from "./billingProfilesByBillingAccountId";
 export * from "./billingProfiles";

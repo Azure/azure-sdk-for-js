@@ -33,6 +33,7 @@ export {
   EnrollmentAccountContext,
   TransactionsSummary,
   Policy,
+  AvailableBalance,
   PaymentMethod
 } from "../models/mappers";
 

@@ -9,22 +9,22 @@
  */
 
 export {
-  BillingProfile,
+  AvailableBalance,
   Resource,
   BaseResource,
+  Amount,
+  ErrorResponse,
+  ErrorDetails,
+  BillingProfile,
   Address,
   EnabledAzureSKUs,
   InvoiceSection,
-  ErrorResponse,
-  ErrorDetails,
-  BillingProfilesUpdateHeaders,
   EnrollmentAccount,
   Department,
   BillingAccount,
   Enrollment,
   EnrollmentPolicies,
   InvoiceSummary,
-  Amount,
   DownloadProperties,
   PaymentProperties,
   ProductSummary,
@@ -32,7 +32,6 @@ export {
   EnrollmentAccountContext,
   TransactionsSummary,
   Policy,
-  AvailableBalance,
   PaymentMethod
 } from "../models/mappers";
 
