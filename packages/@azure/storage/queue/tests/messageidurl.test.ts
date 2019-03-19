@@ -5,6 +5,8 @@ import { QueueURL } from "../lib/QueueURL";
 import { MessagesURL } from "../lib/MessagesURL";
 import { MessageIdURL } from "../lib/MessageIdURL";
 import { getQSU, getUniqueName, sleep } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("MessageIdURL", () => {
   const serviceURL = getQSU();

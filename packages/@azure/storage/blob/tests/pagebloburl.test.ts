@@ -5,6 +5,8 @@ import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
 import { PageBlobURL } from "../lib/PageBlobURL";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();

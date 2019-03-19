@@ -4,6 +4,8 @@ import { Aborter } from "../lib/Aborter";
 import { ContainerURL } from "../lib/ContainerURL";
 import { ServiceURL } from "../lib/ServiceURL";
 import { getAlternateBSU, getBSU, getUniqueName, wait } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("ServiceURL", () => {
   it("ListContainers with default parameters", async () => {
