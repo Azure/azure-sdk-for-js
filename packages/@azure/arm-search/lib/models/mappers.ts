@@ -134,7 +134,9 @@ export const Sku: msRest.CompositeMapper = {
             "basic",
             "standard",
             "standard2",
-            "standard3"
+            "standard3",
+            "storage_optimized_l1",
+            "storage_optimized_l2"
           ]
         }
       }
@@ -304,11 +306,13 @@ export const Identity: msRest.CompositeMapper = {
       },
       type: {
         required: true,
-        isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "SystemAssigned"
+          ]
         }
       }
     }

@@ -123,10 +123,13 @@ export interface Sku {
    * include: 'free': Shared service. 'basic': Dedicated service with up to 3
    * replicas. 'standard': Dedicated service with up to 12 partitions and 12
    * replicas. 'standard2': Similar to standard, but with more capacity per
-   * search unit. 'standard3': Offers maximum capacity per search unit with up
-   * to 12 partitions and 12 replicas (or up to 3 partitions with more indexes
-   * if you also set the hostingMode property to 'highDensity'). Possible
-   * values include: 'free', 'basic', 'standard', 'standard2', 'standard3'
+   * search unit. 'standard3': The largest Standard offering with up to 12
+   * partitions and 12 replicas (or up to 3 partitions with more indexes if you
+   * also set the hostingMode property to 'highDensity').
+   * 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions.
+   * 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'.
+   * Possible values include: 'free', 'basic', 'standard', 'standard2',
+   * 'standard3', 'storage_optimized_l1', 'storage_optimized_l2'
    */
   name?: SkuName;
 }
@@ -278,6 +281,11 @@ export interface Identity {
    * the server.**
    */
   readonly tenantId?: string;
+  /**
+   * @member {IdentityType} type The identity type. Possible values include:
+   * 'None', 'SystemAssigned'
+   */
+  type: IdentityType;
 }
 
 /**
@@ -505,6 +513,21 @@ export interface ServicesListByResourceGroupOptionalParams extends msRest.Reques
 
 /**
  * @interface
+ * An interface representing ServicesListBySubscriptionOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ServicesListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {SearchManagementRequestOptions} [searchManagementRequestOptions]
+   * Additional parameters for the operation
+   */
+  searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+/**
+ * @interface
  * An interface representing ServicesCheckNameAvailabilityOptionalParams.
  * Optional Parameters.
  *
@@ -594,11 +617,12 @@ export type UnavailableNameReason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'free', 'basic', 'standard', 'standard2', 'standard3'
+ * Possible values include: 'free', 'basic', 'standard', 'standard2', 'standard3',
+ * 'storage_optimized_l1', 'storage_optimized_l2'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'free' | 'basic' | 'standard' | 'standard2' | 'standard3';
+export type SkuName = 'free' | 'basic' | 'standard' | 'standard2' | 'standard3' | 'storage_optimized_l1' | 'storage_optimized_l2';
 
 /**
  * Defines values for HostingMode.
@@ -623,6 +647,14 @@ export type SearchServiceStatus = 'running' | 'provisioning' | 'deleting' | 'deg
  * @enum {string}
  */
 export type ProvisioningState = 'succeeded' | 'provisioning' | 'failed';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'None', 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'None' | 'SystemAssigned';
 
 /**
  * Defines values for AdminKeyKind.
@@ -788,6 +820,25 @@ export type ServicesGetResponse = SearchService & {
  * Contains response data for the listByResourceGroup operation.
  */
 export type ServicesListByResourceGroupResponse = SearchServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ServicesListBySubscriptionResponse = SearchServiceListResult & {
   /**
    * The underlying HTTP response.
    */
