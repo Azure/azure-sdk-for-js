@@ -120,6 +120,11 @@ export namespace ConnectionContext {
       // Remove all the links and sessions for this AMQP connection.
        connectionContext.connection.removeAllSessions();
 
+         // Close the cbs session
+         await connectionContext.cbsSession.close();
+         // Close the management session
+         await connectionContext.managementSession!.close();
+
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connection.id, state);
