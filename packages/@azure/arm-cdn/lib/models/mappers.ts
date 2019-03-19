@@ -170,8 +170,24 @@ export const DirectConnection: msRest.CompositeMapper = {
   }
 };
 
+export const SubResource: msRest.CompositeMapper = {
+  serializedName: "SubResource",
+  type: {
+    name: "Composite",
+    className: "SubResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PeeringPropertiesDirect: msRest.CompositeMapper = {
-  serializedName: "PeeringPropertiesDirect",
+  serializedName: "Direct",
   type: {
     name: "Composite",
     className: "PeeringPropertiesDirect",
@@ -188,16 +204,17 @@ export const PeeringPropertiesDirect: msRest.CompositeMapper = {
           }
         }
       },
-      peerAsn: {
-        serializedName: "peerAsn",
-        type: {
-          name: "Number"
-        }
-      },
       useForPeeringService: {
         serializedName: "useForPeeringService",
         type: {
           name: "Boolean"
+        }
+      },
+      peerAsn: {
+        serializedName: "peerAsn",
+        type: {
+          name: "Composite",
+          className: "SubResource"
         }
       }
     }
@@ -235,7 +252,7 @@ export const ExchangeConnection: msRest.CompositeMapper = {
 };
 
 export const PeeringPropertiesExchange: msRest.CompositeMapper = {
-  serializedName: "PeeringPropertiesExchange",
+  serializedName: "Exchange",
   type: {
     name: "Composite",
     className: "PeeringPropertiesExchange",
@@ -255,7 +272,8 @@ export const PeeringPropertiesExchange: msRest.CompositeMapper = {
       peerAsn: {
         serializedName: "peerAsn",
         type: {
-          name: "Number"
+          name: "Composite",
+          className: "SubResource"
         }
       }
     }
@@ -266,6 +284,11 @@ export const Peering: msRest.CompositeMapper = {
   serializedName: "Peering",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    uberParent: "Peering",
     className: "Peering",
     modelProperties: {
       sku: {
@@ -586,7 +609,7 @@ export const PeeringBandwidthOffer: msRest.CompositeMapper = {
 };
 
 export const PeeringLocationPropertiesDirect: msRest.CompositeMapper = {
-  serializedName: "PeeringLocationPropertiesDirect",
+  serializedName: "Direct",
   type: {
     name: "Composite",
     className: "PeeringLocationPropertiesDirect",
@@ -678,7 +701,7 @@ export const ExchangePeeringFacility: msRest.CompositeMapper = {
 };
 
 export const PeeringLocationPropertiesExchange: msRest.CompositeMapper = {
-  serializedName: "PeeringLocationPropertiesExchange",
+  serializedName: "Exchange",
   type: {
     name: "Composite",
     className: "PeeringLocationPropertiesExchange",
@@ -703,19 +726,25 @@ export const PeeringLocation: msRest.CompositeMapper = {
   serializedName: "PeeringLocation",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    uberParent: "PeeringLocation",
     className: "PeeringLocation",
     modelProperties: {
-      kind: {
-        serializedName: "kind",
-        type: {
-          name: "String"
-        }
-      },
       direct: {
         serializedName: "properties.direct",
         type: {
           name: "Composite",
           className: "PeeringLocationPropertiesDirect"
+        }
+      },
+      kind: {
+        required: true,
+        serializedName: "kind",
+        type: {
+          name: "String"
         }
       },
       exchange: {
@@ -899,4 +928,9 @@ export const PeeringLocationListResult: msRest.CompositeMapper = {
       }
     }
   }
+};
+
+export const discriminators = {
+  'BaseResource.Peering' : Peering,
+  'PeeringLocation' : PeeringLocation
 };

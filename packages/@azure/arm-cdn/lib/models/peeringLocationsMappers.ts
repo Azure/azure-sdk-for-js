@@ -9,6 +9,7 @@
  */
 
 export {
+  discriminators,
   PeeringLocationListResult,
   PeeringLocation,
   PeeringLocationPropertiesDirect,

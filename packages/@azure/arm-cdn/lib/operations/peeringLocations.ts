@@ -32,19 +32,19 @@ export class PeeringLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringLocationsListResponse>
    */
-  list(kind: Models.Kind2, options?: msRest.RequestOptionsBase): Promise<Models.PeeringLocationsListResponse>;
+  list(kind: Models.Kind1, options?: msRest.RequestOptionsBase): Promise<Models.PeeringLocationsListResponse>;
   /**
    * @param kind The kind of the peering. Possible values include: 'Direct', 'Exchange'
    * @param callback The callback
    */
-  list(kind: Models.Kind2, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
+  list(kind: Models.Kind1, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
   /**
    * @param kind The kind of the peering. Possible values include: 'Direct', 'Exchange'
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(kind: Models.Kind2, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
-  list(kind: Models.Kind2, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringLocationListResult>): Promise<Models.PeeringLocationsListResponse> {
+  list(kind: Models.Kind1, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
+  list(kind: Models.Kind1, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringLocationListResult>): Promise<Models.PeeringLocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         kind,

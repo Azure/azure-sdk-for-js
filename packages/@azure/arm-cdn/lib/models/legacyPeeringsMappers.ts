@@ -9,6 +9,7 @@
  */
 
 export {
+  discriminators,
   PeeringListResult,
   Peering,
   BaseResource,
@@ -16,6 +17,7 @@ export {
   PeeringPropertiesDirect,
   DirectConnection,
   BgpSession,
+  SubResource,
   PeeringPropertiesExchange,
   ExchangeConnection,
   ErrorResponse,

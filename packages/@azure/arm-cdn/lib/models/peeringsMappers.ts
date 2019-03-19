@@ -9,12 +9,14 @@
  */
 
 export {
+  discriminators,
   Peering,
   BaseResource,
   PeeringSku,
   PeeringPropertiesDirect,
   DirectConnection,
   BgpSession,
+  SubResource,
   PeeringPropertiesExchange,
   ExchangeConnection,
   ErrorResponse,

@@ -9,6 +9,7 @@
  */
 
 export {
+  discriminators,
   PeerAsn,
   BaseResource,
   ContactInfo,
@@ -19,6 +20,7 @@ export {
   PeeringPropertiesDirect,
   DirectConnection,
   BgpSession,
+  SubResource,
   PeeringPropertiesExchange,
   ExchangeConnection
 } from "../models/mappers";
