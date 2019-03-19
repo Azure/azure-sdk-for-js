@@ -449,156 +449,6 @@ export interface PricesheetDownloadResponse extends Resource {
 
 /**
  * @interface
- * An interface representing BudgetTimePeriod.
- * The start and end date for a budget.
- *
- */
-export interface BudgetTimePeriod {
-  /**
-   * @member {Date} startDate The start date for the budget.
-   */
-  startDate: Date;
-  /**
-   * @member {Date} [endDate] The end date for the budget. If not provided, we
-   * default this to 10 years from the start date.
-   */
-  endDate?: Date;
-}
-
-/**
- * @interface
- * An interface representing CurrentSpend.
- * The current amount of cost which is being tracked for a budget.
- *
- */
-export interface CurrentSpend {
-  /**
-   * @member {number} [amount] The total amount of cost which is being tracked
-   * by the budget.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly amount?: number;
-  /**
-   * @member {string} [unit] The unit of measure for the budget amount.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unit?: string;
-}
-
-/**
- * @interface
- * An interface representing Notification.
- * The notification associated with a budget.
- *
- */
-export interface Notification {
-  /**
-   * @member {boolean} enabled The notification is enabled or not.
-   */
-  enabled: boolean;
-  /**
-   * @member {OperatorType} operator The comparison operator. Possible values
-   * include: 'EqualTo', 'GreaterThan', 'GreaterThanOrEqualTo'
-   */
-  operator: OperatorType;
-  /**
-   * @member {number} threshold Threshold value associated with a notification.
-   * Notification is sent when the cost exceeded the threshold. It is always
-   * percent and has to be between 0 and 1000.
-   */
-  threshold: number;
-  /**
-   * @member {string[]} contactEmails Email addresses to send the budget
-   * notification to when the threshold is exceeded.
-   */
-  contactEmails: string[];
-  /**
-   * @member {string[]} [contactRoles] Contact roles to send the budget
-   * notification to when the threshold is exceeded.
-   */
-  contactRoles?: string[];
-}
-
-/**
- * @interface
- * An interface representing ProxyResource.
- * The Resource model definition.
- *
- * @extends BaseResource
- */
-export interface ProxyResource extends BaseResource {
-  /**
-   * @member {string} [id] Resource Id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [eTag] eTag of the resource. To handle concurrent update
-   * scenario, this field will be used to determine whether the user is
-   * updating the latest version or not.
-   */
-  eTag?: string;
-}
-
-/**
- * @interface
- * An interface representing Budget.
- * A budget resource.
- *
- * @extends ProxyResource
- */
-export interface Budget extends ProxyResource {
-  /**
-   * @member {number} amount The total amount of cost to track with the budget
-   */
-  amount: number;
-  /**
-   * @member {TimeGrainType} timeGrain The time covered by a budget. Tracking
-   * of the amount will be reset based on the time grain. Possible values
-   * include: 'Monthly', 'Quarterly', 'Annually'
-   */
-  timeGrain: TimeGrainType;
-  /**
-   * @member {BudgetTimePeriod} timePeriod Has start and end date of the
-   * budget. The start date must be first of the month and should be less than
-   * the end date. Budget start date must be on or after June 1, 2017. Future
-   * start date should not be more than three months. Past start date should
-   * be selected within the timegrain period. There are no restrictions on the
-   * end date.
-   */
-  timePeriod: BudgetTimePeriod;
-  /**
-   * @member {CurrentSpend} [currentSpend] The current amount of cost which is
-   * being tracked for a budget.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currentSpend?: CurrentSpend;
-  /**
-   * @member {{ [propertyName: string]: Notification }} [notifications]
-   * Dictionary of notifications associated with the budget. Budget can have up
-   * to five notifications.
-   */
-  notifications?: { [propertyName: string]: Notification };
-}
-
-/**
- * @interface
  * An interface representing CreditBalanceSummary.
  * Summary of credit balances.
  *
@@ -1132,6 +982,40 @@ export interface ErrorResponse {
 
 /**
  * @interface
+ * An interface representing ProxyResource.
+ * The Resource model definition.
+ *
+ * @extends BaseResource
+ */
+export interface ProxyResource extends BaseResource {
+  /**
+   * @member {string} [id] Resource Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [eTag] eTag of the resource. To handle concurrent update
+   * scenario, this field will be used to determine whether the user is
+   * updating the latest version or not.
+   */
+  eTag?: string;
+}
+
+/**
+ * @interface
  * An interface representing ChargesByBillingAccountListOptionalParams.
  * Optional Parameters.
  *
@@ -1233,17 +1117,6 @@ export interface BillingProfilePricesheetDownloadHeaders {
 
 /**
  * @interface
- * An interface representing the BudgetsListResult.
- * Result of listing budgets. It contains a list of available budgets in the
- * scope provided.
- *
- * @extends Array<Budget>
- */
-export interface BudgetsListResult extends Array<Budget> {
-}
-
-/**
- * @interface
  * An interface representing the OperationListResult.
  * Result of listing consumption operations. It contains a list of operations
  * and a URL link to get the next set of results.
@@ -1259,22 +1132,6 @@ export interface OperationListResult extends Array<Operation> {
    */
   readonly nextLink?: string;
 }
-
-/**
- * Defines values for TimeGrainType.
- * Possible values include: 'Monthly', 'Quarterly', 'Annually'
- * @readonly
- * @enum {string}
- */
-export type TimeGrainType = 'Monthly' | 'Quarterly' | 'Annually';
-
-/**
- * Defines values for OperatorType.
- * Possible values include: 'EqualTo', 'GreaterThan', 'GreaterThanOrEqualTo'
- * @readonly
- * @enum {string}
- */
-export type OperatorType = 'EqualTo' | 'GreaterThan' | 'GreaterThanOrEqualTo';
 
 /**
  * Defines values for EventType.
@@ -1299,63 +1156,6 @@ export type LotSource = 'PurchasedCredit' | 'PromotionalCredit';
  * @enum {string}
  */
 export type AccountType = 'CommerceRoot' | 'Enrollment';
-
-/**
- * Contains response data for the list operation.
- */
-export type BudgetsListResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type BudgetsGetResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type BudgetsCreateOrUpdateResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
 
 /**
  * Contains response data for the list operation.

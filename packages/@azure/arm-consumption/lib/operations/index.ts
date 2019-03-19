@@ -8,7 +8,6 @@
  * regenerated.
  */
 
-export * from "./budgets";
 export * from "./operations";
 export * from "./creditSummaryByBillingProfile";
 export * from "./eventsByBillingProfile";

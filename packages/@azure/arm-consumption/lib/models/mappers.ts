@@ -571,210 +571,6 @@ export const PricesheetDownloadResponse: msRest.CompositeMapper = {
   }
 };
 
-export const BudgetTimePeriod: msRest.CompositeMapper = {
-  serializedName: "BudgetTimePeriod",
-  type: {
-    name: "Composite",
-    className: "BudgetTimePeriod",
-    modelProperties: {
-      startDate: {
-        required: true,
-        serializedName: "startDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endDate: {
-        serializedName: "endDate",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const CurrentSpend: msRest.CompositeMapper = {
-  serializedName: "CurrentSpend",
-  type: {
-    name: "Composite",
-    className: "CurrentSpend",
-    modelProperties: {
-      amount: {
-        readOnly: true,
-        serializedName: "amount",
-        type: {
-          name: "Number"
-        }
-      },
-      unit: {
-        readOnly: true,
-        serializedName: "unit",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Notification: msRest.CompositeMapper = {
-  serializedName: "Notification",
-  type: {
-    name: "Composite",
-    className: "Notification",
-    modelProperties: {
-      enabled: {
-        required: true,
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      operator: {
-        required: true,
-        serializedName: "operator",
-        type: {
-          name: "String"
-        }
-      },
-      threshold: {
-        required: true,
-        serializedName: "threshold",
-        type: {
-          name: "Number"
-        }
-      },
-      contactEmails: {
-        required: true,
-        serializedName: "contactEmails",
-        constraints: {
-          MaxItems: 50,
-          MinItems: 1
-        },
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      contactRoles: {
-        serializedName: "contactRoles",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ProxyResource: msRest.CompositeMapper = {
-  serializedName: "ProxyResource",
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      eTag: {
-        serializedName: "eTag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Budget: msRest.CompositeMapper = {
-  serializedName: "Budget",
-  type: {
-    name: "Composite",
-    className: "Budget",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      category: {
-        required: true,
-        isConstant: true,
-        serializedName: "properties.category",
-        defaultValue: 'Cost',
-        type: {
-          name: "String"
-        }
-      },
-      amount: {
-        required: true,
-        serializedName: "properties.amount",
-        type: {
-          name: "Number"
-        }
-      },
-      timeGrain: {
-        required: true,
-        serializedName: "properties.timeGrain",
-        type: {
-          name: "String"
-        }
-      },
-      timePeriod: {
-        required: true,
-        serializedName: "properties.timePeriod",
-        type: {
-          name: "Composite",
-          className: "BudgetTimePeriod"
-        }
-      },
-      currentSpend: {
-        readOnly: true,
-        serializedName: "properties.currentSpend",
-        type: {
-          name: "Composite",
-          className: "CurrentSpend"
-        }
-      },
-      notifications: {
-        serializedName: "properties.notifications",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "Notification"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const CreditBalanceSummary: msRest.CompositeMapper = {
   serializedName: "CreditBalanceSummary",
   type: {
@@ -1418,6 +1214,43 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const ProxyResource: msRest.CompositeMapper = {
+  serializedName: "ProxyResource",
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const InvoicePricesheetDownloadHeaders: msRest.CompositeMapper = {
   serializedName: "invoicepricesheet-download-headers",
   type: {
@@ -1480,29 +1313,6 @@ export const BillingProfilePricesheetDownloadHeaders: msRest.CompositeMapper = {
         serializedName: "odata-entityid",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BudgetsListResult: msRest.CompositeMapper = {
-  serializedName: "BudgetsListResult",
-  type: {
-    name: "Composite",
-    className: "BudgetsListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Budget"
-            }
-          }
         }
       }
     }

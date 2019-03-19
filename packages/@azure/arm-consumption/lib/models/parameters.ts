@@ -92,16 +92,6 @@ export const invoiceSectionId: msRest.OperationURLParameter = {
     }
   }
 };
-export const name: msRest.OperationURLParameter = {
-  parameterPath: "name",
-  mapper: {
-    required: true,
-    serializedName: "name",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -118,16 +108,6 @@ export const startDate: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "startDate",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const subscriptionId: msRest.OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    required: true,
-    serializedName: "subscriptionId",
     type: {
       name: "String"
     }

@@ -17,7 +17,6 @@ import { ConsumptionManagementClientContext } from "./consumptionManagementClien
 
 class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   // Operation groups
-  budgets: operations.Budgets;
   operations: operations.Operations;
   creditSummaryByBillingProfile: operations.CreditSummaryByBillingProfile;
   eventsByBillingProfile: operations.EventsByBillingProfile;
@@ -31,13 +30,10 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure Subscription ID.
-   * @param name Budget name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, name: string, options?: Models.ConsumptionManagementClientOptions) {
-    super(credentials, subscriptionId, name, options);
-    this.budgets = new operations.Budgets(this);
+  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ConsumptionManagementClientOptions) {
+    super(credentials, options);
     this.operations = new operations.Operations(this);
     this.creditSummaryByBillingProfile = new operations.CreditSummaryByBillingProfile(this);
     this.eventsByBillingProfile = new operations.EventsByBillingProfile(this);
