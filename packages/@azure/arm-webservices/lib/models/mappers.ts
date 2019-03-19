@@ -63,6 +63,55 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
+export const PatchedResource: msRest.CompositeMapper = {
+  serializedName: "PatchedResource",
+  type: {
+    name: "Composite",
+    className: "PatchedResource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        readOnly: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const WebServiceKeys: msRest.CompositeMapper = {
   serializedName: "WebServiceKeys",
   type: {
@@ -772,6 +821,24 @@ export const WebService: msRest.CompositeMapper = {
       ...Resource.type.modelProperties,
       properties: {
         required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "WebServiceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const PatchedWebService: msRest.CompositeMapper = {
+  serializedName: "PatchedWebService",
+  type: {
+    name: "Composite",
+    className: "PatchedWebService",
+    modelProperties: {
+      ...PatchedResource.type.modelProperties,
+      properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
