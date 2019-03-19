@@ -3,6 +3,8 @@ import * as assert from "assert";
 import { Aborter } from "../lib/Aborter";
 import { ShareURL } from "../lib/ShareURL";
 import { getBSU, getUniqueName, wait } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("ServiceURL", () => {
   it("ListShares with default parameters", async () => {
