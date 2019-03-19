@@ -29,28 +29,48 @@ export class Prediction {
   /**
    * Gets predictions for a given utterance, in the form of intents and entities. The current maximum
    * query size is 500 characters.
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The LUIS application ID (Guid).
    * @param query The utterance to predict.
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionResolveResponse>
    */
-  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams): Promise<Models.PredictionResolveResponse>;
+  resolve(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, query: string, options?: Models.PredictionResolveOptionalParams): Promise<Models.PredictionResolveResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The LUIS application ID (Guid).
    * @param query The utterance to predict.
    * @param callback The callback
    */
-  resolve(appId: string, query: string, callback: msRest.ServiceCallback<Models.LuisResult>): void;
+  resolve(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, query: string, callback: msRest.ServiceCallback<Models.LuisResult>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The LUIS application ID (Guid).
    * @param query The utterance to predict.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resolve(appId: string, query: string, options: Models.PredictionResolveOptionalParams, callback: msRest.ServiceCallback<Models.LuisResult>): void;
-  resolve(appId: string, query: string, options?: Models.PredictionResolveOptionalParams | msRest.ServiceCallback<Models.LuisResult>, callback?: msRest.ServiceCallback<Models.LuisResult>): Promise<Models.PredictionResolveResponse> {
+  resolve(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, query: string, options: Models.PredictionResolveOptionalParams, callback: msRest.ServiceCallback<Models.LuisResult>): void;
+  resolve(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, query: string, options?: Models.PredictionResolveOptionalParams | msRest.ServiceCallback<Models.LuisResult>, callback?: msRest.ServiceCallback<Models.LuisResult>): Promise<Models.PredictionResolveResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         query,
         options
@@ -66,7 +86,8 @@ const resolveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId
   ],
   queryParameters: [
