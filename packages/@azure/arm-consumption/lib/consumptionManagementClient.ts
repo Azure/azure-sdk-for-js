@@ -17,41 +17,36 @@ import { ConsumptionManagementClientContext } from "./consumptionManagementClien
 
 class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   // Operation groups
-  usageDetails: operations.UsageDetails;
-  marketplaces: operations.Marketplaces;
-  balances: operations.Balances;
-  reservationsSummaries: operations.ReservationsSummaries;
-  reservationsDetails: operations.ReservationsDetails;
-  reservationRecommendations: operations.ReservationRecommendations;
   budgets: operations.Budgets;
-  priceSheet: operations.PriceSheet;
-  tags: operations.Tags;
-  forecasts: operations.Forecasts;
   operations: operations.Operations;
-  aggregatedCost: operations.AggregatedCost;
-  charges: operations.Charges;
+  creditSummaryByBillingProfile: operations.CreditSummaryByBillingProfile;
+  eventsByBillingProfile: operations.EventsByBillingProfile;
+  lotsByBillingProfile: operations.LotsByBillingProfile;
+  invoicePricesheet: operations.InvoicePricesheet;
+  billingProfilePricesheet: operations.BillingProfilePricesheet;
+  chargesByBillingAccount: operations.ChargesByBillingAccount;
+  chargesByBillingProfile: operations.ChargesByBillingProfile;
+  chargesByInvoiceSection: operations.ChargesByInvoiceSection;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
+   * @param name Budget name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ConsumptionManagementClientOptions) {
-    super(credentials, subscriptionId, options);
-    this.usageDetails = new operations.UsageDetails(this);
-    this.marketplaces = new operations.Marketplaces(this);
-    this.balances = new operations.Balances(this);
-    this.reservationsSummaries = new operations.ReservationsSummaries(this);
-    this.reservationsDetails = new operations.ReservationsDetails(this);
-    this.reservationRecommendations = new operations.ReservationRecommendations(this);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, name: string, options?: Models.ConsumptionManagementClientOptions) {
+    super(credentials, subscriptionId, name, options);
     this.budgets = new operations.Budgets(this);
-    this.priceSheet = new operations.PriceSheet(this);
-    this.tags = new operations.Tags(this);
-    this.forecasts = new operations.Forecasts(this);
     this.operations = new operations.Operations(this);
-    this.aggregatedCost = new operations.AggregatedCost(this);
-    this.charges = new operations.Charges(this);
+    this.creditSummaryByBillingProfile = new operations.CreditSummaryByBillingProfile(this);
+    this.eventsByBillingProfile = new operations.EventsByBillingProfile(this);
+    this.lotsByBillingProfile = new operations.LotsByBillingProfile(this);
+    this.invoicePricesheet = new operations.InvoicePricesheet(this);
+    this.billingProfilePricesheet = new operations.BillingProfilePricesheet(this);
+    this.chargesByBillingAccount = new operations.ChargesByBillingAccount(this);
+    this.chargesByBillingProfile = new operations.ChargesByBillingProfile(this);
+    this.chargesByInvoiceSection = new operations.ChargesByInvoiceSection(this);
   }
 }
 

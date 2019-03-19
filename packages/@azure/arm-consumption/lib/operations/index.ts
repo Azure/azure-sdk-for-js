@@ -8,16 +8,13 @@
  * regenerated.
  */
 
-export * from "./usageDetails";
-export * from "./marketplaces";
-export * from "./balances";
-export * from "./reservationsSummaries";
-export * from "./reservationsDetails";
-export * from "./reservationRecommendations";
 export * from "./budgets";
-export * from "./priceSheet";
-export * from "./tags";
-export * from "./forecasts";
 export * from "./operations";
-export * from "./aggregatedCost";
-export * from "./charges";
+export * from "./creditSummaryByBillingProfile";
+export * from "./eventsByBillingProfile";
+export * from "./lotsByBillingProfile";
+export * from "./invoicePricesheet";
+export * from "./billingProfilePricesheet";
+export * from "./chargesByBillingAccount";
+export * from "./chargesByBillingProfile";
+export * from "./chargesByInvoiceSection";

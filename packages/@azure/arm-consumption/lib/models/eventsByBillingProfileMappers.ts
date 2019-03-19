@@ -9,16 +9,13 @@
  */
 
 export {
-  BudgetsListResult,
-  Budget,
-  ProxyResource,
+  Events,
+  EventSummary,
+  Resource,
   BaseResource,
-  BudgetTimePeriod,
-  CurrentSpend,
-  Notification,
+  Amount,
   ErrorResponse,
   ErrorDetails,
-  Resource,
   Department,
   EnrollmentAccount,
   BillingProfile,
@@ -30,11 +27,14 @@ export {
   PricesheetDownloadResponse,
   CreditSummary,
   CreditBalanceSummary,
-  Amount,
-  EventSummary,
   LotSummary,
   ChargeSummaryByBillingAccount,
   ChargeSummaryByBillingProfile,
-  ChargeSummaryByInvoiceSection
+  ChargeSummaryByInvoiceSection,
+  ProxyResource,
+  Budget,
+  BudgetTimePeriod,
+  CurrentSpend,
+  Notification
 } from "../models/mappers";
 
