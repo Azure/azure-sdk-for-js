@@ -37,7 +37,7 @@ export {
   MessagingEndpointProperties,
   CloudToDeviceProperties,
   FeedbackProperties,
-  OperationsMonitoringProperties,
+  IotHubPropertiesDeviceStreams,
   IotHubSkuInfo
 } from "../models/mappers";
 
