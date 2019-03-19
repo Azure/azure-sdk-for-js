@@ -141,7 +141,9 @@ export {
   LocalNetworkGateway,
   ManagedServiceIdentity,
   ManagedServiceIdentityUserAssignedIdentitiesValue,
+  MatchCondition,
   MatchedRule,
+  MatchVariable,
   NetworkConfigurationDiagnosticParameters,
   NetworkConfigurationDiagnosticProfile,
   NetworkConfigurationDiagnosticResponse,
@@ -169,6 +171,8 @@ export {
   P2SVpnServerConfigVpnClientRootCertificate,
   PatchRouteFilter,
   PatchRouteFilterRule,
+  PeerExpressRouteCircuitConnection,
+  PolicySettings,
   Probe,
   ProtocolConfiguration,
   ProtocolCustomSettingsFormat,
@@ -232,5 +236,7 @@ export {
   VpnClientRootCertificate,
   VpnConnection,
   VpnGateway,
-  VpnSite
+  VpnSite,
+  WebApplicationFirewallCustomRule,
+  WebApplicationFirewallPolicy
 } from "../models/mappers";
