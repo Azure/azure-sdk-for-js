@@ -27,27 +27,47 @@ export class AzureAccounts {
   }
 
   /**
-   * Assigns an azure account to the application.
-   * @summary apps - Assign a LUIS azure account to an application
+   * Assigns an Azure account to the application.
+   * @summary apps - Assign a LUIS Azure account to an application
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsAssignToAppResponse>
    */
-  assignToApp(appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams): Promise<Models.AzureAccountsAssignToAppResponse>;
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams): Promise<Models.AzureAccountsAssignToAppResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param callback The callback
    */
-  assignToApp(appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  assignToApp(appId: string, options: Models.AzureAccountsAssignToAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  assignToApp(appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsAssignToAppResponse> {
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: Models.AzureAccountsAssignToAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  assignToApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsAssignToAppResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         options
       },
@@ -56,27 +76,47 @@ export class AzureAccounts {
   }
 
   /**
-   * Gets the LUIS azure accounts assigned to the application for the user using his ARM token.
-   * @summary apps - Get LUIS azure accounts assigned to the application
+   * Gets the LUIS Azure accounts assigned to the application for the user using his ARM token.
+   * @summary apps - Get LUIS Azure accounts assigned to the application
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsGetAssignedResponse>
    */
-  getAssigned(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsGetAssignedResponse>;
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsGetAssignedResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param callback The callback
    */
-  getAssigned(appId: string, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAssigned(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
-  getAssigned(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetAssignedResponse> {
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getAssigned(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetAssignedResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         options
       },
@@ -85,27 +125,47 @@ export class AzureAccounts {
   }
 
   /**
-   * Removes assigned azure account from the application.
-   * @summary apps - Removes an assigned LUIS azure account from an application
+   * Removes assigned Azure account from the application.
+   * @summary apps - Removes an assigned LUIS Azure account from an application
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsRemoveFromAppResponse>
    */
-  removeFromApp(appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams): Promise<Models.AzureAccountsRemoveFromAppResponse>;
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams): Promise<Models.AzureAccountsRemoveFromAppResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param callback The callback
    */
-  removeFromApp(appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  removeFromApp(appId: string, options: Models.AzureAccountsRemoveFromAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  removeFromApp(appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsRemoveFromAppResponse> {
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options: Models.AzureAccountsRemoveFromAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  removeFromApp(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsRemoveFromAppResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         appId,
         options
       },
@@ -114,28 +174,48 @@ export class AzureAccounts {
   }
 
   /**
-   * Gets the LUIS azure accounts for the user using his ARM token.
-   * @summary user - Get LUIS azure accounts
+   * Gets the LUIS Azure accounts for the user using his ARM token.
+   * @summary user - Get LUIS Azure accounts
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param [options] The optional parameters
-   * @returns Promise<Models.AzureAccountsGetUserLUISAccountsResponse>
+   * @returns Promise<Models.AzureAccountsListUserLUISAccountsResponse>
    */
-  getUserLUISAccounts(options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsGetUserLUISAccountsResponse>;
+  listUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param callback The callback
    */
-  getUserLUISAccounts(callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  listUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
   /**
+   * @param azureRegion Supported Azure regions for Cognitive Services endpoints. Possible values
+   * include: 'westus', 'westeurope', 'southeastasia', 'eastus2', 'westcentralus', 'westus2',
+   * 'eastus', 'southcentralus', 'northeurope', 'eastasia', 'australiaeast', 'brazilsouth',
+   * 'virginia'
+   * @param azureCloud Supported Azure Clouds for Cognitive Services endpoints. Possible values
+   * include: 'com', 'us'
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserLUISAccounts(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
-  getUserLUISAccounts(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetUserLUISAccountsResponse> {
+  listUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  listUserLUISAccounts(azureRegion: Models.AzureRegions, azureCloud: Models.AzureClouds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsListUserLUISAccountsResponse> {
     return this.client.sendOperationRequest(
       {
+        azureRegion,
+        azureCloud,
         options
       },
-      getUserLUISAccountsOperationSpec,
-      callback) as Promise<Models.AzureAccountsGetUserLUISAccountsResponse>;
+      listUserLUISAccountsOperationSpec,
+      callback) as Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
   }
 }
 
@@ -145,7 +225,8 @@ const assignToAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/azureaccounts",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId
   ],
   requestBody: {
@@ -170,7 +251,8 @@ const getAssignedOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/azureaccounts",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId
   ],
   responses: {
@@ -199,7 +281,8 @@ const removeFromAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/azureaccounts",
   urlParameters: [
-    Parameters.endpoint,
+    Parameters.azureRegion,
+    Parameters.azureCloud,
     Parameters.appId
   ],
   requestBody: {
@@ -220,11 +303,12 @@ const removeFromAppOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getUserLUISAccountsOperationSpec: msRest.OperationSpec = {
+const listUserLUISAccountsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "azureaccounts",
   urlParameters: [
-    Parameters.endpoint
+    Parameters.azureRegion,
+    Parameters.azureCloud
   ],
   responses: {
     200: {
