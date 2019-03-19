@@ -29,7 +29,7 @@
         "--timeout",
         "99999",
         "--colors",
-        "${workspaceRoot}/tests/pipeline.test.ts"
+        "${workspaceRoot}/tests/secrets.test.ts"
        ],
       "sourceMaps": true,
       "env": {

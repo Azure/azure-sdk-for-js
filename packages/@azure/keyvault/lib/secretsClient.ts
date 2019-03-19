@@ -223,13 +223,13 @@ export class SecretsClient {
    */
   public async getSecret(
     secretName: string,
-    secretVersion: string,
+    secretVersion?: string,
     options: RequestOptionsBase = {}
   ): Promise<Secret> {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
-      secretVersion,
+      secretVersion || "",
       options
     );
     return this.getSecretFromSecretBundle(response);

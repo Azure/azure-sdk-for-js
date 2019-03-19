@@ -8,7 +8,7 @@ describe("Secret client pipeline", () => {
   let keyVaultName: string;
   let keyVaultUrl: string;
 
-  before(async () => {
+  before(() => {
     credential = { signRequest: (request) => Promise.resolve(request) };
     keyVaultName = getKeyvaultName();
     keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
