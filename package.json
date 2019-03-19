@@ -29,8 +29,7 @@
     "stream": "stream-browserify"
   },
   "peerDependencies": {
-    "rhea": "^0.3.9",
-    "rhea-promise": "^0.1.13"
+    "rhea-promise": "^0.1.14"
   },
   "devDependencies": {
     "@azure/ms-rest-js": "^1.7.0",
@@ -54,8 +53,7 @@
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^13.3.0",
-    "rhea": "^0.3.9",
-    "rhea-promise": "^0.1.13",
+    "rhea-promise": "^0.1.14",
     "rimraf": "^2.6.2",
     "rollup": "^1.1.2",
     "rollup-plugin-commonjs": "^9.2.0",
