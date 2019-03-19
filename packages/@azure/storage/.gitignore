@@ -53,19 +53,11 @@ typings/
 .next
 
 # Typescript output
-/blob/dist/
-/blob/typings/
-/blob/browser/
-/blob/dist-*/
-/blob/temp/
-/file/dist/
-/file/typings/
-/file/browser/
-/file/dist-*/
-/queue/dist/
-/queue/typings/
-/queue/browser/
-/queue/dist-*/
+/*/dist/
+/*/typings/
+/*/browser/
+/*/dist-*/
+/*/temp/
 test*.xml
 
 # Visual Studio Code
