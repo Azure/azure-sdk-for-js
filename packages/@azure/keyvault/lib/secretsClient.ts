@@ -345,6 +345,78 @@ export class SecretsClient {
 
     return asyncGenerator();
   }
+  
+  /**
+   * Iterates the latest version of all secrets in the vault.  The full secret identifier and attributes are provided 
+   * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
+   * @summary List all versions of the specified secret.
+   * @param secretName The name of the secret.
+   * @param [options] The optional parameters
+   * @returns AsyncIterableIterator<Secret>
+   */
+  public getAllSecrets(
+    options?: RequestOptionsBase
+  ): AsyncIterableIterator<Secret> {
+    const keyVaultClient = this.client;
+    const keyVaultUrl = this.vaultBaseUrl;
+    const extractSecretFromSecretItem = this.getSecretFromSecretBundle;
+
+    async function* asyncGenerator() {
+      let currentSetResponse = await keyVaultClient.getSecrets(
+        keyVaultUrl,
+        options
+      );
+      let currentSetLength = currentSetResponse.length;
+      let i = 0;
+      while (i < currentSetLength) {
+        yield extractSecretFromSecretItem(currentSetResponse[i]);
+        i++;
+        if (i === currentSetLength && currentSetResponse.nextLink) {
+          currentSetResponse = await keyVaultClient.getSecretsNext(currentSetResponse.nextLink, options);
+          i = 0;
+          currentSetLength = currentSetResponse.length;
+        }
+      }
+    }
+
+    return asyncGenerator();
+  }
+
+  /**
+   * Iterates the latest version of all secrets in the vault.  The full secret identifier and attributes are provided 
+   * in the response. No values are returned for the secrets. This operations requires the secrets/list permission.
+   * @summary List all versions of the specified secret.
+   * @param secretName The name of the secret.
+   * @param [options] The optional parameters
+   * @returns AsyncIterableIterator<Secret>
+   */
+  public getAllDeletedSecrets(
+    options?: RequestOptionsBase
+  ): AsyncIterableIterator<Secret> {
+    const keyVaultClient = this.client;
+    const keyVaultUrl = this.vaultBaseUrl;
+    const extractSecretFromSecretItem = this.getSecretFromSecretBundle;
+
+    async function* asyncGenerator() {
+      let currentSetResponse = await keyVaultClient.getDeletedSecrets(
+        keyVaultUrl,
+        options
+      );
+      let currentSetLength = currentSetResponse.length;
+      let i = 0;
+      while (i < currentSetLength) {
+        yield extractSecretFromSecretItem(currentSetResponse[i]);
+        i++;
+        if (i === currentSetLength && currentSetResponse.nextLink) {
+          currentSetResponse = await keyVaultClient.getDeletedSecretsNext(currentSetResponse.nextLink, options);
+          i = 0;
+          currentSetLength = currentSetResponse.length;
+        }
+      }
+    }
+
+    return asyncGenerator();
+  }
 
   private getSecretFromSecretBundle(secretBundle: Models.SecretBundle): Secret {
     const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
