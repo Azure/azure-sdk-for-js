@@ -33,7 +33,7 @@
        ],
       "sourceMaps": true,
       "env": {
-        "TS_NODE_PROJECT": "${workspaceRoot}/tests/tsconfig.json"
+        "TS_NODE_PROJECT": "${workspaceRoot}/tests/tsconfig.test.json"
       },
       "envFile": "${workspaceFolder}\\.env"
     }
