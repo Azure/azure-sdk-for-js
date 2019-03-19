@@ -1155,6 +1155,33 @@ export const Application: msRest.CompositeMapper = {
   }
 };
 
+export const ServicePrincipalObjectResult: msRest.CompositeMapper = {
+  serializedName: "ServicePrincipalObjectResult",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalObjectResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      odatametadata: {
+        serializedName: "odata\\.metadata",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AddOwnerParameters: msRest.CompositeMapper = {
   serializedName: "AddOwnerParameters",
   type: {
