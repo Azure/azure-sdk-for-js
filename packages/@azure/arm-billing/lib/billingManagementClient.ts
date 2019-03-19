@@ -11,15 +11,39 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { BillingManagementClientContext } from "./billingManagementClientContext";
 
 
 class BillingManagementClient extends BillingManagementClientContext {
   // Operation groups
+  billingAccounts: operations.BillingAccounts;
+  billingAccountsWithCreateInvoiceSectionPermission: operations.BillingAccountsWithCreateInvoiceSectionPermission;
+  paymentMethodsByBillingProfile: operations.PaymentMethodsByBillingProfile;
+  billingProfilesByBillingAccountId: operations.BillingProfilesByBillingAccountId;
+  billingProfiles: operations.BillingProfiles;
+  invoiceSectionsByBillingAccountId: operations.InvoiceSectionsByBillingAccountId;
+  invoiceSections: operations.InvoiceSections;
+  invoiceSectionsWithCreateSubscriptionPermission: operations.InvoiceSectionsWithCreateSubscriptionPermission;
+  departmentsByBillingAccountId: operations.DepartmentsByBillingAccountId;
+  departments: operations.Departments;
+  enrollmentAccountsByBillingAccountId: operations.EnrollmentAccountsByBillingAccountId;
   enrollmentAccounts: operations.EnrollmentAccounts;
-  billingPeriods: operations.BillingPeriods;
-  invoices: operations.Invoices;
+  invoicesByBillingAccount: operations.InvoicesByBillingAccount;
+  invoicePricesheet: operations.InvoicePricesheet;
+  invoicesByBillingProfile: operations.InvoicesByBillingProfile;
+  invoice: operations.Invoice;
+  productsByBillingSubscriptions: operations.ProductsByBillingSubscriptions;
+  billingSubscriptionsByBillingProfile: operations.BillingSubscriptionsByBillingProfile;
+  billingSubscriptionsByInvoiceSection: operations.BillingSubscriptionsByInvoiceSection;
+  billingSubscription: operations.BillingSubscription;
+  productsByBillingAccount: operations.ProductsByBillingAccount;
+  productsByInvoiceSection: operations.ProductsByInvoiceSection;
+  products: operations.Products;
+  transactionsByBillingAccount: operations.TransactionsByBillingAccount;
+  policy: operations.PolicyOperations;
+  billingProperty: operations.BillingPropertyOperations;
   operations: operations.Operations;
 
   /**
@@ -30,14 +54,245 @@ class BillingManagementClient extends BillingManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BillingManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.billingAccounts = new operations.BillingAccounts(this);
+    this.billingAccountsWithCreateInvoiceSectionPermission = new operations.BillingAccountsWithCreateInvoiceSectionPermission(this);
+    this.paymentMethodsByBillingProfile = new operations.PaymentMethodsByBillingProfile(this);
+    this.billingProfilesByBillingAccountId = new operations.BillingProfilesByBillingAccountId(this);
+    this.billingProfiles = new operations.BillingProfiles(this);
+    this.invoiceSectionsByBillingAccountId = new operations.InvoiceSectionsByBillingAccountId(this);
+    this.invoiceSections = new operations.InvoiceSections(this);
+    this.invoiceSectionsWithCreateSubscriptionPermission = new operations.InvoiceSectionsWithCreateSubscriptionPermission(this);
+    this.departmentsByBillingAccountId = new operations.DepartmentsByBillingAccountId(this);
+    this.departments = new operations.Departments(this);
+    this.enrollmentAccountsByBillingAccountId = new operations.EnrollmentAccountsByBillingAccountId(this);
     this.enrollmentAccounts = new operations.EnrollmentAccounts(this);
-    this.billingPeriods = new operations.BillingPeriods(this);
-    this.invoices = new operations.Invoices(this);
+    this.invoicesByBillingAccount = new operations.InvoicesByBillingAccount(this);
+    this.invoicePricesheet = new operations.InvoicePricesheet(this);
+    this.invoicesByBillingProfile = new operations.InvoicesByBillingProfile(this);
+    this.invoice = new operations.Invoice(this);
+    this.productsByBillingSubscriptions = new operations.ProductsByBillingSubscriptions(this);
+    this.billingSubscriptionsByBillingProfile = new operations.BillingSubscriptionsByBillingProfile(this);
+    this.billingSubscriptionsByInvoiceSection = new operations.BillingSubscriptionsByInvoiceSection(this);
+    this.billingSubscription = new operations.BillingSubscription(this);
+    this.productsByBillingAccount = new operations.ProductsByBillingAccount(this);
+    this.productsByInvoiceSection = new operations.ProductsByInvoiceSection(this);
+    this.products = new operations.Products(this);
+    this.transactionsByBillingAccount = new operations.TransactionsByBillingAccount(this);
+    this.policy = new operations.PolicyOperations(this);
+    this.billingProperty = new operations.BillingPropertyOperations(this);
     this.operations = new operations.Operations(this);
+  }
+
+  /**
+   * Lists the transactions by billingProfileId for given start date and end date.
+   * @param billingAccountId billing Account Id.
+   * @param billingProfileId Billing Profile Id.
+   * @param startDate Start date
+   * @param endDate End date
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TransactionsByBillingProfileResponse>
+   */
+  transactionsByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: Models.BillingManagementClientTransactionsByBillingProfileOptionalParams): Promise<Models.TransactionsByBillingProfileResponse>;
+  /**
+   * @param billingAccountId billing Account Id.
+   * @param billingProfileId Billing Profile Id.
+   * @param startDate Start date
+   * @param endDate End date
+   * @param callback The callback
+   */
+  transactionsByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, callback: msRest.ServiceCallback<Models.TransactionsListResult>): void;
+  /**
+   * @param billingAccountId billing Account Id.
+   * @param billingProfileId Billing Profile Id.
+   * @param startDate Start date
+   * @param endDate End date
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  transactionsByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options: Models.BillingManagementClientTransactionsByBillingProfileOptionalParams, callback: msRest.ServiceCallback<Models.TransactionsListResult>): void;
+  transactionsByBillingProfile(billingAccountId: string, billingProfileId: string, startDate: string, endDate: string, options?: Models.BillingManagementClientTransactionsByBillingProfileOptionalParams | msRest.ServiceCallback<Models.TransactionsListResult>, callback?: msRest.ServiceCallback<Models.TransactionsListResult>): Promise<Models.TransactionsByBillingProfileResponse> {
+    return this.sendOperationRequest(
+      {
+        billingAccountId,
+        billingProfileId,
+        startDate,
+        endDate,
+        options
+      },
+      transactionsByBillingProfileOperationSpec,
+      callback) as Promise<Models.TransactionsByBillingProfileResponse>;
+  }
+
+  /**
+   * Cancel product by product id
+   * @param billingAccountId billing Account Id.
+   * @param productName Invoide Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UpdateAutoRenewForBillingAccountResponse>
+   */
+  updateAutoRenewForBillingAccount(billingAccountId: string, productName: string, options?: Models.BillingManagementClientUpdateAutoRenewForBillingAccountOptionalParams): Promise<Models.UpdateAutoRenewForBillingAccountResponse>;
+  /**
+   * @param billingAccountId billing Account Id.
+   * @param productName Invoide Id.
+   * @param callback The callback
+   */
+  updateAutoRenewForBillingAccount(billingAccountId: string, productName: string, callback: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): void;
+  /**
+   * @param billingAccountId billing Account Id.
+   * @param productName Invoide Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateAutoRenewForBillingAccount(billingAccountId: string, productName: string, options: Models.BillingManagementClientUpdateAutoRenewForBillingAccountOptionalParams, callback: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): void;
+  updateAutoRenewForBillingAccount(billingAccountId: string, productName: string, options?: Models.BillingManagementClientUpdateAutoRenewForBillingAccountOptionalParams | msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>, callback?: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): Promise<Models.UpdateAutoRenewForBillingAccountResponse> {
+    return this.sendOperationRequest(
+      {
+        billingAccountId,
+        productName,
+        options
+      },
+      updateAutoRenewForBillingAccountOperationSpec,
+      callback) as Promise<Models.UpdateAutoRenewForBillingAccountResponse>;
+  }
+
+  /**
+   * Cancel auto renew for product by product id
+   * @param billingAccountId billing Account Id.
+   * @param invoiceSectionId InvoiceSection Id.
+   * @param productName Invoide Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UpdateAutoRenewForInvoiceSectionResponse>
+   */
+  updateAutoRenewForInvoiceSection(billingAccountId: string, invoiceSectionId: string, productName: string, options?: Models.BillingManagementClientUpdateAutoRenewForInvoiceSectionOptionalParams): Promise<Models.UpdateAutoRenewForInvoiceSectionResponse>;
+  /**
+   * @param billingAccountId billing Account Id.
+   * @param invoiceSectionId InvoiceSection Id.
+   * @param productName Invoide Id.
+   * @param callback The callback
+   */
+  updateAutoRenewForInvoiceSection(billingAccountId: string, invoiceSectionId: string, productName: string, callback: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): void;
+  /**
+   * @param billingAccountId billing Account Id.
+   * @param invoiceSectionId InvoiceSection Id.
+   * @param productName Invoide Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateAutoRenewForInvoiceSection(billingAccountId: string, invoiceSectionId: string, productName: string, options: Models.BillingManagementClientUpdateAutoRenewForInvoiceSectionOptionalParams, callback: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): void;
+  updateAutoRenewForInvoiceSection(billingAccountId: string, invoiceSectionId: string, productName: string, options?: Models.BillingManagementClientUpdateAutoRenewForInvoiceSectionOptionalParams | msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>, callback?: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): Promise<Models.UpdateAutoRenewForInvoiceSectionResponse> {
+    return this.sendOperationRequest(
+      {
+        billingAccountId,
+        invoiceSectionId,
+        productName,
+        options
+      },
+      updateAutoRenewForInvoiceSectionOperationSpec,
+      callback) as Promise<Models.UpdateAutoRenewForInvoiceSectionResponse>;
   }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const transactionsByBillingProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/transactions",
+  urlParameters: [
+    Parameters.billingAccountId,
+    Parameters.billingProfileId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.startDate,
+    Parameters.endDate,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TransactionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateAutoRenewForBillingAccountOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/products/{productName}/updateAutoRenew",
+  urlParameters: [
+    Parameters.billingAccountId,
+    Parameters.productName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      autoRenew: [
+        "options",
+        "autoRenew"
+      ]
+    },
+    mapper: {
+      ...Mappers.UpdateAutoRenewRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.UpdateAutoRenewOperationSummary
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateAutoRenewForInvoiceSectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}/products/{productName}/updateAutoRenew",
+  urlParameters: [
+    Parameters.billingAccountId,
+    Parameters.invoiceSectionId,
+    Parameters.productName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      autoRenew: [
+        "options",
+        "autoRenew"
+      ]
+    },
+    mapper: {
+      ...Mappers.UpdateAutoRenewRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.UpdateAutoRenewOperationSummary
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
 
 export {
   BillingManagementClient,
