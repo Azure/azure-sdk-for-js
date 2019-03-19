@@ -32,6 +32,49 @@ export const appName: msRest.OperationQueryParameter = {
     }
   }
 };
+export const azureCloud: msRest.OperationURLParameter = {
+  parameterPath: "azureCloud",
+  mapper: {
+    required: true,
+    serializedName: "AzureCloud",
+    defaultValue: 'com',
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "com",
+        "us"
+      ]
+    }
+  },
+  skipEncoding: true
+};
+export const azureRegion: msRest.OperationURLParameter = {
+  parameterPath: "azureRegion",
+  mapper: {
+    required: true,
+    serializedName: "AzureRegion",
+    defaultValue: 'westus',
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "westus",
+        "westeurope",
+        "southeastasia",
+        "eastus2",
+        "westcentralus",
+        "westus2",
+        "eastus",
+        "southcentralus",
+        "northeurope",
+        "eastasia",
+        "australiaeast",
+        "brazilsouth",
+        "virginia"
+      ]
+    }
+  },
+  skipEncoding: true
+};
 export const cChildId: msRest.OperationURLParameter = {
   parameterPath: "cChildId",
   mapper: {
@@ -94,18 +137,6 @@ export const domainName: msRest.OperationURLParameter = {
       name: "String"
     }
   }
-};
-export const endpoint: msRest.OperationURLParameter = {
-  parameterPath: "endpoint",
-  mapper: {
-    required: true,
-    serializedName: "Endpoint",
-    defaultValue: '',
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 export const entityId: msRest.OperationURLParameter = {
   parameterPath: "entityId",
@@ -262,7 +293,7 @@ export const slotName: msRest.OperationURLParameter = {
     required: true,
     serializedName: "slotName",
     type: {
-      name: "Uuid"
+      name: "String"
     }
   }
 };
