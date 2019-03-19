@@ -7,6 +7,8 @@ import { QueueURL } from "../lib/QueueURL";
 import { Pipeline } from "../lib/Pipeline";
 import { getQSU, getUniqueName } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("RetryPolicy", () => {
   const serviceURL = getQSU();

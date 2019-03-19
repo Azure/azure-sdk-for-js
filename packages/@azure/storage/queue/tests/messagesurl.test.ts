@@ -4,6 +4,8 @@ import { Aborter } from "../lib/Aborter";
 import { QueueURL } from "../lib/QueueURL";
 import { MessagesURL } from "../lib/MessagesURL";
 import { getQSU, getUniqueName } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("MessagesURL", () => {
   const serviceURL = getQSU();

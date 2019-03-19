@@ -4,6 +4,8 @@ import { ContainerURL } from "../lib/ContainerURL";
 import { getBSU, getUniqueName } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../lib/utils/utils.common";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("Special Naming Tests", () => {
   const serviceURL = getBSU();

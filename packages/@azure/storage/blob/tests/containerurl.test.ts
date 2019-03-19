@@ -5,6 +5,8 @@ import { BlobURL } from "../lib/BlobURL";
 import { BlockBlobURL } from "../lib/BlockBlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
 import { getBSU, getUniqueName, sleep } from "./utils";
+import * as dotenv from "dotenv";
+dotenv.config({path:"../.env"});
 
 describe("ContainerURL", () => {
   const serviceURL = getBSU();
