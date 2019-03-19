@@ -329,6 +329,39 @@ export class AppServiceEnvironments {
   }
 
   /**
+   * Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * @summary Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse>
+   */
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
+  getInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getInboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse>;
+  }
+
+  /**
    * Get global metric definitions of an App Service Environment.
    * @summary Get global metric definitions of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -751,6 +784,39 @@ export class AppServiceEnvironments {
       },
       listOperationsOperationSpec,
       callback) as Promise<Models.AppServiceEnvironmentsListOperationsResponse>;
+  }
+
+  /**
+   * Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * @summary Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse>
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getOutboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse>;
   }
 
   /**
@@ -1511,6 +1577,36 @@ export class AppServiceEnvironments {
   }
 
   /**
+   * Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * @summary Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns
+   * Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse>
+   */
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): void;
+  getInboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.InboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getInboundNetworkDependenciesEndpointsNextOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse>;
+  }
+
+  /**
    * Get global metrics of an App Service Environment.
    * @summary Get global metrics of an App Service Environment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -1743,6 +1839,36 @@ export class AppServiceEnvironments {
       },
       listMultiRoleUsagesNextOperationSpec,
       callback) as Promise<Models.AppServiceEnvironmentsListMultiRoleUsagesNextResponse>;
+  }
+
+  /**
+   * Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * @summary Get the network endpoints of all outbound dependencies of an App Service Environment.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns
+   * Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse>
+   */
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  getOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getOutboundNetworkDependenciesEndpointsNextOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse>;
   }
 
   /**
@@ -2122,7 +2248,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2146,7 +2272,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2171,7 +2297,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2196,7 +2322,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2234,7 +2360,7 @@ const listCapacitiesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2259,7 +2385,7 @@ const listVipsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2284,7 +2410,7 @@ const listDiagnosticsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2321,7 +2447,7 @@ const getDiagnosticsItemOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2329,6 +2455,31 @@ const getDiagnosticsItemOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.HostingEnvironmentDiagnostics
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getInboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/inboundNetworkDependenciesEndpoints",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.InboundEnvironmentEndpointCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -2346,7 +2497,7 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2373,7 +2524,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.details,
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2398,7 +2549,7 @@ const listMultiRolePoolsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2423,7 +2574,7 @@ const getMultiRolePoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2448,7 +2599,7 @@ const updateMultiRolePoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2487,7 +2638,7 @@ const listMultiRolePoolInstanceMetricDefinitionsOperationSpec: msRest.OperationS
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2514,7 +2665,7 @@ const listMultiRolePoolInstanceMetricsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.details,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2539,7 +2690,7 @@ const listMultiRoleMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2569,7 +2720,7 @@ const listMultiRoleMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.timeGrain1,
     Parameters.details,
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2594,7 +2745,7 @@ const listMultiRolePoolSkusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2619,7 +2770,7 @@ const listMultiRoleUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2644,7 +2795,7 @@ const listOperationsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2671,6 +2822,31 @@ const listOperationsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/outboundNetworkDependenciesEndpoints",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const rebootOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/reboot",
@@ -2680,7 +2856,7 @@ const rebootOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2706,7 +2882,7 @@ const listAppServicePlansOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2732,7 +2908,7 @@ const listWebAppsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.propertiesToInclude,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2758,7 +2934,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2783,7 +2959,7 @@ const listWorkerPoolsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2809,7 +2985,7 @@ const getWorkerPoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2835,7 +3011,7 @@ const updateWorkerPoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2875,7 +3051,7 @@ const listWorkerPoolInstanceMetricDefinitionsOperationSpec: msRest.OperationSpec
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2904,7 +3080,7 @@ const listWorkerPoolInstanceMetricsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.details,
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2930,7 +3106,7 @@ const listWebWorkerMetricDefinitionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2958,7 +3134,7 @@ const listWebWorkerMetricsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.details,
     Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2984,7 +3160,7 @@ const listWorkerPoolSkusOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3010,7 +3186,7 @@ const listWebWorkerUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3035,7 +3211,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3074,7 +3250,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.forceDelete,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3101,7 +3277,7 @@ const beginChangeVnetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3136,7 +3312,7 @@ const beginCreateOrUpdateMultiRolePoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3174,7 +3350,7 @@ const beginResumeOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3202,7 +3378,7 @@ const beginSuspendOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3231,7 +3407,7 @@ const beginCreateOrUpdateWorkerPoolOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -3315,6 +3491,27 @@ const listCapacitiesNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.StampCapacityCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getInboundNetworkDependenciesEndpointsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.InboundEnvironmentEndpointCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -3483,6 +3680,27 @@ const listMultiRoleUsagesNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UsageCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOutboundNetworkDependenciesEndpointsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
