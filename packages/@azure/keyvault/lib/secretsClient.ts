@@ -11,7 +11,7 @@ import {
   RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
-  systemErrorRetryPolicy,
+  systemErrorRetryPolicy
   // generateClientRequestIdPolicy,
   // proxyPolicy,
   // throttlingRetryPolicy
@@ -23,14 +23,12 @@ import { IRetryOptions, IProxyOptions } from "./clientOptions";
 import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import * as Models from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
-import { RetryConstants } from './utils/constants';
-import { UniqueRequestIDPolicyFactory } from './UniqueRequestIDPolicyFactory';
+import { RetryConstants } from "./utils/constants";
+import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { Secret, DeletedSecret } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
-export {
-  Pipeline
-};
+export { Pipeline };
 
 /**
  * Option interface for Pipeline.newPipeline method.
@@ -58,13 +56,18 @@ export interface NewPipelineOptions {
   HTTPClient?: IHttpClient;
 }
 
-function isNewPipelineOptions(pipelineOrOptions: Pipeline | NewPipelineOptions): pipelineOrOptions is NewPipelineOptions {
+function isNewPipelineOptions(
+  pipelineOrOptions: Pipeline | NewPipelineOptions
+): pipelineOrOptions is NewPipelineOptions {
   // An empty object is consider options
   function isEmptyObject(obj: Pipeline | NewPipelineOptions) {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
   const options = pipelineOrOptions as NewPipelineOptions;
-  return isEmptyObject(pipelineOrOptions) || !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient);
+  return (
+    isEmptyObject(pipelineOrOptions) ||
+    !!(options.retryOptions || options.proxyOptions || options.logger || options.HTTPClient)
+  );
 }
 
 export class SecretsClient {
@@ -313,10 +316,46 @@ export class SecretsClient {
     return this.getSecretFromSecretBundle(response);
   }
 
+  public getSecretVersions(
+    secretName: string,
+    options?: RequestOptionsBase
+  ): AsyncIterableIterator<Secret> {
+    const keyVaultClient = this.client;
+    const keyVaultUrl = this.vaultBaseUrl;
+    const extractSecretFromSecretItem = this.getSecretFromSecretBundle;
+
+    async function* asyncGenerator() {
+      let currentSetResponse = await keyVaultClient.getSecretVersions(
+        keyVaultUrl,
+        secretName,
+        options
+      );
+      let currentSetLength = currentSetResponse.length;
+      let i = 0;
+      while (i < currentSetLength) {
+        yield extractSecretFromSecretItem(currentSetResponse[i]);
+        i++;
+        if (i === currentSetLength && currentSetResponse.nextLink) {
+          currentSetResponse = await keyVaultClient.getSecretVersionsNext(currentSetResponse.nextLink, options);
+          i = 0;
+          currentSetLength = currentSetResponse.length;
+        }
+      }
+    }
+
+    return asyncGenerator();
+  }
+
   private getSecretFromSecretBundle(secretBundle: Models.SecretBundle): Secret {
     const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
     return {
-      ...secretBundle,
+      value: secretBundle.value,
+      id: secretBundle.id,
+      contentType: secretBundle.contentType,
+      attributes: secretBundle.attributes,
+      tags: secretBundle.tags,
+      kid: secretBundle.kid,
+      managed: secretBundle.managed,
       ...parsedId
     };
   }
