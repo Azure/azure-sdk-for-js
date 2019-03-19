@@ -23,12 +23,12 @@ export interface Secret extends ParsedKeyVaultEntityIdentifier {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {string} [kid] If this is a secret backing a KV certificate, then
+   * @member {string} [keyId] If this is a secret backing a KV certificate, then
    * this field specifies the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly kid?: string;
+  readonly keyId?: string;
   /**
    * @member {boolean} [managed] True if the secret's lifetime is managed by
    * key vault. If this is a secret backing a certificate, then managed will be

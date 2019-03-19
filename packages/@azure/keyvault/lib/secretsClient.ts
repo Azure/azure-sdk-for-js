@@ -354,7 +354,7 @@ export class SecretsClient {
       contentType: secretBundle.contentType,
       attributes: secretBundle.attributes,
       tags: secretBundle.tags,
-      kid: secretBundle.kid,
+      keyId: secretBundle.kid,
       managed: secretBundle.managed,
       ...parsedId
     };
