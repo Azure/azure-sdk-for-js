@@ -1,6 +1,5 @@
 import * as Models from "./models";
 
-import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
 import * as msRest from "@azure/ms-rest-js";
 import { SecretAttributes } from "./models";
 
