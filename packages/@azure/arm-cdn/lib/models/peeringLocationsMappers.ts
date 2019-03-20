@@ -8,8 +8,15 @@
  * regenerated.
  */
 
-export * from "./legacyPeerings";
-export * from "./operations";
-export * from "./peerAsns";
-export * from "./peeringLocations";
-export * from "./peerings";
+export {
+  discriminators,
+  PeeringLocationListResult,
+  PeeringLocation,
+  PeeringLocationPropertiesDirect,
+  DirectPeeringFacility,
+  PeeringBandwidthOffer,
+  PeeringLocationPropertiesExchange,
+  ExchangePeeringFacility,
+  ErrorResponse
+} from "../models/mappers";
+
