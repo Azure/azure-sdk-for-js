@@ -51,7 +51,7 @@ export interface SkuCapacity {
 /**
  * @interface
  * An interface representing SkuCapability.
- * Describes The SKU capabilites object.
+ * Describes The SKU capabilities object.
  *
  */
 export interface SkuCapability {
@@ -526,6 +526,60 @@ export interface PlanUsageHistory {
 
 /**
  * @interface
+ * An interface representing OperationDisplayInfo.
+ * The API operation info.
+ *
+ */
+export interface OperationDisplayInfo {
+  /**
+   * @member {string} [description] The description of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [operation] The action that users can perform, based on
+   * their permission level.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly operation?: string;
+  /**
+   * @member {string} [provider] The service provider.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provider?: string;
+  /**
+   * @member {string} [resource] The resource on which the operation is
+   * performed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resource?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationEntity.
+ * An API operation.
+ *
+ */
+export interface OperationEntity {
+  /**
+   * @member {string} [name] Operation name: {provider}/{resource}/{operation}.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {OperationDisplayInfo} [display] The API operation info.
+   */
+  display?: OperationDisplayInfo;
+}
+
+/**
+ * @interface
  * An interface representing CommitmentAssociationsListOptionalParams.
  * Optional Parameters.
  *
@@ -592,6 +646,16 @@ export interface AzureMLCommitmentPlansManagementClientOptions extends AzureServ
   baseUri?: string;
 }
 
+
+/**
+ * @interface
+ * An interface representing the OperationEntityListResult.
+ * The list of REST API operations.
+ *
+ * @extends Array<OperationEntity>
+ */
+export interface OperationEntityListResult extends Array<OperationEntity> {
+}
 
 /**
  * @interface
@@ -668,6 +732,25 @@ export type ResourceSkuRestrictionsType = 'location' | 'zone';
  * @enum {string}
  */
 export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = OperationEntityListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationEntityListResult;
+    };
+};
 
 /**
  * Contains response data for the list operation.
