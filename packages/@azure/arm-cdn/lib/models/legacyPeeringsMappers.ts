@@ -8,8 +8,19 @@
  * regenerated.
  */
 
-export * from "./legacyPeerings";
-export * from "./operations";
-export * from "./peerAsns";
-export * from "./peeringLocations";
-export * from "./peerings";
+export {
+  PeeringListResult,
+  Peering,
+  BaseResource,
+  PeeringSku,
+  PeeringPropertiesDirect,
+  DirectConnection,
+  BgpSession,
+  SubResource,
+  PeeringPropertiesExchange,
+  ExchangeConnection,
+  ErrorResponse,
+  PeerAsn,
+  ContactInfo
+} from "../models/mappers";
+
