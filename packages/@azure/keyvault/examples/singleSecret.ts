@@ -6,29 +6,30 @@ async function main(): Promise<void> {
   const clientSecret = process.env["CLIENT_SECRET"] || "";
   const tenantId = process.env["TENANT_ID"] || "";
 
-  
+
   const url = "https://your-keyvault.vault.azure.net";
   const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
     clientId,
-    clientSecret, 
+    clientSecret,
     tenantId,
     {
       tokenAudience: 'https://vault.azure.net'
     }
   );
-  
+
   const client = new SecretsClient(url, credential);
 
+  const secretName = "MySecretName";
   const result = await client.setSecret("MySecretName", "MySecretValue");
   console.log("result: ", result);
 
-  const secret = await client.getSecret("Hello", { version: "3597ab0798b043d398cde46f309010ea" });
-  console.log("secret: ", secret);
-
-  let count = 0;
-  for await (let secret of client.getSecretVersions("Hello")) {
-    console.log(count++ + ":" + secret.version);
+  await client.setSecret("MySecretName", "My new SecretValue");
+  for await (let version of client.getSecretVersions(secretName)) {
+    const secret = await client.getSecret(secretName, { version: version.version });
+    console.log("secret: ", secret);
   }
+
+  await client.deleteSecret(secretName);
 }
 
 main().catch((err) => {
