@@ -89,7 +89,7 @@ export interface ParsedKeyVaultEntityIdentifier {
  *
  * @extends RequestOptionsBase
  */
-export interface SecretClientSetSecretOptionalParams extends msRest.RequestOptionsBase {
+export interface SetSecretOptions extends msRest.RequestOptionsBase {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -115,7 +115,7 @@ export interface SecretClientSetSecretOptionalParams extends msRest.RequestOptio
  *
  * @extends RequestOptionsBase
  */
-export interface SecretClientUpdateSecretOptionalParams extends msRest.RequestOptionsBase {
+export interface UpdateSecretOptions extends msRest.RequestOptionsBase {
   /**
    * @member {string} [contentType] Type of the secret value such as a
    * password.
@@ -140,7 +140,7 @@ export interface SecretClientUpdateSecretOptionalParams extends msRest.RequestOp
  *
  * @extends RequestOptionsBase
  */
-export interface SecretClientGetSecretOptionalParams extends msRest.RequestOptionsBase {
+export interface GetSecretOptions extends msRest.RequestOptionsBase {
   /**
    * @member {string} [version] The version of the secret to retrieve.  If not 
    * specified the latest version of the secret will be retrieved.
@@ -155,7 +155,7 @@ export interface SecretClientGetSecretOptionalParams extends msRest.RequestOptio
  *
  * @extends RequestOptionsBase
  */
-export interface SecretClientGetPagedOptionalParams extends msRest.RequestOptionsBase {
+export interface GetAllSecretsOptions extends msRest.RequestOptionsBase {
   /**
    * @member {number} [maxPageSize] Maximum number of results to return in a
    * page. If not specified, the service will return up to 25 results per page.

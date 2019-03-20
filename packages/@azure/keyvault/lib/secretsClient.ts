@@ -28,10 +28,10 @@ import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { 
   Secret, 
   DeletedSecret,
-  SecretClientSetSecretOptionalParams,
-  SecretClientUpdateSecretOptionalParams,
-  SecretClientGetSecretOptionalParams,
-  SecretClientGetPagedOptionalParams
+  SetSecretOptions,
+  UpdateSecretOptions,
+  GetSecretOptions,
+  GetAllSecretsOptions
  } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
@@ -172,7 +172,7 @@ export class SecretsClient {
   public async setSecret(
     secretName: string,
     value: string,
-    options?: SecretClientSetSecretOptionalParams
+    options?: SetSecretOptions
   ) {
     const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
     return this.getSecretFromSecretBundle(response);
@@ -208,7 +208,7 @@ export class SecretsClient {
   public async updateSecret(
     secretName: string,
     secretVersion: string,
-    options?: SecretClientUpdateSecretOptionalParams
+    options?: UpdateSecretOptions
   ): Promise<Secret> {
     const response = await this.client.updateSecret(
       this.vaultBaseUrl,
@@ -230,7 +230,7 @@ export class SecretsClient {
    */
   public async getSecret(
     secretName: string,
-    options?: SecretClientGetSecretOptionalParams
+    options?: GetSecretOptions
   ): Promise<Secret> {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
@@ -324,7 +324,7 @@ export class SecretsClient {
 
   public async *getSecretVersions(
     secretName: string,
-    options?: SecretClientGetPagedOptionalParams
+    options?: GetAllSecretsOptions
   ): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getSecretVersions(
       this.vaultBaseUrl,
@@ -352,7 +352,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllSecrets(options?: SecretClientGetPagedOptionalParams): AsyncIterableIterator<Secret> {
+  public async *getAllSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getSecrets(
       this.vaultBaseUrl,
       { maxresults: options ? options.maxPageSize : undefined,
@@ -378,7 +378,7 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllDeletedSecrets(options?: SecretClientGetPagedOptionalParams): AsyncIterableIterator<Secret> {
+  public async *getAllDeletedSecrets(options?: GetAllSecretsOptions): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getDeletedSecrets(
       this.vaultBaseUrl,
       { maxresults: options ? options.maxPageSize : undefined,
