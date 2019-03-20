@@ -647,6 +647,91 @@ export const PlanUsageHistory: msRest.CompositeMapper = {
   }
 };
 
+export const OperationDisplayInfo: msRest.CompositeMapper = {
+  serializedName: "OperationDisplayInfo",
+  type: {
+    name: "Composite",
+    className: "OperationDisplayInfo",
+    modelProperties: {
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        readOnly: true,
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      provider: {
+        readOnly: true,
+        serializedName: "provider",
+        type: {
+          name: "String"
+        }
+      },
+      resource: {
+        readOnly: true,
+        serializedName: "resource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationEntity: msRest.CompositeMapper = {
+  serializedName: "OperationEntity",
+  type: {
+    name: "Composite",
+    className: "OperationEntity",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplayInfo"
+        }
+      }
+    }
+  }
+};
+
+export const OperationEntityListResult: msRest.CompositeMapper = {
+  serializedName: "OperationEntityListResult",
+  type: {
+    name: "Composite",
+    className: "OperationEntityListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationEntity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SkuListResult: msRest.CompositeMapper = {
   serializedName: "SkuListResult",
   type: {
