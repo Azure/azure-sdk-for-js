@@ -299,7 +299,7 @@ const createOperationSpec: msRest.OperationSpec = {
 };
 
 const signOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+  httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/sign",
   urlParameters: [
     Parameters.subscriptionId,
@@ -325,7 +325,7 @@ const signOperationSpec: msRest.OperationSpec = {
 };
 
 const cancelOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+  httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/cancel",
   urlParameters: [
     Parameters.subscriptionId,
