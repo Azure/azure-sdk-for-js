@@ -787,7 +787,7 @@ export interface ValidateCustomDomainOutput {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates Front Door service is not able to process the
+ * Error response indicates Front Door service is not able to process the
  * incoming request. The reason is provided in the error message.
  *
  */
@@ -943,57 +943,78 @@ export interface TagsObject {
 /**
  * @interface
  * An interface representing PolicySettings.
- * Defines contents of a web application firewall global configuration
+ * Defines top-level WebApplicationFirewallPolicy configuration settings.
  *
  */
 export interface PolicySettings {
   /**
-   * @member {EnabledState} [enabledState] describes if the policy is in
-   * enabled state or disabled state. Possible values include: 'Disabled',
-   * 'Enabled'
+   * @member {PolicyEnabledState} [enabledState] Describes if the policy is in
+   * enabled or disabled state. Defaults to Enabled if not specified. Possible
+   * values include: 'Disabled', 'Enabled'
    */
-  enabledState?: EnabledState;
+  enabledState?: PolicyEnabledState;
   /**
-   * @member {Mode} [mode] Describes if it is in detection mode  or prevention
-   * mode at policy level. Possible values include: 'Prevention', 'Detection'
+   * @member {PolicyMode} [mode] Describes if it is in detection mode or
+   * prevention mode at policy level. Possible values include: 'Prevention',
+   * 'Detection'
    */
-  mode?: Mode;
+  mode?: PolicyMode;
+  /**
+   * @member {string} [redirectUrl] If action type is redirect, this field
+   * represents redirect URL for the client.
+   */
+  redirectUrl?: string;
+  /**
+   * @member {number} [customBlockResponseStatusCode] If the action type is
+   * block, customer can override the response status code.
+   */
+  customBlockResponseStatusCode?: number;
+  /**
+   * @member {string} [customBlockResponseBody] If the action type is block,
+   * customer can override the response body. The body must be specified in
+   * base64 encoding.
+   */
+  customBlockResponseBody?: string;
 }
 
 /**
  * @interface
- * An interface representing MatchCondition1.
- * Define match conditions
+ * An interface representing MatchCondition.
+ * Define a match condition.
  *
  */
-export interface MatchCondition1 {
+export interface MatchCondition {
   /**
-   * @member {MatchCondition} matchVariable Match Variable. Possible values
-   * include: 'RemoteAddr', 'RequestMethod', 'QueryString', 'PostArgs',
-   * 'RequestUri', 'RequestHeader', 'RequestBody'
+   * @member {MatchVariable} matchVariable Match variable to compare against.
+   * Possible values include: 'RemoteAddr', 'RequestMethod', 'QueryString',
+   * 'PostArgs', 'RequestUri', 'RequestHeader', 'RequestBody', 'Cookies'
    */
-  matchVariable: MatchCondition;
+  matchVariable: MatchVariable;
   /**
-   * @member {string} [selector] Name of selector in RequestHeader or
-   * RequestBody to be matched
+   * @member {string} [selector] Selector can used to match against a specific
+   * key from QueryString, PostArgs, RequestHeader or Cookies.
    */
   selector?: string;
   /**
    * @member {Operator} operator Describes operator to be matched. Possible
    * values include: 'Any', 'IPMatch', 'GeoMatch', 'Equal', 'Contains',
    * 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual',
-   * 'BeginsWith', 'EndsWith'
+   * 'BeginsWith', 'EndsWith', 'RegEx'
    */
   operator: Operator;
   /**
-   * @member {boolean} [negateCondition] Describes if this is negate condition
-   * or not
+   * @member {boolean} [negateCondition] Describes if the result of this
+   * condition should be negated.
    */
   negateCondition?: boolean;
   /**
-   * @member {string[]} matchValue Match value
+   * @member {string[]} matchValue List of possible match values.
    */
   matchValue: string[];
+  /**
+   * @member {TransformType[]} [transforms] List of transforms.
+   */
+  transforms?: TransformType[];
 }
 
 /**
@@ -1004,22 +1025,20 @@ export interface MatchCondition1 {
  */
 export interface CustomRule {
   /**
-   * @member {string} [name] Gets name of the resource that is unique within a
-   * policy. This name can be used to access the resource.
+   * @member {string} [name] Describes the name of the rule.
    */
   name?: string;
   /**
-   * @member {string} [etag] Gets a unique read-only string that changes
-   * whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly etag?: string;
-  /**
    * @member {number} priority Describes priority of the rule. Rules with a
-   * lower value will be evaluated before rules with a higher value
+   * lower value will be evaluated before rules with a higher value.
    */
   priority: number;
+  /**
+   * @member {CustomRuleEnabledState} [enabledState] Describes if the custom
+   * rule is in enabled or disabled state. Defaults to Enabled if not
+   * specified. Possible values include: 'Disabled', 'Enabled'
+   */
+  enabledState?: CustomRuleEnabledState;
   /**
    * @member {RuleType} ruleType Describes type of rule. Possible values
    * include: 'MatchRule', 'RateLimitRule'
@@ -1027,35 +1046,31 @@ export interface CustomRule {
   ruleType: RuleType;
   /**
    * @member {number} [rateLimitDurationInMinutes] Defines rate limit duration.
-   * Default - 1 minute
+   * Default is 1 minute.
    */
   rateLimitDurationInMinutes?: number;
   /**
-   * @member {number} [rateLimitThreshold] Defines rate limit thresold
+   * @member {number} [rateLimitThreshold] Defines rate limit threshold.
    */
   rateLimitThreshold?: number;
   /**
-   * @member {MatchCondition1[]} matchConditions List of match conditions
+   * @member {MatchCondition[]} matchConditions List of match conditions.
    */
-  matchConditions: MatchCondition1[];
+  matchConditions: MatchCondition[];
   /**
-   * @member {Action} action Type of Actions. Possible values include: 'Allow',
-   * 'Block', 'Log'
+   * @member {ActionType} action Describes what action to be applied when rule
+   * matches. Possible values include: 'Allow', 'Block', 'Log', 'Redirect'
    */
-  action: Action;
-  /**
-   * @member {Transform[]} [transforms] List of transforms
-   */
-  transforms?: Transform[];
+  action: ActionType;
 }
 
 /**
  * @interface
- * An interface representing CustomRules.
+ * An interface representing CustomRuleList.
  * Defines contents of custom rules
  *
  */
-export interface CustomRules {
+export interface CustomRuleList {
   /**
    * @member {CustomRule[]} [rules] List of rules
    */
@@ -1063,42 +1078,96 @@ export interface CustomRules {
 }
 
 /**
- * Contains the possible cases for ManagedRuleSet.
- */
-export type ManagedRuleSetUnion = ManagedRuleSet | AzureManagedRuleSet;
-
-/**
  * @interface
- * An interface representing ManagedRuleSet.
- * Base class for all types of ManagedRuleSet.
+ * An interface representing ManagedRuleOverride.
+ * Defines a managed rule group override setting.
  *
  */
-export interface ManagedRuleSet {
+export interface ManagedRuleOverride {
   /**
-   * @member {string} ruleSetType Polymorphic Discriminator
+   * @member {string} ruleId Identifier for the managed rule.
    */
-  ruleSetType: "Unknown";
+  ruleId: string;
   /**
-   * @member {number} [priority] Describes priority of the rule
+   * @member {ManagedRuleEnabledState} [enabledState] Describes if the managed
+   * rule is in enabled or disabled state. Defaults to Disabled if not
+   * specified. Possible values include: 'Disabled', 'Enabled'
    */
-  priority?: number;
+  enabledState?: ManagedRuleEnabledState;
   /**
-   * @member {number} [version] defines version of the ruleset
+   * @member {ActionType} [action] Describes the override action to be applied
+   * when rule matches. Possible values include: 'Allow', 'Block', 'Log',
+   * 'Redirect'
    */
-  version?: number;
+  action?: ActionType;
 }
 
 /**
  * @interface
- * An interface representing ManagedRuleSets.
- * Defines ManagedRuleSets - array of managedRuleSet
+ * An interface representing ManagedRuleGroupOverride.
+ * Defines a managed rule group override setting.
  *
  */
-export interface ManagedRuleSets {
+export interface ManagedRuleGroupOverride {
   /**
-   * @member {ManagedRuleSetUnion[]} [ruleSets] List of rules
+   * @member {string} ruleGroupName Describes the managed rule group to
+   * override.
    */
-  ruleSets?: ManagedRuleSetUnion[];
+  ruleGroupName: string;
+  /**
+   * @member {ManagedRuleOverride[]} [rules] List of rules that will be
+   * disabled. If none specified, all rules in the group will be disabled.
+   */
+  rules?: ManagedRuleOverride[];
+}
+
+/**
+ * @interface
+ * An interface representing ManagedRuleSet.
+ * Defines a managed rule set.
+ *
+ */
+export interface ManagedRuleSet {
+  /**
+   * @member {string} ruleSetType Defines the rule set type to use.
+   */
+  ruleSetType: string;
+  /**
+   * @member {string} ruleSetVersion Defines the version of the rule set to
+   * use.
+   */
+  ruleSetVersion: string;
+  /**
+   * @member {ManagedRuleGroupOverride[]} [ruleGroupOverrides] Defines the rule
+   * group overrides to apply to the rule set.
+   */
+  ruleGroupOverrides?: ManagedRuleGroupOverride[];
+}
+
+/**
+ * @interface
+ * An interface representing ManagedRuleSetList.
+ * Defines the list of managed rule sets for the policy.
+ *
+ */
+export interface ManagedRuleSetList {
+  /**
+   * @member {ManagedRuleSet[]} [managedRuleSets] List of rule sets.
+   */
+  managedRuleSets?: ManagedRuleSet[];
+}
+
+/**
+ * @interface
+ * An interface representing FrontendEndpointLink.
+ * Defines the Resource ID for a Frontend Endpoint.
+ *
+ */
+export interface FrontendEndpointLink {
+  /**
+   * @member {string} [id] Resource ID.
+   */
+  id?: string;
 }
 
 /**
@@ -1110,23 +1179,29 @@ export interface ManagedRuleSets {
  */
 export interface WebApplicationFirewallPolicy1 extends Resource {
   /**
-   * @member {PolicySettings} [policySettings] Describes  policySettings for
-   * policy
+   * @member {PolicySettings} [policySettings] Describes settings for the
+   * policy.
    */
   policySettings?: PolicySettings;
   /**
-   * @member {CustomRules} [customRules] Describes custom rules inside the
-   * policy
+   * @member {CustomRuleList} [customRules] Describes custom rules inside the
+   * policy.
    */
-  customRules?: CustomRules;
+  customRules?: CustomRuleList;
   /**
-   * @member {ManagedRuleSets} [managedRules] Describes managed rules inside
-   * the policy
+   * @member {ManagedRuleSetList} [managedRules] Describes managed rules inside
+   * the policy.
    */
-  managedRules?: ManagedRuleSets;
+  managedRules?: ManagedRuleSetList;
   /**
-   * @member {string} [provisioningState] Provisioning state of the
-   * WebApplicationFirewallPolicy.
+   * @member {FrontendEndpointLink[]} [frontendEndpointLinks] Describes
+   * Frontend Endpoints associated with this Web Application Firewall policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly frontendEndpointLinks?: FrontendEndpointLink[];
+  /**
+   * @member {string} [provisioningState] Provisioning state of the policy.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1148,47 +1223,88 @@ export interface WebApplicationFirewallPolicy1 extends Resource {
 
 /**
  * @interface
- * An interface representing AzureManagedOverrideRuleGroup.
- * Defines contents of a web application rule
+ * An interface representing ManagedRuleDefinition.
+ * Describes a managed rule definition.
  *
  */
-export interface AzureManagedOverrideRuleGroup {
+export interface ManagedRuleDefinition {
   /**
-   * @member {RuleGroupOverride} ruleGroupOverride Describes overrideruleGroup.
-   * Possible values include: 'SqlInjection', 'XSS'
+   * @member {string} [ruleId] Identifier for the managed rule.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  ruleGroupOverride: RuleGroupOverride;
+  readonly ruleId?: string;
   /**
-   * @member {Action} action Type of Actions. Possible values include: 'Allow',
-   * 'Block', 'Log'
+   * @member {string} [description] Describes the functionality of the managed
+   * rule.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  action: Action;
+  readonly description?: string;
 }
 
 /**
  * @interface
- * An interface representing AzureManagedRuleSet.
- * Describes azure managed provider.
+ * An interface representing ManagedRuleGroupDefinition.
+ * Describes a managed rule group.
  *
  */
-export interface AzureManagedRuleSet {
+export interface ManagedRuleGroupDefinition {
   /**
-   * @member {string} ruleSetType Polymorphic Discriminator
+   * @member {string} [ruleGroupName] Name of the managed rule group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  ruleSetType: "AzureManagedRuleSet";
+  readonly ruleGroupName?: string;
   /**
-   * @member {number} [priority] Describes priority of the rule
+   * @member {string} [description] Description of the managed rule group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  priority?: number;
+  readonly description?: string;
   /**
-   * @member {number} [version] defines version of the ruleset
+   * @member {ManagedRuleDefinition[]} [rules] List of rules within the managed
+   * rule group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  version?: number;
+  readonly rules?: ManagedRuleDefinition[];
+}
+
+/**
+ * @interface
+ * An interface representing ManagedRuleSetDefinition.
+ * Describes the a managed rule set definition.
+ *
+ * @extends Resource
+ */
+export interface ManagedRuleSetDefinition extends Resource {
   /**
-   * @member {AzureManagedOverrideRuleGroup[]} [ruleGroupOverrides] List of
-   * azure managed provider override configuration (optional)
+   * @member {string} [provisioningState] Provisioning state of the managed
+   * rule set.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  ruleGroupOverrides?: AzureManagedOverrideRuleGroup[];
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [ruleSetType] Type of the managed rule set.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ruleSetType?: string;
+  /**
+   * @member {string} [ruleSetVersion] Version of the managed rule set type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ruleSetVersion?: string;
+  /**
+   * @member {ManagedRuleGroupDefinition[]} [ruleGroups] Rule groups of the
+   * managed rule set.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ruleGroups?: ManagedRuleGroupDefinition[];
 }
 
 /**
@@ -1208,7 +1324,7 @@ export interface FrontDoorManagementClientOptions extends AzureServiceClientOpti
  * @interface
  * An interface representing the FrontDoorListResult.
  * Result of the request to list Front Doors. It contains a list of Front Door
- * objects and a URL link to get the the next set of results.
+ * objects and a URL link to get the next set of results.
  *
  * @extends Array<FrontDoor>
  */
@@ -1224,7 +1340,7 @@ export interface FrontDoorListResult extends Array<FrontDoor> {
  * @interface
  * An interface representing the RoutingRuleListResult.
  * Result of the request to list Routing Rules. It contains a list of Routing
- * Rule objects and a URL link to get the the next set of results.
+ * Rule objects and a URL link to get the next set of results.
  *
  * @extends Array<RoutingRule>
  */
@@ -1240,8 +1356,7 @@ export interface RoutingRuleListResult extends Array<RoutingRule> {
  * @interface
  * An interface representing the HealthProbeSettingsListResult.
  * Result of the request to list HealthProbeSettings. It contains a list of
- * HealthProbeSettings objects and a URL link to get the the next set of
- * results.
+ * HealthProbeSettings objects and a URL link to get the next set of results.
  *
  * @extends Array<HealthProbeSettingsModel>
  */
@@ -1257,7 +1372,7 @@ export interface HealthProbeSettingsListResult extends Array<HealthProbeSettings
  * @interface
  * An interface representing the LoadBalancingSettingsListResult.
  * Result of the request to list load balancing settings. It contains a list of
- * load balancing settings objects and a URL link to get the the next set of
+ * load balancing settings objects and a URL link to get the next set of
  * results.
  *
  * @extends Array<LoadBalancingSettingsModel>
@@ -1274,7 +1389,7 @@ export interface LoadBalancingSettingsListResult extends Array<LoadBalancingSett
  * @interface
  * An interface representing the BackendPoolListResult.
  * Result of the request to list Backend Pools. It contains a list of Backend
- * Pools objects and a URL link to get the the next set of results.
+ * Pools objects and a URL link to get the next set of results.
  *
  * @extends Array<BackendPool>
  */
@@ -1290,7 +1405,7 @@ export interface BackendPoolListResult extends Array<BackendPool> {
  * @interface
  * An interface representing the FrontendEndpointsListResult.
  * Result of the request to list frontend endpoints. It contains a list of
- * Frontend endpoint objects and a URL link to get the the next set of results.
+ * Frontend endpoint objects and a URL link to get the next set of results.
  *
  * @extends Array<FrontendEndpoint>
  */
@@ -1304,17 +1419,32 @@ export interface FrontendEndpointsListResult extends Array<FrontendEndpoint> {
 
 /**
  * @interface
- * An interface representing the WebApplicationFirewallPolicyListResult.
- * Result of the request to list WebApplicationFirewallPolicies. It contains a
- * list of WebApplicationFirewallPolicy objects and a URL link to get the the
- * next set of results.
+ * An interface representing the WebApplicationFirewallPolicyList.
+ * Defines a list of WebApplicationFirewallPolicies. It contains a list of
+ * WebApplicationFirewallPolicy objects and a URL link to get the the next set
+ * of results.
  *
  * @extends Array<WebApplicationFirewallPolicy1>
  */
-export interface WebApplicationFirewallPolicyListResult extends Array<WebApplicationFirewallPolicy1> {
+export interface WebApplicationFirewallPolicyList extends Array<WebApplicationFirewallPolicy1> {
   /**
    * @member {string} [nextLink] URL to get the next set of
    * WebApplicationFirewallPolicy objects if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ManagedRuleSetDefinitionList.
+ * List of managed rule set definitions available for use in a policy.
+ *
+ * @extends Array<ManagedRuleSetDefinition>
+ */
+export interface ManagedRuleSetDefinitionList extends Array<ManagedRuleSetDefinition> {
+  /**
+   * @member {string} [nextLink] URL to retrieve next set of managed rule set
+   * definitions.
    */
   nextLink?: string;
 }
@@ -1445,20 +1575,28 @@ export type Availability = 'Available' | 'Unavailable';
 export type NetworkOperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
 
 /**
- * Defines values for EnabledState.
+ * Defines values for PolicyEnabledState.
  * Possible values include: 'Disabled', 'Enabled'
  * @readonly
  * @enum {string}
  */
-export type EnabledState = 'Disabled' | 'Enabled';
+export type PolicyEnabledState = 'Disabled' | 'Enabled';
 
 /**
- * Defines values for Mode.
+ * Defines values for PolicyMode.
  * Possible values include: 'Prevention', 'Detection'
  * @readonly
  * @enum {string}
  */
-export type Mode = 'Prevention' | 'Detection';
+export type PolicyMode = 'Prevention' | 'Detection';
+
+/**
+ * Defines values for CustomRuleEnabledState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type CustomRuleEnabledState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for RuleType.
@@ -1469,39 +1607,47 @@ export type Mode = 'Prevention' | 'Detection';
 export type RuleType = 'MatchRule' | 'RateLimitRule';
 
 /**
- * Defines values for MatchCondition.
+ * Defines values for MatchVariable.
  * Possible values include: 'RemoteAddr', 'RequestMethod', 'QueryString', 'PostArgs', 'RequestUri',
- * 'RequestHeader', 'RequestBody'
+ * 'RequestHeader', 'RequestBody', 'Cookies'
  * @readonly
  * @enum {string}
  */
-export type MatchCondition = 'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestHeader' | 'RequestBody';
+export type MatchVariable = 'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestHeader' | 'RequestBody' | 'Cookies';
 
 /**
  * Defines values for Operator.
  * Possible values include: 'Any', 'IPMatch', 'GeoMatch', 'Equal', 'Contains', 'LessThan',
- * 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith'
+ * 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'RegEx'
  * @readonly
  * @enum {string}
  */
-export type Operator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith';
+export type Operator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith' | 'RegEx';
 
 /**
- * Defines values for Action.
- * Possible values include: 'Allow', 'Block', 'Log'
- * @readonly
- * @enum {string}
- */
-export type Action = 'Allow' | 'Block' | 'Log';
-
-/**
- * Defines values for Transform.
+ * Defines values for TransformType.
  * Possible values include: 'Lowercase', 'Uppercase', 'Trim', 'UrlDecode', 'UrlEncode',
- * 'RemoveNulls', 'HtmlEntityDecode'
+ * 'RemoveNulls'
  * @readonly
  * @enum {string}
  */
-export type Transform = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls' | 'HtmlEntityDecode';
+export type TransformType = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls';
+
+/**
+ * Defines values for ActionType.
+ * Possible values include: 'Allow', 'Block', 'Log', 'Redirect'
+ * @readonly
+ * @enum {string}
+ */
+export type ActionType = 'Allow' | 'Block' | 'Log' | 'Redirect';
+
+/**
+ * Defines values for ManagedRuleEnabledState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedRuleEnabledState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for WebApplicationFirewallPolicy.
@@ -1510,14 +1656,6 @@ export type Transform = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | 'UrlE
  * @enum {string}
  */
 export type WebApplicationFirewallPolicy = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
-
-/**
- * Defines values for RuleGroupOverride.
- * Possible values include: 'SqlInjection', 'XSS'
- * @readonly
- * @enum {string}
- */
-export type RuleGroupOverride = 'SqlInjection' | 'XSS';
 
 /**
  * Contains response data for the checkFrontDoorNameAvailability operation.
@@ -2187,7 +2325,7 @@ export type FrontendEndpointsListByFrontDoorNextResponse = FrontendEndpointsList
 /**
  * Contains response data for the list operation.
  */
-export type PoliciesListResponse = WebApplicationFirewallPolicyListResult & {
+export type PoliciesListResponse = WebApplicationFirewallPolicyList & {
   /**
    * The underlying HTTP response.
    */
@@ -2199,7 +2337,7 @@ export type PoliciesListResponse = WebApplicationFirewallPolicyListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: WebApplicationFirewallPolicyListResult;
+      parsedBody: WebApplicationFirewallPolicyList;
     };
 };
 
@@ -2242,9 +2380,9 @@ export type PoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy1 & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the beginCreateOrUpdate operation.
  */
-export type PoliciesListNextResponse = WebApplicationFirewallPolicyListResult & {
+export type PoliciesBeginCreateOrUpdateResponse = WebApplicationFirewallPolicy1 & {
   /**
    * The underlying HTTP response.
    */
@@ -2256,6 +2394,63 @@ export type PoliciesListNextResponse = WebApplicationFirewallPolicyListResult & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: WebApplicationFirewallPolicyListResult;
+      parsedBody: WebApplicationFirewallPolicy1;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PoliciesListNextResponse = WebApplicationFirewallPolicyList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WebApplicationFirewallPolicyList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedRuleSetDefinitionList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ManagedRuleSetsListNextResponse = ManagedRuleSetDefinitionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedRuleSetDefinitionList;
     };
 };

@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   FrontDoorListResult,
   FrontDoor,
   Resource,
@@ -30,12 +29,16 @@ export {
   ValidateCustomDomainOutput,
   WebApplicationFirewallPolicy1,
   PolicySettings,
-  CustomRules,
+  CustomRuleList,
   CustomRule,
-  MatchCondition1,
-  ManagedRuleSets,
+  MatchCondition,
+  ManagedRuleSetList,
   ManagedRuleSet,
-  AzureManagedRuleSet,
-  AzureManagedOverrideRuleGroup
+  ManagedRuleGroupOverride,
+  ManagedRuleOverride,
+  FrontendEndpointLink,
+  ManagedRuleSetDefinition,
+  ManagedRuleGroupDefinition,
+  ManagedRuleDefinition
 } from "../models/mappers";
 

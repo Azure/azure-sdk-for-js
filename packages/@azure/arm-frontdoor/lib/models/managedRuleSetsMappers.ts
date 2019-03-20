@@ -9,21 +9,25 @@
  */
 
 export {
-  BackendPoolListResult,
-  BackendPool,
-  SubResource,
+  ManagedRuleSetDefinitionList,
+  ManagedRuleSetDefinition,
+  Resource,
   BaseResource,
-  Backend,
+  ManagedRuleGroupDefinition,
+  ManagedRuleDefinition,
   ErrorResponse,
+  FrontDoor,
   RoutingRule,
+  SubResource,
   CacheConfiguration,
   LoadBalancingSettingsModel,
   HealthProbeSettingsModel,
+  BackendPool,
+  Backend,
   FrontendEndpoint,
   FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink,
   CustomHttpsConfiguration,
   KeyVaultCertificateSourceParametersVault,
-  Resource,
   WebApplicationFirewallPolicy1,
   PolicySettings,
   CustomRuleList,
@@ -33,10 +37,6 @@ export {
   ManagedRuleSet,
   ManagedRuleGroupOverride,
   ManagedRuleOverride,
-  FrontendEndpointLink,
-  ManagedRuleSetDefinition,
-  ManagedRuleGroupDefinition,
-  ManagedRuleDefinition,
-  FrontDoor
+  FrontendEndpointLink
 } from "../models/mappers";
 
