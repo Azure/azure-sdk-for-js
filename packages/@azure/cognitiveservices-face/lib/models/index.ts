@@ -465,7 +465,7 @@ export interface FaceAttributes {
   age?: number;
   /**
    * @member {Gender} [gender] Possible gender of the face. Possible values
-   * include: 'male', 'female', 'genderless'
+   * include: 'male', 'female'
    */
   gender?: Gender;
   /**
@@ -539,6 +539,11 @@ export interface DetectedFace {
    */
   faceId?: string;
   /**
+   * @member {RecognitionModel} [recognitionModel] Possible values include:
+   * 'recognition_01', 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+  /**
    * @member {FaceRectangle} faceRectangle
    */
   faceRectangle: FaceRectangle;
@@ -570,7 +575,7 @@ export interface FindSimilarRequest {
    * face list, created in Face List - Create a Face List. Face list contains a
    * set of persistedFaceIds which are persisted and will never expire.
    * Parameter faceListId, largeFaceListId and faceIds should not be provided
-   * at the same time。
+   * at the same time.
    */
   faceListId?: string;
   /**
@@ -856,12 +861,28 @@ export interface NameAndUserDataContract {
 
 /**
  * @interface
- * An interface representing FaceList.
- * Face list object.
+ * An interface representing MetaDataContract.
+ * A combination of user defined name and user specified data and recognition
+ * model name for largePersonGroup/personGroup, and largeFaceList/faceList.
  *
  * @extends NameAndUserDataContract
  */
-export interface FaceList extends NameAndUserDataContract {
+export interface MetaDataContract extends NameAndUserDataContract {
+  /**
+   * @member {RecognitionModel} [recognitionModel] Possible values include:
+   * 'recognition_01', 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+}
+
+/**
+ * @interface
+ * An interface representing FaceList.
+ * Face list object.
+ *
+ * @extends MetaDataContract
+ */
+export interface FaceList extends MetaDataContract {
   /**
    * @member {string} faceListId FaceListId of the target face list.
    */
@@ -878,9 +899,9 @@ export interface FaceList extends NameAndUserDataContract {
  * An interface representing PersonGroup.
  * Person group object.
  *
- * @extends NameAndUserDataContract
+ * @extends MetaDataContract
  */
-export interface PersonGroup extends NameAndUserDataContract {
+export interface PersonGroup extends MetaDataContract {
   /**
    * @member {string} personGroupId PersonGroupId of the target person group.
    */
@@ -912,9 +933,9 @@ export interface Person extends NameAndUserDataContract {
  * An interface representing LargeFaceList.
  * Large face list object.
  *
- * @extends NameAndUserDataContract
+ * @extends MetaDataContract
  */
-export interface LargeFaceList extends NameAndUserDataContract {
+export interface LargeFaceList extends MetaDataContract {
   /**
    * @member {string} largeFaceListId LargeFaceListId of the target large face
    * list.
@@ -927,9 +948,9 @@ export interface LargeFaceList extends NameAndUserDataContract {
  * An interface representing LargePersonGroup.
  * Large person group object.
  *
- * @extends NameAndUserDataContract
+ * @extends MetaDataContract
  */
-export interface LargePersonGroup extends NameAndUserDataContract {
+export interface LargePersonGroup extends MetaDataContract {
   /**
    * @member {string} largePersonGroupId LargePersonGroupId of the target large
    * person groups
@@ -998,6 +1019,183 @@ export interface TrainingStatus {
 
 /**
  * @interface
+ * An interface representing ApplySnapshotRequest.
+ * Request body for applying snapshot operation.
+ *
+ */
+export interface ApplySnapshotRequest {
+  /**
+   * @member {string} objectId User specified target object id to be created
+   * from the snapshot.
+   */
+  objectId: string;
+  /**
+   * @member {SnapshotApplyMode} [mode] Snapshot applying mode. Currently only
+   * CreateNew is supported, which means the apply operation will fail if
+   * target subscription already contains an object of same type and using the
+   * same objectId. Users can specify the "objectId" in request body to avoid
+   * such conflicts. Possible values include: 'CreateNew'. Default value:
+   * 'CreateNew' .
+   */
+  mode?: SnapshotApplyMode;
+}
+
+/**
+ * @interface
+ * An interface representing Snapshot.
+ * Snapshot object.
+ *
+ */
+export interface Snapshot {
+  /**
+   * @member {string} id Snapshot id.
+   */
+  id: string;
+  /**
+   * @member {string} account Azure Cognitive Service Face account id of the
+   * subscriber who created the snapshot by Snapshot - Take.
+   */
+  account: string;
+  /**
+   * @member {SnapshotObjectType} type Type of the source object in the
+   * snapshot, specified by the subscriber who created the snapshot when
+   * calling Snapshot - Take. Currently FaceList, PersonGroup, LargeFaceList
+   * and LargePersonGroup are supported. Possible values include: 'FaceList',
+   * 'LargeFaceList', 'LargePersonGroup', 'PersonGroup'
+   */
+  type: SnapshotObjectType;
+  /**
+   * @member {string[]} applyScope Array of the target Face subscription ids
+   * for the snapshot, specified by the user who created the snapshot when
+   * calling Snapshot - Take. For each snapshot, only subscriptions included in
+   * the applyScope of Snapshot - Take can apply it.
+   */
+  applyScope: string[];
+  /**
+   * @member {string} [userData] User specified data about the snapshot for any
+   * purpose. Length should not exceed 16KB.
+   */
+  userData?: string;
+  /**
+   * @member {Date} createdTime A combined UTC date and time string that
+   * describes the created time of the snapshot. E.g.
+   * 2018-12-25T11:41:02.2331413Z.
+   */
+  createdTime: Date;
+  /**
+   * @member {Date} lastUpdateTime A combined UTC date and time string that
+   * describes the last time when the snapshot was created or updated by
+   * Snapshot - Update. E.g. 2018-12-25T11:51:27.8705696Z.
+   */
+  lastUpdateTime: Date;
+}
+
+/**
+ * @interface
+ * An interface representing TakeSnapshotRequest.
+ * Request body for taking snapshot operation.
+ *
+ */
+export interface TakeSnapshotRequest {
+  /**
+   * @member {SnapshotObjectType} type User specified type for the source
+   * object to take snapshot from. Currently FaceList, PersonGroup,
+   * LargeFaceList and LargePersonGroup are supported. Possible values include:
+   * 'FaceList', 'LargeFaceList', 'LargePersonGroup', 'PersonGroup'
+   */
+  type: SnapshotObjectType;
+  /**
+   * @member {string} objectId User specified source object id to take snapshot
+   * from.
+   */
+  objectId: string;
+  /**
+   * @member {string[]} applyScope User specified array of target Face
+   * subscription ids for the snapshot. For each snapshot, only subscriptions
+   * included in the applyScope of Snapshot - Take can apply it.
+   */
+  applyScope: string[];
+  /**
+   * @member {string} [userData] User specified data about the snapshot for any
+   * purpose. Length should not exceed 16KB.
+   */
+  userData?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UpdateSnapshotRequest.
+ * Request body for updating a snapshot, with a combination of user defined
+ * apply scope and user specified data.
+ *
+ */
+export interface UpdateSnapshotRequest {
+  /**
+   * @member {string[]} [applyScope] Array of the target Face subscription ids
+   * for the snapshot, specified by the user who created the snapshot when
+   * calling Snapshot - Take. For each snapshot, only subscriptions included in
+   * the applyScope of Snapshot - Take can apply it.
+   */
+  applyScope?: string[];
+  /**
+   * @member {string} [userData] User specified data about the snapshot for any
+   * purpose. Length should not exceed 16KB.
+   */
+  userData?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationStatus.
+ * Operation status object. Operation refers to the asynchronous backend task
+ * including taking a snapshot and applying a snapshot.
+ *
+ */
+export interface OperationStatus {
+  /**
+   * @member {OperationStatusType} status Operation status: notstarted,
+   * running, succeeded, failed. If the operation is requested and waiting to
+   * perform, the status is notstarted. If the operation is ongoing in backend,
+   * the status is running. Status succeeded means the operation is completed
+   * successfully, specifically for snapshot taking operation, it illustrates
+   * the snapshot is well taken and ready to apply, and for snapshot applying
+   * operation, it presents the target object has finished creating by the
+   * snapshot and ready to be used. Status failed is often caused by editing
+   * the source object while taking the snapshot or editing the target object
+   * while applying the snapshot before completion, see the field "message" to
+   * check the failure reason. Possible values include: 'notstarted',
+   * 'running', 'succeeded', 'failed'
+   */
+  status: OperationStatusType;
+  /**
+   * @member {Date} createdTime A combined UTC date and time string that
+   * describes the time when the operation (take or apply a snapshot) is
+   * requested. E.g. 2018-12-25T11:41:02.2331413Z.
+   */
+  createdTime: Date;
+  /**
+   * @member {Date} [lastActionTime] A combined UTC date and time string that
+   * describes the last time the operation (take or apply a snapshot) is
+   * actively migrating data. The lastActionTime will keep increasing until the
+   * operation finishes. E.g. 2018-12-25T11:51:27.8705696Z.
+   */
+  lastActionTime?: Date;
+  /**
+   * @member {string} [resourceLocation] When the operation succeeds
+   * successfully, for snapshot taking operation the snapshot id will be
+   * included in this field, and for snapshot applying operation, the path to
+   * get the target object will be returned in this field.
+   */
+  resourceLocation?: string;
+  /**
+   * @member {string} [message] Show failure message when operation fails
+   * (omitted when operation succeeds).
+   */
+  message?: string;
+}
+
+/**
+ * @interface
  * An interface representing ImageUrl.
  */
 export interface ImageUrl {
@@ -1020,7 +1218,7 @@ export interface FaceFindSimilarOptionalParams extends msRest.RequestOptionsBase
    * face list, created in Face List - Create a Face List. Face list contains a
    * set of persistedFaceIds which are persisted and will never expire.
    * Parameter faceListId, largeFaceListId and faceIds should not be provided
-   * at the same time。
+   * at the same time.
    */
   faceListId?: string;
   /**
@@ -1114,6 +1312,23 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
    * each face attribute analysis has additional computational and time cost.
    */
   returnFaceAttributes?: FaceAttributeType[];
+  /**
+   * @member {RecognitionModel} [recognitionModel] Name of recognition model.
+   * Recognition model is used when the face features are extracted and
+   * associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A
+   * recognition model name can be provided when performing Face - Detect or
+   * (Large)FaceList - Create or (Large)PersonGroup - Create. The default value
+   * is 'recognition_01', if latest model needed, please explicitly specify the
+   * model you need. Possible values include: 'recognition_01',
+   * 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1167,6 +1382,23 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
    * each face attribute analysis has additional computational and time cost.
    */
   returnFaceAttributes?: FaceAttributeType[];
+  /**
+   * @member {RecognitionModel} [recognitionModel] Name of recognition model.
+   * Recognition model is used when the face features are extracted and
+   * associated with detected faceIds, (Large)FaceList or (Large)PersonGroup. A
+   * recognition model name can be provided when performing Face - Detect or
+   * (Large)FaceList - Create or (Large)PersonGroup - Create. The default value
+   * is 'recognition_01', if latest model needed, please explicitly specify the
+   * model you need. Possible values include: 'recognition_01',
+   * 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1307,6 +1539,27 @@ export interface PersonGroupCreateOptionalParams extends msRest.RequestOptionsBa
    * 16KB.
    */
   userData?: string;
+  /**
+   * @member {RecognitionModel} [recognitionModel] Possible values include:
+   * 'recognition_01', 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+}
+
+/**
+ * @interface
+ * An interface representing PersonGroupGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface PersonGroupGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1346,6 +1599,12 @@ export interface PersonGroupListOptionalParams extends msRest.RequestOptionsBase
    * 1000 .
    */
   top?: number;
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1365,6 +1624,27 @@ export interface FaceListCreateOptionalParams extends msRest.RequestOptionsBase 
    * 16KB.
    */
   userData?: string;
+  /**
+   * @member {RecognitionModel} [recognitionModel] Possible values include:
+   * 'recognition_01', 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+}
+
+/**
+ * @interface
+ * An interface representing FaceListGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface FaceListGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1384,6 +1664,22 @@ export interface FaceListUpdateOptionalParams extends msRest.RequestOptionsBase 
    * 16KB.
    */
   userData?: string;
+}
+
+/**
+ * @interface
+ * An interface representing FaceListListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface FaceListListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1572,6 +1868,27 @@ export interface LargePersonGroupCreateOptionalParams extends msRest.RequestOpti
    * 16KB.
    */
   userData?: string;
+  /**
+   * @member {RecognitionModel} [recognitionModel] Possible values include:
+   * 'recognition_01', 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+}
+
+/**
+ * @interface
+ * An interface representing LargePersonGroupGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LargePersonGroupGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1611,6 +1928,12 @@ export interface LargePersonGroupListOptionalParams extends msRest.RequestOption
    * value: 1000 .
    */
   top?: number;
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1630,6 +1953,27 @@ export interface LargeFaceListCreateOptionalParams extends msRest.RequestOptions
    * 16KB.
    */
   userData?: string;
+  /**
+   * @member {RecognitionModel} [recognitionModel] Possible values include:
+   * 'recognition_01', 'recognition_02'. Default value: 'recognition_01' .
+   */
+  recognitionModel?: RecognitionModel;
+}
+
+/**
+ * @interface
+ * An interface representing LargeFaceListGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LargeFaceListGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1649,6 +1993,22 @@ export interface LargeFaceListUpdateOptionalParams extends msRest.RequestOptions
    * 16KB.
    */
   userData?: string;
+}
+
+/**
+ * @interface
+ * An interface representing LargeFaceListListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LargeFaceListListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [returnRecognitionModel] Whether to return the
+   * 'RecognitionModel' required for the current operation. Default value:
+   * false .
+   */
+  returnRecognitionModel?: boolean;
 }
 
 /**
@@ -1735,12 +2095,130 @@ export interface LargeFaceListAddFaceFromStreamOptionalParams extends msRest.Req
 }
 
 /**
- * Defines values for Gender.
- * Possible values include: 'male', 'female', 'genderless'
+ * @interface
+ * An interface representing SnapshotTakeOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SnapshotTakeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [userData] User specified data about the snapshot for any
+   * purpose. Length should not exceed 16KB.
+   */
+  userData?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SnapshotListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SnapshotListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {SnapshotObjectType} [type] User specified object type as a search
+   * filter. Possible values include: 'FaceList', 'LargeFaceList',
+   * 'LargePersonGroup', 'PersonGroup'
+   */
+  type?: SnapshotObjectType;
+  /**
+   * @member {string[]} [applyScope] User specified snapshot apply scopes as a
+   * search filter. ApplyScope is an array of the target Azure subscription ids
+   * for the snapshot, specified by the user who created the snapshot by
+   * Snapshot - Take.
+   */
+  applyScope?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing SnapshotUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SnapshotUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string[]} [applyScope] Array of the target Face subscription ids
+   * for the snapshot, specified by the user who created the snapshot when
+   * calling Snapshot - Take. For each snapshot, only subscriptions included in
+   * the applyScope of Snapshot - Take can apply it.
+   */
+  applyScope?: string[];
+  /**
+   * @member {string} [userData] User specified data about the snapshot for any
+   * purpose. Length should not exceed 16KB.
+   */
+  userData?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SnapshotApplyOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SnapshotApplyOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {SnapshotApplyMode} [mode] Snapshot applying mode. Currently only
+   * CreateNew is supported, which means the apply operation will fail if
+   * target subscription already contains an object of same type and using the
+   * same objectId. Users can specify the "objectId" in request body to avoid
+   * such conflicts. Possible values include: 'CreateNew'. Default value:
+   * 'CreateNew' .
+   */
+  mode?: SnapshotApplyMode;
+}
+
+/**
+ * @interface
+ * An interface representing SnapshotTakeHeaders.
+ * Defines headers for Take operation.
+ *
+ */
+export interface SnapshotTakeHeaders {
+  /**
+   * @member {string} [operationLocation] Operation location with an operation
+   * id used to track the progress of taking snapshot. The returned id is the
+   * operation id, rather than snapshot id. Snapshot id can be obtained only
+   * when the operation status becomes "succeeded" in OperationStatus - Get.
+   */
+  operationLocation: string;
+}
+
+/**
+ * @interface
+ * An interface representing SnapshotApplyHeaders.
+ * Defines headers for Apply operation.
+ *
+ */
+export interface SnapshotApplyHeaders {
+  /**
+   * @member {string} [operationLocation] Operation location with an operation
+   * id used to track the progress of applying the snapshot by OperationStatus
+   * - Get.
+   */
+  operationLocation: string;
+}
+
+/**
+ * Defines values for RecognitionModel.
+ * Possible values include: 'recognition_01', 'recognition_02'
  * @readonly
  * @enum {string}
  */
-export type Gender = 'male' | 'female' | 'genderless';
+export type RecognitionModel = 'recognition_01' | 'recognition_02';
+
+/**
+ * Defines values for Gender.
+ * Possible values include: 'male', 'female'
+ * @readonly
+ * @enum {string}
+ */
+export type Gender = 'male' | 'female';
 
 /**
  * Defines values for GlassesType.
@@ -1805,6 +2283,30 @@ export type FindSimilarMatchMode = 'matchPerson' | 'matchFace';
  * @enum {string}
  */
 export type TrainingStatusType = 'nonstarted' | 'running' | 'succeeded' | 'failed';
+
+/**
+ * Defines values for SnapshotApplyMode.
+ * Possible values include: 'CreateNew'
+ * @readonly
+ * @enum {string}
+ */
+export type SnapshotApplyMode = 'CreateNew';
+
+/**
+ * Defines values for SnapshotObjectType.
+ * Possible values include: 'FaceList', 'LargeFaceList', 'LargePersonGroup', 'PersonGroup'
+ * @readonly
+ * @enum {string}
+ */
+export type SnapshotObjectType = 'FaceList' | 'LargeFaceList' | 'LargePersonGroup' | 'PersonGroup';
+
+/**
+ * Defines values for OperationStatusType.
+ * Possible values include: 'notstarted', 'running', 'succeeded', 'failed'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationStatusType = 'notstarted' | 'running' | 'succeeded' | 'failed';
 
 /**
  * Defines values for FaceAttributeType.
@@ -2496,5 +2998,92 @@ export type LargeFaceListAddFaceFromStreamResponse = PersistedFace & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PersistedFace;
+    };
+};
+
+/**
+ * Contains response data for the take operation.
+ */
+export type SnapshotTakeResponse = SnapshotTakeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SnapshotTakeHeaders;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SnapshotListResponse = Array<Snapshot> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Snapshot[];
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SnapshotGetResponse = Snapshot & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Snapshot;
+    };
+};
+
+/**
+ * Contains response data for the apply operation.
+ */
+export type SnapshotApplyResponse = SnapshotApplyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SnapshotApplyHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getOperationStatus operation.
+ */
+export type SnapshotGetOperationStatusResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
     };
 };
