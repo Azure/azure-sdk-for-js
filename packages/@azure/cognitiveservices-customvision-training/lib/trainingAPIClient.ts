@@ -1155,23 +1155,23 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param projectId The project id.
    * @param iterationId The iteration id.
    * @param [options] The optional parameters
-   * @returns Promise<Models.UnpublishIterationResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  unpublishIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase): Promise<Models.UnpublishIterationResponse>;
+  unpublishIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param projectId The project id.
    * @param iterationId The iteration id.
    * @param callback The callback
    */
-  unpublishIteration(projectId: string, iterationId: string, callback: msRest.ServiceCallback<boolean>): void;
+  unpublishIteration(projectId: string, iterationId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param projectId The project id.
    * @param iterationId The iteration id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  unpublishIteration(projectId: string, iterationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  unpublishIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.UnpublishIterationResponse> {
+  unpublishIteration(projectId: string, iterationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  unpublishIteration(projectId: string, iterationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1179,7 +1179,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
         options
       },
       unpublishIterationOperationSpec,
-      callback) as Promise<Models.UnpublishIterationResponse>;
+      callback);
   }
 
   /**
@@ -2400,14 +2400,7 @@ const unpublishIterationOperationSpec: msRest.OperationSpec = {
     Parameters.apiKey
   ],
   responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Boolean"
-        }
-      }
-    },
+    204: {},
     default: {
       bodyMapper: Mappers.CustomVisionError
     }

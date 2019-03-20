@@ -2421,29 +2421,6 @@ export type PublishIterationResponse = {
 };
 
 /**
- * Contains response data for the unpublishIteration operation.
- */
-export type UnpublishIterationResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
-};
-
-/**
  * Contains response data for the getExports operation.
  */
 export type GetExportsResponse = Array<ExportModel> & {
