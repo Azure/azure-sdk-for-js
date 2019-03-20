@@ -838,9 +838,10 @@ export interface Application {
  */
 export interface ServicePrincipalObjectResult {
   /**
-   * @member {string[]} [value] A collection of Application Objects.
+   * @member {string} [value] The Object ID of the service principal with the
+   * specified application ID.
    */
-  value?: string[];
+  value?: string;
   /**
    * @member {string} [odatametadata] The URL representing edm equivalent.
    */

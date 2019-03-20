@@ -1164,12 +1164,7 @@ export const ServicePrincipalObjectResult: msRest.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
         }
       },
       odatametadata: {
