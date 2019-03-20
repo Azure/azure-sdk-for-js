@@ -33,16 +33,19 @@ export class ContainerServices {
    * agents, and FQDNs of masters and agents.
    * @summary Gets a list of container services in the specified subscription.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.ContainerServicesListResponse>
    */
   list(options?: msRest.RequestOptionsBase): Promise<Models.ContainerServicesListResponse>;
   /**
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   list(callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListResponse> {
@@ -79,6 +82,7 @@ export class ContainerServices {
    * @param containerServiceName The name of the container service in the specified subscription and
    * resource group.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.ContainerServicesGetResponse>
    */
   get(resourceGroupName: string, containerServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerServicesGetResponse>;
@@ -87,6 +91,7 @@ export class ContainerServices {
    * @param containerServiceName The name of the container service in the specified subscription and
    * resource group.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   get(resourceGroupName: string, containerServiceName: string, callback: msRest.ServiceCallback<Models.ContainerService>): void;
   /**
@@ -95,6 +100,7 @@ export class ContainerServices {
    * resource group.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   get(resourceGroupName: string, containerServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerService>): void;
   get(resourceGroupName: string, containerServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerService>, callback?: msRest.ServiceCallback<Models.ContainerService>): Promise<Models.ContainerServicesGetResponse> {
@@ -132,18 +138,21 @@ export class ContainerServices {
    * @summary Gets a list of container services in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.ContainerServicesListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerServicesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListByResourceGroupResponse> {
@@ -158,7 +167,7 @@ export class ContainerServices {
 
   /**
    * Gets a list of supported orchestrators in the specified subscription. The operation returns
-   * properties of each orchestrator including verison and available upgrades.
+   * properties of each orchestrator including version and available upgrades.
    * @summary Gets a list of supported orchestrators in the specified subscription.
    * @param location The name of a supported Azure region.
    * @param [options] The optional parameters
@@ -239,18 +248,21 @@ export class ContainerServices {
    * @summary Gets a list of container services in the specified subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.ContainerServicesListNextResponse>
    */
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerServicesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListNextResponse> {
@@ -270,18 +282,21 @@ export class ContainerServices {
    * @summary Gets a list of container services in the specified resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.ContainerServicesListByResourceGroupNextResponse>
    */
   listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerServicesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
    */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerServiceListResult>): void;
   listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerServiceListResult>, callback?: msRest.ServiceCallback<Models.ContainerServiceListResult>): Promise<Models.ContainerServicesListByResourceGroupNextResponse> {
@@ -324,7 +339,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.containerServiceName,
     Parameters.subscriptionId
   ],
@@ -349,7 +364,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -398,7 +413,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.containerServiceName,
     Parameters.subscriptionId
   ],
@@ -436,7 +451,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/containerServices/{containerServiceName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.containerServiceName,
     Parameters.subscriptionId
   ],
