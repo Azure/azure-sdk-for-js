@@ -111,7 +111,7 @@ describe("Secret client", () => {
     let results: versionValuePair[] = [];
     for await (const item of client.getSecretVersions(secretName)) {
       const version = item.version!;
-      const secret = await client.getSecret(secretName, version);
+      const secret = await client.getSecret(secretName, { version: version });
       results.push({ version: item.version!, value: secret.value! });
     }
 

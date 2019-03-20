@@ -25,7 +25,14 @@ import * as Models from "./models";
 import { KeyVaultClient } from "./keyVaultClient";
 import { RetryConstants } from "./utils/constants";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { Secret, DeletedSecret } from "./secretsModels";
+import { 
+  Secret, 
+  DeletedSecret,
+  SecretClientSetSecretOptionalParams,
+  SecretClientUpdateSecretOptionalParams,
+  SecretClientGetSecretOptionalParams,
+  SecretClientGetPagedOptionalParams
+ } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./utils";
 
 export { Pipeline };
@@ -165,7 +172,7 @@ export class SecretsClient {
   public async setSecret(
     secretName: string,
     value: string,
-    options?: Models.KeyVaultClientSetSecretOptionalParams
+    options?: SecretClientSetSecretOptionalParams
   ) {
     const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
     return this.getSecretFromSecretBundle(response);
@@ -201,7 +208,7 @@ export class SecretsClient {
   public async updateSecret(
     secretName: string,
     secretVersion: string,
-    options?: Models.KeyVaultClientUpdateSecretOptionalParams
+    options?: SecretClientUpdateSecretOptionalParams
   ): Promise<Secret> {
     const response = await this.client.updateSecret(
       this.vaultBaseUrl,
@@ -223,13 +230,12 @@ export class SecretsClient {
    */
   public async getSecret(
     secretName: string,
-    secretVersion?: string,
-    options: RequestOptionsBase = {}
+    options?: SecretClientGetSecretOptionalParams
   ): Promise<Secret> {
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
-      secretVersion || "",
+      options ? options.version : "",
       options
     );
     return this.getSecretFromSecretBundle(response);
@@ -318,12 +324,14 @@ export class SecretsClient {
 
   public async *getSecretVersions(
     secretName: string,
-    options?: RequestOptionsBase
+    options?: SecretClientGetPagedOptionalParams
   ): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getSecretVersions(
       this.vaultBaseUrl,
       secretName,
-      options
+      { maxresults: options ? options.maxPageSize : undefined,
+        ...options
+      }
     );
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
@@ -344,10 +352,12 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllSecrets(options?: RequestOptionsBase): AsyncIterableIterator<Secret> {
+  public async *getAllSecrets(options?: SecretClientGetPagedOptionalParams): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getSecrets(
       this.vaultBaseUrl,
-      options
+      { maxresults: options ? options.maxPageSize : undefined,
+        ...options
+      }
     );
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
@@ -368,10 +378,12 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns AsyncIterableIterator<Secret>
    */
-  public async *getAllDeletedSecrets(options?: RequestOptionsBase): AsyncIterableIterator<Secret> {
+  public async *getAllDeletedSecrets(options?: SecretClientGetPagedOptionalParams): AsyncIterableIterator<Secret> {
     let currentSetResponse = await this.client.getDeletedSecrets(
       this.vaultBaseUrl,
-      options
+      { maxresults: options ? options.maxPageSize : undefined,
+        ...options
+      }
     );
     yield* currentSetResponse.map(this.getSecretFromSecretBundle);
 
@@ -387,13 +399,7 @@ export class SecretsClient {
   private getSecretFromSecretBundle(secretBundle: Models.SecretBundle): Secret {
     const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
     return {
-      value: secretBundle.value,
-      id: secretBundle.id,
-      contentType: secretBundle.contentType,
-      attributes: secretBundle.attributes,
-      tags: secretBundle.tags,
-      keyId: secretBundle.kid,
-      managed: secretBundle.managed,
+      ...secretBundle,
       ...parsedId
     };
   }
