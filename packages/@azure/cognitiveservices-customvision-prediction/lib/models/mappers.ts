@@ -18,7 +18,8 @@ export const ImageUrl: msRest.CompositeMapper = {
     className: "ImageUrl",
     modelProperties: {
       url: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "url",
         type: {
           name: "String"
@@ -35,6 +36,7 @@ export const BoundingBox: msRest.CompositeMapper = {
     className: "BoundingBox",
     modelProperties: {
       left: {
+        required: true,
         nullable: false,
         serializedName: "left",
         type: {
@@ -42,6 +44,7 @@ export const BoundingBox: msRest.CompositeMapper = {
         }
       },
       top: {
+        required: true,
         nullable: false,
         serializedName: "top",
         type: {
@@ -49,6 +52,7 @@ export const BoundingBox: msRest.CompositeMapper = {
         }
       },
       width: {
+        required: true,
         nullable: false,
         serializedName: "width",
         type: {
@@ -56,6 +60,7 @@ export const BoundingBox: msRest.CompositeMapper = {
         }
       },
       height: {
+        required: true,
         nullable: false,
         serializedName: "height",
         type: {
@@ -97,6 +102,7 @@ export const Prediction: msRest.CompositeMapper = {
         }
       },
       boundingBox: {
+        nullable: true,
         readOnly: true,
         serializedName: "boundingBox",
         type: {
@@ -147,7 +153,6 @@ export const ImagePrediction: msRest.CompositeMapper = {
         }
       },
       predictions: {
-        nullable: true,
         readOnly: true,
         serializedName: "predictions",
         type: {
@@ -158,6 +163,30 @@ export const ImagePrediction: msRest.CompositeMapper = {
               className: "Prediction"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CustomVisionError: msRest.CompositeMapper = {
+  serializedName: "CustomVisionError",
+  type: {
+    name: "Composite",
+    className: "CustomVisionError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
         }
       }
     }
