@@ -35,6 +35,7 @@ export {
   KeyCredentialsUpdateParameters,
   PasswordCredentialListResult,
   PasswordCredentialsUpdateParameters,
+  ServicePrincipalObjectResult,
   ADGroup,
   ServicePrincipal,
   User,
