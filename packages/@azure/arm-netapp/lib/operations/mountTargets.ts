@@ -28,35 +28,35 @@ export class MountTargets {
 
   /**
    * List mount targets
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param [options] The optional parameters
    * @returns Promise<Models.MountTargetsListResponse>
    */
-  list(resourceGroup: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MountTargetsListResponse>;
+  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.MountTargetsListResponse>;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param callback The callback
    */
-  list(resourceGroup: string, accountName: string, poolName: string, volumeName: string, callback: msRest.ServiceCallback<Models.MountTargetList>): void;
+  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, callback: msRest.ServiceCallback<Models.MountTargetList>): void;
   /**
-   * @param resourceGroup The name of the resource group.
+   * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroup: string, accountName: string, poolName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MountTargetList>): void;
-  list(resourceGroup: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MountTargetList>, callback?: msRest.ServiceCallback<Models.MountTargetList>): Promise<Models.MountTargetsListResponse> {
+  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MountTargetList>): void;
+  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MountTargetList>, callback?: msRest.ServiceCallback<Models.MountTargetList>): Promise<Models.MountTargetsListResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroup,
+        resourceGroupName,
         accountName,
         poolName,
         volumeName,
@@ -71,10 +71,10 @@ export class MountTargets {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/mountTargets",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/mountTargets",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroup,
+    Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName
