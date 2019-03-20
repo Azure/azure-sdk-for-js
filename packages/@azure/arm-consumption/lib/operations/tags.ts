@@ -27,7 +27,7 @@ export class Tags {
   }
 
   /**
-   * Get all available tag keys for a billing account.
+   * Get all available tag keys for the defined scope
    * @param billingAccountId BillingAccount ID
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsGetResponse>
@@ -59,7 +59,7 @@ export class Tags {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/tags",
+  path: "providers/Microsoft.billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/tags",
   urlParameters: [
     Parameters.billingAccountId
   ],
