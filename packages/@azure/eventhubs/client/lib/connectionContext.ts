@@ -118,11 +118,11 @@ export namespace ConnectionContext {
       };
 
       // Remove all the links and sessions for this AMQP connection.
-       connectionContext.connection.removeAllSessions();
+         connectionContext.connection.removeAllSessions();
 
-         // Close the cbs session
+      // Close the cbs session
          await connectionContext.cbsSession.close();
-         // Close the management session
+      // Close the management session
          await connectionContext.managementSession!.close();
 
       // The connection should always be brought back up if the sdk did not call connection.close()
