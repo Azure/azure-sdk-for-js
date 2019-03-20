@@ -13,11 +13,12 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-compute";
-const packageVersion = "0.1.0";
+const packageVersion = "9.1.0";
 
 export class ComputeManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the ComputeManagementClient class.
@@ -44,6 +45,7 @@ export class ComputeManagementClientContext extends msRestAzure.AzureServiceClie
 
     super(credentials, options);
 
+    this.apiVersion = '2019-05-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

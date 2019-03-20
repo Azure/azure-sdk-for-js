@@ -20,49 +20,11 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-10-01',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2017-09-01',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion2: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-06-01',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2017-01-31',
     type: {
       name: "String"
     }
@@ -83,26 +45,6 @@ export const commandId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "commandId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const containerServiceName: msRest.OperationURLParameter = {
-  parameterPath: "containerServiceName",
-  mapper: {
-    required: true,
-    serializedName: "containerServiceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const diskName: msRest.OperationURLParameter = {
-  parameterPath: "diskName",
-  mapper: {
-    required: true,
-    serializedName: "diskName",
     type: {
       name: "String"
     }
@@ -142,36 +84,6 @@ export const filter: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const galleryImageName: msRest.OperationURLParameter = {
-  parameterPath: "galleryImageName",
-  mapper: {
-    required: true,
-    serializedName: "galleryImageName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const galleryImageVersionName: msRest.OperationURLParameter = {
-  parameterPath: "galleryImageVersionName",
-  mapper: {
-    required: true,
-    serializedName: "galleryImageVersionName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const galleryName: msRest.OperationURLParameter = {
-  parameterPath: "galleryName",
-  mapper: {
-    required: true,
-    serializedName: "galleryName",
     type: {
       name: "String"
     }
@@ -300,16 +212,6 @@ export const skus: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "skus",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const snapshotName: msRest.OperationURLParameter = {
-  parameterPath: "snapshotName",
-  mapper: {
-    required: true,
-    serializedName: "snapshotName",
     type: {
       name: "String"
     }
