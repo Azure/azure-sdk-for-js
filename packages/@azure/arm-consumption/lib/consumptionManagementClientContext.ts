@@ -13,25 +13,30 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-consumption";
-const packageVersion = "0.1.0";
+const packageVersion = "6.3.0";
 
 export class ConsumptionManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   apiVersion?: string;
   subscriptionId: string;
+  name: string;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
+   * @param name Budget name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ConsumptionManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, name: string, options?: Models.ConsumptionManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
       throw new Error('\'subscriptionId\' cannot be null.');
+    }
+    if (name == undefined) {
+      throw new Error('\'name\' cannot be null.');
     }
 
     if (!options) {
@@ -44,13 +49,14 @@ export class ConsumptionManagementClientContext extends msRestAzure.AzureService
 
     super(credentials, options);
 
-    this.apiVersion = '2018-10-01';
+    this.apiVersion = '2019-03-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
+    this.name = name;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
