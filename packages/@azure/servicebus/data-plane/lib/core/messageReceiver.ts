@@ -1003,7 +1003,7 @@ export class MessageReceiver extends LinkEntity {
     }
     const rcvrOptions: ReceiverOptions = {
       name: useNewName ? getUniqueName(this._context.entityPath) : this.name,
-      autoaccept: false,
+      autoaccept: this.receiveMode === ReceiveMode.receiveAndDelete ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)

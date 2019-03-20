@@ -207,7 +207,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse>
    */
-  listGlobalBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse>;
+  listGlobalBySubscription(options?: Models.EventSubscriptionsListGlobalBySubscriptionOptionalParams): Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -216,8 +216,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGlobalBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse> {
+  listGlobalBySubscription(options: Models.EventSubscriptionsListGlobalBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalBySubscription(options?: Models.EventSubscriptionsListGlobalBySubscriptionOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -233,7 +233,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse>
    */
-  listGlobalBySubscriptionForTopicType(topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse>;
+  listGlobalBySubscriptionForTopicType(topicTypeName: string, options?: Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse>;
   /**
    * @param topicTypeName Name of the topic type
    * @param callback The callback
@@ -244,8 +244,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGlobalBySubscriptionForTopicType(topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalBySubscriptionForTopicType(topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse> {
+  listGlobalBySubscriptionForTopicType(topicTypeName: string, options: Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalBySubscriptionForTopicType(topicTypeName: string, options?: Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         topicTypeName,
@@ -262,7 +262,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse>
    */
-  listGlobalByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse>;
+  listGlobalByResourceGroup(resourceGroupName: string, options?: Models.EventSubscriptionsListGlobalByResourceGroupOptionalParams): Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param callback The callback
@@ -273,8 +273,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGlobalByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse> {
+  listGlobalByResourceGroup(resourceGroupName: string, options: Models.EventSubscriptionsListGlobalByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalByResourceGroup(resourceGroupName: string, options?: Models.EventSubscriptionsListGlobalByResourceGroupOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -292,7 +292,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse>
    */
-  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse>;
+  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options?: Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicTypeName Name of the topic type
@@ -305,8 +305,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse> {
+  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options: Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options?: Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -324,7 +324,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse>
    */
-  listRegionalBySubscription(location: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse>;
+  listRegionalBySubscription(location: string, options?: Models.EventSubscriptionsListRegionalBySubscriptionOptionalParams): Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse>;
   /**
    * @param location Name of the location
    * @param callback The callback
@@ -335,8 +335,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRegionalBySubscription(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalBySubscription(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse> {
+  listRegionalBySubscription(location: string, options: Models.EventSubscriptionsListRegionalBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalBySubscription(location: string, options?: Models.EventSubscriptionsListRegionalBySubscriptionOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -355,7 +355,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse>
    */
-  listRegionalByResourceGroup(resourceGroupName: string, location: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse>;
+  listRegionalByResourceGroup(resourceGroupName: string, location: string, options?: Models.EventSubscriptionsListRegionalByResourceGroupOptionalParams): Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param location Name of the location
@@ -368,8 +368,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRegionalByResourceGroup(resourceGroupName: string, location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalByResourceGroup(resourceGroupName: string, location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse> {
+  listRegionalByResourceGroup(resourceGroupName: string, location: string, options: Models.EventSubscriptionsListRegionalByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalByResourceGroup(resourceGroupName: string, location: string, options?: Models.EventSubscriptionsListRegionalByResourceGroupOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -389,7 +389,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse>
    */
-  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse>;
+  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options?: Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse>;
   /**
    * @param location Name of the location
    * @param topicTypeName Name of the topic type
@@ -402,8 +402,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse> {
+  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options: Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options?: Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -425,7 +425,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse>
    */
-  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse>;
+  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options?: Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param location Name of the location
@@ -440,8 +440,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse> {
+  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options: Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options?: Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -463,7 +463,7 @@ export class EventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListByResourceResponse>
    */
-  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListByResourceResponse>;
+  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: Models.EventSubscriptionsListByResourceOptionalParams): Promise<Models.EventSubscriptionsListByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param providerNamespace Namespace of the provider of the topic
@@ -480,8 +480,8 @@ export class EventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByResourceResponse> {
+  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options: Models.EventSubscriptionsListByResourceOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: Models.EventSubscriptionsListByResourceOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -492,6 +492,43 @@ export class EventSubscriptions {
       },
       listByResourceOperationSpec,
       callback) as Promise<Models.EventSubscriptionsListByResourceResponse>;
+  }
+
+  /**
+   * List all event subscriptions that have been created for a specific domain topic
+   * @summary List all event subscriptions for a specific domain topic
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain
+   * @param topicName Name of the domain topic
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListByDomainTopicResponse>
+   */
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options?: Models.EventSubscriptionsListByDomainTopicOptionalParams): Promise<Models.EventSubscriptionsListByDomainTopicResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain
+   * @param topicName Name of the domain topic
+   * @param callback The callback
+   */
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain
+   * @param topicName Name of the domain topic
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options: Models.EventSubscriptionsListByDomainTopicOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options?: Models.EventSubscriptionsListByDomainTopicOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByDomainTopicResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        domainName,
+        topicName,
+        options
+      },
+      listByDomainTopicOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListByDomainTopicResponse>;
   }
 
   /**
@@ -579,6 +616,300 @@ export class EventSubscriptions {
       beginUpdateOperationSpec,
       options);
   }
+
+  /**
+   * List all aggregated global event subscriptions under a specific Azure subscription
+   * @summary Get an aggregated list of all global event subscriptions under an Azure subscription
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionNextResponse>
+   */
+  listGlobalBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalBySubscriptionNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listGlobalBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listGlobalBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listGlobalBySubscriptionNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListGlobalBySubscriptionNextResponse>;
+  }
+
+  /**
+   * List all global event subscriptions under an Azure subscription for a topic type.
+   * @summary List all global event subscriptions for a topic type
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse>
+   */
+  listGlobalBySubscriptionForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listGlobalBySubscriptionForTopicTypeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listGlobalBySubscriptionForTopicTypeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalBySubscriptionForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listGlobalBySubscriptionForTopicTypeNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse>;
+  }
+
+  /**
+   * List all global event subscriptions under a specific Azure subscription and resource group
+   * @summary List all global event subscriptions under an Azure subscription and resource group
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupNextResponse>
+   */
+  listGlobalByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalByResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listGlobalByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listGlobalByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listGlobalByResourceGroupNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListGlobalByResourceGroupNextResponse>;
+  }
+
+  /**
+   * List all global event subscriptions under a resource group for a specific topic type.
+   * @summary List all global event subscriptions under a resource group for a topic type
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse>
+   */
+  listGlobalByResourceGroupForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listGlobalByResourceGroupForTopicTypeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listGlobalByResourceGroupForTopicTypeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listGlobalByResourceGroupForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listGlobalByResourceGroupForTopicTypeNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse>;
+  }
+
+  /**
+   * List all event subscriptions from the given location under a specific Azure subscription
+   * @summary List all regional event subscriptions under an Azure subscription
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionNextResponse>
+   */
+  listRegionalBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalBySubscriptionNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listRegionalBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listRegionalBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listRegionalBySubscriptionNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListRegionalBySubscriptionNextResponse>;
+  }
+
+  /**
+   * List all event subscriptions from the given location under a specific Azure subscription and
+   * resource group
+   * @summary List all regional event subscriptions under an Azure subscription and resource group
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupNextResponse>
+   */
+  listRegionalByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalByResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listRegionalByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listRegionalByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listRegionalByResourceGroupNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListRegionalByResourceGroupNextResponse>;
+  }
+
+  /**
+   * List all event subscriptions from the given location under a specific Azure subscription and
+   * topic type.
+   * @summary List all regional event subscriptions under an Azure subscription for a topic type
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse>
+   */
+  listRegionalBySubscriptionForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listRegionalBySubscriptionForTopicTypeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listRegionalBySubscriptionForTopicTypeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalBySubscriptionForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listRegionalBySubscriptionForTopicTypeNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse>;
+  }
+
+  /**
+   * List all event subscriptions from the given location under a specific Azure subscription and
+   * resource group and topic type
+   * @summary List all regional event subscriptions under an Azure subscription and resource group
+   * for a topic type
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse>
+   */
+  listRegionalByResourceGroupForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listRegionalByResourceGroupForTopicTypeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listRegionalByResourceGroupForTopicTypeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listRegionalByResourceGroupForTopicTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listRegionalByResourceGroupForTopicTypeNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse>;
+  }
+
+  /**
+   * List all event subscriptions that have been created for a specific topic
+   * @summary List all event subscriptions for a specific topic
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListByResourceNextResponse>
+   */
+  listByResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListByResourceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listByResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByResourceNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByResourceNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListByResourceNextResponse>;
+  }
+
+  /**
+   * List all event subscriptions that have been created for a specific domain topic
+   * @summary List all event subscriptions for a specific domain topic
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListByDomainTopicNextResponse>
+   */
+  listByDomainTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListByDomainTopicNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByDomainTopicNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByDomainTopicNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listByDomainTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByDomainTopicNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByDomainTopicNextOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListByDomainTopicNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -638,7 +969,10 @@ const listGlobalBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -662,7 +996,10 @@ const listGlobalBySubscriptionForTopicTypeOperationSpec: msRest.OperationSpec = 
     Parameters.topicTypeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -686,7 +1023,10 @@ const listGlobalByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -711,7 +1051,10 @@ const listGlobalByResourceGroupForTopicTypeOperationSpec: msRest.OperationSpec =
     Parameters.topicTypeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -735,7 +1078,10 @@ const listRegionalBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.location
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -760,7 +1106,10 @@ const listRegionalByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.location
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -785,7 +1134,10 @@ const listRegionalBySubscriptionForTopicTypeOperationSpec: msRest.OperationSpec 
     Parameters.topicTypeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -811,7 +1163,10 @@ const listRegionalByResourceGroupForTopicTypeOperationSpec: msRest.OperationSpec
     Parameters.topicTypeName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -838,7 +1193,39 @@ const listByResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByDomainTopicOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/providers/Microsoft.EventGrid/eventSubscriptions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.domainName,
+    Parameters.topicName
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.label
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -932,6 +1319,216 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   responses: {
     201: {
       bodyMapper: Mappers.EventSubscription
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listGlobalBySubscriptionNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listGlobalBySubscriptionForTopicTypeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listGlobalByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listGlobalByResourceGroupForTopicTypeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listRegionalBySubscriptionNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listRegionalByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listRegionalBySubscriptionForTopicTypeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listRegionalByResourceGroupForTopicTypeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByResourceNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByDomainTopicNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

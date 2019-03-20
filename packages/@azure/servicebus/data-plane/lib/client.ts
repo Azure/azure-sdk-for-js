@@ -4,7 +4,7 @@
 import { AmqpError } from "rhea-promise";
 
 /**
- * @internal
+ * Interface for Queue/Topic/Subscription clients
  */
 export interface Client {
   /**
