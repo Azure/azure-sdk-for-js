@@ -245,17 +245,19 @@ export interface PeeringPropertiesExchange {
  * Peering is a logical representation of a set of connections to the Microsoft
  * Cloud Edge at a location.
  *
+ * @extends BaseResource
  */
-export interface Peering {
-  /**
-   * @member {string} kind Polymorphic Discriminator
-   */
-  kind: "Peering";
+export interface Peering extends BaseResource {
   /**
    * @member {PeeringSku} sku The SKU that defines the tier and kind of the
    * peering.
    */
   sku: PeeringSku;
+  /**
+   * @member {Kind} kind The kind of the peering. Possible values include:
+   * 'Direct', 'Exchange'
+   */
+  kind: Kind;
   /**
    * @member {PeeringPropertiesDirect} [direct] The properties that define a
    * direct peering.
@@ -583,9 +585,10 @@ export interface PeeringLocationPropertiesExchange {
  */
 export interface PeeringLocation {
   /**
-   * @member {string} kind Polymorphic Discriminator
+   * @member {Kind} [kind] The kind of peering that the peering location
+   * supports. Possible values include: 'Direct', 'Exchange'
    */
-  kind: "PeeringLocation";
+  kind?: Kind;
   /**
    * @member {PeeringLocationPropertiesDirect} [direct] The properties that
    * define a direct peering location.
@@ -764,6 +767,14 @@ export type Family = 'Direct' | 'Exchange';
 export type Size = 'Free' | 'Metered' | 'Unlimited';
 
 /**
+ * Defines values for Kind.
+ * Possible values include: 'Direct', 'Exchange'
+ * @readonly
+ * @enum {string}
+ */
+export type Kind = 'Direct' | 'Exchange';
+
+/**
  * Defines values for ConnectionState.
  * Possible values include: 'None', 'PendingApproval', 'Approved', 'ProvisioningStarted',
  * 'ProvisioningFailed', 'ProvisioningCompleted', 'Validating', 'Active'
@@ -807,20 +818,20 @@ export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed'
 export type ValidationState = 'None' | 'Pending' | 'Approved' | 'Failed';
 
 /**
- * Defines values for Kind.
- * Possible values include: 'Direct', 'Exchange'
- * @readonly
- * @enum {string}
- */
-export type Kind = 'Direct' | 'Exchange';
-
-/**
  * Defines values for Kind1.
  * Possible values include: 'Direct', 'Exchange'
  * @readonly
  * @enum {string}
  */
 export type Kind1 = 'Direct' | 'Exchange';
+
+/**
+ * Defines values for Kind2.
+ * Possible values include: 'Direct', 'Exchange'
+ * @readonly
+ * @enum {string}
+ */
+export type Kind2 = 'Direct' | 'Exchange';
 
 /**
  * Contains response data for the list operation.

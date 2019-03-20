@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   Peering,
   BaseResource,
   PeeringSku,

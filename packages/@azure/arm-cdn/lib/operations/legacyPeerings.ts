@@ -34,21 +34,21 @@ export class LegacyPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.LegacyPeeringsListResponse>
    */
-  list(peeringLocation: string, kind: Models.Kind, options?: msRest.RequestOptionsBase): Promise<Models.LegacyPeeringsListResponse>;
+  list(peeringLocation: string, kind: Models.Kind1, options?: msRest.RequestOptionsBase): Promise<Models.LegacyPeeringsListResponse>;
   /**
    * @param peeringLocation The location of the peering.
    * @param kind The kind of the peering. Possible values include: 'Direct', 'Exchange'
    * @param callback The callback
    */
-  list(peeringLocation: string, kind: Models.Kind, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
+  list(peeringLocation: string, kind: Models.Kind1, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
   /**
    * @param peeringLocation The location of the peering.
    * @param kind The kind of the peering. Possible values include: 'Direct', 'Exchange'
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(peeringLocation: string, kind: Models.Kind, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
-  list(peeringLocation: string, kind: Models.Kind, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>, callback?: msRest.ServiceCallback<Models.PeeringListResult>): Promise<Models.LegacyPeeringsListResponse> {
+  list(peeringLocation: string, kind: Models.Kind1, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
+  list(peeringLocation: string, kind: Models.Kind1, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>, callback?: msRest.ServiceCallback<Models.PeeringListResult>): Promise<Models.LegacyPeeringsListResponse> {
     return this.client.sendOperationRequest(
       {
         peeringLocation,

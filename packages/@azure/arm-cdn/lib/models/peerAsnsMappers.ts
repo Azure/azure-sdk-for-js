@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   PeerAsn,
   BaseResource,
   ContactInfo,
