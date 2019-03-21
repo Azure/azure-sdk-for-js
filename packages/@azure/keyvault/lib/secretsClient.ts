@@ -11,22 +11,22 @@ import {
   RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
-  systemErrorRetryPolicy
-  // generateClientRequestIdPolicy,
-  // proxyPolicy,
-  // throttlingRetryPolicy
+  systemErrorRetryPolicy,
+  generateClientRequestIdPolicy,
+  proxyPolicy,
+  throttlingRetryPolicy,
+  getDefaultProxySettings,
+  userAgentPolicy
 } from "@azure/ms-rest-js";
 
-import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
+import { AzureServiceClientOptions as Pipeline, getDefaultUserAgentValue } from "@azure/ms-rest-azure-js";
 
-import { RetryOptions, ProxyOptions } from ".";
-import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { RetryOptions, ProxyOptions, TelemetryOptions } from ".";
 import * as Models from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { RetryConstants } from "./utils/constants";
-import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
-import { 
-  Secret, 
+import { RetryConstants, SDK_VERSION } from "./utils/constants";
+import {
+  Secret,
   DeletedSecret,
   SetSecretOptions,
   UpdateSecretOptions,
@@ -52,10 +52,10 @@ export interface NewPipelineOptions {
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
-   * @type {ITelemetryOptions}
+   * @type {TelemetryOptions}
    * @memberof NewPipelineOptions
    */
-  telemetry?: ITelemetryOptions;
+  telemetry?: TelemetryOptions;
   retryOptions?: RetryOptions;
   proxyOptions?: ProxyOptions;
 
@@ -95,16 +95,15 @@ export class SecretsClient {
     // The credential's policy factory must appear close to the wire so it can sign any
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
+
+    const userAgentString: string = SecretsClient.getUserAgentString(pipelineOptions.telemetry);
+
     const requestPolicyFactories: RequestPolicyFactory[] = [
-      // TODO: proxyPolicy() is not yet exported in ms-rest-js.
-      // proxyPolicy((pipelineOptions.proxyOptions || {}).proxySettings),
-      new TelemetryPolicyFactory(pipelineOptions.telemetry),
-      // TODO: generateClientRequestIdPolicy() was not yet exported in ms-rest-js. For now use UniqueRequestIDPolicyFactory
-      // generateClientRequestIdPolicy(),
-      new UniqueRequestIDPolicyFactory(),
+      proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions|| {}).proxySettings)),
+      userAgentPolicy({ value: userAgentString }),
+      generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      // TODO: throttlingRetryPolicy() is not yet exported in ms-rest-js.
-      // throttlingRetryPolicy(),
+      throttlingRetryPolicy(),
       systemErrorRetryPolicy(),
       exponentialRetryPolicy(
         retryOptions.retryCount,
@@ -155,6 +154,24 @@ export class SecretsClient {
     }
 
     this.client = new KeyVaultClient(credential, this.pipeline);
+  }
+
+  private static getUserAgentString(telemetry?: TelemetryOptions) {
+    const userAgentInfo: string[] = [];
+    if (telemetry) {
+      if (userAgentInfo.indexOf(telemetry.value) === -1) {
+        userAgentInfo.push(telemetry.value);
+      }
+    }
+    const libInfo = `Azure-KeyVault-Secrets/${SDK_VERSION}`;
+    if (userAgentInfo.indexOf(libInfo) === -1) {
+      userAgentInfo.push(libInfo);
+    }
+    const defaultUserAgentInfo = getDefaultUserAgentValue();
+    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
+      userAgentInfo.push(defaultUserAgentInfo);
+    }
+    return userAgentInfo.join(" ");
   }
 
   // TODO: do we want Aborter as well?

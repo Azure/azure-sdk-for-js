@@ -2,10 +2,10 @@
   "name": "@azure/keyvault",
   "author": "Microsoft Corporation",
   "description": "KeyVaultClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.1.0",
+  "version": "1.0.0-preview1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.3.2",
-    "@azure/ms-rest-js": "^1.7.0",
+    "@azure/ms-rest-js": "^1.8.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -16,9 +16,9 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/keyvault.js",
-  "module": "./esm/lib/keyVaultClient.js",
-  "types": "./esm/lib/keyVaultClient.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/lib/index.js",
+  "types": "./typings/lib/index.d.ts",
   "devDependencies": {
     "@azure/ms-rest-nodeauth": "^0.9.1",
     "@types/chai": "^4.1.7",
@@ -27,8 +27,10 @@
     "cross-env": "^5.2.0",
     "mocha": "^6.0.2",
     "mocha-multi-reporters": "^1.1.7",
+    "rimraf": "2.6.3",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
     "ts-node": "^8.0.3",
     "typescript": "^3.1.1",
     "uglify-js": "^3.4.9"
@@ -46,20 +48,21 @@
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
     "lib/**/*.ts",
     "rollup.config.js",
     "tsconfig.json"
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/keyvault.js.map'\" -o ./dist/keyvault.min.js ./dist/keyvault.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "test": "npm run test:node",
     "test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --full-trace --no-timeouts tests/**/*.test.ts",
-    "prepack": "npm install && npm run build"
+    "prepack": "npm install && npm run build",
+    "clean": "rimraf dist dist-esm dist-test typings temp"
   },
   "sideEffects": false
 }

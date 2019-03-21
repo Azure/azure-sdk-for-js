@@ -12,7 +12,8 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"],
     "declaration": true,
-    "outDir": "./esm",
+    "outDir": "./dist-esm",
+    "declarationDir": "./typings",
     "importHelpers": true
   },
   "include": ["./lib/**/*.ts", "./examples/**/*.ts", "./tests/**/*.ts"],

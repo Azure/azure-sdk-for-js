@@ -46,3 +46,7 @@ export interface RetryOptions {
 export interface ProxyOptions {
   proxySettings? : string
 }
+
+export interface TelemetryOptions {
+  value: string
+}
