@@ -121,23 +121,23 @@ export class Permissions {
   }
 
   /**
-   * Replaces the current users access list with the one sent in the body. If an empty list is sent,
-   * all access to other users will be removed.
+   * Replaces the current user access list with the new list sent in the body. If an empty list is
+   * sent, all access to other users will be removed.
    * @param appId The application ID.
-   * @param collaborators A model containing a list of user's email addresses.
+   * @param collaborators A model containing a list of user email addresses.
    * @param [options] The optional parameters
    * @returns Promise<Models.PermissionsUpdateResponse>
    */
   update(appId: string, collaborators: Models.CollaboratorsArray, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsUpdateResponse>;
   /**
    * @param appId The application ID.
-   * @param collaborators A model containing a list of user's email addresses.
+   * @param collaborators A model containing a list of user email addresses.
    * @param callback The callback
    */
   update(appId: string, collaborators: Models.CollaboratorsArray, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
-   * @param collaborators A model containing a list of user's email addresses.
+   * @param collaborators A model containing a list of user email addresses.
    * @param options The optional parameters
    * @param callback The callback
    */
