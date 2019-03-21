@@ -24,27 +24,27 @@ export class PredictionAPIClientContext extends msRest.ServiceClient {
    * @param [options] The parameter options
    */
   constructor(apiKey: string, endpoint: string, options?: msRest.ServiceClientOptions) {
-    if (apiKey === null || apiKey === undefined) {
-      throw new Error('\'apiKey\' cannot be null.');
+    if (apiKey == undefined) {
+      throw new Error("'apiKey' cannot be null.");
     }
-    if (endpoint === null || endpoint === undefined) {
-      throw new Error('\'endpoint\' cannot be null.');
+    if (endpoint == undefined) {
+      throw new Error("'endpoint' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(undefined, options);
 
-    this.baseUri = "{Endpoint}";
+    this.baseUri = "{Endpoint}/customvision/v2.0/Prediction";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiKey = apiKey;
     this.endpoint = endpoint;
-
   }
 }
