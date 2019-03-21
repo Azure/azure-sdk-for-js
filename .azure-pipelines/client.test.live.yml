@@ -52,7 +52,16 @@ jobs:
 
       # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
       # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
+      - script: npm run live-test-client-$(Package)
+        condition: or(eq(variables['Package'], 'storage-blob'), eq(variables['Package'], 'storage-file'), eq(variables['Package'], 'storage-queue'))
+        displayName: 'npm run live-test-client-$(Package)'
+        env:
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
       - script: npm run live-test-client-$(Package) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+        condition: or(eq(variables['Package'], 'servicebus'), eq(variables['Package'], 'eventhubs-client'), eq(variables['Package'], 'eventhubs-processor'))
         displayName: 'npm run live-test-client-$(Package)'
         env:
           # Service Bus
@@ -68,10 +77,6 @@ jobs:
           EVENTHUB_NAME: $(js-event-hubs-test-name)
           IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
           STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
-          # Storage
-          ACCOUNT_NAME: $(js-storage-test-account-name)
-          ACCOUNT_KEY: $(js-storage-test-account-key)
-          ACCOUNT_SAS: $(js-storage-test-account-sas)
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: '**/test-results.xml'
