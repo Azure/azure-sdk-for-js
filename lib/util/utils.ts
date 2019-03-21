@@ -26,6 +26,10 @@ export interface AsyncLockOptions {
    */
   Promise?: any;
 }
+/**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
  * Describes the servicebus connection string model.

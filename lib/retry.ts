@@ -2,11 +2,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { translate, MessagingError } from "./errors";
-import { delay } from "./util/utils";
+import { delay, isNode } from "./util/utils";
 import * as log from "./log";
 import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
 import { resolve } from "dns";
-import { isNode } from '@azure/ms-rest-js';
 
 /**
  * Determines whether the object is a Delivery object.

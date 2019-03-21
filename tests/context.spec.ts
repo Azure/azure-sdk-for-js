@@ -7,7 +7,7 @@ import {
   ConnectionConfig, ConnectionContextBase, SasTokenProvider, DefaultDataTransformer, CbsClient
 } from "../lib";
 import { Connection } from "rhea-promise";
-import { isNode } from '@azure/ms-rest-js';
+import { isNode } from '../lib/util/utils';
 
 
 describe("ConnectionContextBase", function () {

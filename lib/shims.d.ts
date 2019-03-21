@@ -5,9 +5,11 @@
 // of amqp-common's surface area.
 
 // Shim for DOM's window and navigator's onLine status
+interface Navigator {
+  onLine: boolean;
+}
 interface Window {
-  navigator: {
-    onLine: boolean;
-  }
+  readonly navigator: Navigator
 }
 declare var window: Window;
+declare var navigator: Navigator
