@@ -40,7 +40,7 @@ async function main(): Promise<void> {
   console.log("result: ", result);
 
   try {
-    await client.getSecret("invalid-name", "3597ab0798b043d398cde46f309010ea");
+    await client.getSecret("invalid-name", { version: "3597ab0798b043d398cde46f309010ea" });
   } catch (e) {
     if (e instanceof RestError) {
       console.log("Rest Error: ", e.message);
@@ -63,7 +63,7 @@ async function main(): Promise<void> {
   };
   const client2 = new SecretsClient(url, credential, customPipeline);
 
-  const secret = await client2.getSecret("Hello", "3597ab0798b043d398cde46f309010ea");
+  const secret = await client2.getSecret("Hello", { version: "3597ab0798b043d398cde46f309010ea" });
   console.log("secret: ", secret);
 }
 

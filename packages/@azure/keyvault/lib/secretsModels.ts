@@ -1,5 +1,11 @@
 import * as Models from "./models";
 
+import * as msRest from "@azure/ms-rest-js";
+import { SecretAttributes } from "./models";
+
+
+export { SecretAttributes };
+
 export interface Secret extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [value] The secret value.
@@ -16,7 +22,7 @@ export interface Secret extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {SecretAttributes} [attributes] The secret management attributes.
    */
-  attributes?: Models.SecretAttributes;
+  attributes?: SecretAttributes;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -74,3 +80,88 @@ export interface ParsedKeyVaultEntityIdentifier {
    */
   name: string;
 }
+
+
+/**
+ * @interface
+ * An interface representing KeyVaultClientSetSecretOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SetSecretOptions extends msRest.RequestOptionsBase {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Application specific
+   * metadata in the form of key-value pairs.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * @member {string} [contentType] Type of the secret value such as a
+   * password.
+   */
+  contentType?: string;
+  /**
+   * @member {SecretAttributes} [secretAttributes] The secret management
+   * attributes.
+   */
+  attributes?: SecretAttributes;
+}
+
+
+/**
+ * @interface
+ * An interface representing KeyVaultClientUpdateSecretOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface UpdateSecretOptions extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [contentType] Type of the secret value such as a
+   * password.
+   */
+  contentType?: string;
+  /**
+   * @member {SecretAttributes} [secretAttributes] The secret management
+   * attributes.
+   */
+  attributes?: SecretAttributes;
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Application specific
+   * metadata in the form of key-value pairs.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing SecretClientGetSecretOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface GetSecretOptions extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [version] The version of the secret to retrieve.  If not 
+   * specified the latest version of the secret will be retrieved.
+   */
+  version: string;
+}
+
+/**
+ * @interface
+ * An interface representing optional parameters for SecretClient paged operations.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface GetAllSecretsOptions extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [maxPageSize] Maximum number of results to return in a
+   * page. If not specified, the service will return up to 25 results per page.
+   */
+  maxPageSize?: number;
+}
+
+
+
