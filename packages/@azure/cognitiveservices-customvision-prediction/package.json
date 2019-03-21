@@ -4,7 +4,7 @@
   "description": "PredictionAPIClient Library with typescript type definitions for node.js and browser.",
   "version": "2.1.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.6.0",
+    "@azure/ms-rest-js": "^1.2.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -43,7 +43,6 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "lib/**/*.ts",
-    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -52,6 +51,5 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-customvision-prediction.js.map'\" -o ./dist/cognitiveservices-customvision-prediction.min.js ./dist/cognitiveservices-customvision-prediction.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false,
-  "autoPublish": true
+  "sideEffects": false
 }
