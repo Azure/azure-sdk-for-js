@@ -5,16 +5,16 @@
  * Retry options interface.
  *
  * @export
- * @interface IRetryOptions
+ * @interface RetryOptions
  */
-export interface IRetryOptions {
+export interface RetryOptions {
   /**
    * Optional. Max try number of attempts, default is 3.
    * A value of 1 means 1 try and no retries.
    * A value smaller than 1 means default retry number of attempts.
    *
    * @type {number}
-   * @memberof IRetryOptions
+   * @memberof RetryOptions
    */
   readonly retryCount?: number;
 
@@ -23,7 +23,7 @@ export interface IRetryOptions {
    * The delay increases exponentially with each retry up to a maximum specified by maxRetryDelayInMs.
    *
    * @type {number}
-   * @memberof IRetryOptions
+   * @memberof RetryOptions
    */
   readonly retryIntervalInMS?: number;
 
@@ -31,7 +31,7 @@ export interface IRetryOptions {
    * Optional. Specifies the maximum delay allowed before retrying an operation (default is 90s or 90 * 1000ms).
    *
    * @type {number}
-   * @memberof IRetryOptions
+   * @memberof RetryOptions
    */
   readonly maxRetryDelayInMs?: number;
 }
@@ -40,9 +40,9 @@ export interface IRetryOptions {
  * Interface of proxy policy options.
  *
  * @export
- * @interface IProxyOptions
+ * @interface ProxyOptions
  */
 
-export interface IProxyOptions {
+export interface ProxyOptions {
   proxySettings? : string
 }

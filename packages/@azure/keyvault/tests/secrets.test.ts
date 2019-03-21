@@ -2,7 +2,7 @@ import * as assert from "assert";
 import chai from "chai"
 const expect = chai.expect;
 import { getKeyvaultName, getCredentialWithServicePrincipalSecret, getUniqueName } from "./utils/utils.common";
-import { SecretsClient, Pipeline } from "../lib/secretsClient";
+import { SecretsClient, Pipeline } from "../lib";
 import { signingPolicy, exponentialRetryPolicy, deserializationPolicy, ServiceClientCredentials, RestError } from '@azure/ms-rest-js';
 import { stringify } from 'querystring';
 

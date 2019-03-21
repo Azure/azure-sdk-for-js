@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { getKeyvaultName } from "./utils/utils.common";
-import { SecretsClient, Pipeline } from "../lib/secretsClient";
+import { SecretsClient, Pipeline } from "../lib";
 import { signingPolicy, exponentialRetryPolicy, deserializationPolicy, ServiceClientCredentials } from '@azure/ms-rest-js';
 
 describe("Secret client pipeline", () => {

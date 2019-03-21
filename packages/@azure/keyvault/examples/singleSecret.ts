@@ -1,4 +1,4 @@
-import { SecretsClient } from "../lib/secretsClient";
+import { SecretsClient } from "../lib";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 
 async function main(): Promise<void> {

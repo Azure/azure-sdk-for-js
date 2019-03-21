@@ -19,7 +19,7 @@ import {
 
 import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
 
-import { IRetryOptions, IProxyOptions } from "./clientOptions";
+import { RetryOptions, ProxyOptions } from ".";
 import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import * as Models from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -56,8 +56,8 @@ export interface NewPipelineOptions {
    * @memberof NewPipelineOptions
    */
   telemetry?: ITelemetryOptions;
-  retryOptions?: IRetryOptions;
-  proxyOptions?: IProxyOptions;
+  retryOptions?: RetryOptions;
+  proxyOptions?: ProxyOptions;
 
   logger?: IHttpPipelineLogger;
   HTTPClient?: IHttpClient;
