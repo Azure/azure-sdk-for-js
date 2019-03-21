@@ -11,11 +11,23 @@
 export {
   PeeringLocationListResult,
   PeeringLocation,
+  Resource,
+  BaseResource,
   PeeringLocationPropertiesDirect,
   DirectPeeringFacility,
   PeeringBandwidthOffer,
   PeeringLocationPropertiesExchange,
   ExchangePeeringFacility,
-  ErrorResponse
+  ErrorResponse,
+  Peering,
+  PeeringSku,
+  PeeringPropertiesDirect,
+  DirectConnection,
+  BgpSession,
+  SubResource,
+  PeeringPropertiesExchange,
+  ExchangeConnection,
+  PeerAsn,
+  ContactInfo
 } from "../models/mappers";
 

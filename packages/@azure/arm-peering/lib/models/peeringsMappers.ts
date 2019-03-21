@@ -10,6 +10,7 @@
 
 export {
   Peering,
+  Resource,
   BaseResource,
   PeeringSku,
   PeeringPropertiesDirect,
@@ -22,6 +23,12 @@ export {
   ResourceTags,
   PeeringListResult,
   PeerAsn,
-  ContactInfo
+  ContactInfo,
+  PeeringLocation,
+  PeeringLocationPropertiesDirect,
+  DirectPeeringFacility,
+  PeeringBandwidthOffer,
+  PeeringLocationPropertiesExchange,
+  ExchangePeeringFacility
 } from "../models/mappers";
 

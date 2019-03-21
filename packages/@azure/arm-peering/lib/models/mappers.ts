@@ -280,12 +280,44 @@ export const PeeringPropertiesExchange: msRest.CompositeMapper = {
   }
 };
 
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Peering: msRest.CompositeMapper = {
   serializedName: "Peering",
   type: {
     name: "Composite",
     className: "Peering",
     modelProperties: {
+      ...Resource.type.modelProperties,
       sku: {
         required: true,
         serializedName: "sku",
@@ -344,27 +376,6 @@ export const Peering: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
         }
       }
     }
@@ -503,6 +514,7 @@ export const PeerAsn: msRest.CompositeMapper = {
     name: "Composite",
     className: "PeerAsn",
     modelProperties: {
+      ...Resource.type.modelProperties,
       peerAsn: {
         serializedName: "properties.peerAsn",
         type: {
@@ -524,27 +536,6 @@ export const PeerAsn: msRest.CompositeMapper = {
       },
       validationState: {
         serializedName: "properties.validationState",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
         type: {
           name: "String"
         }
@@ -723,6 +714,7 @@ export const PeeringLocation: msRest.CompositeMapper = {
     name: "Composite",
     className: "PeeringLocation",
     modelProperties: {
+      ...Resource.type.modelProperties,
       kind: {
         serializedName: "kind",
         type: {
@@ -757,27 +749,6 @@ export const PeeringLocation: msRest.CompositeMapper = {
       },
       azureRegion: {
         serializedName: "properties.azureRegion",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
         type: {
           name: "String"
         }

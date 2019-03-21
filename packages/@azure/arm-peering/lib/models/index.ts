@@ -241,13 +241,41 @@ export interface PeeringPropertiesExchange {
 
 /**
  * @interface
+ * An interface representing Resource.
+ * The ARM resource class.
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [name] The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [id] The ID of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] The type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
  * An interface representing Peering.
  * Peering is a logical representation of a set of connections to the Microsoft
  * Cloud Edge at a location.
  *
- * @extends BaseResource
+ * @extends Resource
  */
-export interface Peering extends BaseResource {
+export interface Peering extends Resource {
   /**
    * @member {PeeringSku} sku The SKU that defines the tier and kind of the
    * peering.
@@ -288,24 +316,6 @@ export interface Peering extends BaseResource {
    * @member {{ [propertyName: string]: string }} [tags] The resource tags.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * @member {string} [name] The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [id] The ID of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [type] The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
 }
 
 /**
@@ -413,9 +423,9 @@ export interface ContactInfo {
  * An interface representing PeerAsn.
  * The essential information related to the peer's ASN.
  *
- * @extends BaseResource
+ * @extends Resource
  */
-export interface PeerAsn extends BaseResource {
+export interface PeerAsn extends Resource {
   /**
    * @member {number} [peerAsn] The Autonomous System Number (ASN) of the peer.
    */
@@ -435,24 +445,6 @@ export interface PeerAsn extends BaseResource {
    * 'Approved', 'Failed'
    */
   validationState?: ValidationState;
-  /**
-   * @member {string} [name] The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [id] The ID of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [type] The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
 }
 
 /**
@@ -582,8 +574,9 @@ export interface PeeringLocationPropertiesExchange {
  * Peering location is where connectivity could be established to the Microsoft
  * Cloud Edge.
  *
+ * @extends Resource
  */
-export interface PeeringLocation {
+export interface PeeringLocation extends Resource {
   /**
    * @member {Kind} [kind] The kind of peering that the peering location
    * supports. Possible values include: 'Direct', 'Exchange'
@@ -613,24 +606,6 @@ export interface PeeringLocation {
    * peering location.
    */
   azureRegion?: string;
-  /**
-   * @member {string} [name] The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [id] The ID of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [type] The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
 }
 
 /**
