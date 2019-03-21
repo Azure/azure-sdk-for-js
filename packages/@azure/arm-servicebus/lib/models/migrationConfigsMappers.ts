@@ -34,6 +34,10 @@ export {
   Eventhub,
   CaptureDescription,
   Destination,
-  ArmDisasterRecovery
+  ArmDisasterRecovery,
+  NetworkRuleSet,
+  NWRuleSetVirtualNetworkRules,
+  Subnet,
+  NWRuleSetIpRules
 } from "../models/mappers";
 

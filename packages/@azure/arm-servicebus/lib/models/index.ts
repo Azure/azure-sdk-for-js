@@ -111,7 +111,7 @@ export interface SBSku {
  */
 export interface SBNamespace extends TrackedResource {
   /**
-   * @member {SBSku} [sku] Porperties of Sku
+   * @member {SBSku} [sku] Properties of Sku
    */
   sku?: SBSku;
   /**
@@ -156,7 +156,7 @@ export interface SBNamespace extends TrackedResource {
  */
 export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
   /**
-   * @member {SBSku} [sku] Porperties of Sku
+   * @member {SBSku} [sku] Properties of Sku
    */
   sku?: SBSku;
   /**
@@ -295,7 +295,7 @@ export interface AccessKeys {
  * @interface
  * An interface representing RegenerateAccessKeyParameters.
  * Parameters supplied to the Regenerate Authorization Rule operation,
- * specifies which key neeeds to be reset.
+ * specifies which key needs to be reset.
  *
  */
 export interface RegenerateAccessKeyParameters {
@@ -527,7 +527,7 @@ export interface SBTopic extends Resource {
    */
   readonly subscriptionCount?: number;
   /**
-   * @member {MessageCountDetails} [countDetails] Message count deatils
+   * @member {MessageCountDetails} [countDetails] Message count details
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -706,8 +706,8 @@ export interface SBSubscription extends Resource {
  */
 export interface CheckNameAvailability {
   /**
-   * @member {string} name The Name to check the namespce name availability and
-   * The namespace name can contain only letters, numbers, and hyphens. The
+   * @member {string} name The Name to check the namespace name availability
+   * and The namespace name can contain only letters, numbers, and hyphens. The
    * namespace must start with a letter, and it must end with a letter or
    * number.
    */
@@ -793,7 +793,7 @@ export interface Operation {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates ServiceBus service is not able to process the
+ * Error response indicates ServiceBus service is not able to process the
  * incoming request. The reason is provided in the error message.
  *
  */
@@ -1130,12 +1130,12 @@ export interface ArmDisasterRecovery extends Resource {
   readonly pendingReplicationOperationsCount?: number;
   /**
    * @member {string} [partnerNamespace] ARM Id of the Primary/Secondary
-   * eventhub namespace name, which is part of GEO DR pairning
+   * eventhub namespace name, which is part of GEO DR pairing
    */
   partnerNamespace?: string;
   /**
    * @member {string} [alternateName] Primary/Secondary eventhub namespace
-   * name, which is part of GEO DR pairning
+   * name, which is part of GEO DR pairing
    */
   alternateName?: string;
   /**
@@ -1188,6 +1188,79 @@ export interface MigrationConfigProperties extends Resource {
    * the server.**
    */
   readonly migrationState?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Subnet.
+ * Properties supplied for Subnet
+ *
+ */
+export interface Subnet {
+  /**
+   * @member {string} id Resource ID of Virtual Network Subnet
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing NWRuleSetIpRules.
+ * Description of NetWorkRuleSet - IpRules resource.
+ *
+ */
+export interface NWRuleSetIpRules {
+  /**
+   * @member {string} [ipMask] IP Mask
+   */
+  ipMask?: string;
+  /**
+   * @member {NetworkRuleIPAction} [action] The IP Filter Action. Possible
+   * values include: 'Allow'. Default value: 'Allow' .
+   */
+  action?: NetworkRuleIPAction;
+}
+
+/**
+ * @interface
+ * An interface representing NWRuleSetVirtualNetworkRules.
+ * Description of VirtualNetworkRules - NetworkRules resource.
+ *
+ */
+export interface NWRuleSetVirtualNetworkRules {
+  /**
+   * @member {Subnet} [subnet] Subnet properties
+   */
+  subnet?: Subnet;
+  /**
+   * @member {boolean} [ignoreMissingVnetServiceEndpoint] Value that indicates
+   * whether to ignore missing VNet Service Endpoint
+   */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkRuleSet.
+ * Description of NetworkRuleSet resource.
+ *
+ * @extends Resource
+ */
+export interface NetworkRuleSet extends Resource {
+  /**
+   * @member {DefaultAction} [defaultAction] Default Action for Network Rule
+   * Set. Possible values include: 'Allow', 'Deny'
+   */
+  defaultAction?: DefaultAction;
+  /**
+   * @member {NWRuleSetVirtualNetworkRules[]} [virtualNetworkRules] List
+   * VirtualNetwork Rules
+   */
+  virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
+  /**
+   * @member {NWRuleSetIpRules[]} [ipRules] List of IpRules
+   */
+  ipRules?: NWRuleSetIpRules[];
 }
 
 /**
@@ -1558,6 +1631,22 @@ export type ProvisioningStateDR = 'Accepted' | 'Succeeded' | 'Failed';
 export type RoleDisasterRecovery = 'Primary' | 'PrimaryNotReplicating' | 'Secondary';
 
 /**
+ * Defines values for NetworkRuleIPAction.
+ * Possible values include: 'Allow'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkRuleIPAction = 'Allow';
+
+/**
+ * Defines values for DefaultAction.
+ * Possible values include: 'Allow', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type DefaultAction = 'Allow' | 'Deny';
+
+/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationListResult & {
@@ -1801,6 +1890,44 @@ export type NamespacesRegenerateKeysResponse = AccessKeys & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AccessKeys;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateNetworkRuleSet operation.
+ */
+export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSet;
+    };
+};
+
+/**
+ * Contains response data for the getNetworkRuleSet operation.
+ */
+export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSet;
     };
 };
 
