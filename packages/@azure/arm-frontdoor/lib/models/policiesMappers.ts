@@ -9,17 +9,19 @@
  */
 
 export {
-  discriminators,
-  WebApplicationFirewallPolicyListResult,
-  WebApplicationFirewallPolicy1,
+  WebApplicationFirewallPolicyList,
+  WebApplicationFirewallPolicy,
   Resource,
   BaseResource,
   PolicySettings,
-  CustomRules,
+  CustomRuleList,
   CustomRule,
-  MatchCondition1,
-  ManagedRuleSets,
+  MatchCondition,
+  ManagedRuleSetList,
   ManagedRuleSet,
+  ManagedRuleGroupOverride,
+  ManagedRuleOverride,
+  FrontendEndpointLink,
   ErrorResponse,
   CloudError,
   FrontDoor,
@@ -34,7 +36,8 @@ export {
   FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink,
   CustomHttpsConfiguration,
   KeyVaultCertificateSourceParametersVault,
-  AzureManagedRuleSet,
-  AzureManagedOverrideRuleGroup
+  ManagedRuleSetDefinition,
+  ManagedRuleGroupDefinition,
+  ManagedRuleDefinition
 } from "../models/mappers";
 
