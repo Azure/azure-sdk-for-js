@@ -16,3 +16,4 @@ export * from "./backendPools";
 export * from "./frontendEndpoints";
 export * from "./endpoints";
 export * from "./policies";
+export * from "./managedRuleSets";
