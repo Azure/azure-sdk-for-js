@@ -32,7 +32,7 @@
     "gulp": "^4.0.0",
     "gulp-zip": "^4.2.0",
     "istanbul": "^0.4.5",
-    "karma": "^3.0.0",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
     "karma-edge-launcher": "^0.4.2",
