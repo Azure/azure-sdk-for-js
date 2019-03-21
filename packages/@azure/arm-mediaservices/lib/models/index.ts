@@ -1364,7 +1364,7 @@ export interface ContentKeyPolicy extends ProxyResource {
 /**
  * Contains the possible cases for Preset.
  */
-export type PresetUnion = Preset | AudioAnalyzerPresetUnion | BuiltInStandardEncoderPreset | StandardEncoderPreset;
+export type PresetUnion = Preset | FaceDetectorPreset | AudioAnalyzerPresetUnion | BuiltInStandardEncoderPreset | StandardEncoderPreset;
 
 /**
  * @interface
@@ -1479,6 +1479,37 @@ export interface AacAudio {
 }
 
 /**
+ * @interface
+ * An interface representing FaceDetectorPreset.
+ * Describes all the settings to be used when analyzing a video in order to
+ * detect all the faces present.
+ *
+ */
+export interface FaceDetectorPreset {
+  /**
+   * @member {string} odatatype Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Media.FaceDetectorPreset";
+  /**
+   * @member {AnalysisResolution} [resolution] Specifies the maximum resolution
+   * at which your video is analyzed. The default behavior is
+   * "SourceResolution," which will keep the input video at its original
+   * resolution when analyzed. Using "StandardDefinition" will resize input
+   * videos to standard definition while preserving the appropriate aspect
+   * ratio. It will only resize if the video is of higher resolution. For
+   * example, a 1920x1080 input would be scaled to 640x360 before processing.
+   * Switching to "StandardDefinition" will reduce the time it takes to process
+   * high resolution video. It may also reduce the cost of using this component
+   * (see
+   * https://azure.microsoft.com/en-us/pricing/details/media-services/#analytics
+   * for details). However, faces that end up being too small in the resized
+   * video may not be detected. Possible values include: 'SourceResolution',
+   * 'StandardDefinition'
+   */
+  resolution?: AnalysisResolution;
+}
+
+/**
  * Contains the possible cases for AudioAnalyzerPreset.
  */
 export type AudioAnalyzerPresetUnion = AudioAnalyzerPreset | VideoAnalyzerPreset;
@@ -1498,15 +1529,21 @@ export interface AudioAnalyzerPreset {
   odatatype: "#Microsoft.Media.AudioAnalyzerPreset";
   /**
    * @member {string} [audioLanguage] The language for the audio payload in the
-   * input using the BCP-47 format of 'language tag-region' (e.g: 'en-US'). The
-   * list of supported languages are, 'en-US', 'en-GB', 'es-ES', 'es-MX',
-   * 'fr-FR', 'it-IT', 'ja-JP', 'pt-BR', 'zh-CN', 'de-DE', 'ar-EG', 'ru-RU',
-   * 'hi-IN'. If not specified, automatic language detection would be employed.
-   * This feature currently supports English, Chinese, French, German, Italian,
-   * Japanese, Spanish, Russian, and Portuguese. The automatic detection works
-   * best with audio recordings with clearly discernable speech. If automatic
-   * detection fails to find the language, transcription would fallback to
-   * English.
+   * input using the BCP-47 format of 'language tag-region' (e.g: 'en-US').
+   * The list of supported languages are English ('en-US' and 'en-GB'), Spanish
+   * ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
+   * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'),
+   * Arabic ('ar-EG' and 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and
+   * Korean ('ko-KR'). If you know the language of your content, it is
+   * recommended that you specify it. If the language isn't specified or set to
+   * null, automatic language detection will choose the first language detected
+   * and process with the selected language for the duration of the file. This
+   * language detection feature currently supports English, Chinese, French,
+   * German, Italian, Japanese, Spanish, Russian, and Portuguese. It does not
+   * currently support dynamically switching between languages after the first
+   * language is detected. The automatic detection works best with audio
+   * recordings with clearly discernable speech. If automatic detection fails
+   * to find the language, transcription would fallback to 'en-US'."
    */
   audioLanguage?: string;
 }
@@ -1528,13 +1565,13 @@ export interface Overlay {
    */
   odatatype: "Overlay";
   /**
-   * @member {string} [inputLabel] The label of the job input which is to be
-   * used as an overlay. The Input must specify exactly one file. You can
-   * specify an image file in JPG or PNG formats, or an audio file (such as a
-   * WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats
-   * for the complete list of supported audio and video file formats.
+   * @member {string} inputLabel The label of the job input which is to be used
+   * as an overlay. The Input must specify exactly one file. You can specify an
+   * image file in JPG or PNG formats, or an audio file (such as a WAV, MP3,
+   * WMA or M4A file), or a video file. See https://aka.ms/mesformats for the
+   * complete list of supported audio and video file formats.
    */
-  inputLabel?: string;
+  inputLabel: string;
   /**
    * @member {string} [start] The start position, with reference to the input
    * video, at which the overlay starts. The value should be in ISO 8601
@@ -1585,13 +1622,13 @@ export interface AudioOverlay {
    */
   odatatype: "#Microsoft.Media.AudioOverlay";
   /**
-   * @member {string} [inputLabel] The label of the job input which is to be
-   * used as an overlay. The Input must specify exactly one file. You can
-   * specify an image file in JPG or PNG formats, or an audio file (such as a
-   * WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats
-   * for the complete list of supported audio and video file formats.
+   * @member {string} inputLabel The label of the job input which is to be used
+   * as an overlay. The Input must specify exactly one file. You can specify an
+   * image file in JPG or PNG formats, or an audio file (such as a WAV, MP3,
+   * WMA or M4A file), or a video file. See https://aka.ms/mesformats for the
+   * complete list of supported audio and video file formats.
    */
-  inputLabel?: string;
+  inputLabel: string;
   /**
    * @member {string} [start] The start position, with reference to the input
    * video, at which the overlay starts. The value should be in ISO 8601
@@ -1721,14 +1758,14 @@ export interface Image {
    */
   stretchMode?: StretchMode;
   /**
-   * @member {string} [start] The position in the input video from where to
-   * start generating thumbnails. The value can be in absolute timestamp (ISO
-   * 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th frame),
-   * or a relative value (For example, 1%). Also supports a macro {Best}, which
+   * @member {string} start The position in the input video from where to start
+   * generating thumbnails. The value can be in absolute timestamp (ISO 8601,
+   * e.g: PT05S), or a frame count (For example, 10 for the 10th frame), or a
+   * relative value (For example, 1%). Also supports a macro {Best}, which
    * tells the encoder to select the best thumbnail from the first few seconds
    * of the video.
    */
-  start?: string;
+  start: string;
   /**
    * @member {string} [step] The intervals at which thumbnails are generated.
    * The value can be in absolute timestamp (ISO 8601, e.g: PT05S for one image
@@ -1763,7 +1800,7 @@ export interface Format {
    */
   odatatype: "Format";
   /**
-   * @member {string} [filenamePattern] The pattern of the file names for the
+   * @member {string} filenamePattern The pattern of the file names for the
    * generated output files. The following macros are supported in the file
    * name: {Basename} - The base name of the input video {Extension} - The
    * appropriate extension for this format. {Label} - The label assigned to the
@@ -1772,7 +1809,7 @@ export interface Format {
    * thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted
    * macros will be collapsed and removed from the filename.
    */
-  filenamePattern?: string;
+  filenamePattern: string;
 }
 
 /**
@@ -1792,7 +1829,7 @@ export interface ImageFormat {
    */
   odatatype: "#Microsoft.Media.ImageFormat";
   /**
-   * @member {string} [filenamePattern] The pattern of the file names for the
+   * @member {string} filenamePattern The pattern of the file names for the
    * generated output files. The following macros are supported in the file
    * name: {Basename} - The base name of the input video {Extension} - The
    * appropriate extension for this format. {Label} - The label assigned to the
@@ -1801,7 +1838,7 @@ export interface ImageFormat {
    * thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted
    * macros will be collapsed and removed from the filename.
    */
-  filenamePattern?: string;
+  filenamePattern: string;
 }
 
 /**
@@ -1816,7 +1853,7 @@ export interface JpgFormat {
    */
   odatatype: "#Microsoft.Media.JpgFormat";
   /**
-   * @member {string} [filenamePattern] The pattern of the file names for the
+   * @member {string} filenamePattern The pattern of the file names for the
    * generated output files. The following macros are supported in the file
    * name: {Basename} - The base name of the input video {Extension} - The
    * appropriate extension for this format. {Label} - The label assigned to the
@@ -1825,7 +1862,7 @@ export interface JpgFormat {
    * thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted
    * macros will be collapsed and removed from the filename.
    */
-  filenamePattern?: string;
+  filenamePattern: string;
 }
 
 /**
@@ -1840,7 +1877,7 @@ export interface PngFormat {
    */
   odatatype: "#Microsoft.Media.PngFormat";
   /**
-   * @member {string} [filenamePattern] The pattern of the file names for the
+   * @member {string} filenamePattern The pattern of the file names for the
    * generated output files. The following macros are supported in the file
    * name: {Basename} - The base name of the input video {Extension} - The
    * appropriate extension for this format. {Label} - The label assigned to the
@@ -1849,7 +1886,7 @@ export interface PngFormat {
    * thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted
    * macros will be collapsed and removed from the filename.
    */
-  filenamePattern?: string;
+  filenamePattern: string;
 }
 
 /**
@@ -2030,11 +2067,11 @@ export interface VideoLayer {
    */
   label?: string;
   /**
-   * @member {number} [bitrate] The average bitrate in bits per second at which
+   * @member {number} bitrate The average bitrate in bits per second at which
    * to encode the input video when generating this layer. This is a required
    * field.
    */
-  bitrate?: number;
+  bitrate: number;
   /**
    * @member {number} [maxBitrate] The maximum bitrate (in bits per second), at
    * which the VBV buffer should be assumed to refill. If not specified,
@@ -2102,11 +2139,11 @@ export interface H264Layer {
    */
   label?: string;
   /**
-   * @member {number} [bitrate] The average bitrate in bits per second at which
+   * @member {number} bitrate The average bitrate in bits per second at which
    * to encode the input video when generating this layer. This is a required
    * field.
    */
-  bitrate?: number;
+  bitrate: number;
   /**
    * @member {number} [maxBitrate] The maximum bitrate (in bits per second), at
    * which the VBV buffer should be assumed to refill. If not specified,
@@ -2141,16 +2178,16 @@ export interface H264Layer {
    */
   adaptiveBFrame?: boolean;
   /**
-   * @member {H264VideoProfile} [profile] Which profile of the H.264 standard
-   * should be used when encoding this layer. Default is Auto. Possible values
-   * include: 'Auto', 'Baseline', 'Main', 'High', 'High422', 'High444'
+   * @member {H264VideoProfile} [profile] We currently support Baseline, Main,
+   * High, High422, High444. Default is Auto. Possible values include: 'Auto',
+   * 'Baseline', 'Main', 'High', 'High422', 'High444'
    */
   profile?: H264VideoProfile;
   /**
-   * @member {string} [level] Which level of the H.264 standard should be used
-   * when encoding this layer. The value can be Auto, or a number that matches
-   * the H.264 profile. If not specified, the default is Auto, which lets the
-   * encoder choose the Level that is appropriate for this layer.
+   * @member {string} [level] We currently support Level up to 6.2. The value
+   * can be Auto, or a number that matches the H.264 profile. If not specified,
+   * the default is Auto, which lets the encoder choose the Level that is
+   * appropriate for this layer.
    */
   level?: string;
   /**
@@ -2290,14 +2327,14 @@ export interface JpgImage {
    */
   stretchMode?: StretchMode;
   /**
-   * @member {string} [start] The position in the input video from where to
-   * start generating thumbnails. The value can be in absolute timestamp (ISO
-   * 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th frame),
-   * or a relative value (For example, 1%). Also supports a macro {Best}, which
+   * @member {string} start The position in the input video from where to start
+   * generating thumbnails. The value can be in absolute timestamp (ISO 8601,
+   * e.g: PT05S), or a frame count (For example, 10 for the 10th frame), or a
+   * relative value (For example, 1%). Also supports a macro {Best}, which
    * tells the encoder to select the best thumbnail from the first few seconds
    * of the video.
    */
-  start?: string;
+  start: string;
   /**
    * @member {string} [step] The intervals at which thumbnails are generated.
    * The value can be in absolute timestamp (ISO 8601, e.g: PT05S for one image
@@ -2328,14 +2365,14 @@ export interface JpgImage {
  */
 export interface OutputFile {
   /**
-   * @member {string[]} [labels] The list of labels that describe how the
-   * encoder should multiplex video and audio into an output file. For example,
-   * if the encoder is producing two video layers with labels v1 and v2, and
-   * one audio layer with label a1, then an array like '[v1, a1]' tells the
-   * encoder to produce an output file with the video track represented by v1
-   * and the audio track represented by a1.
+   * @member {string[]} labels The list of labels that describe how the encoder
+   * should multiplex video and audio into an output file. For example, if the
+   * encoder is producing two video layers with labels v1 and v2, and one audio
+   * layer with label a1, then an array like '[v1, a1]' tells the encoder to
+   * produce an output file with the video track represented by v1 and the
+   * audio track represented by a1.
    */
-  labels?: string[];
+  labels: string[];
 }
 
 /**
@@ -2359,7 +2396,7 @@ export interface MultiBitrateFormat {
    */
   odatatype: "#Microsoft.Media.MultiBitrateFormat";
   /**
-   * @member {string} [filenamePattern] The pattern of the file names for the
+   * @member {string} filenamePattern The pattern of the file names for the
    * generated output files. The following macros are supported in the file
    * name: {Basename} - The base name of the input video {Extension} - The
    * appropriate extension for this format. {Label} - The label assigned to the
@@ -2368,7 +2405,7 @@ export interface MultiBitrateFormat {
    * thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted
    * macros will be collapsed and removed from the filename.
    */
-  filenamePattern?: string;
+  filenamePattern: string;
   /**
    * @member {OutputFile[]} [outputFiles] The list of output files to produce.
    * Each entry in the list is a set of audio and video layer labels to be
@@ -2389,7 +2426,7 @@ export interface Mp4Format {
    */
   odatatype: "#Microsoft.Media.Mp4Format";
   /**
-   * @member {string} [filenamePattern] The pattern of the file names for the
+   * @member {string} filenamePattern The pattern of the file names for the
    * generated output files. The following macros are supported in the file
    * name: {Basename} - The base name of the input video {Extension} - The
    * appropriate extension for this format. {Label} - The label assigned to the
@@ -2398,7 +2435,7 @@ export interface Mp4Format {
    * thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted
    * macros will be collapsed and removed from the filename.
    */
-  filenamePattern?: string;
+  filenamePattern: string;
   /**
    * @member {OutputFile[]} [outputFiles] The list of output files to produce.
    * Each entry in the list is a set of audio and video layer labels to be
@@ -2470,14 +2507,14 @@ export interface PngImage {
    */
   stretchMode?: StretchMode;
   /**
-   * @member {string} [start] The position in the input video from where to
-   * start generating thumbnails. The value can be in absolute timestamp (ISO
-   * 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th frame),
-   * or a relative value (For example, 1%). Also supports a macro {Best}, which
+   * @member {string} start The position in the input video from where to start
+   * generating thumbnails. The value can be in absolute timestamp (ISO 8601,
+   * e.g: PT05S), or a frame count (For example, 10 for the 10th frame), or a
+   * relative value (For example, 1%). Also supports a macro {Best}, which
    * tells the encoder to select the best thumbnail from the first few seconds
    * of the video.
    */
-  start?: string;
+  start: string;
   /**
    * @member {string} [step] The intervals at which thumbnails are generated.
    * The value can be in absolute timestamp (ISO 8601, e.g: PT05S for one image
@@ -2516,8 +2553,9 @@ export interface BuiltInStandardEncoderPreset {
    * @member {EncoderNamedPreset} presetName The built-in preset to be used for
    * encoding videos. Possible values include: 'H264SingleBitrateSD',
    * 'H264SingleBitrate720p', 'H264SingleBitrate1080p', 'AdaptiveStreaming',
-   * 'AACGoodQualityAudio', 'H264MultipleBitrate1080p',
-   * 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+   * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental',
+   * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
+   * 'H264MultipleBitrateSD'
    */
   presetName: EncoderNamedPreset;
 }
@@ -2540,15 +2578,15 @@ export interface StandardEncoderPreset {
    */
   filters?: Filters;
   /**
-   * @member {CodecUnion[]} [codecs] The list of codecs to be used when
-   * encoding the input video.
+   * @member {CodecUnion[]} codecs The list of codecs to be used when encoding
+   * the input video.
    */
-  codecs?: CodecUnion[];
+  codecs: CodecUnion[];
   /**
-   * @member {FormatUnion[]} [formats] The list of outputs to be produced by
-   * the encoder.
+   * @member {FormatUnion[]} formats The list of outputs to be produced by the
+   * encoder.
    */
-  formats?: FormatUnion[];
+  formats: FormatUnion[];
 }
 
 /**
@@ -2565,15 +2603,21 @@ export interface VideoAnalyzerPreset {
   odatatype: "#Microsoft.Media.VideoAnalyzerPreset";
   /**
    * @member {string} [audioLanguage] The language for the audio payload in the
-   * input using the BCP-47 format of 'language tag-region' (e.g: 'en-US'). The
-   * list of supported languages are, 'en-US', 'en-GB', 'es-ES', 'es-MX',
-   * 'fr-FR', 'it-IT', 'ja-JP', 'pt-BR', 'zh-CN', 'de-DE', 'ar-EG', 'ru-RU',
-   * 'hi-IN'. If not specified, automatic language detection would be employed.
-   * This feature currently supports English, Chinese, French, German, Italian,
-   * Japanese, Spanish, Russian, and Portuguese. The automatic detection works
-   * best with audio recordings with clearly discernable speech. If automatic
-   * detection fails to find the language, transcription would fallback to
-   * English.
+   * input using the BCP-47 format of 'language tag-region' (e.g: 'en-US').
+   * The list of supported languages are English ('en-US' and 'en-GB'), Spanish
+   * ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
+   * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'),
+   * Arabic ('ar-EG' and 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and
+   * Korean ('ko-KR'). If you know the language of your content, it is
+   * recommended that you specify it. If the language isn't specified or set to
+   * null, automatic language detection will choose the first language detected
+   * and process with the selected language for the duration of the file. This
+   * language detection feature currently supports English, Chinese, French,
+   * German, Italian, Japanese, Spanish, Russian, and Portuguese. It does not
+   * currently support dynamically switching between languages after the first
+   * language is detected. The automatic detection works best with audio
+   * recordings with clearly discernable speech. If automatic detection fails
+   * to find the language, transcription would fallback to 'en-US'."
    */
   audioLanguage?: string;
   /**
@@ -2599,7 +2643,7 @@ export interface TransportStreamFormat {
    */
   odatatype: "#Microsoft.Media.TransportStreamFormat";
   /**
-   * @member {string} [filenamePattern] The pattern of the file names for the
+   * @member {string} filenamePattern The pattern of the file names for the
    * generated output files. The following macros are supported in the file
    * name: {Basename} - The base name of the input video {Extension} - The
    * appropriate extension for this format. {Label} - The label assigned to the
@@ -2608,7 +2652,7 @@ export interface TransportStreamFormat {
    * thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted
    * macros will be collapsed and removed from the filename.
    */
-  filenamePattern?: string;
+  filenamePattern: string;
   /**
    * @member {OutputFile[]} [outputFiles] The list of output files to produce.
    * Each entry in the list is a set of audio and video layer labels to be
@@ -2629,13 +2673,13 @@ export interface VideoOverlay {
    */
   odatatype: "#Microsoft.Media.VideoOverlay";
   /**
-   * @member {string} [inputLabel] The label of the job input which is to be
-   * used as an overlay. The Input must specify exactly one file. You can
-   * specify an image file in JPG or PNG formats, or an audio file (such as a
-   * WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats
-   * for the complete list of supported audio and video file formats.
+   * @member {string} inputLabel The label of the job input which is to be used
+   * as an overlay. The Input must specify exactly one file. You can specify an
+   * image file in JPG or PNG formats, or an audio file (such as a WAV, MP3,
+   * WMA or M4A file), or a video file. See https://aka.ms/mesformats for the
+   * complete list of supported audio and video file formats.
    */
-  inputLabel?: string;
+  inputLabel: string;
   /**
    * @member {string} [start] The start position, with reference to the input
    * video, at which the overlay starts. The value should be in ISO 8601
@@ -2794,6 +2838,7 @@ export interface JobInputClip {
   odatatype: "#Microsoft.Media.JobInputClip";
   /**
    * @member {string[]} [files] List of files. Required for JobInputHttp.
+   * Maximum of 4000 characters each.
    */
   files?: string[];
   /**
@@ -2837,6 +2882,7 @@ export interface JobInputAsset {
   odatatype: "#Microsoft.Media.JobInputAsset";
   /**
    * @member {string[]} [files] List of files. Required for JobInputHttp.
+   * Maximum of 4000 characters each.
    */
   files?: string[];
   /**
@@ -2867,6 +2913,7 @@ export interface JobInputHttp {
   odatatype: "#Microsoft.Media.JobInputHttp";
   /**
    * @member {string[]} [files] List of files. Required for JobInputHttp.
+   * Maximum of 4000 characters each.
    */
   files?: string[];
   /**
@@ -2880,8 +2927,9 @@ export interface JobInputHttp {
   label?: string;
   /**
    * @member {string} [baseUri] Base URI for HTTPS job input. It will be
-   * concatenated with provided file names.   If no base uri is given, then the
-   * provided file list is assumed to be fully qualified uris.
+   * concatenated with provided file names. If no base uri is given, then the
+   * provided file list is assumed to be fully qualified uris. Maximum length
+   * of 4000 characters.
    */
   baseUri?: string;
 }
@@ -3122,7 +3170,7 @@ export interface Job extends ProxyResource {
   priority?: Priority;
   /**
    * @member {{ [propertyName: string]: string }} [correlationData] Customer
-   * provided correlation data that will be returned in Job and JobOutput state
+   * provided key, value pairs that will be returned in Job and JobOutput state
    * events.
    */
   correlationData?: { [propertyName: string]: string };
@@ -3233,9 +3281,14 @@ export interface StreamingPolicyContentKeys {
  */
 export interface StreamingPolicyPlayReadyConfiguration {
   /**
-   * @member {string} [customLicenseAcquisitionUrlTemplate] The template for a
-   * customer service to deliver keys to end users.  Not needed when using
-   * Azure Media Services for issuing keys.
+   * @member {string} [customLicenseAcquisitionUrlTemplate] Template for the
+   * URL of the custom service delivering licenses to end user players.  Not
+   * required when using Azure Media Services for issuing licenses.  The
+   * template supports replaceable tokens that the service will update at
+   * runtime with the value specific to the request.  The currently supported
+   * token values are {AlternativeMediaId}, which is replaced with the value of
+   * StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is
+   * replaced with the value of identifier of the key being requested.
    */
   customLicenseAcquisitionUrlTemplate?: string;
   /**
@@ -3253,9 +3306,14 @@ export interface StreamingPolicyPlayReadyConfiguration {
  */
 export interface StreamingPolicyWidevineConfiguration {
   /**
-   * @member {string} [customLicenseAcquisitionUrlTemplate] The template for a
-   * customer service to deliver keys to end users.  Not needed when using
-   * Azure Media Services for issuing keys.
+   * @member {string} [customLicenseAcquisitionUrlTemplate] Template for the
+   * URL of the custom service delivering licenses to end user players.  Not
+   * required when using Azure Media Services for issuing licenses.  The
+   * template supports replaceable tokens that the service will update at
+   * runtime with the value specific to the request.  The currently supported
+   * token values are {AlternativeMediaId}, which is replaced with the value of
+   * StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is
+   * replaced with the value of identifier of the key being requested.
    */
   customLicenseAcquisitionUrlTemplate?: string;
 }
@@ -3268,9 +3326,14 @@ export interface StreamingPolicyWidevineConfiguration {
  */
 export interface StreamingPolicyFairPlayConfiguration {
   /**
-   * @member {string} [customLicenseAcquisitionUrlTemplate] The template for a
-   * customer service to deliver keys to end users.  Not needed when using
-   * Azure Media Services for issuing keys.
+   * @member {string} [customLicenseAcquisitionUrlTemplate] Template for the
+   * URL of the custom service delivering licenses to end user players.  Not
+   * required when using Azure Media Services for issuing licenses.  The
+   * template supports replaceable tokens that the service will update at
+   * runtime with the value specific to the request.  The currently supported
+   * token values are {AlternativeMediaId}, which is replaced with the value of
+   * StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is
+   * replaced with the value of identifier of the key being requested.
    */
   customLicenseAcquisitionUrlTemplate?: string;
   /**
@@ -3388,9 +3451,14 @@ export interface EnvelopeEncryption {
    */
   contentKeys?: StreamingPolicyContentKeys;
   /**
-   * @member {string} [customKeyAcquisitionUrlTemplate]
-   * KeyAcquisitionUrlTemplate is used to point to user specified service to
-   * delivery content keys
+   * @member {string} [customKeyAcquisitionUrlTemplate] Template for the URL of
+   * the custom service delivering keys to end user players.  Not required when
+   * using Azure Media Services for issuing keys.  The template supports
+   * replaceable tokens that the service will update at runtime with the value
+   * specific to the request.  The currently supported token values are
+   * {AlternativeMediaId}, which is replaced with the value of
+   * StreamingLocatorId.AlternativeMediaId, and {ContentKeyId}, which is
+   * replaced with the value of identifier of the key being requested.
    */
   customKeyAcquisitionUrlTemplate?: string;
 }
@@ -3652,6 +3720,11 @@ export interface StreamingLocator extends ProxyResource {
    * Streaming Locator
    */
   alternativeMediaId?: string;
+  /**
+   * @member {string[]} [filters] A list of asset or account filters which
+   * apply to this streaming locator
+   */
+  filters?: string[];
 }
 
 /**
@@ -4719,6 +4792,14 @@ export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefin
 export type AacAudioProfile = 'AacLc' | 'HeAacV1' | 'HeAacV2';
 
 /**
+ * Defines values for AnalysisResolution.
+ * Possible values include: 'SourceResolution', 'StandardDefinition'
+ * @readonly
+ * @enum {string}
+ */
+export type AnalysisResolution = 'SourceResolution' | 'StandardDefinition';
+
+/**
  * Defines values for StretchMode.
  * Possible values include: 'None', 'AutoSize', 'AutoFit'
  * @readonly
@@ -4778,11 +4859,12 @@ export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
  * Defines values for EncoderNamedPreset.
  * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
  * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
- * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+ * 'ContentAwareEncodingExperimental', 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
+ * 'H264MultipleBitrateSD'
  * @readonly
  * @enum {string}
  */
-export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
+export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
 
 /**
  * Defines values for InsightsType.
