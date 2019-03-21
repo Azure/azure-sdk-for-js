@@ -1,5 +1,4 @@
 import nodeResolve from "rollup-plugin-node-resolve";
-import builtins from "rollup-plugin-node-builtins"
 /**
  * @type {import('rollup').RollupFileOptions}
  */
@@ -17,7 +16,7 @@ const banner = [
 
 const config = {
   input: './dist-esm/lib/index.js',
-  external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js"],
+  external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js", "url", "util"],
   output: {
     file: "./dist/index.js",
     format: "umd",
@@ -25,12 +24,13 @@ const config = {
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",
-      "@azure/ms-rest-azure-js": "msRestAzure"
+      "@azure/ms-rest-azure-js": "msRestAzure",
+      "url": "url",
+      "util": "util"
     },
     banner: banner
   },
   plugins: [
-    builtins(),
     nodeResolve({ module: true })
   ]
 };
