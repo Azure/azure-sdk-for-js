@@ -16,6 +16,7 @@ export {
   PersistedFace,
   UpdateFaceRequest,
   ImageUrl,
+  MetaDataContract,
   FaceList,
   PersonGroup,
   LargeFaceList,
