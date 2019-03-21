@@ -16,71 +16,103 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing MeterDetails.
- * The properties of the meter detail.
+ * An interface representing EnrollmentPolicies.
+ * The attributes associated with legacy enrollment
  *
  */
-export interface MeterDetails {
+export interface EnrollmentPolicies {
   /**
-   * @member {string} [meterName] The name of the meter, within the given meter
-   * category
+   * @member {boolean} [accountOwnerViewCharges] The accountOwnerViewCharges
+   * flag for Enrollment
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly meterName?: string;
+  readonly accountOwnerViewCharges?: boolean;
   /**
-   * @member {string} [meterCategory] The category of the meter, for example,
-   * 'Cloud services', 'Networking', etc..
+   * @member {boolean} [departmentAdminViewCharges] The
+   * departmentAdminViewCharges flag for Enrollment
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly meterCategory?: string;
+  readonly departmentAdminViewCharges?: boolean;
   /**
-   * @member {string} [meterSubCategory] The subcategory of the meter, for
-   * example, 'A6 Cloud services', 'ExpressRoute (IXP)', etc..
+   * @member {boolean} [marketplacesEnabled] The marketplaces flag for
+   * Enrollment
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly meterSubCategory?: string;
+  readonly marketplacesEnabled?: boolean;
   /**
-   * @member {string} [unit] The unit in which the meter consumption is
-   * charged, for example, 'Hours', 'GB', etc.
+   * @member {boolean} [reservedInstancesEnabled] The reserved instances flag
+   * for Enrollment
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly unit?: string;
+  readonly reservedInstancesEnabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing Enrollment.
+ * Current entity level details
+ *
+ */
+export interface Enrollment {
   /**
-   * @member {string} [meterLocation] The location in which the Azure service
-   * is available.
+   * @member {Date} [startDate] Enrollment Start Date
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly meterLocation?: string;
+  readonly startDate?: Date;
   /**
-   * @member {number} [totalIncludedQuantity] The total included quantity
-   * associated with the offer.
+   * @member {Date} [endDate] Enrollment End Date
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly totalIncludedQuantity?: number;
+  readonly endDate?: Date;
   /**
-   * @member {number} [pretaxStandardRate] The pretax listing price.
+   * @member {string} [currency] The currency associated with enrollment
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly pretaxStandardRate?: number;
+  readonly currency?: string;
   /**
-   * @member {string} [serviceName] The name of the service.
+   * @member {string} [channel] The channel for Enrollment
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly serviceName?: string;
+  readonly channel?: string;
   /**
-   * @member {string} [serviceTier] The service tier.
+   * @member {EnrollmentPolicies} [policies] The attributes associated with
+   * legacy enrollment.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly serviceTier?: string;
+  readonly policies?: EnrollmentPolicies;
+  /**
+   * @member {string} [language] The language for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly language?: string;
+  /**
+   * @member {string} [countryCode] The countryCode for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly countryCode?: string;
+  /**
+   * @member {string} [status] Enrollment status
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: string;
+  /**
+   * @member {string} [billingCylce] Enrollment billing cycle
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingCylce?: string;
 }
 
 /**
@@ -119,1081 +151,273 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
- * An interface representing UsageDetail.
- * An usage detail resource.
+ * An interface representing Department.
+ * A department resource.
  *
  * @extends Resource
  */
-export interface UsageDetail extends Resource {
+export interface Department extends Resource {
   /**
-   * @member {string} [billingPeriodId] The id of the billing period resource
-   * that the usage belongs to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [departmentName] The name for department.
    */
-  readonly billingPeriodId?: string;
+  departmentName?: string;
   /**
-   * @member {string} [invoiceId] The id of the invoice resource that the usage
-   * belongs to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [costCenter] The cost center name.
    */
-  readonly invoiceId?: string;
+  costCenter?: string;
   /**
-   * @member {Date} [usageStart] The start of the date time range covered by
-   * the usage detail.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [status] The status for department.
    */
-  readonly usageStart?: Date;
+  status?: string;
   /**
-   * @member {Date} [usageEnd] The end of the date time range covered by the
-   * usage detail.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {EnrollmentAccount[]} [enrollmentAccounts] Associated enrollment
+   * accounts. By default this is not populated, unless it's specified in
+   * $expand.
    */
-  readonly usageEnd?: Date;
-  /**
-   * @member {string} [instanceName] The name of the resource instance that the
-   * usage is about.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceName?: string;
-  /**
-   * @member {string} [instanceId] The uri of the resource instance that the
-   * usage is about.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceId?: string;
-  /**
-   * @member {string} [instanceLocation] The location of the resource instance
-   * that the usage is about.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceLocation?: string;
-  /**
-   * @member {string} [currency] The ISO currency in which the meter is
-   * charged, for example, USD.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currency?: string;
-  /**
-   * @member {number} [usageQuantity] The quantity of usage.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly usageQuantity?: number;
-  /**
-   * @member {number} [billableQuantity] The billable usage quantity.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billableQuantity?: number;
-  /**
-   * @member {number} [pretaxCost] The amount of cost before tax.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly pretaxCost?: number;
-  /**
-   * @member {boolean} [isEstimated] The estimated usage is subject to change.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isEstimated?: boolean;
-  /**
-   * @member {string} [meterId] The meter id (GUID).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly meterId?: string;
-  /**
-   * @member {MeterDetails} [meterDetails] The details about the meter. By
-   * default this is not populated, unless it's specified in $expand.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly meterDetails?: MeterDetails;
-  /**
-   * @member {string} [subscriptionGuid] Subscription guid.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly subscriptionGuid?: string;
-  /**
-   * @member {string} [subscriptionName] Subscription name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly subscriptionName?: string;
-  /**
-   * @member {string} [accountName] Account name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly accountName?: string;
-  /**
-   * @member {string} [departmentName] Department name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly departmentName?: string;
-  /**
-   * @member {string} [product] Product name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly product?: string;
-  /**
-   * @member {string} [consumedService] Consumed service name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly consumedService?: string;
-  /**
-   * @member {string} [costCenter] The cost center of this department if it is
-   * a department and a costcenter exists
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly costCenter?: string;
-  /**
-   * @member {string} [partNumber] Part Number
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly partNumber?: string;
-  /**
-   * @member {string} [resourceGuid] Resource Guid
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly resourceGuid?: string;
-  /**
-   * @member {string} [offerId] Offer Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly offerId?: string;
-  /**
-   * @member {boolean} [chargesBilledSeparately] Charges billed separately
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly chargesBilledSeparately?: boolean;
-  /**
-   * @member {string} [location] Resource Location
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly location?: string;
-  /**
-   * @member {string} [additionalProperties] Additional details of this usage
-   * item. By default this is not populated, unless it's specified in $expand.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly additionalProperties?: string;
+  enrollmentAccounts?: EnrollmentAccount[];
 }
 
 /**
  * @interface
- * An interface representing Marketplace.
- * An marketplace resource.
+ * An interface representing EnrollmentAccount.
+ * An account resource.
  *
  * @extends Resource
  */
-export interface Marketplace extends Resource {
+export interface EnrollmentAccount extends Resource {
   /**
-   * @member {string} [billingPeriodId] The id of the billing period resource
-   * that the usage belongs to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [accountName] The account name.
    */
-  readonly billingPeriodId?: string;
+  accountName?: string;
   /**
-   * @member {Date} [usageStart] The start of the date time range covered by
-   * the usage detail.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [costCenter] The cost center name.
    */
-  readonly usageStart?: Date;
+  costCenter?: string;
   /**
-   * @member {Date} [usageEnd] The end of the date time range covered by the
-   * usage detail.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [accountOwner] The account owner
    */
-  readonly usageEnd?: Date;
+  accountOwner?: string;
   /**
-   * @member {number} [resourceRate] The marketplace resource rate.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [status] The status for account.
    */
-  readonly resourceRate?: number;
+  status?: string;
   /**
-   * @member {string} [offerName] The type of offer.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {Date} [startDate] Account Start Date
    */
-  readonly offerName?: string;
+  startDate?: Date;
   /**
-   * @member {string} [resourceGroup] The name of resource group.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly resourceGroup?: string;
-  /**
-   * @member {string} [orderNumber] The order number.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly orderNumber?: string;
-  /**
-   * @member {string} [instanceName] The name of the resource instance that the
-   * usage is about.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceName?: string;
-  /**
-   * @member {string} [instanceId] The uri of the resource instance that the
-   * usage is about.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceId?: string;
-  /**
-   * @member {string} [currency] The ISO currency in which the meter is
-   * charged, for example, USD.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currency?: string;
-  /**
-   * @member {number} [consumedQuantity] The quantity of usage.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly consumedQuantity?: number;
-  /**
-   * @member {string} [unitOfMeasure] The unit of measure.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unitOfMeasure?: string;
-  /**
-   * @member {number} [pretaxCost] The amount of cost before tax.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly pretaxCost?: number;
-  /**
-   * @member {boolean} [isEstimated] The estimated usage is subject to change.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isEstimated?: boolean;
-  /**
-   * @member {string} [meterId] The meter id (GUID).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly meterId?: string;
-  /**
-   * @member {string} [subscriptionGuid] Subscription guid.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly subscriptionGuid?: string;
-  /**
-   * @member {string} [subscriptionName] Subscription name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly subscriptionName?: string;
-  /**
-   * @member {string} [accountName] Account name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly accountName?: string;
-  /**
-   * @member {string} [departmentName] Department name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly departmentName?: string;
-  /**
-   * @member {string} [consumedService] Consumed service name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly consumedService?: string;
-  /**
-   * @member {string} [costCenter] The cost center of this department if it is
-   * a department and a costcenter exists
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly costCenter?: string;
-  /**
-   * @member {string} [additionalProperties] Additional details of this usage
-   * item. By default this is not populated, unless it's specified in $expand.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly additionalProperties?: string;
-  /**
-   * @member {string} [publisherName] The name of publisher.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly publisherName?: string;
-  /**
-   * @member {string} [planName] The name of plan.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly planName?: string;
-  /**
-   * @member {boolean} [isRecurringCharge] Flag indicating whether this is a
-   * recurring charge or not.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isRecurringCharge?: boolean;
-}
-
-/**
- * @interface
- * An interface representing BalancePropertiesNewPurchasesDetailsItem.
- */
-export interface BalancePropertiesNewPurchasesDetailsItem {
-  /**
-   * @member {string} [name] the name of new purchase.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {number} [value] the value of new purchase.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly value?: number;
-}
-
-/**
- * @interface
- * An interface representing BalancePropertiesAdjustmentDetailsItem.
- */
-export interface BalancePropertiesAdjustmentDetailsItem {
-  /**
-   * @member {string} [name] the name of new adjustment.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {number} [value] the value of new adjustment.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly value?: number;
-}
-
-/**
- * @interface
- * An interface representing Balance.
- * A balance resource.
- *
- * @extends Resource
- */
-export interface Balance extends Resource {
-  /**
-   * @member {string} [currency] The ISO currency in which the meter is
-   * charged, for example, USD.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currency?: string;
-  /**
-   * @member {number} [beginningBalance] The beginning balance for the billing
-   * period.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly beginningBalance?: number;
-  /**
-   * @member {number} [endingBalance] The ending balance for the billing period
-   * (for open periods this will be updated daily).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endingBalance?: number;
-  /**
-   * @member {number} [newPurchases] Total new purchase amount.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly newPurchases?: number;
-  /**
-   * @member {number} [adjustments] Total adjustment amount.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly adjustments?: number;
-  /**
-   * @member {number} [utilized] Total Commitment usage.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly utilized?: number;
-  /**
-   * @member {number} [serviceOverage] Overage for Azure services.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceOverage?: number;
-  /**
-   * @member {number} [chargesBilledSeparately] Charges Billed separately.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly chargesBilledSeparately?: number;
-  /**
-   * @member {number} [totalOverage] serviceOverage + chargesBilledSeparately.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly totalOverage?: number;
-  /**
-   * @member {number} [totalUsage] Azure service commitment + total Overage.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly totalUsage?: number;
-  /**
-   * @member {number} [azureMarketplaceServiceCharges] Total charges for Azure
-   * Marketplace.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly azureMarketplaceServiceCharges?: number;
-  /**
-   * @member {BillingFrequency} [billingFrequency] The billing frequency.
-   * Possible values include: 'Month', 'Quarter', 'Year'
-   */
-  billingFrequency?: BillingFrequency;
-  /**
-   * @member {boolean} [priceHidden] Price is hidden or not.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly priceHidden?: boolean;
-  /**
-   * @member {BalancePropertiesNewPurchasesDetailsItem[]} [newPurchasesDetails]
-   * List of new purchases.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsItem[];
-  /**
-   * @member {BalancePropertiesAdjustmentDetailsItem[]} [adjustmentDetails]
-   * List of Adjustments (Promo credit, SIE credit etc.).
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly adjustmentDetails?: BalancePropertiesAdjustmentDetailsItem[];
-}
-
-/**
- * @interface
- * An interface representing ReservationSummary.
- * reservation summary resource.
- *
- * @extends Resource
- */
-export interface ReservationSummary extends Resource {
-  /**
-   * @member {string} [reservationOrderId] The reservation order ID is the
-   * identifier for a reservation purchase. Each reservation order ID
-   * represents a single purchase transaction. A reservation order contains
-   * reservations. The reservation order specifies the VM size and region for
-   * the reservations.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly reservationOrderId?: string;
-  /**
-   * @member {string} [reservationId] The reservation ID is the identifier of a
-   * reservation within a reservation order. Each reservation is the grouping
-   * for applying the benefit scope and also specifies the number of instances
-   * to which the reservation benefit can be applied to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly reservationId?: string;
-  /**
-   * @member {string} [skuName] This is the ARM Sku name. It can be used to
-   * join with the servicetype field in additoinalinfo in usage records.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly skuName?: string;
-  /**
-   * @member {number} [reservedHours] This is the total hours reserved. E.g. if
-   * reservation for 1 instance was made on 1 PM, this will be 11 hours for
-   * that day and 24 hours from subsequent days
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly reservedHours?: number;
-  /**
-   * @member {Date} [usageDate] Data corresponding to the utilization record.
-   * If the grain of data is monthly, it will be first day of month.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly usageDate?: Date;
-  /**
-   * @member {number} [usedHours] Total used hours by the reservation
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly usedHours?: number;
-  /**
-   * @member {number} [minUtilizationPercentage] This is the minimum hourly
-   * utilization in the usage time (day or month). E.g. if usage record
-   * corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was
-   * 10%, this field will return 10% for that day
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly minUtilizationPercentage?: number;
-  /**
-   * @member {number} [avgUtilizationPercentage] This is average utilization
-   * for the entire time range. (day or month depending on the grain)
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly avgUtilizationPercentage?: number;
-  /**
-   * @member {number} [maxUtilizationPercentage] This is the maximum hourly
-   * utilization in the usage time (day or month). E.g. if usage record
-   * corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was
-   * 100%, this field will return 100% for that day.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly maxUtilizationPercentage?: number;
-}
-
-/**
- * @interface
- * An interface representing ReservationDetail.
- * reservation detail resource.
- *
- * @extends Resource
- */
-export interface ReservationDetail extends Resource {
-  /**
-   * @member {string} [reservationOrderId] The reservation order ID is the
-   * identifier for a reservation purchase. Each reservation order ID
-   * represents a single purchase transaction. A reservation order contains
-   * reservations. The reservation order specifies the VM size and region for
-   * the reservations.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly reservationOrderId?: string;
-  /**
-   * @member {string} [reservationId] The reservation ID is the identifier of a
-   * reservation within a reservation order. Each reservation is the grouping
-   * for applying the benefit scope and also specifies the number of instances
-   * to which the reservation benefit can be applied to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly reservationId?: string;
-  /**
-   * @member {string} [skuName] This is the ARM Sku name. It can be used to
-   * join with the servicetype field in additoinalinfo in usage records.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly skuName?: string;
-  /**
-   * @member {number} [reservedHours] This is the total hours reserved for the
-   * day. E.g. if reservation for 1 instance was made on 1 PM, this will be 11
-   * hours for that day and 24 hours from subsequent days.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly reservedHours?: number;
-  /**
-   * @member {Date} [usageDate] The date on which consumption occurred.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly usageDate?: Date;
-  /**
-   * @member {number} [usedHours] This is the total hours used by the instance.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly usedHours?: number;
-  /**
-   * @member {string} [instanceId] This identifier is the name of the resource
-   * or the fully qualified Resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceId?: string;
-  /**
-   * @member {number} [totalReservedQuantity] This is the total count of
-   * instances that are reserved for the reservationid.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly totalReservedQuantity?: number;
-}
-
-/**
- * @interface
- * An interface representing ReservationRecommendation.
- * Reservation recommendation resource.
- *
- */
-export interface ReservationRecommendation {
-  /**
-   * @member {string} [id] Resource Id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly tags?: { [propertyName: string]: string };
-  /**
-   * @member {string} [location] Resource location
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly location?: string;
-  /**
-   * @member {string} [sku] Resource sku
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly sku?: string;
-  /**
-   * @member {string} [lookBackPeriod] The number of days of usage to look back
-   * for recommendation.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lookBackPeriod?: string;
-  /**
-   * @member {string} [meterId] The meter id (GUID)
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly meterId?: string;
-  /**
-   * @member {string} [term] RI recommendations in one or three year terms.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly term?: string;
-  /**
-   * @member {number} [costWithNoReservedInstances] The total amount of cost
-   * without reserved instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly costWithNoReservedInstances?: number;
-  /**
-   * @member {number} [recommendedQuantity] Recomended quality for reserved
-   * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly recommendedQuantity?: number;
-  /**
-   * @member {number} [totalCostWithReservedInstances] The total amount of cost
-   * with reserved instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly totalCostWithReservedInstances?: number;
-  /**
-   * @member {number} [netSavings] Total estimated savings with reserved
-   * instances.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly netSavings?: number;
-  /**
-   * @member {Date} [firstUsageDate] The usage date for looking back.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly firstUsageDate?: Date;
-  /**
-   * @member {string} [scope] Shared or single recommendation.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly scope?: string;
-}
-
-/**
- * @interface
- * An interface representing Tag.
- * The tag resource.
- *
- */
-export interface Tag {
-  /**
-   * @member {string} [key] Tag key.
-   */
-  key?: string;
-}
-
-/**
- * @interface
- * An interface representing ProxyResource.
- * The Resource model definition.
- *
- * @extends BaseResource
- */
-export interface ProxyResource extends BaseResource {
-  /**
-   * @member {string} [id] Resource Id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] Resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [eTag] eTag of the resource. To handle concurrent update
-   * scenarion, this field will be used to determine whether the user is
-   * updating the latest version or not.
-   */
-  eTag?: string;
-}
-
-/**
- * @interface
- * An interface representing TagsResult.
- * A resource listing all tags.
- *
- * @extends ProxyResource
- */
-export interface TagsResult extends ProxyResource {
-  /**
-   * @member {Tag[]} [tags] A list of Tag.
-   */
-  tags?: Tag[];
-}
-
-/**
- * @interface
- * An interface representing BudgetTimePeriod.
- * The start and end date for a budget.
- *
- */
-export interface BudgetTimePeriod {
-  /**
-   * @member {Date} startDate The start date for the budget.
-   */
-  startDate: Date;
-  /**
-   * @member {Date} [endDate] The end date for the budget. If not provided, we
-   * default this to 10 years from the start date.
+   * @member {Date} [endDate] Account End Date
    */
   endDate?: Date;
+  /**
+   * @member {Department} [department] Associated department. By default this
+   * is not populated, unless it's specified in $expand.
+   */
+  department?: Department;
 }
 
 /**
  * @interface
- * An interface representing Filters.
- * May be used to filter budgets by resource group, resource, or meter.
+ * An interface representing Address.
+ * Address details.
  *
  */
-export interface Filters {
+export interface Address {
   /**
-   * @member {string[]} [resourceGroups] The list of filters on resource
-   * groups, allowed at subscription level only.
+   * @member {string} [addressLine1] Address Line1.
    */
-  resourceGroups?: string[];
+  addressLine1?: string;
   /**
-   * @member {string[]} [resources] The list of filters on resources.
+   * @member {string} [addressLine2] Address Line2.
    */
-  resources?: string[];
+  addressLine2?: string;
   /**
-   * @member {string[]} [meters] The list of filters on meters (GUID),
-   * mandatory for budgets of usage category.
+   * @member {string} [addressLine3] Address Line3.
    */
-  meters?: string[];
+  addressLine3?: string;
   /**
-   * @member {{ [propertyName: string]: string[] }} [tags] The dictionary of
-   * filters on tags.
+   * @member {string} [city] Address City.
    */
-  tags?: { [propertyName: string]: string[] };
+  city?: string;
+  /**
+   * @member {string} [region] Address Region.
+   */
+  region?: string;
+  /**
+   * @member {string} [country] Country code uses ISO2, 2-digit format..
+   */
+  country?: string;
+  /**
+   * @member {string} [postalCode] Postal Code.
+   */
+  postalCode?: string;
+  /**
+   * @member {string} [phoneNumber] Phone Number.
+   */
+  phoneNumber?: string;
 }
 
 /**
  * @interface
- * An interface representing CurrentSpend.
- * The current amount of cost which is being tracked for a budget.
- *
- */
-export interface CurrentSpend {
-  /**
-   * @member {number} [amount] The total amount of cost which is being tracked
-   * by the budget.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly amount?: number;
-  /**
-   * @member {string} [unit] The unit of measure for the budget amount.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unit?: string;
-}
-
-/**
- * @interface
- * An interface representing Notification.
- * The notification associated with a budget.
- *
- */
-export interface Notification {
-  /**
-   * @member {boolean} enabled The notification is enabled or not.
-   */
-  enabled: boolean;
-  /**
-   * @member {OperatorType} operator The comparison operator. Possible values
-   * include: 'EqualTo', 'GreaterThan', 'GreaterThanOrEqualTo'
-   */
-  operator: OperatorType;
-  /**
-   * @member {number} threshold Threshold value associated with a notification.
-   * Notification is sent when the cost exceeded the threshold. It is always
-   * percent and has to be between 0 and 1000.
-   */
-  threshold: number;
-  /**
-   * @member {string[]} contactEmails Email addresses to send the budget
-   * notification to when the threshold is exceeded.
-   */
-  contactEmails: string[];
-  /**
-   * @member {string[]} [contactRoles] Contact roles to send the budget
-   * notification to when the threshold is exceeded.
-   */
-  contactRoles?: string[];
-  /**
-   * @member {string[]} [contactGroups] Action groups to send the budget
-   * notification to when the threshold is exceeded.
-   */
-  contactGroups?: string[];
-}
-
-/**
- * @interface
- * An interface representing Budget.
- * A budget resource.
- *
- * @extends ProxyResource
- */
-export interface Budget extends ProxyResource {
-  /**
-   * @member {CategoryType} category The category of the budget, whether the
-   * budget tracks cost or usage. Possible values include: 'Cost', 'Usage'
-   */
-  category: CategoryType;
-  /**
-   * @member {number} amount The total amount of cost to track with the budget
-   */
-  amount: number;
-  /**
-   * @member {TimeGrainType} timeGrain The time covered by a budget. Tracking
-   * of the amount will be reset based on the time grain. Possible values
-   * include: 'Monthly', 'Quarterly', 'Annually'
-   */
-  timeGrain: TimeGrainType;
-  /**
-   * @member {BudgetTimePeriod} timePeriod Has start and end date of the
-   * budget. The start date must be first of the month and should be less than
-   * the end date. Budget start date must be on or after June 1, 2017. Future
-   * start date should not be more than three months. Past start date should
-   * be selected within the timegrain preiod. There are no restrictions on the
-   * end date.
-   */
-  timePeriod: BudgetTimePeriod;
-  /**
-   * @member {Filters} [filters] May be used to filter budgets by resource
-   * group, resource, or meter.
-   */
-  filters?: Filters;
-  /**
-   * @member {CurrentSpend} [currentSpend] The current amount of cost which is
-   * being tracked for a budget.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currentSpend?: CurrentSpend;
-  /**
-   * @member {{ [propertyName: string]: Notification }} [notifications]
-   * Dictionary of notifications associated with the budget. Budget can have up
-   * to five notifications.
-   */
-  notifications?: { [propertyName: string]: Notification };
-}
-
-/**
- * @interface
- * An interface representing PriceSheetProperties.
- * The properties of the price sheet.
- *
- */
-export interface PriceSheetProperties {
-  /**
-   * @member {string} [billingPeriodId] The id of the billing period resource
-   * that the usage belongs to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billingPeriodId?: string;
-  /**
-   * @member {string} [meterId] The meter id (GUID)
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly meterId?: string;
-  /**
-   * @member {MeterDetails} [meterDetails] The details about the meter. By
-   * default this is not populated, unless it's specified in $expand.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly meterDetails?: MeterDetails;
-  /**
-   * @member {string} [unitOfMeasure] Unit of measure
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unitOfMeasure?: string;
-  /**
-   * @member {number} [includedQuantity] Included quality for an offer
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly includedQuantity?: number;
-  /**
-   * @member {string} [partNumber] Part Number
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly partNumber?: string;
-  /**
-   * @member {number} [unitPrice] Unit Price
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unitPrice?: number;
-  /**
-   * @member {string} [currencyCode] Currency Code
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currencyCode?: string;
-  /**
-   * @member {string} [offerId] Offer Id
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly offerId?: string;
-}
-
-/**
- * @interface
- * An interface representing PriceSheetResult.
- * An pricesheet resource.
+ * An interface representing BillingProfile.
+ * A billing profile resource.
  *
  * @extends Resource
  */
-export interface PriceSheetResult extends Resource {
+export interface BillingProfile extends Resource {
   /**
-   * @member {PriceSheetProperties[]} [pricesheets] Price sheet
+   * @member {string} [displayName] The billing profile name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [poNumber] Purchase order number.
+   */
+  poNumber?: string;
+  /**
+   * @member {Address} [billingAddress] Billing address.
+   */
+  billingAddress?: Address;
+  /**
+   * @member {string} [billingContact] Billing contact.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly pricesheets?: PriceSheetProperties[];
+  readonly billingContact?: string;
   /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
+   * @member {boolean} [emailInvoice] Email invoice.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly nextLink?: string;
+  readonly emailInvoice?: boolean;
+  /**
+   * @member {number} [invoiceDay] Invoice day.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceDay?: number;
+  /**
+   * @member {string} [currency] Currency on the billing profile.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
 }
 
 /**
  * @interface
- * An interface representing ForecastPropertiesConfidenceLevelsItem.
+ * An interface representing InvoiceSection.
+ * An InvoiceSection resource.
+ *
+ * @extends Resource
  */
-export interface ForecastPropertiesConfidenceLevelsItem {
+export interface InvoiceSection extends Resource {
   /**
-   * @member {number} [percentage] The percentage level of the confidence
+   * @member {string} [displayName] The name of the InvoiceSection.
+   */
+  displayName?: string;
+  /**
+   * @member {BillingProfile[]} [billingProfiles] The billing profiles
+   * associated to the billing account.
+   */
+  billingProfiles?: BillingProfile[];
+}
+
+/**
+ * @interface
+ * An interface representing BillingAccount.
+ * A billing account resource.
+ *
+ * @extends Resource
+ */
+export interface BillingAccount extends Resource {
+  /**
+   * @member {string} [company] The Company this billing account belongs to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly percentage?: number;
+  readonly company?: string;
   /**
-   * @member {Bound} [bound] The boundary of the percentage, values could be
-   * 'Upper' or 'Lower'. Possible values include: 'Upper', 'Lower'
+   * @member {AccountType} [accountType] The billing account Type. Possible
+   * values include: 'CommerceRoot', 'Enrollment'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  bound?: Bound;
+  readonly accountType?: AccountType;
   /**
-   * @member {number} [value] The amount of forecast within the percentage
-   * level
+   * @member {Address} [address] The address associated with billing account.
+   */
+  address?: Address;
+  /**
+   * @member {string} [defaultCurrency] The ISO currency, for example, USD.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly defaultCurrency?: string;
+  /**
+   * @member {string} [country] The country associated with billing account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly country?: string;
+  /**
+   * @member {string} [agreements] Agreements associated with billing account
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly agreements?: string;
+  /**
+   * @member {InvoiceSection[]} [invoiceSections] The invoiceSections
+   * associated to the billing account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSections?: InvoiceSection[];
+  /**
+   * @member {BillingProfile[]} [billingProfiles] The billing profiles
+   * associated to the billing account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfiles?: BillingProfile[];
+  /**
+   * @member {Enrollment} [enrollmentDetails] The details about the associated
+   * legacy enrollment. By default this is not populated, unless it's specified
+   * in $expand.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly enrollmentDetails?: Enrollment;
+  /**
+   * @member {Department[]} [departments] The departments associated to the
+   * enrollment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly departments?: Department[];
+  /**
+   * @member {EnrollmentAccount[]} [enrollmentAccounts] The accounts associated
+   * to the enrollment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly enrollmentAccounts?: EnrollmentAccount[];
+}
+
+/**
+ * @interface
+ * An interface representing Amount.
+ * Object to represent monetary quantities.
+ *
+ */
+export interface Amount {
+  /**
+   * @member {string} [currency] The currency for the amount value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {number} [value] Amount value.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1202,224 +426,474 @@ export interface ForecastPropertiesConfidenceLevelsItem {
 
 /**
  * @interface
- * An interface representing Forecast.
- * A forecast resource.
+ * An interface representing PricesheetDownloadResponse.
+ * Download response of Pricesheets.
  *
  * @extends Resource
  */
-export interface Forecast extends Resource {
+export interface PricesheetDownloadResponse extends Resource {
   /**
-   * @member {string} [usageDate] The usage date of the forecast.
+   * @member {string} [downloadUrl] The URL to the PDF file.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly usageDate?: string;
+  readonly downloadUrl?: string;
   /**
-   * @member {Grain} [grain] The granularity of forecast. Possible values
-   * include: 'Daily', 'Monthly', 'Yearly'
-   */
-  grain?: Grain;
-  /**
-   * @member {number} [charge] The amount of charge
+   * @member {string} [expiryTime] The time in UTC at which this download URL
+   * will expire.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly charge?: number;
-  /**
-   * @member {string} [currency] The ISO currency in which the meter is
-   * charged, for example, USD.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currency?: string;
-  /**
-   * @member {ChargeType} [chargeType] The type of the charge. Could be actual
-   * or forecast. Possible values include: 'Actual', 'Forecast'
-   */
-  chargeType?: ChargeType;
-  /**
-   * @member {ForecastPropertiesConfidenceLevelsItem[]} [confidenceLevels] The
-   * details about the forecast confidence levels. This is populated only when
-   * chargeType is Forecast.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly confidenceLevels?: ForecastPropertiesConfidenceLevelsItem[];
+  readonly expiryTime?: string;
 }
 
 /**
  * @interface
- * An interface representing ManagementGroupAggregatedCostResult.
- * A management group aggregated cost resource.
+ * An interface representing CreditBalanceSummary.
+ * Summary of credit balances.
+ *
+ */
+export interface CreditBalanceSummary {
+  /**
+   * @member {Amount} [estimatedBalance] Estimated balance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly estimatedBalance?: Amount;
+  /**
+   * @member {Amount} [currentBalance] Current balance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentBalance?: Amount;
+}
+
+/**
+ * @interface
+ * An interface representing CreditSummary.
+ * A credit summary resource.
  *
  * @extends Resource
  */
-export interface ManagementGroupAggregatedCostResult extends Resource {
+export interface CreditSummary extends Resource {
+  /**
+   * @member {CreditBalanceSummary} [balanceSummary] Summary of balances
+   * associated with this credit summary.
+   */
+  balanceSummary?: CreditBalanceSummary;
+  /**
+   * @member {Amount} [pendingCreditAdjustments] Pending Credit Adjustments.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pendingCreditAdjustments?: Amount;
+  /**
+   * @member {Amount} [expiredCredit] Expired Credit.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expiredCredit?: Amount;
+  /**
+   * @member {Amount} [pendingEligibleCharges] Pending Eligible Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pendingEligibleCharges?: Amount;
+}
+
+/**
+ * @interface
+ * An interface representing EventSummary.
+ * An event summary resource.
+ *
+ * @extends Resource
+ */
+export interface EventSummary extends Resource {
+  /**
+   * @member {Date} [transactionDate] Transaction Date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transactionDate?: Date;
+  /**
+   * @member {string} [description] Transaction description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {Amount} [newCredit] New Credit.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly newCredit?: Amount;
+  /**
+   * @member {Amount} [adjustments] Credit Adjustments.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly adjustments?: Amount;
+  /**
+   * @member {Amount} [creditExpired] Credit Expired.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creditExpired?: Amount;
+  /**
+   * @member {Amount} [charges] Credit Eligible Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly charges?: Amount;
+  /**
+   * @member {Amount} [closedBalance] Closed Balance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly closedBalance?: Amount;
+  /**
+   * @member {EventType} [eventType] The type of event. Possible values
+   * include: 'NewCredit', 'ExpiredCredit', 'SettledCharges'
+   */
+  eventType?: EventType;
+  /**
+   * @member {string} [invoiceNumber] Invoice Number.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceNumber?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Events.
+ * Result of listing event summary.
+ *
+ */
+export interface Events {
+  /**
+   * @member {EventSummary[]} [value] The list of event summary.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: EventSummary[];
+}
+
+/**
+ * @interface
+ * An interface representing LotSummary.
+ * A lot summary resource.
+ *
+ * @extends Resource
+ */
+export interface LotSummary extends Resource {
+  /**
+   * @member {Amount} [originalAmount] Original Amount.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly originalAmount?: Amount;
+  /**
+   * @member {Amount} [closedBalance] Closed Balance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly closedBalance?: Amount;
+  /**
+   * @member {LotSource} [source] Lot source. Possible values include:
+   * 'PurchasedCredit', 'PromotionalCredit'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly source?: LotSource;
+  /**
+   * @member {Date} [startDate] Start Date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly startDate?: Date;
+  /**
+   * @member {Date} [expirationDate] Expiration Date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expirationDate?: Date;
+  /**
+   * @member {string} [poNumber] PO Number.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly poNumber?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Lots.
+ * Result of listing lot summary.
+ *
+ */
+export interface Lots {
+  /**
+   * @member {LotSummary[]} [value] The list of lot summary.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: LotSummary[];
+}
+
+/**
+ * @interface
+ * An interface representing ChargeSummaryByBillingAccount.
+ * A charge summary resource by billing account.
+ *
+ * @extends Resource
+ */
+export interface ChargeSummaryByBillingAccount extends Resource {
   /**
    * @member {string} [billingPeriodId] The id of the billing period resource
-   * that the aggregated cost belongs to.
+   * that the usage belongs to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly billingPeriodId?: string;
   /**
-   * @member {Date} [usageStart] The start of the date time range covered by
-   * aggregated cost.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly usageStart?: Date;
-  /**
-   * @member {Date} [usageEnd] The end of the date time range covered by the
-   * aggregated cost.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly usageEnd?: Date;
-  /**
-   * @member {number} [azureCharges] Azure Charges.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly azureCharges?: number;
-  /**
-   * @member {number} [marketplaceCharges] Marketplace Charges.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly marketplaceCharges?: number;
-  /**
-   * @member {number} [chargesBilledSeparately] Charges Billed Separately.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly chargesBilledSeparately?: number;
-  /**
-   * @member {string} [currency] The ISO currency in which the meter is
-   * charged, for example, USD.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly currency?: string;
-  /**
-   * @member {ManagementGroupAggregatedCostResult[]} [children] Children of a
-   * management group
-   */
-  children?: ManagementGroupAggregatedCostResult[];
-  /**
-   * @member {string[]} [includedSubscriptions] List of subscription Guids
-   * included in the calculation of aggregated cost
-   */
-  includedSubscriptions?: string[];
-  /**
-   * @member {string[]} [excludedSubscriptions] List of subscription Guids
-   * excluded from the calculation of aggregated cost
-   */
-  excludedSubscriptions?: string[];
-}
-
-/**
- * @interface
- * An interface representing ChargeSummary.
- * A charge summary resource.
- *
- * @extends Resource
- */
-export interface ChargeSummary extends Resource {
-  /**
-   * @member {string} [billingPeriodId] The id of the billing period resource
-   * that the charge belongs to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billingPeriodId?: string;
-  /**
-   * @member {string} [usageStart] Usage start date.
+   * @member {string} [usageStart] Billing period start date.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly usageStart?: string;
   /**
-   * @member {string} [usageEnd] Usage end date.
+   * @member {string} [usageEnd] Billing period end date.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly usageEnd?: string;
   /**
-   * @member {number} [azureCharges] Azure Charges.
+   * @member {Amount} [azureCharges] Azure Charges.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly azureCharges?: number;
+  readonly azureCharges?: Amount;
   /**
-   * @member {number} [chargesBilledSeparately] Charges Billed separately.
+   * @member {Amount} [chargesBilledSeparately] Charges Billed separately.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly chargesBilledSeparately?: number;
+  readonly chargesBilledSeparately?: Amount;
   /**
-   * @member {number} [marketplaceCharges] Marketplace Charges.
+   * @member {Amount} [marketplaceCharges] Marketplace Charges.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly marketplaceCharges?: number;
+  readonly marketplaceCharges?: Amount;
   /**
-   * @member {string} [currency] Currency Code
+   * @member {string} [billingAccountId] The id of the billing account resource
+   * that the charge belongs to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly currency?: string;
+  readonly billingAccountId?: string;
+  /**
+   * @member {string} [billingProfileId] The id of the billing profile resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileId?: string;
+  /**
+   * @member {string} [invoiceSectionId] The id of the invoice section resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
 }
 
 /**
  * @interface
- * An interface representing ChargesListResult.
- * Result of listing charge summary.
+ * An interface representing ChargesListByBillingAccount.
+ * Result of listing charge summary by billing account. It contains a list of
+ * available change summaries in reverse chronological order by billing period.
  *
  */
-export interface ChargesListResult {
+export interface ChargesListByBillingAccount {
   /**
-   * @member {ChargeSummary[]} [value] The list of charge summary
+   * @member {ChargeSummaryByBillingAccount[]} [value] The list of charge
+   * summary by billing account.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly value?: ChargeSummary[];
+  readonly value?: ChargeSummaryByBillingAccount[];
 }
 
 /**
  * @interface
- * An interface representing ErrorDetails.
- * The details of the error.
+ * An interface representing ChargeSummaryByBillingProfile.
+ * A charge summary resource by billing profile.
  *
+ * @extends Resource
  */
-export interface ErrorDetails {
+export interface ChargeSummaryByBillingProfile extends Resource {
   /**
-   * @member {string} [code] Error code.
+   * @member {string} [billingPeriodId] The id of the billing period resource
+   * that the usage belongs to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly code?: string;
+  readonly billingPeriodId?: string;
   /**
-   * @member {string} [message] Error message indicating why the operation
-   * failed.
+   * @member {string} [usageStart] Billing period start date.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly message?: string;
+  readonly usageStart?: string;
+  /**
+   * @member {string} [usageEnd] Billing period end date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageEnd?: string;
+  /**
+   * @member {Amount} [azureCharges] Azure Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly azureCharges?: Amount;
+  /**
+   * @member {Amount} [chargesBilledSeparately] Charges Billed separately.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly chargesBilledSeparately?: Amount;
+  /**
+   * @member {Amount} [marketplaceCharges] Marketplace Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly marketplaceCharges?: Amount;
+  /**
+   * @member {string} [billingAccountId] The id of the billing account resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingAccountId?: string;
+  /**
+   * @member {string} [billingProfileId] The id of the billing profile resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileId?: string;
+  /**
+   * @member {string} [invoiceSectionId] The id of the invoice section resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
 }
 
 /**
  * @interface
- * An interface representing ErrorResponse.
- * Error response indicates that the service is not able to process the
- * incoming request. The reason is provided in the error message.
+ * An interface representing ChargesListByBillingProfile.
+ * Result of listing charge summary by billing profile. It contains a list of
+ * available change summaries in reverse chronological order by billing period.
  *
  */
-export interface ErrorResponse {
+export interface ChargesListByBillingProfile {
   /**
-   * @member {ErrorDetails} [error] The details of the error.
+   * @member {ChargeSummaryByBillingProfile[]} [value] The list of charge
+   * summary by billing profile.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  error?: ErrorDetails;
+  readonly value?: ChargeSummaryByBillingProfile[];
+}
+
+/**
+ * @interface
+ * An interface representing ChargeSummaryByInvoiceSection.
+ * A charge summary resource by invoiceSection.
+ *
+ * @extends Resource
+ */
+export interface ChargeSummaryByInvoiceSection extends Resource {
+  /**
+   * @member {string} [billingPeriodId] The id of the billing period resource
+   * that the usage belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingPeriodId?: string;
+  /**
+   * @member {string} [usageStart] Billing period start date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageStart?: string;
+  /**
+   * @member {string} [usageEnd] Billing period end date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageEnd?: string;
+  /**
+   * @member {Amount} [azureCharges] Azure Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly azureCharges?: Amount;
+  /**
+   * @member {Amount} [chargesBilledSeparately] Charges Billed separately.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly chargesBilledSeparately?: Amount;
+  /**
+   * @member {Amount} [marketplaceCharges] Marketplace Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly marketplaceCharges?: Amount;
+  /**
+   * @member {string} [billingAccountId] The id of the billing account resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingAccountId?: string;
+  /**
+   * @member {string} [billingProfileId] The id of the billing profile resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileId?: string;
+  /**
+   * @member {string} [invoiceSectionId] The id of the invoice section resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ChargesListByInvoiceSection.
+ * Result of listing charge summary by invoiceSection. It contains a list of
+ * available change summaries in reverse chronological order by billing period.
+ *
+ */
+export interface ChargesListByInvoiceSection {
+  /**
+   * @member {ChargeSummaryByInvoiceSection[]} [value] The list of charge
+   * summary by invoiceSection.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: ChargeSummaryByInvoiceSection[];
 }
 
 /**
@@ -1472,1004 +946,102 @@ export interface Operation {
 
 /**
  * @interface
- * An interface representing ResourceAttributes.
- * The Resource model definition.
+ * An interface representing ErrorDetails.
+ * The details of the error.
  *
  */
-export interface ResourceAttributes {
+export interface ErrorDetails {
   /**
-   * @member {string} [location] Resource location
+   * @member {string} [code] Error code.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly location?: string;
+  readonly code?: string;
   /**
-   * @member {string} [sku] Resource sku
+   * @member {string} [message] Error message indicating why the operation
+   * failed.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly sku?: string;
+  readonly message?: string;
 }
 
 /**
  * @interface
- * An interface representing QueryOptions.
- * Additional parameters for a set of operations.
+ * An interface representing ErrorResponse.
+ * Error response indicates that the service is not able to process the
+ * incoming request. The reason is provided in the error message.
  *
  */
-export interface QueryOptions {
+export interface ErrorResponse {
   /**
-   * @member {string} [apply] OData apply expression to aggregate usageDetails
-   * by tags or (tags and properties/usageStart)
+   * @member {ErrorDetails} [error] The details of the error.
+   */
+  error?: ErrorDetails;
+}
+
+/**
+ * @interface
+ * An interface representing ProxyResource.
+ * The Resource model definition.
+ *
+ * @extends BaseResource
+ */
+export interface ProxyResource extends BaseResource {
+  /**
+   * @member {string} [id] Resource Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [eTag] eTag of the resource. To handle concurrent update
+   * scenario, this field will be used to determine whether the user is
+   * updating the latest version or not.
+   */
+  eTag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ChargesByBillingAccountListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ChargesByBillingAccountListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [apply] May be used to group charges by
+   * properties/billingProfileId, or properties/invoiceSectionId.
    */
   apply?: string;
 }
 
 /**
  * @interface
- * An interface representing UsageDetailsListOptionalParams.
+ * An interface representing ChargesByInvoiceSectionListOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListOptionalParams extends msRest.RequestOptionsBase {
+export interface ChargesByInvoiceSectionListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
+   * @member {string} [apply] May be used to group charges by
+   * properties/productName.
    */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByBillingPeriodOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByBillingPeriodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName, properties/instanceId
-   * or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It
-   * does not currently support 'ne', 'or', or 'not'. Tag filter is a key value
-   * pair string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing UsageDetailsListForBillingPeriodByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface UsageDetailsListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/additionalProperties or properties/meterDetails within a list
-   * of usage details. By default, these fields are not included when listing
-   * usage details.
-   */
-  expand?: string;
-  /**
-   * @member {string} [filter] May be used to filter usageDetails by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter
-   * is a key value pair string where key and value is separated by a colon
-   * (:).
-   */
-  filter?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N usageDetails.
-   */
-  top?: number;
-  /**
-   * @member {QueryOptions} [queryOptions] Additional parameters for the
-   * operation
-   */
-  queryOptions?: QueryOptions;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByBillingPeriodOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByBillingPeriodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByBillingAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing MarketplacesListForBillingPeriodByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface MarketplacesListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter marketplaces by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time),
-   * properties/resourceGroup, properties/instanceName or
-   * properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N marketplaces.
-   */
-  top?: number;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-}
-
-/**
- * @interface
- * An interface representing ReservationsSummariesListByReservationOrderOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ReservationsSummariesListByReservationOrderOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] Required only for daily grain. The
-   * properties/UsageDate for start date and end date. The filter supports 'le'
-   * and  'ge'
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ReservationsSummariesListByReservationOrderAndReservationOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ReservationsSummariesListByReservationOrderAndReservationOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] Required only for daily grain. The
-   * properties/UsageDate for start date and end date. The filter supports 'le'
-   * and  'ge'
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ReservationRecommendationsListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ReservationRecommendationsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter reservationRecommendations
-   * by properties/scope and properties/lookBackPeriod.
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing PriceSheetGetOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface PriceSheetGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/meterDetails within a price sheet. By default, these fields are
-   * not included when returning price sheet.
-   */
-  expand?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * top N results.
-   */
-  top?: number;
-}
-
-/**
- * @interface
- * An interface representing PriceSheetGetByBillingPeriodOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface PriceSheetGetByBillingPeriodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the
-   * properties/meterDetails within a price sheet. By default, these fields are
-   * not included when returning price sheet.
-   */
-  expand?: string;
-  /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
-   */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * top N results.
-   */
-  top?: number;
-}
-
-/**
- * @interface
- * An interface representing ForecastsListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ForecastsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter forecasts by
-   * properties/usageDate (Utc time), properties/chargeType or
-   * properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and
-   * 'and'. It does not currently support 'ne', 'or', or 'not'.
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing AggregatedCostGetByManagementGroupOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface AggregatedCostGetByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter aggregated cost by
-   * properties/usageStart (Utc time), properties/usageEnd (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ChargesListByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ChargesListForBillingPeriodByEnrollmentAccountOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ChargesListByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
-}
-
-/**
- * @interface
- * An interface representing ChargesListForBillingPeriodByDepartmentOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ChargesListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] May be used to filter charges by
-   * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
-   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
-   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
-   * string where key and value is separated by a colon (:).
-   */
-  filter?: string;
+  apply?: string;
 }
 
 /**
@@ -2484,115 +1056,64 @@ export interface ConsumptionManagementClientOptions extends AzureServiceClientOp
   baseUri?: string;
 }
 
-
 /**
  * @interface
- * An interface representing the UsageDetailsListResult.
- * Result of listing usage details. It contains a list of available usage
- * details in reverse chronological order by billing period.
+ * An interface representing InvoicePricesheetDownloadHeaders.
+ * Defines headers for Download operation.
  *
- * @extends Array<UsageDetail>
  */
-export interface UsageDetailsListResult extends Array<UsageDetail> {
+export interface InvoicePricesheetDownloadHeaders {
   /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
    */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the MarketplacesListResult.
- * Result of listing marketplaces. It contains a list of available marketplaces
- * in reverse chronological order by billing period.
- *
- * @extends Array<Marketplace>
- */
-export interface MarketplacesListResult extends Array<Marketplace> {
+  location: string;
   /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
    */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the ReservationSummariesListResult.
- * Result of listing reservation summaries.
- *
- * @extends Array<ReservationSummary>
- */
-export interface ReservationSummariesListResult extends Array<ReservationSummary> {
+  retryAfter: string;
   /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [azureAsyncOperation] To get the progress of the
+   * operation, call GET operation on the URL in Azure-AsyncOperation header
+   * field.
    */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the ReservationDetailsListResult.
- * Result of listing reservation details.
- *
- * @extends Array<ReservationDetail>
- */
-export interface ReservationDetailsListResult extends Array<ReservationDetail> {
+  azureAsyncOperation: string;
   /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [oDataEntityId] The operation entity Id GUID.
    */
-  readonly nextLink?: string;
+  oDataEntityId: string;
 }
 
 /**
  * @interface
- * An interface representing the ReservationRecommendationsListResult.
- * Result of listing reservation recommendations.
+ * An interface representing BillingProfilePricesheetDownloadHeaders.
+ * Defines headers for Download operation.
  *
- * @extends Array<ReservationRecommendation>
  */
-export interface ReservationRecommendationsListResult extends Array<ReservationRecommendation> {
+export interface BillingProfilePricesheetDownloadHeaders {
   /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
    */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the BudgetsListResult.
- * Result of listing budgets. It contains a list of available budgets in the
- * scope provided.
- *
- * @extends Array<Budget>
- */
-export interface BudgetsListResult extends Array<Budget> {
+  location: string;
   /**
-   * @member {string} [nextLink] The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
    */
-  readonly nextLink?: string;
+  retryAfter: string;
+  /**
+   * @member {string} [azureAsyncOperation] To get the progress of the
+   * operation, call GET operation on the URL in Azure-AsyncOperation header
+   * field.
+   */
+  azureAsyncOperation: string;
+  /**
+   * @member {string} [oDataEntityId] The operation entity Id GUID.
+   */
+  oDataEntityId: string;
 }
 
-/**
- * @interface
- * An interface representing the ForecastsListResult.
- * Result of listing forecasts. It contains a list of available forecasts.
- *
- * @extends Array<Forecast>
- */
-export interface ForecastsListResult extends Array<Forecast> {
-}
 
 /**
  * @interface
@@ -2613,1284 +1134,28 @@ export interface OperationListResult extends Array<Operation> {
 }
 
 /**
- * Defines values for BillingFrequency.
- * Possible values include: 'Month', 'Quarter', 'Year'
+ * Defines values for EventType.
+ * Possible values include: 'NewCredit', 'ExpiredCredit', 'SettledCharges'
  * @readonly
  * @enum {string}
  */
-export type BillingFrequency = 'Month' | 'Quarter' | 'Year';
+export type EventType = 'NewCredit' | 'ExpiredCredit' | 'SettledCharges';
 
 /**
- * Defines values for CategoryType.
- * Possible values include: 'Cost', 'Usage'
+ * Defines values for LotSource.
+ * Possible values include: 'PurchasedCredit', 'PromotionalCredit'
  * @readonly
  * @enum {string}
  */
-export type CategoryType = 'Cost' | 'Usage';
+export type LotSource = 'PurchasedCredit' | 'PromotionalCredit';
 
 /**
- * Defines values for TimeGrainType.
- * Possible values include: 'Monthly', 'Quarterly', 'Annually'
+ * Defines values for AccountType.
+ * Possible values include: 'CommerceRoot', 'Enrollment'
  * @readonly
  * @enum {string}
  */
-export type TimeGrainType = 'Monthly' | 'Quarterly' | 'Annually';
-
-/**
- * Defines values for OperatorType.
- * Possible values include: 'EqualTo', 'GreaterThan', 'GreaterThanOrEqualTo'
- * @readonly
- * @enum {string}
- */
-export type OperatorType = 'EqualTo' | 'GreaterThan' | 'GreaterThanOrEqualTo';
-
-/**
- * Defines values for Grain.
- * Possible values include: 'Daily', 'Monthly', 'Yearly'
- * @readonly
- * @enum {string}
- */
-export type Grain = 'Daily' | 'Monthly' | 'Yearly';
-
-/**
- * Defines values for ChargeType.
- * Possible values include: 'Actual', 'Forecast'
- * @readonly
- * @enum {string}
- */
-export type ChargeType = 'Actual' | 'Forecast';
-
-/**
- * Defines values for Bound.
- * Possible values include: 'Upper', 'Lower'
- * @readonly
- * @enum {string}
- */
-export type Bound = 'Upper' | 'Lower';
-
-/**
- * Defines values for Datagrain.
- * Possible values include: 'DailyGrain', 'MonthlyGrain'
- * @readonly
- * @enum {string}
- */
-export type Datagrain = 'daily' | 'monthly';
-
-/**
- * Contains response data for the list operation.
- */
-export type UsageDetailsListResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingPeriod operation.
- */
-export type UsageDetailsListByBillingPeriodResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingAccount operation.
- */
-export type UsageDetailsListByBillingAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByBillingAccount operation.
- */
-export type UsageDetailsListForBillingPeriodByBillingAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDepartment operation.
- */
-export type UsageDetailsListByDepartmentResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartment operation.
- */
-export type UsageDetailsListForBillingPeriodByDepartmentResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccount operation.
- */
-export type UsageDetailsListByEnrollmentAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccount operation.
- */
-export type UsageDetailsListForBillingPeriodByEnrollmentAccountResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroup operation.
- */
-export type UsageDetailsListByManagementGroupResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroup operation.
- */
-export type UsageDetailsListForBillingPeriodByManagementGroupResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type UsageDetailsListNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingPeriodNext operation.
- */
-export type UsageDetailsListByBillingPeriodNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingAccountNext operation.
- */
-export type UsageDetailsListByBillingAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByBillingAccountNext operation.
- */
-export type UsageDetailsListForBillingPeriodByBillingAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDepartmentNext operation.
- */
-export type UsageDetailsListByDepartmentNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartmentNext operation.
- */
-export type UsageDetailsListForBillingPeriodByDepartmentNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccountNext operation.
- */
-export type UsageDetailsListByEnrollmentAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccountNext operation.
- */
-export type UsageDetailsListForBillingPeriodByEnrollmentAccountNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroupNext operation.
- */
-export type UsageDetailsListByManagementGroupNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroupNext operation.
- */
-export type UsageDetailsListForBillingPeriodByManagementGroupNextResponse = UsageDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type MarketplacesListResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingPeriod operation.
- */
-export type MarketplacesListByBillingPeriodResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingAccount operation.
- */
-export type MarketplacesListByBillingAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByBillingAccount operation.
- */
-export type MarketplacesListForBillingPeriodByBillingAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDepartment operation.
- */
-export type MarketplacesListByDepartmentResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartment operation.
- */
-export type MarketplacesListForBillingPeriodByDepartmentResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccount operation.
- */
-export type MarketplacesListByEnrollmentAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccount operation.
- */
-export type MarketplacesListForBillingPeriodByEnrollmentAccountResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroup operation.
- */
-export type MarketplacesListByManagementGroupResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroup operation.
- */
-export type MarketplacesListForBillingPeriodByManagementGroupResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type MarketplacesListNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingPeriodNext operation.
- */
-export type MarketplacesListByBillingPeriodNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByBillingAccountNext operation.
- */
-export type MarketplacesListByBillingAccountNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByBillingAccountNext operation.
- */
-export type MarketplacesListForBillingPeriodByBillingAccountNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDepartmentNext operation.
- */
-export type MarketplacesListByDepartmentNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByDepartmentNext operation.
- */
-export type MarketplacesListForBillingPeriodByDepartmentNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByEnrollmentAccountNext operation.
- */
-export type MarketplacesListByEnrollmentAccountNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByEnrollmentAccountNext operation.
- */
-export type MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByManagementGroupNext operation.
- */
-export type MarketplacesListByManagementGroupNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listForBillingPeriodByManagementGroupNext operation.
- */
-export type MarketplacesListForBillingPeriodByManagementGroupNextResponse = MarketplacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
-};
-
-/**
- * Contains response data for the getByBillingAccount operation.
- */
-export type BalancesGetByBillingAccountResponse = Balance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Balance;
-    };
-};
-
-/**
- * Contains response data for the getForBillingPeriodByBillingAccount operation.
- */
-export type BalancesGetForBillingPeriodByBillingAccountResponse = Balance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Balance;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrder operation.
- */
-export type ReservationsSummariesListByReservationOrderResponse = ReservationSummariesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrderAndReservation operation.
- */
-export type ReservationsSummariesListByReservationOrderAndReservationResponse = ReservationSummariesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrderNext operation.
- */
-export type ReservationsSummariesListByReservationOrderNextResponse = ReservationSummariesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrderAndReservationNext operation.
- */
-export type ReservationsSummariesListByReservationOrderAndReservationNextResponse = ReservationSummariesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrder operation.
- */
-export type ReservationsDetailsListByReservationOrderResponse = ReservationDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrderAndReservation operation.
- */
-export type ReservationsDetailsListByReservationOrderAndReservationResponse = ReservationDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrderNext operation.
- */
-export type ReservationsDetailsListByReservationOrderNextResponse = ReservationDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByReservationOrderAndReservationNext operation.
- */
-export type ReservationsDetailsListByReservationOrderAndReservationNextResponse = ReservationDetailsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ReservationRecommendationsListResponse = ReservationRecommendationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationRecommendationsListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ReservationRecommendationsListNextResponse = ReservationRecommendationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationRecommendationsListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type BudgetsListResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupName operation.
- */
-export type BudgetsListByResourceGroupNameResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type BudgetsGetResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type BudgetsCreateOrUpdateResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the getByResourceGroupName operation.
- */
-export type BudgetsGetByResourceGroupNameResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateByResourceGroupName operation.
- */
-export type BudgetsCreateOrUpdateByResourceGroupNameResponse = Budget & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type BudgetsListNextResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNameNext operation.
- */
-export type BudgetsListByResourceGroupNameNextResponse = BudgetsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PriceSheetGetResponse = PriceSheetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PriceSheetResult;
-    };
-};
-
-/**
- * Contains response data for the getByBillingPeriod operation.
- */
-export type PriceSheetGetByBillingPeriodResponse = PriceSheetResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PriceSheetResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type TagsGetResponse = TagsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagsResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ForecastsListResponse = ForecastsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ForecastsListResult;
-    };
-};
+export type AccountType = 'CommerceRoot' | 'Enrollment';
 
 /**
  * Contains response data for the list operation.
@@ -3931,9 +1196,9 @@ export type OperationsListNextResponse = OperationListResult & {
 };
 
 /**
- * Contains response data for the getByManagementGroup operation.
+ * Contains response data for the get operation.
  */
-export type AggregatedCostGetByManagementGroupResponse = ManagementGroupAggregatedCostResult & {
+export type CreditSummaryByBillingProfileGetResponse = CreditSummary & {
   /**
    * The underlying HTTP response.
    */
@@ -3945,14 +1210,14 @@ export type AggregatedCostGetByManagementGroupResponse = ManagementGroupAggregat
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ManagementGroupAggregatedCostResult;
+      parsedBody: CreditSummary;
     };
 };
 
 /**
- * Contains response data for the getForBillingPeriodByManagementGroup operation.
+ * Contains response data for the list operation.
  */
-export type AggregatedCostGetForBillingPeriodByManagementGroupResponse = ManagementGroupAggregatedCostResult & {
+export type EventsByBillingProfileListResponse = Events & {
   /**
    * The underlying HTTP response.
    */
@@ -3964,14 +1229,14 @@ export type AggregatedCostGetForBillingPeriodByManagementGroupResponse = Managem
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ManagementGroupAggregatedCostResult;
+      parsedBody: Events;
     };
 };
 
 /**
- * Contains response data for the listByEnrollmentAccount operation.
+ * Contains response data for the list operation.
  */
-export type ChargesListByEnrollmentAccountResponse = ChargesListResult & {
+export type LotsByBillingProfileListResponse = Lots & {
   /**
    * The underlying HTTP response.
    */
@@ -3983,18 +1248,22 @@ export type ChargesListByEnrollmentAccountResponse = ChargesListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ChargesListResult;
+      parsedBody: Lots;
     };
 };
 
 /**
- * Contains response data for the listForBillingPeriodByEnrollmentAccount operation.
+ * Contains response data for the download operation.
  */
-export type ChargesListForBillingPeriodByEnrollmentAccountResponse = ChargeSummary & {
+export type InvoicePricesheetDownloadResponse = PricesheetDownloadResponse & InvoicePricesheetDownloadHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: InvoicePricesheetDownloadHeaders;
       /**
        * The response body as text (string format)
        */
@@ -4002,18 +1271,22 @@ export type ChargesListForBillingPeriodByEnrollmentAccountResponse = ChargeSumma
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ChargeSummary;
+      parsedBody: PricesheetDownloadResponse;
     };
 };
 
 /**
- * Contains response data for the listByDepartment operation.
+ * Contains response data for the download operation.
  */
-export type ChargesListByDepartmentResponse = ChargesListResult & {
+export type BillingProfilePricesheetDownloadResponse = PricesheetDownloadResponse & BillingProfilePricesheetDownloadHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BillingProfilePricesheetDownloadHeaders;
       /**
        * The response body as text (string format)
        */
@@ -4021,14 +1294,14 @@ export type ChargesListByDepartmentResponse = ChargesListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ChargesListResult;
+      parsedBody: PricesheetDownloadResponse;
     };
 };
 
 /**
- * Contains response data for the listForBillingPeriodByDepartment operation.
+ * Contains response data for the list operation.
  */
-export type ChargesListForBillingPeriodByDepartmentResponse = ChargeSummary & {
+export type ChargesByBillingAccountListResponse = ChargesListByBillingAccount & {
   /**
    * The underlying HTTP response.
    */
@@ -4040,6 +1313,44 @@ export type ChargesListForBillingPeriodByDepartmentResponse = ChargeSummary & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ChargeSummary;
+      parsedBody: ChargesListByBillingAccount;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ChargesByBillingProfileListResponse = ChargesListByBillingProfile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ChargesListByBillingProfile;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ChargesByInvoiceSectionListResponse = ChargesListByInvoiceSection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ChargesListByInvoiceSection;
     };
 };
