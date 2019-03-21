@@ -10,7 +10,8 @@ import {
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   Dictionary,
-  delay
+  delay,
+  TokenProvider
 } from "@azure/amqp-common";
 import { NamespaceOptions } from "./namespace";
 import { Client } from "./client";
@@ -42,11 +43,15 @@ export namespace ConnectionContext {
     packageJsonInfo.version
   } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
-  export function create(config: ConnectionConfig, options?: NamespaceOptions): ConnectionContext {
+  export function create(
+    config: ConnectionConfig,
+    tokenProvider: TokenProvider,
+    options?: NamespaceOptions
+  ): ConnectionContext {
     if (!options) options = {};
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenProvider: options.tokenProvider,
+      tokenProvider: tokenProvider,
       dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
       connectionProperties: {
