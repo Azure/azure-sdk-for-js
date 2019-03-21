@@ -1,4 +1,5 @@
 import nodeResolve from "rollup-plugin-node-resolve";
+import builtins from "rollup-plugin-node-builtins"
 /**
  * @type {import('rollup').RollupFileOptions}
  */
@@ -29,6 +30,7 @@ const config = {
     banner: banner
   },
   plugins: [
+    builtins(),
     nodeResolve({ module: true })
   ]
 };
