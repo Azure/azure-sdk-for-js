@@ -21,8 +21,8 @@ import { AzureServiceClientOptions as Pipeline } from "@azure/ms-rest-azure-js";
 
 import { IRetryOptions, IProxyOptions } from "./clientOptions";
 import { ITelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import * as Models from "./models";
-import { KeyVaultClient } from "./keyVaultClient";
+import * as Models from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
 import { RetryConstants } from "./utils/constants";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { 
