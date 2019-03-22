@@ -1,3 +1,10 @@
+dist/
 dist-esm/
 typings/
 temp/
+browser/
+test-browser/
+test-dist/
+out/
+output/
+typedoc/

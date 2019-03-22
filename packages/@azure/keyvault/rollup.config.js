@@ -1,9 +1,15 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import nodeResolve from "rollup-plugin-node-resolve";
+import cjs from "rollup-plugin-commonjs";
+
 /**
  * @type {import('rollup').RollupFileOptions}
  */
 
-const version = require("./package.json").version;
+const pkg = require("./package.json");
+const version = pkg.version;
 const banner = [
   "/*!",
   " * Copyright (c) Microsoft and contributors. All rights reserved.",
@@ -14,24 +20,66 @@ const banner = [
   " */"
 ].join("\n");
 
-const config = {
-  input: './dist-esm/lib/index.js',
-  external: ["@azure/ms-rest-js", "@azure/ms-rest-azure-js", "url", "util"],
-  output: {
-    file: "./dist/index.js",
-    format: "umd",
-    name: "Azure.Keyvault",
-    sourcemap: true,
-    globals: {
-      "@azure/ms-rest-js": "msRest",
-      "@azure/ms-rest-azure-js": "msRestAzure",
-      "url": "url",
-      "util": "util"
+const depNames = Object.keys(pkg.dependencies);
+const input = "dist-esm/lib/index.js";
+
+function nodeConfig(test = false) {
+  const externalNodeBuiltins = ["url"];
+  const baseConfig = {
+    input: input,
+    external: depNames.concat(externalNodeBuiltins),
+    output: {
+      file: "dist/index.js",
+      format: "cjs",
+      name: "Azure.Keyvault",
+      sourcemap: true,
+      banner: banner
     },
-    banner: banner
-  },
-  plugins: [
-    nodeResolve({ module: true })
-  ]
-};
-export default config;
+    plugins: [
+      nodeResolve({ preferBuiltins: true }),
+      cjs()
+    ]
+  };
+
+  return baseConfig;
+}
+
+function browserConfig(test = false) {
+  const baseConfig = {
+    input: input,
+    external: ["ms-rest-js", "ms-rest-azure-js"],
+    output: {
+      file: "browser/index.js",
+      format: "umd",
+      name: "Azure.Keyvault",
+      sourcemap: true,
+      globals: {
+        "@azure/ms-rest-js": "msRest",
+        "@azure/ms-rest-azure-js": "msRestAzure"
+      },
+      banner: banner
+    },
+    plugins: [
+      nodeResolve({
+        preferBuiltins: false,
+        browser: true,
+        module: true
+      }),
+      cjs()
+    ]
+  };
+
+  return baseConfig;
+}
+
+const inputs = [];
+
+if (!process.env.ONLY_BROWSER) {
+  inputs.push(nodeConfig());
+}
+
+if (!process.env.ONLY_NODE) {
+  inputs.push(browserConfig());
+}
+
+export default inputs;

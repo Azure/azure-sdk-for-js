@@ -18,6 +18,9 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/lib/index.js",
+  "browser": {
+    "./dist/index.js": "./browser/index.js"
+  },
   "types": "./typings/lib/index.d.ts",
   "devDependencies": {
     "@azure/ms-rest-nodeauth": "^0.9.1",
@@ -29,6 +32,7 @@
     "mocha-multi-reporters": "^1.1.7",
     "rimraf": "2.6.3",
     "rollup": "^0.66.2",
+    "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "ts-node": "^8.0.3",
     "typescript": "^3.1.1",
