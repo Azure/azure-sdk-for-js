@@ -48,6 +48,7 @@ const browserRollupConfigFactory = isProduction => {
             }),
             // os is not used by the browser bundle, so just shim it
             shim({
+                dotenv: `export function config() { }`,
                 os: `
           export const type = 1;
           export const release = 1;

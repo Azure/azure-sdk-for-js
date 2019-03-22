@@ -32,7 +32,7 @@
     "gulp": "^4.0.0",
     "gulp-zip": "^4.2.0",
     "istanbul": "^0.4.5",
-    "karma": "^3.0.0",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
     "karma-edge-launcher": "^0.4.2",
@@ -63,6 +63,8 @@
     "typescript": "^3.2.2"
   },
   "scripts": {
+    "unit-node": "npm run build && npm run test:node",
+    "unit-browser": "npm run build && npm run test:browser",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" nyc mocha --compilers ts-node/register --require source-map-support/register --reporter mocha-multi-reporters --reporter-options configFile=mocha.reporter.config.json --full-trace --no-timeouts tests/*.test.ts tests/node/*.test.ts",
     "test:browser": "karma start --single-run",
