@@ -12,9 +12,11 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"],
     "declaration": true,
-    "outDir": "./esm",
-    "importHelpers": true
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "importHelpers": true,
+    "newLine": "LF" /*	Use the specified end of line sequence to be used when emitting files: "crlf" (windows) or "lf" (unix).”*/,
   },
   "include": ["./lib/**/*.ts", "./examples/**/*.ts", "./tests/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "types/**"]
 }

@@ -1,0 +1,10 @@
+dist/
+dist-esm/
+types/
+temp/
+browser/
+test-browser/
+test-dist/
+out/
+output/
+typedoc/
