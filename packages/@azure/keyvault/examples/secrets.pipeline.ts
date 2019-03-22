@@ -3,7 +3,7 @@
 
 import { SecretsClient, Pipeline, RestError } from "../lib";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { signingPolicy, exponentialRetryPolicy, deserializationPolicy } from '@azure/ms-rest-js';
+import { signingPolicy, exponentialRetryPolicy, deserializationPolicy } from "@azure/ms-rest-js";
 
 async function main(): Promise<void> {
   const clientId = process.env["CLIENT_ID"] || "";
@@ -36,7 +36,8 @@ async function main(): Promise<void> {
   //   retryOptions: { retryCount: 5 }
   // });
 
-  const result = await client.setSecret("name", "secret");
+  const secretName = "SecretName";
+  const result = await client.setSecret(secretName, "secret");
   console.log("result: ", result);
 
   try {
@@ -63,8 +64,12 @@ async function main(): Promise<void> {
   };
   const client2 = new SecretsClient(url, credential, customPipeline);
 
-  const secret = await client2.getSecret("Hello", { version: "3597ab0798b043d398cde46f309010ea" });
-  console.log("secret: ", secret);
+  for await (const version of client2.getSecretVersions(secretName)) {
+    const secret = await client2.getSecret(secretName, { version: version.version });
+    console.log("secret: ", secret);
+  }
+
+  await client.deleteSecret(secretName);
 }
 
 main().catch((err) => {
