@@ -16,7 +16,7 @@
 */
 
 import { Namespace } from "@azure/service-bus";
-import { loginWithServicePrincipalSecret } from "ms-rest-azure";
+import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net

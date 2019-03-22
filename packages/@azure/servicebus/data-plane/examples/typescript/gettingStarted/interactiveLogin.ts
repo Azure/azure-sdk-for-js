@@ -8,7 +8,7 @@
 */
 
 import { Namespace } from "@azure/service-bus";
-import { interactiveLogin } from "ms-rest-azure";
+import { interactiveLogin } from "@azure/ms-rest-nodeauth";
 
 // Define Service Bus Endpoint here
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
