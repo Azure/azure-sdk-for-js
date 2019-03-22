@@ -190,6 +190,21 @@ describe("EventHub Sender", function (): void {
       }
     });
 
+  
+    it("Error thrown when the 'partitionKey' is not of type 'string'", async function (): Promise<void> {
+      const data: EventData = {
+        body: "Hello World",
+        partitionKey: 1 as any
+      };
+      try{
+       await client.send(data, "0");
+      } catch(err){
+        debug(err);
+        should.exist(err);
+        err.message.should.match(/.*'partitionKey' must be of type 'string'.*/ig);
+      }
+    });
+
     describe("on invalid partition ids like", function (): void {
       // tslint:disable-next-line: no-null-keyword
       const invalidIds = ["XYZ", "-1", "1000", "-", null];
