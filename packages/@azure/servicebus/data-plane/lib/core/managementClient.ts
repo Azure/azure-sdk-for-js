@@ -423,11 +423,8 @@ export class ManagementClient extends LinkEntity {
     try {
       const messageBody: any = {};
 
-      const lockTokenBuffer: Buffer[] = [];
-      lockTokenBuffer.push(string_to_uuid(lockToken));
-
       messageBody[Constants.lockTokens] = types.wrap_array(
-        lockTokenBuffer,
+        [string_to_uuid(lockToken)],
         0x98,
         undefined
       );

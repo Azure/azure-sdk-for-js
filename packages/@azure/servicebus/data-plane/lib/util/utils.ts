@@ -40,54 +40,33 @@ export function getUniqueName(name: string): string {
  * @param lockToken The lock token whose bytes need to be reorded.
  * @returns Buffer - Buffer representing reordered bytes.
  */
-function reorderLockToken(lockToken: Buffer): Buffer {
-  if (!lockToken || !Buffer.isBuffer(lockToken)) {
+export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
+  if (!lockTokenBytes || !Buffer.isBuffer(lockTokenBytes)) {
     throw new Error("'lockToken' is a required parameter and must be of type 'Buffer'.");
   }
 
   return Buffer.from([
-    lockToken[3],
-    lockToken[2],
-    lockToken[1],
-    lockToken[0],
+    lockTokenBytes[3],
+    lockTokenBytes[2],
+    lockTokenBytes[1],
+    lockTokenBytes[0],
 
-    lockToken[5],
-    lockToken[4],
+    lockTokenBytes[5],
+    lockTokenBytes[4],
 
-    lockToken[7],
-    lockToken[6],
+    lockTokenBytes[7],
+    lockTokenBytes[6],
 
-    lockToken[8],
-    lockToken[9],
+    lockTokenBytes[8],
+    lockTokenBytes[9],
 
-    lockToken[10],
-    lockToken[11],
-    lockToken[12],
-    lockToken[13],
-    lockToken[14],
-    lockToken[15]
+    lockTokenBytes[10],
+    lockTokenBytes[11],
+    lockTokenBytes[12],
+    lockTokenBytes[13],
+    lockTokenBytes[14],
+    lockTokenBytes[15]
   ]);
-}
-
-/**
- * If you try to turn a Guid into a Buffer in .NET, the bytes of the first three groups get
- * flipped within the group, but the last two groups don't get flipped, so we end up with a
- * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
- *
- * @internal
- * @param lockTokens An array of lock tokens whose bytes need to be reorderd.
- * @returns Buffer[] An array of Buffer representing reordered bytes.
- */
-export function reorderLockTokens(lockTokens: Buffer[]): Buffer[] {
-  if (!Array.isArray(lockTokens)) {
-    throw new Error("'lockTokens' is a required parameter and must be of type 'Array'.");
-  }
-  const result: Buffer[] = [];
-  for (const lockToken of lockTokens) {
-    result.push(reorderLockToken(lockToken));
-  }
-
-  return result;
 }
 
 /**
