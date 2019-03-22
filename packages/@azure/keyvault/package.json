@@ -21,7 +21,7 @@
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
-  "types": "./typings/lib/index.d.ts",
+  "types": "./types/lib/index.d.ts",
   "devDependencies": {
     "@azure/ms-rest-nodeauth": "^0.9.1",
     "@types/chai": "^4.1.7",
@@ -35,6 +35,7 @@
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "ts-node": "^8.0.3",
+    "typedoc": "^0.14.2",
     "typescript": "^3.1.1",
     "uglify-js": "^3.4.9"
   },
@@ -52,7 +53,7 @@
     "dist/",
     "dist-esm/lib/",
     "lib/",
-    "typings/lib/",
+    "types/lib/",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -62,7 +63,8 @@
     "test": "npm run test:node",
     "test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --full-trace --no-timeouts tests/**/*.test.ts",
     "prepack": "npm install && npm run build",
-    "clean": "rimraf dist dist-esm dist-test typings temp"
+    "typedoc": "typedoc",
+    "clean": "rimraf dist dist-esm dist-test types temp"
   },
   "sideEffects": false
 }

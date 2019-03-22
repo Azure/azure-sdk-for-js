@@ -47,7 +47,7 @@ webpack.config.ts
 .idea/
 changelog.md
 samples/
-typings/examples/
+types/examples/
 dist/examples/
 docs/
 typedoc/

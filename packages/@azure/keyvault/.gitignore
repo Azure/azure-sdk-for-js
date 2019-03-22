@@ -1,6 +1,6 @@
 dist/
 dist-esm/
-typings/
+types/
 temp/
 browser/
 test-browser/
