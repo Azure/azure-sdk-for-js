@@ -1,0 +1,11 @@
+{
+  "mode": "modules",
+  "out": "typedoc",
+  "readme": "none",
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "exclude": [
+    "lib/generated/**/*",
+    "lib/index.ts"
+  ]
+}
