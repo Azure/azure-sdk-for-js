@@ -1,11 +1,13 @@
 {
-  "mode": "modules",
+  "mode": "file",
   "out": "typedoc",
   "readme": "none",
   "excludeNotExported": true,
   "excludePrivate": true,
   "exclude": [
     "lib/generated/**/*",
-    "lib/index.ts"
+    "lib/index.ts",
+    "lib/utils/**/*",
+    "lib/utils.ts"
   ]
 }
