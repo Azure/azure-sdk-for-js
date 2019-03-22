@@ -566,13 +566,6 @@ export const DataBoxEdgeDeviceExtendedInfo: msRest.CompositeMapper = {
     className: "DataBoxEdgeDeviceExtendedInfo",
     modelProperties: {
       ...ARMBaseModel.type.modelProperties,
-      integrityKey: {
-        required: true,
-        serializedName: "properties.integrityKey",
-        type: {
-          name: "String"
-        }
-      },
       encryptionKeyThumbprint: {
         serializedName: "properties.encryptionKeyThumbprint",
         type: {
