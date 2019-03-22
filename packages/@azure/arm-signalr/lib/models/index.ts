@@ -235,8 +235,8 @@ export interface ResourceSku {
   name: string;
   /**
    * @member {SignalRSkuTier} [tier] Optional tier of this particular SKU.
-   * `Basic` is deprecated, use `Standard` instead for Basic tier. Possible
-   * values include: 'Free', 'Basic', 'Standard', 'Premium'
+   * `Basic` is deprecated, use `Standard` instead. Possible values include:
+   * 'Free', 'Basic', 'Standard', 'Premium'
    */
   tier?: SignalRSkuTier;
   /**
@@ -274,7 +274,7 @@ export interface Resource extends BaseResource {
    */
   readonly id?: string;
   /**
-   * @member {string} [name] The name of the resouce.
+   * @member {string} [name] The name of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -350,14 +350,14 @@ export interface SignalRResource extends TrackedResource {
    */
   readonly hostName?: string;
   /**
-   * @member {number} [publicPort] The publicly accessibly port of the SignalR
+   * @member {number} [publicPort] The publicly accessible port of the SignalR
    * service which is designed for browser/client side usage.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly publicPort?: number;
   /**
-   * @member {number} [serverPort] The publicly accessibly port of the SignalR
+   * @member {number} [serverPort] The publicly accessible port of the SignalR
    * service which is designed for customer server side usage.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -479,7 +479,7 @@ export interface SignalRCreateParameters extends SignalRUpdateParameters {
  */
 export interface SignalRUsageName {
   /**
-   * @member {string} [value] The indentifier of the usage.
+   * @member {string} [value] The identifier of the usage.
    */
   value?: string;
   /**
@@ -802,6 +802,14 @@ export type ApiVersion9 = '2018-03-01-preview' | '2018-10-01';
  * @enum {string}
  */
 export type ApiVersion10 = '2018-03-01-preview' | '2018-10-01';
+
+/**
+ * Defines values for ApiVersion11.
+ * Possible values include: '2018-03-01-preview', '2018-10-01'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiVersion11 = '2018-03-01-preview' | '2018-10-01';
 
 /**
  * Contains response data for the list operation.
