@@ -3,7 +3,7 @@
 // Licensed under the MIT License.
 
 import { EventHubClient, EventData, aadEventHubsAudience, EventPosition } from "../lib";
-import * as msrestAzure from "ms-rest-azure";
+import {loginWithServicePrincipalSecret} from "@azure/ms-rest-nodeauth";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -19,7 +19,7 @@ const clientId = process.env[cid] || "";
 const secret = process.env[sec] || "";
 const domain = process.env[doma] || "";
 async function main(): Promise<void> {
-  const credentials = await msrestAzure.loginWithServicePrincipalSecret(clientId, secret, domain, { tokenAudience: aadEventHubsAudience });
+  const credentials = <any> (await loginWithServicePrincipalSecret(clientId, secret, domain, { tokenAudience: aadEventHubsAudience }));
   const client = EventHubClient.createFromAadTokenCredentials(address, path, credentials);
   const partitionIds = await client.getPartitionIds();
   await client.send({ body: "Hello awesome world!!" }, partitionIds[0]);
