@@ -12,7 +12,7 @@ import { Logger } from './logger';
 const _repositoryOwner = "Azure";
 const _logger = Logger.get();
 
-function getAuthenticatedClient(): Octokit {
+export function getAuthenticatedClient(): Octokit {
     const octokit = new Octokit();
     octokit.authenticate({ type: "token", token: getToken() });
     return octokit;
@@ -70,10 +70,10 @@ export async function requestPullRequestReview(repositoryName: string, prId: num
         owner: _repositoryOwner,
         repo: repositoryName,
         number: prId,
-        reviewers: [ "daschult", "amarzavery", "sergey-shandar" ]
+        reviewers: ["daschult", "amarzavery", "sergey-shandar"]
     };
 
-     return new Promise<Response<PullRequestsCreateReviewRequestResponse>>((resolve, reject) => {
+    return new Promise<Response<PullRequestsCreateReviewRequestResponse>>((resolve, reject) => {
         octokit.pullRequests.createReviewRequest(params, (error, response) => {
             if (error) {
                 reject(error);
@@ -81,7 +81,7 @@ export async function requestPullRequestReview(repositoryName: string, prId: num
                 resolve(response);
             }
         });
-     });
+    });
 }
 
 export async function commitAndCreatePullRequest(
@@ -90,7 +90,7 @@ export async function commitAndCreatePullRequest(
     commitMessage: string,
     repositoryName: string,
     pullRequestTitle: string,
-    pullRequestDescription:string,
+    pullRequestDescription: string,
     validate?: ValidateFunction,
     validateEach?: string | ValidateEachFunction): Promise<string> {
     await createNewUniqueBranch(repository, `generated/${packageName}`, true);

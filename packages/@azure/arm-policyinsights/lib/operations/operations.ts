@@ -57,7 +57,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.PolicyInsights/operations",
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

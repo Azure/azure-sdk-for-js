@@ -3,7 +3,7 @@
 
 /// <reference lib="es2015" />
 
-export { Namespace, NamespaceOptions, NamespaceOptionsBase } from "./namespace";
+export { Namespace, NamespaceOptions } from "./namespace";
 export {
   TokenInfo,
   TokenType,

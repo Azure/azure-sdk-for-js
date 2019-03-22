@@ -117,13 +117,14 @@ export namespace ConnectionContext {
         numReceivers: Object.keys(connectionContext.receivers).length
       };
 
-      // Remove all the links and sessions for this AMQP connection.
-         connectionContext.connection.removeAllSessions();
+      // Clear internal map maintained by rhea to avoid reconnecting of old links once the
+      // connection is back up.
+      connectionContext.connection.removeAllSessions();
 
-      // Close the cbs session
-         await connectionContext.cbsSession.close();
-      // Close the management session
-         await connectionContext.managementSession!.close();
+      // Close the cbs session to ensure all the event handlers are released.
+      await connectionContext.cbsSession.close();
+      // Close the management session to ensure all the event handlers are released.
+      await connectionContext.managementSession!.close();
 
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.

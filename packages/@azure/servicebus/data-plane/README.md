@@ -63,7 +63,7 @@ export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,
 #### Logging to a file
 
 - Set the `DEBUG` environment variable as shown above and then run your test script as follows:
-  - Logging statements from you test script go to `out.log` and logging statement from the sdk go to `debug.log`.
+  - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
     node your-test-script.js > out.log 2>debug.log
     ```
@@ -75,3 +75,6 @@ export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,
     ```bash
       node your-test-script.js &> out.log
     ```
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fservicebus%2Fdata-plane%2FREADME.png)
+
