@@ -74,7 +74,6 @@ jobs:
           STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
 
       - script: npm run live-test-client-$(Package)-browser
-        condition: or(eq(variables['Package'], 'storage-blob'), eq(variables['Package'], 'storage-file'), eq(variables['Package'], 'storage-queue'))
         displayName: 'npm run live-test-client-$(Package)-browser'
         env:
           # Storage
