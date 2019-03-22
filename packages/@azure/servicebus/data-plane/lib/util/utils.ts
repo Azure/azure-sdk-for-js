@@ -3,7 +3,7 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid, string_to_uuid } from "rhea-promise";
+import { generate_uuid } from "rhea-promise";
 import { isBuffer } from "util";
 import { ConnectionContext } from "../connectionContext";
 
@@ -40,32 +40,32 @@ export function getUniqueName(name: string): string {
  * @param lockToken The lock token whose bytes need to be reorded.
  * @returns Buffer - Buffer representing reordered bytes.
  */
-function reorderLockToken(lockToken: string): Buffer {
-  if (!lockToken || typeof lockToken !== "string") {
-    throw new Error("'lockToken' is a required parameter and must be of type 'string'.");
+function reorderLockToken(lockToken: Buffer): Buffer {
+  if (!lockToken || !Buffer.isBuffer(lockToken)) {
+    throw new Error("'lockToken' is a required parameter and must be of type 'Buffer'.");
   }
-  const lockTokenBytes = string_to_uuid(lockToken);
+
   return Buffer.from([
-    lockTokenBytes[3],
-    lockTokenBytes[2],
-    lockTokenBytes[1],
-    lockTokenBytes[0],
+    lockToken[3],
+    lockToken[2],
+    lockToken[1],
+    lockToken[0],
 
-    lockTokenBytes[5],
-    lockTokenBytes[4],
+    lockToken[5],
+    lockToken[4],
 
-    lockTokenBytes[7],
-    lockTokenBytes[6],
+    lockToken[7],
+    lockToken[6],
 
-    lockTokenBytes[8],
-    lockTokenBytes[9],
+    lockToken[8],
+    lockToken[9],
 
-    lockTokenBytes[10],
-    lockTokenBytes[11],
-    lockTokenBytes[12],
-    lockTokenBytes[13],
-    lockTokenBytes[14],
-    lockTokenBytes[15]
+    lockToken[10],
+    lockToken[11],
+    lockToken[12],
+    lockToken[13],
+    lockToken[14],
+    lockToken[15]
   ]);
 }
 
@@ -78,7 +78,7 @@ function reorderLockToken(lockToken: string): Buffer {
  * @param lockTokens An array of lock tokens whose bytes need to be reorderd.
  * @returns Buffer[] An array of Buffer representing reordered bytes.
  */
-export function reorderLockTokens(lockTokens: string[]): Buffer[] {
+export function reorderLockTokens(lockTokens: Buffer[]): Buffer[] {
   if (!Array.isArray(lockTokens)) {
     throw new Error("'lockTokens' is a required parameter and must be of type 'Array'.");
   }

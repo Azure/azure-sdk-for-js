@@ -670,9 +670,9 @@ export module ReceivedMessageInfo {
       deliveryCount: msg.delivery_count,
       lockToken:
         delivery && delivery.tag.length !== 0
-          ? uuid_to_string(reorderLockTokens([uuid_to_string(
+          ? uuid_to_string(reorderLockTokens([
             typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-          )])[0])
+          ])[0])
           : undefined,
       ...sbmsg,
       ...props
