@@ -37,7 +37,7 @@ export * from "./policyOperations";
 export * from "./billingPropertyOperations";
 export * from "./operations";
 export * from "./billingAccountBillingPermissions";
-export * from "./invoiceSectionsbillingPermissions";
+export * from "./invoiceSectionsBillingPermissions";
 export * from "./billingProfileBillingPermissions";
 export * from "./billingAccountBillingRoleDefinition";
 export * from "./invoiceSectionBillingRoleDefinition";

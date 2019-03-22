@@ -201,7 +201,7 @@ export interface BillingProfile extends Resource {
   billingAddress?: Address;
   /**
    * @member {boolean} [invoiceEmailOptIn] If the billing profile is opted in
-   * to recieve invoices via email.
+   * to receive invoices via email.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1349,7 +1349,7 @@ export interface PaymentMethod extends Resource {
 /**
  * @interface
  * An interface representing UpdateAutoRenewRequest.
- * Request parameters to update auto renew for support prouct.
+ * Request parameters to update auto renew for support product.
  *
  */
 export interface UpdateAutoRenewRequest {
@@ -1423,7 +1423,7 @@ export interface BillingRoleAssignmentPayload {
    */
   readonly principalId?: string;
   /**
-   * @member {string} [billingRoleDefinitionName] The role defintion id
+   * @member {string} [billingRoleDefinitionName] The role definition id
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -1471,7 +1471,7 @@ export interface BillingRoleAssignment extends Resource {
    */
   readonly principalId?: string;
   /**
-   * @member {string} [roleDefinitionName] The role defintion id
+   * @member {string} [roleDefinitionName] The role definition id
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -3147,7 +3147,7 @@ export type BillingAccountBillingPermissionsListResponse = BillingPermissionsLis
 /**
  * Contains response data for the list operation.
  */
-export type InvoiceSectionsbillingPermissionsListResponse = BillingPermissionsListResult & {
+export type InvoiceSectionsBillingPermissionsListResponse = BillingPermissionsListResult & {
   /**
    * The underlying HTTP response.
    */

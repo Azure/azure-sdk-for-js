@@ -30,7 +30,7 @@ export class Invoice {
    * Get the invoice by id.
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
-   * @param invoiceName Invoide Id.
+   * @param invoiceName Invoice Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.InvoiceGetResponse>
    */
@@ -38,14 +38,14 @@ export class Invoice {
   /**
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
-   * @param invoiceName Invoide Id.
+   * @param invoiceName Invoice Id.
    * @param callback The callback
    */
   get(billingAccountName: string, billingProfileName: string, invoiceName: string, callback: msRest.ServiceCallback<Models.InvoiceSummary>): void;
   /**
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
-   * @param invoiceName Invoide Id.
+   * @param invoiceName Invoice Id.
    * @param options The optional parameters
    * @param callback The callback
    */

@@ -47,7 +47,7 @@ class BillingManagementClient extends BillingManagementClientContext {
   billingProperty: operations.BillingPropertyOperations;
   operations: operations.Operations;
   billingAccountBillingPermissions: operations.BillingAccountBillingPermissions;
-  invoiceSectionsbillingPermissions: operations.InvoiceSectionsbillingPermissions;
+  invoiceSectionsBillingPermissions: operations.InvoiceSectionsBillingPermissions;
   billingProfileBillingPermissions: operations.BillingProfileBillingPermissions;
   billingAccountBillingRoleDefinition: operations.BillingAccountBillingRoleDefinition;
   invoiceSectionBillingRoleDefinition: operations.InvoiceSectionBillingRoleDefinition;
@@ -93,7 +93,7 @@ class BillingManagementClient extends BillingManagementClientContext {
     this.billingProperty = new operations.BillingPropertyOperations(this);
     this.operations = new operations.Operations(this);
     this.billingAccountBillingPermissions = new operations.BillingAccountBillingPermissions(this);
-    this.invoiceSectionsbillingPermissions = new operations.InvoiceSectionsbillingPermissions(this);
+    this.invoiceSectionsBillingPermissions = new operations.InvoiceSectionsBillingPermissions(this);
     this.billingProfileBillingPermissions = new operations.BillingProfileBillingPermissions(this);
     this.billingAccountBillingRoleDefinition = new operations.BillingAccountBillingRoleDefinition(this);
     this.invoiceSectionBillingRoleDefinition = new operations.InvoiceSectionBillingRoleDefinition(this);
@@ -146,20 +146,20 @@ class BillingManagementClient extends BillingManagementClientContext {
   /**
    * Cancel product by product id
    * @param billingAccountName billing Account Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateAutoRenewForBillingAccountResponse>
    */
   updateAutoRenewForBillingAccount(billingAccountName: string, productName: string, options?: Models.BillingManagementClientUpdateAutoRenewForBillingAccountOptionalParams): Promise<Models.UpdateAutoRenewForBillingAccountResponse>;
   /**
    * @param billingAccountName billing Account Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param callback The callback
    */
   updateAutoRenewForBillingAccount(billingAccountName: string, productName: string, callback: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): void;
   /**
    * @param billingAccountName billing Account Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -179,7 +179,7 @@ class BillingManagementClient extends BillingManagementClientContext {
    * Cancel auto renew for product by product id
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateAutoRenewForInvoiceSectionResponse>
    */
@@ -187,14 +187,14 @@ class BillingManagementClient extends BillingManagementClientContext {
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param callback The callback
    */
   updateAutoRenewForInvoiceSection(billingAccountName: string, invoiceSectionName: string, productName: string, callback: msRest.ServiceCallback<Models.UpdateAutoRenewOperationSummary>): void;
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param options The optional parameters
    * @param callback The callback
    */

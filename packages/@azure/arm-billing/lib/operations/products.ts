@@ -30,7 +30,7 @@ export class Products {
    * Get a single product by name.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductsGetResponse>
    */
@@ -38,14 +38,14 @@ export class Products {
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param callback The callback
    */
   get(billingAccountName: string, invoiceSectionName: string, productName: string, callback: msRest.ServiceCallback<Models.ProductSummary>): void;
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -66,7 +66,7 @@ export class Products {
    * The operation to transfer a Product to another InvoiceSection.
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductsTransferResponse>
    */
@@ -74,14 +74,14 @@ export class Products {
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param callback The callback
    */
   transfer(billingAccountName: string, invoiceSectionName: string, productName: string, callback: msRest.ServiceCallback<Models.ProductSummary>): void;
   /**
    * @param billingAccountName billing Account Id.
    * @param invoiceSectionName InvoiceSection Id.
-   * @param productName Invoide Id.
+   * @param productName Invoice Id.
    * @param options The optional parameters
    * @param callback The callback
    */
