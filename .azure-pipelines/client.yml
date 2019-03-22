@@ -86,6 +86,7 @@ jobs:
         displayName: 'npm install npm-run-all'
 
       - task: Npm@1
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         inputs:
           command: 'custom'
           customCommand: 'run audit-client'
