@@ -51,11 +51,16 @@ export const poolName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroup: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroup",
+export const resourceGroupName: msRest.OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
     required: true,
-    serializedName: "resourceGroup",
+    serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
     type: {
       name: "String"
     }
