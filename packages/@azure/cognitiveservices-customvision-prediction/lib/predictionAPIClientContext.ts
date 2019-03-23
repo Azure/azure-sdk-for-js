@@ -19,8 +19,8 @@ export class PredictionAPIClientContext extends msRest.ServiceClient {
 
   /**
    * Initializes a new instance of the PredictionAPIClientContext class.
-   * @param apiKey
-   * @param endpoint Supported Cognitive Services endpoints
+   * @param apiKey API key.
+   * @param endpoint Supported Cognitive Services endpoints.
    * @param [options] The parameter options
    */
   constructor(apiKey: string, endpoint: string, options?: msRest.ServiceClientOptions) {
@@ -42,7 +42,7 @@ export class PredictionAPIClientContext extends msRest.ServiceClient {
 
     super(undefined, options);
 
-    this.baseUri = "{Endpoint}/customvision/v2.0/Prediction";
+    this.baseUri = "{Endpoint}/customvision/v3.0/prediction";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiKey = apiKey;
     this.endpoint = endpoint;
