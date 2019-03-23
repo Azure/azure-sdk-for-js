@@ -33,7 +33,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new PredictionAPIClient(creds, subscriptionId);
-  const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
+  const projectId = "ec7b1657-199d-4d8a-bbb2-89a11a42e02a";
   const publishedName = "testpublishedName";
   const imageUrl: PredictionAPIModels.ImageUrl = {
     url: "testurl"
