@@ -85,6 +85,8 @@ export class SubscriptionClient implements Client {
   async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        log.subscriptionClient("Closing the subscription client '%s'.", this.id);
+
         // Close the sessionManager.
         if (this._context.sessionManager) {
           this._context.sessionManager.close();
