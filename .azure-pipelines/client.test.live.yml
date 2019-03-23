@@ -99,4 +99,12 @@ jobs:
           testResultsFiles: '**/test-results.xml'
           testRunTitle: '$(OSName) Node $(NodeVersion)'
         condition: succeededOrFailed()
-        displayName: 'Publish test results'
+        displayName: 'Publish node test results'
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "**/test-results.browser.xml"
+          testRunTitle: '$(OSName) Node $(NodeVersion)'
+        condition: succeededOrFailed()
+        displayName: 'Publish browser test results'
