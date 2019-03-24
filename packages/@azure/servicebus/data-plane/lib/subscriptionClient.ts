@@ -274,9 +274,9 @@ export class SubscriptionClient implements Client {
         this._context.messageSessions[options.sessionId].isOpen()
       ) {
         throw new Error(
-          `Close the current session receiver for sessionId ${
+          `An open receiver already exists for sessionId '${
             options.sessionId
-          } before using "getSessionReceiver" to create a new one for the same sessionId`
+          }'. Please close it and try again.`
         );
       }
     }

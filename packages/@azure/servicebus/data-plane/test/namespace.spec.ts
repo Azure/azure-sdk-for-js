@@ -553,9 +553,9 @@ describe("Errors after close()", function(): void {
   }
 
   /**
-   * Tests that each feature of the senderClient throws expected error
+   * Tests creating new sender throws expected error
    */
-  async function testSenderClient(expectedErrorMsg: string): Promise<void> {
+  async function testCreateSender(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
       senderClient.createSender();
@@ -621,17 +621,7 @@ describe("Errors after close()", function(): void {
     expectedErrorMsg: string,
     useSessions?: boolean
   ): Promise<void> {
-    let errorNewReceiver: string = "";
-    try {
-      useSessions
-        ? await receiverClient.createSessionReceiver({
-            sessionId: TestMessage.sessionId
-          })
-        : receiverClient.createReceiver();
-    } catch (err) {
-      errorNewReceiver = err.message;
-    }
-    should.equal(errorNewReceiver, expectedErrorMsg, "Expected error not thrown for createReceiver()");
+    await testCreateReceiver(expectedErrorMsg, useSessions);
 
     let errorPeek: string = "";
     await receiverClient.peek().catch((err) => {
@@ -651,6 +641,30 @@ describe("Errors after close()", function(): void {
       errorPeekBySequence,
       expectedErrorMsg,
       "Expected error not thrown for peekBySequenceNumber() from receiverClient"
+    );
+  }
+
+  /**
+   * Tests creating new receiver throws expected error
+   */
+  async function testCreateReceiver(
+    expectedErrorMsg: string,
+    useSessions?: boolean
+  ): Promise<void> {
+    let errorNewReceiver: string = "";
+    try {
+      useSessions
+        ? await receiverClient.createSessionReceiver({
+            sessionId: TestMessage.sessionId
+          })
+        : receiverClient.createReceiver();
+    } catch (err) {
+      errorNewReceiver = err.message;
+    }
+    should.equal(
+      errorNewReceiver,
+      expectedErrorMsg,
+      "Expected error not thrown for createReceiver()"
     );
   }
 
@@ -727,7 +741,7 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
     });
@@ -743,7 +757,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
     });
@@ -758,7 +772,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
       await testRules(expectedErrorMsg);
@@ -775,7 +789,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
       await testRules(expectedErrorMsg);
@@ -789,7 +803,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
     });
@@ -805,7 +819,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
     });
@@ -820,7 +834,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
       await testRules(expectedErrorMsg);
@@ -837,7 +851,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
       await testRules(expectedErrorMsg);
@@ -900,7 +914,7 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Partitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
@@ -914,7 +928,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Partitioned Topic/Subscription: errors after close() on senderClient", async function(): Promise<
@@ -927,7 +941,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
 
     it("Partitioned Topic/Subscription with sessions: errors after close() on senderClient", async function(): Promise<
@@ -941,7 +955,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
 
     it("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
@@ -954,7 +968,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
@@ -968,7 +982,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on senderClient", async function(): Promise<
@@ -981,7 +995,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on senderClient", async function(): Promise<
@@ -995,7 +1009,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
   });
 
@@ -1307,6 +1321,74 @@ describe("Errors after close()", function(): void {
       );
 
       await testSessionReceiver(expectedReceiverErrorMsg);
+    });
+  });
+
+  describe("Errors when creating second sender/receiver with first not closed", function(): void {
+    const expectedQueueClientSenderErrorMsg =
+      "An open sender already exists on this QueueClient. Please close it and try" +
+      " again or use a new QueueClient instance";
+
+    const expectedTopicClientSenderErrorMsg =
+      "An open sender already exists on this TopicClient. Please close it and try" +
+      " again or use a new TopicClient instance";
+
+    const expectedQueueClientReceiverErrorMsg =
+      "An open receiver already exists on this QueueClient. Please close it and try" +
+      " again or use a new QueueClient instance";
+
+    const expectedSubscriptionClientReceiverErrorMsg =
+      "An open receiver already exists on this SubscriptionClient. Please close it and try" +
+      " again or use a new SubscriptionClient instance";
+
+    const expectedSessionReceiverErrorMsg = `An open receiver already exists for sessionId '${
+      TestMessage.sessionId
+    }'. Please close it and try again.`;
+
+    it("Open sender exists on QueueClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, "");
+
+      await testCreateSender(expectedQueueClientSenderErrorMsg);
+    });
+
+    it("Open sender exists on TopicClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription, "");
+
+      await testCreateSender(expectedTopicClientSenderErrorMsg);
+    });
+
+    it("Open receiver exists on QueueClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, "");
+
+      await testCreateReceiver(expectedQueueClientReceiverErrorMsg);
+    });
+
+    it("Open receiver exists on SubscriptionClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription, "");
+
+      await testCreateReceiver(expectedSubscriptionClientReceiverErrorMsg);
+    });
+
+    it("Open receiver exists for session on QueueClient", async function(): Promise<void> {
+      await beforeEachTest(
+        ClientType.PartitionedQueueWithSessions,
+        ClientType.PartitionedQueueWithSessions,
+        "",
+        true
+      );
+
+      await testCreateReceiver(expectedSessionReceiverErrorMsg, true);
+    });
+
+    it("Open receiver exists on SubscriptionClient", async function(): Promise<void> {
+      await beforeEachTest(
+        ClientType.PartitionedTopicWithSessions,
+        ClientType.PartitionedSubscriptionWithSessions,
+        "",
+        true
+      );
+
+      await testCreateReceiver(expectedSessionReceiverErrorMsg, true);
     });
   });
 });
