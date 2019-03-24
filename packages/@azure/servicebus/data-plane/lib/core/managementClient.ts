@@ -41,28 +41,21 @@ import { max32BitNumber } from "../util/constants";
  */
 export interface RuleDescription {
   /**
-   * Filter expression used to match messages.
+   * Filter expression used to match messages. Supports 2 types:
+   * - `string`: SQL-like condition expression that is evaluated in the broker against the messages'
+   * user-defined properties and system properties. All system properties must be prefixed with
+   * `sys.` in the condition expression.
+   * - `CorrelationFilter`: Properties of the filter will be used to match with the message properties.
    */
-  filter?: SQLExpression | CorrelationFilter;
+  filter?: string | CorrelationFilter;
   /**
    * Action to perform if the message satisfies the filtering expression.
    */
-  action?: SQLExpression;
+  action?: string;
   /**
    * Represents the name of the rule.
    */
   name: string;
-}
-/**
- * Represents the sql filter expression.
- */
-export interface SQLExpression {
-  /**
-   * SQL-like condition expression that is evaluated in the broker against the arriving messages'
-   * user-defined properties and system properties. All system properties must be prefixed with
-   * `sys.` in the condition expression.
-   */
-  expression: string;
 }
 
 /**
@@ -1130,19 +1123,13 @@ export class ManagementClient extends LinkEntity {
 
         switch (filtersRawData.descriptor.value) {
           case Constants.descriptorCodes.trueFilterList:
-            rule.filter = {
-              expression: "1=1"
-            };
+            rule.filter = "1=1";
             break;
           case Constants.descriptorCodes.falseFilterList:
-            rule.filter = {
-              expression: "1=0"
-            };
+            rule.filter = "1=0";
             break;
           case Constants.descriptorCodes.sqlFilterList:
-            rule.filter = {
-              expression: this._safelyGetTypedValueFromArray(filtersRawData.value, 0)
-            };
+            rule.filter = this._safelyGetTypedValueFromArray(filtersRawData.value, 0);
             break;
           case Constants.descriptorCodes.correlationFilterList:
             rule.filter = {
@@ -1169,9 +1156,7 @@ export class ManagementClient extends LinkEntity {
           Array.isArray(actionsRawData.value) &&
           actionsRawData.value.length
         ) {
-          rule.action = {
-            expression: this._safelyGetTypedValueFromArray(actionsRawData.value, 0)
-          };
+          rule.action = this._safelyGetTypedValueFromArray(actionsRawData.value, 0);
         }
 
         rules.push(rule);

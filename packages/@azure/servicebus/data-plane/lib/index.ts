@@ -24,7 +24,7 @@ export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
-export { SQLExpression, CorrelationFilter, RuleDescription } from "./core/managementClient";
+export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
   ServiceBusMessage,

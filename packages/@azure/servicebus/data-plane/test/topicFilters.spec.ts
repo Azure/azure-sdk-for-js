@@ -165,11 +165,7 @@ async function addRules(
   should.equal(rules[0].name, ruleName, "Expected Rule not found");
 
   if (sqlRuleActionExpression) {
-    should.equal(
-      rules[0].action!.expression,
-      sqlRuleActionExpression,
-      "Action not set on the rule."
-    );
+    should.equal(rules[0].action!, sqlRuleActionExpression, "Action not set on the rule.");
   }
 }
 
