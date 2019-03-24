@@ -380,13 +380,12 @@ describe("Cancel single Scheduled message", function(): void {
   async function testCancelScheduleMessage(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-    const sequenceNumber = await senderClient
-      .createSender()
-      .scheduleMessage(scheduleTime, testMessages);
+    const sender = senderClient.createSender();
+    const sequenceNumber = await sender.scheduleMessage(scheduleTime, testMessages);
 
     await delay(2000);
 
-    await senderClient.createSender().cancelScheduledMessage(sequenceNumber);
+    await sender.cancelScheduledMessage(sequenceNumber);
 
     // Wait until we are sure we have passed the schedule time
     await delay(30000);

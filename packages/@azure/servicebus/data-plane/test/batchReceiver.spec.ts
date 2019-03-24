@@ -598,6 +598,8 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     await afterEachTest();
   });
 
+  let deadletterReciever: Receiver;
+
   async function deadLetterMessage(testMessage: SendableMessageInfo): Promise<ServiceBusMessage> {
     await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveBatch(1);
@@ -615,7 +617,8 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
+    deadletterReciever = deadLetterClient.createReceiver();
+    const deadLetterMsgs = await deadletterReciever.receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -638,7 +641,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     deadletterClient: QueueClient | SubscriptionClient,
     expectedDeliverCount: number
   ): Promise<void> {
-    const deadLetterMsgs = await deadletterClient.createReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadletterReciever.receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
