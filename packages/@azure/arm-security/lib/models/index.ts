@@ -228,6 +228,175 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 
 /**
  * @interface
+ * An interface representing CustomAlertRule.
+ * A custom alert rule
+ *
+ */
+export interface CustomAlertRule {
+  /**
+   * @member {string} [displayName] The display name of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} isEnabled Whether the custom alert is enabled.
+   */
+  isEnabled: boolean;
+  /**
+   * @member {string} ruleType The type of the custom alert rule.
+   */
+  ruleType: string;
+}
+
+/**
+ * @interface
+ * An interface representing ThresholdCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is within the given range.
+ *
+ * @extends CustomAlertRule
+ */
+export interface ThresholdCustomAlertRule extends CustomAlertRule {
+  /**
+   * @member {number} minThreshold The minimum threshold.
+   */
+  minThreshold: number;
+  /**
+   * @member {number} maxThreshold The maximum threshold.
+   */
+  maxThreshold: number;
+}
+
+/**
+ * @interface
+ * An interface representing TimeWindowCustomAlertRule.
+ * A custom alert rule that checks if the number of activities (depends on the
+ * custom alert type) in a time window is within the given range.
+ *
+ */
+export interface TimeWindowCustomAlertRule {
+  /**
+   * @member {string} [displayName] The display name of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} isEnabled Whether the custom alert is enabled.
+   */
+  isEnabled: boolean;
+  /**
+   * @member {string} ruleType The type of the custom alert rule.
+   */
+  ruleType: string;
+  /**
+   * @member {number} minThreshold The minimum threshold.
+   */
+  minThreshold: number;
+  /**
+   * @member {number} maxThreshold The maximum threshold.
+   */
+  maxThreshold: number;
+  /**
+   * @member {string} timeWindowSize The time window size in iso8601 format.
+   */
+  timeWindowSize: string;
+}
+
+/**
+ * @interface
+ * An interface representing ListCustomAlertRule.
+ * A List custom alert rule
+ *
+ * @extends CustomAlertRule
+ */
+export interface ListCustomAlertRule extends CustomAlertRule {
+  /**
+   * @member {ValueType} [valueType] The value type of the items in the list.
+   * Possible values include: 'IpCidr', 'String'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly valueType?: ValueType;
+}
+
+/**
+ * @interface
+ * An interface representing AllowlistCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is allowed
+ *
+ * @extends ListCustomAlertRule
+ */
+export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
+  /**
+   * @member {string[]} allowlistValues The values to allow. The format of the
+   * values depends on the rule type.
+   */
+  allowlistValues: string[];
+}
+
+/**
+ * @interface
+ * An interface representing DenylistCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is denied
+ *
+ * @extends ListCustomAlertRule
+ */
+export interface DenylistCustomAlertRule extends ListCustomAlertRule {
+  /**
+   * @member {string[]} denylistValues The values to deny. The format of the
+   * values depends on the rule type.
+   */
+  denylistValues: string[];
+}
+
+/**
+ * @interface
+ * An interface representing DeviceSecurityGroup.
+ * The device security group resource
+ *
+ * @extends Resource
+ */
+export interface DeviceSecurityGroup extends Resource {
+  /**
+   * @member {ThresholdCustomAlertRule[]} [thresholdRules] A list of threshold
+   * custom alert rules.
+   */
+  thresholdRules?: ThresholdCustomAlertRule[];
+  /**
+   * @member {TimeWindowCustomAlertRule[]} [timeWindowRules] A list of time
+   * window custom alert rules.
+   */
+  timeWindowRules?: TimeWindowCustomAlertRule[];
+  /**
+   * @member {AllowlistCustomAlertRule[]} [allowlistRules] A list of allow-list
+   * custom alert rules.
+   */
+  allowlistRules?: AllowlistCustomAlertRule[];
+  /**
+   * @member {DenylistCustomAlertRule[]} [denylistRules] A list of deny-list
+   * custom alert rules.
+   */
+  denylistRules?: DenylistCustomAlertRule[];
+}
+
+/**
+ * @interface
  * An interface representing SettingResource.
  * The kind of the security setting
  *
@@ -1743,6 +1912,22 @@ export interface ComplianceList extends Array<Compliance> {
 
 /**
  * @interface
+ * An interface representing the DeviceSecurityGroupList.
+ * List of device security groups
+ *
+ * @extends Array<DeviceSecurityGroup>
+ */
+export interface DeviceSecurityGroupList extends Array<DeviceSecurityGroup> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the SettingsList.
  * Subscription settings list.
  *
@@ -1940,6 +2125,14 @@ export type AlertsToAdmins = 'On' | 'Off';
  * @enum {string}
  */
 export type AutoProvision = 'On' | 'Off';
+
+/**
+ * Defines values for ValueType.
+ * Possible values include: 'IpCidr', 'String'
+ * @readonly
+ * @enum {string}
+ */
+export type ValueType = 'IpCidr' | 'String';
 
 /**
  * Defines values for SettingKind.
@@ -2492,6 +2685,82 @@ export type AdvancedThreatProtectionCreateResponse = AdvancedThreatProtectionSet
        * The response body as parsed JSON or XML
        */
       parsedBody: AdvancedThreatProtectionSetting;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroupList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DeviceSecurityGroupsGetResponse = DeviceSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DeviceSecurityGroupsCreateOrUpdateResponse = DeviceSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DeviceSecurityGroupsListNextResponse = DeviceSecurityGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroupList;
     };
 };
 

@@ -118,6 +118,16 @@ export const connectionType: msRest.OperationURLParameter = {
     }
   }
 };
+export const deviceSecurityGroupName: msRest.OperationURLParameter = {
+  parameterPath: "deviceSecurityGroupName",
+  mapper: {
+    required: true,
+    serializedName: "deviceSecurityGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const discoveredSecuritySolutionName: msRest.OperationURLParameter = {
   parameterPath: "discoveredSecuritySolutionName",
   mapper: {
