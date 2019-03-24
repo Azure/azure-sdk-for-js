@@ -149,6 +149,7 @@ export class SubscriptionClient implements Client {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
+      return this._currentReceiver;
     }
     throw new Error(
       "An open receiver already exists on this SubscriptionClient. Please close it and try" +

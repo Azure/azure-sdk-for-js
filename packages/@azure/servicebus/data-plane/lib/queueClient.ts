@@ -136,6 +136,7 @@ export class QueueClient implements Client {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
+      return this._currentSender;
     }
     throw new Error(
       "An open sender already exists on this QueueClient. Please close it and try" +
@@ -152,6 +153,7 @@ export class QueueClient implements Client {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
+      return this._currentReceiver;
     }
     throw new Error(
       "An open receiver already exists on this QueueClient. Please close it and try" +

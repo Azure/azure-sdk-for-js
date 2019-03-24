@@ -116,6 +116,7 @@ export class TopicClient implements Client {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
+      return this._currentSender;
     }
     throw new Error(
       "An open sender already exists on this TopicClient. Please close it and try" +
