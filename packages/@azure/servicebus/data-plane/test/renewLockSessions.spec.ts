@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   QueueClient,
   TopicClient,
   SubscriptionClient,
@@ -19,7 +19,7 @@ import {
 } from "../lib";
 import { purge, getSenderReceiverClients, ClientType, TestMessage } from "./testUtils";
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
@@ -30,7 +30,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
   const clients = await getSenderReceiverClients(ns, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;

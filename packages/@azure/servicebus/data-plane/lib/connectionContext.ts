@@ -13,7 +13,7 @@ import {
   delay,
   TokenProvider
 } from "@azure/amqp-common";
-import { NamespaceOptions } from "./namespace";
+import { ServiceBusClientOptions } from "./namespace";
 import { Client } from "./client";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
@@ -46,7 +46,7 @@ export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
     tokenProvider: TokenProvider,
-    options?: NamespaceOptions
+    options?: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};
     const parameters: CreateConnectionContextBaseParameters = {

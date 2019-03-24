@@ -5,7 +5,7 @@ import {
   SendableMessageInfo,
   QueueClient,
   TopicClient,
-  Namespace,
+  ServiceBusClient,
   SubscriptionClient,
   delay
 } from "../lib";
@@ -174,7 +174,7 @@ async function recreateSubscription(
 }
 
 export async function getSenderReceiverClients(
-  namespace: Namespace,
+  namespace: ServiceBusClient,
   senderClientType: ClientType,
   receiverClientType: ClientType
 ): Promise<{

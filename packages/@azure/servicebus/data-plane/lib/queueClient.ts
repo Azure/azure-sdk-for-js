@@ -250,4 +250,14 @@ export class QueueClient implements Client {
       throw new Error("The queueClient has been closed and can no longer be used.");
     }
   }
+
+  /**
+   * Returns the corresponding dead letter queue name for the queue represented by the given name.
+   * Use this in the `createQueueClient` function on the `ServiceBusClient` instance to receive
+   * messages from the dead letter queue.
+   * @param queueName
+   */
+  static getDeadLetterQueuePath(queueName: string): string {
+    return `${queueName}/$DeadLetterQueue`;
+  }
 }

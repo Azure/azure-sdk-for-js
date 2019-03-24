@@ -129,4 +129,15 @@ export class TopicClient implements Client {
       throw new Error("The topicClient has been closed and can no longer be used.");
     }
   }
+
+  /**
+   * Returns the corresponding dead letter topic name for the given topic and subscription names.
+   * Use this in the `createSubscriptionClient` function of the `ServiceBusClient` instance to
+   * receive messages from dead letter queue for given subscription.
+   * @param topicName
+   * @param subscriptionName
+   */
+  static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string {
+    return `${topicName}/Subscriptions/${subscriptionName}/$DeadLetterQueue`;
+  }
 }

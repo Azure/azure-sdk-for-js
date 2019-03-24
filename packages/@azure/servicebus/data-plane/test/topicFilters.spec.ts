@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   SubscriptionClient,
   ServiceBusMessage,
   TopicClient,
@@ -38,7 +38,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 let subscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
@@ -52,7 +52,7 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   const clients = await getSenderReceiverClients(ns, ClientType.TopicFilterTestTopic, receiverType);
   topicClient = clients.senderClient as TopicClient;
