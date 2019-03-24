@@ -379,28 +379,16 @@ describe("getRules()", function(): void {
     rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
-    should.equal(
-      JSON.stringify(rules[0].filter),
-      JSON.stringify({ expression: expr1 }),
-      "Filter-expression is different than expected"
-    );
+    should.equal(rules[0].filter, expr1, "Filter-expression is different than expected");
 
     const expr2 = "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')";
     await subscriptionClient.addRule("Priority_2", expr2);
     rules = await subscriptionClient.getRules();
     should.equal(rules.length, 2, "Unexpected number of rules");
     should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
-    should.equal(
-      JSON.stringify(rules[0].filter),
-      JSON.stringify({ expression: expr1 }),
-      "Filter-expression is different than expected"
-    );
+    should.equal(rules[0].filter, expr1, "Filter-expression is different than expected");
     should.equal(rules[1].name, "Priority_2", "RuleName is different than expected");
-    should.equal(
-      JSON.stringify(rules[1].filter),
-      JSON.stringify({ expression: expr2 }),
-      "Filter-expression is different than expected"
-    );
+    should.equal(rules[1].filter, expr2, "Filter-expression is different than expected");
   });
 
   it("Rule with SQL filter and action returns expected filter and action expression", async function(): Promise<
