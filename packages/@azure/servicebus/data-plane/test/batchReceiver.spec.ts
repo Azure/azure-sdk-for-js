@@ -90,12 +90,12 @@ async function beforeEachTest(
     );
   }
 
-  sender = senderClient.getSender();
+  sender = senderClient.createSender();
   receiver = useSessions
-    ? await receiverClient.getSessionReceiver({
+    ? await receiverClient.createSessionReceiver({
         sessionId: TestMessage.sessionId
       })
-    : receiverClient.getReceiver();
+    : receiverClient.createReceiver();
 }
 
 async function afterEachTest(): Promise<void> {
@@ -312,7 +312,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
 
     should.equal(
       Array.isArray(deadLetterMsgs),
@@ -496,7 +496,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
 
     should.equal(
       Array.isArray(deadLetterMsgs),
@@ -615,7 +615,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -638,7 +638,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     deadletterClient: QueueClient | SubscriptionClient,
     expectedDeliverCount: number
   ): Promise<void> {
-    const deadLetterMsgs = await deadletterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadletterClient.createReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -749,7 +749,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     await deadLetterMsg.defer();
 
     const deferredMsgs = await deadLetterClient
-      .getReceiver()
+      .createReceiver()
       .receiveDeferredMessage(sequenceNumber);
     if (!deferredMsgs) {
       throw "No message received for sequence number";

@@ -347,9 +347,9 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.getSender().send(testMessage);
+  await senderClient.createSender().send(testMessage);
 
-  const sessionClient = await receiverClient.getSessionReceiver({
+  const sessionClient = await receiverClient.createSessionReceiver({
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -397,9 +397,9 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.getSender().send(testMessage);
+  await senderClient.createSender().send(testMessage);
 
-  let sessionClient = await receiverClient.getSessionReceiver({
+  let sessionClient = await receiverClient.createSessionReceiver({
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -421,7 +421,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Subsequent receivers for the same session should work as expected.
-  sessionClient = await receiverClient.getSessionReceiver();
+  sessionClient = await receiverClient.createSessionReceiver();
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
   should.equal(unprocessedMsgs[0].deliveryCount, 1, "Unexpected deliveryCount");
   await unprocessedMsgs[0].complete();
@@ -436,8 +436,8 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.getSender().send(testMessage);
-  const sessionClient = await receiverClient.getSessionReceiver({
+  await senderClient.createSender().send(testMessage);
+  const sessionClient = await receiverClient.createSessionReceiver({
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -513,9 +513,9 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.getSender().send(testMessage);
+  await senderClient.createSender().send(testMessage);
 
-  const sessionClient = await receiverClient.getSessionReceiver({
+  const sessionClient = await receiverClient.createSessionReceiver({
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: options.maxSessionAutoRenewLockDurationInSeconds
   });

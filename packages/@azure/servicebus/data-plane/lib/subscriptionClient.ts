@@ -141,16 +141,19 @@ export class SubscriptionClient implements Client {
   }
 
   /**
-   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
-   *
+   * Creates a Receiver to be used for receiving messages in batches or by registering handlers.
+   * Throws error if an open receiver already exists for this SubscriptionClient.
    * @param options Options for creating the receiver.
    */
-  getReceiver(options?: MessageReceiverOptions): Receiver {
+  createReceiver(options?: MessageReceiverOptions): Receiver {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
     }
-    return this._currentReceiver;
+    throw new Error(
+      "An open receiver already exists on this SubscriptionClient. Please close it and try" +
+        " again or use a new SubscriptionClient instance"
+    );
   }
 
   /**
@@ -252,16 +255,16 @@ export class SubscriptionClient implements Client {
   // }
 
   /**
-   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Creates a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Subscription. When no sessionId is given, a random session among the available
    * sessions is used.
-   *
+   * Throws error if an open receiver already exists for given sessionId.
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Subscription.
    *
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
-  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
+  async createSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
     this.throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {

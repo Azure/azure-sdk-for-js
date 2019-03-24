@@ -87,16 +87,16 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_batching(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.getSender().send(testMessage);
+    await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.getSessionReceiver({
+    let receiver = await receiverClient.createSessionReceiver({
       sessionId: "non" + TestMessage.sessionId
     });
     let msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 0, "Unexpected number of messages");
 
     await receiver.close();
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     msgs = await receiver.receiveBatch(1);
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -148,9 +148,9 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_streaming(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.getSender().send(testMessage);
+    await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.getSessionReceiver({
+    let receiver = await receiverClient.createSessionReceiver({
       sessionId: "non" + TestMessage.sessionId
     });
     let receivedMsgs: ServiceBusMessage[] = [];
@@ -162,7 +162,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
     await receiver.close();
 
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     receivedMsgs = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
@@ -243,11 +243,11 @@ describe("SessionReceiver with no sessionId", function(): void {
   ];
 
   async function testComplete_batching(): Promise<void> {
-    const sender = senderClient.getSender();
+    const sender = senderClient.createSender();
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
 
-    let receiver = await receiverClient.getSessionReceiver();
+    let receiver = await receiverClient.createSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -266,7 +266,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     await msgs[0].complete();
     await receiver.close();
 
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     msgs = await receiver.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -336,11 +336,11 @@ describe("Session State", function(): void {
   });
 
   async function testGetSetState(): Promise<void> {
-    const sender = senderClient.getSender();
+    const sender = senderClient.createSender();
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
 
-    let receiver = await receiverClient.getSessionReceiver();
+    let receiver = await receiverClient.createSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -356,7 +356,7 @@ describe("Session State", function(): void {
 
     await receiver.close();
 
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -411,11 +411,11 @@ describe("Second SessionReceiver for same sessionId", function(): void {
   });
 
   async function testSecondSessionReceiverForSameSession(): Promise<void> {
-    const sender = senderClient.getSender();
+    const sender = senderClient.createSender();
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
 
-    const firstReceiver = await receiverClient.getSessionReceiver();
+    const firstReceiver = await receiverClient.createSessionReceiver();
     should.equal(
       firstReceiver.sessionId,
       testMessage.sessionId,
@@ -424,7 +424,7 @@ describe("Second SessionReceiver for same sessionId", function(): void {
 
     let errorWasThrown = false;
     try {
-      const secondReceiver = await receiverClient.getSessionReceiver({
+      const secondReceiver = await receiverClient.createSessionReceiver({
         sessionId: testMessage.sessionId
       });
       if (secondReceiver) {

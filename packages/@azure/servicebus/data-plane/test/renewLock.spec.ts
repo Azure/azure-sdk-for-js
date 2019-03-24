@@ -339,9 +339,9 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
+  await senderClient.createSender().send(testMessage);
 
-  const receiver = receiverClient.getReceiver();
+  const receiver = receiverClient.createReceiver();
   const msgs = await receiver.receiveBatch(1);
 
   // Compute expected initial lock expiry time
@@ -386,9 +386,9 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
+  await senderClient.createSender().send(testMessage);
 
-  const receiver = receiverClient.getReceiver();
+  const receiver = receiverClient.createReceiver();
   const msgs = await receiver.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -421,8 +421,8 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
-  const receiver = receiverClient.getReceiver();
+  await senderClient.createSender().send(testMessage);
+  const receiver = receiverClient.createReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -496,8 +496,8 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
-  const receiver = receiverClient.getReceiver();
+  await senderClient.createSender().send(testMessage);
+  const receiver = receiverClient.createReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -542,7 +542,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    const newReceiver = receiverClient.getReceiver();
+    const newReceiver = receiverClient.createReceiver();
     const unprocessedMsgs = await newReceiver.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }

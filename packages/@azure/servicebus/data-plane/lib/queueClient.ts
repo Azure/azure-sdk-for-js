@@ -128,28 +128,35 @@ export class QueueClient implements Client {
   }
 
   /**
-   * Gets a Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
+   * Throws error if an open sender already exists for this QueueClient.
    */
-  getSender(): Sender {
+  createSender(): Sender {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
     }
-    return this._currentSender;
+    throw new Error(
+      "An open sender already exists on this QueueClient. Please close it and try" +
+        " again or use a new QueueClient instance"
+    );
   }
 
   /**
-   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
-   *
+   * Creates a Receiver to be used for receiving messages in batches or by registering handlers.
+   * Throws error if an open receiver already exists for this QueueClient.
    * @param options Options for creating the receiver.
    */
-  getReceiver(options?: MessageReceiverOptions): Receiver {
+  createReceiver(options?: MessageReceiverOptions): Receiver {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
     }
-    return this._currentReceiver;
+    throw new Error(
+      "An open receiver already exists on this QueueClient. Please close it and try" +
+        " again or use a new QueueClient instance"
+    );
   }
 
   /**
@@ -208,16 +215,16 @@ export class QueueClient implements Client {
   // }
 
   /**
-   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Creates a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Queue. When no sessionId is given, a random session among the available
    * sessions is used.
-   *
+   * Throws error if an open receiver already exists for given sessionId.
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Queue.
    *
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
-  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
+  async createSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
     this.throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {

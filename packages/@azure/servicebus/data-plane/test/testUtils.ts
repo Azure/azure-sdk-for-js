@@ -380,8 +380,8 @@ export async function purge(
       isEmpty = true;
     } else {
       const receiver = sessionId
-        ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
-        : receiverClient.getReceiver();
+        ? await receiverClient.createSessionReceiver({ sessionId: sessionId })
+        : receiverClient.createReceiver();
 
       const msgs = await receiver.receiveBatch(peekedMsgs.length);
       for (let index = 0; index < msgs.length; index++) {

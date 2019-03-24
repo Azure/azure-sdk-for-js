@@ -86,12 +86,12 @@ async function beforeEachTest(
     );
   }
 
-  sender = senderClient.getSender();
+  sender = senderClient.createSender();
   receiver = useSessions
-    ? await receiverClient.getSessionReceiver({
+    ? await receiverClient.createSessionReceiver({
         sessionId: TestMessage.sessionId
       })
-    : receiverClient.getReceiver();
+    : receiverClient.createReceiver();
 }
 
 async function afterEachTest(): Promise<void> {
@@ -341,7 +341,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(

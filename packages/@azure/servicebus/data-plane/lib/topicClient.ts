@@ -105,18 +105,22 @@ export class TopicClient implements Client {
   }
 
   /**
-   * Gets a Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
+   * Throws error if an open sender already exists for this TopicClient.
    *
    * If the Topic has session enabled Subscriptions, then messages sent without the `sessionId`
    * property will go to the dead letter queue of such subscriptions.
    */
-  getSender(): Sender {
+  createSender(): Sender {
     this.throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
     }
-    return this._currentSender;
+    throw new Error(
+      "An open sender already exists on this TopicClient. Please close it and try" +
+        " again or use a new TopicClient instance"
+    );
   }
 
   /**

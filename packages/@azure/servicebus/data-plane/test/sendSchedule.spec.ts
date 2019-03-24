@@ -64,10 +64,10 @@ async function beforeEachTest(
   }
 
   receiver = useSessions
-    ? await receiverClient.getSessionReceiver({
+    ? await receiverClient.createSessionReceiver({
         sessionId: TestMessage.sessionId
       })
-    : receiverClient.getReceiver();
+    : receiverClient.createReceiver();
 }
 
 async function afterEachTest(): Promise<void> {
@@ -81,7 +81,7 @@ describe("Simple Send", function(): void {
 
   async function testSimpleSend(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await senderClient.getSender().send(testMessages);
+    await senderClient.createSender().send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -160,7 +160,7 @@ describe("Schedule single message", function(): void {
   async function testScheduleMessage(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await senderClient.getSender().scheduleMessage(scheduleTime, testMessages);
+    await senderClient.createSender().scheduleMessage(scheduleTime, testMessages);
 
     const msgs = await receiver.receiveBatch(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -270,7 +270,7 @@ describe("Schedule multiple messages", function(): void {
   async function testScheduleMessages(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? messageWithSessions : messages;
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await senderClient.getSender().scheduleMessages(scheduleTime, testMessages);
+    await senderClient.createSender().scheduleMessages(scheduleTime, testMessages);
 
     const msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -381,12 +381,12 @@ describe("Cancel single Scheduled message", function(): void {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
     const sequenceNumber = await senderClient
-      .getSender()
+      .createSender()
       .scheduleMessage(scheduleTime, testMessages);
 
     await delay(2000);
 
-    await senderClient.getSender().cancelScheduledMessage(sequenceNumber);
+    await senderClient.createSender().cancelScheduledMessage(sequenceNumber);
 
     // Wait until we are sure we have passed the schedule time
     await delay(30000);
@@ -466,7 +466,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
   async function testCancelScheduleMessages(useSessions?: boolean): Promise<void> {
     const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
 
-    const sender = senderClient.getSender();
+    const sender = senderClient.createSender();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
     const sequenceNumber1 = await sender.scheduleMessage(scheduleTime, testMessage);
     const sequenceNumber2 = await sender.scheduleMessage(scheduleTime, testMessage);
@@ -551,7 +551,7 @@ describe("Message validations", function(): void {
   async function validationTest(msg: any, expectedErrorMsg: string): Promise<void> {
     let actualErrorMsg = "";
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    const sender = senderClient.getSender();
+    const sender = senderClient.createSender();
     await sender.send(msg).catch((err) => {
       actualErrorMsg = err.message;
     });

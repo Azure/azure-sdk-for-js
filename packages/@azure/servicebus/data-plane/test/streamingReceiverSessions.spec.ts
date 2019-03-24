@@ -72,7 +72,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
-  sender = senderClient.getSender();
+  sender = senderClient.createSender();
 
   if (receiverClient instanceof QueueClient) {
     deadLetterClient = ns.createQueueClient(
@@ -95,7 +95,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
 
-  sessionReceiver = await receiverClient.getSessionReceiver({
+  sessionReceiver = await receiverClient.createSessionReceiver({
     sessionId: TestMessage.sessionId
   });
 
@@ -390,7 +390,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
     }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    sessionReceiver = await receiverClient.getSessionReceiver({
+    sessionReceiver = await receiverClient.createSessionReceiver({
       sessionId: TestMessage.sessionId
     });
     const receivedMsgs = await sessionReceiver.receiveBatch(1);
@@ -638,7 +638,7 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     should.equal(msgCount, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(

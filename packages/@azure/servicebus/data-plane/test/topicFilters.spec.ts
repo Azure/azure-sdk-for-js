@@ -96,7 +96,7 @@ const data = [
 ];
 
 async function sendOrders(): Promise<void> {
-  const sender = topicClient.getSender();
+  const sender = topicClient.createSender();
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
     const message: SendableMessageInfo = {
@@ -121,7 +121,7 @@ async function receiveOrders(
 ): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
-  const receiver = client.getReceiver();
+  const receiver = client.createReceiver();
   receiver.receive(
     (msg: ServiceBusMessage) => {
       return msg.complete().then(() => {

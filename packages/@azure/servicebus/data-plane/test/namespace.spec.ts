@@ -129,7 +129,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
 
@@ -141,7 +141,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
 
@@ -153,7 +153,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -164,7 +164,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
 
@@ -176,7 +176,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(10)
       .catch(testError);
 
@@ -188,7 +188,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(10)
       .catch(testError);
 
@@ -203,7 +203,7 @@ describe("Errors with non existing Namespace", function(): void {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
 
-    client.getReceiver().receive(onMessage, testError);
+    client.createReceiver().receive(onMessage, testError);
 
     await delay(3000);
     await client.close();
@@ -241,7 +241,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when sending data to a non existing queue", async function(): Promise<void> {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -251,7 +251,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when sending data to a non existing topic", async function(): Promise<void> {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -263,7 +263,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -275,7 +275,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -287,7 +287,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(1)
       .catch((err) => testError(err, "some-name"));
 
@@ -299,7 +299,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
@@ -313,7 +313,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
-    client.getReceiver().receive(onMessage, (err) => testError(err, "some-name"));
+    client.createReceiver().receive(onMessage, (err) => testError(err, "some-name"));
 
     await delay(3000);
     await client.close();
@@ -328,7 +328,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
     client
-      .getReceiver()
+      .createReceiver()
       .receive(onMessage, (err) =>
         testError(err, "some-topic-name/Subscriptions/some-subscription-name")
       );
@@ -362,8 +362,8 @@ describe("Test createFromAadTokenCredentials", function(): void {
       ClientType.UnpartitionedQueue
     );
 
-    const sender = clients.senderClient.getSender();
-    const receiver = clients.receiverClient.getReceiver();
+    const sender = clients.senderClient.createSender();
+    const receiver = clients.receiverClient.createReceiver();
     await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
@@ -458,12 +458,12 @@ describe("Errors after close()", function(): void {
       chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     }
 
-    sender = senderClient.getSender();
+    sender = senderClient.createSender();
     receiver = useSessions
-      ? await receiverClient.getSessionReceiver({
+      ? await receiverClient.createSessionReceiver({
           sessionId: TestMessage.sessionId
         })
-      : receiverClient.getReceiver();
+      : receiverClient.createReceiver();
 
     // Normal send/receive
     const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
@@ -558,11 +558,11 @@ describe("Errors after close()", function(): void {
   async function testSenderClient(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
-      senderClient.getSender();
+      senderClient.createSender();
     } catch (err) {
       errorNewSender = err.message;
     }
-    should.equal(errorNewSender, expectedErrorMsg, "Expected error not thrown for getSender()");
+    should.equal(errorNewSender, expectedErrorMsg, "Expected error not thrown for createSender()");
   }
 
   /**
@@ -624,14 +624,14 @@ describe("Errors after close()", function(): void {
     let errorNewReceiver: string = "";
     try {
       useSessions
-        ? await receiverClient.getSessionReceiver({
+        ? await receiverClient.createSessionReceiver({
             sessionId: TestMessage.sessionId
           })
-        : receiverClient.getReceiver();
+        : receiverClient.createReceiver();
     } catch (err) {
       errorNewReceiver = err.message;
     }
-    should.equal(errorNewReceiver, expectedErrorMsg, "Expected error not thrown for getReceiver()");
+    should.equal(errorNewReceiver, expectedErrorMsg, "Expected error not thrown for createReceiver()");
 
     let errorPeek: string = "";
     await receiverClient.peek().catch((err) => {
