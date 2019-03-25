@@ -6,8 +6,11 @@
   "excludePrivate": true,
   "exclude": [
     "lib/generated/**/*",
-    "lib/index.ts",
+    "lib/!(index)*.ts",
     "lib/utils/**/*",
     "lib/utils.ts"
+  ],
+  "src": [
+    "lib/index.ts"
   ]
 }

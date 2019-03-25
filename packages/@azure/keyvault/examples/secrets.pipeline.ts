@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { SecretsClient, Pipeline, RestError } from "../lib";
+import { SecretsClient, Pipeline } from "../lib";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { signingPolicy, exponentialRetryPolicy, deserializationPolicy } from "@azure/ms-rest-js";
+import { signingPolicy, exponentialRetryPolicy, deserializationPolicy, RestError } from ""@azure/ms-rest-js";
 
 async function main(): Promise<void> {
   const clientId = process.env["CLIENT_ID"] || "";
