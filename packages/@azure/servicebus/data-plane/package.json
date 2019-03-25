@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@azure/amqp-common": "^1.0.0-preview.1",
-    "@azure/ms-rest-js": "^1.8.0",
     "@types/long": "^4.0.0",
     "debug": "^3.1.0",
     "is-buffer": "^2.0.3",
