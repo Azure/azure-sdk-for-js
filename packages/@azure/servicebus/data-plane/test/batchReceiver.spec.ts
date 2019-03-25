@@ -751,9 +751,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     const sequenceNumber = deadLetterMsg.sequenceNumber;
     await deadLetterMsg.defer();
 
-    const deferredMsgs = await deadLetterClient
-      .createReceiver()
-      .receiveDeferredMessage(sequenceNumber);
+    const deferredMsgs = await deadletterReciever.receiveDeferredMessage(sequenceNumber);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }
