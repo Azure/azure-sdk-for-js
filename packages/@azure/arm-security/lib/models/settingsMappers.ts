@@ -36,6 +36,9 @@ export {
   SecurityTaskParameters,
   Alert,
   AlertEntity,
-  AlertConfidenceReason
+  AlertConfidenceReason,
+  AdaptiveNetworkHardening,
+  Rule,
+  EffectiveNetworkSecurityGroups
 } from "../models/mappers";
 

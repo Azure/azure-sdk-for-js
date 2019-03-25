@@ -10,13 +10,14 @@
 
 export {
   discriminators,
-  AlertList,
-  Alert,
+  AdaptiveNetworkHardeningsList,
+  AdaptiveNetworkHardening,
   Resource,
   BaseResource,
-  AlertEntity,
-  AlertConfidenceReason,
+  Rule,
+  EffectiveNetworkSecurityGroups,
   CloudError,
+  AdaptiveNetworkHardeningEnforceRequest,
   RegulatoryComplianceStandard,
   RegulatoryComplianceControl,
   RegulatoryComplianceAssessment,
@@ -35,9 +36,9 @@ export {
   InformationProtectionKeyword,
   SecurityTask,
   SecurityTaskParameters,
-  AdaptiveNetworkHardening,
-  Rule,
-  EffectiveNetworkSecurityGroups,
+  Alert,
+  AlertEntity,
+  AlertConfidenceReason,
   Setting,
   DataExportSetting
 } from "../models/mappers";

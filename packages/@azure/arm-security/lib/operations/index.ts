@@ -28,3 +28,4 @@ export * from "./jitNetworkAccessPolicies";
 export * from "./externalSecuritySolutions";
 export * from "./topology";
 export * from "./allowedConnections";
+export * from "./adaptiveNetworkHardenings";

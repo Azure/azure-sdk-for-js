@@ -2049,6 +2049,159 @@ export const AllowedConnectionsResource: msRest.CompositeMapper = {
   }
 };
 
+export const Rule: msRest.CompositeMapper = {
+  serializedName: "Rule",
+  type: {
+    name: "Composite",
+    className: "Rule",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      direction: {
+        serializedName: "direction",
+        type: {
+          name: "String"
+        }
+      },
+      destinationPort: {
+        serializedName: "destinationPort",
+        type: {
+          name: "Number"
+        }
+      },
+      protocols: {
+        serializedName: "protocols",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      ipAddresses: {
+        serializedName: "ipAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EffectiveNetworkSecurityGroups: msRest.CompositeMapper = {
+  serializedName: "EffectiveNetworkSecurityGroups",
+  type: {
+    name: "Composite",
+    className: "EffectiveNetworkSecurityGroups",
+    modelProperties: {
+      networkInterface: {
+        serializedName: "networkInterface",
+        type: {
+          name: "String"
+        }
+      },
+      networkSecurityGroups: {
+        serializedName: "networkSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AdaptiveNetworkHardening: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkHardening",
+  type: {
+    name: "Composite",
+    className: "AdaptiveNetworkHardening",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      rules: {
+        serializedName: "properties.rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Rule"
+            }
+          }
+        }
+      },
+      rulesCalculationTime: {
+        serializedName: "properties.rulesCalculationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      effectiveNetworkSecurityGroups: {
+        serializedName: "properties.effectiveNetworkSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EffectiveNetworkSecurityGroups"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AdaptiveNetworkHardeningEnforceRequest: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkHardeningEnforceRequest",
+  type: {
+    name: "Composite",
+    className: "AdaptiveNetworkHardeningEnforceRequest",
+    modelProperties: {
+      rules: {
+        required: true,
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Rule"
+            }
+          }
+        }
+      },
+      networkSecurityGroups: {
+        required: true,
+        serializedName: "networkSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RegulatoryComplianceStandardList: msRest.CompositeMapper = {
   serializedName: "RegulatoryComplianceStandardList",
   type: {
@@ -2571,6 +2724,34 @@ export const AllowedConnectionsList: msRest.CompositeMapper = {
       },
       nextLink: {
         readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AdaptiveNetworkHardeningsList: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkHardeningsList",
+  type: {
+    name: "Composite",
+    className: "AdaptiveNetworkHardeningsList",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdaptiveNetworkHardening"
+            }
+          }
+        }
+      },
+      nextLink: {
         serializedName: "nextLink",
         type: {
           name: "String"

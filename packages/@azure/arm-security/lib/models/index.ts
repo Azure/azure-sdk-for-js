@@ -1691,6 +1691,103 @@ export interface AllowedConnectionsResource {
 
 /**
  * @interface
+ * An interface representing Rule.
+ * Describes remote addresses that is recommended to communicate with the Azure
+ * resource on some (Protocol, Port, Direction). All other remote addresses are
+ * recommended to be blocked
+ *
+ */
+export interface Rule {
+  /**
+   * @member {string} [name] The name of the rule
+   */
+  name?: string;
+  /**
+   * @member {Direction} [direction] The rule's direction. Possible values
+   * include: 'Inbound', 'Outbound'
+   */
+  direction?: Direction;
+  /**
+   * @member {number} [destinationPort] The rule's destination port
+   */
+  destinationPort?: number;
+  /**
+   * @member {TransportProtocol[]} [protocols] The rule's transport protocols
+   */
+  protocols?: TransportProtocol[];
+  /**
+   * @member {string[]} [ipAddresses] The remote IP addresses that should be
+   * able to communicate with the Azure resource on the rule's destination port
+   * and protocol
+   */
+  ipAddresses?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing EffectiveNetworkSecurityGroups.
+ * Describes the Network Security Groups effective on a network interface
+ *
+ */
+export interface EffectiveNetworkSecurityGroups {
+  /**
+   * @member {string} [networkInterface] The Azure resource ID of the network
+   * interface
+   */
+  networkInterface?: string;
+  /**
+   * @member {string[]} [networkSecurityGroups] The Network Security Groups
+   * effective on the network interface
+   */
+  networkSecurityGroups?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing AdaptiveNetworkHardening.
+ * The resource whose properties describes the Adaptive Network Hardening
+ * settings for some Azure resource
+ *
+ * @extends Resource
+ */
+export interface AdaptiveNetworkHardening extends Resource {
+  /**
+   * @member {Rule[]} [rules] The security rules which are recommended to be
+   * effective on the VM
+   */
+  rules?: Rule[];
+  /**
+   * @member {Date} [rulesCalculationTime] The UTC time on which the rules were
+   * calculated
+   */
+  rulesCalculationTime?: Date;
+  /**
+   * @member {EffectiveNetworkSecurityGroups[]}
+   * [effectiveNetworkSecurityGroups] The Network Security Groups effective on
+   * the network interfaces of the protected resource
+   */
+  effectiveNetworkSecurityGroups?: EffectiveNetworkSecurityGroups[];
+}
+
+/**
+ * @interface
+ * An interface representing AdaptiveNetworkHardeningEnforceRequest.
+ */
+export interface AdaptiveNetworkHardeningEnforceRequest {
+  /**
+   * @member {Rule[]} rules The rules to enforce
+   */
+  rules: Rule[];
+  /**
+   * @member {string[]} networkSecurityGroups The Azure resource IDs of the
+   * effective network security groups that will be updated with the created
+   * security rules from the Adaptive Network Hardening rules
+   */
+  networkSecurityGroups: string[];
+}
+
+/**
+ * @interface
  * An interface representing RegulatoryComplianceStandardsListOptionalParams.
  * Optional Parameters.
  *
@@ -2155,6 +2252,20 @@ export interface AllowedConnectionsList extends Array<AllowedConnectionsResource
 }
 
 /**
+ * @interface
+ * An interface representing the AdaptiveNetworkHardeningsList.
+ * Response for ListAdaptiveNetworkHardenings API service call
+ *
+ * @extends Array<AdaptiveNetworkHardening>
+ */
+export interface AdaptiveNetworkHardeningsList extends Array<AdaptiveNetworkHardening> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results
+   */
+  nextLink?: string;
+}
+
+/**
  * Defines values for State.
  * Possible values include: 'Passed', 'Failed', 'Skipped', 'Unsupported'
  * @readonly
@@ -2257,6 +2368,22 @@ export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
  * @enum {string}
  */
 export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
+
+/**
+ * Defines values for Direction.
+ * Possible values include: 'Inbound', 'Outbound'
+ * @readonly
+ * @enum {string}
+ */
+export type Direction = 'Inbound' | 'Outbound';
+
+/**
+ * Defines values for TransportProtocol.
+ * Possible values include: 'TCP', 'UDP'
+ * @readonly
+ * @enum {string}
+ */
+export type TransportProtocol = 'TCP' | 'UDP';
 
 /**
  * Defines values for ConnectionType.
@@ -4094,5 +4221,62 @@ export type AllowedConnectionsListByHomeRegionNextResponse = AllowedConnectionsL
        * The response body as parsed JSON or XML
        */
       parsedBody: AllowedConnectionsList;
+    };
+};
+
+/**
+ * Contains response data for the listByExtendedResource operation.
+ */
+export type AdaptiveNetworkHardeningsListByExtendedResourceResponse = AdaptiveNetworkHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdaptiveNetworkHardeningsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AdaptiveNetworkHardeningsGetResponse = AdaptiveNetworkHardening & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdaptiveNetworkHardening;
+    };
+};
+
+/**
+ * Contains response data for the listByExtendedResourceNext operation.
+ */
+export type AdaptiveNetworkHardeningsListByExtendedResourceNextResponse = AdaptiveNetworkHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdaptiveNetworkHardeningsList;
     };
 };

@@ -37,6 +37,7 @@ class SecurityCenter extends SecurityCenterContext {
   externalSecuritySolutions: operations.ExternalSecuritySolutions;
   topology: operations.Topology;
   allowedConnections: operations.AllowedConnections;
+  adaptiveNetworkHardenings: operations.AdaptiveNetworkHardenings;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
@@ -68,6 +69,7 @@ class SecurityCenter extends SecurityCenterContext {
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
     this.topology = new operations.Topology(this);
     this.allowedConnections = new operations.AllowedConnections(this);
+    this.adaptiveNetworkHardenings = new operations.AdaptiveNetworkHardenings(this);
   }
 }
 

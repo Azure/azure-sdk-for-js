@@ -34,6 +34,9 @@ export {
   Alert,
   AlertEntity,
   AlertConfidenceReason,
+  AdaptiveNetworkHardening,
+  Rule,
+  EffectiveNetworkSecurityGroups,
   Setting,
   DataExportSetting
 } from "../models/mappers";
