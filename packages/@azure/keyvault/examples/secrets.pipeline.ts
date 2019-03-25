@@ -3,7 +3,7 @@
 
 import { SecretsClient, Pipeline } from "../lib";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { signingPolicy, exponentialRetryPolicy, deserializationPolicy, RestError } from ""@azure/ms-rest-js";
+import { signingPolicy, exponentialRetryPolicy, deserializationPolicy, RestError } from "@azure/ms-rest-js";
 
 async function main(): Promise<void> {
   const clientId = process.env["CLIENT_ID"] || "";
