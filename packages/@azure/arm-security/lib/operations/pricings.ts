@@ -120,7 +120,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -144,7 +144,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.pricingName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -168,7 +168,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.pricingName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

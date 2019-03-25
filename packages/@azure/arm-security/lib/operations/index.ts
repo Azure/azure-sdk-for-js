@@ -8,6 +8,9 @@
  * regenerated.
  */
 
+export * from "./regulatoryComplianceStandards";
+export * from "./regulatoryComplianceControls";
+export * from "./regulatoryComplianceAssessments";
 export * from "./pricings";
 export * from "./securityContacts";
 export * from "./workspaceSettings";

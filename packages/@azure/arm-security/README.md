@@ -15,7 +15,7 @@ npm install @azure/arm-security
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list pricings as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list regulatoryComplianceStandards as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -34,7 +34,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new SecurityCenter(creds, subscriptionId);
-  client.pricings.list().then((result) => {
+  const resourceGroupName = "testresourceGroupName";
+  const filter = "testfilter";
+  client.regulatoryComplianceStandards.list(resourceGroupName, filter).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list pricings as an example written in JavaScript.
+#### browser - Authentication, client creation and list regulatoryComplianceStandards as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -77,7 +79,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmSecurity.SecurityCenter(res.creds, subscriptionId);
-        client.pricings.list().then((result) => {
+        const resourceGroupName = "testresourceGroupName";
+        const filter = "testfilter";
+        client.regulatoryComplianceStandards.list(resourceGroupName, filter).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

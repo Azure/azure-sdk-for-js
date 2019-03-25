@@ -45,6 +45,179 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
+export const RegulatoryComplianceStandard: msRest.CompositeMapper = {
+  serializedName: "RegulatoryComplianceStandard",
+  type: {
+    name: "Composite",
+    className: "RegulatoryComplianceStandard",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
+      passedControls: {
+        readOnly: true,
+        serializedName: "properties.passedControls",
+        type: {
+          name: "Number"
+        }
+      },
+      failedControls: {
+        readOnly: true,
+        serializedName: "properties.failedControls",
+        type: {
+          name: "Number"
+        }
+      },
+      skippedControls: {
+        readOnly: true,
+        serializedName: "properties.skippedControls",
+        type: {
+          name: "Number"
+        }
+      },
+      unsupportedControls: {
+        readOnly: true,
+        serializedName: "properties.unsupportedControls",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegulatoryComplianceControl: msRest.CompositeMapper = {
+  serializedName: "RegulatoryComplianceControl",
+  type: {
+    name: "Composite",
+    className: "RegulatoryComplianceControl",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      description: {
+        readOnly: true,
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
+      passedAssessments: {
+        readOnly: true,
+        serializedName: "properties.passedAssessments",
+        type: {
+          name: "Number"
+        }
+      },
+      failedAssessments: {
+        readOnly: true,
+        serializedName: "properties.failedAssessments",
+        type: {
+          name: "Number"
+        }
+      },
+      skippedAssessments: {
+        readOnly: true,
+        serializedName: "properties.skippedAssessments",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RegulatoryComplianceAssessment: msRest.CompositeMapper = {
+  serializedName: "RegulatoryComplianceAssessment",
+  type: {
+    name: "Composite",
+    className: "RegulatoryComplianceAssessment",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      description: {
+        readOnly: true,
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      assessmentType: {
+        readOnly: true,
+        serializedName: "properties.assessmentType",
+        type: {
+          name: "String"
+        }
+      },
+      assessmentDetailsLink: {
+        readOnly: true,
+        serializedName: "properties.assessmentDetailsLink",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
+      passedResources: {
+        readOnly: true,
+        serializedName: "properties.passedResources",
+        type: {
+          name: "Number"
+        }
+      },
+      failedResources: {
+        readOnly: true,
+        serializedName: "properties.failedResources",
+        type: {
+          name: "Number"
+        }
+      },
+      skippedResources: {
+        readOnly: true,
+        serializedName: "properties.skippedResources",
+        type: {
+          name: "Number"
+        }
+      },
+      unsupportedResources: {
+        readOnly: true,
+        serializedName: "properties.unsupportedResources",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AscLocation: msRest.CompositeMapper = {
+  serializedName: "AscLocation",
+  type: {
+    name: "Composite",
+    className: "AscLocation",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const Pricing: msRest.CompositeMapper = {
   serializedName: "Pricing",
   type: {
@@ -87,23 +260,6 @@ export const PricingList: msRest.CompositeMapper = {
               className: "Pricing"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const AscLocation: msRest.CompositeMapper = {
-  serializedName: "AscLocation",
-  type: {
-    name: "Composite",
-    className: "AscLocation",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Object"
         }
       }
     }
@@ -2132,6 +2288,96 @@ export const AllowedConnectionsResource: msRest.CompositeMapper = {
               className: "ConnectableResource"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const RegulatoryComplianceStandardList: msRest.CompositeMapper = {
+  serializedName: "RegulatoryComplianceStandardList",
+  type: {
+    name: "Composite",
+    className: "RegulatoryComplianceStandardList",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RegulatoryComplianceStandard"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegulatoryComplianceControlList: msRest.CompositeMapper = {
+  serializedName: "RegulatoryComplianceControlList",
+  type: {
+    name: "Composite",
+    className: "RegulatoryComplianceControlList",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RegulatoryComplianceControl"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegulatoryComplianceAssessmentList: msRest.CompositeMapper = {
+  serializedName: "RegulatoryComplianceAssessmentList",
+  type: {
+    name: "Composite",
+    className: "RegulatoryComplianceAssessmentList",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RegulatoryComplianceAssessment"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

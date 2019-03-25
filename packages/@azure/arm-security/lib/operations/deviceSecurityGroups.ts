@@ -201,7 +201,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -225,7 +225,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.deviceSecurityGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -249,7 +249,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.deviceSecurityGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -283,7 +283,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.deviceSecurityGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

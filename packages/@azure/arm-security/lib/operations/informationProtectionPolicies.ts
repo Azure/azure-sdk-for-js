@@ -181,7 +181,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.informationProtectionPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -205,7 +205,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.informationProtectionPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -231,7 +231,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.scope
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

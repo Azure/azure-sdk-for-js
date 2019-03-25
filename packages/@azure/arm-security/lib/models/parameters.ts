@@ -46,7 +46,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-06-01',
+    defaultValue: '2019-01-01-preview',
     type: {
       name: "String"
     }
@@ -58,7 +58,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-08-01-preview',
+    defaultValue: '2018-06-01',
     type: {
       name: "String"
     }
@@ -70,13 +70,25 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2015-06-01-preview',
+    defaultValue: '2017-08-01-preview',
     type: {
       name: "String"
     }
   }
 };
 export const apiVersion3: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2015-06-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion4: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -220,6 +232,36 @@ export const pricingName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "pricingName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const regulatoryComplianceAssessmentName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceAssessmentName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceAssessmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const regulatoryComplianceControlName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceControlName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceControlName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const regulatoryComplianceStandardName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceStandardName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceStandardName",
     type: {
       name: "String"
     }
