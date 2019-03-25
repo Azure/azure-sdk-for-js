@@ -9,6 +9,7 @@
  */
 
 export {
+  MetaDataContract,
   NameAndUserDataContract,
   APIError,
   ErrorModel,
