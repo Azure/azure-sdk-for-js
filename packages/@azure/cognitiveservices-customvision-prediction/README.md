@@ -15,7 +15,7 @@ npm install @azure/cognitiveservices-customvision-prediction
 
 ### How to use
 
-#### nodejs - Authentication, client creation and predictImageUrl  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and classifyImageUrl  as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -33,13 +33,13 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new PredictionAPIClient(creds, subscriptionId);
-  const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
+  const projectId = "ec7b1657-199d-4d8a-bbb2-89a11a42e02a";
+  const publishedName = "testpublishedName";
   const imageUrl: PredictionAPIModels.ImageUrl = {
     url: "testurl"
   };
-  const iterationId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
   const application = "testapplication";
-  client.predictImageUrl(projectId, imageUrl, iterationId, application).then((result) => {
+  client.classifyImageUrl(projectId, publishedName, imageUrl, application).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -48,7 +48,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and predictImageUrl  as an example written in JavaScript.
+#### browser - Authentication, client creation and classifyImageUrl  as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -82,12 +82,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.CognitiveservicesCustomvisionPrediction.PredictionAPIClient(res.creds, subscriptionId);
         const projectId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
+        const publishedName = "testpublishedName";
         const imageUrl = {
           url: "testurl"
         };
-        const iterationId = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
         const application = "testapplication";
-        client.predictImageUrl(projectId, imageUrl, iterationId, application).then((result) => {
+        client.classifyImageUrl(projectId, publishedName, imageUrl, application).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -104,6 +104,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fcognitiveservices-customvision-prediction%2FREADME.png)

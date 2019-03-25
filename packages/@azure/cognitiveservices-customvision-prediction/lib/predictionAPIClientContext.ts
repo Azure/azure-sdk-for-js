@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-customvision-prediction";
-const packageVersion = "2.0.1";
+const packageVersion = "3.0.0";
 
 export class PredictionAPIClientContext extends msRest.ServiceClient {
   apiKey: string;
@@ -19,32 +19,32 @@ export class PredictionAPIClientContext extends msRest.ServiceClient {
 
   /**
    * Initializes a new instance of the PredictionAPIClientContext class.
-   * @param apiKey
-   * @param endpoint Supported Cognitive Services endpoints
+   * @param apiKey API key.
+   * @param endpoint Supported Cognitive Services endpoints.
    * @param [options] The parameter options
    */
   constructor(apiKey: string, endpoint: string, options?: msRest.ServiceClientOptions) {
-    if (apiKey === null || apiKey === undefined) {
-      throw new Error('\'apiKey\' cannot be null.');
+    if (apiKey == undefined) {
+      throw new Error("'apiKey' cannot be null.");
     }
-    if (endpoint === null || endpoint === undefined) {
-      throw new Error('\'endpoint\' cannot be null.');
+    if (endpoint == undefined) {
+      throw new Error("'endpoint' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(undefined, options);
 
-    this.baseUri = "{Endpoint}";
+    this.baseUri = "{Endpoint}/customvision/v3.0/prediction";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiKey = apiKey;
     this.endpoint = endpoint;
-
   }
 }
