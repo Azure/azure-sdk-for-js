@@ -26,6 +26,7 @@ class SecurityCenter extends SecurityCenterContext {
   autoProvisioningSettings: operations.AutoProvisioningSettings;
   compliances: operations.Compliances;
   advancedThreatProtection: operations.AdvancedThreatProtection;
+  deviceSecurityGroups: operations.DeviceSecurityGroups;
   settings: operations.Settings;
   informationProtectionPolicies: operations.InformationProtectionPolicies;
   operations: operations.Operations;
@@ -58,6 +59,7 @@ class SecurityCenter extends SecurityCenterContext {
     this.autoProvisioningSettings = new operations.AutoProvisioningSettings(this);
     this.compliances = new operations.Compliances(this);
     this.advancedThreatProtection = new operations.AdvancedThreatProtection(this);
+    this.deviceSecurityGroups = new operations.DeviceSecurityGroups(this);
     this.settings = new operations.Settings(this);
     this.informationProtectionPolicies = new operations.InformationProtectionPolicies(this);
     this.operations = new operations.Operations(this);
