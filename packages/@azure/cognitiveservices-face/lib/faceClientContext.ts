@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-face";
-const packageVersion = "0.1.0";
+const packageVersion = "2.2.0";
 
 export class FaceClientContext extends msRest.ServiceClient {
   endpoint: string;

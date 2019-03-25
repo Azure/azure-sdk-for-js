@@ -27,7 +27,32 @@ export class PersonGroupOperations {
   }
 
   /**
-   * Create a new person group with specified personGroupId, name and user-provided userData.
+   * Create a new person group with specified personGroupId, name, user-provided userData and
+   * recognitionModel.
+   * <br /> A person group is the container of the uploaded person data, including face images and
+   * face recognition features.
+   * <br /> After creation, use [PersonGroup Person -
+   * Create](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523c) to add
+   * persons into the group, and then call [PersonGroup -
+   * Train](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395249) to get this
+   * group ready for [Face -
+   * Identify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239).
+   * <br /> The person's face, image, and userData will be stored on server until [PersonGroup Person
+   * - Delete](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523d) or
+   * [PersonGroup -
+   * Delete](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395245) is called.
+   * <br />
+   * * Free-tier subscription quota: 1,000 person groups. Each holds up to 1,000 persons.
+   * * S0-tier subscription quota: 1,000,000 person groups. Each holds up to 10,000 persons.
+   * * to handle larger scale face identification problem, please consider using
+   * [LargePersonGroup](/docs/services/563879b61984550e40cbbe8d/operations/599acdee6ac60f11b48b5a9d).
+   * <br />
+   * 'recognitionModel' should be specified to associate with this person group. The default value
+   * for 'recognitionModel' is 'recognition_01', if the latest model needed, please explicitly
+   * specify the model you need in this parameter. New faces that are added to an existing person
+   * group will use the recognition model that's already associated with the collection. Existing
+   * face features in a person group can't be updated to features extracted by another version of
+   * recognition model.
    * @param personGroupId Id referencing a particular person group.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -84,12 +109,14 @@ export class PersonGroupOperations {
   }
 
   /**
-   * Retrieve the information of a person group, including its name and userData.
+   * Retrieve person group name, userData and recognitionModel. To get person information under this
+   * personGroup, use [PersonGroup Person -
+   * List](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395241).
    * @param personGroupId Id referencing a particular person group.
    * @param [options] The optional parameters
    * @returns Promise<Models.PersonGroupGetResponse>
    */
-  get(personGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PersonGroupGetResponse>;
+  get(personGroupId: string, options?: Models.PersonGroupGetOptionalParams): Promise<Models.PersonGroupGetResponse>;
   /**
    * @param personGroupId Id referencing a particular person group.
    * @param callback The callback
@@ -100,8 +127,8 @@ export class PersonGroupOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PersonGroup>): void;
-  get(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PersonGroup>, callback?: msRest.ServiceCallback<Models.PersonGroup>): Promise<Models.PersonGroupGetResponse> {
+  get(personGroupId: string, options: Models.PersonGroupGetOptionalParams, callback: msRest.ServiceCallback<Models.PersonGroup>): void;
+  get(personGroupId: string, options?: Models.PersonGroupGetOptionalParams | msRest.ServiceCallback<Models.PersonGroup>, callback?: msRest.ServiceCallback<Models.PersonGroup>): Promise<Models.PersonGroupGetResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
@@ -169,7 +196,19 @@ export class PersonGroupOperations {
   }
 
   /**
-   * List person groups and their information.
+   * List person groups’s personGroupId, name, userData and recognitionModel.<br />
+   * * Person groups are stored in alphabetical order of personGroupId.
+   * * "start" parameter (string, optional) is a user-provided personGroupId value that returned
+   * entries have larger ids by string comparison. "start" set to empty to indicate return from the
+   * first item.
+   * * "top" parameter (int, optional) specifies the number of entries to return. A maximal of 1000
+   * entries can be returned in one call. To fetch more, you can specify "start" with the last
+   * retuned entry’s Id of the current call.
+   * <br />
+   * For example, total 5 person groups: "group1", ..., "group5".
+   * <br /> "start=&top=" will return all 5 groups.
+   * <br /> "start=&top=2" will return "group1", "group2".
+   * <br /> "start=group2&top=3" will return "group3", "group4", "group5".
    * @param [options] The optional parameters
    * @returns Promise<Models.PersonGroupListResponse>
    */
@@ -239,10 +278,14 @@ const createOperationSpec: msRest.OperationSpec = {
       userData: [
         "options",
         "userData"
+      ],
+      recognitionModel: [
+        "options",
+        "recognitionModel"
       ]
     },
     mapper: {
-      ...Mappers.NameAndUserDataContract,
+      ...Mappers.MetaDataContract,
       required: true
     }
   },
@@ -277,6 +320,9 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.personGroupId
+  ],
+  queryParameters: [
+    Parameters.returnRecognitionModel
   ],
   responses: {
     200: {
@@ -347,7 +393,8 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.start1,
-    Parameters.top1
+    Parameters.top1,
+    Parameters.returnRecognitionModel
   ],
   responses: {
     200: {

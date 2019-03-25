@@ -15,3 +15,4 @@ export * from "./faceListOperations";
 export * from "./largePersonGroupPerson";
 export * from "./largePersonGroupOperations";
 export * from "./largeFaceListOperations";
+export * from "./snapshotOperations";
