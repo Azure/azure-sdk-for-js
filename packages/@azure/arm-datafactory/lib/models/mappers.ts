@@ -13751,6 +13751,61 @@ export const ControlActivity: msRest.CompositeMapper = {
   }
 };
 
+export const WebHookActivity: msRest.CompositeMapper = {
+  serializedName: "WebHook",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    uberParent: "Activity",
+    className: "WebHookActivity",
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      method: {
+        required: true,
+        isConstant: true,
+        serializedName: "typeProperties.method",
+        defaultValue: 'POST',
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        required: true,
+        serializedName: "typeProperties.url",
+        type: {
+          name: "Object"
+        }
+      },
+      timeout: {
+        serializedName: "typeProperties.timeout",
+        type: {
+          name: "Object"
+        }
+      },
+      headers: {
+        serializedName: "typeProperties.headers",
+        type: {
+          name: "Object"
+        }
+      },
+      body: {
+        serializedName: "typeProperties.body",
+        type: {
+          name: "Object"
+        }
+      },
+      authentication: {
+        serializedName: "typeProperties.authentication",
+        type: {
+          name: "Composite",
+          className: "WebActivityAuthentication"
+        }
+      }
+    },
+    additionalProperties: Activity.type.additionalProperties
+  }
+};
+
 export const AppendVariableActivity: msRest.CompositeMapper = {
   serializedName: "AppendVariable",
   type: {
@@ -15762,6 +15817,7 @@ export const discriminators = {
   'CopySink' : CopySink,
   'Activity.Copy' : CopyActivity,
   'Activity.Execution' : ExecutionActivity,
+  'Activity.WebHook' : WebHookActivity,
   'Activity.AppendVariable' : AppendVariableActivity,
   'Activity.SetVariable' : SetVariableActivity,
   'Activity.Filter' : FilterActivity,

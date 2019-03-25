@@ -283,6 +283,7 @@ export {
   CopyTranslator,
   StagingSettings,
   RedirectIncompatibleRowSettings,
+  WebHookActivity,
   AppendVariableActivity,
   SetVariableActivity,
   FilterActivity,
