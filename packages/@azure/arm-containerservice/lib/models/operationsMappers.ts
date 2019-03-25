@@ -9,6 +9,7 @@
  */
 
 export {
+  discriminators,
   OperationListResult,
   OperationValue,
   CloudError
