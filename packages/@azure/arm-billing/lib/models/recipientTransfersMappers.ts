@@ -9,12 +9,13 @@
  */
 
 export {
-  InitiateTransferRequest,
-  TransferDetails,
+  AcceptTransferRequest,
+  ProductDetails,
+  RecipientTransferDetails,
   DetailedTransferStatus,
   ErrorModel,
   ErrorResponse,
   ErrorDetails,
-  TransferDetailsListResult
+  RecipientTransferDetailsListResult
 } from "../models/mappers";
 

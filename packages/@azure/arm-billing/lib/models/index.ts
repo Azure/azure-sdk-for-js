@@ -2170,12 +2170,12 @@ export interface BillingManagementClientUpdateAutoRenewForInvoiceSectionOptional
 
 /**
  * @interface
- * An interface representing TransferAcceptOptionalParams.
+ * An interface representing RecipientTransfersAcceptOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface TransferAcceptOptionalParams extends msRest.RequestOptionsBase {
+export interface RecipientTransfersAcceptOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {ProductDetails[]} [productDetails] Request parameters to accept
    * transfer.
@@ -3414,7 +3414,7 @@ export type BillingPropertyGetResponse = BillingProperty & {
 /**
  * Contains response data for the initiate operation.
  */
-export type TransferInitiateResponse = TransferDetails & {
+export type TransfersInitiateResponse = TransferDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -3433,7 +3433,7 @@ export type TransferInitiateResponse = TransferDetails & {
 /**
  * Contains response data for the get operation.
  */
-export type TransferGetResponse = TransferDetails & {
+export type TransfersGetResponse = TransferDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -3452,7 +3452,7 @@ export type TransferGetResponse = TransferDetails & {
 /**
  * Contains response data for the cancel operation.
  */
-export type TransferCancelResponse = TransferDetails & {
+export type TransfersCancelResponse = TransferDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -3465,44 +3465,6 @@ export type TransferCancelResponse = TransferDetails & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TransferDetails;
-    };
-};
-
-/**
- * Contains response data for the accept operation.
- */
-export type TransferAcceptResponse = RecipientTransferDetails & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecipientTransferDetails;
-    };
-};
-
-/**
- * Contains response data for the decline operation.
- */
-export type TransferDeclineResponse = RecipientTransferDetails & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecipientTransferDetails;
     };
 };
 
@@ -3545,9 +3507,47 @@ export type TransfersListNextResponse = TransferDetailsListResult & {
 };
 
 /**
+ * Contains response data for the accept operation.
+ */
+export type RecipientTransfersAcceptResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the decline operation.
+ */
+export type RecipientTransfersDeclineResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
-export type RecipientTransferGetResponse = RecipientTransferDetails & {
+export type RecipientTransfersGetResponse = RecipientTransferDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -3566,7 +3566,7 @@ export type RecipientTransferGetResponse = RecipientTransferDetails & {
 /**
  * Contains response data for the list operation.
  */
-export type RecipientTransferListResponse = RecipientTransferDetailsListResult & {
+export type RecipientTransfersListResponse = RecipientTransferDetailsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -3585,7 +3585,7 @@ export type RecipientTransferListResponse = RecipientTransferDetailsListResult &
 /**
  * Contains response data for the listNext operation.
  */
-export type RecipientTransferListNextResponse = RecipientTransferDetailsListResult & {
+export type RecipientTransfersListNextResponse = RecipientTransferDetailsListResult & {
   /**
    * The underlying HTTP response.
    */

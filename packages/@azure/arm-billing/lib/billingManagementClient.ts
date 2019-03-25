@@ -45,9 +45,8 @@ class BillingManagementClient extends BillingManagementClientContext {
   transactionsByBillingAccount: operations.TransactionsByBillingAccount;
   policy: operations.PolicyOperations;
   billingProperty: operations.BillingPropertyOperations;
-  transfer: operations.Transfer;
   transfers: operations.Transfers;
-  recipientTransfer: operations.RecipientTransfer;
+  recipientTransfers: operations.RecipientTransfers;
   operations: operations.Operations;
   billingAccountBillingPermissions: operations.BillingAccountBillingPermissions;
   invoiceSectionsBillingPermissions: operations.InvoiceSectionsBillingPermissions;
@@ -94,9 +93,8 @@ class BillingManagementClient extends BillingManagementClientContext {
     this.transactionsByBillingAccount = new operations.TransactionsByBillingAccount(this);
     this.policy = new operations.PolicyOperations(this);
     this.billingProperty = new operations.BillingPropertyOperations(this);
-    this.transfer = new operations.Transfer(this);
     this.transfers = new operations.Transfers(this);
-    this.recipientTransfer = new operations.RecipientTransfer(this);
+    this.recipientTransfers = new operations.RecipientTransfers(this);
     this.operations = new operations.Operations(this);
     this.billingAccountBillingPermissions = new operations.BillingAccountBillingPermissions(this);
     this.invoiceSectionsBillingPermissions = new operations.InvoiceSectionsBillingPermissions(this);
