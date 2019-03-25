@@ -89,6 +89,11 @@ export interface FrontDoor extends Resource {
    */
   frontendEndpoints?: FrontendEndpoint[];
   /**
+   * @member {BackendPoolsSettings} [backendPoolsSettings] Settings for all
+   * backendPools
+   */
+  backendPoolsSettings?: BackendPoolsSettings;
+  /**
    * @member {FrontDoorEnabledState} [enabledState] Operational status of the
    * Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'.
    * Possible values include: 'Enabled', 'Disabled'
@@ -153,32 +158,16 @@ export interface RoutingRule extends SubResource {
    */
   patternsToMatch?: string[];
   /**
-   * @member {string} [customForwardingPath] A custom path used to rewrite
-   * resource paths matched by this rule. Leave empty to use incoming path.
-   */
-  customForwardingPath?: string;
-  /**
-   * @member {FrontDoorForwardingProtocol} [forwardingProtocol] Protocol this
-   * rule will use when forwarding traffic to backends. Possible values
-   * include: 'HttpOnly', 'HttpsOnly', 'MatchRequest'
-   */
-  forwardingProtocol?: FrontDoorForwardingProtocol;
-  /**
-   * @member {CacheConfiguration} [cacheConfiguration] The caching
-   * configuration associated with this rule.
-   */
-  cacheConfiguration?: CacheConfiguration;
-  /**
-   * @member {SubResource} [backendPool] A reference to the BackendPool which
-   * this rule routes to.
-   */
-  backendPool?: SubResource;
-  /**
-   * @member {FrontDoorEnabledState} [enabledState] Whether to enable use of
+   * @member {RoutingRuleEnabledState} [enabledState] Whether to enable use of
    * this rule. Permitted values are 'Enabled' or 'Disabled'. Possible values
    * include: 'Enabled', 'Disabled'
    */
-  enabledState?: FrontDoorEnabledState;
+  enabledState?: RoutingRuleEnabledState;
+  /**
+   * @member {RouteConfigurationUnion} [routeConfiguration] A reference to the
+   * routing configuration.
+   */
+  routeConfiguration?: RouteConfigurationUnion;
   /**
    * @member {FrontDoorResourceState} [resourceState] Resource status. Possible
    * values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
@@ -453,6 +442,22 @@ export interface FrontendEndpoint extends SubResource {
 
 /**
  * @interface
+ * An interface representing BackendPoolsSettings.
+ * Settings that apply to all backend pools.
+ *
+ */
+export interface BackendPoolsSettings {
+  /**
+   * @member {EnforceCertificateNameCheckEnabledState}
+   * [enforceCertificateNameCheck] Whether to enforce certificate name check on
+   * HTTPS requests to all backend pools. No effect on non-HTTPS requests.
+   * Possible values include: 'Enabled', 'Disabled'. Default value: 'Enabled' .
+   */
+  enforceCertificateNameCheck?: EnforceCertificateNameCheckEnabledState;
+}
+
+/**
+ * @interface
  * An interface representing FrontDoorUpdateParameters.
  * The properties needed to update a Front Door
  *
@@ -488,6 +493,11 @@ export interface FrontDoorUpdateParameters {
    */
   frontendEndpoints?: FrontendEndpoint[];
   /**
+   * @member {BackendPoolsSettings} [backendPoolsSettings] Settings for all
+   * backendPools
+   */
+  backendPoolsSettings?: BackendPoolsSettings;
+  /**
    * @member {FrontDoorEnabledState} [enabledState] Operational status of the
    * Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'.
    * Possible values include: 'Enabled', 'Disabled'
@@ -507,6 +517,58 @@ export interface PurgeParameters {
    * describe a file path or a wild card directory.
    */
   contentPaths: string[];
+}
+
+/**
+ * Contains the possible cases for RouteConfiguration.
+ */
+export type RouteConfigurationUnion = RouteConfiguration | ForwardingConfiguration | RedirectConfiguration;
+
+/**
+ * @interface
+ * An interface representing RouteConfiguration.
+ * Base class for all types of Route.
+ *
+ */
+export interface RouteConfiguration {
+  /**
+   * @member {string} odatatype Polymorphic Discriminator
+   */
+  odatatype: "RouteConfiguration";
+}
+
+/**
+ * @interface
+ * An interface representing RoutingRuleUpdateParameters.
+ * Routing rules to apply to an endpoint
+ *
+ */
+export interface RoutingRuleUpdateParameters {
+  /**
+   * @member {SubResource[]} [frontendEndpoints] Frontend endpoints associated
+   * with this rule
+   */
+  frontendEndpoints?: SubResource[];
+  /**
+   * @member {FrontDoorProtocol[]} [acceptedProtocols] Protocol schemes to
+   * match for this rule
+   */
+  acceptedProtocols?: FrontDoorProtocol[];
+  /**
+   * @member {string[]} [patternsToMatch] The route patterns of the rule.
+   */
+  patternsToMatch?: string[];
+  /**
+   * @member {RoutingRuleEnabledState} [enabledState] Whether to enable use of
+   * this rule. Permitted values are 'Enabled' or 'Disabled'. Possible values
+   * include: 'Enabled', 'Disabled'
+   */
+  enabledState?: RoutingRuleEnabledState;
+  /**
+   * @member {RouteConfigurationUnion} [routeConfiguration] A reference to the
+   * routing configuration.
+   */
+  routeConfiguration?: RouteConfigurationUnion;
 }
 
 /**
@@ -533,25 +595,15 @@ export interface CacheConfiguration {
 
 /**
  * @interface
- * An interface representing RoutingRuleUpdateParameters.
- * Routing rules to apply to an endpoint
+ * An interface representing ForwardingConfiguration.
+ * Describes Forwarding Route.
  *
  */
-export interface RoutingRuleUpdateParameters {
+export interface ForwardingConfiguration {
   /**
-   * @member {SubResource[]} [frontendEndpoints] Frontend endpoints associated
-   * with this rule
+   * @member {string} odatatype Polymorphic Discriminator
    */
-  frontendEndpoints?: SubResource[];
-  /**
-   * @member {FrontDoorProtocol[]} [acceptedProtocols] Protocol schemes to
-   * match for this rule
-   */
-  acceptedProtocols?: FrontDoorProtocol[];
-  /**
-   * @member {string[]} [patternsToMatch] The route patterns of the rule.
-   */
-  patternsToMatch?: string[];
+  odatatype: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration";
   /**
    * @member {string} [customForwardingPath] A custom path used to rewrite
    * resource paths matched by this rule. Leave empty to use incoming path.
@@ -573,12 +625,56 @@ export interface RoutingRuleUpdateParameters {
    * this rule routes to.
    */
   backendPool?: SubResource;
+}
+
+/**
+ * @interface
+ * An interface representing RedirectConfiguration.
+ * Describes Redirect Route.
+ *
+ */
+export interface RedirectConfiguration {
   /**
-   * @member {FrontDoorEnabledState} [enabledState] Whether to enable use of
-   * this rule. Permitted values are 'Enabled' or 'Disabled'. Possible values
-   * include: 'Enabled', 'Disabled'
+   * @member {string} odatatype Polymorphic Discriminator
    */
-  enabledState?: FrontDoorEnabledState;
+  odatatype: "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration";
+  /**
+   * @member {FrontDoorRedirectType} [redirectType] The redirect type the rule
+   * will use when redirecting traffic. Possible values include: 'Moved',
+   * 'Found', 'TemporaryRedirect', 'PermanentRedirect'
+   */
+  redirectType?: FrontDoorRedirectType;
+  /**
+   * @member {FrontDoorRedirectProtocol} [redirectProtocol] The protocol of the
+   * destination to where the traffic is redirected. Possible values include:
+   * 'HttpOnly', 'HttpsOnly', 'MatchRequest'
+   */
+  redirectProtocol?: FrontDoorRedirectProtocol;
+  /**
+   * @member {string} [customHost] Host to redirect. Leave empty to use use the
+   * incoming host as the destination host.
+   */
+  customHost?: string;
+  /**
+   * @member {string} [customPath] The full path to redirect. Path cannot be
+   * empty and must start with /. Leave empty to use the incoming path as
+   * destination path.
+   */
+  customPath?: string;
+  /**
+   * @member {string} [customFragment] Fragment to add to the redirect URL.
+   * Fragment is the part of the URL that comes after #. Do not include the #.
+   */
+  customFragment?: string;
+  /**
+   * @member {string} [customQueryString] The set of query strings to be placed
+   * in the redirect URL. Setting this value would replace any existing query
+   * string; leave empty to preserve the incoming query string. Query string
+   * must be in <key>=<value> format. The first ? and & will be added
+   * automatically so do not include them in the front, but do separate
+   * multiple query strings with &.
+   */
+  customQueryString?: string;
 }
 
 /**
@@ -603,11 +699,11 @@ export interface Backend {
    */
   httpsPort?: number;
   /**
-   * @member {FrontDoorEnabledState} [enabledState] Whether to enable use of
-   * this backend. Permitted values are 'Enabled' or 'Disabled'. Possible
-   * values include: 'Enabled', 'Disabled'
+   * @member {BackendEnabledState} [enabledState] Whether to enable use of this
+   * backend. Permitted values are 'Enabled' or 'Disabled'. Possible values
+   * include: 'Enabled', 'Disabled'
    */
-  enabledState?: FrontDoorEnabledState;
+  enabledState?: BackendEnabledState;
   /**
    * @member {number} [priority] Priority to use for load balancing. Higher
    * priorities will not be used for load balancing if any lower priority
@@ -1502,6 +1598,14 @@ export type FrontDoorTlsProtocolType = 'ServerNameIndication';
 export type FrontDoorCertificateType = 'Dedicated';
 
 /**
+ * Defines values for EnforceCertificateNameCheckEnabledState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type EnforceCertificateNameCheckEnabledState = 'Enabled' | 'Disabled';
+
+/**
  * Defines values for FrontDoorEnabledState.
  * Possible values include: 'Enabled', 'Disabled'
  * @readonly
@@ -1516,6 +1620,14 @@ export type FrontDoorEnabledState = 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type FrontDoorProtocol = 'Http' | 'Https';
+
+/**
+ * Defines values for RoutingRuleEnabledState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type RoutingRuleEnabledState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for FrontDoorForwardingProtocol.
@@ -1540,6 +1652,30 @@ export type FrontDoorQuery = 'StripNone' | 'StripAll';
  * @enum {string}
  */
 export type DynamicCompressionEnabled = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for FrontDoorRedirectType.
+ * Possible values include: 'Moved', 'Found', 'TemporaryRedirect', 'PermanentRedirect'
+ * @readonly
+ * @enum {string}
+ */
+export type FrontDoorRedirectType = 'Moved' | 'Found' | 'TemporaryRedirect' | 'PermanentRedirect';
+
+/**
+ * Defines values for FrontDoorRedirectProtocol.
+ * Possible values include: 'HttpOnly', 'HttpsOnly', 'MatchRequest'
+ * @readonly
+ * @enum {string}
+ */
+export type FrontDoorRedirectProtocol = 'HttpOnly' | 'HttpsOnly' | 'MatchRequest';
+
+/**
+ * Defines values for BackendEnabledState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type BackendEnabledState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SessionAffinityEnabledState.

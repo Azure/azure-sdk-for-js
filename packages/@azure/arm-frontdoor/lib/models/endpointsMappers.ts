@@ -9,6 +9,7 @@
  */
 
 export {
+  discriminators,
   PurgeParameters,
   ErrorResponse
 } from "../models/mappers";
