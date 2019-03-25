@@ -16,6 +16,249 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing InitiateTransferRequest.
+ * Request parameters to initiate transfer.
+ *
+ */
+export interface InitiateTransferRequest {
+  /**
+   * @member {string} [billingProfileId] Target Usage context for devTest
+   * subscriptions.
+   */
+  billingProfileId?: string;
+  /**
+   * @member {string} [recipientEmailId] Email Id of recipient for transfer.
+   */
+  recipientEmailId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductDetails.
+ * Details of the product to be transferred.
+ *
+ */
+export interface ProductDetails {
+  /**
+   * @member {ProductType} [productType] Type of the prouct to be transferred.
+   * Possible values include: 'AzureSubscription', 'AzureReservation'
+   */
+  productType?: ProductType;
+  /**
+   * @member {string} [productId] Id of product to be transferred.
+   */
+  productId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AcceptTransferRequest.
+ * Request parameters to accept transfer.
+ *
+ */
+export interface AcceptTransferRequest {
+  /**
+   * @member {ProductDetails[]} [productDetails] Request parameters to accept
+   * transfer.
+   */
+  productDetails?: ProductDetails[];
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ * Error details for transfer execution.
+ *
+ */
+export interface ErrorModel {
+  /**
+   * @member {string} [errorCode] Error code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorCode?: string;
+  /**
+   * @member {string} [errorMessage] Error message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorMessage?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DetailedTransferStatus.
+ * Detailed transfer status.
+ *
+ */
+export interface DetailedTransferStatus {
+  /**
+   * @member {ProductType} [productType] Type of product being transferred.
+   * Possible values include: 'AzureSubscription', 'AzureReservation'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productType?: ProductType;
+  /**
+   * @member {string} [productId] Id of product being transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productId?: string;
+  /**
+   * @member {ProductTransferStatus} [transferStatus] Transfer status. Possible
+   * values include: 'NotStarted', 'InProgress', 'Completed', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transferStatus?: ProductTransferStatus;
+  /**
+   * @member {ErrorModel} [errorDetails] Error details for transfer execution.
+   */
+  errorDetails?: ErrorModel;
+}
+
+/**
+ * @interface
+ * An interface representing TransferDetails.
+ * Details of the transfer.
+ *
+ */
+export interface TransferDetails {
+  /**
+   * @member {Date} [creationTime] Transfer creation time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * @member {Date} [expirationTime] Transfer expiration time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expirationTime?: Date;
+  /**
+   * @member {string} [invoiceSectionId] Target invoice setion Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * @member {string} [billingAccountId] Target billing account Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingAccountId?: string;
+  /**
+   * @member {TransferStatus} [transferStatus] Overall transfer status.
+   * Possible values include: 'Pending', 'InProgress', 'Completed',
+   * 'CompletedWithErrors', 'Failed', 'Canceled', 'Declined'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transferStatus?: TransferStatus;
+  /**
+   * @member {string} [recipientEmailId] Email Id of recipient of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recipientEmailId?: string;
+  /**
+   * @member {string} [initiatorEmailId] Email Id of initiator of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly initiatorEmailId?: string;
+  /**
+   * @member {string} [canceledBy] Email Id who user canceled the transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly canceledBy?: string;
+  /**
+   * @member {Date} [lastModifiedTime] Transfer last modification time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * @member {DetailedTransferStatus[]} [detailedTransferStatus] Detailed
+   * transfer status.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly detailedTransferStatus?: DetailedTransferStatus[];
+}
+
+/**
+ * @interface
+ * An interface representing RecipientTransferDetails.
+ * Details of the transfer.
+ *
+ */
+export interface RecipientTransferDetails {
+  /**
+   * @member {Date} [creationTime] Transfer creation time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * @member {Date} [expirationTime] Transfer expiration time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expirationTime?: Date;
+  /**
+   * @member {EligibleProductType[]} [allowedProductType] Type of subscriptions
+   * that can be transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly allowedProductType?: EligibleProductType[];
+  /**
+   * @member {TransferStatus} [transferStatus] Overall transfer status.
+   * Possible values include: 'Pending', 'InProgress', 'Completed',
+   * 'CompletedWithErrors', 'Failed', 'Canceled', 'Declined'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transferStatus?: TransferStatus;
+  /**
+   * @member {string} [recipientEmailId] Email Id of recipient of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recipientEmailId?: string;
+  /**
+   * @member {string} [initiatorEmailId] Email Id of initiator of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly initiatorEmailId?: string;
+  /**
+   * @member {string} [canceledBy] Email Id who user canceled the transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly canceledBy?: string;
+  /**
+   * @member {Date} [lastModifiedTime] Transfer last modification time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * @member {DetailedTransferStatus[]} [detailedTransferStatus] Detailed
+   * transfer status.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly detailedTransferStatus?: DetailedTransferStatus[];
+}
+
+/**
+ * @interface
  * An interface representing TransferProductRequestProperties.
  * The properties of the product to initiate a transfer.
  *
@@ -1927,6 +2170,21 @@ export interface BillingManagementClientUpdateAutoRenewForInvoiceSectionOptional
 
 /**
  * @interface
+ * An interface representing TransferAcceptOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TransferAcceptOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {ProductDetails[]} [productDetails] Request parameters to accept
+   * transfer.
+   */
+  productDetails?: ProductDetails[];
+}
+
+/**
+ * @interface
  * An interface representing BillingManagementClientOptions.
  * @extends AzureServiceClientOptions
  */
@@ -2179,6 +2437,38 @@ export interface TransactionsListResult extends Array<TransactionsSummary> {
 
 /**
  * @interface
+ * An interface representing the TransferDetailsListResult.
+ * Result of listing details of the transfer initiated by caller.
+ *
+ * @extends Array<TransferDetails>
+ */
+export interface TransferDetailsListResult extends Array<TransferDetails> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RecipientTransferDetailsListResult.
+ * Result of listing details of the transfer received by caller.
+ *
+ * @extends Array<RecipientTransferDetails>
+ */
+export interface RecipientTransferDetailsListResult extends Array<RecipientTransferDetails> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the OperationListResult.
  * Result listing billing operations. It contains a list of operations and a
  * URL link to get the next set of results.
@@ -2194,6 +2484,40 @@ export interface OperationListResult extends Array<Operation> {
    */
   readonly nextLink?: string;
 }
+
+/**
+ * Defines values for ProductType.
+ * Possible values include: 'AzureSubscription', 'AzureReservation'
+ * @readonly
+ * @enum {string}
+ */
+export type ProductType = 'AzureSubscription' | 'AzureReservation';
+
+/**
+ * Defines values for TransferStatus.
+ * Possible values include: 'Pending', 'InProgress', 'Completed', 'CompletedWithErrors', 'Failed',
+ * 'Canceled', 'Declined'
+ * @readonly
+ * @enum {string}
+ */
+export type TransferStatus = 'Pending' | 'InProgress' | 'Completed' | 'CompletedWithErrors' | 'Failed' | 'Canceled' | 'Declined';
+
+/**
+ * Defines values for ProductTransferStatus.
+ * Possible values include: 'NotStarted', 'InProgress', 'Completed', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ProductTransferStatus = 'NotStarted' | 'InProgress' | 'Completed' | 'Failed';
+
+/**
+ * Defines values for EligibleProductType.
+ * Possible values include: 'DevTestAzureSubscription', 'StandardAzureSubscription',
+ * 'AzureReservation'
+ * @readonly
+ * @enum {string}
+ */
+export type EligibleProductType = 'DevTestAzureSubscription' | 'StandardAzureSubscription' | 'AzureReservation';
 
 /**
  * Defines values for ProductStatusType.
@@ -3084,6 +3408,196 @@ export type BillingPropertyGetResponse = BillingProperty & {
        * The response body as parsed JSON or XML
        */
       parsedBody: BillingProperty;
+    };
+};
+
+/**
+ * Contains response data for the initiate operation.
+ */
+export type TransferInitiateResponse = TransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TransferGetResponse = TransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the cancel operation.
+ */
+export type TransferCancelResponse = TransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the accept operation.
+ */
+export type TransferAcceptResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the decline operation.
+ */
+export type TransferDeclineResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TransfersListResponse = TransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TransfersListNextResponse = TransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RecipientTransferGetResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RecipientTransferListResponse = RecipientTransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RecipientTransferListNextResponse = RecipientTransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetailsListResult;
     };
 };
 

@@ -14,6 +14,304 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const InitiateTransferRequest: msRest.CompositeMapper = {
+  serializedName: "InitiateTransferRequest",
+  type: {
+    name: "Composite",
+    className: "InitiateTransferRequest",
+    modelProperties: {
+      billingProfileId: {
+        serializedName: "properties.billingProfileId",
+        type: {
+          name: "String"
+        }
+      },
+      recipientEmailId: {
+        serializedName: "properties.recipientEmailId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProductDetails: msRest.CompositeMapper = {
+  serializedName: "ProductDetails",
+  type: {
+    name: "Composite",
+    className: "ProductDetails",
+    modelProperties: {
+      productType: {
+        serializedName: "productType",
+        type: {
+          name: "String"
+        }
+      },
+      productId: {
+        serializedName: "productId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcceptTransferRequest: msRest.CompositeMapper = {
+  serializedName: "AcceptTransferRequest",
+  type: {
+    name: "Composite",
+    className: "AcceptTransferRequest",
+    modelProperties: {
+      productDetails: {
+        serializedName: "properties.productDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProductDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: msRest.CompositeMapper = {
+  serializedName: "Error",
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      errorCode: {
+        readOnly: true,
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DetailedTransferStatus: msRest.CompositeMapper = {
+  serializedName: "DetailedTransferStatus",
+  type: {
+    name: "Composite",
+    className: "DetailedTransferStatus",
+    modelProperties: {
+      productType: {
+        readOnly: true,
+        serializedName: "productType",
+        type: {
+          name: "String"
+        }
+      },
+      productId: {
+        readOnly: true,
+        serializedName: "productId",
+        type: {
+          name: "String"
+        }
+      },
+      transferStatus: {
+        readOnly: true,
+        serializedName: "transferStatus",
+        type: {
+          name: "String"
+        }
+      },
+      errorDetails: {
+        serializedName: "errorDetails",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      }
+    }
+  }
+};
+
+export const TransferDetails: msRest.CompositeMapper = {
+  serializedName: "TransferDetails",
+  type: {
+    name: "Composite",
+    className: "TransferDetails",
+    modelProperties: {
+      creationTime: {
+        readOnly: true,
+        serializedName: "properties.creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expirationTime: {
+        readOnly: true,
+        serializedName: "properties.expirationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      invoiceSectionId: {
+        readOnly: true,
+        serializedName: "properties.invoiceSectionId",
+        type: {
+          name: "String"
+        }
+      },
+      billingAccountId: {
+        readOnly: true,
+        serializedName: "properties.billingAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      transferStatus: {
+        readOnly: true,
+        serializedName: "properties.transferStatus",
+        type: {
+          name: "String"
+        }
+      },
+      recipientEmailId: {
+        readOnly: true,
+        serializedName: "properties.recipientEmailId",
+        type: {
+          name: "String"
+        }
+      },
+      initiatorEmailId: {
+        readOnly: true,
+        serializedName: "properties.initiatorEmailId",
+        type: {
+          name: "String"
+        }
+      },
+      canceledBy: {
+        readOnly: true,
+        serializedName: "properties.canceledBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "properties.lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      detailedTransferStatus: {
+        readOnly: true,
+        serializedName: "properties.detailedTransferStatus",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetailedTransferStatus"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RecipientTransferDetails: msRest.CompositeMapper = {
+  serializedName: "RecipientTransferDetails",
+  type: {
+    name: "Composite",
+    className: "RecipientTransferDetails",
+    modelProperties: {
+      creationTime: {
+        readOnly: true,
+        serializedName: "properties.creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expirationTime: {
+        readOnly: true,
+        serializedName: "properties.expirationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      allowedProductType: {
+        readOnly: true,
+        serializedName: "properties.allowedProductType",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transferStatus: {
+        readOnly: true,
+        serializedName: "properties.transferStatus",
+        type: {
+          name: "String"
+        }
+      },
+      recipientEmailId: {
+        readOnly: true,
+        serializedName: "properties.recipientEmailId",
+        type: {
+          name: "String"
+        }
+      },
+      initiatorEmailId: {
+        readOnly: true,
+        serializedName: "properties.initiatorEmailId",
+        type: {
+          name: "String"
+        }
+      },
+      canceledBy: {
+        readOnly: true,
+        serializedName: "properties.canceledBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "properties.lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      detailedTransferStatus: {
+        readOnly: true,
+        serializedName: "properties.detailedTransferStatus",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetailedTransferStatus"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const TransferProductRequestProperties: msRest.CompositeMapper = {
   serializedName: "TransferProductRequestProperties",
   type: {
@@ -2282,6 +2580,66 @@ export const TransactionsListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "TransactionsSummary"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TransferDetailsListResult: msRest.CompositeMapper = {
+  serializedName: "TransferDetailsListResult",
+  type: {
+    name: "Composite",
+    className: "TransferDetailsListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TransferDetails"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RecipientTransferDetailsListResult: msRest.CompositeMapper = {
+  serializedName: "RecipientTransferDetailsListResult",
+  type: {
+    name: "Composite",
+    className: "RecipientTransferDetailsListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RecipientTransferDetails"
             }
           }
         }

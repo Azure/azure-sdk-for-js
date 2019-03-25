@@ -215,3 +215,13 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
+export const transferName: msRest.OperationURLParameter = {
+  parameterPath: "transferName",
+  mapper: {
+    required: true,
+    serializedName: "transferName",
+    type: {
+      name: "String"
+    }
+  }
+};
