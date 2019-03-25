@@ -171,7 +171,7 @@ export class HanaInstances {
    * The operation to monitor a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param monitoringParameter Request body that only contains the new Tags field
+   * @param monitoringParameter Request body that only contains monitoring attributes
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -202,7 +202,7 @@ export class HanaInstances {
    * The operation to monitor a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param monitoringParameter Request body that only contains the new Tags field
+   * @param monitoringParameter Request body that only contains monitoring attributes
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
