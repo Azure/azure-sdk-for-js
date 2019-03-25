@@ -20,6 +20,28 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const adaptiveNetworkHardeningEnforceAction: msRest.OperationURLParameter = {
+  parameterPath: "adaptiveNetworkHardeningEnforceAction",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "adaptiveNetworkHardeningEnforceAction",
+    defaultValue: 'enforce',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const adaptiveNetworkHardeningResourceName: msRest.OperationURLParameter = {
+  parameterPath: "adaptiveNetworkHardeningResourceName",
+  mapper: {
+    required: true,
+    serializedName: "adaptiveNetworkHardeningResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const alertName: msRest.OperationURLParameter = {
   parameterPath: "alertName",
   mapper: {
@@ -125,6 +147,16 @@ export const connectionType: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "connectionType",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const deviceSecurityGroupName: msRest.OperationURLParameter = {
+  parameterPath: "deviceSecurityGroupName",
+  mapper: {
+    required: true,
+    serializedName: "deviceSecurityGroupName",
     type: {
       name: "String"
     }
@@ -277,6 +309,36 @@ export const resourceId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceName: msRest.OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    required: true,
+    serializedName: "resourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceNamespace: msRest.OperationURLParameter = {
+  parameterPath: "resourceNamespace",
+  mapper: {
+    required: true,
+    serializedName: "resourceNamespace",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceType: msRest.OperationURLParameter = {
+  parameterPath: "resourceType",
+  mapper: {
+    required: true,
+    serializedName: "resourceType",
     type: {
       name: "String"
     }

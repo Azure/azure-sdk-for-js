@@ -25,6 +25,13 @@ export {
   WorkspaceSetting,
   AutoProvisioningSetting,
   AdvancedThreatProtectionSetting,
+  DeviceSecurityGroup,
+  ThresholdCustomAlertRule,
+  CustomAlertRule,
+  TimeWindowCustomAlertRule,
+  AllowlistCustomAlertRule,
+  ListCustomAlertRule,
+  DenylistCustomAlertRule,
   SettingResource,
   InformationProtectionPolicy,
   SensitivityLabel,
@@ -35,6 +42,9 @@ export {
   Alert,
   AlertEntity,
   AlertConfidenceReason,
+  AdaptiveNetworkHardening,
+  Rule,
+  EffectiveNetworkSecurityGroups,
   Setting,
   DataExportSetting
 } from "../models/mappers";

@@ -27,6 +27,13 @@ export {
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
+  DeviceSecurityGroup,
+  ThresholdCustomAlertRule,
+  CustomAlertRule,
+  TimeWindowCustomAlertRule,
+  AllowlistCustomAlertRule,
+  ListCustomAlertRule,
+  DenylistCustomAlertRule,
   DataExportSetting,
   InformationProtectionPolicy,
   SensitivityLabel,
@@ -36,6 +43,9 @@ export {
   SecurityTaskParameters,
   Alert,
   AlertEntity,
-  AlertConfidenceReason
+  AlertConfidenceReason,
+  AdaptiveNetworkHardening,
+  Rule,
+  EffectiveNetworkSecurityGroups
 } from "../models/mappers";
 

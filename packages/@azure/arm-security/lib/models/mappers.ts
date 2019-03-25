@@ -426,6 +426,251 @@ export const AdvancedThreatProtectionSetting: msRest.CompositeMapper = {
   }
 };
 
+export const CustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "CustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "CustomAlertRule",
+    modelProperties: {
+      displayName: {
+        readOnly: true,
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        required: true,
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ruleType: {
+        required: true,
+        serializedName: "ruleType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ThresholdCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "ThresholdCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "ThresholdCustomAlertRule",
+    modelProperties: {
+      ...CustomAlertRule.type.modelProperties,
+      minThreshold: {
+        required: true,
+        serializedName: "minThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      maxThreshold: {
+        required: true,
+        serializedName: "maxThreshold",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TimeWindowCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "TimeWindowCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "TimeWindowCustomAlertRule",
+    modelProperties: {
+      displayName: {
+        readOnly: true,
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        required: true,
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ruleType: {
+        required: true,
+        serializedName: "ruleType",
+        type: {
+          name: "String"
+        }
+      },
+      minThreshold: {
+        required: true,
+        serializedName: "minThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      maxThreshold: {
+        required: true,
+        serializedName: "maxThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      timeWindowSize: {
+        required: true,
+        serializedName: "timeWindowSize",
+        type: {
+          name: "TimeSpan"
+        }
+      }
+    }
+  }
+};
+
+export const ListCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "ListCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "ListCustomAlertRule",
+    modelProperties: {
+      ...CustomAlertRule.type.modelProperties,
+      valueType: {
+        readOnly: true,
+        serializedName: "valueType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AllowlistCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "AllowlistCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "AllowlistCustomAlertRule",
+    modelProperties: {
+      ...ListCustomAlertRule.type.modelProperties,
+      allowlistValues: {
+        required: true,
+        serializedName: "allowlistValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DenylistCustomAlertRule: msRest.CompositeMapper = {
+  serializedName: "DenylistCustomAlertRule",
+  type: {
+    name: "Composite",
+    className: "DenylistCustomAlertRule",
+    modelProperties: {
+      ...ListCustomAlertRule.type.modelProperties,
+      denylistValues: {
+        required: true,
+        serializedName: "denylistValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeviceSecurityGroup: msRest.CompositeMapper = {
+  serializedName: "DeviceSecurityGroup",
+  type: {
+    name: "Composite",
+    className: "DeviceSecurityGroup",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      thresholdRules: {
+        serializedName: "properties.thresholdRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ThresholdCustomAlertRule"
+            }
+          }
+        }
+      },
+      timeWindowRules: {
+        serializedName: "properties.timeWindowRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimeWindowCustomAlertRule"
+            }
+          }
+        }
+      },
+      allowlistRules: {
+        serializedName: "properties.allowlistRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AllowlistCustomAlertRule"
+            }
+          }
+        }
+      },
+      denylistRules: {
+        serializedName: "properties.denylistRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DenylistCustomAlertRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SettingResource: msRest.CompositeMapper = {
   serializedName: "SettingResource",
   type: {
@@ -2049,6 +2294,159 @@ export const AllowedConnectionsResource: msRest.CompositeMapper = {
   }
 };
 
+export const Rule: msRest.CompositeMapper = {
+  serializedName: "Rule",
+  type: {
+    name: "Composite",
+    className: "Rule",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      direction: {
+        serializedName: "direction",
+        type: {
+          name: "String"
+        }
+      },
+      destinationPort: {
+        serializedName: "destinationPort",
+        type: {
+          name: "Number"
+        }
+      },
+      protocols: {
+        serializedName: "protocols",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      ipAddresses: {
+        serializedName: "ipAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EffectiveNetworkSecurityGroups: msRest.CompositeMapper = {
+  serializedName: "EffectiveNetworkSecurityGroups",
+  type: {
+    name: "Composite",
+    className: "EffectiveNetworkSecurityGroups",
+    modelProperties: {
+      networkInterface: {
+        serializedName: "networkInterface",
+        type: {
+          name: "String"
+        }
+      },
+      networkSecurityGroups: {
+        serializedName: "networkSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AdaptiveNetworkHardening: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkHardening",
+  type: {
+    name: "Composite",
+    className: "AdaptiveNetworkHardening",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      rules: {
+        serializedName: "properties.rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Rule"
+            }
+          }
+        }
+      },
+      rulesCalculationTime: {
+        serializedName: "properties.rulesCalculationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      effectiveNetworkSecurityGroups: {
+        serializedName: "properties.effectiveNetworkSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EffectiveNetworkSecurityGroups"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AdaptiveNetworkHardeningEnforceRequest: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkHardeningEnforceRequest",
+  type: {
+    name: "Composite",
+    className: "AdaptiveNetworkHardeningEnforceRequest",
+    modelProperties: {
+      rules: {
+        required: true,
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Rule"
+            }
+          }
+        }
+      },
+      networkSecurityGroups: {
+        required: true,
+        serializedName: "networkSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RegulatoryComplianceStandardList: msRest.CompositeMapper = {
   serializedName: "RegulatoryComplianceStandardList",
   type: {
@@ -2242,6 +2640,35 @@ export const ComplianceList: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Compliance"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeviceSecurityGroupList: msRest.CompositeMapper = {
+  serializedName: "DeviceSecurityGroupList",
+  type: {
+    name: "Composite",
+    className: "DeviceSecurityGroupList",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeviceSecurityGroup"
             }
           }
         }
@@ -2571,6 +2998,34 @@ export const AllowedConnectionsList: msRest.CompositeMapper = {
       },
       nextLink: {
         readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AdaptiveNetworkHardeningsList: msRest.CompositeMapper = {
+  serializedName: "AdaptiveNetworkHardeningsList",
+  type: {
+    name: "Composite",
+    className: "AdaptiveNetworkHardeningsList",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdaptiveNetworkHardening"
+            }
+          }
+        }
+      },
+      nextLink: {
         serializedName: "nextLink",
         type: {
           name: "String"

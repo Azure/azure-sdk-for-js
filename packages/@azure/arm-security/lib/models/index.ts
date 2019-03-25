@@ -383,6 +383,175 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 
 /**
  * @interface
+ * An interface representing CustomAlertRule.
+ * A custom alert rule
+ *
+ */
+export interface CustomAlertRule {
+  /**
+   * @member {string} [displayName] The display name of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} isEnabled Whether the custom alert is enabled.
+   */
+  isEnabled: boolean;
+  /**
+   * @member {string} ruleType The type of the custom alert rule.
+   */
+  ruleType: string;
+}
+
+/**
+ * @interface
+ * An interface representing ThresholdCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is within the given range.
+ *
+ * @extends CustomAlertRule
+ */
+export interface ThresholdCustomAlertRule extends CustomAlertRule {
+  /**
+   * @member {number} minThreshold The minimum threshold.
+   */
+  minThreshold: number;
+  /**
+   * @member {number} maxThreshold The maximum threshold.
+   */
+  maxThreshold: number;
+}
+
+/**
+ * @interface
+ * An interface representing TimeWindowCustomAlertRule.
+ * A custom alert rule that checks if the number of activities (depends on the
+ * custom alert type) in a time window is within the given range.
+ *
+ */
+export interface TimeWindowCustomAlertRule {
+  /**
+   * @member {string} [displayName] The display name of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the custom alert.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {boolean} isEnabled Whether the custom alert is enabled.
+   */
+  isEnabled: boolean;
+  /**
+   * @member {string} ruleType The type of the custom alert rule.
+   */
+  ruleType: string;
+  /**
+   * @member {number} minThreshold The minimum threshold.
+   */
+  minThreshold: number;
+  /**
+   * @member {number} maxThreshold The maximum threshold.
+   */
+  maxThreshold: number;
+  /**
+   * @member {string} timeWindowSize The time window size in iso8601 format.
+   */
+  timeWindowSize: string;
+}
+
+/**
+ * @interface
+ * An interface representing ListCustomAlertRule.
+ * A List custom alert rule
+ *
+ * @extends CustomAlertRule
+ */
+export interface ListCustomAlertRule extends CustomAlertRule {
+  /**
+   * @member {ValueType} [valueType] The value type of the items in the list.
+   * Possible values include: 'IpCidr', 'String'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly valueType?: ValueType;
+}
+
+/**
+ * @interface
+ * An interface representing AllowlistCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is allowed
+ *
+ * @extends ListCustomAlertRule
+ */
+export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
+  /**
+   * @member {string[]} allowlistValues The values to allow. The format of the
+   * values depends on the rule type.
+   */
+  allowlistValues: string[];
+}
+
+/**
+ * @interface
+ * An interface representing DenylistCustomAlertRule.
+ * A custom alert rule that checks if a value (depends on the custom alert
+ * type) is denied
+ *
+ * @extends ListCustomAlertRule
+ */
+export interface DenylistCustomAlertRule extends ListCustomAlertRule {
+  /**
+   * @member {string[]} denylistValues The values to deny. The format of the
+   * values depends on the rule type.
+   */
+  denylistValues: string[];
+}
+
+/**
+ * @interface
+ * An interface representing DeviceSecurityGroup.
+ * The device security group resource
+ *
+ * @extends Resource
+ */
+export interface DeviceSecurityGroup extends Resource {
+  /**
+   * @member {ThresholdCustomAlertRule[]} [thresholdRules] A list of threshold
+   * custom alert rules.
+   */
+  thresholdRules?: ThresholdCustomAlertRule[];
+  /**
+   * @member {TimeWindowCustomAlertRule[]} [timeWindowRules] A list of time
+   * window custom alert rules.
+   */
+  timeWindowRules?: TimeWindowCustomAlertRule[];
+  /**
+   * @member {AllowlistCustomAlertRule[]} [allowlistRules] A list of allow-list
+   * custom alert rules.
+   */
+  allowlistRules?: AllowlistCustomAlertRule[];
+  /**
+   * @member {DenylistCustomAlertRule[]} [denylistRules] A list of deny-list
+   * custom alert rules.
+   */
+  denylistRules?: DenylistCustomAlertRule[];
+}
+
+/**
+ * @interface
  * An interface representing SettingResource.
  * The kind of the security setting
  *
@@ -1691,6 +1860,103 @@ export interface AllowedConnectionsResource {
 
 /**
  * @interface
+ * An interface representing Rule.
+ * Describes remote addresses that is recommended to communicate with the Azure
+ * resource on some (Protocol, Port, Direction). All other remote addresses are
+ * recommended to be blocked
+ *
+ */
+export interface Rule {
+  /**
+   * @member {string} [name] The name of the rule
+   */
+  name?: string;
+  /**
+   * @member {Direction} [direction] The rule's direction. Possible values
+   * include: 'Inbound', 'Outbound'
+   */
+  direction?: Direction;
+  /**
+   * @member {number} [destinationPort] The rule's destination port
+   */
+  destinationPort?: number;
+  /**
+   * @member {TransportProtocol[]} [protocols] The rule's transport protocols
+   */
+  protocols?: TransportProtocol[];
+  /**
+   * @member {string[]} [ipAddresses] The remote IP addresses that should be
+   * able to communicate with the Azure resource on the rule's destination port
+   * and protocol
+   */
+  ipAddresses?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing EffectiveNetworkSecurityGroups.
+ * Describes the Network Security Groups effective on a network interface
+ *
+ */
+export interface EffectiveNetworkSecurityGroups {
+  /**
+   * @member {string} [networkInterface] The Azure resource ID of the network
+   * interface
+   */
+  networkInterface?: string;
+  /**
+   * @member {string[]} [networkSecurityGroups] The Network Security Groups
+   * effective on the network interface
+   */
+  networkSecurityGroups?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing AdaptiveNetworkHardening.
+ * The resource whose properties describes the Adaptive Network Hardening
+ * settings for some Azure resource
+ *
+ * @extends Resource
+ */
+export interface AdaptiveNetworkHardening extends Resource {
+  /**
+   * @member {Rule[]} [rules] The security rules which are recommended to be
+   * effective on the VM
+   */
+  rules?: Rule[];
+  /**
+   * @member {Date} [rulesCalculationTime] The UTC time on which the rules were
+   * calculated
+   */
+  rulesCalculationTime?: Date;
+  /**
+   * @member {EffectiveNetworkSecurityGroups[]}
+   * [effectiveNetworkSecurityGroups] The Network Security Groups effective on
+   * the network interfaces of the protected resource
+   */
+  effectiveNetworkSecurityGroups?: EffectiveNetworkSecurityGroups[];
+}
+
+/**
+ * @interface
+ * An interface representing AdaptiveNetworkHardeningEnforceRequest.
+ */
+export interface AdaptiveNetworkHardeningEnforceRequest {
+  /**
+   * @member {Rule[]} rules The rules to enforce
+   */
+  rules: Rule[];
+  /**
+   * @member {string[]} networkSecurityGroups The Azure resource IDs of the
+   * effective network security groups that will be updated with the created
+   * security rules from the Adaptive Network Hardening rules
+   */
+  networkSecurityGroups: string[];
+}
+
+/**
+ * @interface
  * An interface representing RegulatoryComplianceStandardsListOptionalParams.
  * Optional Parameters.
  *
@@ -1988,6 +2254,22 @@ export interface ComplianceList extends Array<Compliance> {
 
 /**
  * @interface
+ * An interface representing the DeviceSecurityGroupList.
+ * List of device security groups
+ *
+ * @extends Array<DeviceSecurityGroup>
+ */
+export interface DeviceSecurityGroupList extends Array<DeviceSecurityGroup> {
+  /**
+   * @member {string} [nextLink] The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the SettingsList.
  * Subscription settings list.
  *
@@ -2155,6 +2437,20 @@ export interface AllowedConnectionsList extends Array<AllowedConnectionsResource
 }
 
 /**
+ * @interface
+ * An interface representing the AdaptiveNetworkHardeningsList.
+ * Response for ListAdaptiveNetworkHardenings API service call
+ *
+ * @extends Array<AdaptiveNetworkHardening>
+ */
+export interface AdaptiveNetworkHardeningsList extends Array<AdaptiveNetworkHardening> {
+  /**
+   * @member {string} [nextLink] The URL to get the next set of results
+   */
+  nextLink?: string;
+}
+
+/**
  * Defines values for State.
  * Possible values include: 'Passed', 'Failed', 'Skipped', 'Unsupported'
  * @readonly
@@ -2193,6 +2489,14 @@ export type AlertsToAdmins = 'On' | 'Off';
  * @enum {string}
  */
 export type AutoProvision = 'On' | 'Off';
+
+/**
+ * Defines values for ValueType.
+ * Possible values include: 'IpCidr', 'String'
+ * @readonly
+ * @enum {string}
+ */
+export type ValueType = 'IpCidr' | 'String';
 
 /**
  * Defines values for SettingKind.
@@ -2257,6 +2561,22 @@ export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
  * @enum {string}
  */
 export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
+
+/**
+ * Defines values for Direction.
+ * Possible values include: 'Inbound', 'Outbound'
+ * @readonly
+ * @enum {string}
+ */
+export type Direction = 'Inbound' | 'Outbound';
+
+/**
+ * Defines values for TransportProtocol.
+ * Possible values include: 'TCP', 'UDP'
+ * @readonly
+ * @enum {string}
+ */
+export type TransportProtocol = 'TCP' | 'UDP';
 
 /**
  * Defines values for ConnectionType.
@@ -2916,6 +3236,82 @@ export type AdvancedThreatProtectionCreateResponse = AdvancedThreatProtectionSet
        * The response body as parsed JSON or XML
        */
       parsedBody: AdvancedThreatProtectionSetting;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroupList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DeviceSecurityGroupsGetResponse = DeviceSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DeviceSecurityGroupsCreateOrUpdateResponse = DeviceSecurityGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroup;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DeviceSecurityGroupsListNextResponse = DeviceSecurityGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeviceSecurityGroupList;
     };
 };
 
@@ -4094,5 +4490,62 @@ export type AllowedConnectionsListByHomeRegionNextResponse = AllowedConnectionsL
        * The response body as parsed JSON or XML
        */
       parsedBody: AllowedConnectionsList;
+    };
+};
+
+/**
+ * Contains response data for the listByExtendedResource operation.
+ */
+export type AdaptiveNetworkHardeningsListByExtendedResourceResponse = AdaptiveNetworkHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdaptiveNetworkHardeningsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AdaptiveNetworkHardeningsGetResponse = AdaptiveNetworkHardening & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdaptiveNetworkHardening;
+    };
+};
+
+/**
+ * Contains response data for the listByExtendedResourceNext operation.
+ */
+export type AdaptiveNetworkHardeningsListByExtendedResourceNextResponse = AdaptiveNetworkHardeningsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdaptiveNetworkHardeningsList;
     };
 };
