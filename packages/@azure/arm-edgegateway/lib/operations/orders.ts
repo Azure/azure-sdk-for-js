@@ -93,7 +93,7 @@ export class Orders {
 
   /**
    * @summary Creates or updates an order.
-   * @param deviceName The order details of a device.
+   * @param deviceName The device name.
    * @param order The order to be created or updated.
    * @param resourceGroupName The resource group name.
    * @param [options] The optional parameters
@@ -118,7 +118,7 @@ export class Orders {
 
   /**
    * @summary Creates or updates an order.
-   * @param deviceName The order details of a device.
+   * @param deviceName The device name.
    * @param order The order to be created or updated.
    * @param resourceGroupName The resource group name.
    * @param [options] The optional parameters

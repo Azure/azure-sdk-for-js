@@ -246,19 +246,19 @@ export module SendableMessageInfo {
     }
 
     if (msg.contentType != undefined && typeof msg.contentType !== "string") {
-      throw new Error("'contentType' must be of type 'string'");
+      throw new Error("'contentType' must be of type 'string'.");
     }
 
     if (msg.label != undefined && typeof msg.label !== "string") {
-      throw new Error("'label' must be of type 'string'");
+      throw new Error("'label' must be of type 'string'.");
     }
 
     if (msg.to != undefined && typeof msg.to !== "string") {
-      throw new Error("'to' must be of type 'string'");
+      throw new Error("'to' must be of type 'string'.");
     }
 
     if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
-      throw new Error("'replyToSessionId' must be of type 'string'");
+      throw new Error("'replyToSessionId' must be of type 'string'.");
     }
 
     if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
@@ -267,8 +267,8 @@ export module SendableMessageInfo {
 
     if (
       msg.scheduledEnqueueTimeUtc &&
-      !(msg.scheduledEnqueueTimeUtc instanceof Date) &&
-      msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date"
+      (!(msg.scheduledEnqueueTimeUtc instanceof Date) ||
+        msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date")
     ) {
       throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
     }
@@ -285,8 +285,8 @@ export module SendableMessageInfo {
 
     if (
       (msg.viaPartitionKey != undefined && typeof msg.viaPartitionKey !== "string") ||
-      (typeof msg.partitionKey === "string" &&
-        msg.partitionKey.length > Constants.maxPartitionKeyLength)
+      (typeof msg.viaPartitionKey === "string" &&
+        msg.viaPartitionKey.length > Constants.maxPartitionKeyLength)
     ) {
       throw new Error(
         "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
@@ -294,7 +294,7 @@ export module SendableMessageInfo {
     }
 
     if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'");
+      throw new Error("'sessionId' must be of type 'string'.");
     }
 
     if (
@@ -321,7 +321,7 @@ export module SendableMessageInfo {
       typeof msg.messageId === "number" &&
       Math.floor(msg.messageId) !== msg.messageId
     ) {
-      throw new Error("'messageId must be a whole integer. Decimal points are not allowed.");
+      throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
     }
 
     if (

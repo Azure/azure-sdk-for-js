@@ -477,6 +477,19 @@ export const peeringName: msRest.OperationURLParameter = {
     }
   }
 };
+export const policyName: msRest.OperationURLParameter = {
+  parameterPath: "policyName",
+  mapper: {
+    required: true,
+    serializedName: "policyName",
+    constraints: {
+      MaxLength: 128
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const predefinedPolicyName: msRest.OperationURLParameter = {
   parameterPath: "predefinedPolicyName",
   mapper: {

@@ -8,12 +8,22 @@
 #   Example: --fgrep "test description"
 
 variables:
-  OSName: 'Windows'
-  OSVmImage: 'vs2017-win2016'
   NodeVersion: '10.x'
 
 jobs:
   - job: 'Test'
+
+    strategy:
+      # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
+      # since the tests would attempt to use the same resources which causes conflicts.
+      maxParallel: 1
+      matrix:
+        Linux:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+        Windows:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
 
     pool:
       vmImage: '$(OSVmImage)'
@@ -42,9 +52,34 @@ jobs:
 
       # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
       # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
-      - script: npm run live-test-client-$(Package) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
-        displayName: 'npm run live-test-client-$(Package)'
+      - script: npm run live-test-client-$(Package)-node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+        displayName: 'npm run live-test-client-$(Package)-node'
         env:
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
+          # Service Bus
+          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
+          CLEAN_NAMESPACE: 'true'
+          RESOURCE_GROUP: $(service-bus-test-resource-group)
+          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+          # Event Hubs
+          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+          EVENTHUB_NAME: $(js-event-hubs-test-name)
+          IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+          STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+
+      - script: npm run live-test-client-$(Package)-browser
+        displayName: 'npm run live-test-client-$(Package)-browser'
+        env:
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
           # Service Bus
           AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
           AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
