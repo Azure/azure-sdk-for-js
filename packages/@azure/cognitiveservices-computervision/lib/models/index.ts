@@ -291,6 +291,27 @@ export interface DetectedObject {
 }
 
 /**
+ * A brand detected in an image.
+ */
+export interface DetectedBrand {
+  /**
+   * Label for the brand.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Confidence score of having observed the brand in the image, as a value ranging from 0 to 1.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly confidence?: number;
+  /**
+   * Approximate location of the detected brand.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly rectangle?: BoundingRect;
+}
+
+/**
  * Image metadata.
  */
 export interface ImageMetadata {
@@ -345,6 +366,10 @@ export interface ImageAnalysis {
    * Array of objects describing what was detected in the image.
    */
   objects?: DetectedObject[];
+  /**
+   * Array of brands detected in the image.
+   */
+  brands?: DetectedBrand[];
   /**
    * Id of the REST API request.
    */
@@ -602,31 +627,74 @@ export interface CelebrityResults {
 }
 
 /**
- * An interface representing Word.
+ * Json object representing a recognized word.
  */
 export interface Word {
-  boundingBox?: number[];
-  text?: string;
+  /**
+   * Bounding box of a recognized word.
+   */
+  boundingBox: number[];
+  /**
+   * The text content of the word.
+   */
+  text: string;
+  /**
+   * Qualitative confidence measure. Possible values include: 'High', 'Low'
+   */
+  confidence?: TextRecognitionResultConfidenceClass;
 }
 
 /**
- * An interface representing Line.
+ * Json object representing a recognized text line.
  */
 export interface Line {
+  /**
+   * Bounding box of a recognized line.
+   */
   boundingBox?: number[];
+  /**
+   * The text content of the line.
+   */
   text?: string;
+  /**
+   * List of words in the text line.
+   */
   words?: Word[];
 }
 
 /**
- * An interface representing RecognitionResult.
+ * Json object representing a recognized text region
  */
-export interface RecognitionResult {
-  lines?: Line[];
+export interface TextRecognitionResult {
+  /**
+   * The 1-based page number of the recognition result.
+   */
+  page?: number;
+  /**
+   * The orientation of the image in degrees in the clockwise direction. Range between [0, 360).
+   */
+  clockwiseOrientation?: number;
+  /**
+   * The width of the image in pixels or the PDF in inches.
+   */
+  width?: number;
+  /**
+   * The height of the image in pixels or the PDF in inches.
+   */
+  height?: number;
+  /**
+   * The unit used in the Width, Height and BoundingBox. For images, the unit is "pixel". For PDF,
+   * the unit is "inch". Possible values include: 'pixel', 'inch'
+   */
+  unit?: TextRecognitionResultDimensionUnit;
+  /**
+   * A list of recognized text lines.
+   */
+  lines: Line[];
 }
 
 /**
- * An interface representing TextOperationResult.
+ * Result of recognition text operation.
  */
 export interface TextOperationResult {
   /**
@@ -634,7 +702,25 @@ export interface TextOperationResult {
    * 'Succeeded'
    */
   status?: TextOperationStatusCodes;
-  recognitionResult?: RecognitionResult;
+  /**
+   * Text recognition result of the text operation.
+   */
+  recognitionResult?: TextRecognitionResult;
+}
+
+/**
+ * OCR result of the read operation.
+ */
+export interface ReadOperationResult {
+  /**
+   * Status of the read operation. Possible values include: 'Not Started', 'Running', 'Failed',
+   * 'Succeeded'
+   */
+  status?: TextOperationStatusCodes;
+  /**
+   * A array of text recognition result of the read operation.
+   */
+  recognitionResults?: TextRecognitionResult[];
 }
 
 /**
@@ -651,7 +737,9 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
    * - determines the accent color, dominant color, and whether an image is black&white. Adult -
    * detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually
    * suggestive content is also detected. Objects - detects various objects within an image,
-   * including the approximate location. The Objects argument is only available in English.
+   * including the approximate location. The Objects argument is only available in English. Brands
+   * - detects various brands within an image, including the approximate location. The Brands
+   * argument is only available in English.
    */
   visualFeatures?: VisualFeatureTypes[];
   /**
@@ -749,7 +837,9 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
    * - determines the accent color, dominant color, and whether an image is black&white. Adult -
    * detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually
    * suggestive content is also detected. Objects - detects various objects within an image,
-   * including the approximate location. The Objects argument is only available in English.
+   * including the approximate location. The Objects argument is only available in English. Brands
+   * - detects various brands within an image, including the approximate location. The Brands
+   * argument is only available in English.
    */
   visualFeatures?: VisualFeatureTypes[];
   /**
@@ -844,9 +934,29 @@ export interface RecognizeTextHeaders {
 }
 
 /**
+ * Defines headers for BatchReadFile operation.
+ */
+export interface BatchReadFileHeaders {
+  /**
+   * URL to query for status of the operation. The operation ID will expire in 48 hours.
+   */
+  operationLocation: string;
+}
+
+/**
  * Defines headers for RecognizeTextInStream operation.
  */
 export interface RecognizeTextInStreamHeaders {
+  /**
+   * URL to query for status of the operation. The operation ID will expire in 48 hours.
+   */
+  operationLocation: string;
+}
+
+/**
+ * Defines headers for BatchReadFileInStream operation.
+ */
+export interface BatchReadFileInStreamHeaders {
   /**
    * URL to query for status of the operation. The operation ID will expire in 48 hours.
    */
@@ -870,6 +980,22 @@ export type Gender = 'Male' | 'Female';
 export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
 
 /**
+ * Defines values for TextRecognitionResultDimensionUnit.
+ * Possible values include: 'pixel', 'inch'
+ * @readonly
+ * @enum {string}
+ */
+export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
+
+/**
+ * Defines values for TextRecognitionResultConfidenceClass.
+ * Possible values include: 'High', 'Low'
+ * @readonly
+ * @enum {string}
+ */
+export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
+
+/**
  * Defines values for OcrLanguages.
  * Possible values include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr', 'de',
  * 'el', 'hu', 'it', 'ja', 'ko', 'nb', 'pl', 'pt', 'ru', 'es', 'sv', 'tr', 'ar', 'ro', 'sr-Cyrl',
@@ -882,11 +1008,11 @@ export type OcrLanguages = 'unk' | 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 
 /**
  * Defines values for VisualFeatureTypes.
  * Possible values include: 'ImageType', 'Faces', 'Adult', 'Categories', 'Color', 'Tags',
- * 'Description', 'Objects'
+ * 'Description', 'Objects', 'Brands'
  * @readonly
  * @enum {string}
  */
-export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' | 'Color' | 'Tags' | 'Description' | 'Objects';
+export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' | 'Color' | 'Tags' | 'Description' | 'Objects' | 'Brands';
 
 /**
  * Defines values for TextRecognitionMode.
@@ -1190,6 +1316,41 @@ export type GetTextOperationResultResponse = TextOperationResult & {
 };
 
 /**
+ * Contains response data for the batchReadFile operation.
+ */
+export type BatchReadFileResponse = BatchReadFileHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BatchReadFileHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getReadOperationResult operation.
+ */
+export type GetReadOperationResultResponse = ReadOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ReadOperationResult;
+    };
+};
+
+/**
  * Contains response data for the analyzeImageInStream operation.
  */
 export type AnalyzeImageInStreamResponse = ImageAnalysis & {
@@ -1367,5 +1528,20 @@ export type RecognizeTextInStreamResponse = RecognizeTextInStreamHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: RecognizeTextInStreamHeaders;
+    };
+};
+
+/**
+ * Contains response data for the batchReadFileInStream operation.
+ */
+export type BatchReadFileInStreamResponse = BatchReadFileInStreamHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BatchReadFileInStreamHeaders;
     };
 };

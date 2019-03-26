@@ -22,8 +22,62 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
-    super(endpoint, credentials, options);
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+    super(credentials, endpoint, options);
+  }
+
+  /**
+   * Scores close to 1 indicate 100% certainty that the identified language is true. A total of 120
+   * languages are supported.
+   * @summary The API returns the detected language and a numeric score between 0 and 1.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DetectLanguageResponse>
+   */
+  detectLanguage(options?: Models.TextAnalyticsClientDetectLanguageOptionalParams): Promise<Models.DetectLanguageResponse>;
+  /**
+   * @param callback The callback
+   */
+  detectLanguage(callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  detectLanguage(options: Models.TextAnalyticsClientDetectLanguageOptionalParams, callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
+  detectLanguage(options?: Models.TextAnalyticsClientDetectLanguageOptionalParams | msRest.ServiceCallback<Models.LanguageBatchResult>, callback?: msRest.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.DetectLanguageResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      detectLanguageOperationSpec,
+      callback) as Promise<Models.DetectLanguageResponse>;
+  }
+
+  /**
+   * To get even more information on each recognized entity we recommend using the Bing Entity Search
+   * API by querying for the recognized entities names. See the <a
+   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages">Supported
+   * languages in Text Analytics API</a> for the list of enabled languages.
+   * @summary The API returns a list of recognized entities in a given document.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EntitiesResponse>
+   */
+  entities(options?: Models.TextAnalyticsClientEntitiesOptionalParams): Promise<Models.EntitiesResponse>;
+  /**
+   * @param callback The callback
+   */
+  entities(callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  entities(options: Models.TextAnalyticsClientEntitiesOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
+  entities(options?: Models.TextAnalyticsClientEntitiesOptionalParams | msRest.ServiceCallback<Models.EntitiesBatchResult>, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      entitiesOperationSpec,
+      callback) as Promise<Models.EntitiesResponse>;
   }
 
   /**
@@ -32,63 +86,26 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * Analytics Documentation</a> for details about the languages that are supported by key phrase
    * extraction.
    * @summary The API returns a list of strings denoting the key talking points in the input text.
-   * @param input Collection of documents to analyze. Documents can now contain a language field to
-   * indicate the text language
    * @param [options] The optional parameters
    * @returns Promise<Models.KeyPhrasesResponse>
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase): Promise<Models.KeyPhrasesResponse>;
+  keyPhrases(options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams): Promise<Models.KeyPhrasesResponse>;
   /**
-   * @param input Collection of documents to analyze. Documents can now contain a language field to
-   * indicate the text language
    * @param callback The callback
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
+  keyPhrases(callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
   /**
-   * @param input Collection of documents to analyze. Documents can now contain a language field to
-   * indicate the text language
    * @param options The optional parameters
    * @param callback The callback
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
-  keyPhrases(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyPhraseBatchResult>, callback?: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.KeyPhrasesResponse> {
+  keyPhrases(options: Models.TextAnalyticsClientKeyPhrasesOptionalParams, callback: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): void;
+  keyPhrases(options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams | msRest.ServiceCallback<Models.KeyPhraseBatchResult>, callback?: msRest.ServiceCallback<Models.KeyPhraseBatchResult>): Promise<Models.KeyPhrasesResponse> {
     return this.sendOperationRequest(
       {
-        input,
         options
       },
       keyPhrasesOperationSpec,
       callback) as Promise<Models.KeyPhrasesResponse>;
-  }
-
-  /**
-   * Scores close to 1 indicate 100% certainty that the identified language is true. A total of 120
-   * languages are supported.
-   * @summary The API returns the detected language and a numeric score between 0 and 1.
-   * @param input Collection of documents to analyze.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DetectLanguageResponse>
-   */
-  detectLanguage(input: Models.BatchInput, options?: msRest.RequestOptionsBase): Promise<Models.DetectLanguageResponse>;
-  /**
-   * @param input Collection of documents to analyze.
-   * @param callback The callback
-   */
-  detectLanguage(input: Models.BatchInput, callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
-  /**
-   * @param input Collection of documents to analyze.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  detectLanguage(input: Models.BatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LanguageBatchResult>): void;
-  detectLanguage(input: Models.BatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LanguageBatchResult>, callback?: msRest.ServiceCallback<Models.LanguageBatchResult>): Promise<Models.DetectLanguageResponse> {
-    return this.sendOperationRequest(
-      {
-        input,
-        options
-      },
-      detectLanguageOperationSpec,
-      callback) as Promise<Models.DetectLanguageResponse>;
   }
 
   /**
@@ -98,131 +115,50 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * Analytics Documentation</a> for details about the languages that are supported by sentiment
    * analysis.
    * @summary The API returns a numeric score between 0 and 1.
-   * @param input Collection of documents to analyze.
    * @param [options] The optional parameters
    * @returns Promise<Models.SentimentResponse>
    */
-  sentiment(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase): Promise<Models.SentimentResponse>;
+  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams): Promise<Models.SentimentResponse>;
   /**
-   * @param input Collection of documents to analyze.
    * @param callback The callback
    */
-  sentiment(input: Models.MultiLanguageBatchInput, callback: msRest.ServiceCallback<Models.SentimentBatchResult>): void;
+  sentiment(callback: msRest.ServiceCallback<any>): void;
   /**
-   * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  sentiment(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SentimentBatchResult>): void;
-  sentiment(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SentimentBatchResult>, callback?: msRest.ServiceCallback<Models.SentimentBatchResult>): Promise<Models.SentimentResponse> {
+  sentiment(options: Models.TextAnalyticsClientSentimentOptionalParams, callback: msRest.ServiceCallback<any>): void;
+  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.SentimentResponse> {
     return this.sendOperationRequest(
       {
-        input,
         options
       },
       sentimentOperationSpec,
       callback) as Promise<Models.SentimentResponse>;
   }
-
-  /**
-   * To get even more information on each recognized entity we recommend using the Bing Entity Search
-   * API by querying for the recognized entities names. See the <a
-   * href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/text-analytics-supported-languages">Supported
-   * languages in Text Analytics API</a> for the list of enabled languages.
-   * @summary The API returns a list of recognized entities in a given document.
-   * @param input Collection of documents to analyze.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.EntitiesResponse>
-   */
-  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase): Promise<Models.EntitiesResponse>;
-  /**
-   * @param input Collection of documents to analyze.
-   * @param callback The callback
-   */
-  entities(input: Models.MultiLanguageBatchInput, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
-  /**
-   * @param input Collection of documents to analyze.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  entities(input: Models.MultiLanguageBatchInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntitiesBatchResult>): void;
-  entities(input: Models.MultiLanguageBatchInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntitiesBatchResult>, callback?: msRest.ServiceCallback<Models.EntitiesBatchResult>): Promise<Models.EntitiesResponse> {
-    return this.sendOperationRequest(
-      {
-        input,
-        options
-      },
-      entitiesOperationSpec,
-      callback) as Promise<Models.EntitiesResponse>;
-  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const keyPhrasesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "keyPhrases",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  requestBody: {
-    parameterPath: "input",
-    mapper: {
-      ...Mappers.MultiLanguageBatchInput,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.KeyPhraseBatchResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const detectLanguageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "languages",
   urlParameters: [
     Parameters.endpoint
   ],
+  queryParameters: [
+    Parameters.showStats
+  ],
   requestBody: {
-    parameterPath: "input",
-    mapper: {
-      ...Mappers.BatchInput,
-      required: true
-    }
+    parameterPath: [
+      "options",
+      "languageBatchInput"
+    ],
+    mapper: Mappers.LanguageBatchInput
   },
   responses: {
     200: {
       bodyMapper: Mappers.LanguageBatchResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const sentimentOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "sentiment",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  requestBody: {
-    parameterPath: "input",
-    mapper: {
-      ...Mappers.MultiLanguageBatchInput,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SentimentBatchResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -237,12 +173,15 @@ const entitiesOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
+  queryParameters: [
+    Parameters.showStats
+  ],
   requestBody: {
-    parameterPath: "input",
-    mapper: {
-      ...Mappers.MultiLanguageBatchInput,
-      required: true
-    }
+    parameterPath: [
+      "options",
+      "multiLanguageBatchInput"
+    ],
+    mapper: Mappers.MultiLanguageBatchInput
   },
   responses: {
     200: {
@@ -251,6 +190,61 @@ const entitiesOperationSpec: msRest.OperationSpec = {
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
+  },
+  serializer
+};
+
+const keyPhrasesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "keyPhrases",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.showStats
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "multiLanguageBatchInput"
+    ],
+    mapper: Mappers.MultiLanguageBatchInput
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyPhraseBatchResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const sentimentOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "sentiment",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.showStats
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "multiLanguageBatchInput"
+    ],
+    mapper: Mappers.MultiLanguageBatchInput
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SentimentBatchResult
+    },
+    500: {
+      bodyMapper: Mappers.ErrorResponse
+    },
+    default: {}
   },
   serializer
 };

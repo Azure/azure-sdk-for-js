@@ -354,15 +354,11 @@ export interface DataBoxEdgeDevice extends ARMBaseModel {
  */
 export interface DataBoxEdgeDeviceExtendedInfo extends ARMBaseModel {
   /**
-   * The Channel Integrity Key (CIK) of the device.
-   */
-  integrityKey: string;
-  /**
-   * The certificate thumbprint that was used to encrypt the Channel Integrity Key (CIK).
+   * The digital signature of encrypted certificate.
    */
   encryptionKeyThumbprint?: string;
   /**
-   * The Channel Integrity Key (CIK) of the device.
+   * The public part of the encryption certificate. Client uses this to encrypt any secret.
    */
   encryptionKey?: string;
   /**
@@ -1144,7 +1140,8 @@ export interface Order extends ARMBaseModel {
 export interface PeriodicTimerSourceInfo {
   /**
    * The time of the day that results in a valid trigger. Schedule is computed with reference to
-   * the time specified.
+   * the time specified up to seconds. If timezone is not specified the time will considered to be
+   * in device timezone. The value will always be returned as UTC time.
    */
   startTime: Date;
   /**
@@ -1540,6 +1537,16 @@ export interface DevicesUploadCertificateOptionalParams extends msRest.RequestOp
    * The authentication type. Possible values include: 'Invalid', 'AzureActiveDirectory'
    */
   authenticationType?: AuthenticationType;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TriggersListByDataBoxEdgeDeviceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specify $filter='CustomContextTag eq <tag>' to filter on custom context tag property
+   */
+  expand?: string;
 }
 
 /**
@@ -2136,26 +2143,6 @@ export type DevicesUpdateResponse = DataBoxEdgeDevice & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DataBoxEdgeDevice;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdateExtendedInfo operation.
- */
-export type DevicesCreateOrUpdateExtendedInfoResponse = DataBoxEdgeDeviceExtendedInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataBoxEdgeDeviceExtendedInfo;
     };
 };
 

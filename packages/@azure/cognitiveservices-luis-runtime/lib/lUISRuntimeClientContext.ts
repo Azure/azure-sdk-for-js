@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-luis-runtime";
-const packageVersion = "1.2.0";
+const packageVersion = "2.0.0";
 
 export class LUISRuntimeClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -24,12 +24,12 @@ export class LUISRuntimeClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
-    if (endpoint === null || endpoint === undefined) {
-      throw new Error('\'endpoint\' cannot be null.');
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+    if (endpoint == undefined) {
+      throw new Error("'endpoint' cannot be null.");
     }
-    if (credentials === null || credentials === undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+    if (credentials == undefined) {
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {

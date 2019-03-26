@@ -23,28 +23,28 @@ export class ComputerVisionClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
-    if (endpoint === null || endpoint === undefined) {
-      throw new Error('\'endpoint\' cannot be null.');
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+    if (endpoint == undefined) {
+      throw new Error("'endpoint' cannot be null.");
     }
-    if (credentials === null || credentials === undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+    if (credentials == undefined) {
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}";
+    this.baseUri = "{Endpoint}/vision/v2.0";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;
-
   }
 }

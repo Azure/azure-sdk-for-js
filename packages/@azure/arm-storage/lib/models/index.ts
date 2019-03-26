@@ -991,6 +991,145 @@ export interface ListServiceSasResponse {
 }
 
 /**
+ * Object to define the number of days after last modification.
+ */
+export interface DateAfterModification {
+  /**
+   * Integer value indicating the age in days after last modification
+   */
+  daysAfterModificationGreaterThan: number;
+}
+
+/**
+ * Management policy action for base blob.
+ */
+export interface ManagementPolicyBaseBlob {
+  /**
+   * The function to tier blobs to cool storage. Support blobs currently at Hot tier
+   */
+  tierToCool?: DateAfterModification;
+  /**
+   * The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier
+   */
+  tierToArchive?: DateAfterModification;
+  /**
+   * The function to delete the blob
+   */
+  deleteProperty?: DateAfterModification;
+}
+
+/**
+ * Object to define the number of days after creation.
+ */
+export interface DateAfterCreation {
+  /**
+   * Integer value indicating the age in days after creation
+   */
+  daysAfterCreationGreaterThan: number;
+}
+
+/**
+ * Management policy action for snapshot.
+ */
+export interface ManagementPolicySnapShot {
+  /**
+   * The function to delete the blob snapshot
+   */
+  deleteProperty?: DateAfterCreation;
+}
+
+/**
+ * Actions are applied to the filtered blobs when the execution condition is met.
+ */
+export interface ManagementPolicyAction {
+  /**
+   * The management policy action for base blob
+   */
+  baseBlob?: ManagementPolicyBaseBlob;
+  /**
+   * The management policy action for snapshot
+   */
+  snapshot?: ManagementPolicySnapShot;
+}
+
+/**
+ * Filters limit rule actions to a subset of blobs within the storage account. If multiple filters
+ * are defined, a logical AND is performed on all filters.
+ */
+export interface ManagementPolicyFilter {
+  /**
+   * An array of strings for prefixes to be match.
+   */
+  prefixMatch?: string[];
+  /**
+   * An array of predefined enum values. Only blockBlob is supported.
+   */
+  blobTypes: string[];
+}
+
+/**
+ * An object that defines the Lifecycle rule. Each definition is made up with a filters set and an
+ * actions set.
+ */
+export interface ManagementPolicyDefinition {
+  /**
+   * An object that defines the action set.
+   */
+  actions: ManagementPolicyAction;
+  /**
+   * An object that defines the filter set.
+   */
+  filters?: ManagementPolicyFilter;
+}
+
+/**
+ * An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
+ */
+export interface ManagementPolicyRule {
+  /**
+   * Rule is enabled if set to true.
+   */
+  enabled?: boolean;
+  /**
+   * A rule name can contain any combination of alpha numeric characters. Rule name is
+   * case-sensitive. It must be unique within a policy.
+   */
+  name: string;
+  /**
+   * An object that defines the Lifecycle rule.
+   */
+  definition: ManagementPolicyDefinition;
+}
+
+/**
+ * The Storage Account ManagementPolicies Rules. See more details in:
+ * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+ */
+export interface ManagementPolicySchema {
+  /**
+   * The Storage Account ManagementPolicies Rules. See more details in:
+   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+   */
+  rules: ManagementPolicyRule[];
+}
+
+/**
+ * The Get Storage Account ManagementPolicies operation response.
+ */
+export interface ManagementPolicy extends Resource {
+  /**
+   * Returns the date and time the ManagementPolicies was last modified.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * The Storage Account ManagementPolicy, in JSON format. See more details in:
+   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+   */
+  policy: ManagementPolicySchema;
+}
+
+/**
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
@@ -1367,34 +1506,6 @@ export interface BlobServiceProperties extends Resource {
 }
 
 /**
- * The Get Storage Account ManagementPolicies operation response.
- */
-export interface StorageAccountManagementPolicies extends Resource {
-  /**
-   * The Storage Account ManagementPolicies Rules, in JSON format. See more details in:
-   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-   */
-  policy?: any;
-  /**
-   * Returns the date and time the ManagementPolicies was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastModifiedTime?: Date;
-}
-
-/**
- * The Storage Account ManagementPolicies Rules, in JSON format. See more details in:
- * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
- */
-export interface ManagementPoliciesRulesSetParameter {
-  /**
-   * The Storage Account ManagementPolicies Rules, in JSON format. See more details in:
-   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-   */
-  policy?: any;
-}
-
-/**
  * Optional Parameters.
  */
 export interface StorageAccountsGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
@@ -1458,17 +1569,6 @@ export interface BlobContainersGetImmutabilityPolicyOptionalParams extends msRes
    * operation will always be applied.
    */
   ifMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ManagementPoliciesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The Storage Account ManagementPolicies Rules, in JSON format. See more details in:
-   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-   */
-  policy?: any;
 }
 
 /**
@@ -2080,6 +2180,46 @@ export type UsagesListByLocationResponse = UsageListResult & {
 };
 
 /**
+ * Contains response data for the get operation.
+ */
+export type ManagementPoliciesGetResponse = ManagementPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagementPoliciesCreateOrUpdateResponse = ManagementPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagementPolicy;
+    };
+};
+
+/**
  * Contains response data for the setServiceProperties operation.
  */
 export type BlobServicesSetServicePropertiesResponse = BlobServiceProperties & {
@@ -2361,45 +2501,5 @@ export type BlobContainersExtendImmutabilityPolicyResponse = ImmutabilityPolicy 
        * The response body as parsed JSON or XML
        */
       parsedBody: ImmutabilityPolicy;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ManagementPoliciesGetResponse = StorageAccountManagementPolicies & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountManagementPolicies;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ManagementPoliciesCreateOrUpdateResponse = StorageAccountManagementPolicies & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountManagementPolicies;
     };
 };

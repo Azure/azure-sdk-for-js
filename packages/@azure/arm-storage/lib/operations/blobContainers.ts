@@ -746,7 +746,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -772,7 +772,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -814,7 +814,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -856,7 +856,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -882,7 +882,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -907,7 +907,7 @@ const setLegalHoldOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -942,7 +942,7 @@ const clearLegalHoldOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -978,7 +978,7 @@ const createOrUpdateImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch0,
@@ -1013,7 +1013,7 @@ const getImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch0,
@@ -1042,7 +1042,7 @@ const deleteImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch1,
@@ -1070,7 +1070,7 @@ const lockImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch1,
@@ -1098,7 +1098,7 @@ const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch1,

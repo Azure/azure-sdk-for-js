@@ -34,28 +34,11 @@ export const accountName: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-07-01',
-    constraints: {
-      MinLength: 1
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-03-01-preview',
     constraints: {
       MinLength: 1
     },
