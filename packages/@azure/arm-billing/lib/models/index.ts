@@ -1929,20 +1929,6 @@ export interface InvoiceSectionsGetOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
- * An interface representing InvoiceSectionsByBillingProfileNameListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface InvoiceSectionsByBillingProfileNameListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [expand] May be used to expand the billingProfiles.
-   */
-  expand?: string;
-}
-
-/**
- * @interface
  * An interface representing InvoiceSectionsWithCreateSubscriptionPermissionListOptionalParams.
  * Optional Parameters.
  *

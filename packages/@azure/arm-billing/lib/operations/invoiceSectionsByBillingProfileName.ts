@@ -33,7 +33,7 @@ export class InvoiceSectionsByBillingProfileName {
    * @param [options] The optional parameters
    * @returns Promise<Models.InvoiceSectionsByBillingProfileNameListResponse>
    */
-  list(billingAccountName: string, billingProfileName: string, options?: Models.InvoiceSectionsByBillingProfileNameListOptionalParams): Promise<Models.InvoiceSectionsByBillingProfileNameListResponse>;
+  list(billingAccountName: string, billingProfileName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoiceSectionsByBillingProfileNameListResponse>;
   /**
    * @param billingAccountName billing Account Id.
    * @param billingProfileName Billing Profile Id.
@@ -46,8 +46,8 @@ export class InvoiceSectionsByBillingProfileName {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(billingAccountName: string, billingProfileName: string, options: Models.InvoiceSectionsByBillingProfileNameListOptionalParams, callback: msRest.ServiceCallback<Models.InvoiceSectionListResult>): void;
-  list(billingAccountName: string, billingProfileName: string, options?: Models.InvoiceSectionsByBillingProfileNameListOptionalParams | msRest.ServiceCallback<Models.InvoiceSectionListResult>, callback?: msRest.ServiceCallback<Models.InvoiceSectionListResult>): Promise<Models.InvoiceSectionsByBillingProfileNameListResponse> {
+  list(billingAccountName: string, billingProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoiceSectionListResult>): void;
+  list(billingAccountName: string, billingProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoiceSectionListResult>, callback?: msRest.ServiceCallback<Models.InvoiceSectionListResult>): Promise<Models.InvoiceSectionsByBillingProfileNameListResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountName,
@@ -69,8 +69,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.billingProfileName
   ],
   queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
