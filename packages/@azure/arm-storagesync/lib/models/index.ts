@@ -215,7 +215,7 @@ export interface CloudEndpoint extends ProxyResource {
    */
   storageAccountResourceId?: string;
   /**
-   * @member {string} [azureFileShareName] Storage Account Share name
+   * @member {string} [azureFileShareName] Azure file share name
    */
   azureFileShareName?: string;
   /**
@@ -324,7 +324,7 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
    */
   storageAccountResourceId?: string;
   /**
-   * @member {string} [azureFileShareName] Storage Account Share name
+   * @member {string} [azureFileShareName] Azure file share name
    */
   azureFileShareName?: string;
   /**
