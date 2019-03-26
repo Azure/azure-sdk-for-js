@@ -168,19 +168,6 @@ export class HanaInstances {
   }
 
   /**
-   * The operation to monitor a SAP HANA instance.
-   * @param resourceGroupName Name of the resource group.
-   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param monitoringParameter Request body that only contains monitoring attributes
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  monitoring(resourceGroupName: string, hanaInstanceName: string, monitoringParameter: Models.MonitoringDetails, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginMonitoring(resourceGroupName,hanaInstanceName,monitoringParameter,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
    * The operation to restart a SAP HANA instance.
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
@@ -195,26 +182,6 @@ export class HanaInstances {
         options
       },
       beginRestartOperationSpec,
-      options);
-  }
-
-  /**
-   * The operation to monitor a SAP HANA instance.
-   * @param resourceGroupName Name of the resource group.
-   * @param hanaInstanceName Name of the SAP HANA on Azure instance.
-   * @param monitoringParameter Request body that only contains monitoring attributes
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginMonitoring(resourceGroupName: string, hanaInstanceName: string, monitoringParameter: Models.MonitoringDetails, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        hanaInstanceName,
-        monitoringParameter,
-        options
-      },
-      beginMonitoringOperationSpec,
       options);
   }
 
@@ -399,37 +366,6 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginMonitoringOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/monitoring",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hanaInstanceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "monitoringParameter",
-    mapper: {
-      ...Mappers.MonitoringDetails,
-      required: true
-    }
-  },
   responses: {
     200: {},
     202: {},

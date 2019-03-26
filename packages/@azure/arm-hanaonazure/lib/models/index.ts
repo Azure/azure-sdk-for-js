@@ -364,38 +364,52 @@ export interface MonitoringDetails {
   /**
    * @member {string} [hanaVnet] ARM ID of an Azure Vnet with access to the
    * HANA instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  hanaVnet?: string;
+  readonly hanaVnet?: string;
   /**
    * @member {string} [hanaHostname] Hostname of the HANA Instance blade.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  hanaHostname?: string;
+  readonly hanaHostname?: string;
   /**
    * @member {string} [hanaInstanceNum] A number between 00 and 99, stored as a
    * string to maintain leading zero.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  hanaInstanceNum?: string;
+  readonly hanaInstanceNum?: string;
   /**
    * @member {HanaDatabaseContainersEnum} [dbContainer] Either single or
    * multiple depending on the use of MDC(Multiple Database Containers).
-   * Possible values include: 'single', 'multiple'. Default value: 'single' .
+   * Possible values include: 'single', 'multiple'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**. Default value: 'single' .
    */
-  dbContainer?: HanaDatabaseContainersEnum;
+  readonly dbContainer?: HanaDatabaseContainersEnum;
   /**
    * @member {string} [hanaDatabase] Name of the database itself.  It only
    * needs to be specified if using MDC
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  hanaDatabase?: string;
+  readonly hanaDatabase?: string;
   /**
    * @member {string} [hanaDbUsername] Username for the HANA database to login
    * to for monitoring
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  hanaDbUsername?: string;
+  readonly hanaDbUsername?: string;
   /**
    * @member {string} [hanaDbPassword] Password for the HANA database to login
    * for monitoring
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  hanaDbPassword?: string;
+  readonly hanaDbPassword?: string;
 }
 
 /**

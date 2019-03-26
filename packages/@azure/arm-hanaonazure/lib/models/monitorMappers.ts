@@ -8,6 +8,8 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./hanaInstances";
-export * from "./monitor";
+export {
+  MonitoringDetails,
+  CloudError
+} from "../models/mappers";
+

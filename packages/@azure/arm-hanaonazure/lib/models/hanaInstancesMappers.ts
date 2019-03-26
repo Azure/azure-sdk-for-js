@@ -21,7 +21,6 @@ export {
   IpAddress,
   ErrorResponse,
   Tags,
-  CloudError,
-  MonitoringDetails
+  CloudError
 } from "../models/mappers";
 
