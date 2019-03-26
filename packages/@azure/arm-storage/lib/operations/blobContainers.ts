@@ -794,6 +794,9 @@ const createOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {
+      bodyMapper: Mappers.BlobContainer
+    },
     201: {
       bodyMapper: Mappers.BlobContainer
     },
