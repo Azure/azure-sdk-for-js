@@ -28,7 +28,40 @@ export class Configurations {
   }
 
   /**
-   * Configures the configuration on the specified cluster.
+   * Gets all configuration information for an HDI cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ConfigurationsListResponse>
+   */
+  list(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationsListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.ClusterConfigurations>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterConfigurations>): void;
+  list(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterConfigurations>, callback?: msRest.ServiceCallback<Models.ClusterConfigurations>): Promise<Models.ConfigurationsListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.ConfigurationsListResponse>;
+  }
+
+  /**
+   * Configures the HTTP settings on the specified cluster. This API is deprecated, please use
+   * UpdateGatewaySettings in cluster endpoint instead.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param configurationName The name of the cluster configuration.
@@ -42,7 +75,8 @@ export class Configurations {
   }
 
   /**
-   * The configuration object for the specified cluster.
+   * The configuration object for the specified cluster. This API is not recommended and might be
+   * removed in the future. Please consider using List configurations API instead.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param configurationName The name of the cluster configuration.
@@ -78,7 +112,8 @@ export class Configurations {
   }
 
   /**
-   * Configures the configuration on the specified cluster.
+   * Configures the HTTP settings on the specified cluster. This API is deprecated, please use
+   * UpdateGatewaySettings in cluster endpoint instead.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param configurationName The name of the cluster configuration.
@@ -102,6 +137,31 @@ export class Configurations {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/configurations",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterConfigurations
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/configurations/{configurationName}",
