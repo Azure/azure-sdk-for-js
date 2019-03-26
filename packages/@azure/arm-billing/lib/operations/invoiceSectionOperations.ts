@@ -28,32 +28,28 @@ export class InvoiceSectionOperations {
   /**
    * Elevates the caller's access to match their billing profile access.
    * @param billingAccountName billing Account Id.
-   * @param billingProfileName Billing Profile Id.
    * @param invoiceSectionName InvoiceSection Id.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  elevate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  elevate(billingAccountName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param billingAccountName billing Account Id.
-   * @param billingProfileName Billing Profile Id.
    * @param invoiceSectionName InvoiceSection Id.
    * @param callback The callback
    */
-  elevate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, callback: msRest.ServiceCallback<void>): void;
+  elevate(billingAccountName: string, invoiceSectionName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param billingAccountName billing Account Id.
-   * @param billingProfileName Billing Profile Id.
    * @param invoiceSectionName InvoiceSection Id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  elevate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  elevate(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  elevate(billingAccountName: string, invoiceSectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  elevate(billingAccountName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountName,
-        billingProfileName,
         invoiceSectionName,
         options
       },
@@ -66,10 +62,9 @@ export class InvoiceSectionOperations {
 const serializer = new msRest.Serializer(Mappers);
 const elevateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/elevate",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/elevate",
   urlParameters: [
     Parameters.billingAccountName,
-    Parameters.billingProfileName,
     Parameters.invoiceSectionName
   ],
   headerParameters: [
