@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   BackendPoolListResult,
   BackendPool,
   SubResource,
@@ -25,15 +24,19 @@ export {
   CustomHttpsConfiguration,
   KeyVaultCertificateSourceParametersVault,
   Resource,
-  WebApplicationFirewallPolicy1,
+  WebApplicationFirewallPolicy,
   PolicySettings,
-  CustomRules,
+  CustomRuleList,
   CustomRule,
-  MatchCondition1,
-  ManagedRuleSets,
+  MatchCondition,
+  ManagedRuleSetList,
   ManagedRuleSet,
-  AzureManagedRuleSet,
-  AzureManagedOverrideRuleGroup,
+  ManagedRuleGroupOverride,
+  ManagedRuleOverride,
+  FrontendEndpointLink,
+  ManagedRuleSetDefinition,
+  ManagedRuleGroupDefinition,
+  ManagedRuleDefinition,
   FrontDoor
 } from "../models/mappers";
 
