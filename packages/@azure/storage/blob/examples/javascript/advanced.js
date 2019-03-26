@@ -5,7 +5,6 @@
 const fs = require("fs");
 const {
   AnonymousCredential,
-  uploadBrowserDataToBlockBlob,
   downloadBlobToBuffer,
   uploadFileToBlockBlob,
   uploadStreamToBlockBlob,
@@ -15,13 +14,13 @@ const {
   ContainerURL,
   ServiceURL,
   StorageURL
-} = require(".."); // Change to "@azure/storage-blob" in your package
+} = require("@azure/storage-blob"); 
 
 async function main() {
   // Fill in following settings before running this sample
-  const account = "account";
-  const accountSas = "accountSas";
-  const localFilePath = "localFilePath";
+  const account = "";
+  const accountSas = "";
+  const localFilePath = "";
 
   const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface

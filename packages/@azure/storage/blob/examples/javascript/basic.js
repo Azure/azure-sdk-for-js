@@ -12,12 +12,12 @@ const {
   SharedKeyCredential,
   AnonymousCredential,
   TokenCredential
-} = require(".."); // Change to "@azure/storage-blob" in your package
+} = require("@azure/storage-blob"); 
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "account";
-  const accountKey = "accountkey";
+  const account = "";
+  const accountKey = "";
 
   // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
