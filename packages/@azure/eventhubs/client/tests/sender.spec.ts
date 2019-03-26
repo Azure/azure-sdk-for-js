@@ -190,7 +190,7 @@ describe("EventHub Sender", function (): void {
       }
     });
 
-  
+
     it("Error thrown when the 'partitionKey' is not of type 'string'", async function (): Promise<void> {
       const data: EventData = {
         body: "Hello World",
@@ -198,7 +198,7 @@ describe("EventHub Sender", function (): void {
       };
       try{
        await client.send(data, "0");
-      } catch(err){
+      } catch (err){
         debug(err);
         should.exist(err);
         err.message.should.match(/.*'partitionKey' must be of type 'string'.*/ig);
