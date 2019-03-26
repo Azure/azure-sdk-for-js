@@ -122,6 +122,45 @@ export interface Operation {
 }
 
 /**
+ * Active Directory
+ */
+export interface ActiveDirectory {
+  /**
+   * Id of the Active Directory
+   */
+  activeDirectoryId?: string;
+  /**
+   * Username of Active Directory domain administrator
+   */
+  username?: string;
+  /**
+   * Plain text password of Active Directory domain administrator
+   */
+  password?: string;
+  /**
+   * Name of the Active Directory domain
+   */
+  domain?: string;
+  /**
+   * Comma separated list of DNS server IP addresses for the Active Directory domain
+   */
+  dNS?: string;
+  /**
+   * Status of the Active Directory
+   */
+  status?: string;
+  /**
+   * NetBIOS name of the SMB server. This name will be registered as a computer account in the AD
+   * and used to mount volumes
+   */
+  sMBServerName?: string;
+  /**
+   * The Organizational Unit (OU) within the Windows Active Directory
+   */
+  organizationalUnit?: string;
+}
+
+/**
  * NetApp account resource
  */
 export interface NetAppAccount extends BaseResource {
@@ -153,6 +192,10 @@ export interface NetAppAccount extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Active Directories
+   */
+  activeDirectories?: ActiveDirectory[];
 }
 
 /**
@@ -160,9 +203,37 @@ export interface NetAppAccount extends BaseResource {
  */
 export interface NetAppAccountPatch extends BaseResource {
   /**
+   * Resource location
+   */
+  location?: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
    * Resource tags
    */
   tags?: any;
+  /**
+   * Azure lifecycle management
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Active Directories
+   */
+  activeDirectories?: ActiveDirectory[];
 }
 
 /**
@@ -204,7 +275,7 @@ export interface CapacityPool extends BaseResource {
   size?: number;
   /**
    * serviceLevel. The service level of the file system. Possible values include: 'Standard',
-   * 'Premium', 'Extreme'. Default value: 'Premium'.
+   * 'Premium', 'Ultra'. Default value: 'Premium'.
    */
   serviceLevel?: ServiceLevel;
   /**
@@ -219,9 +290,80 @@ export interface CapacityPool extends BaseResource {
  */
 export interface CapacityPoolPatch extends BaseResource {
   /**
+   * Resource location
+   */
+  location?: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
    * Resource tags
    */
   tags?: any;
+  /**
+   * size. Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must
+   * be multiply of 4398046511104). Default value: 4398046511104.
+   */
+  size?: number;
+  /**
+   * serviceLevel. The service level of the file system. Possible values include: 'Standard',
+   * 'Premium', 'Ultra'. Default value: 'Premium'.
+   */
+  serviceLevel?: ServiceLevel;
+}
+
+/**
+ * Volume Export Policy Rule
+ */
+export interface ExportPolicyRule {
+  /**
+   * Order index
+   */
+  ruleIndex?: number;
+  /**
+   * Read only access
+   */
+  unixReadOnly?: boolean;
+  /**
+   * Read and write access
+   */
+  unixReadWrite?: boolean;
+  /**
+   * Allows CIFS protocol
+   */
+  cifs?: boolean;
+  /**
+   * Allows NFSv3 protocol
+   */
+  nfsv3?: boolean;
+  /**
+   * Allows NFSv4 protocol
+   */
+  nfsv4?: boolean;
+  /**
+   * Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses
+   * and host names
+   */
+  allowedClients?: string;
+}
+
+/**
+ * Export policy rule
+ */
+export interface VolumePropertiesExportPolicy {
+  rules?: ExportPolicyRule[];
 }
 
 /**
@@ -263,7 +405,7 @@ export interface Volume extends BaseResource {
   creationToken: string;
   /**
    * serviceLevel. The service level of the file system. Possible values include: 'Standard',
-   * 'Premium', 'Extreme'. Default value: 'Premium'.
+   * 'Premium', 'Ultra'. Default value: 'Premium'.
    */
   serviceLevel: ServiceLevel;
   /**
@@ -272,6 +414,10 @@ export interface Volume extends BaseResource {
    * 107374182400.
    */
   usageThreshold?: number;
+  /**
+   * Export policy rule
+   */
+  exportPolicy?: VolumePropertiesExportPolicy;
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -282,6 +428,13 @@ export interface Volume extends BaseResource {
    * Microsoft.NetApp/volumes
    */
   subnetId?: string;
+}
+
+/**
+ * Export policy rule
+ */
+export interface VolumePatchPropertiesExportPolicy {
+  rules?: ExportPolicyRule[];
 }
 
 /**
@@ -313,7 +466,7 @@ export interface VolumePatch extends BaseResource {
   tags?: any;
   /**
    * serviceLevel. The service level of the file system. Possible values include: 'Standard',
-   * 'Premium', 'Extreme'. Default value: 'Premium'.
+   * 'Premium', 'Ultra'. Default value: 'Premium'.
    */
   serviceLevel?: ServiceLevel;
   /**
@@ -322,6 +475,10 @@ export interface VolumePatch extends BaseResource {
    * 107374182400.
    */
   usageThreshold?: number;
+  /**
+   * Export policy rule
+   */
+  exportPolicy?: VolumePatchPropertiesExportPolicy;
 }
 
 /**
@@ -361,15 +518,15 @@ export interface MountTarget {
    */
   readonly ipAddress?: string;
   /**
-   * vlanid. Vlan Id
+   * subnet. The subnet
    */
-  vlanId?: number;
+  subnet?: string;
   /**
    * startIp. The start of IPv4 address range to use when creating a new mount target
    */
   startIp?: string;
   /**
-   * startIp. The end of IPv4 address range to use when creating a new mount target
+   * endIp. The end of IPv4 address range to use when creating a new mount target
    */
   endIp?: string;
   /**
@@ -380,6 +537,10 @@ export interface MountTarget {
    * netmask. The netmask of the IPv4 address range to use when creating a new mount target
    */
   netmask?: string;
+  /**
+   * smbServerFQDN. The SMB server's Fully Qualified Domain Name, FQDN
+   */
+  smbServerFqdn?: string;
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -462,46 +623,6 @@ export interface ErrorModel {
 /**
  * Optional Parameters.
  */
-export interface AccountsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Resource tags
-   */
-  tags?: any;
-}
-
-/**
- * Optional Parameters.
- */
-export interface AccountsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Resource tags
-   */
-  tags?: any;
-}
-
-/**
- * Optional Parameters.
- */
-export interface AccountsBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Resource tags
-   */
-  tags?: any;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PoolsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Resource tags
-   */
-  tags?: any;
-}
-
-/**
- * Optional Parameters.
- */
 export interface SnapshotsUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Resource tags
@@ -567,11 +688,11 @@ export interface SnapshotsList extends Array<Snapshot> {
 
 /**
  * Defines values for ServiceLevel.
- * Possible values include: 'Standard', 'Premium', 'Extreme'
+ * Possible values include: 'Standard', 'Premium', 'Ultra'
  * @readonly
  * @enum {string}
  */
-export type ServiceLevel = 'Standard' | 'Premium' | 'Extreme';
+export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra';
 
 /**
  * Contains response data for the list operation.
