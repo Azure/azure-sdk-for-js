@@ -26,6 +26,7 @@ class FrontDoorManagementClient extends FrontDoorManagementClientContext {
   frontendEndpoints: operations.FrontendEndpoints;
   endpoints: operations.Endpoints;
   policies: operations.Policies;
+  managedRuleSets: operations.ManagedRuleSets;
 
   /**
    * Initializes a new instance of the FrontDoorManagementClient class.
@@ -44,6 +45,7 @@ class FrontDoorManagementClient extends FrontDoorManagementClientContext {
     this.frontendEndpoints = new operations.FrontendEndpoints(this);
     this.endpoints = new operations.Endpoints(this);
     this.policies = new operations.Policies(this);
+    this.managedRuleSets = new operations.ManagedRuleSets(this);
   }
 
   /**
@@ -109,7 +111,7 @@ const checkFrontDoorNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Network/checkFrontDoorNameAvailability",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -139,7 +141,7 @@ const checkFrontDoorNameAvailabilityWithSubscriptionOperationSpec: msRest.Operat
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
