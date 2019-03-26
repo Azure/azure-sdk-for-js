@@ -211,7 +211,8 @@ export const visualFeatures: msRest.OperationQueryParameter = {
             "Color",
             "Tags",
             "Description",
-            "Objects"
+            "Objects",
+            "Brands"
           ]
         }
       }

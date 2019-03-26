@@ -8,60 +8,95 @@
 #   Example: --fgrep "test description"
 
 variables:
-  OSName: 'Windows'
-  OSVmImage: 'vs2017-win2016'
   NodeVersion: '10.x'
 
 jobs:
-- job: 'Test'
+  - job: 'Test'
 
-  pool:
-    vmImage: '$(OSVmImage)'
+    strategy:
+      # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
+      # since the tests would attempt to use the same resources which causes conflicts.
+      maxParallel: 1
+      matrix:
+        Linux:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+        Windows:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
 
-  timeoutInMinutes: 240
+    pool:
+      vmImage: '$(OSVmImage)'
 
-  steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '$(NodeVersion)'
-    displayName: 'Install Node.js $(NodeVersion)'
+    timeoutInMinutes: 240
 
-  # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
-  # which is the minimum required to run the composite script commands.
-  - task: Npm@1
-    inputs:
-      command: 'custom'
-      customCommand: 'install npm-run-all'
-    displayName: 'npm install npm-run-all'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '$(NodeVersion)'
+        displayName: 'Install Node.js $(NodeVersion)'
 
-  - task: Npm@1
-    inputs:
-      command: 'custom'
-      customCommand: 'run install-client-$(Package)'
-    displayName: 'npm run install-client-$(Package)'
+      # Rather than running "npm install" in the repo root, reduce build time by only installing the "npm-run-all" package,
+      # which is the minimum required to run the composite script commands.
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'install npm-run-all'
+        displayName: 'npm install npm-run-all'
 
-  # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
-  # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
-  - script: npm run live-test-client-$(Package) -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
-    displayName: 'npm run live-test-client-$(Package)'
-    env:
-      # Service Bus
-      AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-      AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-      AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-      AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
-      CLEAN_NAMESPACE: 'true'
-      RESOURCE_GROUP: $(service-bus-test-resource-group)
-      SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
-      # Event Hubs
-      EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-      EVENTHUB_NAME: $(js-event-hubs-test-name)
-      IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
-      STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          customCommand: 'run install-client-$(Package)'
+        displayName: 'npm run install-client-$(Package)'
 
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFiles: '**/test-results.xml'
-      testRunTitle: '$(OSName) Node $(NodeVersion)'
-    condition: succeededOrFailed()
-    displayName: 'Publish test results'
+      # To get realtime logging of test progress in Azure Pipelines, we need to use "script" instead of "Npm@1",
+      # since "Npm@1" currently buffers output (https://github.com/Microsoft/azure-pipelines-tasks/issues/8171).
+      - script: npm run live-test-client-$(Package)-node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
+        displayName: 'npm run live-test-client-$(Package)-node'
+        env:
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
+          # Service Bus
+          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
+          CLEAN_NAMESPACE: 'true'
+          RESOURCE_GROUP: $(service-bus-test-resource-group)
+          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+          # Event Hubs
+          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+          EVENTHUB_NAME: $(js-event-hubs-test-name)
+          IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+          STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+
+      - script: npm run live-test-client-$(Package)-browser
+        displayName: 'npm run live-test-client-$(Package)-browser'
+        env:
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
+          # Service Bus
+          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
+          CLEAN_NAMESPACE: 'true'
+          RESOURCE_GROUP: $(service-bus-test-resource-group)
+          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
+          # Event Hubs
+          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
+          EVENTHUB_NAME: $(js-event-hubs-test-name)
+          IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
+          STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/test-results.xml'
+          testRunTitle: '$(OSName) Node $(NodeVersion)'
+        condition: succeededOrFailed()
+        displayName: 'Publish test results'

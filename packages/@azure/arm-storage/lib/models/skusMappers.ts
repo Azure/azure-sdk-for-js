@@ -9,7 +9,7 @@
 export {
   CloudError,
   Restriction,
-  SKUCapability,
   Sku,
+  SKUCapability,
   StorageSkuListResult
 } from "../models/mappers";

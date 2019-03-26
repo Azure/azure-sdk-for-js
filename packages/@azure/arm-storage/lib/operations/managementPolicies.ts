@@ -27,7 +27,7 @@ export class ManagementPolicies {
   }
 
   /**
-   * Gets the data policy rules associated with the specified storage account.
+   * Gets the managementpolicy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -45,7 +45,7 @@ export class ManagementPolicies {
    * letters only.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
+  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -55,8 +55,8 @@ export class ManagementPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountManagementPolicies>, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesGetResponse> {
+  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>, callback?: msRest.ServiceCallback<Models.ManagementPolicy>): Promise<Models.ManagementPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,40 +68,47 @@ export class ManagementPolicies {
   }
 
   /**
-   * Sets the data policy rules associated with the specified storage account.
+   * Sets the managementpolicy to the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
+   * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in:
+   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, options?: Models.ManagementPoliciesCreateOrUpdateOptionalParams): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options?: msRest.RequestOptionsBase): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
+   * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in:
+   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
+   * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in:
+   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, options: Models.ManagementPoliciesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, options?: Models.ManagementPoliciesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.StorageAccountManagementPolicies>, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>, callback?: msRest.ServiceCallback<Models.ManagementPolicy>): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
+        policy,
         options
       },
       createOrUpdateOperationSpec,
@@ -109,7 +116,7 @@ export class ManagementPolicies {
   }
 
   /**
-   * Deletes the data policy rules associated with the specified storage account.
+   * Deletes the managementpolicy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -162,14 +169,14 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.managementPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccountManagementPolicies
+      bodyMapper: Mappers.ManagementPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -188,26 +195,23 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.managementPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   requestBody: {
     parameterPath: {
-      policy: [
-        "options",
-        "policy"
-      ]
+      policy: "policy"
     },
     mapper: {
-      ...Mappers.ManagementPoliciesRulesSetParameter,
+      ...Mappers.ManagementPolicy,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.StorageAccountManagementPolicies
+      bodyMapper: Mappers.ManagementPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -226,7 +230,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.managementPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

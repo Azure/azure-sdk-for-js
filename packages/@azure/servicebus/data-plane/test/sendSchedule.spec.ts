@@ -542,44 +542,151 @@ describe("Cancel multiple Scheduled messages", function(): void {
 });
 
 describe("Message validations", function(): void {
+  const longString =
+    "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
   afterEach(async () => {
     await afterEachTest();
   });
 
-  it("MessageId validations", async function(): Promise<void> {
+  async function validationTest(msg: any, expectedErrorMsg: string): Promise<void> {
+    let actualErrorMsg = "";
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     const sender = senderClient.getSender();
-    let errorMessageIdDecimal = false;
-    await sender.send({ body: "", messageId: 1.5 }).catch((err) => {
-      errorMessageIdDecimal =
-        err &&
-        err.message === "'messageId must be a whole integer. Decimal points are not allowed.";
+    await sender.send(msg).catch((err) => {
+      actualErrorMsg = err.message;
     });
+    should.equal(actualErrorMsg, expectedErrorMsg, "Error not thrown as expected");
+  }
 
-    should.equal(
-      errorMessageIdDecimal,
-      true,
-      "Error not thrown when messageId is not a whole number"
+  it("Error thrown when the 'msg' is undefined", async function(): Promise<void> {
+    await validationTest(undefined!, "data is required and it must be of type object.");
+  });
+
+  it("Error thrown when the 'contentType' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", contentType: 1 as any },
+      "'contentType' must be of type 'string'."
     );
+  });
 
-    let errorMessageIdLongString = false;
-    await sender
-      .send({
-        body: "",
-        messageId:
-          "A very very very very very very very very very very very very very very very very very very very very very very very very very long string."
-      })
-      .catch((err) => {
-        errorMessageIdLongString =
-          err &&
-          err.message ===
-            "Length of 'messageId' of type 'string' cannot be greater than 128 characters.";
-      });
+  it("Error thrown when the 'label' is not of type 'string'", async function(): Promise<void> {
+    await validationTest({ body: "", label: 1 as any }, "'label' must be of type 'string'.");
+  });
 
-    should.equal(
-      errorMessageIdLongString,
-      true,
-      "Error not thrown when messageId is not a whole number"
+  it("Error thrown when the 'to' is not of type 'string'", async function(): Promise<void> {
+    await validationTest({ body: "", to: 1 as any }, "'to' must be of type 'string'.");
+  });
+
+  it("Error thrown when the 'replyToSessionId' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", replyToSessionId: 1 as any },
+      "'replyToSessionId' must be of type 'string'."
+    );
+  });
+
+  it("Error thrown when the 'timeToLive' is not of type 'number'", async function(): Promise<void> {
+    await validationTest(
+      { body: "", timeToLive: "" as any },
+      "'timeToLive' must be of type 'number'."
+    );
+  });
+
+  it("Error thrown when the 'scheduledEnqueueTimeUtc' is not an instance of a valid 'Date'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", scheduledEnqueueTimeUtc: new Date("foo") },
+      "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'."
+    );
+  });
+
+  it("Error thrown when the 'scheduledEnqueueTimeUtc' is a number(not an instance of 'Date')", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", scheduledEnqueueTimeUtc: 1 as any },
+      "'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'."
+    );
+  });
+
+  it("Error thrown when the length of 'partitionKey' is greater than 128 characters", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", partitionKey: longString },
+      "'partitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  });
+
+  it("Error thrown when the 'partitionKey' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", partitionKey: 1 as any },
+      "'partitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  });
+
+  it("Error thrown when the length of 'viaPartitionKey' is greater than 128 characters.", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", viaPartitionKey: longString },
+      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  });
+
+  it("Error thrown when the 'viaPartitionKey' is not of type 'string'", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", viaPartitionKey: 1 as any },
+      "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
+    );
+  });
+
+  it("Error thrown when the 'sessionId' is not of type 'string'", async function(): Promise<void> {
+    await validationTest(
+      { body: "", sessionId: 1 as any },
+      "'sessionId' must be of type 'string'."
+    );
+  });
+
+  it("Error thrown when the length of 'sessionId' is greater than 128 characters", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", sessionId: longString },
+      "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
+    );
+  });
+
+  it("Error thrown when the 'messageId' is not a whole number.", async function(): Promise<void> {
+    await validationTest(
+      { body: "", messageId: 1.5 },
+      "'messageId' must be a whole integer. Decimal points are not allowed."
+    );
+  });
+
+  it("Error thrown when the length of 'messageId' is greater than 128 characters", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", messageId: longString },
+      "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
+    );
+  });
+
+  it("Error thrown when the 'correlationId' is not an instance of 'string' | 'number' | Buffer", async function(): Promise<
+    void
+  > {
+    await validationTest(
+      { body: "", correlationId: [] as any },
+      "'correlationId' must be of type 'string' | 'number' | Buffer."
     );
   });
 });
