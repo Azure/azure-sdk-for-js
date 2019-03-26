@@ -1,3 +1,31 @@
+### 2019-03-26 2.0.0
+
+#### Breaking Changes
+- If you have been using the `createFromAadTokenCredentials` function to create an instance of the 
+`EventHubClient`, you will now need to use the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) 
+library instead of [ms-rest-azure](https://www.npmjs.com/package/ms-rest-azure) library to create 
+the credentials that are needed by the `createFromAadTokenCredentials` function.
+    - Typescript: Replace `import * from "ms-rest-azure";` with `import * from "@azure/ms-rest-nodeauth";`
+    - Javascript: Replace `require("ms-rest-azure")` with `require("@azure/ms-rest-nodeauth")`
+- If you have been passing a non string value in the `partitionKey` property on the message when 
+sending it using the `EventHubClient`, an error will now be thrown. This property only supports string values.
+- We have enabled the [esModuleInterop compilerOption](https://www.typescriptlang.org/docs/handbook/compiler-options.html) 
+in the `tsconfig.json` file for this library. This will result in any imports of the form 
+`import a from "a"` in your Typescript application to give compile time error 
+`error TS1192: Module '....' has no default export`. You can update such imports to the form 
+`import * as a from "a"` to fix the error.
+
+#### Bug fixes
+- A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError` 
+is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/d908a215cc7e1c9b24d90d9bf9735fd035f4b269/packages/%40azure/eventhubs/client/README.md#debug-logs).
+- When recovering from an error that caused the underlying AMQP connection to get disconnected, 
+[rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection 
+resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections. 
+We already have code in place to create new AMQP links to resume send/receive operations.
+    - InvalidOperationError: A link to connection '.....' $cbs node has already been opened.
+    - UnauthorizedError: Unauthorized access. 'Listen' claim(s) are required to perform this operation.
+
+
 ### 2018-12-14 1.0.8
 - Use `isItselfClosed()` instead of `isClosed()` in rhea to correctly determine if the sdk initiated close on receiver/sender. 
 This ensures that on connection issues like the ECONNRESET error, the receivers get re-connected properly thus fixing the [bug 174](https://github.com/Azure/azure-event-hubs-node/issues/174)
