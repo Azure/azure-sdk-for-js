@@ -19,7 +19,7 @@ class HanaManagementClient extends HanaManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   hanaInstances: operations.HanaInstances;
-  monitor: operations.Monitor;
+  monitoring: operations.Monitoring;
 
   /**
    * Initializes a new instance of the HanaManagementClient class.
@@ -32,7 +32,7 @@ class HanaManagementClient extends HanaManagementClientContext {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.hanaInstances = new operations.HanaInstances(this);
-    this.monitor = new operations.Monitor(this);
+    this.monitoring = new operations.Monitoring(this);
   }
 }
 
