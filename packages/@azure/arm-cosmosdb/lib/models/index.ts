@@ -287,6 +287,271 @@ export interface DatabaseAccount extends Resource {
 
 /**
  * @interface
+ * An interface representing GenericResourceProperties.
+ * The general properties associated with all API resource.
+ *
+ * @extends BaseResource
+ */
+export interface GenericResourceProperties extends BaseResource {
+  /**
+   * @member {string} [id] The unique resource identifier of the database
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] The name of the database account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SqlDatabaseResource.
+ * An Azure Cosmos DB SQL database.
+ *
+ * @extends GenericResourceProperties
+ */
+export interface SqlDatabaseResource extends GenericResourceProperties {
+  /**
+   * @member {string} sqlDatabaseResourceId Name of the Cosmos DB SQL database
+   */
+  sqlDatabaseResourceId: string;
+  /**
+   * @member {string} [_rid] A system generated property. A unique identifier.
+   */
+  _rid?: string;
+  /**
+   * @member {any} [_ts] A system generated property that denotes the last
+   * updated timestamp of the resource.
+   */
+  _ts?: any;
+  /**
+   * @member {string} [_self] A system generated property. It is the unique
+   * addressable URI for the resource.
+   */
+  _self?: string;
+  /**
+   * @member {string} [_etag] A system generated property representing the
+   * resource etag required for optimistic concurrency control.
+   */
+  _etag?: string;
+  /**
+   * @member {string} [_colls] A system generated property that specified the
+   * addressable path of the collections resource.
+   */
+  _colls?: string;
+  /**
+   * @member {string} [_users] A system generated property that specifies the
+   * addressable path of the users resource.
+   */
+  _users?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Indexes.
+ * The indexes for the path.
+ *
+ */
+export interface Indexes {
+  /**
+   * @member {DataType} [dataType] The datatype for which the indexing behavior
+   * is applied to. Possible values include: 'String', 'Number', 'Point',
+   * 'Polygon', 'LineString', 'MultiPolygon'. Default value: 'String' .
+   */
+  dataType?: DataType;
+  /**
+   * @member {number} [precision] The precision of the index. -1 is maximum
+   * precision.
+   */
+  precision?: number;
+  /**
+   * @member {IndexKind} [kind] Indicates the type of index. Possible values
+   * include: 'Hash', 'Range', 'Spatial'. Default value: 'Hash' .
+   */
+  kind?: IndexKind;
+}
+
+/**
+ * @interface
+ * An interface representing IncludedPaths.
+ * The paths that are included in indexing
+ *
+ */
+export interface IncludedPaths {
+  /**
+   * @member {string} [path] The path for which the indexing behavior applies
+   * to. Index paths typically start with root and end with windcard (/path/*)
+   */
+  path?: string;
+  /**
+   * @member {Indexes[]} [indexes] List of indexes for this path
+   */
+  indexes?: Indexes[];
+}
+
+/**
+ * @interface
+ * An interface representing IndexingPolicy.
+ * Cosmos DB indexing policy
+ *
+ */
+export interface IndexingPolicy {
+  /**
+   * @member {boolean} [automatic] Indicates if the indexing policy is
+   * automatic
+   */
+  automatic?: boolean;
+  /**
+   * @member {IndexingMode} [indexingMode] Indicates the indexing mode.
+   * Possible values include: 'Consistent', 'Lazy', 'None'. Default value:
+   * 'Consistent' .
+   */
+  indexingMode?: IndexingMode;
+  /**
+   * @member {IncludedPaths[]} [includedPaths] List of paths to include in the
+   * indexing
+   */
+  includedPaths?: IncludedPaths[];
+  /**
+   * @member {string[]} [excludedPaths] List of paths to exclude from indexing
+   */
+  excludedPaths?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing PartitionKey.
+ * The configuration of the partition key to be used for partitioning data into
+ * multiple partitions
+ *
+ */
+export interface PartitionKey {
+  /**
+   * @member {string[]} [paths] List of paths using which data within the SQL
+   * container can be parititoned
+   */
+  paths?: string[];
+  /**
+   * @member {PartitionKind} [kind] Indicates the kind of algorithm used for
+   * partitioning. Possible values include: 'Hash', 'Range'. Default value:
+   * 'Hash' .
+   */
+  kind?: PartitionKind;
+}
+
+/**
+ * @interface
+ * An interface representing ConflictResolutionPolicy.
+ * The conflict resolution policy for the SQL container.
+ *
+ */
+export interface ConflictResolutionPolicy {
+  /**
+   * @member {ConflictResolutionMode} [mode] Indicates the conflict resolution
+   * mode. Possible values include: 'LastWriterWins', 'Custom'. Default value:
+   * 'LastWriterWins' .
+   */
+  mode?: ConflictResolutionMode;
+  /**
+   * @member {string} [conflictResolutionPath] The conflict resolution path in
+   * the case of LastWriterWins mode.
+   */
+  conflictResolutionPath?: string;
+  /**
+   * @member {string} [conflictResolutionProcedure] The procedure to resolve
+   * conflicts in the case of custom mode.
+   */
+  conflictResolutionProcedure?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SqlContainerResource.
+ * An Azure Cosmos DB SQL container.
+ *
+ * @extends GenericResourceProperties
+ */
+export interface SqlContainerResource extends GenericResourceProperties {
+  /**
+   * @member {string} sqlContainerResourceId Name of the Cosmos DB SQL
+   * container
+   */
+  sqlContainerResourceId: string;
+  /**
+   * @member {IndexingPolicy} [indexingPolicy] The configuration of the
+   * indexing policy. By default, the indexing is automatic for all document
+   * paths within the SQL container
+   */
+  indexingPolicy?: IndexingPolicy;
+  /**
+   * @member {PartitionKey} [partitionKey] The configuration of the partition
+   * key to be used for partitioning data into multiple partitions
+   */
+  partitionKey?: PartitionKey;
+  /**
+   * @member {ConflictResolutionPolicy} [conflictResolutionPolicy] The conflict
+   * resolution policy for the SQL container.
+   */
+  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  /**
+   * @member {string} [_rid] A system generated property. A unique identifier.
+   */
+  _rid?: string;
+  /**
+   * @member {any} [_ts] A system generated property that denotes the last
+   * updated timestamp of the resource.
+   */
+  _ts?: any;
+  /**
+   * @member {string} [_self] A system generated property. It is the unique
+   * addressable URI for the resource.
+   */
+  _self?: string;
+  /**
+   * @member {string} [_etag] A system generated property representing the
+   * resource etag required for optimistic concurrency control.
+   */
+  _etag?: string;
+  /**
+   * @member {string} [_doc] A system generated property that specifies the
+   * addressable path of the documents resource.
+   */
+  _doc?: string;
+  /**
+   * @member {string} [_sprocs] A system generated property that specifies the
+   * addressable path of the stored procedures (sprocs) resource.
+   */
+  _sprocs?: string;
+  /**
+   * @member {string} [_triggers] A system generated property that specifies
+   * the addressable path of the triggers resource.
+   */
+  _triggers?: string;
+  /**
+   * @member {string} [_udfs] A system generated property that specifies the
+   * addressable path of the user-defined functions (udfs) resource.
+   */
+  _udfs?: string;
+  /**
+   * @member {string} [_conflicts] A system generated property that specifies
+   * the addressable path of the conflicts resource.
+   */
+  _conflicts?: string;
+}
+
+/**
+ * @interface
  * An interface representing ErrorResponse.
  * Error Response.
  *
@@ -328,6 +593,35 @@ export interface RegionForOnlineOffline {
    * each word capitalized.
    */
   region: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExtenedResourceProperties.
+ * The system generated resource properties associated with SQL databases and
+ * SQL containers.
+ *
+ */
+export interface ExtenedResourceProperties {
+  /**
+   * @member {string} [_rid] A system generated property. A unique identifier.
+   */
+  _rid?: string;
+  /**
+   * @member {any} [_ts] A system generated property that denotes the last
+   * updated timestamp of the resource.
+   */
+  _ts?: any;
+  /**
+   * @member {string} [_self] A system generated property. It is the unique
+   * addressable URI for the resource.
+   */
+  _self?: string;
+  /**
+   * @member {string} [_etag] A system generated property representing the
+   * resource etag required for optimistic concurrency control.
+   */
+  _etag?: string;
 }
 
 /**
@@ -522,6 +816,115 @@ export interface DatabaseAccountRegenerateKeyParameters {
 
 /**
  * @interface
+ * An interface representing SqlDatabaseCreateUpdateResource.
+ * Cosmos DB SQL database id object
+ *
+ */
+export interface SqlDatabaseCreateUpdateResource {
+  /**
+   * @member {string} id Name of the Cosmos DB SQL database
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing CreateUpdateOptions.
+ * Cosmos DB create database options
+ *
+ */
+export interface CreateUpdateOptions {
+  /**
+   * @member {string} [ifMatch] The If-Match header for the request
+   */
+  ifMatch?: string;
+  /**
+   * @member {string} [ifNoneMatch] The If-Non-Match header for the request
+   */
+  ifNoneMatch?: string;
+  /**
+   * @member {string} [sessionToken] The x-ms-session-token header for the
+   * request
+   */
+  sessionToken?: string;
+  /**
+   * @member {string} [throughput] The x-ms-offer-throughput header for the
+   * request
+   */
+  throughput?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SqlDatabaseCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB SQL database.
+ *
+ */
+export interface SqlDatabaseCreateUpdateParameters {
+  /**
+   * @member {SqlDatabaseCreateUpdateResource} resource The standard JSON
+   * format of a SQL database
+   */
+  resource: SqlDatabaseCreateUpdateResource;
+  /**
+   * @member {CreateUpdateOptions} options A key-value pair of options to be
+   * applied for the request. This corresponds to the headers sent with the
+   * request.
+   */
+  options: CreateUpdateOptions;
+}
+
+/**
+ * @interface
+ * An interface representing SqlContainerCreateUpdateResource.
+ * Cosmos DB SQL container resource object
+ *
+ */
+export interface SqlContainerCreateUpdateResource {
+  /**
+   * @member {string} id Name of the Cosmos DB SQL container
+   */
+  id: string;
+  /**
+   * @member {IndexingPolicy} [indexingPolicy] The configuration of the
+   * indexing policy. By default, the indexing is automatic for all document
+   * paths within the SQL container
+   */
+  indexingPolicy?: IndexingPolicy;
+  /**
+   * @member {PartitionKey} [partitionKey] The configuration of the partition
+   * key to be used for partitioning data into multiple partitions
+   */
+  partitionKey?: PartitionKey;
+  /**
+   * @member {ConflictResolutionPolicy} [conflictResolutionPolicy] The conflict
+   * resolution policy for the SQL container.
+   */
+  conflictResolutionPolicy?: ConflictResolutionPolicy;
+}
+
+/**
+ * @interface
+ * An interface representing SqlContainerCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB SQL container.
+ *
+ */
+export interface SqlContainerCreateUpdateParameters {
+  /**
+   * @member {SqlContainerCreateUpdateResource} resource The standard JSON
+   * format of a SQL container
+   */
+  resource: SqlContainerCreateUpdateResource;
+  /**
+   * @member {CreateUpdateOptions} options A key-value pair of options to be
+   * applied for the request. This corresponds to the headers sent with the
+   * request.
+   */
+  options: CreateUpdateOptions;
+}
+
+/**
+ * @interface
  * An interface representing OperationDisplay.
  * The object that represents the operation.
  *
@@ -634,7 +1037,7 @@ export interface Usage {
  */
 export interface PartitionUsage extends Usage {
   /**
-   * @member {string} [partitionId] The parition id (GUID identifier) of the
+   * @member {string} [partitionId] The partition id (GUID identifier) of the
    * usages.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -915,7 +1318,7 @@ export interface PercentileMetric {
  */
 export interface PartitionMetric extends Metric {
   /**
-   * @member {string} [partitionId] The parition id (GUID identifier) of the
+   * @member {string} [partitionId] The partition id (GUID identifier) of the
    * metric values.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -1050,6 +1453,28 @@ export interface MetricDefinitionsListResult extends Array<MetricDefinition> {
 
 /**
  * @interface
+ * An interface representing the SqlDatabaseListResult.
+ * The List operation response, that contains the SQL databases and their
+ * properties.
+ *
+ * @extends Array<SqlDatabaseResource>
+ */
+export interface SqlDatabaseListResult extends Array<SqlDatabaseResource> {
+}
+
+/**
+ * @interface
+ * An interface representing the SqlContainerListResult.
+ * The List operation response, that contains the SQL containers and their
+ * properties.
+ *
+ * @extends Array<SqlContainerResource>
+ */
+export interface SqlContainerListResult extends Array<SqlContainerResource> {
+}
+
+/**
+ * @interface
  * An interface representing the OperationListResult.
  * Result of the request to list Resource Provider operations. It contains a
  * list of operations and a URL link to get the next set of results.
@@ -1117,6 +1542,46 @@ export type DatabaseAccountOfferType = 'Standard';
  * @enum {string}
  */
 export type DefaultConsistencyLevel = 'Eventual' | 'Session' | 'BoundedStaleness' | 'Strong' | 'ConsistentPrefix';
+
+/**
+ * Defines values for IndexingMode.
+ * Possible values include: 'Consistent', 'Lazy', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type IndexingMode = 'Consistent' | 'Lazy' | 'None';
+
+/**
+ * Defines values for DataType.
+ * Possible values include: 'String', 'Number', 'Point', 'Polygon', 'LineString', 'MultiPolygon'
+ * @readonly
+ * @enum {string}
+ */
+export type DataType = 'String' | 'Number' | 'Point' | 'Polygon' | 'LineString' | 'MultiPolygon';
+
+/**
+ * Defines values for IndexKind.
+ * Possible values include: 'Hash', 'Range', 'Spatial'
+ * @readonly
+ * @enum {string}
+ */
+export type IndexKind = 'Hash' | 'Range' | 'Spatial';
+
+/**
+ * Defines values for PartitionKind.
+ * Possible values include: 'Hash', 'Range'
+ * @readonly
+ * @enum {string}
+ */
+export type PartitionKind = 'Hash' | 'Range';
+
+/**
+ * Defines values for ConflictResolutionMode.
+ * Possible values include: 'LastWriterWins', 'Custom'
+ * @readonly
+ * @enum {string}
+ */
+export type ConflictResolutionMode = 'LastWriterWins' | 'Custom';
 
 /**
  * Defines values for KeyKind.
@@ -1395,6 +1860,158 @@ export type DatabaseAccountsListMetricDefinitionsResponse = MetricDefinitionsLis
 };
 
 /**
+ * Contains response data for the listSqlDatabases operation.
+ */
+export type DatabaseAccountsListSqlDatabasesResponse = SqlDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the createSqlDatabase operation.
+ */
+export type DatabaseAccountsCreateSqlDatabaseResponse = SqlDatabaseResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseResource;
+    };
+};
+
+/**
+ * Contains response data for the getSqlDatabase operation.
+ */
+export type DatabaseAccountsGetSqlDatabaseResponse = SqlDatabaseResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseResource;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlDatabase operation.
+ */
+export type DatabaseAccountsUpdateSqlDatabaseResponse = SqlDatabaseResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseResource;
+    };
+};
+
+/**
+ * Contains response data for the listSqlContainers operation.
+ */
+export type DatabaseAccountsListSqlContainersResponse = SqlContainerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerListResult;
+    };
+};
+
+/**
+ * Contains response data for the createSqlContainer operation.
+ */
+export type DatabaseAccountsCreateSqlContainerResponse = SqlContainerResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerResource;
+    };
+};
+
+/**
+ * Contains response data for the getSqlContainer operation.
+ */
+export type DatabaseAccountsGetSqlContainerResponse = SqlContainerResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerResource;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlContainer operation.
+ */
+export type DatabaseAccountsUpdateSqlContainerResponse = SqlContainerResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerResource;
+    };
+};
+
+/**
  * Contains response data for the beginPatch operation.
  */
 export type DatabaseAccountsBeginPatchResponse = DatabaseAccount & {
@@ -1429,6 +2046,82 @@ export type DatabaseAccountsBeginCreateOrUpdateResponse = DatabaseAccount & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DatabaseAccount;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateSqlDatabase operation.
+ */
+export type DatabaseAccountsBeginCreateSqlDatabaseResponse = SqlDatabaseResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseResource;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateSqlDatabase operation.
+ */
+export type DatabaseAccountsBeginUpdateSqlDatabaseResponse = SqlDatabaseResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseResource;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateSqlContainer operation.
+ */
+export type DatabaseAccountsBeginCreateSqlContainerResponse = SqlContainerResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerResource;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateSqlContainer operation.
+ */
+export type DatabaseAccountsBeginUpdateSqlContainerResponse = SqlContainerResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerResource;
     };
 };
 
