@@ -5,7 +5,7 @@ import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
-} from "ms-rest-azure";
+} from "@azure/ms-rest-nodeauth";
 import {
   MessagingError, DataTransformer, TokenProvider, EventHubConnectionConfig, AadTokenProvider
 } from "@azure/amqp-common";

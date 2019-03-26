@@ -185,7 +185,7 @@ export class EventHubSender extends LinkEntity {
           senderError: senderError,
           _sender: this._sender
         };
-        log.error("[%s] Something is busted. State of sender '%s' with address '%s' is: %O",
+        log.error("[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
           this._context.connectionId, this.name, this.address, state);
       }
       if (shouldReopen) {
@@ -200,6 +200,7 @@ export class EventHubSender extends LinkEntity {
             connectionId: this._context.connectionId,
             operationType: RetryOperationType.senderLink,
             times: Constants.defaultConnectionRetryAttempts,
+            connectionHost: this._context.config.host,
             delayInSeconds: 15
           };
           return retry<void>(config);
@@ -246,6 +247,10 @@ export class EventHubSender extends LinkEntity {
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
+      }
+
+      if (data.partitionKey && typeof data.partitionKey !== "string"){
+          throw new Error("'partitionKey' must be of type 'string'.");
       }
 
       if (!this.isOpen()) {

@@ -3,8 +3,8 @@
 ## Building the library
 - Clone the repo and cd to the repo directory
 ```bash
-git clone https://github.com/Azure/azure-event-hubs-node.git
-cd processor
+git clone https://github.com/Azure/azure-sdk-for-js.git
+cd packages/@azure/eventhubs/processor
 ```
 - Install typescript, ts-node globally (required for running the samples)
 ```bash
