@@ -135,6 +135,13 @@ export const FrontDoor: msRest.CompositeMapper = {
           }
         }
       },
+      backendPoolsSettings: {
+        serializedName: "properties.backendPoolsSettings",
+        type: {
+          name: "Composite",
+          className: "BackendPoolsSettings"
+        }
+      },
       enabledState: {
         serializedName: "properties.enabledState",
         type: {
@@ -222,36 +229,17 @@ export const RoutingRule: msRest.CompositeMapper = {
           }
         }
       },
-      customForwardingPath: {
-        serializedName: "properties.customForwardingPath",
-        type: {
-          name: "String"
-        }
-      },
-      forwardingProtocol: {
-        serializedName: "properties.forwardingProtocol",
-        type: {
-          name: "String"
-        }
-      },
-      cacheConfiguration: {
-        serializedName: "properties.cacheConfiguration",
-        type: {
-          name: "Composite",
-          className: "CacheConfiguration"
-        }
-      },
-      backendPool: {
-        serializedName: "properties.backendPool",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      },
       enabledState: {
         serializedName: "properties.enabledState",
         type: {
           name: "String"
+        }
+      },
+      routeConfiguration: {
+        serializedName: "properties.routeConfiguration",
+        type: {
+          name: "Composite",
+          className: "RouteConfiguration"
         }
       },
       resourceState: {
@@ -569,6 +557,23 @@ export const FrontendEndpoint: msRest.CompositeMapper = {
   }
 };
 
+export const BackendPoolsSettings: msRest.CompositeMapper = {
+  serializedName: "BackendPoolsSettings",
+  type: {
+    name: "Composite",
+    className: "BackendPoolsSettings",
+    modelProperties: {
+      enforceCertificateNameCheck: {
+        serializedName: "enforceCertificateNameCheck",
+        defaultValue: 'Enabled',
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FrontDoorUpdateParameters: msRest.CompositeMapper = {
   serializedName: "FrontDoorUpdateParameters",
   type: {
@@ -641,6 +646,13 @@ export const FrontDoorUpdateParameters: msRest.CompositeMapper = {
           }
         }
       },
+      backendPoolsSettings: {
+        serializedName: "backendPoolsSettings",
+        type: {
+          name: "Composite",
+          className: "BackendPoolsSettings"
+        }
+      },
       enabledState: {
         serializedName: "enabledState",
         type: {
@@ -673,20 +685,20 @@ export const PurgeParameters: msRest.CompositeMapper = {
   }
 };
 
-export const CacheConfiguration: msRest.CompositeMapper = {
-  serializedName: "CacheConfiguration",
+export const RouteConfiguration: msRest.CompositeMapper = {
+  serializedName: "RouteConfiguration",
   type: {
     name: "Composite",
-    className: "CacheConfiguration",
+    polymorphicDiscriminator: {
+      serializedName: "@odata.type",
+      clientName: "odatatype"
+    },
+    uberParent: "RouteConfiguration",
+    className: "RouteConfiguration",
     modelProperties: {
-      queryParameterStripDirective: {
-        serializedName: "queryParameterStripDirective",
-        type: {
-          name: "String"
-        }
-      },
-      dynamicCompression: {
-        serializedName: "dynamicCompression",
+      odatatype: {
+        required: true,
+        serializedName: "@odata\\.type",
         type: {
           name: "String"
         }
@@ -735,6 +747,54 @@ export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
           }
         }
       },
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      },
+      routeConfiguration: {
+        serializedName: "routeConfiguration",
+        type: {
+          name: "Composite",
+          className: "RouteConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const CacheConfiguration: msRest.CompositeMapper = {
+  serializedName: "CacheConfiguration",
+  type: {
+    name: "Composite",
+    className: "CacheConfiguration",
+    modelProperties: {
+      queryParameterStripDirective: {
+        serializedName: "queryParameterStripDirective",
+        type: {
+          name: "String"
+        }
+      },
+      dynamicCompression: {
+        serializedName: "dynamicCompression",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ForwardingConfiguration: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: RouteConfiguration.type.polymorphicDiscriminator,
+    uberParent: "RouteConfiguration",
+    className: "ForwardingConfiguration",
+    modelProperties: {
+      ...RouteConfiguration.type.modelProperties,
       customForwardingPath: {
         serializedName: "customForwardingPath",
         type: {
@@ -760,9 +820,52 @@ export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
           name: "Composite",
           className: "SubResource"
         }
+      }
+    }
+  }
+};
+
+export const RedirectConfiguration: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: RouteConfiguration.type.polymorphicDiscriminator,
+    uberParent: "RouteConfiguration",
+    className: "RedirectConfiguration",
+    modelProperties: {
+      ...RouteConfiguration.type.modelProperties,
+      redirectType: {
+        serializedName: "redirectType",
+        type: {
+          name: "String"
+        }
       },
-      enabledState: {
-        serializedName: "enabledState",
+      redirectProtocol: {
+        serializedName: "redirectProtocol",
+        type: {
+          name: "String"
+        }
+      },
+      customHost: {
+        serializedName: "customHost",
+        type: {
+          name: "String"
+        }
+      },
+      customPath: {
+        serializedName: "customPath",
+        type: {
+          name: "String"
+        }
+      },
+      customFragment: {
+        serializedName: "customFragment",
+        type: {
+          name: "String"
+        }
+      },
+      customQueryString: {
+        serializedName: "customQueryString",
         type: {
           name: "String"
         }
@@ -1959,4 +2062,10 @@ export const ManagedRuleSetDefinitionList: msRest.CompositeMapper = {
       }
     }
   }
+};
+
+export const discriminators = {
+  'RouteConfiguration' : RouteConfiguration,
+  'RouteConfiguration.#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration' : ForwardingConfiguration,
+  'RouteConfiguration.#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration' : RedirectConfiguration
 };

@@ -9,6 +9,7 @@
  */
 
 export {
+  discriminators,
   WebApplicationFirewallPolicyList,
   WebApplicationFirewallPolicy,
   Resource,
@@ -27,7 +28,7 @@ export {
   FrontDoor,
   RoutingRule,
   SubResource,
-  CacheConfiguration,
+  RouteConfiguration,
   LoadBalancingSettingsModel,
   HealthProbeSettingsModel,
   BackendPool,
@@ -36,6 +37,10 @@ export {
   FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink,
   CustomHttpsConfiguration,
   KeyVaultCertificateSourceParametersVault,
+  BackendPoolsSettings,
+  ForwardingConfiguration,
+  CacheConfiguration,
+  RedirectConfiguration,
   ManagedRuleSetDefinition,
   ManagedRuleGroupDefinition,
   ManagedRuleDefinition
