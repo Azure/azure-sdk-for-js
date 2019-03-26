@@ -17474,18 +17474,21 @@ export interface ValidationActivity {
   timeout?: any;
   /**
    * @member {any} [sleep] A delay in seconds between validation attempts. If
-   * no value is specified, 10 seconds will be used as the default.
+   * no value is specified, 10 seconds will be used as the default. Type:
+   * integer (or Expression with resultType integer).
    */
   sleep?: any;
   /**
    * @member {any} [minimumSize] Can be used if dataset points to a file. The
-   * file must be greater than or equal in size to the value specified.
+   * file must be greater than or equal in size to the value specified. Type:
+   * integer (or Expression with resultType integer).
    */
   minimumSize?: any;
   /**
    * @member {any} [childItems] Can be used if dataset points to a folder. If
    * set to true, the folder must have at least one file. If set to false, the
-   * folder must be empty.
+   * folder must be empty. Type: boolean (or Expression with resultType
+   * boolean).
    */
   childItems?: any;
   /**
