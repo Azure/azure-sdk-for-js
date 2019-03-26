@@ -74,6 +74,7 @@ jobs:
           STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
 
       - script: npm run live-test-client-$(Package)-browser
+        condition: succeededOrFailed()
         displayName: 'npm run live-test-client-$(Package)-browser'
         env:
           # Storage
@@ -97,6 +98,14 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: '**/test-results.xml'
-          testRunTitle: '$(OSName) Node $(NodeVersion)'
+          testRunTitle: '$(OSName) Node $(NodeVersion) - Node'
         condition: succeededOrFailed()
-        displayName: 'Publish test results'
+        displayName: 'Publish node test results'
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "**/test-results.browser.xml"
+          testRunTitle: '$(OSName) Node $(NodeVersion) - Browser'
+        condition: succeededOrFailed()
+        displayName: 'Publish browser test results'
