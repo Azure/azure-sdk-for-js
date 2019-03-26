@@ -1488,11 +1488,11 @@ export const VoiceTestDefinition: msRest.CompositeMapper = {
   }
 };
 
-export const GetSupportedLocalesForDatasetsOKResponse: msRest.CompositeMapper = {
-  serializedName: "GetSupportedLocalesForDatasetsOKResponse",
+export const IReadOnlyDictionary2: msRest.CompositeMapper = {
+  serializedName: "IReadOnlyDictionary_2",
   type: {
     name: "Composite",
-    className: "GetSupportedLocalesForDatasetsOKResponse",
+    className: "IReadOnlyDictionary2",
     modelProperties: {
       none: {
         serializedName: "None",

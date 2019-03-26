@@ -1031,11 +1031,11 @@ export interface VoiceTestDefinition {
 
 /**
  * @interface
- * An interface representing GetSupportedLocalesForDatasetsOKResponse.
+ * An interface representing IReadOnlyDictionary2.
  * @summary IReadOnlyDictionary`2
  *
  */
-export interface GetSupportedLocalesForDatasetsOKResponse {
+export interface IReadOnlyDictionary2 {
   /**
    * @member {string[]} [none]
    */
