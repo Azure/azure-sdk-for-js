@@ -9,16 +9,18 @@
  */
 
 export {
-  EnrollmentAccount,
+  InvoiceSectionListResult,
+  InvoiceSection,
   Resource,
   BaseResource,
-  Department,
-  ErrorResponse,
-  ErrorDetails,
   BillingProfile,
   Address,
   EnabledAzureSKUs,
-  InvoiceSection,
+  InvoiceSectionsByBillingAccountNameListHeaders,
+  ErrorResponse,
+  ErrorDetails,
+  EnrollmentAccount,
+  Department,
   BillingAccount,
   Enrollment,
   EnrollmentPolicies,

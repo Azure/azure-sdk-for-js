@@ -9,10 +9,10 @@
  */
 
 export {
-  EnrollmentAccount,
+  Department,
   Resource,
   BaseResource,
-  Department,
+  EnrollmentAccount,
   ErrorResponse,
   ErrorDetails,
   BillingProfile,
