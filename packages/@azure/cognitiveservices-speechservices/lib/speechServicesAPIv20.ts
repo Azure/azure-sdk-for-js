@@ -2845,7 +2845,7 @@ const getSupportedLocalesForModelsOperationSpec: msRest.OperationSpec = {
   path: "api/speechtotext/v2.0/models/locales",
   responses: {
     200: {
-      bodyMapper: Mappers.GetSupportedLocalesForModelsOKResponse,
+      bodyMapper: Mappers.IReadOnlyDictionary2,
       headersMapper: Mappers.GetSupportedLocalesForModelsHeaders
     },
     401: {

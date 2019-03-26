@@ -1064,47 +1064,6 @@ export interface IReadOnlyDictionary2 {
 
 /**
  * @interface
- * An interface representing GetSupportedLocalesForModelsOKResponse.
- * @summary IReadOnlyDictionary`2
- *
- */
-export interface GetSupportedLocalesForModelsOKResponse {
-  /**
-   * @member {string[]} [none]
-   */
-  none?: string[];
-  /**
-   * @member {string[]} [acoustic]
-   */
-  acoustic?: string[];
-  /**
-   * @member {string[]} [language]
-   */
-  language?: string[];
-  /**
-   * @member {string[]} [acousticAndLanguage]
-   */
-  acousticAndLanguage?: string[];
-  /**
-   * @member {string[]} [customVoice]
-   */
-  customVoice?: string[];
-  /**
-   * @member {string[]} [languageGeneration]
-   */
-  languageGeneration?: string[];
-  /**
-   * @member {string[]} [sentiment]
-   */
-  sentiment?: string[];
-  /**
-   * @member {string[]} [languageIdentification]
-   */
-  languageIdentification?: string[];
-}
-
-/**
- * @interface
  * An interface representing SpeechServicesAPIv20Options.
  * @extends ServiceClientOptions
  */

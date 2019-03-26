@@ -1495,7 +1495,7 @@ export const IReadOnlyDictionary2: msRest.CompositeMapper = {
     className: "IReadOnlyDictionary2",
     modelProperties: {
       none: {
-        serializedName: "None",
+        serializedName: "none",
         type: {
           name: "Sequence",
           element: {
@@ -1506,7 +1506,7 @@ export const IReadOnlyDictionary2: msRest.CompositeMapper = {
         }
       },
       language: {
-        serializedName: "Language",
+        serializedName: "language",
         type: {
           name: "Sequence",
           element: {
@@ -1517,7 +1517,7 @@ export const IReadOnlyDictionary2: msRest.CompositeMapper = {
         }
       },
       acoustic: {
-        serializedName: "Acoustic",
+        serializedName: "acoustic",
         type: {
           name: "Sequence",
           element: {
@@ -1528,7 +1528,7 @@ export const IReadOnlyDictionary2: msRest.CompositeMapper = {
         }
       },
       pronunciation: {
-        serializedName: "Pronunciation",
+        serializedName: "pronunciation",
         type: {
           name: "Sequence",
           element: {
@@ -1539,7 +1539,7 @@ export const IReadOnlyDictionary2: msRest.CompositeMapper = {
         }
       },
       customVoice: {
-        serializedName: "CustomVoice",
+        serializedName: "customVoice",
         type: {
           name: "Sequence",
           element: {
@@ -1550,105 +1550,7 @@ export const IReadOnlyDictionary2: msRest.CompositeMapper = {
         }
       },
       languageGeneration: {
-        serializedName: "LanguageGeneration",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const GetSupportedLocalesForModelsOKResponse: msRest.CompositeMapper = {
-  serializedName: "GetSupportedLocalesForModelsOKResponse",
-  type: {
-    name: "Composite",
-    className: "GetSupportedLocalesForModelsOKResponse",
-    modelProperties: {
-      none: {
-        serializedName: "None",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      acoustic: {
-        serializedName: "Acoustic",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      language: {
-        serializedName: "Language",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      acousticAndLanguage: {
-        serializedName: "AcousticAndLanguage",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      customVoice: {
-        serializedName: "CustomVoice",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      languageGeneration: {
-        serializedName: "LanguageGeneration",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      sentiment: {
-        serializedName: "Sentiment",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      languageIdentification: {
-        serializedName: "LanguageIdentification",
+        serializedName: "languageGeneration",
         type: {
           name: "Sequence",
           element: {
