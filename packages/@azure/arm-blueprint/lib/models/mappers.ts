@@ -81,7 +81,11 @@ export const Blueprint: msRest.CompositeMapper = {
       targetScope: {
         serializedName: "properties.targetScope",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "subscription",
+            "managementGroup"
+          ]
         }
       },
       parameters: {
@@ -183,7 +187,11 @@ export const PublishedBlueprint: msRest.CompositeMapper = {
       targetScope: {
         serializedName: "properties.targetScope",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "subscription",
+            "managementGroup"
+          ]
         }
       },
       parameters: {
