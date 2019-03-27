@@ -4,7 +4,7 @@
 	"description": "Azure Event Hubs SDK for JS.",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
-	"homepage": "http://github.com/azure/azure-sdk-for-js",
+	"homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/eventhubs",
 	"repository": "github:Azure/azure-sdk-for-js",
 	"keywords": [
 		"azure",
