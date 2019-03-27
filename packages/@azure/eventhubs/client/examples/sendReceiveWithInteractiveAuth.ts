@@ -7,7 +7,7 @@ import {
   aadEventHubsAudience,
   EventPosition
 } from "../lib";
-import {interactiveLogin} from "@azure/ms-rest-nodeauth";
+import { interactiveLogin } from "@azure/ms-rest-nodeauth";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   // For now the interactive user needs to explicitly be assigned
   // the role of a constributor/owner even if the user is a subscription owner.
   // azure role assignment create -o contributor --scope /subscriptions/<subscriptionId>/resourceGroups/<rgName>/providers/Microsoft.EventHub/namespaces/<ehNamespaceName> --signInName <user@example.com>
-  const credentials = <any> (await interactiveLogin({tokenAudience: aadEventHubsAudience}));
+  const credentials = await interactiveLogin({tokenAudience: aadEventHubsAudience});
   const client = EventHubClient.createFromAadTokenCredentials(address, path, credentials);
   const partitionIds = await client.getPartitionIds();
   await client.send({ body: "Hello awesome world!!" }, partitionIds[0]);
