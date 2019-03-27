@@ -61,6 +61,7 @@
     "pack-client": "npm-run-all -p -l pack-client-*",
     "test-client-template": "cd sdk/template/template && npm run test",
     "test-client": "npm-run-all -p -l \"test-client-* -- {@}\"",
+    "test-client-eventhubs-client": "echo skipped",
     "live-test-client-eventhubs-client-node": "cd packages/@azure/eventhubs/client && npm run unit",
     "live-test-client-eventhubs-processor-node": "cd packages/@azure/eventhubs/processor && npm run unit",
     "live-test-client-servicebus-node": "cd packages/@azure/servicebus/data-plane && npm run unit",
