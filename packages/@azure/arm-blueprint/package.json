@@ -1,5 +1,5 @@
 {
-  "name": "@azure/azure-mgmt-blueprint",
+  "name": "@azure/arm-blueprint",
   "author": "Microsoft Corporation",
   "description": "BlueprintManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0",
@@ -16,7 +16,7 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/azure-mgmt-blueprint.js",
+  "main": "./dist/arm-blueprint.js",
   "module": "./esm/blueprintManagementClient.js",
   "types": "./esm/blueprintManagementClient.d.ts",
   "devDependencies": {
@@ -49,7 +49,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/azure-mgmt-blueprint.js.map'\" -o ./dist/azure-mgmt-blueprint.min.js ./dist/azure-mgmt-blueprint.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-blueprint.js.map'\" -o ./dist/arm-blueprint.min.js ./dist/arm-blueprint.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false

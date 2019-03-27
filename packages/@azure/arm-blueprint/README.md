@@ -10,7 +10,7 @@ This package contains an isomorphic SDK for BlueprintManagementClient.
 ### How to Install
 
 ```bash
-npm install @azure/azure-mgmt-blueprint
+npm install @azure/arm-blueprint
 ```
 
 ### How to use
@@ -29,7 +29,7 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { BlueprintManagementClient, BlueprintManagementModels, BlueprintManagementMappers } from "@azure/azure-mgmt-blueprint";
+import { BlueprintManagementClient, BlueprintManagementModels, BlueprintManagementMappers } from "@azure/arm-blueprint";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
@@ -62,11 +62,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/azure-mgmt-blueprint sample</title>
+    <title>@azure/arm-blueprint sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/azure-mgmt-blueprint/dist/azure-mgmt-blueprint.js"></script>
+    <script src="node_modules/@azure/arm-blueprint/dist/arm-blueprint.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -78,7 +78,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.AzureMgmtBlueprint.BlueprintManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmBlueprint.BlueprintManagementClient(res.creds, subscriptionId);
         const scope = "testscope";
         const blueprintName = "testblueprintName";
         client.blueprints.get(scope, blueprintName).then((result) => {

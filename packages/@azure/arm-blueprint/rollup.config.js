@@ -12,9 +12,9 @@ const config = {
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/azure-mgmt-blueprint.js",
+    file: "./dist/arm-blueprint.js",
     format: "umd",
-    name: "Azure.AzureMgmtBlueprint",
+    name: "Azure.ArmBlueprint",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",
