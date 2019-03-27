@@ -9,15 +9,9 @@
  */
 
 export {
-  App,
-  Resource,
-  BaseResource,
-  AppSkuInfo,
+  AppTemplatesResult,
+  AppTemplate,
   ErrorDetails,
-  ErrorResponseBody,
-  AppPatch,
-  AppListResult,
-  OperationInputs,
-  AppAvailabilityInfo
+  ErrorResponseBody
 } from "../models/mappers";
 

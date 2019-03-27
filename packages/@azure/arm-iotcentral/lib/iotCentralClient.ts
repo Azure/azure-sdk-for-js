@@ -18,6 +18,7 @@ import { IotCentralClientContext } from "./iotCentralClientContext";
 class IotCentralClient extends IotCentralClientContext {
   // Operation groups
   apps: operations.Apps;
+  app: operations.AppOperations;
   operations: operations.Operations;
 
   /**
@@ -29,6 +30,7 @@ class IotCentralClient extends IotCentralClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotCentralClientOptions) {
     super(credentials, subscriptionId, options);
     this.apps = new operations.Apps(this);
+    this.app = new operations.AppOperations(this);
     this.operations = new operations.Operations(this);
   }
 }

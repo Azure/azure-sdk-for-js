@@ -443,11 +443,11 @@ export const AppTemplate: msRest.CompositeMapper = {
   }
 };
 
-export const AppTemplates: msRest.CompositeMapper = {
-  serializedName: "AppTemplates",
+export const AppTemplatesResult: msRest.CompositeMapper = {
+  serializedName: "AppTemplatesResult",
   type: {
     name: "Composite",
-    className: "AppTemplates",
+    className: "AppTemplatesResult",
     modelProperties: {
       nextLink: {
         serializedName: "nextLink",

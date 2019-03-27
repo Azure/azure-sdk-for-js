@@ -9,4 +9,5 @@
  */
 
 export * from "./apps";
+export * from "./appOperations";
 export * from "./operations";

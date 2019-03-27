@@ -325,7 +325,7 @@ export interface AppTemplate {
    */
   readonly name?: string;
   /**
-   * @member {string} [title] The localized title of the template.
+   * @member {string} [title] The title of the template.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -346,11 +346,11 @@ export interface AppTemplate {
 
 /**
  * @interface
- * An interface representing AppTemplates.
+ * An interface representing AppTemplatesResult.
  * A list of IoT Central Application Templates with a next link.
  *
  */
-export interface AppTemplates {
+export interface AppTemplatesResult {
   /**
    * @member {string} [nextLink] The link used to get the next page of IoT
    * Central description objects.
@@ -551,25 +551,6 @@ export type AppsCheckSubdomainAvailabilityResponse = AppAvailabilityInfo & {
 };
 
 /**
- * Contains response data for the templates operation.
- */
-export type AppsTemplatesResponse = AppTemplates & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppTemplates;
-    };
-};
-
-/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type AppsBeginCreateOrUpdateResponse = App & {
@@ -642,6 +623,25 @@ export type AppsListByResourceGroupNextResponse = AppListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AppListResult;
+    };
+};
+
+/**
+ * Contains response data for the templates operation.
+ */
+export type AppTemplatesResponse = AppTemplatesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppTemplatesResult;
     };
 };
 
