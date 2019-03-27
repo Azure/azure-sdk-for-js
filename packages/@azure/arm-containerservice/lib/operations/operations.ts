@@ -57,7 +57,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.ContainerService/operations",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
