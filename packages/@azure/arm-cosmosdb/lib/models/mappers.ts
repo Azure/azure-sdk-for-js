@@ -758,11 +758,11 @@ export const RegionForOnlineOffline: msRest.CompositeMapper = {
   }
 };
 
-export const ExtenedResourceProperties: msRest.CompositeMapper = {
-  serializedName: "ExtenedResourceProperties",
+export const ExtendedResourceProperties: msRest.CompositeMapper = {
+  serializedName: "ExtendedResourceProperties",
   type: {
     name: "Composite",
-    className: "ExtenedResourceProperties",
+    className: "ExtendedResourceProperties",
     modelProperties: {
       _rid: {
         serializedName: "_rid",
@@ -1062,40 +1062,6 @@ export const SqlDatabaseCreateUpdateResource: msRest.CompositeMapper = {
   }
 };
 
-export const CreateUpdateOptions: msRest.CompositeMapper = {
-  serializedName: "CreateUpdateOptions",
-  type: {
-    name: "Composite",
-    className: "CreateUpdateOptions",
-    modelProperties: {
-      ifMatch: {
-        serializedName: "If-Match",
-        type: {
-          name: "String"
-        }
-      },
-      ifNoneMatch: {
-        serializedName: "If-None-Match",
-        type: {
-          name: "String"
-        }
-      },
-      sessionToken: {
-        serializedName: "Session-Token",
-        type: {
-          name: "String"
-        }
-      },
-      throughput: {
-        serializedName: "Throughput",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
   serializedName: "SqlDatabaseCreateUpdateParameters",
   type: {
@@ -1114,8 +1080,12 @@ export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Composite",
-          className: "CreateUpdateOptions"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1178,8 +1148,12 @@ export const SqlContainerCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Composite",
-          className: "CreateUpdateOptions"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

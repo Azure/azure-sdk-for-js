@@ -391,7 +391,7 @@ export interface Indexes {
 export interface IncludedPaths {
   /**
    * @member {string} [path] The path for which the indexing behavior applies
-   * to. Index paths typically start with root and end with windcard (/path/*)
+   * to. Index paths typically start with root and end with wildcard (/path/*)
    */
   path?: string;
   /**
@@ -439,7 +439,7 @@ export interface IndexingPolicy {
 export interface PartitionKey {
   /**
    * @member {string[]} [paths] List of paths using which data within the SQL
-   * container can be parititoned
+   * container can be partitioned
    */
   paths?: string[];
   /**
@@ -597,12 +597,12 @@ export interface RegionForOnlineOffline {
 
 /**
  * @interface
- * An interface representing ExtenedResourceProperties.
+ * An interface representing ExtendedResourceProperties.
  * The system generated resource properties associated with SQL databases and
  * SQL containers.
  *
  */
-export interface ExtenedResourceProperties {
+export interface ExtendedResourceProperties {
   /**
    * @member {string} [_rid] A system generated property. A unique identifier.
    */
@@ -829,33 +829,6 @@ export interface SqlDatabaseCreateUpdateResource {
 
 /**
  * @interface
- * An interface representing CreateUpdateOptions.
- * Cosmos DB create database options
- *
- */
-export interface CreateUpdateOptions {
-  /**
-   * @member {string} [ifMatch] The If-Match header for the request
-   */
-  ifMatch?: string;
-  /**
-   * @member {string} [ifNoneMatch] The If-Non-Match header for the request
-   */
-  ifNoneMatch?: string;
-  /**
-   * @member {string} [sessionToken] The x-ms-session-token header for the
-   * request
-   */
-  sessionToken?: string;
-  /**
-   * @member {string} [throughput] The x-ms-offer-throughput header for the
-   * request
-   */
-  throughput?: string;
-}
-
-/**
- * @interface
  * An interface representing SqlDatabaseCreateUpdateParameters.
  * Parameters to create and update Cosmos DB SQL database.
  *
@@ -867,11 +840,11 @@ export interface SqlDatabaseCreateUpdateParameters {
    */
   resource: SqlDatabaseCreateUpdateResource;
   /**
-   * @member {CreateUpdateOptions} options A key-value pair of options to be
-   * applied for the request. This corresponds to the headers sent with the
-   * request.
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options: { [propertyName: string]: string };
 }
 
 /**
@@ -916,11 +889,11 @@ export interface SqlContainerCreateUpdateParameters {
    */
   resource: SqlContainerCreateUpdateResource;
   /**
-   * @member {CreateUpdateOptions} options A key-value pair of options to be
-   * applied for the request. This corresponds to the headers sent with the
-   * request.
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
    */
-  options: CreateUpdateOptions;
+  options: { [propertyName: string]: string };
 }
 
 /**

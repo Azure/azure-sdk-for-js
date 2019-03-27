@@ -43,7 +43,6 @@ export {
   GenericResourceProperties,
   SqlDatabaseCreateUpdateParameters,
   SqlDatabaseCreateUpdateResource,
-  CreateUpdateOptions,
   SqlContainerListResult,
   SqlContainerResource,
   IndexingPolicy,
