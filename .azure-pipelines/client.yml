@@ -1,7 +1,8 @@
 # External variables:
-# packageSuffix
-#   The package suffix for the package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages.
-#   Example: -eventhubs-client
+# packageOption
+#   The package name for the package to build and test. Defined in pipeline web ui because multiple pipelines use this YAML with different packages. Use "all" for all packages
+#   Example1: eventhubs-client (for package eventhubs-client)
+#   Example2: all (for all packages)
 #
 trigger:
   - master
@@ -32,20 +33,20 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run install-client$(packageSuffix)'
-        displayName: 'npm run install-client$(packageSuffix)'
+          customCommand: 'run install-client-$(packageOption)'
+        displayName: 'npm run install-client-$(packageOption)'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run build-client$(packageSuffix)'
-        displayName: 'npm run build-client$(packageSuffix)'
+          customCommand: 'run build-client-$(packageOption)'
+        displayName: 'npm run build-client-$(packageOption)'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run pack-client$(packageSuffix)'
-        displayName: 'npm run pack-client$(packageSuffix)'
+          customCommand: 'run pack-client-$(packageOption)'
+        displayName: 'npm run pack-client-$(packageOption)'
 
       - task: CopyFiles@2
         inputs:
@@ -94,8 +95,8 @@ jobs:
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         inputs:
           command: 'custom'
-          customCommand: 'run audit-client$(packageSuffix)'
-        displayName: 'npm run audit-client$(packageSuffix)'
+          customCommand: 'run audit-client-$(packageOption)'
+        displayName: 'npm run audit-client-$(packageOption)'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -167,14 +168,14 @@ jobs:
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run install-client$(packageSuffix)'
-        displayName: 'npm run install-client$(packageSuffix)'
+          customCommand: 'run install-client-$(packageOption)'
+        displayName: 'npm run install-client-$(packageOption)'
 
       - task: Npm@1
         inputs:
           command: 'custom'
-          customCommand: 'run test-client$(packageSuffix) -- -- -- --reporter mocha-junit-reporter'
-        displayName: 'npm run test-client$(packageSuffix)'
+          customCommand: 'run test-client-$(packageOption) -- -- -- --reporter mocha-junit-reporter'
+        displayName: 'npm run test-client-$(packageOption)'
 
       - task: PublishTestResults@2
         inputs:
