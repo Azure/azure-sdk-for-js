@@ -2477,31 +2477,31 @@ export const LeaseContainerRequest: msRest.CompositeMapper = {
     modelProperties: {
       action: {
         required: true,
-        serializedName: "Action",
+        serializedName: "action",
         type: {
           name: "String"
         }
       },
       leaseId: {
-        serializedName: "LeaseId",
+        serializedName: "leaseId",
         type: {
           name: "String"
         }
       },
       breakPeriod: {
-        serializedName: "BreakPeriod",
+        serializedName: "breakPeriod",
         type: {
           name: "Number"
         }
       },
       leaseDuration: {
-        serializedName: "LeaseDuration",
+        serializedName: "leaseDuration",
         type: {
           name: "Number"
         }
       },
       proposedLeaseId: {
-        serializedName: "ProposedLeaseId",
+        serializedName: "proposedLeaseId",
         type: {
           name: "String"
         }
@@ -2517,13 +2517,13 @@ export const LeaseContainerResponse: msRest.CompositeMapper = {
     className: "LeaseContainerResponse",
     modelProperties: {
       leaseId: {
-        serializedName: "LeaseId",
+        serializedName: "leaseId",
         type: {
           name: "String"
         }
       },
       leaseTimeSeconds: {
-        serializedName: "LeaseTimeSeconds",
+        serializedName: "leaseTimeSeconds",
         type: {
           name: "String"
         }
