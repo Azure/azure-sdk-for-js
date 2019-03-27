@@ -32,7 +32,7 @@ import {
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
 import { ReceiveMode } from "../serviceBusMessage";
-import { reorderLockTokens, toBuffer, throwErrorIfConnectionClosed } from "../util/utils";
+import { toBuffer, throwErrorIfConnectionClosed } from "../util/utils";
 import { Typed } from "rhea/typings/types";
 import { max32BitNumber } from "../util/constants";
 
@@ -376,7 +376,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to peek messages to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       // statusCode == 404 then do not throw
@@ -422,8 +422,9 @@ export class ManagementClient extends LinkEntity {
       : (lockTokenOrMessage as string);
     try {
       const messageBody: any = {};
+
       messageBody[Constants.lockTokens] = types.wrap_array(
-        reorderLockTokens([lockToken]),
+        [string_to_uuid(lockToken)],
         0x98,
         undefined
       );
@@ -490,7 +491,7 @@ export class ManagementClient extends LinkEntity {
       if (enqueueTimeInMs < now) {
         throw new Error(
           `Cannot schedule messages in the past. Given scheduledEnqueueTimeUtc` +
-            `(${enqueueTimeInMs}) < current time (${now}).`
+          `(${enqueueTimeInMs}) < current time (${now}).`
         );
       }
       item.message.scheduledEnqueueTimeUtc = item.scheduledEnqueueTimeUtc;
@@ -561,7 +562,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to schedule messages to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -591,7 +592,7 @@ export class ManagementClient extends LinkEntity {
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the " +
-            "sequenceNumbers array: %O",
+          "sequenceNumbers array: %O",
           i,
           error
         );
@@ -631,7 +632,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to cancel the scheduled message to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -707,7 +708,7 @@ export class ManagementClient extends LinkEntity {
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the " +
-            "sequenceNumbers array: %O",
+          "sequenceNumbers array: %O",
           i,
           error
         );
@@ -771,7 +772,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to receive deferred messages to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -846,7 +847,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to update disposition status to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -1353,7 +1354,7 @@ export class ManagementClient extends LinkEntity {
             const ehError = translate(context.session!.error!);
             log.error(
               "[%s] An error occurred on the session for request/response links for " +
-                "$management: %O",
+              "$management: %O",
               id,
               ehError
             );
@@ -1362,7 +1363,7 @@ export class ManagementClient extends LinkEntity {
         const sropt: SenderOptions = { target: { address: this.address } };
         log.mgmt(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-            "srOpts: %o, receiverOpts: %O.",
+          "srOpts: %o, receiverOpts: %O.",
           this._context.namespace.connectionId,
           sropt,
           rxopt
