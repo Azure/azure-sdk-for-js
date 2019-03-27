@@ -223,6 +223,30 @@ export class Apps {
   }
 
   /**
+   * Get all available application templates.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsTemplatesResponse>
+   */
+  templates(options?: msRest.RequestOptionsBase): Promise<Models.AppsTemplatesResponse>;
+  /**
+   * @param callback The callback
+   */
+  templates(callback: msRest.ServiceCallback<Models.AppTemplatesResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  templates(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppTemplatesResult>): void;
+  templates(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppTemplatesResult>, callback?: msRest.ServiceCallback<Models.AppTemplatesResult>): Promise<Models.AppsTemplatesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      templatesOperationSpec,
+      callback) as Promise<Models.AppsTemplatesResponse>;
+  }
+
+  /**
    * Create or update the metadata of an IoT Central application. The usual pattern to modify a
    * property is to retrieve the IoT Central application metadata and security metadata, and then
    * combine them with the modified values in a new body to update the IoT Central application.
@@ -468,6 +492,29 @@ const checkSubdomainAvailabilityOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AppAvailabilityInfo
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails
+    }
+  },
+  serializer
+};
+
+const templatesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/appTemplates",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
       bodyMapper: Mappers.ErrorDetails

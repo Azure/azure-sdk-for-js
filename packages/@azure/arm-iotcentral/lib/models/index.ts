@@ -301,6 +301,72 @@ export interface AppAvailabilityInfo {
 
 /**
  * @interface
+ * An interface representing AppTemplate.
+ * IoT Central Application Template.
+ *
+ */
+export interface AppTemplate {
+  /**
+   * @member {string} [manifestId] The ID of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly manifestId?: string;
+  /**
+   * @member {string} [manifestVersion] The version of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly manifestVersion?: string;
+  /**
+   * @member {string} [name] The name of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [title] The title of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly title?: string;
+  /**
+   * @member {number} [order] The order of the template in the templates list.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly order?: number;
+  /**
+   * @member {string} [description] The description of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AppTemplatesResult.
+ * A list of IoT Central Application Templates with a next link.
+ *
+ */
+export interface AppTemplatesResult {
+  /**
+   * @member {string} [nextLink] The link used to get the next page of IoT
+   * Central description objects.
+   */
+  nextLink?: string;
+  /**
+   * @member {AppTemplate[]} [value] A list of IoT Central Application
+   * Templates.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: AppTemplate[];
+}
+
+/**
+ * @interface
  * An interface representing IotCentralClientOptions.
  * @extends AzureServiceClientOptions
  */
@@ -481,6 +547,25 @@ export type AppsCheckSubdomainAvailabilityResponse = AppAvailabilityInfo & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AppAvailabilityInfo;
+    };
+};
+
+/**
+ * Contains response data for the templates operation.
+ */
+export type AppsTemplatesResponse = AppTemplatesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppTemplatesResult;
     };
 };
 
