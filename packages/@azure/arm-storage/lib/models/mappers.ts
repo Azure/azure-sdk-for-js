@@ -2469,6 +2469,69 @@ export const BlobServiceProperties: msRest.CompositeMapper = {
   }
 };
 
+export const LeaseContainerRequest: msRest.CompositeMapper = {
+  serializedName: "LeaseContainerRequest",
+  type: {
+    name: "Composite",
+    className: "LeaseContainerRequest",
+    modelProperties: {
+      action: {
+        required: true,
+        serializedName: "Action",
+        type: {
+          name: "String"
+        }
+      },
+      leaseId: {
+        serializedName: "LeaseId",
+        type: {
+          name: "String"
+        }
+      },
+      breakPeriod: {
+        serializedName: "BreakPeriod",
+        type: {
+          name: "Number"
+        }
+      },
+      leaseDuration: {
+        serializedName: "LeaseDuration",
+        type: {
+          name: "Number"
+        }
+      },
+      proposedLeaseId: {
+        serializedName: "ProposedLeaseId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LeaseContainerResponse: msRest.CompositeMapper = {
+  serializedName: "LeaseContainerResponse",
+  type: {
+    name: "Composite",
+    className: "LeaseContainerResponse",
+    modelProperties: {
+      leaseId: {
+        serializedName: "LeaseId",
+        type: {
+          name: "String"
+        }
+      },
+      leaseTimeSeconds: {
+        serializedName: "LeaseTimeSeconds",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BlobContainersCreateOrUpdateImmutabilityPolicyHeaders: msRest.CompositeMapper = {
   serializedName: "blobcontainers-createorupdateimmutabilitypolicy-headers",
   type: {

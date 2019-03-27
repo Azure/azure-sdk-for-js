@@ -27,6 +27,8 @@ export {
   BlobContainersDeleteImmutabilityPolicyHeaders,
   BlobContainersLockImmutabilityPolicyHeaders,
   BlobContainersExtendImmutabilityPolicyHeaders,
+  LeaseContainerRequest,
+  LeaseContainerResponse,
   ManagementPolicy,
   ManagementPolicySchema,
   ManagementPolicyRule,

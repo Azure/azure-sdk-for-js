@@ -1971,6 +1971,63 @@ export interface BlobServiceProperties extends Resource {
 
 /**
  * @interface
+ * An interface representing LeaseContainerRequest.
+ * Lease Container request schema.
+ *
+ */
+export interface LeaseContainerRequest {
+  /**
+   * @member {Action1} action Specifies the lease action. Can be one of the
+   * available actions. Possible values include: 'Acquire', 'Renew', 'Change',
+   * 'Release', 'Break'
+   */
+  action: Action1;
+  /**
+   * @member {string} [leaseId] Identifies the lease. Can be specified in any
+   * valid GUID string format.
+   */
+  leaseId?: string;
+  /**
+   * @member {number} [breakPeriod] Optional. For a break action, proposed
+   * duration the lease should continue before it is broken, in seconds,
+   * between 0 and 60.
+   */
+  breakPeriod?: number;
+  /**
+   * @member {number} [leaseDuration] Required for acquire. Specifies the
+   * duration of the lease, in seconds, or negative one (-1) for a lease that
+   * never expires.
+   */
+  leaseDuration?: number;
+  /**
+   * @member {string} [proposedLeaseId] Optional for acquire, required for
+   * change. Proposed lease ID, in a GUID string format.
+   */
+  proposedLeaseId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing LeaseContainerResponse.
+ * Lease Container response schema.
+ *
+ */
+export interface LeaseContainerResponse {
+  /**
+   * @member {string} [leaseId] Returned unique lease ID that must be included
+   * with any request to delete the container, or to renew, change, or release
+   * the lease.
+   */
+  leaseId?: string;
+  /**
+   * @member {string} [leaseTimeSeconds] Approximate time remaining in the
+   * lease period, in seconds.
+   */
+  leaseTimeSeconds?: string;
+}
+
+/**
+ * @interface
  * An interface representing StorageAccountsGetPropertiesOptionalParams.
  * Optional Parameters.
  *
@@ -2060,6 +2117,20 @@ export interface BlobContainersGetImmutabilityPolicyOptionalParams extends msRes
    * operation will always be applied.
    */
   ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BlobContainersLeaseOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BlobContainersLeaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {LeaseContainerRequest} [parameters] Lease Container request body.
+   */
+  parameters?: LeaseContainerRequest;
 }
 
 /**
@@ -2423,6 +2494,14 @@ export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
  * @enum {string}
  */
 export type StorageAccountExpand = 'geoReplicationStats';
+
+/**
+ * Defines values for Action1.
+ * Possible values include: 'Acquire', 'Renew', 'Change', 'Release', 'Break'
+ * @readonly
+ * @enum {string}
+ */
+export type Action1 = 'Acquire' | 'Renew' | 'Change' | 'Release' | 'Break';
 
 /**
  * Contains response data for the list operation.
@@ -2992,5 +3071,24 @@ export type BlobContainersExtendImmutabilityPolicyResponse = ImmutabilityPolicy 
        * The response body as parsed JSON or XML
        */
       parsedBody: ImmutabilityPolicy;
+    };
+};
+
+/**
+ * Contains response data for the lease operation.
+ */
+export type BlobContainersLeaseResponse = LeaseContainerResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LeaseContainerResponse;
     };
 };
