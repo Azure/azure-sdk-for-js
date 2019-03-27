@@ -67,8 +67,8 @@ export interface Blueprint extends AzureResourceBase {
   readonly status?: BlueprintStatus;
   /**
    * @member {BlueprintTargetScope} [targetScope] The scope where this
-   * blueprint definition can be assigned. Possible values include:
-   * 'subscription', 'managementGroup'
+   * blueprint definition can be assigned. Management group is reserved for
+   * future use. Possible values include: 'subscription', 'managementGroup'
    */
   targetScope?: BlueprintTargetScope;
   /**
@@ -154,8 +154,8 @@ export interface PublishedBlueprint extends AzureResourceBase {
   readonly status?: BlueprintStatus;
   /**
    * @member {BlueprintTargetScope} [targetScope] The scope where this
-   * blueprint definition can be assigned. Possible values include:
-   * 'subscription', 'managementGroup'
+   * blueprint definition can be assigned. Management group is reserved for
+   * future use. Possible values include: 'subscription', 'managementGroup'
    */
   targetScope?: BlueprintTargetScope;
   /**
