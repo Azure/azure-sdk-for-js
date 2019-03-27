@@ -7,13 +7,17 @@ import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const address = "shivangieventhubs.servicebus.windows.net";
-const path = "myeventhub";
+const endpoint = "ENDPOINT";
+const entityPath = "EVENTHUB_NAME";
+const address = process.env[endpoint] || "";
+const path = process.env[entityPath] || "";
 
-
-const clientId = "2ac7a52a-c1bf-449b-b3e6-5d4254df8997";
-const secret = "}TO*h(nwmB)Y5U3cF4M}|Cc#/+6?8L9w_YRbz8mAh.";
-const domain = "72f988bf-86f1-41af-91ab-2d7cd011db47";
+const cid = "CLIENT_ID";
+const sec = "APPLICATION_SECRET";
+const doma = "DOMAIN";
+const clientId = process.env[cid] || "";
+const secret = process.env[sec] || "";
+const domain = process.env[doma] || "";
 async function main(): Promise<void> {
   const credentials = await loginWithServicePrincipalSecret(clientId, secret, domain, { tokenAudience: aadEventHubsAudience });
   const client = EventHubClient.createFromAadTokenCredentials(address, path, credentials);
