@@ -1,7 +1,7 @@
 import { AbortController } from "abort-controller";
-import fetch from "cross-fetch";
 import { Agent, OutgoingHttpHeaders } from "http";
 import { RequestOptions } from "https"; // TYPES ONLY
+import fetch from "node-fetch";
 import { parse } from "url";
 import { Constants, HTTPMethod } from "../common/constants";
 import { ConnectionPolicy } from "../documents";
