@@ -9,16 +9,14 @@
  */
 
 export {
-  MetaDataContract,
-  NameAndUserDataContract,
+  TakeSnapshotRequest,
+  SnapshotTakeHeaders,
   APIError,
   ErrorModel,
-  LargePersonGroup,
-  TrainingStatus,
-  FaceList,
-  PersistedFace,
-  PersonGroup,
-  Person,
-  LargeFaceList
+  Snapshot,
+  UpdateSnapshotRequest,
+  ApplySnapshotRequest,
+  SnapshotApplyHeaders,
+  OperationStatus
 } from "../models/mappers";
 
