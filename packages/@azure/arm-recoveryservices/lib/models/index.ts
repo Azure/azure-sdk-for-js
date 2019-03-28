@@ -69,7 +69,7 @@ export interface ResourceCertificateDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -115,7 +115,7 @@ export interface ResourceCertificateAndAadDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -182,7 +182,7 @@ export interface ResourceCertificateAndAcsDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -358,6 +358,78 @@ export interface ReplicationUsage {
 
 /**
  * @interface
+ * An interface representing CheckNameAvailabilityResult.
+ * Response for check name availability API. Resource provider will set
+ * availability as true | false.
+ *
+ */
+export interface CheckNameAvailabilityResult {
+  /**
+   * @member {boolean} [nameAvailable]
+   */
+  nameAvailable?: boolean;
+  /**
+   * @member {string} [reason]
+   */
+  reason?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Resource.
+ * ARM Resource.
+ *
+ * @extends BaseResource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * @member {string} [id] Resource Id represents the complete path to the
+   * resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] Resource name associated with the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] Resource type represents the complete path of the
+   * form Namespace/ResourceType/ResourceType/...
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [eTag] Optional ETag.
+   */
+  eTag?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CheckNameAvailabilityResultResource.
+ * Response for check name availability API. Resource provider will set
+ * availability as true | false.
+ *
+ * @extends Resource
+ */
+export interface CheckNameAvailabilityResultResource extends Resource {
+  /**
+   * @member {CheckNameAvailabilityResult} [properties]
+   * CheckNameAvailabilityResultResource properties
+   */
+  properties?: CheckNameAvailabilityResult;
+}
+
+/**
+ * @interface
  * An interface representing ClientDiscoveryDisplay.
  * Localized display information of an operation.
  *
@@ -463,36 +535,22 @@ export interface ClientDiscoveryValueForSingleApi {
 
 /**
  * @interface
- * An interface representing Resource.
- * ARM Resource.
+ * An interface representing ResourceNameAvailabilityParameters.
+ * Resource Name availability input parameters - Resource type and resource
+ * name
  *
- * @extends BaseResource
  */
-export interface Resource extends BaseResource {
+export interface ResourceNameAvailabilityParameters {
   /**
-   * @member {string} [id] Resource Id represents the complete path to the
-   * resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [type] Describes the Resource type:
+   * Microsoft.RecoveryServices/Vaults
    */
-  readonly id?: string;
+  type?: string;
   /**
-   * @member {string} [name] Resource name associated with the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [name] Resource name for which availability needs to be
+   * checked
    */
-  readonly name?: string;
-  /**
-   * @member {string} [type] Resource type represents the complete path of the
-   * form Namespace/ResourceType/ResourceType/...
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-  /**
-   * @member {string} [eTag] Optional ETag.
-   */
-  eTag?: string;
+  name?: string;
 }
 
 /**
@@ -595,7 +653,7 @@ export interface UpgradeDetails {
    */
   readonly message?: string;
   /**
-   * @member {TriggerType} [triggerType] The way the vault upgradation was
+   * @member {TriggerType} [triggerType] The way the vault upgrade was
    * triggered. Possible values include: 'UserTriggered', 'ForcedUpgrade'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -886,6 +944,25 @@ export type ReplicationUsagesListResponse = ReplicationUsageList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ReplicationUsageList;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type RecoveryServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResultResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameAvailabilityResultResource;
     };
 };
 
