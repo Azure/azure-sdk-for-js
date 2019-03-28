@@ -7,7 +7,7 @@ import {
   DeviceTokenCredentials,
   UserTokenCredentials,
   MSITokenCredentials
-} from "ms-rest-azure";
+} from "@azure/ms-rest-nodeauth";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
@@ -21,10 +21,10 @@ import {
 import { SubscriptionClient } from "./subscriptionClient";
 
 /**
- * Describes the options that can be provided while creating the Namespace.
- * @interface NamespaceOptions
+ * Describes the options that can be provided while creating the ServiceBusClient.
+ * @interface ServiceBusClientOptions
  */
-export interface NamespaceOptions {
+export interface ServiceBusClientOptions {
   /**
    * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
    * and decode the sent and received messages respectively. If not provided then we will use the
@@ -35,12 +35,13 @@ export interface NamespaceOptions {
 }
 
 /**
+ * Describes the client that allows interacting with a Service Bus instance.
  * Holds the AMQP connection to the Service Bus Namespace and is the entry point for using Queues,
  * Topics and Subscriptions.
  */
-export class Namespace {
+export class ServiceBusClient {
   /**
-   * @property {string} name The namespace name of the service bus.
+   * @property {string} name The namespace name of the Service Bus instance.
    */
   readonly name: string;
   /**
@@ -50,18 +51,20 @@ export class Namespace {
   private _context: ConnectionContext;
 
   /**
-   * Instantiates a client pointing to the Service Bus Namespace.
+   * Instantiates a ServiceBusClient to interact with a Service Bus Namespace.
    *
    * @constructor
-   * @param {ConnectionConfig} config - The connection configuration to create the Namespace.
+   * @param {ConnectionConfig} config - The connection configuration needed to connect to the
+   * Service Bus Namespace.
    * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
    * authentication.
-   * @param {NamespaceOptions} - Options to create the Namespace.
+   * @param {ServiceBusClientOptions} - Options to control ways to interact with the Service Bus
+   * Namespace.
    */
   private constructor(
     config: ConnectionConfig,
     tokenProvider: TokenProvider,
-    options?: NamespaceOptions
+    options?: ServiceBusClientOptions
   ) {
     if (!options) options = {};
     this.name = config.endpoint;
@@ -69,8 +72,7 @@ export class Namespace {
   }
 
   /**
-   * Creates a QueueClient for the given Queue name. It assumes that the queue has already been
-   * created.
+   * Creates a QueueClient for an existing Service Bus Queue.
    * @param {string} queueName The queue name.
    * @returns QueueClient.
    */
@@ -85,8 +87,7 @@ export class Namespace {
   }
 
   /**
-   * Creates a TopicClient for the given topic name. It assumes that the topic has already been
-   * created.
+   * Creates a TopicClient for an existing Service Bus Topic.
    * @param {string} topicName The topic name.
    * @returns TopicClient.
    */
@@ -101,8 +102,7 @@ export class Namespace {
   }
 
   /**
-   * Creates a SubscriptionClient for the given topic name and subscription.
-   * It assumes that the topic has already been created.
+   * Creates a SubscriptionClient for an existing Service Bus Subscription.
    * @param {string} topicName The topic name.
    * @param {string} subscriptionName The subscription name.
    * @returns SubscriptionClient.
@@ -125,16 +125,19 @@ export class Namespace {
   }
 
   /**
-   * Closes the AMQP connection created by this namespace along with AMQP links for sender/receivers
-   * created by the queue/topic/subscription clients created in this namespace.
+   * Closes the AMQP connection created by this ServiceBusClient along with AMQP links for
+   * sender/receivers created by the queue/topic/subscription clients created by this
+   * ServiceBusClient.
    * Once closed,
-   * - the namespace cannot be used to create anymore clients for queues/topics/subscriptions
-   * - the clients created in this namespace cannot be used to send/receive messages anymore
+   * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
+   * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
    * @returns {Promise<any>}
    */
   async close(): Promise<any> {
     try {
       if (this._context.connection.isOpen()) {
+        log.ns("Closing the amqp connection '%s' on the client.", this._context.connectionId);
+
         // Close all the senders.
         for (const id of Object.keys(this._context.clients)) {
           const client = this._context.clients[id];
@@ -162,16 +165,18 @@ export class Namespace {
   }
 
   /**
-   * Creates a Namespace from connection string.
+   * Creates a ServiceBusClient for the Service Bus Namespace represented in the given connection
+   * string.
    * @param {string} connectionString - Connection string of the form
    * 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {NamespaceOptions} [options] Options that can be provided during namespace creation.
-   * @returns {Namespace} - An instance of the Namespace.
+   * @param {ServiceBusClientOptions} [options] Options to control ways to interact with the
+   * Service Bus Namespace.
+   * @returns {ServiceBusClient}
    */
   static createFromConnectionString(
     connectionString: string,
-    options?: NamespaceOptions
-  ): Namespace {
+    options?: ServiceBusClientOptions
+  ): ServiceBusClient {
     if (!connectionString || typeof connectionString !== "string") {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
@@ -182,22 +187,24 @@ export class Namespace {
       config.sharedAccessKeyName,
       config.sharedAccessKey
     );
-    return new Namespace(config, tokenProvider, options);
+    return new ServiceBusClient(config, tokenProvider, options);
   }
 
   /**
-   * Creates a Namespace from a generic token provider.
+   * Creates a ServiceBusClient for the Service Bus Namespace represented by the given host using
+   * the given TokenProvider.
    * @param {string} host - Fully qualified domain name for Servicebus. Most likely,
    * `<yournamespace>.servicebus.windows.net`.
    * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
-   * @param {NamespaceOptions} options - The options that can be provided during namespace creation.
-   * @returns {Namespace} An instance of the Namespace.
+   * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
+   * Service Bus Namespace.
+   * @returns {ServiceBusClient}
    */
   static createFromTokenProvider(
     host: string,
     tokenProvider: TokenProvider,
-    options?: NamespaceOptions
-  ): Namespace {
+    options?: ServiceBusClientOptions
+  ): ServiceBusClient {
     if (!host || (host && typeof host !== "string")) {
       throw new Error("'host' is a required parameter and must be of type: 'string'.");
     }
@@ -210,18 +217,23 @@ export class Namespace {
       `SharedAccessKey=defaultKeyValue`;
     const config = ConnectionConfig.create(connectionString);
     ConnectionConfig.validate(config);
-    return new Namespace(config, tokenProvider, options);
+    return new ServiceBusClient(config, tokenProvider, options);
   }
 
   /**
-   * Creates a Namespace from AADTokenCredentials.
+   * Creates a ServiceBusClient for the Service Bus Namespace represented by the given host using
+   * the TokenCredentials generated by the `ms-rest-azure` library.
    * @param {string} host - Fully qualified domain name for ServiceBus.
    * Most likely, {yournamespace}.servicebus.windows.net
-   * @param {TokenCredentials} credentials - The AAD Token credentials.
-   * It can be one of the following: ApplicationTokenCredentials | UserTokenCredentials |
-   * DeviceTokenCredentials | MSITokenCredentials.
-   * @param {NamespaceOptions} options - The options that can be provided during namespace creation.
-   * @returns {Namespace} An instance of the Namespace.
+   * @param {ServiceClientCredentials} credentials - The Token credentials as implemented in the
+   * `ms-rest-azure` library. It can be one of the following:
+   *  - ApplicationTokenCredentials
+   *  - UserTokenCredentials
+   *  - DeviceTokenCredentials
+   *  - MSITokenCredentials.
+   * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
+   * Service Bus Namespace.
+   * @returns {ServiceBusClient}
    */
   static createFromAadTokenCredentials(
     host: string,
@@ -230,8 +242,8 @@ export class Namespace {
       | UserTokenCredentials
       | DeviceTokenCredentials
       | MSITokenCredentials,
-    options?: NamespaceOptions
-  ): Namespace {
+    options?: ServiceBusClientOptions
+  ): ServiceBusClient {
     if (!host || typeof host !== "string") {
       throw new Error("'host' is a required parameter and must be of type: 'string'.");
     }
@@ -244,26 +256,6 @@ export class Namespace {
       );
     }
     const tokenProvider = new AadTokenProvider(credentials);
-    return Namespace.createFromTokenProvider(host, tokenProvider, options);
-  }
-
-  /**
-   * Returns the corresponding dead letter queue name for the given queue name.
-   * Use this in the `createQueueClient` function to receive messages from dead letter queue.
-   * @param queueName
-   */
-  static getDeadLetterQueuePath(queueName: string): string {
-    return `${queueName}/$DeadLetterQueue`;
-  }
-
-  /**
-   * Returns the corresponding dead letter topic name for the given topic and subscription names.
-   * Use this in the `createSubscriptionClient` function to receive messages from dead letter
-   * subscription corresponding to given subscription
-   * @param topicName
-   * @param subscriptionName
-   */
-  static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string {
-    return `${topicName}/Subscriptions/${subscriptionName}/$DeadLetterQueue`;
+    return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
   }
 }

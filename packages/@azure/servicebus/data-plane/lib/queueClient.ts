@@ -67,6 +67,8 @@ export class QueueClient implements Client {
   async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        log.qClient("Closing the Queue client '%s'.", this.id);
+
         // Close the sender.
         if (this._currentSender) {
           await this._currentSender.close();
@@ -128,28 +130,37 @@ export class QueueClient implements Client {
   }
 
   /**
-   * Gets a Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
+   * Throws error if an open sender already exists for this QueueClient.
    */
-  getSender(): Sender {
-    this.throwErrorIfClientOrConnectionClosed();
+  createSender(): Sender {
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
+      return this._currentSender;
     }
-    return this._currentSender;
+    throw new Error(
+      "An open sender already exists on this QueueClient. Please close it and try" +
+        " again or use a new QueueClient instance"
+    );
   }
 
   /**
-   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
-   *
+   * Creates a Receiver to be used for receiving messages in batches or by registering handlers.
+   * Throws error if an open receiver already exists for this QueueClient.
    * @param options Options for creating the receiver.
    */
-  getReceiver(options?: MessageReceiverOptions): Receiver {
-    this.throwErrorIfClientOrConnectionClosed();
+  createReceiver(options?: MessageReceiverOptions): Receiver {
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
+      return this._currentReceiver;
     }
-    return this._currentReceiver;
+    throw new Error(
+      "An open receiver already exists on this QueueClient. Please close it and try" +
+        " again or use a new QueueClient instance"
+    );
   }
 
   /**
@@ -164,7 +175,7 @@ export class QueueClient implements Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peek(messageCount);
   }
 
@@ -183,7 +194,7 @@ export class QueueClient implements Client {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -208,17 +219,17 @@ export class QueueClient implements Client {
   // }
 
   /**
-   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Creates a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Queue. When no sessionId is given, a random session among the available
    * sessions is used.
-   *
+   * Throws error if an open receiver already exists for given sessionId.
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Queue.
    *
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
-  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    this.throwErrorIfClientOrConnectionClosed();
+  async createSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
+    this._throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {
       if (
@@ -226,9 +237,9 @@ export class QueueClient implements Client {
         this._context.messageSessions[options.sessionId].isOpen()
       ) {
         throw new Error(
-          `Close the current session receiver for sessionId ${
+          `An open receiver already exists for sessionId '${
             options.sessionId
-          } before using "getSessionReceiver" to create a new one for the same sessionId`
+          }'. Please close it and try again.`
         );
       }
     }
@@ -244,10 +255,20 @@ export class QueueClient implements Client {
    * Throws error if this queueClient has been closed
    * @param client
    */
-  private throwErrorIfClientOrConnectionClosed(): void {
+  private _throwErrorIfClientOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
       throw new Error("The queueClient has been closed and can no longer be used.");
     }
+  }
+
+  /**
+   * Returns the corresponding dead letter queue name for the queue represented by the given name.
+   * Use this in the `createQueueClient` function on the `ServiceBusClient` instance to receive
+   * messages from the dead letter queue.
+   * @param queueName
+   */
+  static getDeadLetterQueuePath(queueName: string): string {
+    return `${queueName}/$DeadLetterQueue`;
   }
 }

@@ -16,7 +16,10 @@ function processFolders(folder) {
 
 function enableLocalRun(file) {
     const fileContents = fs.readFileSync(file, {encoding: "utf-8"});
-    const regex = new RegExp('import (.*) from "@azure/service-bus"');
-    const updatedContents = fileContents.replace(regex, 'import $1 from "../../../lib"');
+    const sbregex = new RegExp('import (.*) from "@azure/service-bus"');
+    const msrestregex = new RegExp('import (.*) from "ms-rest-azure"');
+    const updatedContents = fileContents
+        .replace(sbregex, 'import $1 from "../../../lib"')
+        .replace(msrestregex, 'import $1 from "@azure/ms-rest-nodeauth"');
     fs.writeFileSync(file, updatedContents, {encoding: "utf-8"});
 }

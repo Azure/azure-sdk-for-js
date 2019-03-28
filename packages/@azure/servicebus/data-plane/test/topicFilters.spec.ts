@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   SubscriptionClient,
   ServiceBusMessage,
   TopicClient,
@@ -38,7 +38,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 let subscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
@@ -52,7 +52,7 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   const clients = await getSenderReceiverClients(ns, ClientType.TopicFilterTestTopic, receiverType);
   topicClient = clients.senderClient as TopicClient;
@@ -96,7 +96,7 @@ const data = [
 ];
 
 async function sendOrders(): Promise<void> {
-  const sender = topicClient.getSender();
+  const sender = topicClient.createSender();
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
     const message: SendableMessageInfo = {
@@ -121,7 +121,7 @@ async function receiveOrders(
 ): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
-  const receiver = client.getReceiver();
+  const receiver = client.createReceiver();
   receiver.receive(
     (msg: ServiceBusMessage) => {
       return msg.complete().then(() => {
@@ -165,11 +165,7 @@ async function addRules(
   should.equal(rules[0].name, ruleName, "Expected Rule not found");
 
   if (sqlRuleActionExpression) {
-    should.equal(
-      rules[0].action!.expression,
-      sqlRuleActionExpression,
-      "Action not set on the rule."
-    );
+    should.equal(rules[0].action!, sqlRuleActionExpression, "Action not set on the rule.");
   }
 }
 
@@ -383,28 +379,16 @@ describe("getRules()", function(): void {
     rules = await subscriptionClient.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
-    should.equal(
-      JSON.stringify(rules[0].filter),
-      JSON.stringify({ expression: expr1 }),
-      "Filter-expression is different than expected"
-    );
+    should.equal(rules[0].filter, expr1, "Filter-expression is different than expected");
 
     const expr2 = "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')";
     await subscriptionClient.addRule("Priority_2", expr2);
     rules = await subscriptionClient.getRules();
     should.equal(rules.length, 2, "Unexpected number of rules");
     should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
-    should.equal(
-      JSON.stringify(rules[0].filter),
-      JSON.stringify({ expression: expr1 }),
-      "Filter-expression is different than expected"
-    );
+    should.equal(rules[0].filter, expr1, "Filter-expression is different than expected");
     should.equal(rules[1].name, "Priority_2", "RuleName is different than expected");
-    should.equal(
-      JSON.stringify(rules[1].filter),
-      JSON.stringify({ expression: expr2 }),
-      "Filter-expression is different than expected"
-    );
+    should.equal(rules[1].filter, expr2, "Filter-expression is different than expected");
   });
 
   it("Rule with SQL filter and action returns expected filter and action expression", async function(): Promise<
