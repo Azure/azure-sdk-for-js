@@ -119,11 +119,13 @@ export async function readStreamToLocalFile(
   return new Promise<void>((resolve, reject) => {
     const ws = fs.createWriteStream(file);
 
+    // Set STREAM_DEBUG env var to log stream events while running tests
     if (process.env.STREAM_DEBUG) {
       rs.on("close", () => console.log("rs.close"));
       rs.on("data", () => console.log("rs.data"));
       rs.on("end", () => console.log("rs.end"));
       rs.on("error", () => console.log("rs.error"));
+
       ws.on("close", () => console.log("ws.close"));
       ws.on("drain", () => console.log("ws.drain"));
       ws.on("error", () => console.log("ws.error"));
