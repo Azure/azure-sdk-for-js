@@ -139,6 +139,9 @@ export async function readStreamToLocalFile(
       if (!error) {
         error = err;
       }
+
+      // When rs.error is raised, rs.end will never be raised automatically, so it must be raised manually
+      // to ensure ws.close is eventually raised.
       rs.emit("end");
     });
 
