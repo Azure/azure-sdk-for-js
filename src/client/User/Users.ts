@@ -67,14 +67,7 @@ export class Users {
 
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
-    const response = await this.clientContext.create<UserDefinition>(
-      body,
-      path,
-      ResourceType.user,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.create<UserDefinition>(body, path, ResourceType.user, id, options);
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(response.result, response.headers, response.statusCode, ref);
   }
@@ -93,14 +86,7 @@ export class Users {
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.upsert<UserDefinition>(
-      body,
-      path,
-      ResourceType.user,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.upsert<UserDefinition>(body, path, ResourceType.user, id, options);
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(response.result, response.headers, response.statusCode, ref);
   }

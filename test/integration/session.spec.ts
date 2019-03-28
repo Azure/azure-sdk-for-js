@@ -4,11 +4,12 @@ import { ClientContext } from "../../dist-esm/ClientContext";
 import { OperationType, ResourceType, trimSlashes } from "../../dist-esm/common";
 import { ConsistencyLevel, PartitionKind } from "../../dist-esm/documents";
 import { Constants, CosmosClient, CosmosHeaders } from "../../dist-esm/index";
-import { RequestHandler } from "../../dist-esm/request";
 import { SessionContainer } from "../../dist-esm/session/sessionContainer";
 import { VectorSessionToken } from "../../dist-esm/session/VectorSessionToken";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import * as RequestHandler from "../../dist-esm/request/RequestHandler";
+import { RequestContext } from "../../dist-esm/request/RequestContext";
 
 // TODO: there is alot of "any" types for tokens here
 // TODO: there is alot of leaky document client stuff here that will make removing document client hard
@@ -35,13 +36,9 @@ describe("Session Token", function() {
   const containerOptions = { offerThroughput: 25100 };
 
   const clientContext: ClientContext = (client as any).clientContext;
-  const requestHandler: RequestHandler = (clientContext as any).requestHandler;
   const sessionContainer: SessionContainer = (clientContext as any).sessionContainer;
 
-  const getSpy = sinon.spy(requestHandler, "get");
-  const postSpy = sinon.spy(requestHandler, "post");
-  const putSpy = sinon.spy(requestHandler, "put");
-  const deleteSpy = sinon.spy(requestHandler, "delete");
+  const spy = sinon.spy(RequestHandler, "request");
 
   beforeEach(async function() {
     await removeAllDatabases();
@@ -52,7 +49,7 @@ describe("Session Token", function() {
 
     const { resource: createdContainerDef } = await database.containers.create(containerDefinition, containerOptions);
     const container = database.container(createdContainerDef.id);
-    assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], undefined);
+    assert.equal(spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken], undefined);
     // TODO: testing implementation detail by looking at containerResourceIdToSesssionTokens
     let collRid2SessionToken: Map<string, Map<string, VectorSessionToken>> = (sessionContainer as any)
       .collectionResourceIdToSessionTokens;
@@ -60,7 +57,7 @@ describe("Session Token", function() {
 
     const { resource: document1 } = await container.items.create({ id: "1" });
     assert.equal(
-      postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
+      spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
       undefined,
       "Initial create token should be qual"
     );
@@ -82,7 +79,11 @@ describe("Session Token", function() {
       resourceId: "2"
     });
     const { resource: document2 } = await container.items.create({ id: "2" });
-    assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], token, "create token should be equal");
+    assert.equal(
+      spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
+      token,
+      "create token should be equal"
+    );
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
     assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
@@ -107,7 +108,11 @@ describe("Session Token", function() {
       resourceId: "1"
     });
     await container.item(document1.id, "1").read();
-    assert.equal(getSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken], readToken, "read token should be equal");
+    assert.equal(
+      spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
+      readToken,
+      "read token should be equal"
+    );
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
     assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
@@ -136,7 +141,7 @@ describe("Session Token", function() {
       { partitionKey: "1" }
     );
     assert.equal(
-      postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
+      spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
       upsertToken,
       "upsert token should be equal"
     );
@@ -167,7 +172,7 @@ describe("Session Token", function() {
     });
     await container.item(document2.id, "2").delete();
     assert.equal(
-      deleteSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
+      spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
       deleteToken,
       "delete token should be equal"
     );
@@ -198,7 +203,7 @@ describe("Session Token", function() {
     });
     await container.item(document13.id).replace({ id: "1", operation: "replace" }, { partitionKey: "1" });
     assert.equal(
-      putSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
+      spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
       replaceToken,
       "replace token should be equal"
     );
@@ -230,7 +235,7 @@ describe("Session Token", function() {
       resourceType: ResourceType.item
     });
     await queryIterator.fetchAll();
-    assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], queryToken);
+    assert.equal(spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken], queryToken);
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
     assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
@@ -256,17 +261,14 @@ describe("Session Token", function() {
     });
     await container.delete();
     assert.equal(
-      deleteSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
+      spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken],
       deleteContainerToken,
       "delete container token should match"
     );
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
     assert.equal(collRid2SessionToken.size, 0, "collRid map should be empty on container delete");
 
-    getSpy.restore();
-    postSpy.restore();
-    deleteSpy.restore();
-    putSpy.restore();
+    spy.restore();
   });
 
   it("validate 'lsn not caught up' error for higher lsn and clearing session token", async function() {
@@ -287,19 +289,19 @@ describe("Session Token", function() {
 
     await database.containers.create(containerDefinition, containerOptions);
     const container = database.container(containerDefinition.id);
-    const { headers } = await container.items.create({ id: "1" });
-    const callbackSpy = sinon.spy(function(path: string, reqHeaders: CosmosHeaders) {
+    await container.items.create({ id: "1" });
+    const callbackSpy = sinon.spy(function(requestContext: RequestContext) {
       const oldTokens = getCollection2TokenMap(sessionContainer);
-      reqHeaders[Constants.HttpHeaders.SessionToken] = increaseLSN(oldTokens);
+      requestContext.headers[Constants.HttpHeaders.SessionToken] = increaseLSN(oldTokens);
     });
-    const applySessionTokenStub = sinon.stub(clientContext as any, "applySessionToken").callsFake(callbackSpy);
+    const applySessionTokenStub = sinon.stub(clientContext as any, "applySessionToken").callsFake(callbackSpy as any);
     try {
       await container.item("1").read({ partitionKey: "1" });
       assert.fail("readDocument must throw");
     } catch (err) {
       assert.equal(err.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
       assert.equal(callbackSpy.callCount, 1);
-      assert.equal(trimSlashes(callbackSpy.lastCall.args[0]), containerLink + "/docs/1");
+      assert.equal(trimSlashes(callbackSpy.lastCall.args[0].path), containerLink + "/docs/1");
     } finally {
       applySessionTokenStub.restore();
     }

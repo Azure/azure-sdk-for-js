@@ -90,7 +90,6 @@ export class UserDefinedFunctions {
       path,
       ResourceType.udf,
       id,
-      undefined,
       options
     );
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
@@ -126,7 +125,6 @@ export class UserDefinedFunctions {
       path,
       ResourceType.udf,
       id,
-      undefined,
       options
     );
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);

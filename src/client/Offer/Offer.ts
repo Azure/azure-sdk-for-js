@@ -33,13 +33,7 @@ export class Offer {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<OfferResponse> {
-    const response = await this.clientContext.read<OfferDefinition>(
-      this.url,
-      ResourceType.offer,
-      this.id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.read<OfferDefinition>(this.url, ResourceType.offer, this.id, options);
     return new OfferResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -58,7 +52,6 @@ export class Offer {
       this.url,
       ResourceType.offer,
       this.id,
-      undefined,
       options
     );
     return new OfferResponse(response.result, response.headers, response.statusCode, this);

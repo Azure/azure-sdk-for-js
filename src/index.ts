@@ -16,7 +16,6 @@ export {
   PartitionKeyDefinition,
   PartitionKind,
   PermissionMode,
-  QueryCompatibilityMode,
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType

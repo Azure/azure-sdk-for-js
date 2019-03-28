@@ -42,13 +42,7 @@ export class UserDefinedFunction {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<UserDefinedFunctionDefinition>(
-      path,
-      ResourceType.udf,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.read<UserDefinedFunctionDefinition>(path, ResourceType.udf, id, options);
     return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -78,7 +72,6 @@ export class UserDefinedFunction {
       path,
       ResourceType.udf,
       id,
-      undefined,
       options
     );
     return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
@@ -92,7 +85,7 @@ export class UserDefinedFunction {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete(path, ResourceType.udf, id, undefined, options);
+    const response = await this.clientContext.delete(path, ResourceType.udf, id, options);
     return new UserDefinedFunctionResponse(response.result, response.headers, response.statusCode, this);
   }
 }

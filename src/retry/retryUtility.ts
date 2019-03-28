@@ -1,5 +1,4 @@
 import { RequestOptions } from "https";
-import * as url from "url";
 import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
@@ -8,6 +7,7 @@ import { GlobalEndpointManager } from "../globalEndpointManager";
 import { Response } from "../request";
 import { LocationRouting } from "../request/LocationRouting";
 import { RequestContext } from "../request/RequestContext";
+import { executeRequest } from "../request/RequestHandler";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
 import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
@@ -25,12 +25,10 @@ export type CreateRequestObjectStubFunction = (
 interface ExecuteArgs {
   globalEndpointManager: GlobalEndpointManager;
   body: Buffer;
-  createRequestObjectFunc: CreateRequestObjectStubFunction;
   connectionPolicy: ConnectionPolicy;
-  requestOptions: RequestOptions;
-  request: RequestContext;
   retryContext?: RetryContext;
   retryPolicies?: RetryPolicies;
+  requestContext: RequestContext;
 }
 
 interface RetryPolicies {
@@ -42,13 +40,11 @@ interface RetryPolicies {
 
 export async function execute({
   body,
-  createRequestObjectFunc,
   connectionPolicy,
-  requestOptions,
   globalEndpointManager,
-  request,
   retryContext,
-  retryPolicies
+  retryPolicies,
+  requestContext
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
 
@@ -57,7 +53,10 @@ export async function execute({
   }
   if (!retryPolicies) {
     retryPolicies = {
-      endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(globalEndpointManager, request.operationType),
+      endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
+        globalEndpointManager,
+        requestContext.operationType
+      ),
       resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
         connectionPolicy.retryOptions.maxRetryAttemptCount,
         connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
@@ -65,30 +64,30 @@ export async function execute({
       ),
       sessionReadRetryPolicy: new SessionRetryPolicy(
         globalEndpointManager,
-        request.resourceType,
-        request.operationType,
+        requestContext.resourceType,
+        requestContext.operationType,
         connectionPolicy
       ),
-      defaultRetryPolicy: new DefaultRetryPolicy(request.operationType)
+      defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType)
     };
   }
-  const httpsRequest = createRequestObjectFunc(connectionPolicy, requestOptions, body);
-  if (!request.locationRouting) {
-    request.locationRouting = new LocationRouting();
+  const httpsRequest = executeRequest(requestContext);
+  if (!requestContext.locationRouting) {
+    requestContext.locationRouting = new LocationRouting();
   }
-  request.locationRouting.clearRouteToLocation();
+  requestContext.locationRouting.clearRouteToLocation();
   if (retryContext) {
-    request.locationRouting.routeToLocation(
+    requestContext.locationRouting.routeToLocation(
       retryContext.retryCount || 0,
       !retryContext.retryRequestOnPreferredLocations
     );
     if (retryContext.clearSessionTokenNotAvailable) {
-      request.client.clearSessionToken(request.path);
+      requestContext.client.clearSessionToken(requestContext.path);
     }
   }
-  const locationEndpoint = await globalEndpointManager.resolveServiceEndpoint(request);
-  requestOptions = modifyRequestOptions(requestOptions, url.parse(locationEndpoint));
-  request.locationRouting.routeToLocation(locationEndpoint);
+  const locationEndpoint = await globalEndpointManager.resolveServiceEndpoint(requestContext);
+  requestContext.endpoint = locationEndpoint;
+  requestContext.locationRouting.routeToLocation(locationEndpoint);
   try {
     const response = await (httpsRequest as Promise<Response<any>>);
     response.headers[Constants.ThrottleRetryCount] = retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
@@ -116,36 +115,20 @@ export async function execute({
       err.headers = { ...err.headers, ...headers };
       throw err;
     } else {
-      request.retryCount++;
+      requestContext.retryCount++;
       const newUrl = (results as any)[1]; // TODO: any hack
       if (newUrl !== undefined) {
-        modifyRequestOptions(requestOptions, url.parse(newUrl));
+        requestContext.endpoint = newUrl;
       }
       await sleep(retryPolicy.retryAfterInMilliseconds);
       return execute({
         body,
-        createRequestObjectFunc,
         connectionPolicy,
-        requestOptions,
         globalEndpointManager,
-        request,
+        requestContext,
         retryContext,
         retryPolicies
       });
     }
   }
-}
-
-function modifyRequestOptions(
-  oldRequestOptions: RequestOptions | any, // TODO: any hack is bad
-  newUrl: url.UrlWithStringQuery | any
-) {
-  // TODO: any hack is bad
-  const properties = Object.keys(newUrl);
-  for (const index in properties) {
-    if (properties[index] !== "path") {
-      oldRequestOptions[properties[index]] = newUrl[properties[index]];
-    }
-  }
-  return oldRequestOptions;
 }

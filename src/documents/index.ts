@@ -11,7 +11,6 @@ export * from "./PartitionKey";
 export * from "./PartitionKeyDefinition";
 export * from "./PartitionKind";
 export * from "./PermissionMode";
-export * from "./QueryCompatibilityMode";
 export * from "./TriggerOperation";
 export * from "./TriggerType";
 export * from "./UserDefinedFunctionType";

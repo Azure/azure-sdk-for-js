@@ -83,14 +83,7 @@ export class Triggers {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<TriggerDefinition>(
-      body,
-      path,
-      ResourceType.trigger,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.create<TriggerDefinition>(body, path, ResourceType.trigger, id, options);
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
   }
@@ -118,14 +111,7 @@ export class Triggers {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert<TriggerDefinition>(
-      body,
-      path,
-      ResourceType.trigger,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.upsert<TriggerDefinition>(body, path, ResourceType.trigger, id, options);
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return new TriggerResponse(response.result, response.headers, response.statusCode, ref);
   }

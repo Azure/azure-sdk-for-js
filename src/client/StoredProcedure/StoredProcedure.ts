@@ -36,13 +36,7 @@ export class StoredProcedure {
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<StoredProcedureDefinition>(
-      path,
-      ResourceType.sproc,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.read<StoredProcedureDefinition>(path, ResourceType.sproc, id, options);
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -69,7 +63,6 @@ export class StoredProcedure {
       path,
       ResourceType.sproc,
       id,
-      undefined,
       options
     );
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
@@ -83,13 +76,7 @@ export class StoredProcedure {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<StoredProcedureDefinition>(
-      path,
-      ResourceType.sproc,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.delete<StoredProcedureDefinition>(path, ResourceType.sproc, id, options);
     return new StoredProcedureResponse(response.result, response.headers, response.statusCode, this);
   }
 

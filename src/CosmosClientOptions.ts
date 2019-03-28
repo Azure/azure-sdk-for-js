@@ -1,9 +1,9 @@
 import { AuthOptions } from "./auth";
-import { ConnectionPolicy, ConsistencyLevel, QueryCompatibilityMode } from "./documents";
+import { ConnectionPolicy, ConsistencyLevel } from "./documents";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
-interface Agent {
+export interface Agent {
   maxFreeSockets: number;
   maxSockets: number;
   sockets: any;
@@ -31,5 +31,4 @@ export interface CosmosClientOptions {
    * Use an agent such as https://github.com/TooTallNate/node-proxy-agent if you need to connect to Cosmos via a proxy
    */
   agent?: Agent;
-  queryCompatibilityMode?: QueryCompatibilityMode;
 }

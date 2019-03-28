@@ -98,7 +98,9 @@ export class LocationCache {
     );
   }
 
-  public resolveServiceEndpoint(request: RequestContext): string {
+  public resolveServiceEndpoint(
+    request: Pick<RequestContext, "operationType" | "resourceType" | "retryCount" | "locationRouting">
+  ): string {
     request.locationRouting = request.locationRouting || new LocationRouting();
 
     let locationIndex = request.locationRouting.locationIndexToRoute || 0;

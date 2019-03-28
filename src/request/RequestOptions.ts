@@ -1,10 +1,9 @@
-import { PartitionKey } from "../documents";
-import { CosmosHeaders } from "../index";
+import { SharedOptions } from "./SharedOptions";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
  */
-export interface RequestOptions {
+export interface RequestOptions extends SharedOptions {
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */
@@ -23,8 +22,6 @@ export interface RequestOptions {
   enableScriptLogging?: boolean;
   /** Specifies indexing directives (index, do not index .. etc). */
   indexingDirective?: string;
-  /** Represents Request Units(RU)/Minute throughput is enabled/disabled for a container. */
-  offerEnableRUPerMinuteThroughput?: boolean;
   /** The offer throughput provisioned for a container in measurement of Requests-per-Unit. */
   offerThroughput?: number;
   /**
@@ -33,8 +30,6 @@ export interface RequestOptions {
    * This option is only valid when creating a document container.
    */
   offerType?: string;
-  /** Specifies a partition key definition for a particular path in the Azure Cosmos DB database service. */
-  partitionKey?: PartitionKey | PartitionKey[];
   /** Enables/disables getting document container quota related stats for document container read requests. */
   populateQuotaInfo?: boolean;
   /** Indicates what is the post trigger to be invoked after the operation. */
@@ -43,10 +38,6 @@ export interface RequestOptions {
   preTriggerInclude?: string | string[];
   /** Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions). */
   resourceTokenExpirySeconds?: number;
-  /** Token for use with Session consistency. */
-  sessionToken?: string;
-  /** (Advanced use case) Initial headers to start with when sending requests to Cosmos */
-  initialHeaders?: CosmosHeaders;
   /** (Advanced use case) The url to connect to. */
   urlConnection?: string;
   /** (Advanced use case) Skip getting info on the parititon key from the container. */

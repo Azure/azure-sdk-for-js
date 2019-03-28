@@ -180,13 +180,7 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ContainerDefinition>(
-      path,
-      ResourceType.container,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.read<ContainerDefinition>(path, ResourceType.container, id, options);
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
     return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
@@ -206,7 +200,6 @@ export class Container {
       path,
       ResourceType.container,
       id,
-      undefined,
       options
     );
     return new ContainerResponse(response.result, response.headers, response.statusCode, this);
@@ -217,13 +210,7 @@ export class Container {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ContainerDefinition>(
-      path,
-      ResourceType.container,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.delete<ContainerDefinition>(path, ResourceType.container, id, options);
     return new ContainerResponse(response.result, response.headers, response.statusCode, this);
   }
 

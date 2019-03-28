@@ -108,7 +108,6 @@ export class StoredProcedures {
       path,
       ResourceType.sproc,
       id,
-      undefined,
       options
     );
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
@@ -143,7 +142,6 @@ export class StoredProcedures {
       path,
       ResourceType.sproc,
       id,
-      undefined,
       options
     );
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);

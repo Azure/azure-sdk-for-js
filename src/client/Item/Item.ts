@@ -74,7 +74,7 @@ export class Item {
     }
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<T>(path, ResourceType.item, id, undefined, options);
+    const response = await this.clientContext.read<T>(path, ResourceType.item, id, options);
 
     return new ItemResponse(response.result, response.headers, response.statusCode, this);
   }
@@ -118,7 +118,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<T>(body, path, ResourceType.item, id, undefined, options);
+    const response = await this.clientContext.replace<T>(body, path, ResourceType.item, id, options);
     return new ItemResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -144,7 +144,7 @@ export class Item {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<T>(path, ResourceType.item, id, undefined, options);
+    const response = await this.clientContext.delete<T>(path, ResourceType.item, id, options);
     return new ItemResponse(response.result, response.headers, response.statusCode, this);
   }
 }

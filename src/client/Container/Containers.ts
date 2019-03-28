@@ -90,28 +90,22 @@ export class Containers {
    * @param body Represents the body of the container.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse> {
+  public async create(body: ContainerRequest, options: RequestOptions = {}): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
-    let initialHeaders: CosmosHeaders;
 
     if (body.throughput) {
-      initialHeaders = { [Constants.HttpHeaders.OfferThroughput]: body.throughput };
+      options.initialHeaders = Object.assign({}, options.initialHeaders, {
+        [Constants.HttpHeaders.OfferThroughput]: body.throughput
+      });
       delete body.throughput;
     }
 
-    const response = await this.clientContext.create<ContainerRequest>(
-      body,
-      path,
-      ResourceType.container,
-      id,
-      initialHeaders,
-      options
-    );
+    const response = await this.clientContext.create<ContainerRequest>(body, path, ResourceType.container, id, options);
     const ref = new Container(this.database, response.result.id, this.clientContext);
     return new ContainerResponse(response.result, response.headers, response.statusCode, ref);
   }

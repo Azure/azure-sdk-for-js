@@ -37,7 +37,6 @@ export class Permission {
       path,
       ResourceType.permission,
       id,
-      undefined,
       options
     );
     return new PermissionResponse(response.result, response.headers, response.statusCode, this);
@@ -62,7 +61,6 @@ export class Permission {
       path,
       ResourceType.permission,
       id,
-      undefined,
       options
     );
     return new PermissionResponse(response.result, response.headers, response.statusCode, this);
@@ -80,7 +78,6 @@ export class Permission {
       path,
       ResourceType.permission,
       id,
-      undefined,
       options
     );
     return new PermissionResponse(response.result, response.headers, response.statusCode, this);

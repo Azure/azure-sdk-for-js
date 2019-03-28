@@ -79,13 +79,7 @@ export class Database {
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<DatabaseDefinition>(
-      path,
-      ResourceType.database,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.read<DatabaseDefinition>(path, ResourceType.database, id, options);
     return new DatabaseResponse(response.result, response.headers, response.statusCode, this);
   }
 
@@ -93,13 +87,7 @@ export class Database {
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    const response = await this.clientContext.delete<DatabaseDefinition>(
-      path,
-      ResourceType.database,
-      id,
-      undefined,
-      options
-    );
+    const response = await this.clientContext.delete<DatabaseDefinition>(path, ResourceType.database, id, options);
     return new DatabaseResponse(response.result, response.headers, response.statusCode, this);
   }
 }

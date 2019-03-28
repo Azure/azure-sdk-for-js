@@ -4,6 +4,7 @@ import { LocationCache } from "../../dist-esm/LocationCache";
 
 import * as assert from "assert";
 import { OperationType, ResourceType } from "../../dist-esm/common";
+import { RequestContext } from "../../dist-esm/request/RequestContext";
 
 const scenarios: Scenario[] = [];
 const regions = ["westus", "East US", "eastus2", "south Centralus", "sEasIa"];

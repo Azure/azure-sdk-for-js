@@ -223,7 +223,7 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<T>(body, path, ResourceType.item, id, undefined, options);
+    const response = await this.clientContext.create<T>(body, path, ResourceType.item, id, options);
 
     const ref = new Item(
       this.container,
@@ -275,8 +275,7 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const response = (await this.clientContext.upsert<T>(body, path, ResourceType.item, id, undefined, options)) as T &
-      Resource;
+    const response = (await this.clientContext.upsert<T>(body, path, ResourceType.item, id, options)) as T & Resource;
 
     const ref = new Item(
       this.container,

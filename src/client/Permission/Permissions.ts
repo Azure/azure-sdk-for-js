@@ -83,7 +83,6 @@ export class Permissions {
       path,
       ResourceType.permission,
       id,
-      undefined,
       options
     );
     const ref = new Permission(this.user, response.result.id, this.clientContext);
@@ -110,7 +109,6 @@ export class Permissions {
       path,
       ResourceType.permission,
       id,
-      undefined,
       options
     );
     const ref = new Permission(this.user, response.result.id, this.clientContext);

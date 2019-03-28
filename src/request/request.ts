@@ -24,112 +24,122 @@ export function bodyFromData(data: Buffer | string | object) {
   return data;
 }
 
-export async function getHeaders(
-  authOptions: AuthOptions,
-  defaultHeaders: CosmosHeaders,
-  verb: HTTPMethod,
-  path: string,
-  resourceId: string,
-  resourceType: ResourceType,
-  options: RequestOptions | FeedOptions,
-  partitionKeyRangeId?: string,
-  useMultipleWriteLocations?: boolean
-): Promise<CosmosHeaders> {
+interface GetHeadersOptions {
+  authOptions: AuthOptions;
+  defaultHeaders: CosmosHeaders;
+  verb: HTTPMethod;
+  path: string;
+  resourceId: string;
+  resourceType: ResourceType;
+  options: RequestOptions & FeedOptions;
+  partitionKeyRangeId?: string;
+  useMultipleWriteLocations?: boolean;
+}
+
+export async function getHeaders({
+  authOptions,
+  defaultHeaders,
+  verb,
+  path,
+  resourceId,
+  resourceType,
+  options,
+  partitionKeyRangeId,
+  useMultipleWriteLocations
+}: GetHeadersOptions): Promise<CosmosHeaders> {
   const headers: CosmosHeaders = { ...defaultHeaders };
-  const opts: RequestOptions & FeedOptions = (options || {}) as any; // TODO: this is dirty
 
   if (useMultipleWriteLocations) {
     headers[Constants.HttpHeaders.ALLOW_MULTIPLE_WRITES] = true;
   }
 
-  if (opts.continuation) {
-    headers[Constants.HttpHeaders.Continuation] = opts.continuation;
+  if (options.continuation) {
+    headers[Constants.HttpHeaders.Continuation] = options.continuation;
   }
 
-  if (opts.preTriggerInclude) {
+  if (options.preTriggerInclude) {
     headers[Constants.HttpHeaders.PreTriggerInclude] =
-      opts.preTriggerInclude.constructor === Array
-        ? (opts.preTriggerInclude as string[]).join(",")
-        : (opts.preTriggerInclude as string);
+      options.preTriggerInclude.constructor === Array
+        ? (options.preTriggerInclude as string[]).join(",")
+        : (options.preTriggerInclude as string);
   }
 
-  if (opts.postTriggerInclude) {
+  if (options.postTriggerInclude) {
     headers[Constants.HttpHeaders.PostTriggerInclude] =
-      opts.postTriggerInclude.constructor === Array
-        ? (opts.postTriggerInclude as string[]).join(",")
-        : (opts.postTriggerInclude as string);
+      options.postTriggerInclude.constructor === Array
+        ? (options.postTriggerInclude as string[]).join(",")
+        : (options.postTriggerInclude as string);
   }
 
-  if (opts.offerType) {
-    headers[Constants.HttpHeaders.OfferType] = opts.offerType;
+  if (options.offerType) {
+    headers[Constants.HttpHeaders.OfferType] = options.offerType;
   }
 
-  if (opts.offerThroughput) {
-    headers[Constants.HttpHeaders.OfferThroughput] = opts.offerThroughput;
+  if (options.offerThroughput) {
+    headers[Constants.HttpHeaders.OfferThroughput] = options.offerThroughput;
   }
 
-  if (opts.maxItemCount) {
-    headers[Constants.HttpHeaders.PageSize] = opts.maxItemCount;
+  if (options.maxItemCount) {
+    headers[Constants.HttpHeaders.PageSize] = options.maxItemCount;
   }
 
-  if (opts.accessCondition) {
-    if (opts.accessCondition.type === "IfMatch") {
-      headers[Constants.HttpHeaders.IfMatch] = opts.accessCondition.condition;
+  if (options.accessCondition) {
+    if (options.accessCondition.type === "IfMatch") {
+      headers[Constants.HttpHeaders.IfMatch] = options.accessCondition.condition;
     } else {
-      headers[Constants.HttpHeaders.IfNoneMatch] = opts.accessCondition.condition;
+      headers[Constants.HttpHeaders.IfNoneMatch] = options.accessCondition.condition;
     }
   }
 
-  if (opts.useIncrementalFeed) {
+  if (options.useIncrementalFeed) {
     headers[Constants.HttpHeaders.A_IM] = "Incremental Feed";
   }
 
-  if (opts.indexingDirective) {
-    headers[Constants.HttpHeaders.IndexingDirective] = opts.indexingDirective;
+  if (options.indexingDirective) {
+    headers[Constants.HttpHeaders.IndexingDirective] = options.indexingDirective;
   }
 
-  if (opts.consistencyLevel) {
-    headers[Constants.HttpHeaders.ConsistencyLevel] = opts.consistencyLevel;
+  if (options.consistencyLevel) {
+    headers[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
   }
 
-  if (opts.resourceTokenExpirySeconds) {
-    headers[Constants.HttpHeaders.ResourceTokenExpiry] = opts.resourceTokenExpirySeconds;
+  if (options.resourceTokenExpirySeconds) {
+    headers[Constants.HttpHeaders.ResourceTokenExpiry] = options.resourceTokenExpirySeconds;
   }
 
-  if (opts.sessionToken) {
-    headers[Constants.HttpHeaders.SessionToken] = opts.sessionToken;
+  if (options.sessionToken) {
+    headers[Constants.HttpHeaders.SessionToken] = options.sessionToken;
   }
 
-  if (opts.enableScanInQuery) {
-    headers[Constants.HttpHeaders.EnableScanInQuery] = opts.enableScanInQuery;
+  if (options.enableScanInQuery) {
+    headers[Constants.HttpHeaders.EnableScanInQuery] = options.enableScanInQuery;
   }
 
-  if (opts.enableCrossPartitionQuery) {
-    headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = opts.enableCrossPartitionQuery;
+  if (options.enableCrossPartitionQuery) {
+    headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = options.enableCrossPartitionQuery;
   }
 
-  if (opts.populateQuotaInfo) {
-    headers[Constants.HttpHeaders.PopulateQuotaInfo] = opts.populateQuotaInfo;
+  if (options.populateQuotaInfo) {
+    headers[Constants.HttpHeaders.PopulateQuotaInfo] = options.populateQuotaInfo;
   }
 
-  if (opts.populateQueryMetrics) {
-    headers[Constants.HttpHeaders.PopulateQueryMetrics] = opts.populateQueryMetrics;
+  if (options.populateQueryMetrics) {
+    headers[Constants.HttpHeaders.PopulateQueryMetrics] = options.populateQueryMetrics;
   }
 
-  if (opts.maxDegreeOfParallelism !== undefined) {
+  if (options.maxDegreeOfParallelism !== undefined) {
     headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
   }
 
-  if (opts.populateQuotaInfo) {
+  if (options.populateQuotaInfo) {
     headers[Constants.HttpHeaders.PopulateQuotaInfo] = true;
   }
 
-  if (opts.partitionKey !== undefined) {
-    let partitionKey: string[] | string = opts.partitionKey;
-    if (partitionKey === null || !Array.isArray(partitionKey)) {
-      partitionKey = [partitionKey as string];
+  if (options.partitionKey !== undefined) {
+    if (options.partitionKey === null || !Array.isArray(options.partitionKey)) {
+      options.partitionKey = [options.partitionKey as string];
     }
-    headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(partitionKey);
+    headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(options.partitionKey);
   }
 
   if (authOptions.masterKey || authOptions.key || authOptions.tokenProvider) {
@@ -150,15 +160,11 @@ export async function getHeaders(
     headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
   }
 
-  if (opts.enableScriptLogging) {
-    headers[Constants.HttpHeaders.EnableScriptLogging] = opts.enableScriptLogging;
+  if (options.enableScriptLogging) {
+    headers[Constants.HttpHeaders.EnableScriptLogging] = options.enableScriptLogging;
   }
 
-  if (opts.offerEnableRUPerMinuteThroughput) {
-    headers[Constants.HttpHeaders.OfferIsRUPerMinuteThroughputEnabled] = true;
-  }
-
-  if (opts.disableRUPerMinuteUsage) {
+  if (options.disableRUPerMinuteUsage) {
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
   }
   if (
