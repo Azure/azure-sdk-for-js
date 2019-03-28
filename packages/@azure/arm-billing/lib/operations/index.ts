@@ -35,7 +35,6 @@ export * from "./products";
 export * from "./transactionsByBillingAccount";
 export * from "./policyOperations";
 export * from "./billingPropertyOperations";
-export * from "./invoiceSectionOperations";
 export * from "./transfers";
 export * from "./recipientTransfers";
 export * from "./operations";

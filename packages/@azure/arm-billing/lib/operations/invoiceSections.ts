@@ -117,6 +117,38 @@ export class InvoiceSections {
   }
 
   /**
+   * Elevates the caller's access to match their billing profile access.
+   * @param billingAccountName billing Account Id.
+   * @param invoiceSectionName InvoiceSection Id.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  elevateToBillingProfile(billingAccountName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param billingAccountName billing Account Id.
+   * @param invoiceSectionName InvoiceSection Id.
+   * @param callback The callback
+   */
+  elevateToBillingProfile(billingAccountName: string, invoiceSectionName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param billingAccountName billing Account Id.
+   * @param invoiceSectionName InvoiceSection Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  elevateToBillingProfile(billingAccountName: string, invoiceSectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  elevateToBillingProfile(billingAccountName: string, invoiceSectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        invoiceSectionName,
+        options
+      },
+      elevateToBillingProfileOperationSpec,
+      callback);
+  }
+
+  /**
    * The operation to create a InvoiceSection.
    * @param billingAccountName billing Account Id.
    * @param parameters Parameters supplied to the Create InvoiceSection operation.
@@ -199,6 +231,25 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.InvoiceSection
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const elevateToBillingProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/elevate",
+  urlParameters: [
+    Parameters.billingAccountName,
+    Parameters.invoiceSectionName
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

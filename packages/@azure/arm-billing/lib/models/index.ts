@@ -40,7 +40,7 @@ export interface InitiateTransferRequest {
  */
 export interface ProductDetails {
   /**
-   * @member {ProductType} [productType] Type of the prouct to be transferred.
+   * @member {ProductType} [productType] Type of the product to be transferred.
    * Possible values include: 'AzureSubscription', 'AzureReservation'
    */
   productType?: ProductType;
@@ -138,7 +138,7 @@ export interface TransferDetails {
    */
   readonly expirationTime?: Date;
   /**
-   * @member {string} [invoiceSectionId] Target invoice setion Id.
+   * @member {string} [invoiceSectionId] Target invoice section Id.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
