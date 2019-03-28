@@ -5,7 +5,7 @@ import {
   SendableMessageInfo,
   QueueClient,
   TopicClient,
-  Namespace,
+  ServiceBusClient,
   SubscriptionClient,
   delay
 } from "../lib";
@@ -174,7 +174,7 @@ async function recreateSubscription(
 }
 
 export async function getSenderReceiverClients(
-  namespace: Namespace,
+  namespace: ServiceBusClient,
   senderClientType: ClientType,
   receiverClientType: ClientType
 ): Promise<{
@@ -380,8 +380,8 @@ export async function purge(
       isEmpty = true;
     } else {
       const receiver = sessionId
-        ? await receiverClient.getSessionReceiver({ sessionId: sessionId })
-        : receiverClient.getReceiver();
+        ? await receiverClient.createSessionReceiver({ sessionId: sessionId })
+        : receiverClient.createReceiver();
 
       const msgs = await receiver.receiveBatch(peekedMsgs.length);
       for (let index = 0; index < msgs.length; index++) {
