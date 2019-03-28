@@ -8,12 +8,16 @@
  * regenerated.
  */
 
+export * from "./regulatoryComplianceStandards";
+export * from "./regulatoryComplianceControls";
+export * from "./regulatoryComplianceAssessments";
 export * from "./pricings";
 export * from "./securityContacts";
 export * from "./workspaceSettings";
 export * from "./autoProvisioningSettings";
 export * from "./compliances";
 export * from "./advancedThreatProtection";
+export * from "./deviceSecurityGroups";
 export * from "./settings";
 export * from "./informationProtectionPolicies";
 export * from "./operations";
@@ -25,3 +29,4 @@ export * from "./jitNetworkAccessPolicies";
 export * from "./externalSecuritySolutions";
 export * from "./topology";
 export * from "./allowedConnections";
+export * from "./adaptiveNetworkHardenings";
