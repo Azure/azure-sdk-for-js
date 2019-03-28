@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   QueueClient,
   TopicClient,
   SubscriptionClient,
@@ -42,7 +42,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 
 let errorWasThrown: boolean;
 
@@ -65,7 +65,7 @@ async function beforeEachTest(
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   const clients = await getSenderReceiverClients(ns, senderType, receiverType);
   senderClient = clients.senderClient;
@@ -78,13 +78,13 @@ async function beforeEachTest(
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
 
-  sender = senderClient.getSender();
+  sender = senderClient.createSender();
   receiver = useSessions
-    ? await receiverClient.getSessionReceiver({
+    ? await receiverClient.createSessionReceiver({
         sessionId: TestMessage.sessionId,
         receiveMode: ReceiveMode.receiveAndDelete
       })
-    : receiverClient.getReceiver({ receiveMode: ReceiveMode.receiveAndDelete });
+    : receiverClient.createReceiver({ receiveMode: ReceiveMode.receiveAndDelete });
 
   errorWasThrown = false;
 }

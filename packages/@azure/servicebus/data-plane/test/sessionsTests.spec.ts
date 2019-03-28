@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   QueueClient,
   TopicClient,
   SubscriptionClient,
@@ -37,7 +37,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
@@ -62,7 +62,7 @@ async function beforeEachTest(senderType: ClientType, sessionType: ClientType): 
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   const clients = await getSenderReceiverClients(ns, senderType, sessionType);
   senderClient = clients.senderClient;
@@ -87,16 +87,16 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_batching(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.getSender().send(testMessage);
+    await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.getSessionReceiver({
+    let receiver = await receiverClient.createSessionReceiver({
       sessionId: "non" + TestMessage.sessionId
     });
     let msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 0, "Unexpected number of messages");
 
     await receiver.close();
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     msgs = await receiver.receiveBatch(1);
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -148,9 +148,9 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_streaming(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.getSender().send(testMessage);
+    await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.getSessionReceiver({
+    let receiver = await receiverClient.createSessionReceiver({
       sessionId: "non" + TestMessage.sessionId
     });
     let receivedMsgs: ServiceBusMessage[] = [];
@@ -162,7 +162,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
     await receiver.close();
 
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     receivedMsgs = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
@@ -243,11 +243,11 @@ describe("SessionReceiver with no sessionId", function(): void {
   ];
 
   async function testComplete_batching(): Promise<void> {
-    const sender = senderClient.getSender();
+    const sender = senderClient.createSender();
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
 
-    let receiver = await receiverClient.getSessionReceiver();
+    let receiver = await receiverClient.createSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -266,7 +266,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     await msgs[0].complete();
     await receiver.close();
 
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     msgs = await receiver.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -336,11 +336,11 @@ describe("Session State", function(): void {
   });
 
   async function testGetSetState(): Promise<void> {
-    const sender = senderClient.getSender();
+    const sender = senderClient.createSender();
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
 
-    let receiver = await receiverClient.getSessionReceiver();
+    let receiver = await receiverClient.createSessionReceiver();
     let msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -356,7 +356,7 @@ describe("Session State", function(): void {
 
     await receiver.close();
 
-    receiver = await receiverClient.getSessionReceiver();
+    receiver = await receiverClient.createSessionReceiver();
     msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -402,84 +402,5 @@ describe("Session State", function(): void {
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
-  });
-});
-
-describe("Second SessionReceiver for same sessionId", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
-
-  async function testSecondSessionReceiverForSameSession(): Promise<void> {
-    const sender = senderClient.getSender();
-    const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
-
-    const firstReceiver = await receiverClient.getSessionReceiver();
-    should.equal(
-      firstReceiver.sessionId,
-      testMessage.sessionId,
-      "MessageId is different than expected"
-    );
-
-    let errorWasThrown = false;
-    try {
-      const secondReceiver = await receiverClient.getSessionReceiver({
-        sessionId: testMessage.sessionId
-      });
-      if (secondReceiver) {
-        chai.assert.fail("Second receiver for same session id should not have been created");
-      }
-    } catch (error) {
-      errorWasThrown =
-        error &&
-        error.message ===
-          `Close the current session receiver for sessionId ${
-            testMessage.sessionId
-          } before using "getSessionReceiver" to create a new one for the same sessionId`;
-    }
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  }
-
-  it("Partitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
-    );
-
-    await testSecondSessionReceiverForSameSession();
-  });
-  it("Partitioned Subscription - Second Session Receiver for same session id throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
-    );
-
-    await testSecondSessionReceiverForSameSession();
-  });
-  it("Unpartitioned Queue - Second Session Receiver for same session id throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
-    );
-
-    await testSecondSessionReceiverForSameSession();
-  });
-  it("Unpartitioned Subscription - Second Session Receiver for same session id throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
-    );
-
-    await testSecondSessionReceiverForSameSession();
   });
 });

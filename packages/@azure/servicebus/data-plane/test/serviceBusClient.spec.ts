@@ -10,7 +10,7 @@ chai.use(chaiAsPromised);
 import { ApplicationTokenCredentials, loginWithServicePrincipalSecret } from "ms-rest-azure";
 const aadServiceBusAudience = "https://servicebus.azure.net/";
 import {
-  Namespace,
+  ServiceBusClient,
   delay,
   QueueClient,
   TopicClient,
@@ -32,7 +32,7 @@ describe("Create Namespace", function(): void {
   it("throws error when there is no connection string", function(): void {
     testFalsyValues(function(value: any): void {
       const test = function(): void {
-        Namespace.createFromConnectionString(value);
+        ServiceBusClient.createFromConnectionString(value);
       };
       test.should.throw(
         Error,
@@ -42,18 +42,18 @@ describe("Create Namespace", function(): void {
   });
 
   it("creates an Namespace from a connection string", function(): void {
-    const namespace = Namespace.createFromConnectionString(
+    const namespace = ServiceBusClient.createFromConnectionString(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
-    namespace.should.be.an.instanceof(Namespace);
+    namespace.should.be.an.instanceof(ServiceBusClient);
     should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
   });
 });
 
 describe("Clients with no name", function(): void {
-  let namespace: Namespace;
+  let namespace: ServiceBusClient;
   beforeEach(() => {
-    namespace = Namespace.createFromConnectionString(
+    namespace = ServiceBusClient.createFromConnectionString(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
   });
@@ -102,10 +102,10 @@ describe("Clients with no name", function(): void {
 });
 
 describe("Errors with non existing Namespace", function(): void {
-  let namespace: Namespace;
+  let namespace: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
-    namespace = Namespace.createFromConnectionString(
+    namespace = ServiceBusClient.createFromConnectionString(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     errorWasThrown = false;
@@ -129,7 +129,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
 
@@ -141,7 +141,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
 
@@ -153,7 +153,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -164,7 +164,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch(testError);
 
@@ -176,7 +176,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(10)
       .catch(testError);
 
@@ -188,7 +188,7 @@ describe("Errors with non existing Namespace", function(): void {
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(10)
       .catch(testError);
 
@@ -203,7 +203,7 @@ describe("Errors with non existing Namespace", function(): void {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
 
-    client.getReceiver().receive(onMessage, testError);
+    client.createReceiver().receive(onMessage, testError);
 
     await delay(3000);
     await client.close();
@@ -212,13 +212,15 @@ describe("Errors with non existing Namespace", function(): void {
 });
 
 describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
-  let namespace: Namespace;
+  let namespace: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
     if (!process.env.SERVICEBUS_CONNECTION_STRING) {
       throw "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests.";
     }
-    namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+    namespace = ServiceBusClient.createFromConnectionString(
+      process.env.SERVICEBUS_CONNECTION_STRING
+    );
     errorWasThrown = false;
   });
   afterEach(() => {
@@ -239,7 +241,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when sending data to a non existing queue", async function(): Promise<void> {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -249,7 +251,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when sending data to a non existing topic", async function(): Promise<void> {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -261,7 +263,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -273,7 +275,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createTopicClient("some-name");
     await client
-      .getSender()
+      .createSender()
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -285,7 +287,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createQueueClient("some-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(1)
       .catch((err) => testError(err, "some-name"));
 
@@ -297,7 +299,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
     await client
-      .getReceiver()
+      .createReceiver()
       .receiveBatch(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
@@ -311,7 +313,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
-    client.getReceiver().receive(onMessage, (err) => testError(err, "some-name"));
+    client.createReceiver().receive(onMessage, (err) => testError(err, "some-name"));
 
     await delay(3000);
     await client.close();
@@ -326,7 +328,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
     client
-      .getReceiver()
+      .createReceiver()
       .receive(onMessage, (err) =>
         testError(err, "some-topic-name/Subscriptions/some-subscription-name")
       );
@@ -338,7 +340,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
 });
 
 describe("Test createFromAadTokenCredentials", function(): void {
-  let namespace: Namespace;
+  let namespace: ServiceBusClient;
   let tokenCreds: ApplicationTokenCredentials;
   let errorWasThrown: boolean = false;
   if (!process.env.SERVICEBUS_CONNECTION_STRING) {
@@ -352,16 +354,16 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
   async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
     const testMessages = TestMessage.getSample();
-    namespace = Namespace.createFromAadTokenCredentials(host, tokenCreds);
-    namespace.should.be.an.instanceof(Namespace);
+    namespace = ServiceBusClient.createFromAadTokenCredentials(host, tokenCreds);
+    namespace.should.be.an.instanceof(ServiceBusClient);
     const clients = await getSenderReceiverClients(
       namespace,
       ClientType.UnpartitionedQueue,
       ClientType.UnpartitionedQueue
     );
 
-    const sender = clients.senderClient.getSender();
-    const receiver = clients.receiverClient.getReceiver();
+    const sender = clients.senderClient.createSender();
+    const receiver = clients.receiverClient.createReceiver();
     await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
@@ -419,7 +421,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
 });
 
 describe("Errors after close()", function(): void {
-  let namespace: Namespace;
+  let namespace: ServiceBusClient;
   let senderClient: QueueClient | TopicClient;
   let receiverClient: QueueClient | SubscriptionClient;
   let sender: Sender;
@@ -441,7 +443,9 @@ describe("Errors after close()", function(): void {
       );
     }
 
-    namespace = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+    namespace = ServiceBusClient.createFromConnectionString(
+      process.env.SERVICEBUS_CONNECTION_STRING
+    );
 
     const clients = await getSenderReceiverClients(namespace, senderType, receiverType);
     senderClient = clients.senderClient;
@@ -454,12 +458,12 @@ describe("Errors after close()", function(): void {
       chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     }
 
-    sender = senderClient.getSender();
+    sender = senderClient.createSender();
     receiver = useSessions
-      ? await receiverClient.getSessionReceiver({
+      ? await receiverClient.createSessionReceiver({
           sessionId: TestMessage.sessionId
         })
-      : receiverClient.getReceiver();
+      : receiverClient.createReceiver();
 
     // Normal send/receive
     const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
@@ -549,16 +553,16 @@ describe("Errors after close()", function(): void {
   }
 
   /**
-   * Tests that each feature of the senderClient throws expected error
+   * Tests creating new sender throws expected error
    */
-  async function testSenderClient(expectedErrorMsg: string): Promise<void> {
+  async function testCreateSender(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
-      senderClient.getSender();
+      senderClient.createSender();
     } catch (err) {
       errorNewSender = err.message;
     }
-    should.equal(errorNewSender, expectedErrorMsg, "Expected error not thrown for getSender()");
+    should.equal(errorNewSender, expectedErrorMsg, "Expected error not thrown for createSender()");
   }
 
   /**
@@ -617,17 +621,7 @@ describe("Errors after close()", function(): void {
     expectedErrorMsg: string,
     useSessions?: boolean
   ): Promise<void> {
-    let errorNewReceiver: string = "";
-    try {
-      useSessions
-        ? await receiverClient.getSessionReceiver({
-            sessionId: TestMessage.sessionId
-          })
-        : receiverClient.getReceiver();
-    } catch (err) {
-      errorNewReceiver = err.message;
-    }
-    should.equal(errorNewReceiver, expectedErrorMsg, "Expected error not thrown for getReceiver()");
+    await testCreateReceiver(expectedErrorMsg, useSessions);
 
     let errorPeek: string = "";
     await receiverClient.peek().catch((err) => {
@@ -647,6 +641,30 @@ describe("Errors after close()", function(): void {
       errorPeekBySequence,
       expectedErrorMsg,
       "Expected error not thrown for peekBySequenceNumber() from receiverClient"
+    );
+  }
+
+  /**
+   * Tests creating new receiver throws expected error
+   */
+  async function testCreateReceiver(
+    expectedErrorMsg: string,
+    useSessions?: boolean
+  ): Promise<void> {
+    let errorNewReceiver: string = "";
+    try {
+      useSessions
+        ? await receiverClient.createSessionReceiver({
+            sessionId: TestMessage.sessionId
+          })
+        : receiverClient.createReceiver();
+    } catch (err) {
+      errorNewReceiver = err.message;
+    }
+    should.equal(
+      errorNewReceiver,
+      expectedErrorMsg,
+      "Expected error not thrown for createReceiver()"
     );
   }
 
@@ -723,7 +741,7 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
     });
@@ -739,7 +757,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
     });
@@ -754,7 +772,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
       await testRules(expectedErrorMsg);
@@ -771,7 +789,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
       await testRules(expectedErrorMsg);
@@ -785,7 +803,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
     });
@@ -801,7 +819,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
     });
@@ -816,7 +834,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg);
       await testRules(expectedErrorMsg);
@@ -833,7 +851,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedErrorMsg);
-      await testSenderClient(expectedErrorMsg);
+      await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testReceiverClient(expectedErrorMsg, true);
       await testRules(expectedErrorMsg);
@@ -896,7 +914,7 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, entityToClose);
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Partitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
@@ -910,7 +928,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Partitioned Topic/Subscription: errors after close() on senderClient", async function(): Promise<
@@ -923,7 +941,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
 
     it("Partitioned Topic/Subscription with sessions: errors after close() on senderClient", async function(): Promise<
@@ -937,7 +955,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
 
     it("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
@@ -950,7 +968,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on senderClient", async function(): Promise<
@@ -964,7 +982,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedQueueClientErrorMsg);
+      await testCreateSender(expectedQueueClientErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on senderClient", async function(): Promise<
@@ -977,7 +995,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on senderClient", async function(): Promise<
@@ -991,7 +1009,7 @@ describe("Errors after close()", function(): void {
       );
 
       await testSender(expectedSenderErrorMsg);
-      await testSenderClient(expectedTopicClientErrorMsg);
+      await testCreateSender(expectedTopicClientErrorMsg);
     });
   });
 
@@ -1303,6 +1321,74 @@ describe("Errors after close()", function(): void {
       );
 
       await testSessionReceiver(expectedReceiverErrorMsg);
+    });
+  });
+
+  describe("Errors when creating second sender/receiver with first not closed", function(): void {
+    const expectedQueueClientSenderErrorMsg =
+      "An open sender already exists on this QueueClient. Please close it and try" +
+      " again or use a new QueueClient instance";
+
+    const expectedTopicClientSenderErrorMsg =
+      "An open sender already exists on this TopicClient. Please close it and try" +
+      " again or use a new TopicClient instance";
+
+    const expectedQueueClientReceiverErrorMsg =
+      "An open receiver already exists on this QueueClient. Please close it and try" +
+      " again or use a new QueueClient instance";
+
+    const expectedSubscriptionClientReceiverErrorMsg =
+      "An open receiver already exists on this SubscriptionClient. Please close it and try" +
+      " again or use a new SubscriptionClient instance";
+
+    const expectedSessionReceiverErrorMsg = `An open receiver already exists for sessionId '${
+      TestMessage.sessionId
+    }'. Please close it and try again.`;
+
+    it("Open sender exists on QueueClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, "");
+
+      await testCreateSender(expectedQueueClientSenderErrorMsg);
+    });
+
+    it("Open sender exists on TopicClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription, "");
+
+      await testCreateSender(expectedTopicClientSenderErrorMsg);
+    });
+
+    it("Open receiver exists on QueueClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue, "");
+
+      await testCreateReceiver(expectedQueueClientReceiverErrorMsg);
+    });
+
+    it("Open receiver exists on SubscriptionClient", async function(): Promise<void> {
+      await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription, "");
+
+      await testCreateReceiver(expectedSubscriptionClientReceiverErrorMsg);
+    });
+
+    it("Open receiver exists for session on QueueClient", async function(): Promise<void> {
+      await beforeEachTest(
+        ClientType.PartitionedQueueWithSessions,
+        ClientType.PartitionedQueueWithSessions,
+        "",
+        true
+      );
+
+      await testCreateReceiver(expectedSessionReceiverErrorMsg, true);
+    });
+
+    it("Open receiver exists on SubscriptionClient", async function(): Promise<void> {
+      await beforeEachTest(
+        ClientType.PartitionedTopicWithSessions,
+        ClientType.PartitionedSubscriptionWithSessions,
+        "",
+        true
+      );
+
+      await testCreateReceiver(expectedSessionReceiverErrorMsg, true);
     });
   });
 });
