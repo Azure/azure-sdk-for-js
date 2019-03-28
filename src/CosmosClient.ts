@@ -79,9 +79,7 @@ export class CosmosClient {
     if (!this.options.agent) {
       // Initialize request agent
       const requestAgentOptions: AgentOptions & tunnel.HttpsOverHttpsOptions & tunnel.HttpsOverHttpOptions = {
-        keepAlive: true,
-        maxSockets: 256,
-        maxFreeSockets: 256
+        keepAlive: true
       };
       if (!!this.options.connectionPolicy.ProxyUrl) {
         const proxyUrl = url.parse(this.options.connectionPolicy.ProxyUrl);
