@@ -135,6 +135,8 @@ export class Namespace {
   async close(): Promise<any> {
     try {
       if (this._context.connection.isOpen()) {
+        log.ns("Closing the amqp connection '%s' on the client.", this._context.connectionId);
+
         // Close all the senders.
         for (const id of Object.keys(this._context.clients)) {
           const client = this._context.clients[id];

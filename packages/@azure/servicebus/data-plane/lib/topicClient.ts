@@ -62,6 +62,8 @@ export class TopicClient implements Client {
   async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        log.topicClient("Closing the topic client '%s'.", this.id);
+
         // Close the sender.
         if (this._currentSender) {
           await this._currentSender.close();
