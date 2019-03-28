@@ -16,7 +16,7 @@
 */
 
 const { Namespace } = require("@azure/service-bus");
-const { loginWithServicePrincipalSecret } = require("@azure/ms-rest-nodeauth");
+const { loginWithServicePrincipalSecret } = require("ms-rest-azure");
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
