@@ -22,8 +22,8 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "@azure/amqp-common": "git+https://github.com/Azure/amqp-common-js.git#master",
-    "@azure/ms-rest-nodeauth": "^0.9.1",
+    "@azure/amqp-common": "^1.0.0-preview.2",
+    "@azure/ms-rest-nodeauth": "^0.9.2",
     "@types/long": "^4.0.0",
     "debug": "^3.1.0",
     "is-buffer": "^2.0.3",

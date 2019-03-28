@@ -375,10 +375,13 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
   it("throws error for an invalid host", async function(): Promise<void> {
     const env = getEnvVars();
-    tokenCreds = <any>(
-      await loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId, {
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
         tokenAudience: aadServiceBusAudience
-      })
+      }
     );
     await testCreateFromAadTokenCredentials("", tokenCreds).catch((err) => {
       errorWasThrown = true;
@@ -405,10 +408,13 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
     const env = getEnvVars();
-    tokenCreds = <any>(
-      await loginWithServicePrincipalSecret(env.clientId, env.clientSecret, env.tenantId, {
+    tokenCreds = await loginWithServicePrincipalSecret(
+      env.clientId,
+      env.clientSecret,
+      env.tenantId,
+      {
         tokenAudience: aadServiceBusAudience
-      })
+      }
     );
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
     await namespace.close();
