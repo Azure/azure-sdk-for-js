@@ -11,10 +11,10 @@
 export {
   discriminators,
   ResourceNameAvailabilityParameters,
-  ResourceNameAvailabilityResponseResource,
+  ResourceNameAvailabilityResultResource,
   Resource,
   BaseResource,
-  ResourceNameAvailabilityResponse,
+  ResourceNameAvailabilityResult,
   CloudError,
   VaultCertificateResponse,
   ResourceCertificateDetails,

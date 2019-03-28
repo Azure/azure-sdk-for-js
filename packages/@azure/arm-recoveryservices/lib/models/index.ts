@@ -517,12 +517,12 @@ export interface ResourceNameAvailabilityParameters {
 
 /**
  * @interface
- * An interface representing ResourceNameAvailabilityResponse.
+ * An interface representing ResourceNameAvailabilityResult.
  * Response for check name availability API. Resource provider will set
  * availability as true | false.
  *
  */
-export interface ResourceNameAvailabilityResponse {
+export interface ResourceNameAvailabilityResult {
   /**
    * @member {boolean} [nameAvailable]
    */
@@ -539,18 +539,18 @@ export interface ResourceNameAvailabilityResponse {
 
 /**
  * @interface
- * An interface representing ResourceNameAvailabilityResponseResource.
+ * An interface representing ResourceNameAvailabilityResultResource.
  * Response for check name availability API. Resource provider will set
  * availability as true | false.
  *
  * @extends Resource
  */
-export interface ResourceNameAvailabilityResponseResource extends Resource {
+export interface ResourceNameAvailabilityResultResource extends Resource {
   /**
-   * @member {ResourceNameAvailabilityResponse} [properties]
-   * ResourceNameAvailabilityResponseResource properties
+   * @member {ResourceNameAvailabilityResult} [properties]
+   * ResourceNameAvailabilityResultResource properties
    */
-  properties?: ResourceNameAvailabilityResponse;
+  properties?: ResourceNameAvailabilityResult;
 }
 
 /**
@@ -950,7 +950,7 @@ export type ReplicationUsagesListResponse = ReplicationUsageList & {
 /**
  * Contains response data for the checkNameAvailability operation.
  */
-export type RecoveryServicesCheckNameAvailabilityResponse = ResourceNameAvailabilityResponseResource & {
+export type RecoveryServicesCheckNameAvailabilityResponse = ResourceNameAvailabilityResultResource & {
   /**
    * The underlying HTTP response.
    */
@@ -962,7 +962,7 @@ export type RecoveryServicesCheckNameAvailabilityResponse = ResourceNameAvailabi
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ResourceNameAvailabilityResponseResource;
+      parsedBody: ResourceNameAvailabilityResultResource;
     };
 };
 

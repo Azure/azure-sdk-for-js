@@ -561,11 +561,11 @@ export const ResourceNameAvailabilityParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceNameAvailabilityResponse: msRest.CompositeMapper = {
-  serializedName: "ResourceNameAvailabilityResponse",
+export const ResourceNameAvailabilityResult: msRest.CompositeMapper = {
+  serializedName: "ResourceNameAvailabilityResult",
   type: {
     name: "Composite",
-    className: "ResourceNameAvailabilityResponse",
+    className: "ResourceNameAvailabilityResult",
     modelProperties: {
       nameAvailable: {
         serializedName: "nameAvailable",
@@ -589,18 +589,18 @@ export const ResourceNameAvailabilityResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceNameAvailabilityResponseResource: msRest.CompositeMapper = {
-  serializedName: "ResourceNameAvailabilityResponseResource",
+export const ResourceNameAvailabilityResultResource: msRest.CompositeMapper = {
+  serializedName: "ResourceNameAvailabilityResultResource",
   type: {
     name: "Composite",
-    className: "ResourceNameAvailabilityResponseResource",
+    className: "ResourceNameAvailabilityResultResource",
     modelProperties: {
       ...Resource.type.modelProperties,
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ResourceNameAvailabilityResponse"
+          className: "ResourceNameAvailabilityResult"
         }
       }
     }
