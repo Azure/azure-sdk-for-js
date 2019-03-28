@@ -9,7 +9,6 @@ const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
 const str = process.env[connectionString] || "";
 const path = process.env[entityPath] || "";
-console.log(path);
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);

@@ -3,7 +3,7 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid, string_to_uuid } from "rhea-promise";
+import { generate_uuid } from "rhea-promise";
 import { isBuffer } from "util";
 import { ConnectionContext } from "../connectionContext";
 
@@ -40,11 +40,11 @@ export function getUniqueName(name: string): string {
  * @param lockToken The lock token whose bytes need to be reorded.
  * @returns Buffer - Buffer representing reordered bytes.
  */
-function reorderLockToken(lockToken: string): Buffer {
-  if (!lockToken || typeof lockToken !== "string") {
-    throw new Error("'lockToken' is a required parameter and must be of type 'string'.");
+export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
+  if (!lockTokenBytes || !Buffer.isBuffer(lockTokenBytes)) {
+    throw new Error("'lockToken' is a required parameter and must be of type 'Buffer'.");
   }
-  const lockTokenBytes = string_to_uuid(lockToken);
+
   return Buffer.from([
     lockTokenBytes[3],
     lockTokenBytes[2],
@@ -67,27 +67,6 @@ function reorderLockToken(lockToken: string): Buffer {
     lockTokenBytes[14],
     lockTokenBytes[15]
   ]);
-}
-
-/**
- * If you try to turn a Guid into a Buffer in .NET, the bytes of the first three groups get
- * flipped within the group, but the last two groups don't get flipped, so we end up with a
- * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
- *
- * @internal
- * @param lockTokens An array of lock tokens whose bytes need to be reorderd.
- * @returns Buffer[] An array of Buffer representing reordered bytes.
- */
-export function reorderLockTokens(lockTokens: string[]): Buffer[] {
-  if (!Array.isArray(lockTokens)) {
-    throw new Error("'lockTokens' is a required parameter and must be of type 'Array'.");
-  }
-  const result: Buffer[] = [];
-  for (const lockToken of lockTokens) {
-    result.push(reorderLockToken(lockToken));
-  }
-
-  return result;
 }
 
 /**
