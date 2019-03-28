@@ -615,7 +615,8 @@ export class MessageSession extends LinkEntity {
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
-          context.delivery!
+          context.delivery!,
+          true
         );
         try {
           await this._onMessage(bMessage);
@@ -884,7 +885,8 @@ export class MessageSession extends LinkEntity {
           const data: ServiceBusMessage = new ServiceBusMessage(
             this._context,
             context.message!,
-            context.delivery!
+            context.delivery!,
+            true
           );
           if (brokeredMessages.length < maxMessageCount) {
             brokeredMessages.push(data);
