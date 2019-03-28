@@ -132,7 +132,7 @@ export class QueueClient implements Client {
    * and cancelling such scheduled messages.
    */
   getSender(): Sender {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
     }
@@ -145,7 +145,7 @@ export class QueueClient implements Client {
    * @param options Options for creating the receiver.
    */
   getReceiver(options?: MessageReceiverOptions): Receiver {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
     }
@@ -164,7 +164,7 @@ export class QueueClient implements Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peek(messageCount);
   }
 
@@ -183,7 +183,7 @@ export class QueueClient implements Client {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -218,7 +218,7 @@ export class QueueClient implements Client {
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
   async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {
       if (
@@ -244,7 +244,7 @@ export class QueueClient implements Client {
    * Throws error if this queueClient has been closed
    * @param client
    */
-  private throwErrorIfClientOrConnectionClosed(): void {
+  private _throwErrorIfClientOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
       throw new Error("The queueClient has been closed and can no longer be used.");
