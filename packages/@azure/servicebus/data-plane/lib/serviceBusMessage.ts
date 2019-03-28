@@ -12,6 +12,7 @@ import {
 import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
+import { reorderLockToken } from "../lib/util/utils";
 
 /**
  * The mode in which messages should be received
@@ -670,7 +671,9 @@ export module ReceivedMessageInfo {
       lockToken:
         delivery && delivery.tag.length !== 0
           ? uuid_to_string(
-              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+              reorderLockToken(
+                typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+              )
             )
           : undefined,
       ...sbmsg,
