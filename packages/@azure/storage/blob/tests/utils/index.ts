@@ -118,20 +118,32 @@ export async function readStreamToLocalFile(
 ) {
   return new Promise<void>((resolve, reject) => {
     const ws = fs.createWriteStream(file);
-    rs.pipe(ws);
+
+    // Debug
+    rs.on("close", () => console.log("rs.close"));
+    rs.on("data", () => console.log("rs.data"));
+    rs.on("end", () => console.log("rs.end"));
+    rs.on("error", () => console.log("rs.error"));
+    ws.on("close", () => console.log("ws.close"));
+    ws.on("drain", () => console.log("ws.drain"));
+    ws.on("error", () => console.log("ws.error"));
+    ws.on("finish", () => console.log("ws.finish"));
+    ws.on("pipe", () => console.log("ws.pipe"));
+    ws.on("unpipe", () => console.log("ws.unpipe"));
 
     let error : Error;
 
     rs.on("error", (err: Error) => {
       // First error wins
-      if (error === null) {
+      if (!error) {
         error = err;
       }
+      rs.emit("end");
     });
 
     ws.on("error", (err: Error) => {
       // First error wins
-      if (error === null) {
+      if (!error) {
         error = err;
       }
     });
@@ -143,5 +155,7 @@ export async function readStreamToLocalFile(
         resolve();
       }
     });
+
+    rs.pipe(ws);
   });
 }
