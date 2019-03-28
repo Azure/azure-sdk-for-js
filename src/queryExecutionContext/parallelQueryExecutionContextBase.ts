@@ -4,14 +4,13 @@ import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { Response } from "../request";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { PARITIONKEYRANGE, SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { IExecutionContext } from "./IExecutionContext";
-import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";
-import * as PartitionedQueryExecutionContextInfoParser from "./partitionedQueryExecutionContextInfoParser";
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
@@ -54,7 +53,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
     private collectionLink: string,
     private query: any, // TODO: any - It's not SQLQuerySpec
     private options: any,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -65,7 +64,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
     this.err = undefined;
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
-    this.sortOrders = PartitionedQueryExecutionContextInfoParser.parseOrderBy(this.partitionedQueryExecutionInfo);
+    this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
 
     if (options === undefined || options["maxItemCount"] === undefined) {
       this.pageSize = ParallelQueryExecutionContextBase.DEFAULT_PAGE_SIZE;
@@ -229,9 +228,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
 
   private async _onTargetPartitionRanges() {
     // invokes the callback when the target partition ranges are ready
-    const parsedRanges = PartitionedQueryExecutionContextInfoParser.parseQueryRanges(
-      this.partitionedQueryExecutionInfo
-    );
+    const parsedRanges = this.partitionedQueryExecutionInfo.queryRanges;
     const queryRanges = parsedRanges.map((item: any) => QueryRange.parseFromDict(item)); // TODO: any
     return this.routingProvider.getOverlappingRanges(this.collectionLink, queryRanges);
   }
@@ -545,9 +542,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
   private _createTargetPartitionQueryExecutionContext(partitionKeyTargetRange: any, continuationToken?: any) {
     // TODO: any
     // creates target partition range Query Execution Context
-    let rewrittenQuery = PartitionedQueryExecutionContextInfoParser.parseRewrittenQuery(
-      this.partitionedQueryExecutionInfo
-    );
+    let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
     let query = this.query;
     if (typeof query === "string") {
       query = { query };

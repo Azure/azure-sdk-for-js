@@ -1,5 +1,6 @@
 import { ClientContext } from "../ClientContext";
 import { Response } from "../request";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import {
   AggregateEndpointComponent,
@@ -11,8 +12,6 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { IExecutionContext } from "./IExecutionContext";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
-import * as PartitionedQueryExecutionContextInfoParser from "./partitionedQueryExecutionContextInfoParser";
-import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements IExecutionContext {
@@ -26,7 +25,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
     private collectionLink: string,
     private query: any, // TODO: any query
     private options: any, // TODO: any options
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -35,7 +34,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
     }
 
     // Pick between parallel vs order by execution context
-    const sortOrders = PartitionedQueryExecutionContextInfoParser.parseOrderBy(partitionedQueryExecutionInfo);
+    const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     if (Array.isArray(sortOrders) && sortOrders.length > 0) {
       // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
       //      "payload" property.
@@ -59,13 +58,13 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
     }
 
     // If aggregate then add that to the pipeline
-    const aggregates = PartitionedQueryExecutionContextInfoParser.parseAggregates(partitionedQueryExecutionInfo);
+    const aggregates = partitionedQueryExecutionInfo.queryInfo.aggregates;
     if (Array.isArray(aggregates) && aggregates.length > 0) {
       this.endpoint = new AggregateEndpointComponent(this.endpoint, aggregates);
     }
 
     // If top then add that to the pipeline
-    const top = PartitionedQueryExecutionContextInfoParser.parseTop(partitionedQueryExecutionInfo);
+    const top = partitionedQueryExecutionInfo.queryInfo.top;
     if (typeof top === "number") {
       this.endpoint = new TopEndpointComponent(this.endpoint, top);
     }

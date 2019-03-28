@@ -1,8 +1,8 @@
 import { ClientContext } from "../ClientContext";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { DocumentProducer } from "./documentProducer";
 import { IExecutionContext } from "./IExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
-import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";
 
 /** @hidden */
 export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
@@ -22,7 +22,7 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
     collectionLink: string,
     query: any,
     options: any,
-    partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     // Calling on base class constructor
     super(clientContext, collectionLink, query, options, partitionedQueryExecutionInfo);
