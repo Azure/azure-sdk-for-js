@@ -283,6 +283,42 @@ export class Factories {
   }
 
   /**
+   * Get Data Plane access.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param policy Data Plane user access policy definition.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FactoriesGetDataPlaneAccessResponse>
+   */
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: msRest.RequestOptionsBase): Promise<Models.FactoriesGetDataPlaneAccessResponse>;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param policy Data Plane user access policy definition.
+   * @param callback The callback
+   */
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, callback: msRest.ServiceCallback<Models.AccessPolicyResponse>): void;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param policy Data Plane user access policy definition.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResponse>): void;
+  getDataPlaneAccess(resourceGroupName: string, factoryName: string, policy: Models.UserAccessPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResponse>, callback?: msRest.ServiceCallback<Models.AccessPolicyResponse>): Promise<Models.FactoriesGetDataPlaneAccessResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        factoryName,
+        policy,
+        options
+      },
+      getDataPlaneAccessOperationSpec,
+      callback) as Promise<Models.FactoriesGetDataPlaneAccessResponse>;
+  }
+
+  /**
    * Lists factories under the specified subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -559,6 +595,38 @@ const getGitHubAccessTokenOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GitHubAccessTokenResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getDataPlaneAccessOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getDataPlaneAccess",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "policy",
+    mapper: {
+      ...Mappers.UserAccessPolicy,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessPolicyResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
