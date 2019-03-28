@@ -31,7 +31,8 @@ class MonitorManagementClient extends MonitorManagementClientContext {
   tenantActivityLogs: operations.TenantActivityLogs;
   metricDefinitions: operations.MetricDefinitions;
   metrics: operations.Metrics;
-  metricBaseline: operations.MetricBaseline;
+  metricBaseline: operations.MetricBaselineOperations;
+  metricBaselines: operations.MetricBaselines;
   metricAlerts: operations.MetricAlerts;
   metricAlertsStatus: operations.MetricAlertsStatus;
   scheduledQueryRules: operations.ScheduledQueryRules;
@@ -60,7 +61,8 @@ class MonitorManagementClient extends MonitorManagementClientContext {
     this.tenantActivityLogs = new operations.TenantActivityLogs(this);
     this.metricDefinitions = new operations.MetricDefinitions(this);
     this.metrics = new operations.Metrics(this);
-    this.metricBaseline = new operations.MetricBaseline(this);
+    this.metricBaseline = new operations.MetricBaselineOperations(this);
+    this.metricBaselines = new operations.MetricBaselines(this);
     this.metricAlerts = new operations.MetricAlerts(this);
     this.metricAlertsStatus = new operations.MetricAlertsStatus(this);
     this.scheduledQueryRules = new operations.ScheduledQueryRules(this);
