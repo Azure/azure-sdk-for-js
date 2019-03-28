@@ -7,7 +7,10 @@ import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
-import { ApplicationTokenCredentials, loginWithServicePrincipalSecret } from "ms-rest-azure";
+import {
+  ApplicationTokenCredentials,
+  loginWithServicePrincipalSecret
+} from "@azure/ms-rest-nodeauth";
 const aadServiceBusAudience = "https://servicebus.azure.net/";
 import {
   ServiceBusClient,
