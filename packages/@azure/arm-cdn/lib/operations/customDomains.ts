@@ -181,7 +181,7 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsEnableCustomHttpsResponse>
    */
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: Models.CustomDomainsEnableCustomHttpsOptionalParams): Promise<Models.CustomDomainsEnableCustomHttpsResponse>;
+  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsEnableCustomHttpsResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -198,8 +198,8 @@ export class CustomDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: Models.CustomDomainsEnableCustomHttpsOptionalParams, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: Models.CustomDomainsEnableCustomHttpsOptionalParams | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
+  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
+  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -386,13 +386,6 @@ const enableCustomHttpsOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: [
-      "options",
-      "customDomainHttpsParameters"
-    ],
-    mapper: Mappers.CustomDomainHttpsParameters
-  },
   responses: {
     200: {},
     202: {
