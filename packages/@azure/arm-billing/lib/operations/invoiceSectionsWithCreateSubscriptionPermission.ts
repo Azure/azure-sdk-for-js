@@ -72,11 +72,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.InvoiceSectionListResult,
-      headersMapper: Mappers.InvoiceSectionsWithCreateSubscriptionPermissionListHeaders
-    },
-    202: {
-      headersMapper: Mappers.InvoiceSectionsWithCreateSubscriptionPermissionListHeaders
+      bodyMapper: Mappers.InvoiceSectionListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

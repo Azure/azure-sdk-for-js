@@ -76,11 +76,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.InvoiceSectionListResult,
-      headersMapper: Mappers.InvoiceSectionsByBillingProfileNameListHeaders
-    },
-    202: {
-      headersMapper: Mappers.InvoiceSectionsByBillingProfileNameListHeaders
+      bodyMapper: Mappers.InvoiceSectionListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

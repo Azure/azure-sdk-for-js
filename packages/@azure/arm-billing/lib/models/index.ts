@@ -2216,25 +2216,6 @@ export interface BillingProfilesUpdateHeaders {
 
 /**
  * @interface
- * An interface representing InvoiceSectionsByBillingAccountNameListHeaders.
- * Defines headers for List operation.
- *
- */
-export interface InvoiceSectionsByBillingAccountNameListHeaders {
-  /**
-   * @member {string} [location] GET this URL to retrieve the status of the
-   * asynchronous operation.
-   */
-  location: string;
-  /**
-   * @member {string} [retryAfter] The amount of delay to use while the status
-   * of the operation is checked. The value is expressed in seconds.
-   */
-  retryAfter: string;
-}
-
-/**
- * @interface
  * An interface representing InvoiceSectionsCreateHeaders.
  * Defines headers for Create operation.
  *
@@ -2254,44 +2235,6 @@ export interface InvoiceSectionsCreateHeaders {
    * status
    */
   azureAsyncOperation: string;
-}
-
-/**
- * @interface
- * An interface representing InvoiceSectionsByBillingProfileNameListHeaders.
- * Defines headers for List operation.
- *
- */
-export interface InvoiceSectionsByBillingProfileNameListHeaders {
-  /**
-   * @member {string} [location] GET this URL to retrieve the status of the
-   * asynchronous operation.
-   */
-  location: string;
-  /**
-   * @member {string} [retryAfter] The amount of delay to use while the status
-   * of the operation is checked. The value is expressed in seconds.
-   */
-  retryAfter: string;
-}
-
-/**
- * @interface
- * An interface representing InvoiceSectionsWithCreateSubscriptionPermissionListHeaders.
- * Defines headers for List operation.
- *
- */
-export interface InvoiceSectionsWithCreateSubscriptionPermissionListHeaders {
-  /**
-   * @member {string} [location] GET this URL to retrieve the status of the
-   * asynchronous operation.
-   */
-  location: string;
-  /**
-   * @member {string} [retryAfter] The amount of delay to use while the status
-   * of the operation is checked. The value is expressed in seconds.
-   */
-  retryAfter: string;
 }
 
 /**
@@ -2797,15 +2740,11 @@ export type BillingProfilesUpdateResponse = BillingProfile & BillingProfilesUpda
 /**
  * Contains response data for the list operation.
  */
-export type InvoiceSectionsByBillingAccountNameListResponse = InvoiceSectionListResult & InvoiceSectionsByBillingAccountNameListHeaders & {
+export type InvoiceSectionsByBillingAccountNameListResponse = InvoiceSectionListResult & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: InvoiceSectionsByBillingAccountNameListHeaders;
       /**
        * The response body as text (string format)
        */
@@ -2885,15 +2824,11 @@ export type InvoiceSectionsUpdateResponse = InvoiceSection & InvoiceSectionsUpda
 /**
  * Contains response data for the list operation.
  */
-export type InvoiceSectionsByBillingProfileNameListResponse = InvoiceSectionListResult & InvoiceSectionsByBillingProfileNameListHeaders & {
+export type InvoiceSectionsByBillingProfileNameListResponse = InvoiceSectionListResult & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: InvoiceSectionsByBillingProfileNameListHeaders;
       /**
        * The response body as text (string format)
        */
@@ -2908,15 +2843,11 @@ export type InvoiceSectionsByBillingProfileNameListResponse = InvoiceSectionList
 /**
  * Contains response data for the list operation.
  */
-export type InvoiceSectionsWithCreateSubscriptionPermissionListResponse = InvoiceSectionListResult & InvoiceSectionsWithCreateSubscriptionPermissionListHeaders & {
+export type InvoiceSectionsWithCreateSubscriptionPermissionListResponse = InvoiceSectionListResult & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: InvoiceSectionsWithCreateSubscriptionPermissionListHeaders;
       /**
        * The response body as text (string format)
        */

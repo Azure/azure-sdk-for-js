@@ -2291,28 +2291,6 @@ export const BillingProfilesUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const InvoiceSectionsByBillingAccountNameListHeaders: msRest.CompositeMapper = {
-  serializedName: "invoicesectionsbybillingaccountname-list-headers",
-  type: {
-    name: "Composite",
-    className: "InvoiceSectionsByBillingAccountNameListHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const InvoiceSectionsCreateHeaders: msRest.CompositeMapper = {
   serializedName: "invoicesections-create-headers",
   type: {
@@ -2333,50 +2311,6 @@ export const InvoiceSectionsCreateHeaders: msRest.CompositeMapper = {
       },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const InvoiceSectionsByBillingProfileNameListHeaders: msRest.CompositeMapper = {
-  serializedName: "invoicesectionsbybillingprofilename-list-headers",
-  type: {
-    name: "Composite",
-    className: "InvoiceSectionsByBillingProfileNameListHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const InvoiceSectionsWithCreateSubscriptionPermissionListHeaders: msRest.CompositeMapper = {
-  serializedName: "invoicesectionswithcreatesubscriptionpermission-list-headers",
-  type: {
-    name: "Composite",
-    className: "InvoiceSectionsWithCreateSubscriptionPermissionListHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
         type: {
           name: "String"
         }

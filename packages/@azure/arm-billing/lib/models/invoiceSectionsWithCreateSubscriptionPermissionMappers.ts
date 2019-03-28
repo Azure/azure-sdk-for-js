@@ -16,7 +16,6 @@ export {
   BillingProfile,
   Address,
   EnabledAzureSKUs,
-  InvoiceSectionsWithCreateSubscriptionPermissionListHeaders,
   ErrorResponse,
   ErrorDetails,
   EnrollmentAccount,
