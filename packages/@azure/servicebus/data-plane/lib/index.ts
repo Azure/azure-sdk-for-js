@@ -3,7 +3,7 @@
 
 /// <reference lib="es2015" />
 
-export { ServiceBusClient, ServiceBusClientOptions } from "./namespace";
+export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
   TokenInfo,
   TokenType,

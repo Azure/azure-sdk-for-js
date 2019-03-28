@@ -13,7 +13,7 @@ import {
   delay,
   TokenProvider
 } from "@azure/amqp-common";
-import { ServiceBusClientOptions } from "./namespace";
+import { ServiceBusClientOptions } from "./serviceBusClient";
 import { Client } from "./client";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 

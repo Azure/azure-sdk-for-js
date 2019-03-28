@@ -129,8 +129,8 @@ export class ServiceBusClient {
    * sender/receivers created by the queue/topic/subscription clients created by this
    * ServiceBusClient.
    * Once closed,
-   * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
    * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
+   * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
    * @returns {Promise<any>}
    */
   async close(): Promise<any> {
