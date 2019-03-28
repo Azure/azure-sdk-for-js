@@ -62,6 +62,8 @@ export class TopicClient implements Client {
   async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        log.topicClient("Closing the topic client '%s'.", this.id);
+
         // Close the sender.
         if (this._currentSender) {
           await this._currentSender.close();
@@ -113,7 +115,7 @@ export class TopicClient implements Client {
    * property will go to the dead letter queue of such subscriptions.
    */
   createSender(): Sender {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
       return this._currentSender;
@@ -128,7 +130,7 @@ export class TopicClient implements Client {
    * Throws error if given client has been closed
    * @param client
    */
-  private throwErrorIfClientOrConnectionClosed(): void {
+  private _throwErrorIfClientOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
       throw new Error("The topicClient has been closed and can no longer be used.");

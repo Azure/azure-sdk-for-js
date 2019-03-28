@@ -168,7 +168,7 @@ export class LinkEntity {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {
-        // This should take care of closing the link and it's underlying session. This should also
+        // Closing the link and its underlying session if the link is open. This should also
         // remove them from the internal map.
         await link.close();
         log.link("[%s] %s '%s' with address '%s' closed.", this._context.connectionId, this._type,

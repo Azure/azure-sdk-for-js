@@ -85,6 +85,8 @@ export class SubscriptionClient implements Client {
   async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        log.subscriptionClient("Closing the subscription client '%s'.", this.id);
+
         // Close the sessionManager.
         if (this._context.sessionManager) {
           this._context.sessionManager.close();
@@ -146,7 +148,7 @@ export class SubscriptionClient implements Client {
    * @param options Options for creating the receiver.
    */
   createReceiver(options?: MessageReceiverOptions): Receiver {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
       return this._currentReceiver;
@@ -169,7 +171,7 @@ export class SubscriptionClient implements Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peek(messageCount);
   }
 
@@ -188,7 +190,7 @@ export class SubscriptionClient implements Client {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -200,7 +202,7 @@ export class SubscriptionClient implements Client {
    * Get all the rules associated with the subscription
    */
   async getRules(): Promise<RuleDescription[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.getRules();
   }
 
@@ -209,7 +211,7 @@ export class SubscriptionClient implements Client {
    * @param ruleName
    */
   async removeRule(ruleName: string): Promise<void> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.removeRule(ruleName);
   }
 
@@ -229,7 +231,7 @@ export class SubscriptionClient implements Client {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   }
 
@@ -266,7 +268,7 @@ export class SubscriptionClient implements Client {
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
   async createSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {
       if (
@@ -294,7 +296,7 @@ export class SubscriptionClient implements Client {
    * Throws error if this subscriptionClient has been closed
    * @param client
    */
-  private throwErrorIfClientOrConnectionClosed(): void {
+  private _throwErrorIfClientOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
       throw new Error("The subscriptionClient has been closed and can no longer be used.");

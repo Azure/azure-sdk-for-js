@@ -353,7 +353,7 @@ export class EventHubReceiver extends LinkEntity {
           receiverError: receiverError,
           _receiver: this._receiver
         };
-        log.error("[%s] Something is busted. State of Receiver '%s' with address '%s' is: %O",
+        log.error("[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
           this._context.connectionId, this.name, this.address, state);
       }
       if (shouldReopen) {
@@ -379,6 +379,7 @@ export class EventHubReceiver extends LinkEntity {
           connectionId: this._context.connectionId,
           operationType: RetryOperationType.receiverLink,
           times: Constants.defaultConnectionRetryAttempts,
+          connectionHost: this._context.config.host,
           delayInSeconds: 15
         };
         await retry<void>(config);

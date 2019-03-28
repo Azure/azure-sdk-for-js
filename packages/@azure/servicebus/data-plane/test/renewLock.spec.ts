@@ -363,7 +363,9 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   );
 
   await delay(5000);
-  await receiver.renewLock(msgs[0]);
+  if (msgs[0].lockToken) {
+    await receiver.renewLock(msgs[0].lockToken);
+  }
 
   // Compute expected lock expiry time after renewing lock after 5 seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);

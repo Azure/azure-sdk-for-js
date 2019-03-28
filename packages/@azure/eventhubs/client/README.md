@@ -37,7 +37,7 @@ It will return an array of EventData objects once it receives the desired number
 would like to receive some messages and process them (since message processing is time consuming), and later get some more messages,
 then this mechanism will suite your needs better.
 
-**Note:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-event-hubs-node/tree/master/processor). The Event Processor host, internally uses the streaming receiver
+**Note:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/eventhubs/processor). The Event Processor host, internally uses the streaming receiver
 to receive messages.
 
 ## IDE ##
@@ -82,7 +82,7 @@ export DEBUG=azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,r
 
 ## Examples ##
 
-Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-node/tree/master/client/examples) directory for detailed examples.
+Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/eventhubs/client/examples) directory for detailed examples.
 
 ## Example 1 - Get the partition IDs.
 
