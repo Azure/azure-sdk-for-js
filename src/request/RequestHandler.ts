@@ -70,11 +70,12 @@ export async function executeRequest(requestContext: RequestContext) {
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = {
       code: response.status,
-      // TODO Upstream code expects this as a string.
-      // So after parsing to JSON we convert it back to string if there is an error
-      body: JSON.stringify(result),
+      body: result,
       headers
     };
+    if (result.additionalErrorInfo) {
+      errorResponse.body.additionalErrorInfo = JSON.parse(result.additionalErrorInfo);
+    }
     if (Constants.HttpHeaders.ActivityId in headers) {
       errorResponse.activityId = headers[Constants.HttpHeaders.ActivityId];
     }
@@ -97,21 +98,14 @@ export async function executeRequest(requestContext: RequestContext) {
 }
 
 export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
-  const { globalEndpointManager, connectionPolicy, body } = requestContext;
-
-  let parsedBody: any; // TODO: any
-
-  if (body) {
-    parsedBody = bodyFromData(body);
-    if (!body) {
+  if (requestContext.body) {
+    requestContext.body = bodyFromData(requestContext.body);
+    if (!requestContext.body) {
       throw new Error("parameter data must be a javascript object, string, or Buffer");
     }
   }
 
   return RetryUtility.execute({
-    globalEndpointManager,
-    body: parsedBody,
-    connectionPolicy,
     requestContext
   });
 }

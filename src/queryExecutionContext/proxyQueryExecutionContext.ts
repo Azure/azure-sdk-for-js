@@ -1,9 +1,9 @@
 import { ClientContext } from "../ClientContext";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { Response } from "../request";
+import { ErrorResponse, Response } from "../request";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { DefaultQueryExecutionContext, FetchFunctionCallback } from "./defaultQueryExecutionContext";
 import { IExecutionContext } from "./IExecutionContext";
-import { PartitionedQueryExecutionContextInfo } from "./partitionedQueryExecutionContextInfoParser";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
@@ -53,7 +53,7 @@ export class ProxyQueryExecutionContext implements IExecutionContext {
     }
   }
 
-  private _createPipelinedExecutionContext(partitionedExecutionInfo: PartitionedQueryExecutionContextInfo) {
+  private _createPipelinedExecutionContext(partitionedExecutionInfo: PartitionedQueryExecutionInfo) {
     if (!this.resourceLink) {
       throw new Error("for top/orderby resourceLink is required");
     }
@@ -130,8 +130,7 @@ export class ProxyQueryExecutionContext implements IExecutionContext {
     }
   }
 
-  private _hasPartitionedExecutionInfo(error: any) {
-    // TODO: any error
+  private _hasPartitionedExecutionInfo(error: ErrorResponse) {
     return (
       error.code === StatusCodes.BadRequest &&
       "substatus" in error &&
@@ -139,8 +138,7 @@ export class ProxyQueryExecutionContext implements IExecutionContext {
     );
   }
 
-  private _getParitionedExecutionInfo(error: any) {
-    // TODO: any error
-    return JSON.parse(JSON.parse(error.body).additionalErrorInfo);
+  private _getParitionedExecutionInfo(error: ErrorResponse) {
+    return error.body.additionalErrorInfo;
   }
 }

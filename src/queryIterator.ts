@@ -27,7 +27,7 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    private resourceLink?: string | string[]
+    private resourceLink?: string
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
