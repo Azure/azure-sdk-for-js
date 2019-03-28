@@ -354,7 +354,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
   async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
     const testMessages = TestMessage.getSample();
-    namespace = ServiceBusClient.createFromTokenCredentials(host, tokenCreds);
+    namespace = ServiceBusClient.createFromMSRestTokenCredentials(host, tokenCreds);
     namespace.should.be.an.instanceof(ServiceBusClient);
     const clients = await getSenderReceiverClients(
       namespace,
