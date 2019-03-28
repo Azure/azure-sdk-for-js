@@ -9,23 +9,23 @@ This package contains an isomorphic SDK for SecurityCenter.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-security
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list pricings as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list regulatoryComplianceStandards as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -34,7 +34,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new SecurityCenter(creds, subscriptionId);
-  client.pricings.list().then((result) => {
+  const resourceGroupName = "testresourceGroupName";
+  const filter = "testfilter";
+  client.regulatoryComplianceStandards.list(resourceGroupName, filter).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,11 +45,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list pricings as an example written in JavaScript.
+#### browser - Authentication, client creation and list regulatoryComplianceStandards as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -77,7 +79,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmSecurity.SecurityCenter(res.creds, subscriptionId);
-        client.pricings.list().then((result) => {
+        const resourceGroupName = "testresourceGroupName";
+        const filter = "testfilter";
+        client.regulatoryComplianceStandards.list(resourceGroupName, filter).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -94,6 +98,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Farm-security%2FREADME.png)
