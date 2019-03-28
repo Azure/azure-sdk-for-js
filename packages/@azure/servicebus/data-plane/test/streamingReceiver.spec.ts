@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   QueueClient,
   ServiceBusMessage,
   TopicClient,
@@ -40,7 +40,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let sender: Sender;
@@ -66,19 +66,21 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   const clients = await getSenderReceiverClients(ns, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
   if (receiverClient instanceof QueueClient) {
-    deadLetterClient = ns.createQueueClient(Namespace.getDeadLetterQueuePath(receiverClient.entityPath));
+    deadLetterClient = ns.createQueueClient(
+      QueueClient.getDeadLetterQueuePath(receiverClient.entityPath)
+    );
   }
 
   if (receiverClient instanceof SubscriptionClient) {
     deadLetterClient = ns.createSubscriptionClient(
-      Namespace.getDeadLetterTopicPath(senderClient.entityPath, receiverClient.subscriptionName),
+      TopicClient.getDeadLetterTopicPath(senderClient.entityPath, receiverClient.subscriptionName),
       receiverClient.subscriptionName
     );
   }
@@ -97,8 +99,8 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     );
   }
 
-  sender = senderClient.getSender();
-  receiver = receiverClient.getReceiver();
+  sender = senderClient.createSender();
+  receiver = receiverClient.createReceiver();
 
   errorWasThrown = false;
   unexpectedError = undefined;
@@ -336,7 +338,7 @@ describe("Streaming - Abandon message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -413,7 +415,7 @@ describe("Streaming - Defer message", function(): void {
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    receiver = receiverClient.getReceiver();
+    receiver = receiverClient.createReceiver();
     const deferredMsgs = await receiver.receiveDeferredMessages([sequenceNum]);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
@@ -515,7 +517,7 @@ describe("Streaming - Deadletter message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(

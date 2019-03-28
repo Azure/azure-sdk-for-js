@@ -62,6 +62,8 @@ export class TopicClient implements Client {
   async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        log.topicClient("Closing the topic client '%s'.", this.id);
+
         // Close the sender.
         if (this._currentSender) {
           await this._currentSender.close();
@@ -105,28 +107,44 @@ export class TopicClient implements Client {
   }
 
   /**
-   * Gets a Sender to be used for sending messages, scheduling messages to be sent at a later time
+   * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
+   * Throws error if an open sender already exists for this TopicClient.
    *
    * If the Topic has session enabled Subscriptions, then messages sent without the `sessionId`
    * property will go to the dead letter queue of such subscriptions.
    */
-  getSender(): Sender {
-    this.throwErrorIfClientOrConnectionClosed();
+  createSender(): Sender {
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
+      return this._currentSender;
     }
-    return this._currentSender;
+    throw new Error(
+      "An open sender already exists on this TopicClient. Please close it and try" +
+        " again or use a new TopicClient instance"
+    );
   }
 
   /**
    * Throws error if given client has been closed
    * @param client
    */
-  private throwErrorIfClientOrConnectionClosed(): void {
+  private _throwErrorIfClientOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
       throw new Error("The topicClient has been closed and can no longer be used.");
     }
+  }
+
+  /**
+   * Returns the corresponding dead letter topic name for the given topic and subscription names.
+   * Use this in the `createSubscriptionClient` function of the `ServiceBusClient` instance to
+   * receive messages from dead letter queue for given subscription.
+   * @param topicName
+   * @param subscriptionName
+   */
+  static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string {
+    return `${topicName}/Subscriptions/${subscriptionName}/$DeadLetterQueue`;
   }
 }

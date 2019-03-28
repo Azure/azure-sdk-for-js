@@ -3,7 +3,7 @@
 
 /// <reference lib="es2015" />
 
-export { Namespace, NamespaceOptions } from "./namespace";
+export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
   TokenInfo,
   TokenType,
@@ -24,7 +24,7 @@ export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
-export { SQLExpression, CorrelationFilter, RuleDescription } from "./core/managementClient";
+export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
   ServiceBusMessage,

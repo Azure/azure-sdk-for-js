@@ -2,9 +2,9 @@
   "name": "@azure/cognitiveservices-customvision-prediction",
   "author": "Microsoft Corporation",
   "description": "PredictionAPIClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.2.0",
+    "@azure/ms-rest-js": "^1.6.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -43,6 +43,7 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "lib/**/*.ts",
+    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -52,5 +53,5 @@
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "authPublish": true
+  "autoPublish": true
 }

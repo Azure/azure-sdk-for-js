@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   QueueClient,
   TopicClient,
   SubscriptionClient,
@@ -33,7 +33,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 
 let errorWasThrown: boolean;
 
@@ -58,20 +58,20 @@ async function beforeEachTest(
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
   const clients = await getSenderReceiverClients(ns, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
   if (receiverClient instanceof QueueClient) {
     deadLetterClient = ns.createQueueClient(
-      Namespace.getDeadLetterQueuePath(receiverClient.entityPath)
+      QueueClient.getDeadLetterQueuePath(receiverClient.entityPath)
     );
   }
 
   if (receiverClient instanceof SubscriptionClient) {
     deadLetterClient = ns.createSubscriptionClient(
-      Namespace.getDeadLetterTopicPath(senderClient.entityPath, receiverClient.subscriptionName),
+      TopicClient.getDeadLetterTopicPath(senderClient.entityPath, receiverClient.subscriptionName),
       receiverClient.subscriptionName
     );
   }
@@ -90,12 +90,12 @@ async function beforeEachTest(
     );
   }
 
-  sender = senderClient.getSender();
+  sender = senderClient.createSender();
   receiver = useSessions
-    ? await receiverClient.getSessionReceiver({
+    ? await receiverClient.createSessionReceiver({
         sessionId: TestMessage.sessionId
       })
-    : receiverClient.getReceiver();
+    : receiverClient.createReceiver();
 }
 
 async function afterEachTest(): Promise<void> {
@@ -312,7 +312,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
 
     should.equal(
       Array.isArray(deadLetterMsgs),
@@ -496,7 +496,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
 
     should.equal(
       Array.isArray(deadLetterMsgs),
@@ -598,6 +598,8 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     await afterEachTest();
   });
 
+  let deadletterReciever: Receiver;
+
   async function deadLetterMessage(testMessage: SendableMessageInfo): Promise<ServiceBusMessage> {
     await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveBatch(1);
@@ -615,7 +617,8 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.getReceiver().receiveBatch(1);
+    deadletterReciever = deadLetterClient.createReceiver();
+    const deadLetterMsgs = await deadletterReciever.receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -638,7 +641,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     deadletterClient: QueueClient | SubscriptionClient,
     expectedDeliverCount: number
   ): Promise<void> {
-    const deadLetterMsgs = await deadletterClient.getReceiver().receiveBatch(1);
+    const deadLetterMsgs = await deadletterReciever.receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -748,9 +751,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     const sequenceNumber = deadLetterMsg.sequenceNumber;
     await deadLetterMsg.defer();
 
-    const deferredMsgs = await deadLetterClient
-      .getReceiver()
-      .receiveDeferredMessage(sequenceNumber);
+    const deferredMsgs = await deadletterReciever.receiveDeferredMessage(sequenceNumber);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
     }

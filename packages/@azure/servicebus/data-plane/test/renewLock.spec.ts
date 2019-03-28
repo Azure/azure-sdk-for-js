@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 chai.use(chaiAsPromised);
 import {
-  Namespace,
+  ServiceBusClient,
   QueueClient,
   TopicClient,
   SubscriptionClient,
@@ -20,7 +20,7 @@ import {
 import { delay } from "rhea-promise";
 import { purge, getSenderReceiverClients, ClientType, TestMessage } from "./testUtils";
 
-let ns: Namespace;
+let ns: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
@@ -31,7 +31,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     );
   }
 
-  ns = Namespace.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+  ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
   const clients = await getSenderReceiverClients(ns, senderType, receiverType);
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
@@ -339,9 +339,9 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
+  await senderClient.createSender().send(testMessage);
 
-  const receiver = receiverClient.getReceiver();
+  const receiver = receiverClient.createReceiver();
   const msgs = await receiver.receiveBatch(1);
 
   // Compute expected initial lock expiry time
@@ -363,7 +363,9 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   );
 
   await delay(5000);
-  await receiver.renewLock(msgs[0]);
+  if (msgs[0].lockToken) {
+    await receiver.renewLock(msgs[0].lockToken);
+  }
 
   // Compute expected lock expiry time after renewing lock after 5 seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -386,9 +388,9 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
+  await senderClient.createSender().send(testMessage);
 
-  const receiver = receiverClient.getReceiver();
+  const receiver = receiverClient.createReceiver();
   const msgs = await receiver.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -421,8 +423,8 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
-  const receiver = receiverClient.getReceiver();
+  await senderClient.createSender().send(testMessage);
+  const receiver = receiverClient.createReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -496,8 +498,8 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.getSender().send(testMessage);
-  const receiver = receiverClient.getReceiver();
+  await senderClient.createSender().send(testMessage);
+  const receiver = receiverClient.createReceiver();
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -542,7 +544,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    const newReceiver = receiverClient.getReceiver();
+    const newReceiver = receiverClient.createReceiver();
     const unprocessedMsgs = await newReceiver.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }

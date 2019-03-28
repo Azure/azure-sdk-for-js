@@ -85,6 +85,8 @@ export class SubscriptionClient implements Client {
   async close(): Promise<void> {
     try {
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        log.subscriptionClient("Closing the subscription client '%s'.", this.id);
+
         // Close the sessionManager.
         if (this._context.sessionManager) {
           this._context.sessionManager.close();
@@ -141,16 +143,20 @@ export class SubscriptionClient implements Client {
   }
 
   /**
-   * Gets a Receiver to be used for receiving messages in batches or by registering handlers.
-   *
+   * Creates a Receiver to be used for receiving messages in batches or by registering handlers.
+   * Throws error if an open receiver already exists for this SubscriptionClient.
    * @param options Options for creating the receiver.
    */
-  getReceiver(options?: MessageReceiverOptions): Receiver {
-    this.throwErrorIfClientOrConnectionClosed();
+  createReceiver(options?: MessageReceiverOptions): Receiver {
+    this._throwErrorIfClientOrConnectionClosed();
     if (!this._currentReceiver || this._currentReceiver.isClosed) {
       this._currentReceiver = new Receiver(this._context, options);
+      return this._currentReceiver;
     }
-    return this._currentReceiver;
+    throw new Error(
+      "An open receiver already exists on this SubscriptionClient. Please close it and try" +
+        " again or use a new SubscriptionClient instance"
+    );
   }
 
   /**
@@ -165,7 +171,7 @@ export class SubscriptionClient implements Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peek(messageCount);
   }
 
@@ -184,7 +190,7 @@ export class SubscriptionClient implements Client {
     fromSequenceNumber: Long,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: messageCount
     });
@@ -196,7 +202,7 @@ export class SubscriptionClient implements Client {
    * Get all the rules associated with the subscription
    */
   async getRules(): Promise<RuleDescription[]> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.getRules();
   }
 
@@ -205,7 +211,7 @@ export class SubscriptionClient implements Client {
    * @param ruleName
    */
   async removeRule(ruleName: string): Promise<void> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.removeRule(ruleName);
   }
 
@@ -225,7 +231,7 @@ export class SubscriptionClient implements Client {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    this.throwErrorIfClientOrConnectionClosed();
+    this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   }
 
@@ -252,17 +258,17 @@ export class SubscriptionClient implements Client {
   // }
 
   /**
-   * Gets a SessionReceiver for receiving messages in batches or by registering handlers from a
+   * Creates a SessionReceiver for receiving messages in batches or by registering handlers from a
    * session enabled Subscription. When no sessionId is given, a random session among the available
    * sessions is used.
-   *
+   * Throws error if an open receiver already exists for given sessionId.
    * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
    * session enabled Servicebus Subscription.
    *
    * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
    */
-  async getSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    this.throwErrorIfClientOrConnectionClosed();
+  async createSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
+    this._throwErrorIfClientOrConnectionClosed();
     if (!options) options = {};
     if (options.sessionId) {
       if (
@@ -270,9 +276,9 @@ export class SubscriptionClient implements Client {
         this._context.messageSessions[options.sessionId].isOpen()
       ) {
         throw new Error(
-          `Close the current session receiver for sessionId ${
+          `An open receiver already exists for sessionId '${
             options.sessionId
-          } before using "getSessionReceiver" to create a new one for the same sessionId`
+          }'. Please close it and try again.`
         );
       }
     }
@@ -290,7 +296,7 @@ export class SubscriptionClient implements Client {
    * Throws error if this subscriptionClient has been closed
    * @param client
    */
-  private throwErrorIfClientOrConnectionClosed(): void {
+  private _throwErrorIfClientOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
       throw new Error("The subscriptionClient has been closed and can no longer be used.");

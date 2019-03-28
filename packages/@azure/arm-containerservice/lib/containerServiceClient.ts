@@ -21,6 +21,7 @@ class ContainerServiceClient extends ContainerServiceClientContext {
   containerServices: operations.ContainerServices;
   operations: operations.Operations;
   managedClusters: operations.ManagedClusters;
+  agentPools: operations.AgentPools;
 
   /**
    * Initializes a new instance of the ContainerServiceClient class.
@@ -35,6 +36,7 @@ class ContainerServiceClient extends ContainerServiceClientContext {
     this.containerServices = new operations.ContainerServices(this);
     this.operations = new operations.Operations(this);
     this.managedClusters = new operations.ManagedClusters(this);
+    this.agentPools = new operations.AgentPools(this);
   }
 }
 

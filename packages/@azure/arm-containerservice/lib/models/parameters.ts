@@ -20,6 +20,16 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const agentPoolName: msRest.OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    required: true,
+    serializedName: "agentPoolName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -62,7 +72,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-08-01-preview',
+    defaultValue: '2019-02-01',
     type: {
       name: "String"
     }
@@ -88,6 +98,16 @@ export const location: msRest.OperationURLParameter = {
     }
   }
 };
+export const managedClusterName: msRest.OperationURLParameter = {
+  parameterPath: "managedClusterName",
+  mapper: {
+    required: true,
+    serializedName: "managedClusterName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -99,7 +119,20 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
+export const resourceGroupName0: msRest.OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    required: true,
+    serializedName: "resourceGroupName",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceGroupName1: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
