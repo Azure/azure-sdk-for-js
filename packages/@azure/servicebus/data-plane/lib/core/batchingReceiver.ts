@@ -173,7 +173,8 @@ export class BatchingReceiver extends MessageReceiver {
           const data: ServiceBusMessage = new ServiceBusMessage(
             this._context,
             context.message!,
-            context.delivery!
+            context.delivery!,
+            true
           );
           if (brokeredMessages.length < maxMessageCount) {
             brokeredMessages.push(data);

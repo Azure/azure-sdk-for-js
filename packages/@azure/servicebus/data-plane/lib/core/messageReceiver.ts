@@ -340,7 +340,8 @@ export class MessageReceiver extends LinkEntity {
       const bMessage: ServiceBusMessage = new ServiceBusMessage(
         this._context,
         context.message!,
-        context.delivery!
+        context.delivery!,
+        true
       );
       if (this.autoRenewLock) {
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
