@@ -109,6 +109,9 @@ export async function createRandomLocalFile(
   });
 }
 
+// Returns a Promise which is completed after the file handle is closed.
+// If Promise is rejected, the reason will be set to the first error raised by either the
+// ReadableStream or the fs.WriteStream.
 export async function readStreamToLocalFile(
   rs: NodeJS.ReadableStream,
   file: string
@@ -118,8 +121,27 @@ export async function readStreamToLocalFile(
     rs.pipe(ws);
 
     let error : Error;
-    rs.on("error", (err: Error) => { if (error === null) error = err; ws.end(); });
-    ws.on("error", (err: Error) => { if (error === null) error = err; });
-    ws.on("close", () => { if (error) reject(error); else resolve(); });
+
+    rs.on("error", (err: Error) => {
+      // First error wins
+      if (error === null) {
+        error = err;
+      }
+    });
+
+    ws.on("error", (err: Error) => {
+      // First error wins
+      if (error === null) {
+        error = err;
+      }
+    });
+
+    ws.on("close", () => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
   });
 }
