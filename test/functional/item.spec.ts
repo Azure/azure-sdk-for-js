@@ -101,7 +101,15 @@ describe("NodeJS CRUD Tests", function() {
       }
     };
 
-    const documentCRUDMultiplePartitionsTest = async function() {
+    it("nativeApi Should do document CRUD operations successfully name based", async function() {
+      await documentCRUDTest(false);
+    });
+
+    it("nativeApi Should do document CRUD operations successfully name based with upsert", async function() {
+      await documentCRUDTest(true);
+    });
+
+    it("nativeApi Should do document CRUD operations over multiple partitions", async function() {
       // create database
       const database = await getTestDatabase("db1");
       const partitionKey = "key";
@@ -123,7 +131,8 @@ describe("NodeJS CRUD Tests", function() {
         { id: "document3", key: false, prop: 1 },
         { id: "document4", key: true, prop: 1 },
         { id: "document5", key: 1, prop: 1 },
-        { id: "document6", key: "A", prop: 1 }
+        { id: "document6", key: "A", prop: 1 },
+        { id: "document7", key: "", prop: 1 }
       ];
 
       let returnedDocuments = await bulkInsertItems(container, documents);
@@ -150,7 +159,7 @@ describe("NodeJS CRUD Tests", function() {
       );
 
       returnedDocuments.forEach(function(document) {
-        ++document.prop;
+        document.prop ? ++document.prop : null;
       });
       const newReturnedDocuments = await bulkReplaceItems(container, returnedDocuments);
       returnedDocuments = newReturnedDocuments;
@@ -180,18 +189,6 @@ describe("NodeJS CRUD Tests", function() {
       assert.equal(JSON.stringify(results), JSON.stringify(returnedDocuments), "Unexpected query results");
 
       await bulkDeleteItems(container, returnedDocuments, partitionKey);
-    };
-
-    it("nativeApi Should do document CRUD operations successfully name based", async function() {
-      await documentCRUDTest(false);
-    });
-
-    it("nativeApi Should do document CRUD operations successfully name based with upsert", async function() {
-      await documentCRUDTest(true);
-    });
-
-    it("nativeApi Should do document CRUD operations over multiple partitions", async function() {
-      await documentCRUDMultiplePartitionsTest();
     });
   });
 });

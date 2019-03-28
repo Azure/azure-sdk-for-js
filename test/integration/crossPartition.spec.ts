@@ -82,20 +82,10 @@ describe("Cross Partition", function() {
     const validateResults = function(actualResults: any[], expectedOrderIds: string[]) {
       assert.equal(
         actualResults.length,
-        expectedOrderIds.length,
+        (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length,
         "actual results length doesn't match with expected results length."
       );
-
-      for (let i = 0; i < actualResults.length; i++) {
-        assert.equal(
-          actualResults[i].id,
-          expectedOrderIds[i],
-          "actual result content doesn't match with expected result content. " +
-            actualResults[i].id +
-            " != " +
-            expectedOrderIds[i]
-        );
-      }
+      if (expectedOrderIds) assert.deepStrictEqual(actualResults.map(doc => doc.id), expectedOrderIds);
     };
 
     const validateToArray = async function(
@@ -107,15 +97,16 @@ describe("Cross Partition", function() {
       // validate toArray()
       ////////////////////////////////
       options.continuation = undefined;
-      try {
-        const { resources: results } = await queryIterator.fetchAll();
-        assert.equal(results.length, expectedOrderIds.length, "invalid number of results");
-        assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
 
-        return validateResults(results, expectedOrderIds);
-      } catch (err) {
-        throw err;
-      }
+      const { resources: results } = await queryIterator.fetchAll();
+      assert.equal(
+        results.length,
+        (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length,
+        "invalid number of results"
+      );
+      assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
+
+      return validateResults(results, expectedOrderIds);
     };
 
     const validateExecuteNextAndHasMoreResults = async function(
@@ -135,17 +126,18 @@ describe("Cross Partition", function() {
       let totalFetchedResults: any[] = [];
 
       try {
-        while (totalFetchedResults.length <= expectedOrderIds.length) {
+        const expectedLength = (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length;
+        while (totalFetchedResults.length <= expectedLength) {
           const { resources: results } = await queryIterator.fetchNext();
           listOfResultPages.push(results);
 
-          if (results === undefined || totalFetchedResults.length === expectedOrderIds.length) {
+          if (results === undefined || totalFetchedResults.length === expectedLength) {
             break;
           }
 
           totalFetchedResults = totalFetchedResults.concat(results);
 
-          if (totalFetchedResults.length < expectedOrderIds.length) {
+          if (totalFetchedResults.length < expectedLength) {
             // there are more results
             assert(results.length <= pageSize, "executeNext: invalid fetch block size");
             if (validateExecuteNextWithContinuationToken) {
@@ -156,11 +148,7 @@ describe("Cross Partition", function() {
             assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
           } else {
             // no more results
-            assert.equal(
-              expectedOrderIds.length,
-              totalFetchedResults.length,
-              "executeNext: didn't fetch all the results"
-            );
+            assert.equal(expectedLength, totalFetchedResults.length, "executeNext: didn't fetch all the results");
             assert(results.length <= pageSize, "executeNext: actual fetch size is more than the requested page size");
           }
         }
@@ -181,9 +169,7 @@ describe("Cross Partition", function() {
     };
 
     const validateForEach = async function(queryIterator: QueryIterator<any>, expectedOrderIds: any[]) {
-      ////////////////////////////////
-      // validate forEach()
-      ////////////////////////////////
+      const expectedLength = (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length;
       const results: any[] = [];
       let completed = false;
       // forEach uses callbacks still, so just wrap in a promise
@@ -191,7 +177,7 @@ describe("Cross Partition", function() {
         // if the previous invocation returned false, forEach must avoid invoking the callback again!
         assert.equal(completed, false, "forEach called callback after the first false returned");
         results.push(...items);
-        if (results.length === expectedOrderIds.length) {
+        if (results.length === expectedLength) {
           completed = true;
         }
       }
@@ -214,12 +200,17 @@ describe("Cross Partition", function() {
       }
     };
 
-    const executeQueryAndValidateResults = async function(
-      query: string | SqlQuerySpec,
-      options: any,
-      expectedOrderIds: any[],
-      validateExecuteNextWithContinuationToken?: boolean
-    ) {
+    const executeQueryAndValidateResults = async function({
+      query,
+      options,
+      expectedOrderIds,
+      validateExecuteNextWithContinuationToken
+    }: {
+      query: string | SqlQuerySpec;
+      options: any;
+      expectedOrderIds?: any[];
+      validateExecuteNextWithContinuationToken?: boolean;
+    }) {
       options.populateQueryMetrics = true;
       validateExecuteNextWithContinuationToken = validateExecuteNextWithContinuationToken || false;
       const queryIterator = container.items.query(query, options);
@@ -268,10 +259,12 @@ describe("Cross Partition", function() {
         maxDegreeOfParallelism: 0
       };
 
-      const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
-
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        validateExecuteNextWithContinuationToken: false
+      });
     });
 
     it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", async function() {
@@ -284,10 +277,12 @@ describe("Cross Partition", function() {
         populateQueryMetrics: true
       };
 
-      const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
-
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        validateExecuteNextWithContinuationToken: false
+      });
     });
 
     it("Validate Parallel Query As String With maxDegreeOfParallelism: 1", async function() {
@@ -299,10 +294,12 @@ describe("Cross Partition", function() {
         maxDegreeOfParallelism: 1
       };
 
-      const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
-
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        validateExecuteNextWithContinuationToken: false
+      });
     });
 
     it("Validate Parallel Query As String With maxDegreeOfParallelism: 3", async function() {
@@ -314,10 +311,12 @@ describe("Cross Partition", function() {
         maxDegreeOfParallelism: 3
       };
 
-      const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
-
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        validateExecuteNextWithContinuationToken: false
+      });
     });
 
     it("Validate Parallel Query Request Charge With maxDegreeOfParallelism: 3", async function() {
@@ -420,7 +419,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
     });
 
     it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1", async function() {
@@ -437,7 +436,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
     });
 
     it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async function() {
@@ -454,7 +453,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
     });
 
     it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = -1", async function() {
@@ -471,7 +470,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
     });
 
     it("Validate Simple OrderBy Query As String", async function() {
@@ -487,7 +486,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
     });
 
     it("Validate Simple OrderBy Query", async function() {
@@ -505,7 +504,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate OrderBy Query With ASC", async function() {
@@ -523,7 +526,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate OrderBy Query With DESC", async function() {
@@ -544,7 +551,11 @@ describe("Cross Partition", function() {
         .reverse();
 
       // validates the results size and order
-      await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate OrderBy with top", async function() {
@@ -565,7 +576,11 @@ describe("Cross Partition", function() {
         })
         .slice(0, topCount);
 
-      await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate OrderBy with Top Query (less results than top counts)", async function() {
@@ -585,7 +600,11 @@ describe("Cross Partition", function() {
         return r["id"];
       });
 
-      await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate Top Query with maxDegreeOfParallelism = 3", async function() {
@@ -724,7 +743,11 @@ describe("Cross Partition", function() {
         })
         .slice(0, topCount);
 
-      await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate OrderBy with Parametrized Predicate", async function() {
@@ -747,7 +770,11 @@ describe("Cross Partition", function() {
           return r["id"];
         });
 
-      await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate Error Handling - Orderby where types are noncomparable", async function() {
@@ -783,7 +810,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
     });
 
     it("Validate OrderBy Floating Point Number Query", async function() {
@@ -799,7 +826,7 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults(query, options, expectedOrderedIds);
+      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
     });
 
     it("Validate OrderBy Boolean Query", async function() {

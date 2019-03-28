@@ -23,12 +23,12 @@ export class Item {
    * @hidden
    * @param container The parent {@link Container}.
    * @param id The id of the given {@link Item}.
-   * @param primaryKey The primary key of the given {@link Item} (only for partitioned containers).
+   * @param partitionKey The primary key of the given {@link Item} (only for partitioned containers).
    */
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    public readonly primaryKey: string,
+    public readonly partitionKey: string,
     private readonly clientContext: ClientContext
   ) {}
 
@@ -38,7 +38,7 @@ export class Item {
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
    * @param options Additional options for the request, such as the partition key.
-   * Note, if you provide a partition key on the options object, it will override the primary key on `this.primaryKey`.
+   * Note, if you provide a partition key on the options object, it will override the primary key on `this.partitionKey`.
    */
   public read(options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
@@ -52,7 +52,7 @@ export class Item {
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
    * @param options Additional options for the request, such as the partition key.
-   * Note, if you provide a partition key on the options object, it will override the primary key on `this.primaryKey`.
+   * Note, if you provide a partition key on the options object, it will override the primary key on `this.partitionKey`.
    *
    * @example Using custom type for response
    * ```typescript
@@ -69,8 +69,8 @@ export class Item {
   public read<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>>;
   public async read<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>> {
     options = options || {};
-    if ((!options || !options.partitionKey) && this.primaryKey) {
-      options.partitionKey = this.primaryKey;
+    if ((!options || !options.partitionKey) && this.partitionKey !== undefined) {
+      options.partitionKey = this.partitionKey;
     }
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
@@ -102,8 +102,8 @@ export class Item {
   public replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
     options = options || {};
-    if ((!options || !options.partitionKey) && this.primaryKey) {
-      options.partitionKey = this.primaryKey;
+    if ((!options || !options.partitionKey) && this.partitionKey !== undefined) {
+      options.partitionKey = this.partitionKey;
     }
     if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
       const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
@@ -138,8 +138,8 @@ export class Item {
   public delete<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>>;
   public async delete<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>> {
     options = options || {};
-    if ((!options || !options.partitionKey) && this.primaryKey) {
-      options.partitionKey = this.primaryKey;
+    if ((!options || !options.partitionKey) && this.partitionKey !== undefined) {
+      options.partitionKey = this.partitionKey;
     }
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);

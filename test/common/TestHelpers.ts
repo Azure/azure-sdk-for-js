@@ -77,21 +77,17 @@ export async function bulkInsertItems(
   container: Container,
   documents: any[]
 ): Promise<Array<ItemDefinition & Resource>> {
-  const returnedDocuments = [];
-  for (const doc of documents) {
-    try {
+  return await Promise.all(
+    documents.map(async doc => {
       const { resource: document } = await container.items.create(doc);
-      returnedDocuments.push(document);
-    } catch (err) {
-      throw err;
-    }
-  }
-  return returnedDocuments;
+      return document;
+    })
+  );
 }
 
 export async function bulkReadItems(container: Container, documents: any[], partitionKey: string) {
-  for (const document of documents) {
-    try {
+  return await Promise.all(
+    documents.map(async document => {
       const options =
         partitionKey && document.hasOwnProperty(partitionKey)
           ? { partitionKey: document[partitionKey] }
@@ -99,51 +95,34 @@ export async function bulkReadItems(container: Container, documents: any[], part
 
       // TODO: should we block or do all requests in parallel?
       const { resource: doc } = await container.item(document.id).read(options);
-
-      assert.equal(JSON.stringify(doc), JSON.stringify(document));
-    } catch (err) {
-      throw err;
-    }
-  }
+      assert.deepStrictEqual(doc, document);
+    })
+  );
 }
 
 export async function bulkReplaceItems(container: Container, documents: any[]): Promise<any[]> {
-  const returnedDocuments: any[] = [];
-  for (const document of documents) {
-    try {
+  return Promise.all(
+    documents.map(async document => {
       const { resource: doc } = await container.item(document.id).replace(document);
-      const expectedModifiedDocument = JSON.parse(JSON.stringify(document));
-      delete expectedModifiedDocument._etag;
-      delete expectedModifiedDocument._ts;
-      const actualModifiedDocument = JSON.parse(JSON.stringify(doc));
-      delete actualModifiedDocument._etag;
-      delete actualModifiedDocument._ts;
-      assert.equal(JSON.stringify(actualModifiedDocument), JSON.stringify(expectedModifiedDocument));
-      returnedDocuments.push(doc);
-    } catch (err) {
-      throw err;
-    }
-  }
-  return returnedDocuments;
+      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document;
+      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc;
+      assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
+      return doc;
+    })
+  );
 }
 
-export async function bulkDeleteItems(
-  container: Container,
-  documents: any[],
-  partitionKeyPropertyName: string
-): Promise<void> {
-  for (const document of documents) {
-    try {
+export async function bulkDeleteItems(container: Container, documents: any[], partitionKey: string): Promise<void> {
+  await Promise.all(
+    documents.map(async document => {
       const options =
-        partitionKeyPropertyName && document.hasOwnProperty(partitionKeyPropertyName)
-          ? { partitionKey: document[partitionKeyPropertyName] }
+        partitionKey && document.hasOwnProperty(partitionKey)
+          ? { partitionKey: document[partitionKey] }
           : { partitionKey: {} };
 
       await container.item(document.id).delete(options);
-    } catch (err) {
-      throw err;
-    }
-  }
+    })
+  );
 }
 
 export async function bulkQueryItemsWithPartitionKey(

@@ -185,15 +185,6 @@ export class Items {
   /**
    * Create a item.
    *
-   * There is no set schema for JSON items. They may contain any number of custom properties..
-   *
-   * @param body Represents the body of the item. Can contain any number of user defined properties.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
-   */
-  public async create(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
-  /**
-   * Create a item.
-   *
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.
    *
@@ -202,8 +193,7 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async create<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
+  public async create<T extends ItemDefinition = any>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
     if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
       const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       options.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
