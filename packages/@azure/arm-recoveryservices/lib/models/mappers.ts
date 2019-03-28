@@ -539,6 +539,74 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
+export const ResourceNameAvailabilityParameters: msRest.CompositeMapper = {
+  serializedName: "ResourceNameAvailabilityParameters",
+  type: {
+    name: "Composite",
+    className: "ResourceNameAvailabilityParameters",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNameAvailabilityResponse: msRest.CompositeMapper = {
+  serializedName: "ResourceNameAvailabilityResponse",
+  type: {
+    name: "Composite",
+    className: "ResourceNameAvailabilityResponse",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNameAvailabilityResponseResource: msRest.CompositeMapper = {
+  serializedName: "ResourceNameAvailabilityResponseResource",
+  type: {
+    name: "Composite",
+    className: "ResourceNameAvailabilityResponseResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ResourceNameAvailabilityResponse"
+        }
+      }
+    }
+  }
+};
+
 export const Sku: msRest.CompositeMapper = {
   serializedName: "Sku",
   type: {

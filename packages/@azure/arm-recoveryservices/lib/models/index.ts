@@ -69,7 +69,7 @@ export interface ResourceCertificateDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -115,7 +115,7 @@ export interface ResourceCertificateAndAadDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -182,7 +182,7 @@ export interface ResourceCertificateAndAcsDetails {
    */
   certificate?: Uint8Array;
   /**
-   * @member {string} [friendlyName] Certificate friendlyname.
+   * @member {string} [friendlyName] Certificate friendly name.
    */
   friendlyName?: string;
   /**
@@ -497,6 +497,64 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
+ * An interface representing ResourceNameAvailabilityParameters.
+ * Resource Name availability input parameters - Resource type and resource
+ * name
+ *
+ */
+export interface ResourceNameAvailabilityParameters {
+  /**
+   * @member {string} [type] Describes the Resource type:
+   * Microsoft.RecoveryServices/Vaults
+   */
+  type?: string;
+  /**
+   * @member {string} [name] Resource name for which availability needs to be
+   * checked
+   */
+  name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceNameAvailabilityResponse.
+ * Response for check name availability API. Resource provider will set
+ * availability as true | false.
+ *
+ */
+export interface ResourceNameAvailabilityResponse {
+  /**
+   * @member {boolean} [nameAvailable]
+   */
+  nameAvailable?: boolean;
+  /**
+   * @member {string} [reason]
+   */
+  reason?: string;
+  /**
+   * @member {string} [message]
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceNameAvailabilityResponseResource.
+ * Response for check name availability API. Resource provider will set
+ * availability as true | false.
+ *
+ * @extends Resource
+ */
+export interface ResourceNameAvailabilityResponseResource extends Resource {
+  /**
+   * @member {ResourceNameAvailabilityResponse} [properties]
+   * ResourceNameAvailabilityResponseResource properties
+   */
+  properties?: ResourceNameAvailabilityResponse;
+}
+
+/**
+ * @interface
  * An interface representing Sku.
  * Identifies the unique system identifier for each Azure resource.
  *
@@ -595,7 +653,7 @@ export interface UpgradeDetails {
    */
   readonly message?: string;
   /**
-   * @member {TriggerType} [triggerType] The way the vault upgradation was
+   * @member {TriggerType} [triggerType] The way the vault upgrade was
    * triggered. Possible values include: 'UserTriggered', 'ForcedUpgrade'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -886,6 +944,25 @@ export type ReplicationUsagesListResponse = ReplicationUsageList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ReplicationUsageList;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type RecoveryServicesCheckNameAvailabilityResponse = ResourceNameAvailabilityResponseResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceNameAvailabilityResponseResource;
     };
 };
 
