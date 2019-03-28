@@ -12,7 +12,7 @@ export {
   SubscriptionCreationParameters,
   AdPrincipal,
   SubscriptionCreationResult,
-  SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders,
+  SubscriptionFactoryCreateSubscriptionHeaders,
   ErrorResponse
 } from "../models/mappers";
 
