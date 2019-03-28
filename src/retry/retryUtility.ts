@@ -1,9 +1,6 @@
-import { RequestOptions } from "https";
 import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { ConnectionPolicy } from "../documents/ConnectionPolicy";
-import { GlobalEndpointManager } from "../globalEndpointManager";
 import { Response } from "../request";
 import { LocationRouting } from "../request/LocationRouting";
 import { RequestContext } from "../request/RequestContext";
@@ -15,17 +12,7 @@ import { RetryContext } from "./RetryContext";
 import { RetryPolicy } from "./RetryPolicy";
 import { SessionRetryPolicy } from "./sessionRetryPolicy";
 
-/** @hidden */
-export type CreateRequestObjectStubFunction = (
-  connectionPolicy: ConnectionPolicy,
-  requestOptions: RequestOptions,
-  body: Buffer
-) => Promise<Response<any>>; // TODO: any response
-
 interface ExecuteArgs {
-  globalEndpointManager: GlobalEndpointManager;
-  body: Buffer;
-  connectionPolicy: ConnectionPolicy;
   retryContext?: RetryContext;
   retryPolicies?: RetryPolicies;
   requestContext: RequestContext;
@@ -39,34 +26,27 @@ interface RetryPolicies {
 }
 
 export async function execute({
-  body,
-  connectionPolicy,
-  globalEndpointManager,
-  retryContext,
+  retryContext = {},
   retryPolicies,
   requestContext
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
-
-  if (!retryContext) {
-    retryContext = {};
-  }
   if (!retryPolicies) {
     retryPolicies = {
       endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
-        globalEndpointManager,
+        requestContext.globalEndpointManager,
         requestContext.operationType
       ),
       resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
-        connectionPolicy.retryOptions.maxRetryAttemptCount,
-        connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
-        connectionPolicy.retryOptions.maxWaitTimeInSeconds
+        requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
+        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
+        requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
       ),
       sessionReadRetryPolicy: new SessionRetryPolicy(
-        globalEndpointManager,
+        requestContext.globalEndpointManager,
         requestContext.resourceType,
         requestContext.operationType,
-        connectionPolicy
+        requestContext.connectionPolicy
       ),
       defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType)
     };
@@ -84,7 +64,7 @@ export async function execute({
       requestContext.client.clearSessionToken(requestContext.path);
     }
   }
-  const locationEndpoint = await globalEndpointManager.resolveServiceEndpoint(requestContext);
+  const locationEndpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(requestContext);
   requestContext.endpoint = locationEndpoint;
   requestContext.locationRouting.routeToLocation(locationEndpoint);
   try {
@@ -121,9 +101,6 @@ export async function execute({
       }
       await sleep(retryPolicy.retryAfterInMilliseconds);
       return execute({
-        body,
-        connectionPolicy,
-        globalEndpointManager,
         requestContext,
         retryContext,
         retryPolicies
