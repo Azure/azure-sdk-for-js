@@ -36,7 +36,7 @@ export class PartitionKeyRangeCache {
             try {
               const { resources } = await this.clientContext.queryPartitionKeyRanges(collectionLink).fetchAll();
 
-              crm = createCompleteRoutingMap(resources.map(r => [r, true]), collectionId);
+              crm = createCompleteRoutingMap(resources.map(r => [r, true]));
 
               this.collectionRoutingMapByCollectionId[collectionId] = crm;
               this.sem.leave();

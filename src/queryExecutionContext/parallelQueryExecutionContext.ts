@@ -1,5 +1,4 @@
 import { ClientContext } from "../ClientContext";
-import { PARITIONKEYRANGE } from "../routing/smartRoutingMapProvider";
 import { DocumentProducer } from "./documentProducer";
 import { IExecutionContext } from "./IExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
@@ -40,39 +39,5 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
     const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
     const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
     return a === b ? 0 : a > b ? 1 : -1;
-  }
-
-  private _buildContinuationTokenFrom(documentProducer: DocumentProducer) {
-    // given the document producer constructs the continuation token
-    if (documentProducer.allFetched && documentProducer.peekBufferedItems().length === 0) {
-      return undefined;
-    }
-
-    const min = documentProducer.targetPartitionKeyRange[PARITIONKEYRANGE.MinInclusive];
-    const max = documentProducer.targetPartitionKeyRange[PARITIONKEYRANGE.MaxExclusive];
-    const range = {
-      min,
-      max,
-      id: documentProducer.targetPartitionKeyRange.id
-    };
-
-    // TODO: static method
-    const withNullDefault = (token: any) => {
-      if (token) {
-        return token;
-      } else if (token === null || token === undefined) {
-        return null;
-      }
-    };
-
-    const documentProducerContinuationToken =
-      documentProducer.peekBufferedItems().length > 0
-        ? documentProducer.previousContinuationToken
-        : documentProducer.continuationToken;
-
-    return {
-      token: withNullDefault(documentProducerContinuationToken),
-      range
-    };
   }
 }

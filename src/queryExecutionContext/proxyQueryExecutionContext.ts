@@ -23,12 +23,7 @@ export class ProxyQueryExecutionContext implements IExecutionContext {
     // clone options
     this.options = JSON.parse(JSON.stringify(options || {}));
     this.resourceLink = resourceLink;
-    this.queryExecutionContext = new DefaultQueryExecutionContext(
-      this.clientContext,
-      this.query,
-      this.options,
-      this.fetchFunctions
-    );
+    this.queryExecutionContext = new DefaultQueryExecutionContext(this.options, this.fetchFunctions);
   }
   /**
    * Execute a provided function on the next element in the ProxyQueryExecutionContext.

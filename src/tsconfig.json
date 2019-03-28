@@ -15,7 +15,9 @@
     "sourceMap": true,
     "newLine": "LF",
     "resolveJsonModule": true,
-    "composite": true
+    "composite": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["./**/*"]
 }

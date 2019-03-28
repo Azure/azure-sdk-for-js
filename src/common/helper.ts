@@ -1,6 +1,4 @@
-import { ConnectionPolicy } from "../documents/ConnectionPolicy";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { RequestContext } from "../request/RequestContext";
 import { Constants, OperationType, ResourceType } from "./constants";
 
 /** @hidden */

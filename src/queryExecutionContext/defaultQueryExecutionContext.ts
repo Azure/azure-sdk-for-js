@@ -1,9 +1,7 @@
-import { ClientContext } from "../ClientContext";
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { Response } from "../request";
 import { IExecutionContext } from "./index";
-import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
 export type FetchFunctionCallback = (options: any) => Promise<Response<any>>;
@@ -18,7 +16,6 @@ enum STATES {
 /** @hidden */
 export class DefaultQueryExecutionContext implements IExecutionContext {
   private static readonly STATES = STATES;
-  private query: string | SqlQuerySpec;
   private resources: any; // TODO: any resources
   private currentIndex: number;
   private currentPartitionIndex: number;
@@ -37,14 +34,8 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    *                          An array of functions may be used to query more than one partition.
    * @ignore
    */
-  constructor(
-    private clientContext: ClientContext,
-    query: string | SqlQuerySpec,
-    options: any,
-    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
-  ) {
+  constructor(options: any, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]) {
     // TODO: any options
-    this.query = query;
     this.resources = [];
     this.currentIndex = 0;
     this.currentPartitionIndex = 0;

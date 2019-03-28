@@ -1,6 +1,5 @@
 import { ClientContext } from "../../ClientContext";
 import { createTriggerUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { TriggerDefinition } from "./TriggerDefinition";
@@ -19,8 +18,6 @@ export class Trigger {
     return createTriggerUri(this.container.database.id, this.container.id, this.id);
   }
 
-  private client: CosmosClient;
-
   /**
    * @hidden
    * @param container The parent {@link Container}.
@@ -30,9 +27,7 @@ export class Trigger {
     public readonly container: Container,
     public readonly id: string,
     private readonly clientContext: ClientContext
-  ) {
-    this.client = this.container.database.client;
-  }
+  ) {}
 
   /**
    * Read the {@link TriggerDefinition} for the given {@link Trigger}.

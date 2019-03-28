@@ -24,7 +24,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
     ];
     const partitionRangeWithInfo = partitionKeyRanges.map(r => [r, true]);
-    const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
+    const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
     it("queryCompleteRange", function() {
       const completeRange = new QueryRange("", "FF", true, false);
@@ -97,7 +97,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       ]
     ];
 
-    const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
+    const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
     it("validate _orderedPartitionKeyRanges", function() {
       assert.equal("0", collectionRoutingMap.getOrderedParitionKeyRanges()[0].id);
@@ -190,7 +190,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         ];
         const collectionUniqueId = "";
         try {
-          const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
+          const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
           assert.fail("must throw exception");
         } catch (e) {
           assert.equal(e.message, "Ranges overlap");
@@ -217,7 +217,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
             2
           ]
         ];
-        let collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
+        let collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
         assert.equal(collectionRoutingMap, null);
 
         partitionRangeWithInfo = [
@@ -238,7 +238,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
             2
           ]
         ];
-        collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo, "sample collection id");
+        collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
         assert.notEqual(collectionRoutingMap, null);
       });
     });

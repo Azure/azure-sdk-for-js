@@ -14,7 +14,7 @@ function compareRanges(a: any, b: any) {
 }
 
 /** @hidden */
-export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[], collectionUniqueId: string) {
+export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[]) {
   const rangeById: any = {}; // TODO: any
   const rangeByInfo: any = {}; // TODO: any
 
@@ -34,13 +34,7 @@ export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[],
   if (!isCompleteSetOfRange(partitionKeyOrderedRange)) {
     return undefined;
   }
-  return new InMemoryCollectionRoutingMap(
-    rangeById,
-    rangeByInfo,
-    partitionKeyOrderedRange,
-    orderedPartitionInfo,
-    collectionUniqueId
-  );
+  return new InMemoryCollectionRoutingMap(partitionKeyOrderedRange, orderedPartitionInfo);
 }
 
 function isCompleteSetOfRange(partitionKeyOrderedRange: any) {

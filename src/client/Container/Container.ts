@@ -4,11 +4,9 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
-  parsePath,
   ResourceType
 } from "../../common";
 import { PartitionKeyDefinition } from "../../documents";
-import { PartitionKey } from "../../index";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, ResourceResponse } from "../../request";
 import { Conflict, Conflicts } from "../Conflict";

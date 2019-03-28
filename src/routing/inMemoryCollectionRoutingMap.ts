@@ -1,32 +1,20 @@
 import * as bs from "binary-search-bounds"; // TODO: missing types
 import { Constants } from "../common";
-import { Range } from "../range";
 import { QueryRange } from "./QueryRange";
 
 /** @hidden */
 export class InMemoryCollectionRoutingMap {
-  private rangeById: Range[];
-  private rangeByInfo: string;
   private orderedPartitionKeyRanges: any[];
   private orderedRanges: QueryRange[];
   // TODO: chrande made this public, even though it is implementation detail for a test
   public orderedPartitionInfo: any;
-  private collectionUniqueId: any;
 
   /**
    * Represents a InMemoryCollectionRoutingMap Object,
    * Stores partition key ranges in an efficient way with some additional information and provides
    * convenience methods for working with set of ranges.
    */
-  constructor(
-    rangeById: Range[],
-    rangeByInfo: string,
-    orderedPartitionKeyRanges: any[],
-    orderedPartitionInfo: any,
-    collectionUniqueId: string
-  ) {
-    this.rangeById = rangeById;
-    this.rangeByInfo = rangeByInfo;
+  constructor(orderedPartitionKeyRanges: any[], orderedPartitionInfo: any) {
     this.orderedPartitionKeyRanges = orderedPartitionKeyRanges;
     this.orderedRanges = orderedPartitionKeyRanges.map(pkr => {
       return new QueryRange(
@@ -37,7 +25,6 @@ export class InMemoryCollectionRoutingMap {
       );
     });
     this.orderedPartitionInfo = orderedPartitionInfo;
-    this.collectionUniqueId = collectionUniqueId;
   }
   public getOrderedParitionKeyRanges() {
     return this.orderedPartitionKeyRanges;
