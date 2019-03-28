@@ -71,7 +71,6 @@ export async function execute({
       defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType)
     };
   }
-  const httpsRequest = executeRequest(requestContext);
   if (!requestContext.locationRouting) {
     requestContext.locationRouting = new LocationRouting();
   }
@@ -89,7 +88,7 @@ export async function execute({
   requestContext.endpoint = locationEndpoint;
   requestContext.locationRouting.routeToLocation(locationEndpoint);
   try {
-    const response = await (httpsRequest as Promise<Response<any>>);
+    const response = await executeRequest(requestContext);
     response.headers[Constants.ThrottleRetryCount] = retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
     response.headers[Constants.ThrottleRetryWaitTimeInMs] =
       retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;

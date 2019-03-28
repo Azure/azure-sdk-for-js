@@ -1,4 +1,3 @@
-import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { Constants, OperationType, ResourceType } from "./constants";
 
 /** @hidden */

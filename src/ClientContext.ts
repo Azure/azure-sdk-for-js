@@ -3,7 +3,7 @@ import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
-import { Agent, CosmosClientOptions } from "./CosmosClientOptions";
+import { CosmosClientOptions } from "./CosmosClientOptions";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";

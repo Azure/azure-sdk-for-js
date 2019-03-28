@@ -2,7 +2,6 @@ import { ClientContext } from "../../ClientContext";
 import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
-import { CosmosHeaders } from "../../queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Resource } from "../Resource";

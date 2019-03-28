@@ -12,11 +12,22 @@ import { TimeoutError } from "./TimeoutError";
 /** @hidden */
 
 export async function executeRequest(requestContext: RequestContext) {
-  let didTimeout: boolean;
   const controller = new AbortController();
   const signal = controller.signal;
+
+  // Wrap users passed abort events and call our own internal abort()
+  const userSignal = requestContext.options && requestContext.options.abortSignal;
+  if (userSignal) {
+    if (userSignal) {
+      controller.abort();
+    } else {
+      userSignal.addEventListener("abort", () => {
+        controller.abort();
+      });
+    }
+  }
+
   const timeout = setTimeout(() => {
-    didTimeout = true;
     controller.abort();
   }, requestContext.connectionPolicy.requestTimeout);
 
@@ -36,10 +47,13 @@ export async function executeRequest(requestContext: RequestContext) {
     } as RequestInit);
   } catch (error) {
     if (error.name === "AbortError") {
-      if (didTimeout === true) {
-        throw new TimeoutError();
+      // If the user passed signal caused the abort, cancel the timeout and rethrow the error
+      if (userSignal && userSignal.aborted === true) {
+        clearTimeout(timeout);
+        throw error;
       }
-      // TODO handle user requested cancellation here
+      // If the user didn't cancel, it must be an abort we called due to timeout
+      throw new TimeoutError();
     }
     throw error;
   }

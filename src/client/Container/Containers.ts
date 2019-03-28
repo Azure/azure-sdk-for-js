@@ -1,6 +1,6 @@
 import { ClientContext } from "../../ClientContext";
 import { Constants, getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
-import { CosmosHeaders, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "../Database";
