@@ -16,6 +16,386 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing InitiateTransferRequest.
+ * Request parameters to initiate transfer.
+ *
+ */
+export interface InitiateTransferRequest {
+  /**
+   * @member {string} [billingProfileId] Target Usage context for devTest
+   * subscriptions.
+   */
+  billingProfileId?: string;
+  /**
+   * @member {string} [recipientEmailId] Email Id of recipient for transfer.
+   */
+  recipientEmailId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductDetails.
+ * Details of the product to be transferred.
+ *
+ */
+export interface ProductDetails {
+  /**
+   * @member {ProductType} [productType] Type of the product to be transferred.
+   * Possible values include: 'AzureSubscription', 'AzureReservation'
+   */
+  productType?: ProductType;
+  /**
+   * @member {string} [productId] Id of product to be transferred.
+   */
+  productId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AcceptTransferRequest.
+ * Request parameters to accept transfer.
+ *
+ */
+export interface AcceptTransferRequest {
+  /**
+   * @member {ProductDetails[]} [productDetails] Request parameters to accept
+   * transfer.
+   */
+  productDetails?: ProductDetails[];
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ * Error details for transfer execution.
+ *
+ */
+export interface ErrorModel {
+  /**
+   * @member {string} [errorCode] Error code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorCode?: string;
+  /**
+   * @member {string} [errorMessage] Error message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly errorMessage?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DetailedTransferStatus.
+ * Detailed transfer status.
+ *
+ */
+export interface DetailedTransferStatus {
+  /**
+   * @member {ProductType} [productType] Type of product being transferred.
+   * Possible values include: 'AzureSubscription', 'AzureReservation'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productType?: ProductType;
+  /**
+   * @member {string} [productId] Id of product being transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productId?: string;
+  /**
+   * @member {ProductTransferStatus} [transferStatus] Transfer status. Possible
+   * values include: 'NotStarted', 'InProgress', 'Completed', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transferStatus?: ProductTransferStatus;
+  /**
+   * @member {ErrorModel} [errorDetails] Error details for transfer execution.
+   */
+  errorDetails?: ErrorModel;
+}
+
+/**
+ * @interface
+ * An interface representing TransferDetails.
+ * Details of the transfer.
+ *
+ */
+export interface TransferDetails {
+  /**
+   * @member {Date} [creationTime] Transfer creation time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * @member {Date} [expirationTime] Transfer expiration time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expirationTime?: Date;
+  /**
+   * @member {string} [invoiceSectionId] Target invoice section Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * @member {string} [billingAccountId] Target billing account Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingAccountId?: string;
+  /**
+   * @member {TransferStatus} [transferStatus] Overall transfer status.
+   * Possible values include: 'Pending', 'InProgress', 'Completed',
+   * 'CompletedWithErrors', 'Failed', 'Canceled', 'Declined'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transferStatus?: TransferStatus;
+  /**
+   * @member {string} [recipientEmailId] Email Id of recipient of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recipientEmailId?: string;
+  /**
+   * @member {string} [initiatorEmailId] Email Id of initiator of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly initiatorEmailId?: string;
+  /**
+   * @member {string} [canceledBy] Email Id who user canceled the transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly canceledBy?: string;
+  /**
+   * @member {Date} [lastModifiedTime] Transfer last modification time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * @member {DetailedTransferStatus[]} [detailedTransferStatus] Detailed
+   * transfer status.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly detailedTransferStatus?: DetailedTransferStatus[];
+}
+
+/**
+ * @interface
+ * An interface representing RecipientTransferDetails.
+ * Details of the transfer.
+ *
+ */
+export interface RecipientTransferDetails {
+  /**
+   * @member {Date} [creationTime] Transfer creation time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * @member {Date} [expirationTime] Transfer expiration time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expirationTime?: Date;
+  /**
+   * @member {EligibleProductType[]} [allowedProductType] Type of subscriptions
+   * that can be transferred.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly allowedProductType?: EligibleProductType[];
+  /**
+   * @member {TransferStatus} [transferStatus] Overall transfer status.
+   * Possible values include: 'Pending', 'InProgress', 'Completed',
+   * 'CompletedWithErrors', 'Failed', 'Canceled', 'Declined'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transferStatus?: TransferStatus;
+  /**
+   * @member {string} [recipientEmailId] Email Id of recipient of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recipientEmailId?: string;
+  /**
+   * @member {string} [initiatorEmailId] Email Id of initiator of transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly initiatorEmailId?: string;
+  /**
+   * @member {string} [canceledBy] Email Id who user canceled the transfer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly canceledBy?: string;
+  /**
+   * @member {Date} [lastModifiedTime] Transfer last modification time.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * @member {DetailedTransferStatus[]} [detailedTransferStatus] Detailed
+   * transfer status.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly detailedTransferStatus?: DetailedTransferStatus[];
+}
+
+/**
+ * @interface
+ * An interface representing TransferProductRequestProperties.
+ * The properties of the product to initiate a transfer.
+ *
+ */
+export interface TransferProductRequestProperties {
+  /**
+   * @member {string} [destinationInvoiceSectionName] Destination invoice
+   * section id.
+   */
+  destinationInvoiceSectionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TransferBillingSubscriptionResult.
+ * Request parameters to transfer billing subscription.
+ *
+ */
+export interface TransferBillingSubscriptionResult {
+  /**
+   * @member {string} [billingSubscriptionName] The destination billing
+   * subscription id.
+   */
+  billingSubscriptionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TransferBillingSubscriptionRequestProperties.
+ * Request parameters to transfer billing subscription.
+ *
+ */
+export interface TransferBillingSubscriptionRequestProperties {
+  /**
+   * @member {string} [destinationInvoiceSectionName] The destination
+   * invoiceSectionName.
+   */
+  destinationInvoiceSectionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TransferBillingSubscriptionRequest.
+ * Request parameters to transfer billing subscription.
+ *
+ */
+export interface TransferBillingSubscriptionRequest {
+  /**
+   * @member {string} [destinationInvoiceSectionName] The destination
+   * invoiceSectionName.
+   */
+  destinationInvoiceSectionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UpdateAutoRenewOperationSummary.
+ * Summary of cancel product operation
+ *
+ */
+export interface UpdateAutoRenewOperationSummary {
+  /**
+   * @member {Date} [endDate] The end date of this asset
+   */
+  endDate?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing Address.
+ * Address details.
+ *
+ */
+export interface Address {
+  /**
+   * @member {string} [firstName] First Name.
+   */
+  firstName?: string;
+  /**
+   * @member {string} [lastName] Last Name.
+   */
+  lastName?: string;
+  /**
+   * @member {string} [companyName] Company Name.
+   */
+  companyName?: string;
+  /**
+   * @member {string} [addressLine1] Address Line1.
+   */
+  addressLine1?: string;
+  /**
+   * @member {string} [addressLine2] Address Line2.
+   */
+  addressLine2?: string;
+  /**
+   * @member {string} [addressLine3] Address Line3.
+   */
+  addressLine3?: string;
+  /**
+   * @member {string} [city] Address City.
+   */
+  city?: string;
+  /**
+   * @member {string} [region] Address Region.
+   */
+  region?: string;
+  /**
+   * @member {string} [country] Country code uses ISO2, 2-digit format.
+   */
+  country?: string;
+  /**
+   * @member {string} [postalCode] Address Postal Code.
+   */
+  postalCode?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EnabledAzureSKUs.
+ * Details about the product.
+ *
+ */
+export interface EnabledAzureSKUs {
+  /**
+   * @member {string} [skuId] The sku id.
+   */
+  skuId?: string;
+  /**
+   * @member {string} [skuDescription] The sku description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuDescription?: string;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The Resource model definition.
  *
@@ -44,55 +424,531 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
+ * An interface representing BillingProfile.
+ * A billing profile resource.
+ *
+ * @extends Resource
+ */
+export interface BillingProfile extends Resource {
+  /**
+   * @member {string} [displayName] The billing profile name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [poNumber] Purchase order number.
+   */
+  poNumber?: string;
+  /**
+   * @member {Address} [billingAddress] Billing address.
+   */
+  billingAddress?: Address;
+  /**
+   * @member {boolean} [invoiceEmailOptIn] If the billing profile is opted in
+   * to receive invoices via email.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceEmailOptIn?: boolean;
+  /**
+   * @member {boolean} [isClassic] Is OMS bootstrapped billing profile.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isClassic?: boolean;
+  /**
+   * @member {number} [invoiceDay] Invoice day.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceDay?: number;
+  /**
+   * @member {string} [currency] The currency associated with the billing
+   * profile.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {EnabledAzureSKUs[]} [enabledAzureSKUs] Information about the
+   * product.
+   */
+  enabledAzureSKUs?: EnabledAzureSKUs[];
+  /**
+   * @member {InvoiceSection[]} [invoiceSections] The invoice sections
+   * associated to the billing profile.
+   */
+  invoiceSections?: InvoiceSection[];
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSectionProperties.
+ * The properties of an InvoiceSection.
+ *
+ */
+export interface InvoiceSectionProperties {
+  /**
+   * @member {string} [displayName] The name of the InvoiceSection.
+   */
+  displayName?: string;
+  /**
+   * @member {BillingProfile[]} [billingProfiles] The billing profiles
+   * associated to the billing account.
+   */
+  billingProfiles?: BillingProfile[];
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSection.
+ * An InvoiceSection resource.
+ *
+ * @extends Resource
+ */
+export interface InvoiceSection extends Resource {
+  /**
+   * @member {string} [displayName] The name of the InvoiceSection.
+   */
+  displayName?: string;
+  /**
+   * @member {BillingProfile[]} [billingProfiles] The billing profiles
+   * associated to the billing account.
+   */
+  billingProfiles?: BillingProfile[];
+}
+
+/**
+ * @interface
+ * An interface representing EnrollmentPolicies.
+ * The attributes associated with legacy enrollment
+ *
+ */
+export interface EnrollmentPolicies {
+  /**
+   * @member {boolean} [accountOwnerViewCharges] The accountOwnerViewCharges
+   * flag for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accountOwnerViewCharges?: boolean;
+  /**
+   * @member {boolean} [departmentAdminViewCharges] The
+   * departmentAdminViewCharges flag for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly departmentAdminViewCharges?: boolean;
+  /**
+   * @member {boolean} [marketplacesEnabled] The marketplaces flag for
+   * Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly marketplacesEnabled?: boolean;
+  /**
+   * @member {boolean} [reservedInstancesEnabled] The reserved instances flag
+   * for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservedInstancesEnabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing Enrollment.
+ * Current entity level details
+ *
+ */
+export interface Enrollment {
+  /**
+   * @member {Date} [startDate] Enrollment Start Date
+   */
+  startDate?: Date;
+  /**
+   * @member {Date} [endDate] Enrollment End Date
+   */
+  endDate?: Date;
+  /**
+   * @member {string} [currency] The currency associated with enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {string} [channel] The channel for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly channel?: string;
+  /**
+   * @member {EnrollmentPolicies} [policies] The attributes associated with
+   * legacy enrollment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly policies?: EnrollmentPolicies;
+  /**
+   * @member {string} [language] The language for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly language?: string;
+  /**
+   * @member {string} [countryCode] The countryCode for Enrollment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly countryCode?: string;
+  /**
+   * @member {string} [status] Enrollment status
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: string;
+  /**
+   * @member {string} [billingCycle] Enrollment billing cycle
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingCycle?: string;
+}
+
+/**
+ * @interface
  * An interface representing EnrollmentAccount.
- * An enrollment account resource.
+ * An account resource.
  *
  * @extends Resource
  */
 export interface EnrollmentAccount extends Resource {
   /**
-   * @member {string} [principalName] The account owner's principal name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [accountName] The account name.
    */
-  readonly principalName?: string;
+  accountName?: string;
+  /**
+   * @member {string} [costCenter] The cost center name.
+   */
+  costCenter?: string;
+  /**
+   * @member {string} [accountOwner] The account owner
+   */
+  accountOwner?: string;
+  /**
+   * @member {string} [status] The status for account.
+   */
+  status?: string;
+  /**
+   * @member {Date} [startDate] Account Start Date
+   */
+  startDate?: Date;
+  /**
+   * @member {Date} [endDate] Account End Date
+   */
+  endDate?: Date;
+  /**
+   * @member {Department} [department] Associated department. By default this
+   * is not populated, unless it's specified in $expand.
+   */
+  department?: Department;
 }
 
 /**
  * @interface
- * An interface representing BillingPeriod.
- * A billing period resource.
+ * An interface representing Department.
+ * A department resource.
  *
  * @extends Resource
  */
-export interface BillingPeriod extends Resource {
+export interface Department extends Resource {
   /**
-   * @member {Date} [billingPeriodStartDate] The start of the date range
-   * covered by the billing period.
+   * @member {string} [departmentName] The name for department.
+   */
+  departmentName?: string;
+  /**
+   * @member {string} [costCenter] The cost center name.
+   */
+  costCenter?: string;
+  /**
+   * @member {string} [status] The status for department.
+   */
+  status?: string;
+  /**
+   * @member {EnrollmentAccount[]} [enrollmentAccounts] Associated enrollment
+   * accounts. By default this is not populated, unless it's specified in
+   * $expand.
+   */
+  enrollmentAccounts?: EnrollmentAccount[];
+}
+
+/**
+ * @interface
+ * An interface representing BillingAccount.
+ * A billing account resource.
+ *
+ * @extends Resource
+ */
+export interface BillingAccount extends Resource {
+  /**
+   * @member {string} [displayName] The billing account name.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly billingPeriodStartDate?: Date;
+  readonly displayName?: string;
   /**
-   * @member {Date} [billingPeriodEndDate] The end of the date range covered by
-   * the billing period.
+   * @member {string} [company] The Company this billing account belongs to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly billingPeriodEndDate?: Date;
+  readonly company?: string;
   /**
-   * @member {string[]} [invoiceIds] Array of invoice ids that associated with.
+   * @member {AccountType} [accountType] The billing account Type. Possible
+   * values include: 'Organization', 'Enrollment'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly invoiceIds?: string[];
+  readonly accountType?: AccountType;
+  /**
+   * @member {Address} [address] The address associated with billing account.
+   */
+  address?: Address;
+  /**
+   * @member {string} [country] The country associated with billing account..
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly country?: string;
+  /**
+   * @member {InvoiceSection[]} [invoiceSections] The invoice sections
+   * associated to the billing account.
+   */
+  invoiceSections?: InvoiceSection[];
+  /**
+   * @member {BillingProfile[]} [billingProfiles] The billing profiles
+   * associated to the billing account.
+   */
+  billingProfiles?: BillingProfile[];
+  /**
+   * @member {Enrollment} [enrollmentDetails] The details about the associated
+   * legacy enrollment. By default this is not populated, unless it's specified
+   * in $expand.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly enrollmentDetails?: Enrollment;
+  /**
+   * @member {Department[]} [departments] The departments associated to the
+   * enrollment.
+   */
+  departments?: Department[];
+  /**
+   * @member {EnrollmentAccount[]} [enrollmentAccounts] The accounts associated
+   * to the enrollment.
+   */
+  enrollmentAccounts?: EnrollmentAccount[];
+}
+
+/**
+ * @interface
+ * An interface representing BillingAccountListResult.
+ * Result of listing billing accounts.
+ *
+ */
+export interface BillingAccountListResult {
+  /**
+   * @member {BillingAccount[]} [value] The list of billing accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: BillingAccount[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingProperty.
+ * The billing property.
+ *
+ */
+export interface BillingProperty {
+  /**
+   * @member {string} [productId] Product Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productId?: string;
+  /**
+   * @member {string} [billingTenantId] Billing tenant Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingTenantId?: string;
+  /**
+   * @member {string} [billingAccountId] Billing account Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingAccountId?: string;
+  /**
+   * @member {string} [billingAccountName] Billing account name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingAccountName?: string;
+  /**
+   * @member {string} [billingProfileId] Billing profile Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileId?: string;
+  /**
+   * @member {string} [billingProfileName] Billing profile name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileName?: string;
+  /**
+   * @member {string} [invoiceSectionId] Invoice Section Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * @member {string} [invoiceSectionName] Invoice Section name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * @member {string} [skuId] SKU Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuId?: string;
+  /**
+   * @member {string} [skuDescription] SKU description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuDescription?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DepartmentListResult.
+ * Result of listing departments.
+ *
+ */
+export interface DepartmentListResult {
+  /**
+   * @member {Department[]} [value] The list of departments.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: Department[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EnrollmentAccountListResult.
+ * Result of listing enrollment accounts.
+ *
+ */
+export interface EnrollmentAccountListResult {
+  /**
+   * @member {EnrollmentAccount[]} [value] The list of enrollment accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: EnrollmentAccount[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingProfileListResult.
+ * Result of listing billing profiles.
+ *
+ */
+export interface BillingProfileListResult {
+  /**
+   * @member {BillingProfile[]} [value] The list of billing profiles.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: BillingProfile[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSectionListResult.
+ * Result of listing invoice sections.
+ *
+ */
+export interface InvoiceSectionListResult {
+  /**
+   * @member {InvoiceSection[]} [value] The list of invoice sections.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: InvoiceSection[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationStatus.
+ * status of the Billing POST/PUT operation.
+ *
+ */
+export interface OperationStatus {
+  /**
+   * @member {string} [id] The operation Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [status] Status of the pending operation
+   */
+  status?: string;
+  /**
+   * @member {string} [statusDetail] Status Detail of the pending operation
+   */
+  statusDetail?: string;
 }
 
 /**
  * @interface
  * An interface representing DownloadUrl.
- * A secure URL that can be used to download a PDF invoice until the URL
- * expires.
+ * A secure URL that can be used to download a an entity until the URL expires.
  *
  */
 export interface DownloadUrl {
@@ -155,39 +1011,596 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing Invoice.
- * An invoice resource can be used download a PDF version of an invoice.
+ * An interface representing Amount.
+ * The Amount.
+ *
+ */
+export interface Amount {
+  /**
+   * @member {string} [currency] The currency for the amount value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {number} [value] Amount value.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: number;
+}
+
+/**
+ * @interface
+ * An interface representing DownloadProperties.
+ * The properties of the invoice download.
+ *
+ */
+export interface DownloadProperties {
+  /**
+   * @member {Kind} [kind] Document type. Possible values include: 'Invoice',
+   * 'VoidNote', 'Receipt', 'CreditNote'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly kind?: Kind;
+  /**
+   * @member {string} [url] Document URL.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly url?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PaymentProperties.
+ * The properties of the payment.
+ *
+ */
+export interface PaymentProperties {
+  /**
+   * @member {string} [paymentType] The type of payment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly paymentType?: string;
+  /**
+   * @member {Amount} [amount] The paid amount.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly amount?: Amount;
+  /**
+   * @member {Date} [date] The date of the payment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly date?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSummary.
+ * An invoice resource.
  *
  * @extends Resource
  */
-export interface Invoice extends Resource {
+export interface InvoiceSummary extends Resource {
   /**
-   * @member {DownloadUrl} [downloadUrl] A secure link to download the PDF
-   * version of an invoice. The link will cease to work after its expiry time
-   * is reached.
+   * @member {Date} [dueDate] The due date for invoice.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  downloadUrl?: DownloadUrl;
+  readonly dueDate?: Date;
   /**
-   * @member {Date} [invoicePeriodStartDate] The start of the date range
-   * covered by the invoice.
+   * @member {Date} [invoiceDate] The date when invoice was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceDate?: Date;
+  /**
+   * @member {Status} [status] Invoice status. Possible values include:
+   * 'PastDue', 'Due', 'Paid', 'Void'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: Status;
+  /**
+   * @member {Amount} [amountDue] Amount due.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly amountDue?: Amount;
+  /**
+   * @member {Amount} [billedAmount] Amount billed.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billedAmount?: Amount;
+  /**
+   * @member {Date} [invoicePeriodStartDate] The start date of the billing
+   * period.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly invoicePeriodStartDate?: Date;
   /**
-   * @member {Date} [invoicePeriodEndDate] The end of the date range covered by
-   * the invoice.
+   * @member {Date} [invoicePeriodEndDate] The end date of the billing period.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly invoicePeriodEndDate?: Date;
   /**
-   * @member {string[]} [billingPeriodIds] Array of billing perdiod ids that
-   * the invoice is attributed to.
+   * @member {string} [billingProfile] The profile id which invoice belongs to.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly billingPeriodIds?: string[];
+  readonly billingProfile?: string;
+  /**
+   * @member {string} [billingProfileName] The profile name which invoice
+   * belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileName?: string;
+  /**
+   * @member {string} [purchaseOrderNumber] The purchase identifier for the
+   * invoice.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly purchaseOrderNumber?: string;
+  /**
+   * @member {DownloadProperties[]} [documentUrls] List of document urls
+   * available to download including invoice and tax documents.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly documentUrls?: DownloadProperties[];
+  /**
+   * @member {PaymentProperties[]} [payments] List of payments.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly payments?: PaymentProperties[];
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceListResult.
+ * Result of listing invoices.
+ *
+ */
+export interface InvoiceListResult {
+  /**
+   * @member {InvoiceSummary[]} [value] The list of invoices.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: InvoiceSummary[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductSummary.
+ * A product summary resource.
+ *
+ * @extends Resource
+ */
+export interface ProductSummary extends Resource {
+  /**
+   * @member {string} [displayName] The display name of the product.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {Date} [purchaseDate] The date of purchase.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly purchaseDate?: Date;
+  /**
+   * @member {string} [productTypeId] The product type id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productTypeId?: string;
+  /**
+   * @member {string} [productType] The type of product.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productType?: string;
+  /**
+   * @member {ProductStatusType} [status] Product status. Possible values
+   * include: 'Active', 'Inactive', 'PastDue', 'Expiring', 'Expired',
+   * 'Disabled', 'Cancelled', 'AutoRenew'
+   */
+  status?: ProductStatusType;
+  /**
+   * @member {Date} [endDate] end date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endDate?: Date;
+  /**
+   * @member {BillingFrequency} [billingFrequency] Billing frequency. Possible
+   * values include: 'OneTime', 'Monthly', 'UsageBased'
+   */
+  billingFrequency?: BillingFrequency;
+  /**
+   * @member {Amount} [lastCharge] Last month charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastCharge?: Amount;
+  /**
+   * @member {Date} [lastChargeDate] The date of the last charge.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastChargeDate?: Date;
+  /**
+   * @member {number} [quantity] The purchased product quantity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly quantity?: number;
+  /**
+   * @member {string} [skuId] Sku Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuId?: string;
+  /**
+   * @member {string} [skuDescription] Sku description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuDescription?: string;
+  /**
+   * @member {string} [availabilityId] Availability Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly availabilityId?: string;
+  /**
+   * @member {string} [parentProductId] Parent Product Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly parentProductId?: string;
+  /**
+   * @member {string} [invoiceSectionId] Invoice section id to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * @member {string} [invoiceSectionName] Invoice section name to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * @member {string} [billingProfileId] Billing Profile id to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileId?: string;
+  /**
+   * @member {string} [billingProfileName] Billing Profile name to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EnrollmentAccountContext.
+ * The rating context.
+ *
+ */
+export interface EnrollmentAccountContext {
+  /**
+   * @member {string} [costCenter] The cost center name.
+   */
+  costCenter?: string;
+  /**
+   * @member {Date} [startDate] Account Start Date
+   */
+  startDate?: Date;
+  /**
+   * @member {Date} [endDate] Account End Date
+   */
+  endDate?: Date;
+  /**
+   * @member {string} [enrollmentAccountName] The enrollment account id.
+   */
+  enrollmentAccountName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingSubscriptionSummary.
+ * A billing Subscription summary resource.
+ *
+ * @extends Resource
+ */
+export interface BillingSubscriptionSummary extends Resource {
+  /**
+   * @member {string} [displayName] display name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [subscriptionId] Subscription Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionId?: string;
+  /**
+   * @member {BillingSubscriptionStatusType} [subscriptionBillingStatus]
+   * Subscription billing status. Possible values include: 'Active',
+   * 'Inactive', 'Abandoned', 'Deleted', 'Warning'
+   */
+  subscriptionBillingStatus?: BillingSubscriptionStatusType;
+  /**
+   * @member {Amount} [lastMonthCharges] Last month charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastMonthCharges?: Amount;
+  /**
+   * @member {Amount} [monthToDateCharges] Month to date charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly monthToDateCharges?: Amount;
+  /**
+   * @member {EnrollmentAccountContext} [enrollmentAccountContext] The
+   * enrollment account context.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly enrollmentAccountContext?: EnrollmentAccountContext;
+  /**
+   * @member {string} [billingProfileId] Billing Profile id to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileId?: string;
+  /**
+   * @member {string} [billingProfileName] Billing Profile name to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileName?: string;
+  /**
+   * @member {string} [skuId] The sku id.
+   */
+  skuId?: string;
+  /**
+   * @member {string} [skuDescription] The sku description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuDescription?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TransactionsSummary.
+ * A reservation transaction summary resource.
+ *
+ * @extends Resource
+ */
+export interface TransactionsSummary extends Resource {
+  /**
+   * @member {TransactionTypeKind} [kind] The kind of transaction. Choices are
+   * all and reservation. Possible values include: 'all', 'reservation'
+   */
+  kind?: TransactionTypeKind;
+  /**
+   * @member {Date} [date] The date of reservation transaction.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly date?: Date;
+  /**
+   * @member {string} [invoice] Invoice number or 'pending' if not invoiced.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoice?: string;
+  /**
+   * @member {string} [orderId] The reservation order id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly orderId?: string;
+  /**
+   * @member {string} [orderName] The reservation order name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly orderName?: string;
+  /**
+   * @member {string} [productTypeId] The product type id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productTypeId?: string;
+  /**
+   * @member {string} [productType] The type of product.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productType?: string;
+  /**
+   * @member {string} [productDescription] Product description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productDescription?: string;
+  /**
+   * @member {ReservationType} [transactionType] Transaction types. Possible
+   * values include: 'Purchase', 'Usage Charge'
+   */
+  transactionType?: ReservationType;
+  /**
+   * @member {Amount} [transactionAmount] Last charge associated with the
+   * purchase.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly transactionAmount?: Amount;
+  /**
+   * @member {number} [quantity] Purchase quantity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly quantity?: number;
+  /**
+   * @member {string} [invoiceSectionId] Invoice section id to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * @member {string} [invoiceSectionName] Invoice section name to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * @member {string} [billingProfileId] Billing Profile id to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileId?: string;
+  /**
+   * @member {string} [billingProfileName] Billing Profile name to which this
+   * product belongs.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingProfileName?: string;
+  /**
+   * @member {string} [subscriptionId] The subscription id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionId?: string;
+  /**
+   * @member {string} [subscriptionName] The subscription name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Policy.
+ * The Policy.
+ *
+ * @extends Resource
+ */
+export interface Policy extends Resource {
+  /**
+   * @member {boolean} [reservationPurchasesAllowed] The
+   * reservationPurchasesAllowed flag.
+   */
+  reservationPurchasesAllowed?: boolean;
+  /**
+   * @member {boolean} [marketplacePurchasesAllowed] The
+   * marketplacePurchasesAllowed flag.
+   */
+  marketplacePurchasesAllowed?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing AvailableBalance.
+ * Latest available balance on Monetary Credit PI.
+ *
+ * @extends Resource
+ */
+export interface AvailableBalance extends Resource {
+  /**
+   * @member {Amount} [amount] Balance Amount.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly amount?: Amount;
+}
+
+/**
+ * @interface
+ * An interface representing PaymentMethod.
+ * A payment method resource.
+ *
+ * @extends Resource
+ */
+export interface PaymentMethod extends Resource {
+  /**
+   * @member {PaymentMethodType} [methodType] Payment method type. Possible
+   * values include: 'Credits', 'ChequeWire'
+   */
+  methodType?: PaymentMethodType;
+  /**
+   * @member {string} [details] Details about the payment method.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly details?: string;
+  /**
+   * @member {Date} [expiration] Expiration date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly expiration?: Date;
+  /**
+   * @member {string} [currency] The currency associated with the payment
+   * method.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UpdateAutoRenewRequest.
+ * Request parameters to update auto renew for support product.
+ *
+ */
+export interface UpdateAutoRenewRequest {
+  /**
+   * @member {UpdateAutoRenew} [autoRenew] Request parameters to update auto
+   * renew policy a product. Possible values include: 'true', 'false'
+   */
+  autoRenew?: UpdateAutoRenew;
 }
 
 /**
@@ -240,67 +1653,534 @@ export interface Operation {
 
 /**
  * @interface
- * An interface representing BillingPeriodsListOptionalParams.
- * Optional Parameters.
+ * An interface representing BillingRoleAssignmentPayload.
+ * The payload use to update role assignment on a scope
  *
- * @extends RequestOptionsBase
  */
-export interface BillingPeriodsListOptionalParams extends msRest.RequestOptionsBase {
+export interface BillingRoleAssignmentPayload {
   /**
-   * @member {string} [filter] May be used to filter billing periods by
-   * billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
+   * @member {string} [principalId] The user's principal id that the role gets
+   * assigned to
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  filter?: string;
+  readonly principalId?: string;
   /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
+   * @member {string} [billingRoleDefinitionName] The role definition id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  skiptoken?: string;
-  /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N billing periods.
-   */
-  top?: number;
+  readonly billingRoleDefinitionName?: string;
 }
 
 /**
  * @interface
- * An interface representing InvoicesListOptionalParams.
+ * An interface representing BillingRoleAssignment.
+ * a role assignment
+ *
+ * @extends Resource
+ */
+export interface BillingRoleAssignment extends Resource {
+  /**
+   * @member {string} [createdOn] the date the role assignment is created
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdOn?: string;
+  /**
+   * @member {string} [createdByPrincipalTenantId] the creator's tenant Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdByPrincipalTenantId?: string;
+  /**
+   * @member {string} [createdByPrincipalId] the creator's principal Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdByPrincipalId?: string;
+  /**
+   * @member {string} [billingRoleAssignmentName] the name of the role
+   * assignment
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingRoleAssignmentName?: string;
+  /**
+   * @member {string} [principalId] The user's principal id that the role gets
+   * assigned to
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [roleDefinitionName] The role definition id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly roleDefinitionName?: string;
+  /**
+   * @member {string} [scope] The scope the role get assigned to
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scope?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingRoleAssignmentListResult.
+ * Result of get list of role assignments
+ *
+ */
+export interface BillingRoleAssignmentListResult {
+  /**
+   * @member {BillingRoleAssignment[]} [value] The list role assignments
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: BillingRoleAssignment[];
+}
+
+/**
+ * @interface
+ * An interface representing BillingPermissions.
+ * The set of allowed action and not allowed actions a caller has on a billing
+ * account
+ *
+ */
+export interface BillingPermissions {
+  /**
+   * @member {string[]} [actions] The set of actions that the caller is allowed
+   * to do
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly actions?: string[];
+  /**
+   * @member {string[]} [notActions] The set of actions the caller is not
+   * allowed to do
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly notActions?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing BillingPermissionsListResult.
+ * Result of list billingPermissions a caller has on a billing account.
+ *
+ */
+export interface BillingPermissionsListResult {
+  /**
+   * @member {BillingPermissions[]} [value] The list OF billingPermissions a
+   * caller has on a billing account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: BillingPermissions[];
+}
+
+/**
+ * @interface
+ * An interface representing BillingRoleDefinition.
+ * Result of get role definition for a role.
+ *
+ * @extends Resource
+ */
+export interface BillingRoleDefinition extends Resource {
+  /**
+   * @member {string} [description] The role description
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {BillingPermissions[]} [value] The list OF billingPermissions a
+   * caller has on a billing account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: BillingPermissions[];
+  /**
+   * @member {string} [roleName] The name of the role
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly roleName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingRoleDefinitionListResult.
+ * list the role definitions.
+ *
+ */
+export interface BillingRoleDefinitionListResult {
+  /**
+   * @member {BillingRoleDefinition[]} [value] The list of role definitions.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly value?: BillingRoleDefinition[];
+}
+
+/**
+ * @interface
+ * An interface representing BillingAccountsListOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface InvoicesListOptionalParams extends msRest.RequestOptionsBase {
+export interface BillingAccountsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [expand] May be used to expand the downloadUrl property
-   * within a list of invoices. This enables download links to be generated for
-   * multiple invoices at once. By default, downloadURLs are not included when
-   * listing invoices.
+   * @member {string} [expand] May be used to expand the invoiceSections and
+   * billingProfiles.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingAccountsGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingAccountsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the invoiceSections and
+   * billingProfiles.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingAccountsWithCreateInvoiceSectionPermissionListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingAccountsWithCreateInvoiceSectionPermissionListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the invoiceSections and
+   * billingProfiles.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingProfilesByBillingAccountNameListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingProfilesByBillingAccountNameListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the invoiceSections.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingProfilesGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingProfilesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the invoiceSections.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSectionsByBillingAccountNameListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface InvoiceSectionsByBillingAccountNameListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the billingProfiles.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSectionsGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface InvoiceSectionsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the billingProfiles.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSectionsWithCreateSubscriptionPermissionListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface InvoiceSectionsWithCreateSubscriptionPermissionListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the billingProfiles.
+   */
+  expand?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DepartmentsByBillingAccountNameListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DepartmentsByBillingAccountNameListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the enrollmentAccounts.
    */
   expand?: string;
   /**
-   * @member {string} [filter] May be used to filter invoices by
-   * invoicePeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
-   * and 'and'. It does not currently support 'ne', 'or', or 'not'.
+   * @member {string} [filter] The filter supports 'eq', 'lt', 'gt', 'le',
+   * 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag
+   * filter is a key value pair string where key and value is separated by a
+   * colon (:).
    */
   filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DepartmentsGetOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DepartmentsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [skiptoken] Skiptoken is only used if a previous
-   * operation returned a partial result. If a previous response contains a
-   * nextLink element, the value of the nextLink element will include a
-   * skiptoken parameter that specifies a starting point to use for subsequent
-   * calls.
+   * @member {string} [expand] May be used to expand the enrollmentAccounts.
    */
-  skiptoken?: string;
+  expand?: string;
   /**
-   * @member {number} [top] May be used to limit the number of results to the
-   * most recent N invoices.
+   * @member {string} [filter] The filter supports 'eq', 'lt', 'gt', 'le',
+   * 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag
+   * filter is a key value pair string where key and value is separated by a
+   * colon (:).
    */
-  top?: number;
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EnrollmentAccountsByBillingAccountNameListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface EnrollmentAccountsByBillingAccountNameListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the department.
+   */
+  expand?: string;
+  /**
+   * @member {string} [filter] The filter supports 'eq', 'lt', 'gt', 'le',
+   * 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag
+   * filter is a key value pair string where key and value is separated by a
+   * colon (:).
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EnrollmentAccountsGetByEnrollmentAccountAccountIdOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface EnrollmentAccountsGetByEnrollmentAccountAccountIdOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [expand] May be used to expand the Department.
+   */
+  expand?: string;
+  /**
+   * @member {string} [filter] The filter supports 'eq', 'lt', 'gt', 'le',
+   * 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag
+   * filter is a key value pair string where key and value is separated by a
+   * colon (:).
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingSubscriptionTransferOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingSubscriptionTransferOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [destinationInvoiceSectionName] The destination
+   * invoiceSectionName.
+   */
+  destinationInvoiceSectionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingSubscriptionBeginTransferOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingSubscriptionBeginTransferOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [destinationInvoiceSectionName] The destination
+   * invoiceSectionName.
+   */
+  destinationInvoiceSectionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductsByBillingAccountListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ProductsByBillingAccountListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter by product type. The
+   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
+   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
+   * string where key and value is separated by a colon (:).
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductsByInvoiceSectionListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ProductsByInvoiceSectionListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter by product type. The
+   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
+   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
+   * string where key and value is separated by a colon (:).
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductsTransferOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ProductsTransferOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [destinationInvoiceSectionName] Destination invoice
+   * section id.
+   */
+  destinationInvoiceSectionName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TransactionsByBillingAccountListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TransactionsByBillingAccountListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter by transaction kind. The
+   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
+   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
+   * string where key and value is separated by a colon (:).
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingManagementClientTransactionsByBillingProfileOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingManagementClientTransactionsByBillingProfileOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] May be used to filter by transaction kind. The
+   * filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not
+   * currently support 'ne', 'or', or 'not'. Tag filter is a key value pair
+   * string where key and value is separated by a colon (:).
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingManagementClientUpdateAutoRenewForBillingAccountOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingManagementClientUpdateAutoRenewForBillingAccountOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {UpdateAutoRenew} [autoRenew] Request parameters to update auto
+   * renew policy a product. Possible values include: 'true', 'false'
+   */
+  autoRenew?: UpdateAutoRenew;
+}
+
+/**
+ * @interface
+ * An interface representing BillingManagementClientUpdateAutoRenewForInvoiceSectionOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface BillingManagementClientUpdateAutoRenewForInvoiceSectionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {UpdateAutoRenew} [autoRenew] Request parameters to update auto
+   * renew policy a product. Possible values include: 'true', 'false'
+   */
+  autoRenew?: UpdateAutoRenew;
+}
+
+/**
+ * @interface
+ * An interface representing RecipientTransfersAcceptOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface RecipientTransfersAcceptOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {ProductDetails[]} [productDetails] Request parameters to accept
+   * transfer.
+   */
+  productDetails?: ProductDetails[];
 }
 
 /**
@@ -315,15 +2195,151 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
   baseUri?: string;
 }
 
+/**
+ * @interface
+ * An interface representing BillingProfilesUpdateHeaders.
+ * Defines headers for Update operation.
+ *
+ */
+export interface BillingProfilesUpdateHeaders {
+  /**
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
+   */
+  location: string;
+  /**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
+   */
+  retryAfter: string;
+}
 
 /**
  * @interface
- * An interface representing the EnrollmentAccountListResult.
- * Result of listing enrollment accounts.
+ * An interface representing InvoiceSectionsCreateHeaders.
+ * Defines headers for Create operation.
  *
- * @extends Array<EnrollmentAccount>
  */
-export interface EnrollmentAccountListResult extends Array<EnrollmentAccount> {
+export interface InvoiceSectionsCreateHeaders {
+  /**
+   * @member {string} [location] Location URI to poll for result
+   */
+  location: string;
+  /**
+   * @member {number} [retryAfter] Recommends the retryable time after
+   * receiving this.
+   */
+  retryAfter: number;
+  /**
+   * @member {string} [azureAsyncOperation] URI to poll for the operation
+   * status
+   */
+  azureAsyncOperation: string;
+}
+
+/**
+ * @interface
+ * An interface representing InvoiceSectionsUpdateHeaders.
+ * Defines headers for Update operation.
+ *
+ */
+export interface InvoiceSectionsUpdateHeaders {
+  /**
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
+   */
+  location: string;
+  /**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
+   */
+  retryAfter: string;
+}
+
+/**
+ * @interface
+ * An interface representing InvoicePricesheetDownloadHeaders.
+ * Defines headers for Download operation.
+ *
+ */
+export interface InvoicePricesheetDownloadHeaders {
+  /**
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
+   */
+  location: string;
+  /**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
+   */
+  retryAfter: string;
+  /**
+   * @member {string} [azureAsyncOperation] To get the progress of the
+   * operation, call GET operation on the URL in Azure-AsyncOperation header
+   * field.
+   */
+  azureAsyncOperation: string;
+  /**
+   * @member {string} [oDataEntityId] The operation entity Id GUID.
+   */
+  oDataEntityId: string;
+}
+
+/**
+ * @interface
+ * An interface representing BillingSubscriptionTransferHeaders.
+ * Defines headers for Transfer operation.
+ *
+ */
+export interface BillingSubscriptionTransferHeaders {
+  /**
+   * @member {string} [location] Location URI to poll for result.
+   */
+  location: string;
+  /**
+   * @member {number} [retryAfter] Recommends the retryable time after
+   * receiving this.
+   */
+  retryAfter: number;
+  /**
+   * @member {string} [azureAsyncOperation] URI to poll for the operation
+   * status
+   */
+  azureAsyncOperation: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductsTransferHeaders.
+ * Defines headers for Transfer operation.
+ *
+ */
+export interface ProductsTransferHeaders {
+  /**
+   * @member {string} [location] Location URI to poll for result
+   */
+  location: string;
+  /**
+   * @member {number} [retryAfter] Recommends the retryable time after
+   * receiving this.
+   */
+  retryAfter: number;
+  /**
+   * @member {string} [azureAsyncOperation] URI to poll for the operation
+   * status
+   */
+  azureAsyncOperation: string;
+}
+
+
+/**
+ * @interface
+ * An interface representing the PaymentMethodsListResult.
+ * Result of listing payment methods.
+ *
+ * @extends Array<PaymentMethod>
+ */
+export interface PaymentMethodsListResult extends Array<PaymentMethod> {
   /**
    * @member {string} [nextLink] The link (url) to the next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -334,13 +2350,12 @@ export interface EnrollmentAccountListResult extends Array<EnrollmentAccount> {
 
 /**
  * @interface
- * An interface representing the BillingPeriodsListResult.
- * Result of listing billing periods. It contains a list of available billing
- * periods in reverse chronological order.
+ * An interface representing the BillingSubscriptionsListResult.
+ * Result of listing billing subscriptions summary.
  *
- * @extends Array<BillingPeriod>
+ * @extends Array<BillingSubscriptionSummary>
  */
-export interface BillingPeriodsListResult extends Array<BillingPeriod> {
+export interface BillingSubscriptionsListResult extends Array<BillingSubscriptionSummary> {
   /**
    * @member {string} [nextLink] The link (url) to the next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -351,13 +2366,61 @@ export interface BillingPeriodsListResult extends Array<BillingPeriod> {
 
 /**
  * @interface
- * An interface representing the InvoicesListResult.
- * Result of listing invoices. It contains a list of available invoices in
- * reverse chronological order.
+ * An interface representing the ProductsListResult.
+ * Result of listing products summary. It contains a list of available products
+ * summaries in reverse chronological order by purchase date.
  *
- * @extends Array<Invoice>
+ * @extends Array<ProductSummary>
  */
-export interface InvoicesListResult extends Array<Invoice> {
+export interface ProductsListResult extends Array<ProductSummary> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the TransactionsListResult.
+ * Result of listing reservation transactions summary.
+ *
+ * @extends Array<TransactionsSummary>
+ */
+export interface TransactionsListResult extends Array<TransactionsSummary> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the TransferDetailsListResult.
+ * Result of listing details of the transfer initiated by caller.
+ *
+ * @extends Array<TransferDetails>
+ */
+export interface TransferDetailsListResult extends Array<TransferDetails> {
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the RecipientTransferDetailsListResult.
+ * Result of listing details of the transfer received by caller.
+ *
+ * @extends Array<RecipientTransferDetails>
+ */
+export interface RecipientTransferDetailsListResult extends Array<RecipientTransferDetails> {
   /**
    * @member {string} [nextLink] The link (url) to the next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -385,9 +2448,459 @@ export interface OperationListResult extends Array<Operation> {
 }
 
 /**
+ * Defines values for ProductType.
+ * Possible values include: 'AzureSubscription', 'AzureReservation'
+ * @readonly
+ * @enum {string}
+ */
+export type ProductType = 'AzureSubscription' | 'AzureReservation';
+
+/**
+ * Defines values for TransferStatus.
+ * Possible values include: 'Pending', 'InProgress', 'Completed', 'CompletedWithErrors', 'Failed',
+ * 'Canceled', 'Declined'
+ * @readonly
+ * @enum {string}
+ */
+export type TransferStatus = 'Pending' | 'InProgress' | 'Completed' | 'CompletedWithErrors' | 'Failed' | 'Canceled' | 'Declined';
+
+/**
+ * Defines values for ProductTransferStatus.
+ * Possible values include: 'NotStarted', 'InProgress', 'Completed', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ProductTransferStatus = 'NotStarted' | 'InProgress' | 'Completed' | 'Failed';
+
+/**
+ * Defines values for EligibleProductType.
+ * Possible values include: 'DevTestAzureSubscription', 'StandardAzureSubscription',
+ * 'AzureReservation'
+ * @readonly
+ * @enum {string}
+ */
+export type EligibleProductType = 'DevTestAzureSubscription' | 'StandardAzureSubscription' | 'AzureReservation';
+
+/**
+ * Defines values for ProductStatusType.
+ * Possible values include: 'Active', 'Inactive', 'PastDue', 'Expiring', 'Expired', 'Disabled',
+ * 'Cancelled', 'AutoRenew'
+ * @readonly
+ * @enum {string}
+ */
+export type ProductStatusType = 'Active' | 'Inactive' | 'PastDue' | 'Expiring' | 'Expired' | 'Disabled' | 'Cancelled' | 'AutoRenew';
+
+/**
+ * Defines values for BillingFrequency.
+ * Possible values include: 'OneTime', 'Monthly', 'UsageBased'
+ * @readonly
+ * @enum {string}
+ */
+export type BillingFrequency = 'OneTime' | 'Monthly' | 'UsageBased';
+
+/**
+ * Defines values for BillingSubscriptionStatusType.
+ * Possible values include: 'Active', 'Inactive', 'Abandoned', 'Deleted', 'Warning'
+ * @readonly
+ * @enum {string}
+ */
+export type BillingSubscriptionStatusType = 'Active' | 'Inactive' | 'Abandoned' | 'Deleted' | 'Warning';
+
+/**
+ * Defines values for TransactionTypeKind.
+ * Possible values include: 'all', 'reservation'
+ * @readonly
+ * @enum {string}
+ */
+export type TransactionTypeKind = 'all' | 'reservation';
+
+/**
+ * Defines values for ReservationType.
+ * Possible values include: 'Purchase', 'Usage Charge'
+ * @readonly
+ * @enum {string}
+ */
+export type ReservationType = 'Purchase' | 'Usage Charge';
+
+/**
+ * Defines values for PaymentMethodType.
+ * Possible values include: 'Credits', 'ChequeWire'
+ * @readonly
+ * @enum {string}
+ */
+export type PaymentMethodType = 'Credits' | 'ChequeWire';
+
+/**
+ * Defines values for UpdateAutoRenew.
+ * Possible values include: 'true', 'false'
+ * @readonly
+ * @enum {string}
+ */
+export type UpdateAutoRenew = 'true' | 'false';
+
+/**
+ * Defines values for AccountType.
+ * Possible values include: 'Organization', 'Enrollment'
+ * @readonly
+ * @enum {string}
+ */
+export type AccountType = 'Organization' | 'Enrollment';
+
+/**
+ * Defines values for Kind.
+ * Possible values include: 'Invoice', 'VoidNote', 'Receipt', 'CreditNote'
+ * @readonly
+ * @enum {string}
+ */
+export type Kind = 'Invoice' | 'VoidNote' | 'Receipt' | 'CreditNote';
+
+/**
+ * Defines values for Status.
+ * Possible values include: 'PastDue', 'Due', 'Paid', 'Void'
+ * @readonly
+ * @enum {string}
+ */
+export type Status = 'PastDue' | 'Due' | 'Paid' | 'Void';
+
+/**
  * Contains response data for the list operation.
  */
-export type EnrollmentAccountsListResponse = EnrollmentAccountListResult & {
+export type BillingAccountsListResponse = BillingAccountListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingAccountListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingAccountsGetResponse = BillingAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingAccount;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingAccountsWithCreateInvoiceSectionPermissionListResponse = BillingAccountListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingAccountListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AvailableBalanceByBillingProfileGetResponse = AvailableBalance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailableBalance;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PaymentMethodsByBillingProfileListResponse = PaymentMethodsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PaymentMethodsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PaymentMethodsByBillingProfileListNextResponse = PaymentMethodsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PaymentMethodsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingProfilesByBillingAccountNameListResponse = BillingProfileListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingProfileListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingProfilesGetResponse = BillingProfile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingProfile;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type BillingProfilesUpdateResponse = BillingProfile & BillingProfilesUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BillingProfilesUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingProfile;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InvoiceSectionsByBillingAccountNameListResponse = InvoiceSectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InvoiceSectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type InvoiceSectionsCreateResponse = InvoiceSection & InvoiceSectionsCreateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: InvoiceSectionsCreateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InvoiceSection;
+    };
+};
+
+/**
+ * Contains response data for the listByBillingProfileName operation.
+ */
+export type InvoiceSectionsListByBillingProfileNameResponse = InvoiceSectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InvoiceSectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type InvoiceSectionsGetResponse = InvoiceSection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InvoiceSection;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type InvoiceSectionsUpdateResponse = InvoiceSection & InvoiceSectionsUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: InvoiceSectionsUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InvoiceSection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InvoiceSectionsWithCreateSubscriptionPermissionListResponse = InvoiceSectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: InvoiceSectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DepartmentsByBillingAccountNameListResponse = DepartmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DepartmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DepartmentsGetResponse = Department & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Department;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type EnrollmentAccountsByBillingAccountNameListResponse = EnrollmentAccountListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -404,9 +2917,9 @@ export type EnrollmentAccountsListResponse = EnrollmentAccountListResult & {
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the getByEnrollmentAccountAccountId operation.
  */
-export type EnrollmentAccountsGetResponse = EnrollmentAccount & {
+export type EnrollmentAccountsGetByEnrollmentAccountAccountIdResponse = EnrollmentAccount & {
   /**
    * The underlying HTTP response.
    */
@@ -423,9 +2936,9 @@ export type EnrollmentAccountsGetResponse = EnrollmentAccount & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the list operation.
  */
-export type EnrollmentAccountsListNextResponse = EnrollmentAccountListResult & {
+export type InvoicesByBillingAccountListResponse = InvoiceListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -437,14 +2950,37 @@ export type EnrollmentAccountsListNextResponse = EnrollmentAccountListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EnrollmentAccountListResult;
+      parsedBody: InvoiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the download operation.
+ */
+export type InvoicePricesheetDownloadResponse = DownloadUrl & InvoicePricesheetDownloadHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: InvoicePricesheetDownloadHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DownloadUrl;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type BillingPeriodsListResponse = BillingPeriodsListResult & {
+export type InvoicesByBillingProfileListResponse = InvoiceListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -456,14 +2992,14 @@ export type BillingPeriodsListResponse = BillingPeriodsListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: BillingPeriodsListResult;
+      parsedBody: InvoiceListResult;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type BillingPeriodsGetResponse = BillingPeriod & {
+export type InvoiceGetResponse = InvoiceSummary & {
   /**
    * The underlying HTTP response.
    */
@@ -475,33 +3011,14 @@ export type BillingPeriodsGetResponse = BillingPeriod & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: BillingPeriod;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type BillingPeriodsListNextResponse = BillingPeriodsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BillingPeriodsListResult;
+      parsedBody: InvoiceSummary;
     };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type InvoicesListResponse = InvoicesListResult & {
+export type ProductsByBillingSubscriptionsListResponse = BillingSubscriptionsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -513,52 +3030,14 @@ export type InvoicesListResponse = InvoicesListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: InvoicesListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type InvoicesGetResponse = Invoice & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Invoice;
-    };
-};
-
-/**
- * Contains response data for the getLatest operation.
- */
-export type InvoicesGetLatestResponse = Invoice & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Invoice;
+      parsedBody: BillingSubscriptionsListResult;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type InvoicesListNextResponse = InvoicesListResult & {
+export type ProductsByBillingSubscriptionsListNextResponse = BillingSubscriptionsListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -570,7 +3049,528 @@ export type InvoicesListNextResponse = InvoicesListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: InvoicesListResult;
+      parsedBody: BillingSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingSubscriptionsByBillingProfileListResponse = BillingSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingSubscriptionsByInvoiceSectionListResponse = BillingSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingSubscriptionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingSubscriptionGetResponse = BillingSubscriptionSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingSubscriptionSummary;
+    };
+};
+
+/**
+ * Contains response data for the transfer operation.
+ */
+export type BillingSubscriptionTransferResponse = TransferBillingSubscriptionResult & BillingSubscriptionTransferHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BillingSubscriptionTransferHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferBillingSubscriptionResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ProductsByBillingAccountListResponse = ProductsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProductsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ProductsByBillingAccountListNextResponse = ProductsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProductsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ProductsByInvoiceSectionListResponse = ProductsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProductsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ProductsGetResponse = ProductSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProductSummary;
+    };
+};
+
+/**
+ * Contains response data for the transfer operation.
+ */
+export type ProductsTransferResponse = ProductSummary & ProductsTransferHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ProductsTransferHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProductSummary;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TransactionsByBillingAccountListResponse = TransactionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransactionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TransactionsByBillingAccountListNextResponse = TransactionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransactionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the transactionsByBillingProfile operation.
+ */
+export type TransactionsByBillingProfileResponse = TransactionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransactionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the updateAutoRenewForBillingAccount operation.
+ */
+export type UpdateAutoRenewForBillingAccountResponse = UpdateAutoRenewOperationSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UpdateAutoRenewOperationSummary;
+    };
+};
+
+/**
+ * Contains response data for the updateAutoRenewForInvoiceSection operation.
+ */
+export type UpdateAutoRenewForInvoiceSectionResponse = UpdateAutoRenewOperationSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UpdateAutoRenewOperationSummary;
+    };
+};
+
+/**
+ * Contains response data for the getByBillingProfile operation.
+ */
+export type PolicyGetByBillingProfileResponse = Policy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Policy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PolicyUpdateResponse = Policy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Policy;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingPropertyGetResponse = BillingProperty & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingProperty;
+    };
+};
+
+/**
+ * Contains response data for the initiate operation.
+ */
+export type TransfersInitiateResponse = TransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TransfersGetResponse = TransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the cancel operation.
+ */
+export type TransfersCancelResponse = TransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TransfersListResponse = TransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TransfersListNextResponse = TransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TransferDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the accept operation.
+ */
+export type RecipientTransfersAcceptResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the decline operation.
+ */
+export type RecipientTransfersDeclineResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RecipientTransfersGetResponse = RecipientTransferDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetails;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RecipientTransfersListResponse = RecipientTransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetailsListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RecipientTransfersListNextResponse = RecipientTransferDetailsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecipientTransferDetailsListResult;
     };
 };
 
@@ -609,5 +3609,404 @@ export type OperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingAccountBillingPermissionsListResponse = BillingPermissionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingPermissionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InvoiceSectionsBillingPermissionsListResponse = BillingPermissionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingPermissionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingProfileBillingPermissionsListResponse = BillingPermissionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingPermissionsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingAccountBillingRoleDefinitionGetResponse = BillingRoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleDefinition;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingAccountBillingRoleDefinitionListResponse = BillingRoleDefinitionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type InvoiceSectionBillingRoleDefinitionGetResponse = BillingRoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleDefinition;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InvoiceSectionBillingRoleDefinitionListResponse = BillingRoleDefinitionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingProfileBillingRoleDefinitionGetResponse = BillingRoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleDefinition;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingProfileBillingRoleDefinitionListResponse = BillingRoleDefinitionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingAccountBillingRoleAssignmentGetResponse = BillingRoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type BillingAccountBillingRoleAssignmentDeleteMethodResponse = BillingRoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingAccountBillingRoleAssignmentListResponse = BillingRoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the add operation.
+ */
+export type BillingAccountBillingRoleAssignmentAddResponse = BillingRoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type InvoiceSectionBillingRoleAssignmentGetResponse = BillingRoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type InvoiceSectionBillingRoleAssignmentDeleteMethodResponse = BillingRoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type InvoiceSectionBillingRoleAssignmentListResponse = BillingRoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the add operation.
+ */
+export type InvoiceSectionBillingRoleAssignmentAddResponse = BillingRoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BillingProfileBillingRoleAssignmentGetResponse = BillingRoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type BillingProfileBillingRoleAssignmentDeleteMethodResponse = BillingRoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BillingProfileBillingRoleAssignmentListResponse = BillingRoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the add operation.
+ */
+export type BillingProfileBillingRoleAssignmentAddResponse = BillingRoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BillingRoleAssignmentListResult;
     };
 };
