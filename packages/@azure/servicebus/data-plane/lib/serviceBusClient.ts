@@ -233,7 +233,7 @@ export class ServiceBusClient {
    * Service Bus Namespace.
    * @returns {ServiceBusClient}
    */
-  static createFromMSRestTokenCredentials(
+  static createFromAadTokenCredentials(
     host: string,
     credentials:
       | ApplicationTokenCredentials
