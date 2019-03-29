@@ -2,7 +2,7 @@
   "name": "@azure/arm-storagesync",
   "author": "Microsoft Corporation",
   "description": "StorageSyncManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.3.2",
     "@azure/ms-rest-js": "^1.6.0",
