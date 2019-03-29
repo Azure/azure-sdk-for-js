@@ -23,6 +23,7 @@ class FaceClient extends FaceClientContext {
   largePersonGroupPerson: operations.LargePersonGroupPerson;
   largePersonGroup: operations.LargePersonGroupOperations;
   largeFaceList: operations.LargeFaceListOperations;
+  snapshot: operations.SnapshotOperations;
 
   /**
    * Initializes a new instance of the FaceClient class.
@@ -31,8 +32,8 @@ class FaceClient extends FaceClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(endpoint: string, credentials: msRest.ServiceClientCredentials, options?: msRest.ServiceClientOptions) {
-    super(endpoint, credentials, options);
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+    super(credentials, endpoint, options);
     this.face = new operations.Face(this);
     this.personGroupPerson = new operations.PersonGroupPerson(this);
     this.personGroup = new operations.PersonGroupOperations(this);
@@ -40,6 +41,7 @@ class FaceClient extends FaceClientContext {
     this.largePersonGroupPerson = new operations.LargePersonGroupPerson(this);
     this.largePersonGroup = new operations.LargePersonGroupOperations(this);
     this.largeFaceList = new operations.LargeFaceListOperations(this);
+    this.snapshot = new operations.SnapshotOperations(this);
   }
 }
 
