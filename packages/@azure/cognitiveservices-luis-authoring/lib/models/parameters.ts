@@ -262,7 +262,7 @@ export const slotName: msRest.OperationURLParameter = {
     required: true,
     serializedName: "slotName",
     type: {
-      name: "Uuid"
+      name: "String"
     }
   }
 };

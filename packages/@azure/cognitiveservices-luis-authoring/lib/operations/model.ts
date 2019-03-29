@@ -27,10 +27,10 @@ export class Model {
   }
 
   /**
-   * Adds an intent classifier to the application.
+   * Adds an intent to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param intentCreateObject A model object containing the name of the new intent classifier.
+   * @param intentCreateObject A model object containing the name of the new intent.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddIntentResponse>
    */
@@ -38,14 +38,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param intentCreateObject A model object containing the name of the new intent classifier.
+   * @param intentCreateObject A model object containing the name of the new intent.
    * @param callback The callback
    */
   addIntent(appId: string, versionId: string, intentCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param intentCreateObject A model object containing the name of the new intent classifier.
+   * @param intentCreateObject A model object containing the name of the new intent.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,7 +63,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the intent models.
+   * Gets information about the intent models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -95,10 +95,10 @@ export class Model {
   }
 
   /**
-   * Adds an entity extractor to the application.
+   * Adds a simple entity extractor to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddEntityResponse>
    */
@@ -106,14 +106,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param callback The callback
    */
   addEntity(appId: string, versionId: string, modelCreateObject: Models.ModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param modelCreateObject A model object containing the name for the new entity extractor.
+   * @param modelCreateObject A model object containing the name for the new simple entity extractor.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -131,7 +131,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the entity models.
+   * Gets information about all the simple entity models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -163,7 +163,7 @@ export class Model {
   }
 
   /**
-   * Adds a hierarchical entity extractor to the application version.
+   * Adds a hierarchical entity extractor to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hierarchicalModelCreateObject A model containing the name and children of the new entity
@@ -202,7 +202,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the hierarchical entity models.
+   * Gets information about all the hierarchical entity models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -234,7 +234,7 @@ export class Model {
   }
 
   /**
-   * Adds a composite entity extractor to the application.
+   * Adds a composite entity extractor to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param compositeModelCreateObject A model containing the name and children of the new entity
@@ -273,7 +273,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the composite entity models.
+   * Gets information about all the composite entity models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -305,7 +305,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the closedlist models.
+   * Gets information about all the list entity models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -337,11 +337,11 @@ export class Model {
   }
 
   /**
-   * Adds a closed list model to the application.
+   * Adds a list entity model to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param closedListModelCreateObject A model containing the name and words for the new closed list
-   * entity extractor.
+   * @param closedListModelCreateObject A model containing the name and words for the new list entity
+   * extractor.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddClosedListResponse>
    */
@@ -349,16 +349,16 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param closedListModelCreateObject A model containing the name and words for the new closed list
-   * entity extractor.
+   * @param closedListModelCreateObject A model containing the name and words for the new list entity
+   * extractor.
    * @param callback The callback
    */
   addClosedList(appId: string, versionId: string, closedListModelCreateObject: Models.ClosedListModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param closedListModelCreateObject A model containing the name and words for the new closed list
-   * entity extractor.
+   * @param closedListModelCreateObject A model containing the name and words for the new list entity
+   * extractor.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -376,7 +376,7 @@ export class Model {
   }
 
   /**
-   * Adds a list of prebuilt entity extractors to the application.
+   * Adds a list of prebuilt entities to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltExtractorNames An array of prebuilt entity extractor names.
@@ -412,7 +412,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the prebuilt entity models.
+   * Gets information about all the prebuilt entities in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -444,7 +444,7 @@ export class Model {
   }
 
   /**
-   * Gets all the available prebuilt entity extractors for the application.
+   * Gets all the available prebuilt entities in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -476,7 +476,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the application version models.
+   * Gets information about all the intent and entity models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -508,7 +508,8 @@ export class Model {
   }
 
   /**
-   * Gets the utterances for the given model in the given app version.
+   * Gets the example utterances for the given intent or entity model in a version of the
+   * application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param modelId The ID (GUID) of the model.
@@ -544,7 +545,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the intent model.
+   * Gets information about the intent model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
@@ -580,11 +581,11 @@ export class Model {
   }
 
   /**
-   * Updates the name of an intent classifier.
+   * Updates the name of an intent in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
-   * @param modelUpdateObject A model object containing the new intent classifier name.
+   * @param modelUpdateObject A model object containing the new intent name.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateIntentResponse>
    */
@@ -593,7 +594,7 @@ export class Model {
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
-   * @param modelUpdateObject A model object containing the new intent classifier name.
+   * @param modelUpdateObject A model object containing the new intent name.
    * @param callback The callback
    */
   updateIntent(appId: string, versionId: string, intentId: string, modelUpdateObject: Models.ModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
@@ -601,7 +602,7 @@ export class Model {
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
-   * @param modelUpdateObject A model object containing the new intent classifier name.
+   * @param modelUpdateObject A model object containing the new intent name.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -620,7 +621,7 @@ export class Model {
   }
 
   /**
-   * Deletes an intent classifier from the application.
+   * Deletes an intent from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
@@ -656,7 +657,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the entity model.
+   * Gets information about an entity model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
@@ -692,7 +693,7 @@ export class Model {
   }
 
   /**
-   * Updates the name of an entity extractor.
+   * Updates the name of an entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
@@ -732,7 +733,7 @@ export class Model {
   }
 
   /**
-   * Deletes an entity extractor from the application.
+   * Deletes an entity from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
@@ -768,7 +769,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the hierarchical entity model.
+   * Gets information about a hierarchical entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -804,7 +805,7 @@ export class Model {
   }
 
   /**
-   * Updates the name and children of a hierarchical entity model.
+   * Updates the name and children of a hierarchical entity model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -847,7 +848,7 @@ export class Model {
   }
 
   /**
-   * Deletes a hierarchical entity extractor from the application version.
+   * Deletes a hierarchical entity from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -883,7 +884,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the composite entity model.
+   * Gets information about a composite entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -919,7 +920,7 @@ export class Model {
   }
 
   /**
-   * Updates the composite entity extractor.
+   * Updates a composite entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -962,7 +963,7 @@ export class Model {
   }
 
   /**
-   * Deletes a composite entity extractor from the application.
+   * Deletes a composite entity from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -998,10 +999,10 @@ export class Model {
   }
 
   /**
-   * Gets information of a closed list model.
+   * Gets information about a list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list model ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetClosedListResponse>
    */
@@ -1009,14 +1010,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list model ID.
    * @param callback The callback
    */
   getClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.ClosedListEntityExtractor>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list model ID.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1034,11 +1035,11 @@ export class Model {
   }
 
   /**
-   * Updates the closed list model.
+   * Updates the list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
-   * @param closedListModelUpdateObject The new entity name and words list.
+   * @param clEntityId The list model ID.
+   * @param closedListModelUpdateObject The new list entity name and words list.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateClosedListResponse>
    */
@@ -1046,16 +1047,16 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
-   * @param closedListModelUpdateObject The new entity name and words list.
+   * @param clEntityId The list model ID.
+   * @param closedListModelUpdateObject The new list entity name and words list.
    * @param callback The callback
    */
   updateClosedList(appId: string, versionId: string, clEntityId: string, closedListModelUpdateObject: Models.ClosedListModelUpdateObject, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
-   * @param closedListModelUpdateObject The new entity name and words list.
+   * @param clEntityId The list model ID.
+   * @param closedListModelUpdateObject The new list entity name and words list.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1074,10 +1075,10 @@ export class Model {
   }
 
   /**
-   * Adds a batch of sublists to an existing closedlist.
+   * Adds a batch of sublists to an existing list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list entity model ID.
    * @param closedListModelPatchObject A words list batch.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelPatchClosedListResponse>
@@ -1086,7 +1087,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list entity model ID.
    * @param closedListModelPatchObject A words list batch.
    * @param callback The callback
    */
@@ -1094,7 +1095,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list entity model ID.
    * @param closedListModelPatchObject A words list batch.
    * @param options The optional parameters
    * @param callback The callback
@@ -1114,10 +1115,10 @@ export class Model {
   }
 
   /**
-   * Deletes a closed list model from the application.
+   * Deletes a list entity model from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list entity model ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteClosedListResponse>
    */
@@ -1125,14 +1126,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list entity model ID.
    * @param callback The callback
    */
   deleteClosedList(appId: string, versionId: string, clEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list model ID.
+   * @param clEntityId The list entity model ID.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1150,7 +1151,7 @@ export class Model {
   }
 
   /**
-   * Gets information about the prebuilt entity model.
+   * Gets information about a prebuilt entity model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
@@ -1186,7 +1187,7 @@ export class Model {
   }
 
   /**
-   * Deletes a prebuilt entity extractor from the application.
+   * Deletes a prebuilt entity extractor from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltId The prebuilt entity extractor ID.
@@ -1222,10 +1223,10 @@ export class Model {
   }
 
   /**
-   * Deletes a sublist of a specific closed list model.
+   * Deletes a sublist of a specific list entity model from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param subListId The sublist ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteSubListResponse>
@@ -1234,7 +1235,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param subListId The sublist ID.
    * @param callback The callback
    */
@@ -1242,7 +1243,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param subListId The sublist ID.
    * @param options The optional parameters
    * @param callback The callback
@@ -1262,10 +1263,10 @@ export class Model {
   }
 
   /**
-   * Updates one of the closed list's sublists.
+   * Updates one of the list entity's sublists in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param subListId The sublist ID.
    * @param wordListBaseUpdateObject A sublist update object containing the new canonical form and
    * the list of words.
@@ -1276,7 +1277,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param subListId The sublist ID.
    * @param wordListBaseUpdateObject A sublist update object containing the new canonical form and
    * the list of words.
@@ -1286,7 +1287,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param subListId The sublist ID.
    * @param wordListBaseUpdateObject A sublist update object containing the new canonical form and
    * the list of words.
@@ -1309,21 +1310,22 @@ export class Model {
   }
 
   /**
-   * Suggests examples that would improve the accuracy of the intent model.
+   * Suggests example utterances that would improve the accuracy of the intent model in a version of
+   * the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetIntentSuggestionsResponse>
+   * @returns Promise<Models.ModelListIntentSuggestionsResponse>
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams): Promise<Models.ModelGetIntentSuggestionsResponse>;
+  listIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelListIntentSuggestionsOptionalParams): Promise<Models.ModelListIntentSuggestionsResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param intentId The intent classifier ID.
    * @param callback The callback
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
+  listIntentSuggestions(appId: string, versionId: string, intentId: string, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1331,8 +1333,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options: Models.ModelGetIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
-  getIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelGetIntentSuggestionsOptionalParams | msRest.ServiceCallback<Models.IntentsSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): Promise<Models.ModelGetIntentSuggestionsResponse> {
+  listIntentSuggestions(appId: string, versionId: string, intentId: string, options: Models.ModelListIntentSuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): void;
+  listIntentSuggestions(appId: string, versionId: string, intentId: string, options?: Models.ModelListIntentSuggestionsOptionalParams | msRest.ServiceCallback<Models.IntentsSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.IntentsSuggestionExample[]>): Promise<Models.ModelListIntentSuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1340,26 +1342,27 @@ export class Model {
         intentId,
         options
       },
-      getIntentSuggestionsOperationSpec,
-      callback) as Promise<Models.ModelGetIntentSuggestionsResponse>;
+      listIntentSuggestionsOperationSpec,
+      callback) as Promise<Models.ModelListIntentSuggestionsResponse>;
   }
 
   /**
-   * Get suggestion examples that would improve the accuracy of the entity model.
+   * Get suggested example utterances that would improve the accuracy of the entity model in a
+   * version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The target entity extractor model to enhance.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetEntitySuggestionsResponse>
+   * @returns Promise<Models.ModelListEntitySuggestionsResponse>
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams): Promise<Models.ModelGetEntitySuggestionsResponse>;
+  listEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelListEntitySuggestionsOptionalParams): Promise<Models.ModelListEntitySuggestionsResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The target entity extractor model to enhance.
    * @param callback The callback
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
+  listEntitySuggestions(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -1367,8 +1370,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options: Models.ModelGetEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
-  getEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelGetEntitySuggestionsOptionalParams | msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): Promise<Models.ModelGetEntitySuggestionsResponse> {
+  listEntitySuggestions(appId: string, versionId: string, entityId: string, options: Models.ModelListEntitySuggestionsOptionalParams, callback: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): void;
+  listEntitySuggestions(appId: string, versionId: string, entityId: string, options?: Models.ModelListEntitySuggestionsOptionalParams | msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>, callback?: msRest.ServiceCallback<Models.EntitiesSuggestionExample[]>): Promise<Models.ModelListEntitySuggestionsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -1376,15 +1379,15 @@ export class Model {
         entityId,
         options
       },
-      getEntitySuggestionsOperationSpec,
-      callback) as Promise<Models.ModelGetEntitySuggestionsResponse>;
+      listEntitySuggestionsOperationSpec,
+      callback) as Promise<Models.ModelListEntitySuggestionsResponse>;
   }
 
   /**
-   * Adds a list to an existing closed list.
+   * Adds a sublist to an existing list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param wordListCreateObject Words list.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddSubListResponse>
@@ -1393,7 +1396,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param wordListCreateObject Words list.
    * @param callback The callback
    */
@@ -1401,7 +1404,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param clEntityId The closed list entity extractor ID.
+   * @param clEntityId The list entity extractor ID.
    * @param wordListCreateObject Words list.
    * @param options The optional parameters
    * @param callback The callback
@@ -1421,7 +1424,8 @@ export class Model {
   }
 
   /**
-   * Adds a customizable prebuilt domain along with all of its models to this application.
+   * Adds a customizable prebuilt domain along with all of its intent and entity models in a version
+   * of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param prebuiltDomainObject A prebuilt domain create object containing the name of the domain.
@@ -1457,11 +1461,11 @@ export class Model {
   }
 
   /**
-   * Adds a custom prebuilt intent model to the application.
+   * Adds a customizable prebuilt intent model to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
-   * intent and the name of the domain to which this model belongs.
+   * @param prebuiltDomainModelCreateObject A model object containing the name of the customizable
+   * prebuilt intent and the name of the domain to which this model belongs.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddCustomPrebuiltIntentResponse>
    */
@@ -1469,16 +1473,16 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
-   * intent and the name of the domain to which this model belongs.
+   * @param prebuiltDomainModelCreateObject A model object containing the name of the customizable
+   * prebuilt intent and the name of the domain to which this model belongs.
    * @param callback The callback
    */
   addCustomPrebuiltIntent(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
-   * intent and the name of the domain to which this model belongs.
+   * @param prebuiltDomainModelCreateObject A model object containing the name of the customizable
+   * prebuilt intent and the name of the domain to which this model belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1496,7 +1500,7 @@ export class Model {
   }
 
   /**
-   * Gets custom prebuilt intents information of this application.
+   * Gets information about customizable prebuilt intents added to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -1528,11 +1532,11 @@ export class Model {
   }
 
   /**
-   * Adds a custom prebuilt entity model to the application.
+   * Adds a prebuilt entity model to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
-   * entity and the name of the domain to which this model belongs.
+   * @param prebuiltDomainModelCreateObject A model object containing the name of the prebuilt entity
+   * and the name of the domain to which this model belongs.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelAddCustomPrebuiltEntityResponse>
    */
@@ -1540,16 +1544,16 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
-   * entity and the name of the domain to which this model belongs.
+   * @param prebuiltDomainModelCreateObject A model object containing the name of the prebuilt entity
+   * and the name of the domain to which this model belongs.
    * @param callback The callback
    */
   addCustomPrebuiltEntity(appId: string, versionId: string, prebuiltDomainModelCreateObject: Models.PrebuiltDomainModelCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param prebuiltDomainModelCreateObject A model object containing the name of the custom prebuilt
-   * entity and the name of the domain to which this model belongs.
+   * @param prebuiltDomainModelCreateObject A model object containing the name of the prebuilt entity
+   * and the name of the domain to which this model belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1567,7 +1571,7 @@ export class Model {
   }
 
   /**
-   * Gets all custom prebuilt entities information of this application.
+   * Gets all prebuilt entities used in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -1599,7 +1603,7 @@ export class Model {
   }
 
   /**
-   * Gets all custom prebuilt models information of this application.
+   * Gets all prebuilt intent and entity model information used in a version of this application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -1631,7 +1635,7 @@ export class Model {
   }
 
   /**
-   * Deletes a prebuilt domain's models from the application.
+   * Deletes a prebuilt domain's models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param domainName Domain name.
@@ -1667,7 +1671,8 @@ export class Model {
   }
 
   /**
-   * Gets information about the hierarchical entity child model.
+   * Gets information about the child's model contained in an hierarchical entity child model in a
+   * version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1707,7 +1712,7 @@ export class Model {
   }
 
   /**
-   * Renames a single child in an existing hierarchical entity model.
+   * Renames a single child in an existing hierarchical entity model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1754,7 +1759,7 @@ export class Model {
   }
 
   /**
-   * Deletes a hierarchical entity extractor child from the application.
+   * Deletes a hierarchical entity extractor child in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1794,7 +1799,7 @@ export class Model {
   }
 
   /**
-   * Creates a single child in an existing hierarchical entity model.
+   * Creates a single child in an existing hierarchical entity model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -1837,7 +1842,7 @@ export class Model {
   }
 
   /**
-   * Creates a single child in an existing composite entity model.
+   * Creates a single child in an existing composite entity model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -1880,7 +1885,7 @@ export class Model {
   }
 
   /**
-   * Deletes a composite entity extractor child from the application.
+   * Deletes a composite entity extractor child from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -1920,43 +1925,44 @@ export class Model {
   }
 
   /**
-   * @summary Gets information about the regex entity models.
+   * @summary Gets information about the regular expression entity models in a version of the
+   * application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetRegexEntityInfosResponse>
+   * @returns Promise<Models.ModelListRegexEntityInfosResponse>
    */
-  getRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams): Promise<Models.ModelGetRegexEntityInfosResponse>;
+  listRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelListRegexEntityInfosOptionalParams): Promise<Models.ModelListRegexEntityInfosResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getRegexEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
+  listRegexEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityInfos(appId: string, versionId: string, options: Models.ModelGetRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
-  getRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelGetRegexEntityInfosOptionalParams | msRest.ServiceCallback<Models.RegexEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): Promise<Models.ModelGetRegexEntityInfosResponse> {
+  listRegexEntityInfos(appId: string, versionId: string, options: Models.ModelListRegexEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): void;
+  listRegexEntityInfos(appId: string, versionId: string, options?: Models.ModelListRegexEntityInfosOptionalParams | msRest.ServiceCallback<Models.RegexEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.RegexEntityExtractor[]>): Promise<Models.ModelListRegexEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         versionId,
         options
       },
-      getRegexEntityInfosOperationSpec,
-      callback) as Promise<Models.ModelGetRegexEntityInfosResponse>;
+      listRegexEntityInfosOperationSpec,
+      callback) as Promise<Models.ModelListRegexEntityInfosResponse>;
   }
 
   /**
-   * @summary Adds a regex entity model to the application version.
+   * @summary Adds a regular expression entity model to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityExtractorCreateObj A model object containing the name and regex pattern for
-   * the new regex entity extractor.
+   * the new regular expression entity extractor.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelCreateRegexEntityModelResponse>
    */
@@ -1965,7 +1971,7 @@ export class Model {
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityExtractorCreateObj A model object containing the name and regex pattern for
-   * the new regex entity extractor.
+   * the new regular expression entity extractor.
    * @param callback The callback
    */
   createRegexEntityModel(appId: string, versionId: string, regexEntityExtractorCreateObj: Models.RegexModelCreateObject, callback: msRest.ServiceCallback<string>): void;
@@ -1973,7 +1979,7 @@ export class Model {
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param regexEntityExtractorCreateObj A model object containing the name and regex pattern for
-   * the new regex entity extractor.
+   * the new regular expression entity extractor.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1991,39 +1997,39 @@ export class Model {
   }
 
   /**
-   * @summary Get information about the Pattern.Any entity models.
+   * @summary Get information about the Pattern.Any entity models in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetPatternAnyEntityInfosResponse>
+   * @returns Promise<Models.ModelListPatternAnyEntityInfosResponse>
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams): Promise<Models.ModelGetPatternAnyEntityInfosResponse>;
+  listPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelListPatternAnyEntityInfosOptionalParams): Promise<Models.ModelListPatternAnyEntityInfosResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
+  listPatternAnyEntityInfos(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityInfos(appId: string, versionId: string, options: Models.ModelGetPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
-  getPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelGetPatternAnyEntityInfosOptionalParams | msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): Promise<Models.ModelGetPatternAnyEntityInfosResponse> {
+  listPatternAnyEntityInfos(appId: string, versionId: string, options: Models.ModelListPatternAnyEntityInfosOptionalParams, callback: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): void;
+  listPatternAnyEntityInfos(appId: string, versionId: string, options?: Models.ModelListPatternAnyEntityInfosOptionalParams | msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>, callback?: msRest.ServiceCallback<Models.PatternAnyEntityExtractor[]>): Promise<Models.ModelListPatternAnyEntityInfosResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         versionId,
         options
       },
-      getPatternAnyEntityInfosOperationSpec,
-      callback) as Promise<Models.ModelGetPatternAnyEntityInfosResponse>;
+      listPatternAnyEntityInfosOperationSpec,
+      callback) as Promise<Models.ModelListPatternAnyEntityInfosResponse>;
   }
 
   /**
-   * @summary Adds a pattern.any entity extractor to the application.
+   * @summary Adds a pattern.any entity extractor to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param extractorCreateObject A model object containing the name and explicit list for the new
@@ -2062,21 +2068,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get all roles for an entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetEntityRolesResponse>
+   * @returns Promise<Models.ModelListEntityRolesResponse>
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetEntityRolesResponse>;
+  listEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2084,8 +2090,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetEntityRolesResponse> {
+  listEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2093,12 +2099,12 @@ export class Model {
         entityId,
         options
       },
-      getEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetEntityRolesResponse>;
+      listEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create an entity role in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2138,21 +2144,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get a prebuilt entity's roles in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetPrebuiltEntityRolesResponse>
+   * @returns Promise<Models.ModelListPrebuiltEntityRolesResponse>
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPrebuiltEntityRolesResponse>;
+  listPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListPrebuiltEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2160,8 +2166,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPrebuiltEntityRolesResponse> {
+  listPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2169,12 +2175,12 @@ export class Model {
         entityId,
         options
       },
-      getPrebuiltEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetPrebuiltEntityRolesResponse>;
+      listPrebuiltEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListPrebuiltEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create a role for a prebuilt entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2214,21 +2220,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get all roles for a list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetClosedListEntityRolesResponse>
+   * @returns Promise<Models.ModelListClosedListEntityRolesResponse>
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetClosedListEntityRolesResponse>;
+  listClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListClosedListEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listClosedListEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2236,8 +2242,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetClosedListEntityRolesResponse> {
+  listClosedListEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listClosedListEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListClosedListEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2245,12 +2251,12 @@ export class Model {
         entityId,
         options
       },
-      getClosedListEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetClosedListEntityRolesResponse>;
+      listClosedListEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListClosedListEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create a role for a list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2290,21 +2296,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get all roles for a regular expression entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetRegexEntityRolesResponse>
+   * @returns Promise<Models.ModelListRegexEntityRolesResponse>
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetRegexEntityRolesResponse>;
+  listRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListRegexEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listRegexEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2312,8 +2318,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetRegexEntityRolesResponse> {
+  listRegexEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listRegexEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListRegexEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2321,12 +2327,12 @@ export class Model {
         entityId,
         options
       },
-      getRegexEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetRegexEntityRolesResponse>;
+      listRegexEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListRegexEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create a role for an regular expression entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2366,21 +2372,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get all roles for a composite entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetCompositeEntityRolesResponse>
+   * @returns Promise<Models.ModelListCompositeEntityRolesResponse>
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCompositeEntityRolesResponse>;
+  listCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCompositeEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
    * @param callback The callback
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2388,8 +2394,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCompositeEntityRolesResponse> {
+  listCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCompositeEntityRoles(appId: string, versionId: string, cEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListCompositeEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2397,12 +2403,12 @@ export class Model {
         cEntityId,
         options
       },
-      getCompositeEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetCompositeEntityRolesResponse>;
+      listCompositeEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListCompositeEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create a role for a composite entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -2442,21 +2448,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get all roles for a Pattern.any entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetPatternAnyEntityRolesResponse>
+   * @returns Promise<Models.ModelListPatternAnyEntityRolesResponse>
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetPatternAnyEntityRolesResponse>;
+  listPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListPatternAnyEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2464,8 +2470,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetPatternAnyEntityRolesResponse> {
+  listPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listPatternAnyEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListPatternAnyEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2473,12 +2479,12 @@ export class Model {
         entityId,
         options
       },
-      getPatternAnyEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetPatternAnyEntityRolesResponse>;
+      listPatternAnyEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListPatternAnyEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create a role for an Pattern.any entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2518,21 +2524,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get all roles for a hierarchical entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetHierarchicalEntityRolesResponse>
+   * @returns Promise<Models.ModelListHierarchicalEntityRolesResponse>
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetHierarchicalEntityRolesResponse>;
+  listHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListHierarchicalEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
    * @param callback The callback
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2540,8 +2546,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetHierarchicalEntityRolesResponse> {
+  listHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listHierarchicalEntityRoles(appId: string, versionId: string, hEntityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListHierarchicalEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2549,12 +2555,12 @@ export class Model {
         hEntityId,
         options
       },
-      getHierarchicalEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetHierarchicalEntityRolesResponse>;
+      listHierarchicalEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListHierarchicalEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create a role for an hierarchical entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -2594,21 +2600,21 @@ export class Model {
   }
 
   /**
-   * @summary Get All Entity Roles for a given entity
+   * @summary Get all roles for a prebuilt entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param [options] The optional parameters
-   * @returns Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse>
+   * @returns Promise<Models.ModelListCustomPrebuiltEntityRolesResponse>
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse>;
+  listCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase): Promise<Models.ModelListCustomPrebuiltEntityRolesResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity Id
    * @param callback The callback
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -2616,8 +2622,8 @@ export class Model {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
-  getCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse> {
+  listCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntityRole[]>): void;
+  listCustomPrebuiltEntityRoles(appId: string, versionId: string, entityId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntityRole[]>, callback?: msRest.ServiceCallback<Models.EntityRole[]>): Promise<Models.ModelListCustomPrebuiltEntityRolesResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -2625,12 +2631,12 @@ export class Model {
         entityId,
         options
       },
-      getCustomPrebuiltEntityRolesOperationSpec,
-      callback) as Promise<Models.ModelGetCustomPrebuiltEntityRolesResponse>;
+      listCustomPrebuiltEntityRolesOperationSpec,
+      callback) as Promise<Models.ModelListCustomPrebuiltEntityRolesResponse>;
   }
 
   /**
-   * @summary Create an entity role for an entity in the application.
+   * @summary Create a role for a prebuilt entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity model ID.
@@ -2670,7 +2676,8 @@ export class Model {
   }
 
   /**
-   * @summary Get the explicit list of the pattern.any entity.
+   * @summary Get the explicit (exception) list of the pattern.any entity in a version of the
+   * application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity id.
@@ -2706,7 +2713,8 @@ export class Model {
   }
 
   /**
-   * @summary Add a new item to the explicit list for the Pattern.Any entity.
+   * @summary Add a new exception to the explicit list for the Pattern.Any entity in a version of the
+   * application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -2746,10 +2754,10 @@ export class Model {
   }
 
   /**
-   * @summary Gets information of a regex entity model.
+   * @summary Gets information about a regular expression entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity model ID.
+   * @param regexEntityId The regular expression entity model ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelGetRegexEntityEntityInfoResponse>
    */
@@ -2757,14 +2765,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity model ID.
+   * @param regexEntityId The regular expression entity model ID.
    * @param callback The callback
    */
   getRegexEntityEntityInfo(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.RegexEntityExtractor>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity model ID.
+   * @param regexEntityId The regular expression entity model ID.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -2782,10 +2790,10 @@ export class Model {
   }
 
   /**
-   * @summary Updates the regex entity model .
+   * @summary Updates the regular expression entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity extractor ID.
+   * @param regexEntityId The regular expression entity extractor ID.
    * @param regexEntityUpdateObject An object containing the new entity name and regex pattern.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelUpdateRegexEntityModelResponse>
@@ -2794,7 +2802,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity extractor ID.
+   * @param regexEntityId The regular expression entity extractor ID.
    * @param regexEntityUpdateObject An object containing the new entity name and regex pattern.
    * @param callback The callback
    */
@@ -2802,7 +2810,7 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity extractor ID.
+   * @param regexEntityId The regular expression entity extractor ID.
    * @param regexEntityUpdateObject An object containing the new entity name and regex pattern.
    * @param options The optional parameters
    * @param callback The callback
@@ -2822,10 +2830,10 @@ export class Model {
   }
 
   /**
-   * @summary Deletes a regex entity model from the application.
+   * @summary Deletes a regular expression entity from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity extractor ID.
+   * @param regexEntityId The regular expression entity extractor ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.ModelDeleteRegexEntityModelResponse>
    */
@@ -2833,14 +2841,14 @@ export class Model {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity extractor ID.
+   * @param regexEntityId The regular expression entity extractor ID.
    * @param callback The callback
    */
   deleteRegexEntityModel(appId: string, versionId: string, regexEntityId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param regexEntityId The regex entity extractor ID.
+   * @param regexEntityId The regular expression entity extractor ID.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -2858,7 +2866,7 @@ export class Model {
   }
 
   /**
-   * @summary Gets information about the application version's Pattern.Any model.
+   * @summary Gets information about the Pattern.Any model in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity extractor ID.
@@ -2894,7 +2902,8 @@ export class Model {
   }
 
   /**
-   * @summary Updates the name and explicit list of a Pattern.Any entity model.
+   * @summary Updates the name and explicit (exception) list of a Pattern.Any entity model in a
+   * version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -2934,7 +2943,7 @@ export class Model {
   }
 
   /**
-   * @summary Deletes a Pattern.Any entity extractor from the application.
+   * @summary Deletes a Pattern.Any entity extractor from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -2970,7 +2979,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3010,7 +3019,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3054,7 +3063,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete an entity role in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3094,7 +3103,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given prebuilt entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3134,7 +3143,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given prebuilt entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3178,7 +3187,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete a role in a prebuilt entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3218,7 +3227,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3258,7 +3267,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3302,7 +3311,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete a role for a given list entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3342,7 +3351,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given regular expression entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3382,7 +3391,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given regular expression entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3426,7 +3435,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete a role for a given regular expression in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3466,7 +3475,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given composite entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3506,7 +3515,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given composite entity in a version of the application
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3550,7 +3559,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete a role for a given composite entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param cEntityId The composite entity extractor ID.
@@ -3590,7 +3599,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given Pattern.any entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3630,7 +3639,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given Pattern.any entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3674,7 +3683,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete a role for a given Pattern.any entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3714,7 +3723,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given hierarchical entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3754,7 +3763,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given hierarchical entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3798,7 +3807,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete a role for a given hierarchical role in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param hEntityId The hierarchical entity extractor ID.
@@ -3838,7 +3847,7 @@ export class Model {
   }
 
   /**
-   * @summary Get one entity role for a given entity
+   * @summary Get one role for a given prebuilt entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId entity ID.
@@ -3878,7 +3887,7 @@ export class Model {
   }
 
   /**
-   * @summary Update an entity role for a given entity
+   * @summary Update a role for a given prebuilt entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3922,7 +3931,7 @@ export class Model {
   }
 
   /**
-   * @summary Delete an entity role.
+   * @summary Delete a role for a given prebuilt entity in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The entity ID.
@@ -3962,7 +3971,8 @@ export class Model {
   }
 
   /**
-   * @summary Get the explicit list of the pattern.any entity.
+   * @summary Get the explicit (exception) list of the pattern.any entity in a version of the
+   * application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity Id.
@@ -4002,7 +4012,8 @@ export class Model {
   }
 
   /**
-   * @summary Updates an explicit list item for a Pattern.Any entity.
+   * @summary Updates an explicit (exception) list item for a Pattern.Any entity in a version of the
+   * application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The Pattern.Any entity extractor ID.
@@ -4046,7 +4057,8 @@ export class Model {
   }
 
   /**
-   * @summary Delete the explicit list item from the Pattern.any explicit list.
+   * @summary Delete an item from the explicit (exception) list for a Pattern.any entity in a version
+   * of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param entityId The pattern.any entity id.
@@ -5043,7 +5055,7 @@ const updateSubListOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
+const listIntentSuggestionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/intents/{intentId}/suggest",
   urlParameters: [
@@ -5077,7 +5089,7 @@ const getIntentSuggestionsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntitySuggestionsOperationSpec: msRest.OperationSpec = {
+const listEntitySuggestionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/suggest",
   urlParameters: [
@@ -5506,7 +5518,7 @@ const deleteCompositeEntityChildOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getRegexEntityInfosOperationSpec: msRest.OperationSpec = {
+const listRegexEntityInfosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/regexentities",
   urlParameters: [
@@ -5571,7 +5583,7 @@ const createRegexEntityModelOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
+const listPatternAnyEntityInfosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities",
   urlParameters: [
@@ -5636,7 +5648,7 @@ const createPatternAnyEntityModelOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getEntityRolesOperationSpec: msRest.OperationSpec = {
+const listEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/entities/{entityId}/roles",
   urlParameters: [
@@ -5699,7 +5711,7 @@ const createEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
+const listPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/prebuilts/{entityId}/roles",
   urlParameters: [
@@ -5762,7 +5774,7 @@ const createPrebuiltEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
+const listClosedListEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/closedlists/{entityId}/roles",
   urlParameters: [
@@ -5825,7 +5837,7 @@ const createClosedListEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getRegexEntityRolesOperationSpec: msRest.OperationSpec = {
+const listRegexEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/regexentities/{entityId}/roles",
   urlParameters: [
@@ -5888,7 +5900,7 @@ const createRegexEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
+const listCompositeEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/compositeentities/{cEntityId}/roles",
   urlParameters: [
@@ -5951,7 +5963,7 @@ const createCompositeEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
+const listPatternAnyEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/patternanyentities/{entityId}/roles",
   urlParameters: [
@@ -6014,7 +6026,7 @@ const createPatternAnyEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
+const listHierarchicalEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/hierarchicalentities/{hEntityId}/roles",
   urlParameters: [
@@ -6077,7 +6089,7 @@ const createHierarchicalEntityRoleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
+const listCustomPrebuiltEntityRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/customprebuiltentities/{entityId}/roles",
   urlParameters: [
