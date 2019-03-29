@@ -271,6 +271,20 @@ export const HanaInstance: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      proximityPlacementGroup: {
+        readOnly: true,
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "String"
+        }
+      },
+      hwRevision: {
+        readOnly: true,
+        serializedName: "properties.hwRevision",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -359,6 +373,87 @@ export const ErrorResponse: msRest.CompositeMapper = {
       },
       message: {
         serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Tags: msRest.CompositeMapper = {
+  serializedName: "Tags",
+  type: {
+    name: "Composite",
+    className: "Tags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MonitoringDetails: msRest.CompositeMapper = {
+  serializedName: "MonitoringDetails",
+  type: {
+    name: "Composite",
+    className: "MonitoringDetails",
+    modelProperties: {
+      hanaVnet: {
+        readOnly: true,
+        serializedName: "hanaVnet",
+        type: {
+          name: "String"
+        }
+      },
+      hanaHostname: {
+        readOnly: true,
+        serializedName: "hanaHostname",
+        type: {
+          name: "String"
+        }
+      },
+      hanaInstanceNum: {
+        readOnly: true,
+        serializedName: "hanaInstanceNum",
+        type: {
+          name: "String"
+        }
+      },
+      dbContainer: {
+        readOnly: true,
+        serializedName: "dbContainer",
+        defaultValue: 'single',
+        type: {
+          name: "String"
+        }
+      },
+      hanaDatabase: {
+        readOnly: true,
+        serializedName: "hanaDatabase",
+        type: {
+          name: "String"
+        }
+      },
+      hanaDbUsername: {
+        readOnly: true,
+        serializedName: "hanaDbUsername",
+        type: {
+          name: "String"
+        }
+      },
+      hanaDbPassword: {
+        readOnly: true,
+        serializedName: "hanaDbPassword",
         type: {
           name: "String"
         }

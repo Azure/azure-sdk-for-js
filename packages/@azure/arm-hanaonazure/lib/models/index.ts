@@ -72,8 +72,8 @@ export interface HardwareProfile {
   /**
    * @member {HanaInstanceSizeNamesEnum} [hanaInstanceSize] Specifies the HANA
    * instance SKU. Possible values include: 'S72m', 'S144m', 'S72', 'S144',
-   * 'S192', 'S192m', 'S192xm', 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m',
-   * 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
+   * 'S192', 'S192m', 'S192xm', 'S96', 'S384', 'S384m', 'S384xm', 'S384xxm',
+   * 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -158,7 +158,7 @@ export interface OSProfile {
 /**
  * @interface
  * An interface representing IpAddress.
- * Specifies the IP address of the network interaface.
+ * Specifies the IP address of the network interface.
  *
  */
 export interface IpAddress {
@@ -234,6 +234,19 @@ export interface HanaInstance extends Resource {
    * the server.**
    */
   readonly powerState?: HanaInstancePowerStateEnum;
+  /**
+   * @member {string} [proximityPlacementGroup] Resource proximity placement
+   * group
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly proximityPlacementGroup?: string;
+  /**
+   * @member {string} [hwRevision] Hardware revision of a HANA instance
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hwRevision?: string;
 }
 
 /**
@@ -329,6 +342,78 @@ export interface ErrorResponse {
 
 /**
  * @interface
+ * An interface representing Tags.
+ * Tags field of the HANA instance.
+ *
+ */
+export interface Tags {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Tags field of the HANA
+   * instance.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing MonitoringDetails.
+ * Details needed to monitor a Hana Instance
+ *
+ */
+export interface MonitoringDetails {
+  /**
+   * @member {string} [hanaVnet] ARM ID of an Azure Vnet with access to the
+   * HANA instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hanaVnet?: string;
+  /**
+   * @member {string} [hanaHostname] Hostname of the HANA Instance blade.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hanaHostname?: string;
+  /**
+   * @member {string} [hanaInstanceNum] A number between 00 and 99, stored as a
+   * string to maintain leading zero.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hanaInstanceNum?: string;
+  /**
+   * @member {HanaDatabaseContainersEnum} [dbContainer] Either single or
+   * multiple depending on the use of MDC(Multiple Database Containers).
+   * Possible values include: 'single', 'multiple'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**. Default value: 'single' .
+   */
+  readonly dbContainer?: HanaDatabaseContainersEnum;
+  /**
+   * @member {string} [hanaDatabase] Name of the database itself.  It only
+   * needs to be specified if using MDC
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hanaDatabase?: string;
+  /**
+   * @member {string} [hanaDbUsername] Username for the HANA database to login
+   * to for monitoring
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hanaDbUsername?: string;
+  /**
+   * @member {string} [hanaDbPassword] Password for the HANA database to login
+   * for monitoring
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly hanaDbPassword?: string;
+}
+
+/**
+ * @interface
  * An interface representing HanaManagementClientOptions.
  * @extends AzureServiceClientOptions
  */
@@ -374,12 +459,12 @@ export type HanaHardwareTypeNamesEnum = 'Cisco_UCS' | 'HPE';
 
 /**
  * Defines values for HanaInstanceSizeNamesEnum.
- * Possible values include: 'S72m', 'S144m', 'S72', 'S144', 'S192', 'S192m', 'S192xm', 'S384',
- * 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
+ * Possible values include: 'S72m', 'S144m', 'S72', 'S144', 'S192', 'S192m', 'S192xm', 'S96',
+ * 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
  * @readonly
  * @enum {string}
  */
-export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m';
+export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m';
 
 /**
  * Defines values for HanaInstancePowerStateEnum.
@@ -388,6 +473,14 @@ export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S19
  * @enum {string}
  */
 export type HanaInstancePowerStateEnum = 'starting' | 'started' | 'stopping' | 'stopped' | 'restarting' | 'unknown';
+
+/**
+ * Defines values for HanaDatabaseContainersEnum.
+ * Possible values include: 'single', 'multiple'
+ * @readonly
+ * @enum {string}
+ */
+export type HanaDatabaseContainersEnum = 'single' | 'multiple';
 
 /**
  * Contains response data for the list operation.
@@ -450,6 +543,25 @@ export type HanaInstancesListByResourceGroupResponse = HanaInstancesListResult &
  * Contains response data for the get operation.
  */
 export type HanaInstancesGetResponse = HanaInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HanaInstance;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type HanaInstancesUpdateResponse = HanaInstance & {
   /**
    * The underlying HTTP response.
    */
