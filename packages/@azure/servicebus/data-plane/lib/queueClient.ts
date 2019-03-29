@@ -4,11 +4,11 @@
 import * as Long from "long";
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { ReceivedMessageInfo } from "./serviceBusMessage";
+import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
 import { Client } from "./client";
 import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
-import { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
+import { Receiver, SessionReceiver } from "./receiver";
 import { throwErrorIfConnectionClosed } from "./util/utils";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
@@ -58,7 +58,7 @@ export class QueueClient implements Client {
 
   /**
    * Closes all the AMQP links for sender/receivers created by this client.
-   * Once closed, neither the QueueClient nor its sender/recievers can be used for any
+   * Once closed, neither the QueueClient nor its sender/receivers can be used for any
    * further operations. Use the `createQueueClient` function on the Namespace object to
    * instantiate a new QueueClient
    *
@@ -147,20 +147,93 @@ export class QueueClient implements Client {
   }
 
   /**
-   * Creates a Receiver to be used for receiving messages in batches or by registering handlers.
+   * Creates a Receiver for receiving messages from a Queue which does not have sessions enabled.
    * Throws error if an open receiver already exists for this QueueClient.
-   * @param options Options for creating the receiver.
+   *
+   * Throws error if the Queue has sessions enabled.
+   *
+   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
+   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   *
+   * @returns Promise<Receiver> A promise that resolves to a receiver to receive messages from a
+   * Queue which does not have sessions enabled.
    */
-  createReceiver(options?: MessageReceiverOptions): Receiver {
+  public async createReceiver(receiveMode: ReceiveMode): Promise<Receiver>;
+  /**
+   * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
+   * given, a random session among the available sessions is used.
+   *
+   * Throws error if an open receiver already exists for given sessionId.
+   * Throws error if the Queue does not have sessions enabled.
+   *
+   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
+   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * @param sessionOptions Options to provide sessionId and duration of automatic lock renewal for
+   * the session receiver.
+   *
+   * @returns Promise<SessionReceiver> A promise that resolves to a receiver to receive from a
+   * session in the Queue.
+   */
+  public async createReceiver(
+    receiveMode: ReceiveMode,
+    sessionOptions: SessionReceiverOptions
+  ): Promise<SessionReceiver>;
+  /**
+   * Create a Receiver for receiving messages from a Queue.
+   *
+   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
+   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
+   * @param sessionOptions Applicable only for Queues that have sessions enabled. Use these options
+   * to provide sessionId and duration for which automatic lock renewal for should be done for the
+   * receiver.
+   *
+   * @returns Promise<Receiver|SessionReceiver> A promise that resolves to a receiver to receive
+   * from a session in the Queue if `sessionOptions` were provided. Else, the promise resolves to a
+   * receiver to receive messages from the Queue.
+   */
+  public async createReceiver(
+    receiveMode: ReceiveMode,
+    sessionOptions?: SessionReceiverOptions
+  ): Promise<Receiver | SessionReceiver> {
     this._throwErrorIfClientOrConnectionClosed();
-    if (!this._currentReceiver || this._currentReceiver.isClosed) {
-      this._currentReceiver = new Receiver(this._context, options);
-      return this._currentReceiver;
+
+    // Receiver for Queue where sessions are not enabled
+    if (!sessionOptions) {
+      if (!this._currentReceiver || this._currentReceiver.isClosed) {
+        this._currentReceiver = new Receiver(this._context, receiveMode);
+        return this._currentReceiver;
+      }
+      throw new Error(
+        "An open receiver already exists on this QueueClient. Please close it and try" +
+          " again or use a new QueueClient instance"
+      );
     }
-    throw new Error(
-      "An open receiver already exists on this QueueClient. Please close it and try" +
-        " again or use a new QueueClient instance"
-    );
+
+    // Check if receiver for given session already exists
+    if (sessionOptions.sessionId) {
+      if (
+        this._context.messageSessions[sessionOptions.sessionId] &&
+        this._context.messageSessions[sessionOptions.sessionId].isOpen()
+      ) {
+        throw new Error(
+          `An open receiver already exists for sessionId '${
+            sessionOptions.sessionId
+          }'. Please close it and try again.`
+        );
+      }
+    }
+
+    this._context.isSessionEnabled = true;
+    const messageSession = await MessageSession.create(this._context, {
+      sessionId: sessionOptions.sessionId,
+      maxSessionAutoRenewLockDurationInSeconds:
+        sessionOptions.maxSessionAutoRenewLockDurationInSeconds,
+      receiveMode
+    });
+    if (messageSession.sessionId) {
+      delete this._context.expiredMessageSessions[messageSession.sessionId];
+    }
+    return new SessionReceiver(this._context, messageSession);
   }
 
   /**
@@ -217,39 +290,6 @@ export class QueueClient implements Client {
   //     lastUpdatedTime
   //   );
   // }
-
-  /**
-   * Creates a SessionReceiver for receiving messages in batches or by registering handlers from a
-   * session enabled Queue. When no sessionId is given, a random session among the available
-   * sessions is used.
-   * Throws error if an open receiver already exists for given sessionId.
-   * @param options Options to provide sessionId and ReceiveMode for receiving messages from the
-   * session enabled Servicebus Queue.
-   *
-   * @returns SessionReceiver An instance of a SessionReceiver to receive messages from the session.
-   */
-  async createSessionReceiver(options?: SessionReceiverOptions): Promise<SessionReceiver> {
-    this._throwErrorIfClientOrConnectionClosed();
-    if (!options) options = {};
-    if (options.sessionId) {
-      if (
-        this._context.messageSessions[options.sessionId] &&
-        this._context.messageSessions[options.sessionId].isOpen()
-      ) {
-        throw new Error(
-          `An open receiver already exists for sessionId '${
-            options.sessionId
-          }'. Please close it and try again.`
-        );
-      }
-    }
-    this._context.isSessionEnabled = true;
-    const messageSession = await MessageSession.create(this._context, options);
-    if (messageSession.sessionId) {
-      delete this._context.expiredMessageSessions[messageSession.sessionId];
-    }
-    return new SessionReceiver(this._context, messageSession);
-  }
 
   /**
    * Throws error if this queueClient has been closed

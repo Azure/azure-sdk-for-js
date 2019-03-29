@@ -11,17 +11,6 @@ import { MessageSession, SessionMessageHandlerOptions } from "./session/messageS
 import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
- * Describes the options for creating a Receiver.
- */
-export interface MessageReceiverOptions {
-  /**
-   * An enum indicating the mode in which messages should be received.
-   * Possible values are `ReceiveMode.peekLock` (default) and `ReceiveMode.receiveAndDelete`
-   */
-  receiveMode?: ReceiveMode;
-}
-
-/**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
  * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
@@ -46,14 +35,11 @@ export class Receiver {
   /**
    * @internal
    */
-  constructor(context: ClientEntityContext, options?: MessageReceiverOptions) {
+  constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
-    if (!options) {
-      options = {};
-    }
-    this._receiveMode =
-      options.receiveMode === undefined ? ReceiveMode.peekLock : options.receiveMode;
+
+    this._receiveMode = receiveMode;
   }
 
   /**
