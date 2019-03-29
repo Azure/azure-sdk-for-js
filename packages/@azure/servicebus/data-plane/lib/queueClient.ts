@@ -58,7 +58,7 @@ export class QueueClient implements Client {
 
   /**
    * Closes all the AMQP links for sender/receivers created by this client.
-   * Once closed, neither the QueueClient nor its sender/recievers can be used for any
+   * Once closed, neither the QueueClient nor its sender/receivers can be used for any
    * further operations. Use the `createQueueClient` function on the Namespace object to
    * instantiate a new QueueClient
    *
@@ -152,13 +152,13 @@ export class QueueClient implements Client {
    *
    * Throws error if the Queue has sessions enabled.
    *
-   * @param recieveMode An enum indicating the mode in which messages should be received. Possible
+   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
    *
-   * @returns Promise<Reciever> A promise that resolves to a receiver to receive messages from a
+   * @returns Promise<Receiver> A promise that resolves to a receiver to receive messages from a
    * Queue which does not have sessions enabled.
    */
-  public async createReceiver(recieveMode: ReceiveMode): Promise<Receiver>;
+  public async createReceiver(receiveMode: ReceiveMode): Promise<Receiver>;
   /**
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
    * given, a random session among the available sessions is used.
@@ -166,12 +166,12 @@ export class QueueClient implements Client {
    * Throws error if an open receiver already exists for given sessionId.
    * Throws error if the Queue does not have sessions enabled.
    *
-   * @param recieveMode An enum indicating the mode in which messages should be received. Possible
+   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
    * @param sessionOptions Options to provide sessionId and duration of automatic lock renewal for
    * the session receiver.
    *
-   * @returns Promise<SessionReciever> A promise that resolves to a receiver to receive from a
+   * @returns Promise<SessionReceiver> A promise that resolves to a receiver to receive from a
    * session in the Queue.
    */
   public async createReceiver(
@@ -181,13 +181,13 @@ export class QueueClient implements Client {
   /**
    * Create a Receiver for receiving messages from a Queue.
    *
-   * @param recieveMode An enum indicating the mode in which messages should be received. Possible
+   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
    * @param sessionOptions Applicable only for Queues that have sessions enabled. Use these options
    * to provide sessionId and duration for which automatic lock renewal for should be done for the
    * receiver.
    *
-   * @returns Promise<Receiver|SessionReciever> A promise that resolves to a receiver to receive
+   * @returns Promise<Receiver|SessionReceiver> A promise that resolves to a receiver to receive
    * from a session in the Queue if `sessionOptions` were provided. Else, the promise resolves to a
    * receiver to receive messages from the Queue.
    */
