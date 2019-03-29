@@ -10,9 +10,12 @@
 
 export {
   discriminators,
-  OperationListResult,
-  Operation,
-  OperationDisplay,
-  CloudError
+  BaselineResponse,
+  LocalizableString,
+  Baseline,
+  BaselineMetadataValue,
+  ErrorResponse,
+  TimeSeriesInformation,
+  CalculateBaselineResponse
 } from "../models/mappers";
 
