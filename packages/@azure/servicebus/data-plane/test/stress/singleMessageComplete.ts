@@ -1,0 +1,91 @@
+import { ServiceBusClient, SendableMessageInfo, OnMessage, OnError, delay } from "../../lib";
+
+const connectionString = "";
+const queueName = "";
+
+const testDurationInMilliseconds = 60000 * 5 * 12 * 24 * 7; // 1 week
+
+const messageMap: Set<number> = new Set<number>();
+let msgId = 1;
+
+let snapshotIntervalID: any;
+
+let isJobDone = false;
+
+async function main(): Promise<void> {
+  snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
+  sendMessages();
+  receiveMessages();
+}
+
+async function sendMessages(): Promise<void> {
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const client = ns.createQueueClient(queueName);
+  try {
+    const sender = client.createSender();
+
+    while (!isJobDone) {
+      const message: SendableMessageInfo = {
+        messageId: msgId,
+        body: "test",
+        label: `${msgId}`
+      };
+      messageMap.add(msgId);
+      msgId++;
+      await sender.send(message);
+      await delay(2000); // Throttling send to not increase queue size
+    }
+  } finally {
+    client.close();
+    ns.close();
+  }
+}
+
+async function receiveMessages(): Promise<void> {
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const client = ns.createQueueClient(queueName);
+
+  try {
+    const receiver = client.createReceiver();
+    const onMessageHandler: OnMessage = async (brokeredMessage) => {
+      const receivedMsgId = brokeredMessage.messageId;
+
+      if (typeof receivedMsgId !== "number") {
+        throw new Error("MessageId is corrupt or is of unexpected type");
+      }
+
+      if (!messageMap.has(receivedMsgId)) {
+        throw new Error("Received message that is not recorded in internal map.");
+      }
+
+      messageMap.delete(receivedMsgId);
+
+      await brokeredMessage.complete();
+    };
+    const onErrorHandler: OnError = (err) => {
+      throw err;
+    };
+
+    receiver.receive(onMessageHandler, onErrorHandler, { autoComplete: false });
+    await delay(testDurationInMilliseconds);
+
+    isJobDone = true;
+
+    await receiver.close();
+    clearInterval(snapshotIntervalID);
+  } finally {
+    client.close();
+    ns.close();
+  }
+}
+
+function snapshot(): void {
+  console.log("Time : ", new Date());
+  console.log("Map Size : ", messageMap.size);
+  console.log("Number of messages sent and received successfully so far : ", msgId);
+  console.log("\n");
+}
+
+main().catch((err) => {
+  console.log("Error occurred: ", err);
+});
