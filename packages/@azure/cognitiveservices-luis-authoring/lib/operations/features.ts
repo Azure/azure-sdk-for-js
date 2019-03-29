@@ -27,7 +27,42 @@ export class Features {
   }
 
   /**
-   * Creates a new phraselist feature.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets all the pattern features.
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
+   * @returns Promise<Models.FeaturesListApplicationVersionPatternFeaturesResponse>
+   */
+  listApplicationVersionPatternFeatures(appId: string, versionId: string, options?: Models.FeaturesListApplicationVersionPatternFeaturesOptionalParams): Promise<Models.FeaturesListApplicationVersionPatternFeaturesResponse>;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
+   */
+  listApplicationVersionPatternFeatures(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
+  /**
+   * @param appId The application ID.
+   * @param versionId The version ID.
+   * @param options The optional parameters
+   * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
+   */
+  listApplicationVersionPatternFeatures(appId: string, versionId: string, options: Models.FeaturesListApplicationVersionPatternFeaturesOptionalParams, callback: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): void;
+  listApplicationVersionPatternFeatures(appId: string, versionId: string, options?: Models.FeaturesListApplicationVersionPatternFeaturesOptionalParams | msRest.ServiceCallback<Models.PatternFeatureInfo[]>, callback?: msRest.ServiceCallback<Models.PatternFeatureInfo[]>): Promise<Models.FeaturesListApplicationVersionPatternFeaturesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        appId,
+        versionId,
+        options
+      },
+      listApplicationVersionPatternFeaturesOperationSpec,
+      callback) as Promise<Models.FeaturesListApplicationVersionPatternFeaturesResponse>;
+  }
+
+  /**
+   * Creates a new phraselist feature in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param phraselistCreateObject A Phraselist object containing Name, comma-separated Phrases and
@@ -66,7 +101,7 @@ export class Features {
   }
 
   /**
-   * Gets all the phraselist features.
+   * Gets all the phraselist features in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -98,7 +133,7 @@ export class Features {
   }
 
   /**
-   * Gets all the extraction features for the specified application version.
+   * Gets all the extraction phraselist and pattern features in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -130,7 +165,7 @@ export class Features {
   }
 
   /**
-   * Gets phraselist feature info.
+   * Gets phraselist feature info in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param phraselistId The ID of the feature to be retrieved.
@@ -166,7 +201,8 @@ export class Features {
   }
 
   /**
-   * Updates the phrases, the state and the name of the phraselist feature.
+   * Updates the phrases, the state and the name of the phraselist feature in a version of the
+   * application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param phraselistId The ID of the feature to be updated.
@@ -202,7 +238,7 @@ export class Features {
   }
 
   /**
-   * Deletes a phraselist feature.
+   * Deletes a phraselist feature from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param phraselistId The ID of the feature to be deleted.
@@ -240,6 +276,40 @@ export class Features {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listApplicationVersionPatternFeaturesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "apps/{appId}/versions/{versionId}/patterns",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.appId,
+    Parameters.versionId0
+  ],
+  queryParameters: [
+    Parameters.skip,
+    Parameters.take
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PatternFeatureInfo"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const addPhraseListOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/phraselists",

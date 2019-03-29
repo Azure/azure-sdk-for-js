@@ -27,31 +27,35 @@ export class Versions {
   }
 
   /**
-   * Creates a new version using the current snapshot of the selected application version.
+   * Creates a new version from the selected version.
    * @param appId The application ID.
    * @param versionId The version ID.
+   * @param versionCloneObject A model containing the new version ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.VersionsCloneResponse>
    */
-  clone(appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams): Promise<Models.VersionsCloneResponse>;
+  clone(appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase): Promise<Models.VersionsCloneResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
+   * @param versionCloneObject A model containing the new version ID.
    * @param callback The callback
    */
-  clone(appId: string, versionId: string, callback: msRest.ServiceCallback<string>): void;
+  clone(appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, callback: msRest.ServiceCallback<string>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
+   * @param versionCloneObject A model containing the new version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  clone(appId: string, versionId: string, options: Models.VersionsCloneOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  clone(appId: string, versionId: string, options?: Models.VersionsCloneOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsCloneResponse> {
+  clone(appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
+  clone(appId: string, versionId: string, versionCloneObject: Models.TaskUpdateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VersionsCloneResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         versionId,
+        versionCloneObject,
         options
       },
       cloneOperationSpec,
@@ -59,7 +63,7 @@ export class Versions {
   }
 
   /**
-   * Gets the application versions info.
+   * Gets a list of versions for this application ID.
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.VersionsListResponse>
@@ -87,7 +91,8 @@ export class Versions {
   }
 
   /**
-   * Gets the version info.
+   * Gets the version information such as date created, last modified date, endpoint URL, count of
+   * intents and entities, training and publishing status.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -251,7 +256,7 @@ export class Versions {
   }
 
   /**
-   * Deleted an unlabelled utterance.
+   * Deleted an unlabelled utterance in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param utterance The utterance text to delete.
@@ -298,11 +303,11 @@ const cloneOperationSpec: msRest.OperationSpec = {
     Parameters.versionId0
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "versionCloneObject"
-    ],
-    mapper: Mappers.TaskUpdateObject
+    parameterPath: "versionCloneObject",
+    mapper: {
+      ...Mappers.TaskUpdateObject,
+      required: true
+    }
   },
   responses: {
     201: {
