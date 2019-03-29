@@ -8,14 +8,12 @@
 
 export {
   APIError,
+  ApplySnapshotRequest,
   ErrorModel,
-  FaceList,
-  ImageUrl,
-  LargeFaceList,
-  LargePersonGroup,
-  MetaDataContract,
-  NameAndUserDataContract,
-  PersistedFace,
-  Person,
-  PersonGroup
+  OperationStatus,
+  Snapshot,
+  SnapshotApplyHeaders,
+  SnapshotTakeHeaders,
+  TakeSnapshotRequest,
+  UpdateSnapshotRequest
 } from "../models/mappers";
