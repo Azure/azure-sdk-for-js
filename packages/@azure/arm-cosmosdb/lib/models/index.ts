@@ -152,7 +152,7 @@ export interface VirtualNetworkRule {
 /**
  * @interface
  * An interface representing Resource.
- * A database account resource.
+ * The core properties of ARM resources.
  *
  * @extends BaseResource
  */
@@ -287,45 +287,16 @@ export interface DatabaseAccount extends Resource {
 
 /**
  * @interface
- * An interface representing ProxyResource.
- * The general properties associated with all API resource.
- *
- * @extends BaseResource
- */
-export interface ProxyResource extends BaseResource {
-  /**
-   * @member {string} [id] The unique resource identifier of the database
-   * account.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly id?: string;
-  /**
-   * @member {string} [name] The name of the database account.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [type] The type of Azure resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * @interface
- * An interface representing SqlDatabaseResource.
+ * An interface representing SqlDatabase.
  * An Azure Cosmos DB SQL database.
  *
- * @extends ProxyResource
+ * @extends Resource
  */
-export interface SqlDatabaseResource extends ProxyResource {
+export interface SqlDatabase extends Resource {
   /**
-   * @member {string} sqlDatabaseResourceId Name of the Cosmos DB SQL database
+   * @member {string} sqlDatabaseId Name of the Cosmos DB SQL database
    */
-  sqlDatabaseResourceId: string;
+  sqlDatabaseId: string;
   /**
    * @member {string} [_rid] A system generated property. A unique identifier.
    */
@@ -452,6 +423,37 @@ export interface PartitionKey {
 
 /**
  * @interface
+ * An interface representing UniqueKey.
+ * The unique key on that enforces uniqueness constraint on documents in the
+ * collection in the Azure Cosmos DB service.
+ *
+ */
+export interface UniqueKey {
+  /**
+   * @member {string[]} [paths] List of paths must be unique for each document
+   * in the Azure Cosmos DB service
+   */
+  paths?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing UniqueKeyPolicy.
+ * The unique key policy configuration for specifying uniqueness constraints on
+ * documents in the collection in the Azure Cosmos DB service.
+ *
+ */
+export interface UniqueKeyPolicy {
+  /**
+   * @member {UniqueKey[]} [uniqueKeys] List of unique keys on that enforces
+   * uniqueness constraint on documents in the collection in the Azure Cosmos
+   * DB service.
+   */
+  uniqueKeys?: UniqueKey[];
+}
+
+/**
+ * @interface
  * An interface representing ConflictResolutionPolicy.
  * The conflict resolution policy for the SQL container.
  *
@@ -477,17 +479,16 @@ export interface ConflictResolutionPolicy {
 
 /**
  * @interface
- * An interface representing SqlContainerResource.
+ * An interface representing SqlContainer.
  * An Azure Cosmos DB SQL container.
  *
- * @extends ProxyResource
+ * @extends Resource
  */
-export interface SqlContainerResource extends ProxyResource {
+export interface SqlContainer extends Resource {
   /**
-   * @member {string} sqlContainerResourceId Name of the Cosmos DB SQL
-   * container
+   * @member {string} sqlContainerId Name of the Cosmos DB SQL container
    */
-  sqlContainerResourceId: string;
+  sqlContainerId: string;
   /**
    * @member {IndexingPolicy} [indexingPolicy] The configuration of the
    * indexing policy. By default, the indexing is automatic for all document
@@ -499,6 +500,16 @@ export interface SqlContainerResource extends ProxyResource {
    * key to be used for partitioning data into multiple partitions
    */
   partitionKey?: PartitionKey;
+  /**
+   * @member {number} [defaultTtl] Default time to live
+   */
+  defaultTtl?: number;
+  /**
+   * @member {UniqueKeyPolicy} [uniqueKeyPolicy] The unique key policy
+   * configuration for specifying uniqueness constraints on documents in the
+   * collection in the Azure Cosmos DB service.
+   */
+  uniqueKeyPolicy?: UniqueKeyPolicy;
   /**
    * @member {ConflictResolutionPolicy} [conflictResolutionPolicy] The conflict
    * resolution policy for the SQL container.
@@ -816,11 +827,11 @@ export interface DatabaseAccountRegenerateKeyParameters {
 
 /**
  * @interface
- * An interface representing SqlDatabaseCreateUpdateResource.
+ * An interface representing SqlDatabaseResource.
  * Cosmos DB SQL database id object
  *
  */
-export interface SqlDatabaseCreateUpdateResource {
+export interface SqlDatabaseResource {
   /**
    * @member {string} id Name of the Cosmos DB SQL database
    */
@@ -835,10 +846,10 @@ export interface SqlDatabaseCreateUpdateResource {
  */
 export interface SqlDatabaseCreateUpdateParameters {
   /**
-   * @member {SqlDatabaseCreateUpdateResource} resource The standard JSON
-   * format of a SQL database
+   * @member {SqlDatabaseResource} resource The standard JSON format of a SQL
+   * database
    */
-  resource: SqlDatabaseCreateUpdateResource;
+  resource: SqlDatabaseResource;
   /**
    * @member {{ [propertyName: string]: string }} options A key-value pair of
    * options to be applied for the request. This corresponds to the headers
@@ -849,11 +860,11 @@ export interface SqlDatabaseCreateUpdateParameters {
 
 /**
  * @interface
- * An interface representing SqlContainerCreateUpdateResource.
+ * An interface representing SqlContainerResource.
  * Cosmos DB SQL container resource object
  *
  */
-export interface SqlContainerCreateUpdateResource {
+export interface SqlContainerResource {
   /**
    * @member {string} id Name of the Cosmos DB SQL container
    */
@@ -870,6 +881,16 @@ export interface SqlContainerCreateUpdateResource {
    */
   partitionKey?: PartitionKey;
   /**
+   * @member {number} [defaultTtl] Default time to live
+   */
+  defaultTtl?: number;
+  /**
+   * @member {UniqueKeyPolicy} [uniqueKeyPolicy] The unique key policy
+   * configuration for specifying uniqueness constraints on documents in the
+   * collection in the Azure Cosmos DB service.
+   */
+  uniqueKeyPolicy?: UniqueKeyPolicy;
+  /**
    * @member {ConflictResolutionPolicy} [conflictResolutionPolicy] The conflict
    * resolution policy for the SQL container.
    */
@@ -884,10 +905,10 @@ export interface SqlContainerCreateUpdateResource {
  */
 export interface SqlContainerCreateUpdateParameters {
   /**
-   * @member {SqlContainerCreateUpdateResource} resource The standard JSON
-   * format of a SQL container
+   * @member {SqlContainerResource} resource The standard JSON format of a SQL
+   * container
    */
-  resource: SqlContainerCreateUpdateResource;
+  resource: SqlContainerResource;
   /**
    * @member {{ [propertyName: string]: string }} options A key-value pair of
    * options to be applied for the request. This corresponds to the headers
@@ -1430,9 +1451,9 @@ export interface MetricDefinitionsListResult extends Array<MetricDefinition> {
  * The List operation response, that contains the SQL databases and their
  * properties.
  *
- * @extends Array<SqlDatabaseResource>
+ * @extends Array<SqlDatabase>
  */
-export interface SqlDatabaseListResult extends Array<SqlDatabaseResource> {
+export interface SqlDatabaseListResult extends Array<SqlDatabase> {
 }
 
 /**
@@ -1441,9 +1462,9 @@ export interface SqlDatabaseListResult extends Array<SqlDatabaseResource> {
  * The List operation response, that contains the SQL containers and their
  * properties.
  *
- * @extends Array<SqlContainerResource>
+ * @extends Array<SqlContainer>
  */
-export interface SqlContainerListResult extends Array<SqlContainerResource> {
+export interface SqlContainerListResult extends Array<SqlContainer> {
 }
 
 /**
@@ -1854,7 +1875,7 @@ export type DatabaseAccountsListSqlDatabasesResponse = SqlDatabaseListResult & {
 /**
  * Contains response data for the createSqlDatabase operation.
  */
-export type DatabaseAccountsCreateSqlDatabaseResponse = SqlDatabaseResource & {
+export type DatabaseAccountsCreateSqlDatabaseResponse = SqlDatabase & {
   /**
    * The underlying HTTP response.
    */
@@ -1866,14 +1887,14 @@ export type DatabaseAccountsCreateSqlDatabaseResponse = SqlDatabaseResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlDatabaseResource;
+      parsedBody: SqlDatabase;
     };
 };
 
 /**
  * Contains response data for the getSqlDatabase operation.
  */
-export type DatabaseAccountsGetSqlDatabaseResponse = SqlDatabaseResource & {
+export type DatabaseAccountsGetSqlDatabaseResponse = SqlDatabase & {
   /**
    * The underlying HTTP response.
    */
@@ -1885,14 +1906,14 @@ export type DatabaseAccountsGetSqlDatabaseResponse = SqlDatabaseResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlDatabaseResource;
+      parsedBody: SqlDatabase;
     };
 };
 
 /**
  * Contains response data for the updateSqlDatabase operation.
  */
-export type DatabaseAccountsUpdateSqlDatabaseResponse = SqlDatabaseResource & {
+export type DatabaseAccountsUpdateSqlDatabaseResponse = SqlDatabase & {
   /**
    * The underlying HTTP response.
    */
@@ -1904,7 +1925,7 @@ export type DatabaseAccountsUpdateSqlDatabaseResponse = SqlDatabaseResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlDatabaseResource;
+      parsedBody: SqlDatabase;
     };
 };
 
@@ -1930,7 +1951,7 @@ export type DatabaseAccountsListSqlContainersResponse = SqlContainerListResult &
 /**
  * Contains response data for the createSqlContainer operation.
  */
-export type DatabaseAccountsCreateSqlContainerResponse = SqlContainerResource & {
+export type DatabaseAccountsCreateSqlContainerResponse = SqlContainer & {
   /**
    * The underlying HTTP response.
    */
@@ -1942,14 +1963,14 @@ export type DatabaseAccountsCreateSqlContainerResponse = SqlContainerResource & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlContainerResource;
+      parsedBody: SqlContainer;
     };
 };
 
 /**
  * Contains response data for the getSqlContainer operation.
  */
-export type DatabaseAccountsGetSqlContainerResponse = SqlContainerResource & {
+export type DatabaseAccountsGetSqlContainerResponse = SqlContainer & {
   /**
    * The underlying HTTP response.
    */
@@ -1961,14 +1982,14 @@ export type DatabaseAccountsGetSqlContainerResponse = SqlContainerResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlContainerResource;
+      parsedBody: SqlContainer;
     };
 };
 
 /**
  * Contains response data for the updateSqlContainer operation.
  */
-export type DatabaseAccountsUpdateSqlContainerResponse = SqlContainerResource & {
+export type DatabaseAccountsUpdateSqlContainerResponse = SqlContainer & {
   /**
    * The underlying HTTP response.
    */
@@ -1980,7 +2001,7 @@ export type DatabaseAccountsUpdateSqlContainerResponse = SqlContainerResource & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlContainerResource;
+      parsedBody: SqlContainer;
     };
 };
 
@@ -2025,7 +2046,7 @@ export type DatabaseAccountsBeginCreateOrUpdateResponse = DatabaseAccount & {
 /**
  * Contains response data for the beginCreateSqlDatabase operation.
  */
-export type DatabaseAccountsBeginCreateSqlDatabaseResponse = SqlDatabaseResource & {
+export type DatabaseAccountsBeginCreateSqlDatabaseResponse = SqlDatabase & {
   /**
    * The underlying HTTP response.
    */
@@ -2037,14 +2058,14 @@ export type DatabaseAccountsBeginCreateSqlDatabaseResponse = SqlDatabaseResource
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlDatabaseResource;
+      parsedBody: SqlDatabase;
     };
 };
 
 /**
  * Contains response data for the beginUpdateSqlDatabase operation.
  */
-export type DatabaseAccountsBeginUpdateSqlDatabaseResponse = SqlDatabaseResource & {
+export type DatabaseAccountsBeginUpdateSqlDatabaseResponse = SqlDatabase & {
   /**
    * The underlying HTTP response.
    */
@@ -2056,14 +2077,14 @@ export type DatabaseAccountsBeginUpdateSqlDatabaseResponse = SqlDatabaseResource
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlDatabaseResource;
+      parsedBody: SqlDatabase;
     };
 };
 
 /**
  * Contains response data for the beginCreateSqlContainer operation.
  */
-export type DatabaseAccountsBeginCreateSqlContainerResponse = SqlContainerResource & {
+export type DatabaseAccountsBeginCreateSqlContainerResponse = SqlContainer & {
   /**
    * The underlying HTTP response.
    */
@@ -2075,14 +2096,14 @@ export type DatabaseAccountsBeginCreateSqlContainerResponse = SqlContainerResour
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlContainerResource;
+      parsedBody: SqlContainer;
     };
 };
 
 /**
  * Contains response data for the beginUpdateSqlContainer operation.
  */
-export type DatabaseAccountsBeginUpdateSqlContainerResponse = SqlContainerResource & {
+export type DatabaseAccountsBeginUpdateSqlContainerResponse = SqlContainer & {
   /**
    * The underlying HTTP response.
    */
@@ -2094,7 +2115,7 @@ export type DatabaseAccountsBeginUpdateSqlContainerResponse = SqlContainerResour
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SqlContainerResource;
+      parsedBody: SqlContainer;
     };
 };
 

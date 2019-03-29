@@ -527,7 +527,7 @@ export class DatabaseAccounts {
    * @param databaseRid Cosmos DB database rid.
    * @param callback The callback
    */
-  getSqlDatabase(resourceGroupName: string, accountName: string, databaseRid: string, callback: msRest.ServiceCallback<Models.SqlDatabaseResource>): void;
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseRid: string, callback: msRest.ServiceCallback<Models.SqlDatabase>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -535,8 +535,8 @@ export class DatabaseAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlDatabase(resourceGroupName: string, accountName: string, databaseRid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlDatabaseResource>): void;
-  getSqlDatabase(resourceGroupName: string, accountName: string, databaseRid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabaseResource>, callback?: msRest.ServiceCallback<Models.SqlDatabaseResource>): Promise<Models.DatabaseAccountsGetSqlDatabaseResponse> {
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseRid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlDatabase>): void;
+  getSqlDatabase(resourceGroupName: string, accountName: string, databaseRid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlDatabase>, callback?: msRest.ServiceCallback<Models.SqlDatabase>): Promise<Models.DatabaseAccountsGetSqlDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -642,7 +642,7 @@ export class DatabaseAccounts {
    * @param containerRid Cosmos DB container rid.
    * @param callback The callback
    */
-  getSqlContainer(resourceGroupName: string, accountName: string, databaseRid: string, containerRid: string, callback: msRest.ServiceCallback<Models.SqlContainerResource>): void;
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseRid: string, containerRid: string, callback: msRest.ServiceCallback<Models.SqlContainer>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Cosmos DB database account name.
@@ -651,8 +651,8 @@ export class DatabaseAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSqlContainer(resourceGroupName: string, accountName: string, databaseRid: string, containerRid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlContainerResource>): void;
-  getSqlContainer(resourceGroupName: string, accountName: string, databaseRid: string, containerRid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainerResource>, callback?: msRest.ServiceCallback<Models.SqlContainerResource>): Promise<Models.DatabaseAccountsGetSqlContainerResponse> {
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseRid: string, containerRid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlContainer>): void;
+  getSqlContainer(resourceGroupName: string, accountName: string, databaseRid: string, containerRid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlContainer>, callback?: msRest.ServiceCallback<Models.SqlContainer>): Promise<Models.DatabaseAccountsGetSqlContainerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1281,7 +1281,7 @@ const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SqlDatabaseResource
+      bodyMapper: Mappers.SqlDatabase
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -1334,7 +1334,7 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SqlContainerResource
+      bodyMapper: Mappers.SqlContainer
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -1578,7 +1578,7 @@ const beginCreateSqlDatabaseOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     201: {
-      bodyMapper: Mappers.SqlDatabaseResource
+      bodyMapper: Mappers.SqlDatabase
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -1611,7 +1611,7 @@ const beginUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.SqlDatabaseResource
+      bodyMapper: Mappers.SqlDatabase
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -1668,7 +1668,7 @@ const beginCreateSqlContainerOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     201: {
-      bodyMapper: Mappers.SqlContainerResource
+      bodyMapper: Mappers.SqlContainer
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -1702,7 +1702,7 @@ const beginUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.SqlContainerResource
+      bodyMapper: Mappers.SqlContainer
     },
     default: {
       bodyMapper: Mappers.CloudError

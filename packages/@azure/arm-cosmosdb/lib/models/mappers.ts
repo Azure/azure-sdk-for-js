@@ -357,45 +357,14 @@ export const DatabaseAccount: msRest.CompositeMapper = {
   }
 };
 
-export const ProxyResource: msRest.CompositeMapper = {
-  serializedName: "ProxyResource",
+export const SqlDatabase: msRest.CompositeMapper = {
+  serializedName: "SqlDatabase",
   type: {
     name: "Composite",
-    className: "ProxyResource",
+    className: "SqlDatabase",
     modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SqlDatabaseResource: msRest.CompositeMapper = {
-  serializedName: "SqlDatabaseResource",
-  type: {
-    name: "Composite",
-    className: "SqlDatabaseResource",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      sqlDatabaseResourceId: {
+      ...Resource.type.modelProperties,
+      sqlDatabaseId: {
         required: true,
         serializedName: "properties.id",
         type: {
@@ -574,6 +543,49 @@ export const PartitionKey: msRest.CompositeMapper = {
   }
 };
 
+export const UniqueKey: msRest.CompositeMapper = {
+  serializedName: "UniqueKey",
+  type: {
+    name: "Composite",
+    className: "UniqueKey",
+    modelProperties: {
+      paths: {
+        serializedName: "paths",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UniqueKeyPolicy: msRest.CompositeMapper = {
+  serializedName: "UniqueKeyPolicy",
+  type: {
+    name: "Composite",
+    className: "UniqueKeyPolicy",
+    modelProperties: {
+      uniqueKeys: {
+        serializedName: "uniqueKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UniqueKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ConflictResolutionPolicy: msRest.CompositeMapper = {
   serializedName: "ConflictResolutionPolicy",
   type: {
@@ -603,14 +615,14 @@ export const ConflictResolutionPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const SqlContainerResource: msRest.CompositeMapper = {
-  serializedName: "SqlContainerResource",
+export const SqlContainer: msRest.CompositeMapper = {
+  serializedName: "SqlContainer",
   type: {
     name: "Composite",
-    className: "SqlContainerResource",
+    className: "SqlContainer",
     modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      sqlContainerResourceId: {
+      ...Resource.type.modelProperties,
+      sqlContainerId: {
         required: true,
         serializedName: "properties.id",
         type: {
@@ -629,6 +641,19 @@ export const SqlContainerResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PartitionKey"
+        }
+      },
+      defaultTtl: {
+        serializedName: "properties.defaultTtl",
+        type: {
+          name: "Number"
+        }
+      },
+      uniqueKeyPolicy: {
+        serializedName: "properties.uniqueKeyPolicy",
+        type: {
+          name: "Composite",
+          className: "UniqueKeyPolicy"
         }
       },
       conflictResolutionPolicy: {
@@ -1045,11 +1070,11 @@ export const DatabaseAccountRegenerateKeyParameters: msRest.CompositeMapper = {
   }
 };
 
-export const SqlDatabaseCreateUpdateResource: msRest.CompositeMapper = {
-  serializedName: "SqlDatabaseCreateUpdateResource",
+export const SqlDatabaseResource: msRest.CompositeMapper = {
+  serializedName: "SqlDatabaseResource",
   type: {
     name: "Composite",
-    className: "SqlDatabaseCreateUpdateResource",
+    className: "SqlDatabaseResource",
     modelProperties: {
       id: {
         required: true,
@@ -1073,7 +1098,7 @@ export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.resource",
         type: {
           name: "Composite",
-          className: "SqlDatabaseCreateUpdateResource"
+          className: "SqlDatabaseResource"
         }
       },
       options: {
@@ -1092,11 +1117,11 @@ export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const SqlContainerCreateUpdateResource: msRest.CompositeMapper = {
-  serializedName: "SqlContainerCreateUpdateResource",
+export const SqlContainerResource: msRest.CompositeMapper = {
+  serializedName: "SqlContainerResource",
   type: {
     name: "Composite",
-    className: "SqlContainerCreateUpdateResource",
+    className: "SqlContainerResource",
     modelProperties: {
       id: {
         required: true,
@@ -1117,6 +1142,19 @@ export const SqlContainerCreateUpdateResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PartitionKey"
+        }
+      },
+      defaultTtl: {
+        serializedName: "defaultTtl",
+        type: {
+          name: "Number"
+        }
+      },
+      uniqueKeyPolicy: {
+        serializedName: "uniqueKeyPolicy",
+        type: {
+          name: "Composite",
+          className: "UniqueKeyPolicy"
         }
       },
       conflictResolutionPolicy: {
@@ -1141,7 +1179,7 @@ export const SqlContainerCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.resource",
         type: {
           name: "Composite",
-          className: "SqlContainerCreateUpdateResource"
+          className: "SqlContainerResource"
         }
       },
       options: {
@@ -1745,7 +1783,7 @@ export const SqlDatabaseListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SqlDatabaseResource"
+              className: "SqlDatabase"
             }
           }
         }
@@ -1768,7 +1806,7 @@ export const SqlContainerListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SqlContainerResource"
+              className: "SqlContainer"
             }
           }
         }
