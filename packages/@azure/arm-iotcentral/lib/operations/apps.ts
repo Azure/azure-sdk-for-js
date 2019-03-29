@@ -224,22 +224,29 @@ export class Apps {
 
   /**
    * Get a single application template.
+   * @param applicationTemplateId The combination id of manifestId and manifestVersion of the IoT
+   * Central application template.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsTemplateResponse>
    */
-  template(options?: msRest.RequestOptionsBase): Promise<Models.AppsTemplateResponse>;
+  template(applicationTemplateId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsTemplateResponse>;
   /**
+   * @param applicationTemplateId The combination id of manifestId and manifestVersion of the IoT
+   * Central application template.
    * @param callback The callback
    */
-  template(callback: msRest.ServiceCallback<Models.AppTemplate>): void;
+  template(applicationTemplateId: string, callback: msRest.ServiceCallback<Models.AppTemplate>): void;
   /**
+   * @param applicationTemplateId The combination id of manifestId and manifestVersion of the IoT
+   * Central application template.
    * @param options The optional parameters
    * @param callback The callback
    */
-  template(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppTemplate>): void;
-  template(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppTemplate>, callback?: msRest.ServiceCallback<Models.AppTemplate>): Promise<Models.AppsTemplateResponse> {
+  template(applicationTemplateId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppTemplate>): void;
+  template(applicationTemplateId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppTemplate>, callback?: msRest.ServiceCallback<Models.AppTemplate>): Promise<Models.AppsTemplateResponse> {
     return this.client.sendOperationRequest(
       {
+        applicationTemplateId,
         options
       },
       templateOperationSpec,

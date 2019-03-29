@@ -19,25 +19,19 @@ export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
   apiVersion?: string;
-  applicationTemplateId: string;
 
   /**
    * Initializes a new instance of the IotCentralClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId The subscription identifier.
-   * @param applicationTemplateId The combination id of manifestId and manifestVersion of the IoT
-   * Central application template.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, applicationTemplateId: string, options?: Models.IotCentralClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotCentralClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
       throw new Error('\'subscriptionId\' cannot be null.');
-    }
-    if (applicationTemplateId == undefined) {
-      throw new Error('\'applicationTemplateId\' cannot be null.');
     }
 
     if (!options) {
@@ -57,7 +51,6 @@ export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
-    this.applicationTemplateId = applicationTemplateId;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
