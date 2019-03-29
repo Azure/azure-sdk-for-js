@@ -27,10 +27,10 @@ export class Examples {
   }
 
   /**
-   * Adds a labeled example to the application.
+   * Adds a labeled example utterance in a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObject An example label with the expected intent and entities.
+   * @param exampleLabelObject A labeled example utterance with the expected intent and entities.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesAddResponse>
    */
@@ -38,14 +38,14 @@ export class Examples {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObject An example label with the expected intent and entities.
+   * @param exampleLabelObject A labeled example utterance with the expected intent and entities.
    * @param callback The callback
    */
   add(appId: string, versionId: string, exampleLabelObject: Models.ExampleLabelObject, callback: msRest.ServiceCallback<Models.LabelExampleResponse>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObject An example label with the expected intent and entities.
+   * @param exampleLabelObject A labeled example utterance with the expected intent and entities.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,10 +63,10 @@ export class Examples {
   }
 
   /**
-   * Adds a batch of labeled examples to the application.
+   * Adds a batch of labeled example utterances to a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObjectArray Array of examples.
+   * @param exampleLabelObjectArray Array of example utterances.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExamplesBatchResponse>
    */
@@ -74,14 +74,14 @@ export class Examples {
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObjectArray Array of examples.
+   * @param exampleLabelObjectArray Array of example utterances.
    * @param callback The callback
    */
   batch(appId: string, versionId: string, exampleLabelObjectArray: Models.ExampleLabelObject[], callback: msRest.ServiceCallback<Models.BatchLabelExample[]>): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
-   * @param exampleLabelObjectArray Array of examples.
+   * @param exampleLabelObjectArray Array of example utterances.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -99,7 +99,7 @@ export class Examples {
   }
 
   /**
-   * Returns examples to be reviewed.
+   * Returns example utterances to be reviewed from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param [options] The optional parameters
@@ -131,7 +131,7 @@ export class Examples {
   }
 
   /**
-   * Deletes the labeled example with the specified ID.
+   * Deletes the labeled example utterances with the specified ID from a version of the application.
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param exampleId The example ID.

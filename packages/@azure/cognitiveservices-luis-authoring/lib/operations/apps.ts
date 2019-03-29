@@ -28,27 +28,27 @@ export class Apps {
 
   /**
    * Creates a new LUIS app.
-   * @param applicationCreateObject A model containing Name, Description (optional), Culture, Usage
-   * Scenario (optional), Domain (optional) and initial version ID (optional) of the application.
-   * Default value for the version ID is 0.1. Note: the culture cannot be changed after the app is
-   * created.
+   * @param applicationCreateObject An application containing Name, Description (optional), Culture,
+   * Usage Scenario (optional), Domain (optional) and initial version ID (optional) of the
+   * application. Default value for the version ID is "0.1". Note: the culture cannot be changed
+   * after the app is created.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsAddResponse>
    */
   add(applicationCreateObject: Models.ApplicationCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.AppsAddResponse>;
   /**
-   * @param applicationCreateObject A model containing Name, Description (optional), Culture, Usage
-   * Scenario (optional), Domain (optional) and initial version ID (optional) of the application.
-   * Default value for the version ID is 0.1. Note: the culture cannot be changed after the app is
-   * created.
+   * @param applicationCreateObject An application containing Name, Description (optional), Culture,
+   * Usage Scenario (optional), Domain (optional) and initial version ID (optional) of the
+   * application. Default value for the version ID is "0.1". Note: the culture cannot be changed
+   * after the app is created.
    * @param callback The callback
    */
   add(applicationCreateObject: Models.ApplicationCreateObject, callback: msRest.ServiceCallback<string>): void;
   /**
-   * @param applicationCreateObject A model containing Name, Description (optional), Culture, Usage
-   * Scenario (optional), Domain (optional) and initial version ID (optional) of the application.
-   * Default value for the version ID is 0.1. Note: the culture cannot be changed after the app is
-   * created.
+   * @param applicationCreateObject An application containing Name, Description (optional), Culture,
+   * Usage Scenario (optional), Domain (optional) and initial version ID (optional) of the
+   * application. Default value for the version ID is "0.1". Note: the culture cannot be changed
+   * after the app is created.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -64,7 +64,7 @@ export class Apps {
   }
 
   /**
-   * Lists all of the user applications.
+   * Lists all of the user's applications.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListResponse>
    */
@@ -88,8 +88,7 @@ export class Apps {
   }
 
   /**
-   * Imports an application to LUIS, the application's structure should be included in the request
-   * body.
+   * Imports an application to LUIS, the application's structure is included in the request body.
    * @param luisApp A LUIS application structure.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsImportMethodResponse>
@@ -189,7 +188,8 @@ export class Apps {
   }
 
   /**
-   * Gets the supported application cultures.
+   * Gets a list of supported cultures. Cultures are equivalent to the written language and locale.
+   * For example,"en-us" represents the U.S. variation of English.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListSupportedCulturesResponse>
    */
@@ -213,7 +213,7 @@ export class Apps {
   }
 
   /**
-   * Gets the query logs of the past month for the application.
+   * Gets the logs of the past month's endpoint queries for the application.
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsDownloadQueryLogsResponse>
@@ -364,7 +364,7 @@ export class Apps {
   }
 
   /**
-   * Get the application settings.
+   * Get the application settings including 'UseAllTrainingData'.
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsGetSettingsResponse>
@@ -392,7 +392,7 @@ export class Apps {
   }
 
   /**
-   * Updates the application settings.
+   * Updates the application settings including 'UseAllTrainingData'.
    * @param appId The application ID.
    * @param applicationSettingUpdateObject An object containing the new application settings.
    * @param [options] The optional parameters
@@ -424,7 +424,7 @@ export class Apps {
   }
 
   /**
-   * Get the application publish settings.
+   * Get the application publish settings including 'UseAllTrainingData'.
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsGetPublishSettingsResponse>
@@ -452,7 +452,7 @@ export class Apps {
   }
 
   /**
-   * Updates the application publish settings.
+   * Updates the application publish settings including 'UseAllTrainingData'.
    * @param appId The application ID.
    * @param publishSettingUpdateObject An object containing the new publish application settings.
    * @param [options] The optional parameters
@@ -536,7 +536,7 @@ export class Apps {
   }
 
   /**
-   * Adds a prebuilt domain along with its models as a new application.
+   * Adds a prebuilt domain along with its intent and entity models as a new application.
    * @param prebuiltDomainCreateObject A prebuilt domain create object containing the name and
    * culture of the domain.
    * @param [options] The optional parameters
@@ -567,7 +567,7 @@ export class Apps {
   }
 
   /**
-   * Gets all the available custom prebuilt domains for a specific culture.
+   * Gets all the available prebuilt domains for a specific culture.
    * @param culture Culture.
    * @param [options] The optional parameters
    * @returns Promise<Models.AppsListAvailableCustomPrebuiltDomainsForCultureResponse>
@@ -595,7 +595,7 @@ export class Apps {
   }
 
   /**
-   * Packages published LUIS application as GZip.
+   * Packages a published LUIS application as a GZip file to be used in the LUIS container.
    * @summary package - Gets published LUIS application package in binary stream GZip format
    * @param appId The application ID.
    * @param slotName The publishing slot name.
@@ -628,7 +628,7 @@ export class Apps {
   }
 
   /**
-   * Packages trained LUIS application as GZip.
+   * Packages trained LUIS application as GZip file to be used in the LUIS container.
    * @summary package - Gets trained LUIS application package in binary stream GZip format
    * @param appId The application ID.
    * @param versionId The version ID.

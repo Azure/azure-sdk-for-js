@@ -27,8 +27,8 @@ export class AzureAccounts {
   }
 
   /**
-   * Assigns an azure account to the application.
-   * @summary apps - Assign a LUIS azure account to an application
+   * Assigns an Azure account to the application.
+   * @summary apps - Assign a LUIS Azure account to an application
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsAssignToAppResponse>
@@ -56,8 +56,8 @@ export class AzureAccounts {
   }
 
   /**
-   * Gets the LUIS azure accounts assigned to the application for the user using his ARM token.
-   * @summary apps - Get LUIS azure accounts assigned to the application
+   * Gets the LUIS Azure accounts assigned to the application for the user using his ARM token.
+   * @summary apps - Get LUIS Azure accounts assigned to the application
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsGetAssignedResponse>
@@ -85,8 +85,8 @@ export class AzureAccounts {
   }
 
   /**
-   * Removes assigned azure account from the application.
-   * @summary apps - Removes an assigned LUIS azure account from an application
+   * Removes assigned Azure account from the application.
+   * @summary apps - Removes an assigned LUIS Azure account from an application
    * @param appId The application ID.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsRemoveFromAppResponse>
@@ -114,28 +114,28 @@ export class AzureAccounts {
   }
 
   /**
-   * Gets the LUIS azure accounts for the user using his ARM token.
-   * @summary user - Get LUIS azure accounts
+   * Gets the LUIS Azure accounts for the user using his ARM token.
+   * @summary user - Get LUIS Azure accounts
    * @param [options] The optional parameters
-   * @returns Promise<Models.AzureAccountsGetUserLUISAccountsResponse>
+   * @returns Promise<Models.AzureAccountsListUserLUISAccountsResponse>
    */
-  getUserLUISAccounts(options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsGetUserLUISAccountsResponse>;
+  listUserLUISAccounts(options?: msRest.RequestOptionsBase): Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
   /**
    * @param callback The callback
    */
-  getUserLUISAccounts(callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  listUserLUISAccounts(callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserLUISAccounts(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
-  getUserLUISAccounts(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetUserLUISAccountsResponse> {
+  listUserLUISAccounts(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  listUserLUISAccounts(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsListUserLUISAccountsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getUserLUISAccountsOperationSpec,
-      callback) as Promise<Models.AzureAccountsGetUserLUISAccountsResponse>;
+      listUserLUISAccountsOperationSpec,
+      callback) as Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
   }
 }
 
@@ -220,7 +220,7 @@ const removeFromAppOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getUserLUISAccountsOperationSpec: msRest.OperationSpec = {
+const listUserLUISAccountsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "azureaccounts",
   urlParameters: [
