@@ -3437,11 +3437,11 @@ export const TimeSeriesBaseline: msRest.CompositeMapper = {
   }
 };
 
-export const MetricBaseline: msRest.CompositeMapper = {
-  serializedName: "MetricBaseline",
+export const SingleMetricBaseline: msRest.CompositeMapper = {
+  serializedName: "SingleMetricBaseline",
   type: {
     name: "Composite",
-    className: "MetricBaseline",
+    className: "SingleMetricBaseline",
     modelProperties: {
       id: {
         required: true,
@@ -3512,7 +3512,7 @@ export const MetricBaselinesResponse: msRest.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Composite",
-          className: "MetricBaseline"
+          className: "SingleMetricBaseline"
         }
       }
     }

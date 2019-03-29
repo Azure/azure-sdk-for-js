@@ -11,7 +11,7 @@
 export {
   discriminators,
   MetricBaselinesResponse,
-  MetricBaseline,
+  SingleMetricBaseline,
   TimeSeriesBaseline,
   MetricSingleDimension,
   Baseline,

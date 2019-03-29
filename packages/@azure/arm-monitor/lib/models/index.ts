@@ -2527,11 +2527,11 @@ export interface TimeSeriesBaseline {
 
 /**
  * @interface
- * An interface representing MetricBaseline.
- * The baseline results of a specific metric.
+ * An interface representing SingleMetricBaseline.
+ * The baseline results of a single metric.
  *
  */
-export interface MetricBaseline {
+export interface SingleMetricBaseline {
   /**
    * @member {string} id the metric baseline Id.
    */
@@ -2577,9 +2577,10 @@ export interface MetricBaselinesResponse {
    */
   namespace?: string;
   /**
-   * @member {MetricBaseline} value the properties of the baseline.
+   * @member {SingleMetricBaseline} value The baseline results of a single
+   * metric.
    */
-  value: MetricBaseline;
+  value: SingleMetricBaseline;
 }
 
 /**
