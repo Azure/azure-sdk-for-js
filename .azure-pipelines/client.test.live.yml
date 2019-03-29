@@ -202,7 +202,7 @@ jobs:
           STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
 
       - script: npm run live-test-client-$(Package)-browser
-        condition: succeededOrFailed()
+        condition: and(succeededOrFailed(), eq(variables['NodeVersion'], '10.x'))
         displayName: 'npm run live-test-client-$(Package)-browser'
         env:
           # Storage
