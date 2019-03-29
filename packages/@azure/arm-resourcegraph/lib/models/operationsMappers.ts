@@ -7,11 +7,9 @@
  */
 
 export {
-  OperationDisplayInfo,
-  OperationEntity,
-  OperationEntityListResult,
-  OperationsListHeaders,
-  StorageSyncApiError,
-  StorageSyncError,
-  StorageSyncErrorDetails
+  discriminators,
+  CloudError,
+  Operation,
+  OperationDisplay,
+  OperationListResult
 } from "../models/mappers";

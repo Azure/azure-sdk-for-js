@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - FaceClient
+## Azure ResourceGraphClient SDK for JavaScript
 
-This package contains an isomorphic SDK for FaceClient.
+This package contains an isomorphic SDK for ResourceGraphClient.
 
 ### Currently supported environments
 
@@ -10,12 +10,12 @@ This package contains an isomorphic SDK for FaceClient.
 ### How to Install
 
 ```bash
-npm install @azure/cognitiveservices-face
+npm install @azure/arm-resourcegraph
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list personGroupPerson as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -27,16 +27,14 @@ npm install @azure/ms-rest-nodeauth
 
 ```typescript
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { FaceClient, FaceModels, FaceMappers } from "@azure/cognitiveservices-face";
+import { ResourceGraphClient, ResourceGraphModels, ResourceGraphMappers } from "@azure/arm-resourcegraph";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new FaceClient(creds, subscriptionId);
-  const personGroupId = "testpersonGroupId";
-  const start = "teststart";
-  const top = 1;
-  client.personGroupPerson.list(personGroupId, start, top).then((result) => {
+  const client = new ResourceGraphClient(creds, subscriptionId);
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list personGroupPerson as an example written in JavaScript.
+#### browser - Authentication, client creation and list operations as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -62,10 +60,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/cognitiveservices-face sample</title>
+    <title>@azure/arm-resourcegraph sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/cognitiveservices-face/dist/cognitiveservices-face.js"></script>
+    <script src="node_modules/@azure/arm-resourcegraph/dist/arm-resourcegraph.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -77,11 +76,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.CognitiveservicesFace.FaceClient(res.creds, subscriptionId);
-        const personGroupId = "testpersonGroupId";
-        const start = "teststart";
-        const top = 1;
-        client.personGroupPerson.list(personGroupId, start, top).then((result) => {
+        const client = new Azure.ArmResourcegraph.ResourceGraphClient(res.creds, subscriptionId);
+        client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

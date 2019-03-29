@@ -6,15 +6,15 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/faceClient.js",
+  input: "./esm/resourceGraphClient.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/cognitiveservices-face.js",
+    file: "./dist/arm-resourcegraph.js",
     format: "umd",
-    name: "Azure.CognitiveservicesFace",
+    name: "Azure.ArmResourcegraph",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",

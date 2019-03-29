@@ -7,11 +7,13 @@
  */
 
 export {
-  OperationDisplayInfo,
-  OperationEntity,
-  OperationEntityListResult,
-  OperationsListHeaders,
-  StorageSyncApiError,
-  StorageSyncError,
-  StorageSyncErrorDetails
+  APIError,
+  ApplySnapshotRequest,
+  ErrorModel,
+  OperationStatus,
+  Snapshot,
+  SnapshotApplyHeaders,
+  SnapshotTakeHeaders,
+  TakeSnapshotRequest,
+  UpdateSnapshotRequest
 } from "../models/mappers";
