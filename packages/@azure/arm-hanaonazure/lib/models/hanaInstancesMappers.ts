@@ -20,6 +20,7 @@ export {
   NetworkProfile,
   IpAddress,
   ErrorResponse,
+  Tags,
   CloudError
 } from "../models/mappers";
 
