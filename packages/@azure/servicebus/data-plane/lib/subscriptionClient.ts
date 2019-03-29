@@ -143,21 +143,22 @@ export class SubscriptionClient implements Client {
   }
 
   /**
-   * Creates a Receiver for receiving messages in batches or by registering handlers from a Subscription
-   * which does not have sessions enabled.
+   * Creates a Receiver for receiving messages from a Subscription which does not have sessions enabled.
    * Throws error if an open receiver already exists for this SubscriptionClient.
+   *
    * Throws error if the Subscription has sessions enabled.
    *
    * @param recieveMode An enum indicating the mode in which messages should be received. Possible
    * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
    *
-   * @returns Promise<Reciever> A promise that resolves to a receiver
+   * @returns Promise<Reciever> A promise that resolves to a receiver to receive messages from a
+   * Subscription which does not have sessions enabled.
    */
-  public createReceiver(recieveMode: ReceiveMode): Promise<Receiver>;
+  public async createReceiver(recieveMode: ReceiveMode): Promise<Receiver>;
   /**
-   * Creates a SessionReceiver for receiving messages in batches or by registering handlers from a
-   * session enabled Subscription. When no sessionId is given, a random session among the available
-   * sessions is used.
+   * Creates a Receiver for receiving messages from a session enabled Subscription. When no sessionId is
+   * given, a random session among the available sessions is used.
+   *
    * Throws error if an open receiver already exists for given sessionId.
    * Throws error if the Subscription does not have sessions enabled.
    *
@@ -174,12 +175,13 @@ export class SubscriptionClient implements Client {
     sessionOptions: SessionReceiverOptions
   ): Promise<SessionReceiver>;
   /**
-   * Create a Receiver for receiving messages in batches or by registering handlers from a Subscription.
+   * Create a Receiver for receiving messages from a Subscription.
    *
    * @param recieveMode An enum indicating the mode in which messages should be received. Possible
    * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
-   * @param sessionOptions Options to provide sessionId and duration of automatic lock renewal for
-   * the receiver if the Subscription has sessions enabled.
+   * @param sessionOptions Applicable only for Subscriptions that have sessions enabled. Use these options
+   * to provide sessionId and duration for which automatic lock renewal for should be done for the
+   * receiver.
    *
    * @returns Promise<Receiver|SessionReciever> A promise that resolves to a receiver to receive
    * from a session in the Subscription if `sessionOptions` were provided. Else, the promise resolves to a
