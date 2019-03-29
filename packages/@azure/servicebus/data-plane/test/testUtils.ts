@@ -7,7 +7,8 @@ import {
   TopicClient,
   ServiceBusClient,
   SubscriptionClient,
-  delay
+  delay,
+  ReceiveMode
 } from "../lib";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
@@ -379,10 +380,14 @@ export async function purge(
     if (peekedMsgs.length === 0) {
       isEmpty = true;
     } else {
-      const receiver = sessionId
-        ? await receiverClient.createSessionReceiver({ sessionId: sessionId })
-        : receiverClient.createReceiver();
-
+      let receiver;
+      if (sessionId) {
+        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+          sessionId
+        });
+      } else {
+        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+      }
       const msgs = await receiver.receiveBatch(peekedMsgs.length);
       for (let index = 0; index < msgs.length; index++) {
         if (msgs[index]) {
