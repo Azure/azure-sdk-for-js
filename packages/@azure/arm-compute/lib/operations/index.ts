@@ -10,6 +10,7 @@
 
 export * from "./operations";
 export * from "./availabilitySets";
+export * from "./proximityPlacementGroups";
 export * from "./virtualMachineExtensionImages";
 export * from "./virtualMachineExtensions";
 export * from "./virtualMachineImages";

@@ -19,6 +19,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   availabilitySets: operations.AvailabilitySets;
+  proximityPlacementGroups: operations.ProximityPlacementGroups;
   virtualMachineExtensionImages: operations.VirtualMachineExtensionImages;
   virtualMachineExtensions: operations.VirtualMachineExtensions;
   virtualMachineImages: operations.VirtualMachineImages;
@@ -51,6 +52,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.availabilitySets = new operations.AvailabilitySets(this);
+    this.proximityPlacementGroups = new operations.ProximityPlacementGroups(this);
     this.virtualMachineExtensionImages = new operations.VirtualMachineExtensionImages(this);
     this.virtualMachineExtensions = new operations.VirtualMachineExtensions(this);
     this.virtualMachineImages = new operations.VirtualMachineImages(this);
