@@ -18,6 +18,8 @@ export {
   AppPatch,
   AppListResult,
   OperationInputs,
-  AppAvailabilityInfo
+  AppAvailabilityInfo,
+  AppTemplate,
+  AppTemplatesResult
 } from "../models/mappers";
 

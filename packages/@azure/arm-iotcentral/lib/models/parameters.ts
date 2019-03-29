@@ -30,6 +30,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const applicationTemplateId: msRest.OperationURLParameter = {
+  parameterPath: "applicationTemplateId",
+  mapper: {
+    required: true,
+    serializedName: "applicationTemplateId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {

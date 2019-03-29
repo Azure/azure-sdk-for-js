@@ -24,10 +24,12 @@ class IotCentralClient extends IotCentralClientContext {
    * Initializes a new instance of the IotCentralClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId The subscription identifier.
+   * @param applicationTemplateId The combination id of manifestId and manifestVersion of the IoT
+   * Central application template.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotCentralClientOptions) {
-    super(credentials, subscriptionId, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, applicationTemplateId: string, options?: Models.IotCentralClientOptions) {
+    super(credentials, subscriptionId, applicationTemplateId, options);
     this.apps = new operations.Apps(this);
     this.operations = new operations.Operations(this);
   }
