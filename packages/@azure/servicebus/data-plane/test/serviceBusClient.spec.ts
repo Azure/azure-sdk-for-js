@@ -20,7 +20,8 @@ import {
   SubscriptionClient,
   Sender,
   Receiver,
-  SessionReceiver
+  SessionReceiver,
+  ReceiveMode
 } from "../lib";
 import { getSenderReceiverClients, ClientType, TestMessage, purge, getEnvVars } from "./testUtils";
 import long from "long";
@@ -178,10 +179,8 @@ describe("Errors with non existing Namespace", function(): void {
     void
   > {
     const client = namespace.createQueueClient("some-name");
-    await client
-      .createReceiver()
-      .receiveBatch(10)
-      .catch(testError);
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    await receiver.receiveBatch(10).catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
@@ -190,10 +189,8 @@ describe("Errors with non existing Namespace", function(): void {
     void
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
-    await client
-      .createReceiver()
-      .receiveBatch(10)
-      .catch(testError);
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    await receiver.receiveBatch(10).catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
@@ -206,7 +203,8 @@ describe("Errors with non existing Namespace", function(): void {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
 
-    client.createReceiver().receive(onMessage, testError);
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    receiver.receive(onMessage, testError);
 
     await delay(3000);
     await client.close();
@@ -289,10 +287,8 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     void
   > {
     const client = namespace.createQueueClient("some-name");
-    await client
-      .createReceiver()
-      .receiveBatch(1)
-      .catch((err) => testError(err, "some-name"));
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    await receiver.receiveBatch(1).catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
@@ -301,8 +297,8 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     void
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
-    await client
-      .createReceiver()
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    await receiver
       .receiveBatch(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
@@ -313,10 +309,11 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     void
   > {
     const client = namespace.createQueueClient("some-name");
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
-    client.createReceiver().receive(onMessage, (err) => testError(err, "some-name"));
+    receiver.receive(onMessage, (err) => testError(err, "some-name"));
 
     await delay(3000);
     await client.close();
@@ -327,14 +324,13 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     void
   > {
     const client = namespace.createSubscriptionClient("some-topic-name", "some-subscription-name");
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
     const onMessage = async () => {
       throw "onMessage should not have been called when receive call is made from a non existing namespace";
     };
-    client
-      .createReceiver()
-      .receive(onMessage, (err) =>
-        testError(err, "some-topic-name/Subscriptions/some-subscription-name")
-      );
+    receiver.receive(onMessage, (err) =>
+      testError(err, "some-topic-name/Subscriptions/some-subscription-name")
+    );
 
     await delay(3000);
     await client.close();
@@ -366,7 +362,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
     );
 
     const sender = clients.senderClient.createSender();
-    const receiver = clients.receiverClient.createReceiver();
+    const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
     await sender.send(testMessages);
     const msgs = await receiver.receiveBatch(1);
 
@@ -462,11 +458,13 @@ describe("Errors after close()", function(): void {
     }
 
     sender = senderClient.createSender();
-    receiver = useSessions
-      ? await receiverClient.createSessionReceiver({
-          sessionId: TestMessage.sessionId
-        })
-      : receiverClient.createReceiver();
+    if (useSessions) {
+      receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+        sessionId: TestMessage.sessionId
+      });
+    } else {
+      receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+    }
 
     // Normal send/receive
     const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
@@ -656,11 +654,13 @@ describe("Errors after close()", function(): void {
   ): Promise<void> {
     let errorNewReceiver: string = "";
     try {
-      useSessions
-        ? await receiverClient.createSessionReceiver({
-            sessionId: TestMessage.sessionId
-          })
-        : receiverClient.createReceiver();
+      if (useSessions) {
+        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+          sessionId: TestMessage.sessionId
+        });
+      } else {
+        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+      }
     } catch (err) {
       errorNewReceiver = err.message;
     }

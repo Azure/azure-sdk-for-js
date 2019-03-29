@@ -13,7 +13,8 @@ import {
   TopicClient,
   SubscriptionClient,
   delay,
-  SendableMessageInfo
+  SendableMessageInfo,
+  ReceiveMode
 } from "../lib";
 
 import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
@@ -63,11 +64,13 @@ async function beforeEachTest(
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
 
-  receiver = useSessions
-    ? await receiverClient.createSessionReceiver({
-        sessionId: TestMessage.sessionId
-      })
-    : receiverClient.createReceiver();
+  if (useSessions) {
+    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: TestMessage.sessionId
+    });
+  } else {
+    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  }
 }
 
 async function afterEachTest(): Promise<void> {
