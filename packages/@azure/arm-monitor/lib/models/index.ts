@@ -3587,12 +3587,12 @@ export interface MetricsListOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing MetricBaselineGetOptionalParams.
+ * An interface representing BaselineGetOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface MetricBaselineGetOptionalParams extends msRest.RequestOptionsBase {
+export interface BaselineGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [timespan] The timespan of the query. It is a string with
    * the following format 'startDateTime_ISO/endDateTime_ISO'.
@@ -4846,7 +4846,7 @@ export type MetricsListResponse = Response & {
 /**
  * Contains response data for the get operation.
  */
-export type MetricBaselineGetResponse = BaselineResponse & {
+export type BaselineGetResponse = BaselineResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -4865,7 +4865,7 @@ export type MetricBaselineGetResponse = BaselineResponse & {
 /**
  * Contains response data for the calculateBaseline operation.
  */
-export type MetricBaselineCalculateBaselineResponse = CalculateBaselineResponse & {
+export type BaselineCalculateBaselineResponse = CalculateBaselineResponse & {
   /**
    * The underlying HTTP response.
    */
