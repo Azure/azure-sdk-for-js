@@ -99,6 +99,18 @@ export const integrationRuntimeName: msRest.OperationURLParameter = {
     }
   }
 };
+export const isRecovery: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "isRecovery"
+  ],
+  mapper: {
+    serializedName: "isRecovery",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const isRecursive: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -224,6 +236,18 @@ export const runId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "runId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const startActivityName: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "startActivityName"
+  ],
+  mapper: {
+    serializedName: "startActivityName",
     type: {
       name: "String"
     }
