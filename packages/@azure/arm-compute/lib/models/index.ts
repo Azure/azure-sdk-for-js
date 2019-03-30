@@ -3324,10 +3324,10 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   overprovision?: boolean;
   /**
-   * @member {boolean} [doNotRunExtensionsOnOverprovisionedVMs] In case of
-   * overprovisioning, determines whether extensions should be run immediately,
-   * or if they should be delayed until after overprovisioning has finished and
-   * the set of instances to keep have been selected.
+   * @member {boolean} [doNotRunExtensionsOnOverprovisionedVMs] When
+   * Overprovision is enabled, extensions are launched only on the requested
+   * number of VMs which are finally kept. This property will hence ensure that
+   * the extensions do not run on the extra overprovisioned VMs.
    */
   doNotRunExtensionsOnOverprovisionedVMs?: boolean;
   /**
