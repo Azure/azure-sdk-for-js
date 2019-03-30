@@ -169,27 +169,19 @@ export namespace ClientEntityContext {
           );
         }
       }
-      // reconnect the batching receiver if present
+
       const batchingReceiver = entityContext.batchingReceiver;
       if (batchingReceiver && !batchingReceiver.isConnecting) {
-        try {
-          log.error(
-            "[%s] calling detached on batching receiver '%s'.",
-            connectionId,
-            batchingReceiver.name
-          );
-          await batchingReceiver.detached(error);
-        } catch (err) {
-          log.error(
-            "[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionId,
-            batchingReceiver.name,
-            err
-          );
-        }
+        log.error(
+          "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
+            "re-establishing the receiver link.",
+          connectionId,
+          batchingReceiver.name,
+          batchingReceiver.address
+        );
       }
       // reconnect the streaming receiver if present
-      const streamingReceiver = entityContext.batchingReceiver;
+      const streamingReceiver = entityContext.streamingReceiver;
       if (streamingReceiver && !streamingReceiver.isConnecting) {
         try {
           log.error(

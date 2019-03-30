@@ -709,17 +709,6 @@ export class MessageReceiver extends LinkEntity {
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._receiver);
 
-      if (this.receiverType === ReceiverType.batching) {
-        log.error(
-          "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
-            "re-establishing the receiver link.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        return;
-      }
-
       // We should attempt to reopen only when the receiver(sdk) did not initiate the close
       let shouldReopen = false;
       if (receiverError && !wasCloseInitiated) {
@@ -761,7 +750,7 @@ export class MessageReceiver extends LinkEntity {
           _receiver: this._receiver
         };
         log.error(
-          "[%s] Something is busted. State of Receiver '%s' with address '%s' is: %O",
+          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
           connectionId,
           this.name,
           this.address,
@@ -775,10 +764,16 @@ export class MessageReceiver extends LinkEntity {
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
-          operation: () => this._init(options),
+          operation: () =>
+            this._init(options).then(() => {
+              if (this._receiver) {
+                this._receiver.addCredit(this.maxConcurrentCalls);
+              }
+            }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
           times: Constants.defaultConnectionRetryAttempts,
+          connectionHost: this._context.namespace.config.host,
           delayInSeconds: 15
         };
         await retry<void>(config);
@@ -946,8 +941,12 @@ export class MessageReceiver extends LinkEntity {
         );
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
-          this._context.streamingReceiver = this as any;
+        if (this.receiverType === ReceiverType.streaming) {
+          if (!this._context.streamingReceiver) {
+            this._context.streamingReceiver = this as any;
+          } else {
+            this._context.streamingReceiver.name = this._receiver.name;
+          }
         } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
           this._context.batchingReceiver = this as any;
         }
