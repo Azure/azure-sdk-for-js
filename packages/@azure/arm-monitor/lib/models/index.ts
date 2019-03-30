@@ -3622,12 +3622,12 @@ export interface MetricBaselineGetOptionalParams extends msRest.RequestOptionsBa
 
 /**
  * @interface
- * An interface representing MetricBaselinesListOptionalParams.
+ * An interface representing BaselinesListOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface MetricBaselinesListOptionalParams extends msRest.RequestOptionsBase {
+export interface BaselinesListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [metricnames] The names of the metrics (comma separated)
    * to retrieve.
@@ -4884,7 +4884,7 @@ export type MetricBaselineCalculateBaselineResponse = CalculateBaselineResponse 
 /**
  * Contains response data for the list operation.
  */
-export type MetricBaselinesListResponse = MetricBaselinesResponse & {
+export type BaselinesListResponse = MetricBaselinesResponse & {
   /**
    * The underlying HTTP response.
    */

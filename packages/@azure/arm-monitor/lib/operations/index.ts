@@ -23,7 +23,7 @@ export * from "./tenantActivityLogs";
 export * from "./metricDefinitions";
 export * from "./metrics";
 export * from "./metricBaseline";
-export * from "./metricBaselines";
+export * from "./baselines";
 export * from "./metricAlerts";
 export * from "./metricAlertsStatus";
 export * from "./scheduledQueryRules";
