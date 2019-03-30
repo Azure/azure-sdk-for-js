@@ -27,46 +27,37 @@ export class MetricBaselines {
   }
 
   /**
-   * **Gets the metric baseline values**.
-   * @param resourceUri The identifier of the resource. It has the following structure:
-   * subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}.
-   * For example:
-   * subscriptions/b368ca2f-e298-46b7-b0ab-012281956afa/resourceGroups/vms/providers/Microsoft.Compute/virtualMachines/vm1
+   * **Lists the metric baseline values for a resource**.
+   * @param resourceUri The identifier of the resource.
    * @param [options] The optional parameters
-   * @returns Promise<Models.MetricBaselinesGetResponse>
+   * @returns Promise<Models.MetricBaselinesListResponse>
    */
-  get(resourceUri: string, options?: Models.MetricBaselinesGetOptionalParams): Promise<Models.MetricBaselinesGetResponse>;
+  list(resourceUri: string, options?: Models.MetricBaselinesListOptionalParams): Promise<Models.MetricBaselinesListResponse>;
   /**
-   * @param resourceUri The identifier of the resource. It has the following structure:
-   * subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}.
-   * For example:
-   * subscriptions/b368ca2f-e298-46b7-b0ab-012281956afa/resourceGroups/vms/providers/Microsoft.Compute/virtualMachines/vm1
+   * @param resourceUri The identifier of the resource.
    * @param callback The callback
    */
-  get(resourceUri: string, callback: msRest.ServiceCallback<Models.MetricBaselinesResponse>): void;
+  list(resourceUri: string, callback: msRest.ServiceCallback<Models.MetricBaselinesResponse>): void;
   /**
-   * @param resourceUri The identifier of the resource. It has the following structure:
-   * subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}.
-   * For example:
-   * subscriptions/b368ca2f-e298-46b7-b0ab-012281956afa/resourceGroups/vms/providers/Microsoft.Compute/virtualMachines/vm1
+   * @param resourceUri The identifier of the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceUri: string, options: Models.MetricBaselinesGetOptionalParams, callback: msRest.ServiceCallback<Models.MetricBaselinesResponse>): void;
-  get(resourceUri: string, options?: Models.MetricBaselinesGetOptionalParams | msRest.ServiceCallback<Models.MetricBaselinesResponse>, callback?: msRest.ServiceCallback<Models.MetricBaselinesResponse>): Promise<Models.MetricBaselinesGetResponse> {
+  list(resourceUri: string, options: Models.MetricBaselinesListOptionalParams, callback: msRest.ServiceCallback<Models.MetricBaselinesResponse>): void;
+  list(resourceUri: string, options?: Models.MetricBaselinesListOptionalParams | msRest.ServiceCallback<Models.MetricBaselinesResponse>, callback?: msRest.ServiceCallback<Models.MetricBaselinesResponse>): Promise<Models.MetricBaselinesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
         options
       },
-      getOperationSpec,
-      callback) as Promise<Models.MetricBaselinesGetResponse>;
+      listOperationSpec,
+      callback) as Promise<Models.MetricBaselinesListResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/microsoft.insights/metricBaselines",
   urlParameters: [

@@ -2497,7 +2497,7 @@ export interface BaselineMetadata {
 /**
  * @interface
  * An interface representing TimeSeriesBaseline.
- * The time series baseline class.
+ * The baseline values for a single time series.
  *
  */
 export interface TimeSeriesBaseline {
@@ -2506,21 +2506,21 @@ export interface TimeSeriesBaseline {
    */
   aggregation: string;
   /**
-   * @member {MetricSingleDimension[]} [dimensions] the dimensions of this time
+   * @member {MetricSingleDimension[]} [dimensions] The dimensions of this time
    * series.
    */
   dimensions?: MetricSingleDimension[];
   /**
-   * @member {Date[] | string[]} timestamps the array of timestamps of the
+   * @member {Date[] | string[]} timestamps The list of timestamps of the
    * baselines.
    */
   timestamps: Date[] | string[];
   /**
-   * @member {Baseline[]} data the baseline values for each sensitivity.
+   * @member {Baseline[]} data The baseline values for each sensitivity.
    */
   data: Baseline[];
   /**
-   * @member {BaselineMetadata[]} [metadata] the baseline metadata values.
+   * @member {BaselineMetadata[]} [metadata] The baseline metadata values.
    */
   metadata?: BaselineMetadata[];
 }
@@ -2533,19 +2533,19 @@ export interface TimeSeriesBaseline {
  */
 export interface SingleMetricBaseline {
   /**
-   * @member {string} id the metric baseline Id.
+   * @member {string} id The metric baseline Id.
    */
   id: string;
   /**
-   * @member {string} type the resource type of the metric baseline resource.
+   * @member {string} type The resource type of the metric baseline resource.
    */
   type: string;
   /**
-   * @member {string} metricName the name of the metric.
+   * @member {string} metricName The name of the metric.
    */
   metricName: string;
   /**
-   * @member {TimeSeriesBaseline[]} baselines the baseline for each time series
+   * @member {TimeSeriesBaseline[]} baselines The baseline for each time series
    * that was queried.
    */
   baselines: TimeSeriesBaseline[];
@@ -2577,10 +2577,10 @@ export interface MetricBaselinesResponse {
    */
   namespace?: string;
   /**
-   * @member {SingleMetricBaseline} value The baseline results of a single
-   * metric.
+   * @member {SingleMetricBaseline[]} value The list of baseline results for
+   * each metric.
    */
-  value: SingleMetricBaseline;
+  value: SingleMetricBaseline[];
 }
 
 /**
@@ -3587,12 +3587,12 @@ export interface MetricsListOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing BaselineGetOptionalParams.
+ * An interface representing MetricBaselineGetOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface BaselineGetOptionalParams extends msRest.RequestOptionsBase {
+export interface MetricBaselineGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [timespan] The timespan of the query. It is a string with
    * the following format 'startDateTime_ISO/endDateTime_ISO'.
@@ -3622,12 +3622,12 @@ export interface BaselineGetOptionalParams extends msRest.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing MetricBaselinesGetOptionalParams.
+ * An interface representing MetricBaselinesListOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface MetricBaselinesGetOptionalParams extends msRest.RequestOptionsBase {
+export interface MetricBaselinesListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [metricnames] The names of the metrics (comma separated)
    * to retrieve.
@@ -4846,7 +4846,7 @@ export type MetricsListResponse = Response & {
 /**
  * Contains response data for the get operation.
  */
-export type BaselineGetResponse = BaselineResponse & {
+export type MetricBaselineGetResponse = BaselineResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -4865,7 +4865,7 @@ export type BaselineGetResponse = BaselineResponse & {
 /**
  * Contains response data for the calculateBaseline operation.
  */
-export type BaselineCalculateBaselineResponse = CalculateBaselineResponse & {
+export type MetricBaselineCalculateBaselineResponse = CalculateBaselineResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -4882,9 +4882,9 @@ export type BaselineCalculateBaselineResponse = CalculateBaselineResponse & {
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the list operation.
  */
-export type MetricBaselinesGetResponse = MetricBaselinesResponse & {
+export type MetricBaselinesListResponse = MetricBaselinesResponse & {
   /**
    * The underlying HTTP response.
    */

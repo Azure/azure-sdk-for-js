@@ -3511,8 +3511,13 @@ export const MetricBaselinesResponse: msRest.CompositeMapper = {
         required: true,
         serializedName: "value",
         type: {
-          name: "Composite",
-          className: "SingleMetricBaseline"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SingleMetricBaseline"
+            }
+          }
         }
       }
     }
