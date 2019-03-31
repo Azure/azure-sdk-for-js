@@ -50,6 +50,7 @@ class SqlManagementClient extends SqlManagementClientContext {
   syncGroups: operations.SyncGroups;
   syncMembers: operations.SyncMembers;
   subscriptionUsages: operations.SubscriptionUsages;
+  virtualClusters: operations.VirtualClusters;
   virtualNetworkRules: operations.VirtualNetworkRules;
   extendedDatabaseBlobAuditingPolicies: operations.ExtendedDatabaseBlobAuditingPolicies;
   extendedServerBlobAuditingPolicies: operations.ExtendedServerBlobAuditingPolicies;
@@ -70,10 +71,15 @@ class SqlManagementClient extends SqlManagementClientContext {
   backupLongTermRetentionPolicies: operations.BackupLongTermRetentionPolicies;
   managedBackupShortTermRetentionPolicies: operations.ManagedBackupShortTermRetentionPolicies;
   managedDatabases: operations.ManagedDatabases;
+  managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies: operations.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies;
   serverAutomaticTuning: operations.ServerAutomaticTuningOperations;
   serverDnsAliases: operations.ServerDnsAliases;
   serverSecurityAlertPolicies: operations.ServerSecurityAlertPolicies;
+  restorableDroppedManagedDatabases: operations.RestorableDroppedManagedDatabases;
   restorePoints: operations.RestorePoints;
+  managedDatabaseSecurityAlertPolicies: operations.ManagedDatabaseSecurityAlertPolicies;
+  managedServerSecurityAlertPolicies: operations.ManagedServerSecurityAlertPolicies;
+  sensitivityLabels: operations.SensitivityLabels;
   databaseOperations: operations.DatabaseOperations;
   elasticPoolOperations: operations.ElasticPoolOperations;
   capabilities: operations.Capabilities;
@@ -87,8 +93,10 @@ class SqlManagementClient extends SqlManagementClientContext {
   managedInstanceTdeCertificates: operations.ManagedInstanceTdeCertificates;
   managedInstanceKeys: operations.ManagedInstanceKeys;
   managedInstanceEncryptionProtectors: operations.ManagedInstanceEncryptionProtectors;
+  recoverableManagedDatabases: operations.RecoverableManagedDatabases;
   managedInstanceVulnerabilityAssessments: operations.ManagedInstanceVulnerabilityAssessments;
   serverVulnerabilityAssessments: operations.ServerVulnerabilityAssessments;
+  managedDatabaseSensitivityLabels: operations.ManagedDatabaseSensitivityLabels;
 
   /**
    * Initializes a new instance of the SqlManagementClient class.
@@ -131,6 +139,7 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.syncGroups = new operations.SyncGroups(this);
     this.syncMembers = new operations.SyncMembers(this);
     this.subscriptionUsages = new operations.SubscriptionUsages(this);
+    this.virtualClusters = new operations.VirtualClusters(this);
     this.virtualNetworkRules = new operations.VirtualNetworkRules(this);
     this.extendedDatabaseBlobAuditingPolicies = new operations.ExtendedDatabaseBlobAuditingPolicies(this);
     this.extendedServerBlobAuditingPolicies = new operations.ExtendedServerBlobAuditingPolicies(this);
@@ -151,10 +160,15 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.backupLongTermRetentionPolicies = new operations.BackupLongTermRetentionPolicies(this);
     this.managedBackupShortTermRetentionPolicies = new operations.ManagedBackupShortTermRetentionPolicies(this);
     this.managedDatabases = new operations.ManagedDatabases(this);
+    this.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies = new operations.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(this);
     this.serverAutomaticTuning = new operations.ServerAutomaticTuningOperations(this);
     this.serverDnsAliases = new operations.ServerDnsAliases(this);
     this.serverSecurityAlertPolicies = new operations.ServerSecurityAlertPolicies(this);
+    this.restorableDroppedManagedDatabases = new operations.RestorableDroppedManagedDatabases(this);
     this.restorePoints = new operations.RestorePoints(this);
+    this.managedDatabaseSecurityAlertPolicies = new operations.ManagedDatabaseSecurityAlertPolicies(this);
+    this.managedServerSecurityAlertPolicies = new operations.ManagedServerSecurityAlertPolicies(this);
+    this.sensitivityLabels = new operations.SensitivityLabels(this);
     this.databaseOperations = new operations.DatabaseOperations(this);
     this.elasticPoolOperations = new operations.ElasticPoolOperations(this);
     this.capabilities = new operations.Capabilities(this);
@@ -168,8 +182,10 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.managedInstanceTdeCertificates = new operations.ManagedInstanceTdeCertificates(this);
     this.managedInstanceKeys = new operations.ManagedInstanceKeys(this);
     this.managedInstanceEncryptionProtectors = new operations.ManagedInstanceEncryptionProtectors(this);
+    this.recoverableManagedDatabases = new operations.RecoverableManagedDatabases(this);
     this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(this);
     this.serverVulnerabilityAssessments = new operations.ServerVulnerabilityAssessments(this);
+    this.managedDatabaseSensitivityLabels = new operations.ManagedDatabaseSensitivityLabels(this);
   }
 }
 
