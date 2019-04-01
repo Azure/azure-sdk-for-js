@@ -87,7 +87,7 @@ export interface StorageProfile {
 /**
  * Contains the possible cases for ServerPropertiesForCreate.
  */
-export type ServerPropertiesForCreateUnion = ServerPropertiesForCreate | ServerPropertiesForDefaultCreate | ServerPropertiesForRestore | ServerPropertiesForGeoRestore;
+export type ServerPropertiesForCreateUnion = ServerPropertiesForCreate | ServerPropertiesForDefaultCreate | ServerPropertiesForRestore | ServerPropertiesForGeoRestore | ServerPropertiesForReplica;
 
 /**
  * @interface
@@ -224,6 +224,38 @@ export interface ServerPropertiesForGeoRestore {
 
 /**
  * @interface
+ * An interface representing ServerPropertiesForReplica.
+ * The properties to create a new replica.
+ *
+ */
+export interface ServerPropertiesForReplica {
+  /**
+   * @member {string} createMode Polymorphic Discriminator
+   */
+  createMode: "Replica";
+  /**
+   * @member {ServerVersion} [version] Server version. Possible values include:
+   * '9.5', '9.6', '10', '10.0', '10.2'
+   */
+  version?: ServerVersion;
+  /**
+   * @member {SslEnforcementEnum} [sslEnforcement] Enable ssl enforcement or
+   * not when connect to server. Possible values include: 'Enabled', 'Disabled'
+   */
+  sslEnforcement?: SslEnforcementEnum;
+  /**
+   * @member {StorageProfile} [storageProfile] Storage profile of a server.
+   */
+  storageProfile?: StorageProfile;
+  /**
+   * @member {string} sourceServerId The master server id to create replica
+   * from.
+   */
+  sourceServerId: string;
+}
+
+/**
+ * @interface
  * An interface representing Sku.
  * Billing information related properties of a server.
  *
@@ -302,6 +334,20 @@ export interface Server extends TrackedResource {
    * @member {StorageProfile} [storageProfile] Storage profile of a server.
    */
   storageProfile?: StorageProfile;
+  /**
+   * @member {string} [replicationRole] The replication role of the server.
+   */
+  replicationRole?: string;
+  /**
+   * @member {string} [masterServerId] The master server id of a replica
+   * server.
+   */
+  masterServerId?: string;
+  /**
+   * @member {number} [replicaCapacity] The maximum number of replicas that a
+   * master server can have.
+   */
+  replicaCapacity?: number;
 }
 
 /**
@@ -334,7 +380,7 @@ export interface ServerForCreate {
 /**
  * @interface
  * An interface representing ServerUpdateParameters.
- * Parameters allowd to update for a server.
+ * Parameters allowed to update for a server.
  *
  */
 export interface ServerUpdateParameters {
@@ -361,6 +407,10 @@ export interface ServerUpdateParameters {
    * not when connect to server. Possible values include: 'Enabled', 'Disabled'
    */
   sslEnforcement?: SslEnforcementEnum;
+  /**
+   * @member {string} [replicationRole] The replication role of the server.
+   */
+  replicationRole?: string;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application-specific
    * metadata in the form of key-value pairs.
@@ -1025,6 +1075,25 @@ export type ServersBeginUpdateResponse = Server & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Server;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type ReplicasListByServerResponse = ServerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerListResult;
     };
 };
 
