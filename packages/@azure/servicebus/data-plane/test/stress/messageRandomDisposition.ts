@@ -21,8 +21,9 @@ let isJobDone = false;
 
 async function main(): Promise<void> {
   snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
-  sendMessages();
-  receiveMessages();
+  const sendPromise = sendMessages();
+  const receivePromise = receiveMessages();
+  await Promise.all([sendPromise, receivePromise]);
 }
 
 async function sendMessages(): Promise<void> {
@@ -44,8 +45,8 @@ async function sendMessages(): Promise<void> {
       await delay(2000); // Throttling send to not increase queue size
     }
   } finally {
-    client.close();
-    ns.close();
+    await client.close();
+    await ns.close();
   }
 }
 
@@ -74,7 +75,7 @@ async function receiveMessages(): Promise<void> {
             }
           }
           messageAbandonedMap[receivedMsgId] = currCount + 1;
-          brokeredMessage.abandon();
+          await brokeredMessage.abandon();
           break;
         }
         case 1: {
@@ -82,7 +83,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.complete();
+          await brokeredMessage.complete();
           break;
         }
         case 2: {
@@ -90,7 +91,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.deadLetter();
+          await brokeredMessage.deadLetter();
           break;
         }
         case 3: {
@@ -98,7 +99,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.defer();
+          await brokeredMessage.defer();
           break;
         }
         default: {
@@ -118,8 +119,8 @@ async function receiveMessages(): Promise<void> {
     await receiver.close();
     clearInterval(snapshotIntervalID);
   } finally {
-    client.close();
-    ns.close();
+    await client.close();
+    await ns.close();
   }
 }
 

@@ -43,11 +43,11 @@ async function sendReceiveMessages(): Promise<void> {
         await sender.send(message);
         const receiver = clients[i].createReceiver();
         const messagesReceived = await receiver.receiveBatch(1);
-        messagesReceived[0].complete();
+        await messagesReceived[0].complete();
       }
     }
   } finally {
-    ns.close();
+    await ns.close();
     clearInterval(snapshotIntervalID);
   }
 }

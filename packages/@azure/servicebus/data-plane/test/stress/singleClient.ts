@@ -17,7 +17,7 @@ async function main(): Promise<void> {
     isJobDone = true;
   }, testDurationInMilliseconds);
 
-  sendReceiveMessages();
+  await sendReceiveMessages();
 }
 
 async function sendReceiveMessages(): Promise<void> {
@@ -39,13 +39,13 @@ async function sendReceiveMessages(): Promise<void> {
 
       const receiver = client.createReceiver();
       const messagesReceived = await receiver.receiveBatch(1);
-      messagesReceived[0].complete();
+      await messagesReceived[0].complete();
       await receiver.close();
 
       await client.close();
     }
   } finally {
-    ns.close();
+    await ns.close();
     clearInterval(snapshotIntervalID);
   }
 }
