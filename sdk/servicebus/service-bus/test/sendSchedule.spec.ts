@@ -13,7 +13,6 @@ import {
   TopicClient,
   SubscriptionClient,
   delay,
-<<<<<<< HEAD:packages/@azure/servicebus/data-plane/test/sendSchedule.spec.ts
   SendableMessageInfo,
   ReceiveMode
 } from "../src";
