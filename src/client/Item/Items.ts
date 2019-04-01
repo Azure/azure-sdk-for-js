@@ -7,7 +7,6 @@ import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
-import { Resource } from "../Resource";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
@@ -265,7 +264,7 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const response = (await this.clientContext.upsert<T>(body, path, ResourceType.item, id, options)) as T & Resource;
+    const response = await this.clientContext.upsert<T>(body, path, ResourceType.item, id, options);
 
     const ref = new Item(
       this.container,

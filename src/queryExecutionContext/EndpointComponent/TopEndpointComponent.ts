@@ -1,4 +1,5 @@
 import { Response } from "../../request";
+import { getInitialHeader } from "../headerUtils";
 import { IExecutionContext } from "../IExecutionContext";
 import { IEndpointComponent } from "./IEndpointComponent";
 
@@ -21,7 +22,7 @@ export class TopEndpointComponent implements IEndpointComponent {
    */
   public async nextItem(): Promise<Response<any>> {
     if (this.topCount <= 0) {
-      return { result: undefined, headers: undefined };
+      return { result: undefined, headers: getInitialHeader() };
     }
     this.topCount--;
     try {
@@ -40,7 +41,7 @@ export class TopEndpointComponent implements IEndpointComponent {
    */
   public async current(): Promise<Response<any>> {
     if (this.topCount <= 0) {
-      return { result: undefined, headers: undefined };
+      return { result: undefined, headers: getInitialHeader() };
     }
     try {
       return this.executionContext.current();

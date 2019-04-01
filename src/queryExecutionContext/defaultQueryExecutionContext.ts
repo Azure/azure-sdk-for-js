@@ -1,6 +1,7 @@
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { Response } from "../request";
+import { getInitialHeader } from "./headerUtils";
 import { IExecutionContext } from "./index";
 
 /** @hidden */
@@ -65,7 +66,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
-        headers: undefined
+        headers: getInitialHeader()
       };
     }
 
@@ -88,7 +89,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
       return { result: this.resources[this.currentIndex], headers };
     } else {
       this.state = DefaultQueryExecutionContext.STATES.ended;
-      return { result: undefined, headers: undefined };
+      return { result: undefined, headers: getInitialHeader() };
     }
   }
 
@@ -115,7 +116,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    */
   public async fetchMore(): Promise<Response<any>> {
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: undefined, result: undefined };
+      return { headers: getInitialHeader(), result: undefined };
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
@@ -124,7 +125,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: undefined, result: undefined };
+      return { headers: getInitialHeader(), result: undefined };
     }
 
     const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];

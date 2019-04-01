@@ -230,7 +230,7 @@ describe("Cross Partition", function() {
 
     const requestChargeValidator = async function(queryIterator: QueryIterator<any>) {
       let counter = 0;
-      let totalRequestCharge = 0;
+      let totalExecuteNextRequestCharge = 0;
 
       while (queryIterator.hasMoreResults()) {
         const { resources: results, requestCharge } = await queryIterator.fetchNext();
@@ -241,10 +241,20 @@ describe("Cross Partition", function() {
         }
 
         if (results === undefined) {
-          assert(totalRequestCharge > 0);
+          assert(totalExecuteNextRequestCharge > 0);
+          queryIterator.reset();
+          const { requestCharge: fetchAllRequestCharge } = await queryIterator.fetchAll();
+
+          assert(fetchAllRequestCharge > 0, "fetchAll request charge must be greater than 0");
+          const percentDifference =
+            Math.abs(fetchAllRequestCharge - totalExecuteNextRequestCharge) / totalExecuteNextRequestCharge;
+          assert(
+            percentDifference <= 0.01,
+            "difference between toArray request charge and executeNext request charge should be less than 1%"
+          );
           return;
         } else {
-          totalRequestCharge += requestCharge;
+          totalExecuteNextRequestCharge += requestCharge;
           assert(requestCharge >= 0);
         }
       }

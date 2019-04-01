@@ -21,7 +21,7 @@
   },
   "scripts": {
     "clean": "rimraf dist && rimraf dist-esm",
-    "lint": "tslint --project tsconfig.json",
+    "lint": "tslint --project ./src/tsconfig.json",
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\"",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\"",
     "compile": "echo Using TypeScript && tsc --version && tsc -b --pretty",

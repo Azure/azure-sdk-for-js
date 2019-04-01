@@ -1,5 +1,6 @@
 import { Response } from "../../request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
+import { getInitialHeader } from "../headerUtils";
 import { IExecutionContext } from "../IExecutionContext";
 import { CosmosHeaders } from "../index";
 import { IEndpointComponent } from "./IEndpointComponent";
@@ -137,7 +138,7 @@ export class AggregateEndpointComponent implements IEndpointComponent {
     } else {
       return {
         result: this.aggregateValues[this.aggregateValuesIndex],
-        headers: undefined
+        headers: getInitialHeader()
       };
     }
   }
