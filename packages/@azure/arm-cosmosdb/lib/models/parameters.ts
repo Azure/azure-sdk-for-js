@@ -54,6 +54,16 @@ export const collectionRid: msRest.OperationURLParameter = {
     }
   }
 };
+export const containerRid: msRest.OperationURLParameter = {
+  parameterPath: "containerRid",
+  mapper: {
+    required: true,
+    serializedName: "containerRid",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const databaseRid: msRest.OperationURLParameter = {
   parameterPath: "databaseRid",
   mapper: {
@@ -81,6 +91,16 @@ export const filter1: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const keyspaceRid: msRest.OperationURLParameter = {
+  parameterPath: "keyspaceRid",
+  mapper: {
+    required: true,
+    serializedName: "keyspaceRid",
     type: {
       name: "String"
     }
@@ -147,6 +167,16 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tableRid: msRest.OperationURLParameter = {
+  parameterPath: "tableRid",
+  mapper: {
+    required: true,
+    serializedName: "tableRid",
     type: {
       name: "String"
     }

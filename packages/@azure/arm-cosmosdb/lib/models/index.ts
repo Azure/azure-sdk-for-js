@@ -152,7 +152,7 @@ export interface VirtualNetworkRule {
 /**
  * @interface
  * An interface representing Resource.
- * A database account resource.
+ * The core properties of ARM resources.
  *
  * @extends BaseResource
  */
@@ -287,6 +287,371 @@ export interface DatabaseAccount extends Resource {
 
 /**
  * @interface
+ * An interface representing SqlDatabase.
+ * An Azure Cosmos DB SQL database.
+ *
+ * @extends Resource
+ */
+export interface SqlDatabase extends Resource {
+  /**
+   * @member {string} sqlDatabaseId Name of the Cosmos DB SQL database
+   */
+  sqlDatabaseId: string;
+  /**
+   * @member {string} [_rid] A system generated property. A unique identifier.
+   */
+  _rid?: string;
+  /**
+   * @member {any} [_ts] A system generated property that denotes the last
+   * updated timestamp of the resource.
+   */
+  _ts?: any;
+  /**
+   * @member {string} [_self] A system generated property. It is the unique
+   * addressable URI for the resource.
+   */
+  _self?: string;
+  /**
+   * @member {string} [_etag] A system generated property representing the
+   * resource etag required for optimistic concurrency control.
+   */
+  _etag?: string;
+  /**
+   * @member {string} [_colls] A system generated property that specified the
+   * addressable path of the collections resource.
+   */
+  _colls?: string;
+  /**
+   * @member {string} [_users] A system generated property that specifies the
+   * addressable path of the users resource.
+   */
+  _users?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Indexes.
+ * The indexes for the path.
+ *
+ */
+export interface Indexes {
+  /**
+   * @member {DataType} [dataType] The datatype for which the indexing behavior
+   * is applied to. Possible values include: 'String', 'Number', 'Point',
+   * 'Polygon', 'LineString', 'MultiPolygon'. Default value: 'String' .
+   */
+  dataType?: DataType;
+  /**
+   * @member {number} [precision] The precision of the index. -1 is maximum
+   * precision.
+   */
+  precision?: number;
+  /**
+   * @member {IndexKind} [kind] Indicates the type of index. Possible values
+   * include: 'Hash', 'Range', 'Spatial'. Default value: 'Hash' .
+   */
+  kind?: IndexKind;
+}
+
+/**
+ * @interface
+ * An interface representing IncludedPaths.
+ * The paths that are included in indexing
+ *
+ */
+export interface IncludedPaths {
+  /**
+   * @member {string} [path] The path for which the indexing behavior applies
+   * to. Index paths typically start with root and end with wildcard (/path/*)
+   */
+  path?: string;
+  /**
+   * @member {Indexes[]} [indexes] List of indexes for this path
+   */
+  indexes?: Indexes[];
+}
+
+/**
+ * @interface
+ * An interface representing IndexingPolicy.
+ * Cosmos DB indexing policy
+ *
+ */
+export interface IndexingPolicy {
+  /**
+   * @member {boolean} [automatic] Indicates if the indexing policy is
+   * automatic
+   */
+  automatic?: boolean;
+  /**
+   * @member {IndexingMode} [indexingMode] Indicates the indexing mode.
+   * Possible values include: 'Consistent', 'Lazy', 'None'. Default value:
+   * 'Consistent' .
+   */
+  indexingMode?: IndexingMode;
+  /**
+   * @member {IncludedPaths[]} [includedPaths] List of paths to include in the
+   * indexing
+   */
+  includedPaths?: IncludedPaths[];
+  /**
+   * @member {string[]} [excludedPaths] List of paths to exclude from indexing
+   */
+  excludedPaths?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing SqlPartitionKey.
+ * The configuration of the partition key to be used for partitioning data into
+ * multiple partitions
+ *
+ */
+export interface SqlPartitionKey {
+  /**
+   * @member {string[]} [paths] List of paths using which data within the SQL
+   * container can be partitioned
+   */
+  paths?: string[];
+  /**
+   * @member {PartitionKind} [kind] Indicates the kind of algorithm used for
+   * partitioning. Possible values include: 'Hash', 'Range'. Default value:
+   * 'Hash' .
+   */
+  kind?: PartitionKind;
+}
+
+/**
+ * @interface
+ * An interface representing UniqueKey.
+ * The unique key on that enforces uniqueness constraint on documents in the
+ * collection in the Azure Cosmos DB service.
+ *
+ */
+export interface UniqueKey {
+  /**
+   * @member {string[]} [paths] List of paths must be unique for each document
+   * in the Azure Cosmos DB service
+   */
+  paths?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing UniqueKeyPolicy.
+ * The unique key policy configuration for specifying uniqueness constraints on
+ * documents in the collection in the Azure Cosmos DB service.
+ *
+ */
+export interface UniqueKeyPolicy {
+  /**
+   * @member {UniqueKey[]} [uniqueKeys] List of unique keys on that enforces
+   * uniqueness constraint on documents in the collection in the Azure Cosmos
+   * DB service.
+   */
+  uniqueKeys?: UniqueKey[];
+}
+
+/**
+ * @interface
+ * An interface representing ConflictResolutionPolicy.
+ * The conflict resolution policy for the SQL container.
+ *
+ */
+export interface ConflictResolutionPolicy {
+  /**
+   * @member {ConflictResolutionMode} [mode] Indicates the conflict resolution
+   * mode. Possible values include: 'LastWriterWins', 'Custom'. Default value:
+   * 'LastWriterWins' .
+   */
+  mode?: ConflictResolutionMode;
+  /**
+   * @member {string} [conflictResolutionPath] The conflict resolution path in
+   * the case of LastWriterWins mode.
+   */
+  conflictResolutionPath?: string;
+  /**
+   * @member {string} [conflictResolutionProcedure] The procedure to resolve
+   * conflicts in the case of custom mode.
+   */
+  conflictResolutionProcedure?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SqlContainer.
+ * An Azure Cosmos DB SQL container.
+ *
+ * @extends Resource
+ */
+export interface SqlContainer extends Resource {
+  /**
+   * @member {string} sqlContainerId Name of the Cosmos DB SQL container
+   */
+  sqlContainerId: string;
+  /**
+   * @member {IndexingPolicy} [indexingPolicy] The configuration of the
+   * indexing policy. By default, the indexing is automatic for all document
+   * paths within the SQL container
+   */
+  indexingPolicy?: IndexingPolicy;
+  /**
+   * @member {SqlPartitionKey} [partitionKey] The configuration of the
+   * partition key to be used for partitioning data into multiple partitions
+   */
+  partitionKey?: SqlPartitionKey;
+  /**
+   * @member {number} [defaultTtl] Default time to live
+   */
+  defaultTtl?: number;
+  /**
+   * @member {UniqueKeyPolicy} [uniqueKeyPolicy] The unique key policy
+   * configuration for specifying uniqueness constraints on documents in the
+   * collection in the Azure Cosmos DB service.
+   */
+  uniqueKeyPolicy?: UniqueKeyPolicy;
+  /**
+   * @member {ConflictResolutionPolicy} [conflictResolutionPolicy] The conflict
+   * resolution policy for the SQL container.
+   */
+  conflictResolutionPolicy?: ConflictResolutionPolicy;
+  /**
+   * @member {string} [_rid] A system generated property. A unique identifier.
+   */
+  _rid?: string;
+  /**
+   * @member {any} [_ts] A system generated property that denotes the last
+   * updated timestamp of the resource.
+   */
+  _ts?: any;
+  /**
+   * @member {string} [_self] A system generated property. It is the unique
+   * addressable URI for the resource.
+   */
+  _self?: string;
+  /**
+   * @member {string} [_etag] A system generated property representing the
+   * resource etag required for optimistic concurrency control.
+   */
+  _etag?: string;
+  /**
+   * @member {string} [_doc] A system generated property that specifies the
+   * addressable path of the documents resource.
+   */
+  _doc?: string;
+  /**
+   * @member {string} [_sprocs] A system generated property that specifies the
+   * addressable path of the stored procedures (sprocs) resource.
+   */
+  _sprocs?: string;
+  /**
+   * @member {string} [_triggers] A system generated property that specifies
+   * the addressable path of the triggers resource.
+   */
+  _triggers?: string;
+  /**
+   * @member {string} [_udfs] A system generated property that specifies the
+   * addressable path of the user-defined functions (udfs) resource.
+   */
+  _udfs?: string;
+  /**
+   * @member {string} [_conflicts] A system generated property that specifies
+   * the addressable path of the conflicts resource.
+   */
+  _conflicts?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDatabase.
+ * An Azure Cosmos DB Mongo database.
+ *
+ * @extends Resource
+ */
+export interface MongoDatabase extends Resource {
+  /**
+   * @member {string} mongoDatabaseId Name of the Cosmos DB Mongo database
+   */
+  mongoDatabaseId: string;
+}
+
+/**
+ * @interface
+ * An interface representing MongoCollection.
+ * An Azure Cosmos DB Mongo collection.
+ *
+ * @extends Resource
+ */
+export interface MongoCollection extends Resource {
+  /**
+   * @member {string} mongoCollectionId Name of the Cosmos DB Mongo collection
+   */
+  mongoCollectionId: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [shardKey] A key-value pair
+   * of shard keys to be applied for the request.
+   */
+  shardKey?: { [propertyName: string]: string };
+  /**
+   * @member {MongoIndex[]} [indexes] List of index keys
+   */
+  indexes?: MongoIndex[];
+}
+
+/**
+ * @interface
+ * An interface representing Table.
+ * An Azure Cosmos DB Table.
+ *
+ * @extends Resource
+ */
+export interface Table extends Resource {
+  /**
+   * @member {string} tableId Name of the Cosmos DB table
+   */
+  tableId: string;
+}
+
+/**
+ * @interface
+ * An interface representing CassandraKeyspace.
+ * An Azure Cosmos DB Cassandra keyspace.
+ *
+ * @extends Resource
+ */
+export interface CassandraKeyspace extends Resource {
+  /**
+   * @member {string} cassandraKeyspaceId Name of the Cosmos DB Cassandra
+   * keyspace
+   */
+  cassandraKeyspaceId: string;
+}
+
+/**
+ * @interface
+ * An interface representing CassandraTable.
+ * An Azure Cosmos DB Cassandra table.
+ *
+ * @extends Resource
+ */
+export interface CassandraTable extends Resource {
+  /**
+   * @member {string} cassandraTableId Name of the Cosmos DB Cassandra table
+   */
+  cassandraTableId: string;
+  /**
+   * @member {number} [defaultTtl] Time to live of the Cosmos DB Cassandra
+   * table
+   */
+  defaultTtl?: number;
+  /**
+   * @member {CassandraSchema} [schema] Schema of the Cosmos DB Cassandra table
+   */
+  schema?: CassandraSchema;
+}
+
+/**
+ * @interface
  * An interface representing ErrorResponse.
  * Error Response.
  *
@@ -328,6 +693,35 @@ export interface RegionForOnlineOffline {
    * each word capitalized.
    */
   region: string;
+}
+
+/**
+ * @interface
+ * An interface representing ExtendedResourceProperties.
+ * The system generated resource properties associated with SQL databases and
+ * SQL containers.
+ *
+ */
+export interface ExtendedResourceProperties {
+  /**
+   * @member {string} [_rid] A system generated property. A unique identifier.
+   */
+  _rid?: string;
+  /**
+   * @member {any} [_ts] A system generated property that denotes the last
+   * updated timestamp of the resource.
+   */
+  _ts?: any;
+  /**
+   * @member {string} [_self] A system generated property. It is the unique
+   * addressable URI for the resource.
+   */
+  _self?: string;
+  /**
+   * @member {string} [_etag] A system generated property representing the
+   * resource etag required for optimistic concurrency control.
+   */
+  _etag?: string;
 }
 
 /**
@@ -522,6 +916,399 @@ export interface DatabaseAccountRegenerateKeyParameters {
 
 /**
  * @interface
+ * An interface representing SqlDatabaseResource.
+ * Cosmos DB SQL database id object
+ *
+ */
+export interface SqlDatabaseResource {
+  /**
+   * @member {string} id Name of the Cosmos DB SQL database
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing SqlDatabaseCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB SQL database.
+ *
+ */
+export interface SqlDatabaseCreateUpdateParameters {
+  /**
+   * @member {SqlDatabaseResource} resource The standard JSON format of a SQL
+   * database
+   */
+  resource: SqlDatabaseResource;
+  /**
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing SqlContainerResource.
+ * Cosmos DB SQL container resource object
+ *
+ */
+export interface SqlContainerResource {
+  /**
+   * @member {string} id Name of the Cosmos DB SQL container
+   */
+  id: string;
+  /**
+   * @member {IndexingPolicy} [indexingPolicy] The configuration of the
+   * indexing policy. By default, the indexing is automatic for all document
+   * paths within the SQL container
+   */
+  indexingPolicy?: IndexingPolicy;
+  /**
+   * @member {SqlPartitionKey} [partitionKey] The configuration of the
+   * partition key to be used for partitioning data into multiple partitions
+   */
+  partitionKey?: SqlPartitionKey;
+  /**
+   * @member {number} [defaultTtl] Default time to live
+   */
+  defaultTtl?: number;
+  /**
+   * @member {UniqueKeyPolicy} [uniqueKeyPolicy] The unique key policy
+   * configuration for specifying uniqueness constraints on documents in the
+   * collection in the Azure Cosmos DB service.
+   */
+  uniqueKeyPolicy?: UniqueKeyPolicy;
+  /**
+   * @member {ConflictResolutionPolicy} [conflictResolutionPolicy] The conflict
+   * resolution policy for the SQL container.
+   */
+  conflictResolutionPolicy?: ConflictResolutionPolicy;
+}
+
+/**
+ * @interface
+ * An interface representing SqlContainerCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB SQL container.
+ *
+ */
+export interface SqlContainerCreateUpdateParameters {
+  /**
+   * @member {SqlContainerResource} resource The standard JSON format of a SQL
+   * container
+   */
+  resource: SqlContainerResource;
+  /**
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing MongoDatabaseResource.
+ * Cosmos DB Mongo database id object
+ *
+ */
+export interface MongoDatabaseResource {
+  /**
+   * @member {string} id Name of the Cosmos DB Mongo database
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing MongoDatabaseCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB Mongo database.
+ *
+ */
+export interface MongoDatabaseCreateUpdateParameters {
+  /**
+   * @member {MongoDatabaseResource} resource The standard JSON format of a
+   * Mongo database
+   */
+  resource: MongoDatabaseResource;
+  /**
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing MongoIndexKeys.
+ * Cosmos DB Mongo collection resource object
+ *
+ */
+export interface MongoIndexKeys {
+  /**
+   * @member {string[]} [keys] List of keys for each Mongo collection in the
+   * Azure Cosmos DB service
+   */
+  keys?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing MongoIndexOptions.
+ * Cosmos DB Mongo collection index options
+ *
+ */
+export interface MongoIndexOptions {
+  /**
+   * @member {number} [expireAfterSeconds] Expire after seconds
+   */
+  expireAfterSeconds?: number;
+  /**
+   * @member {boolean} [unique] Is unique or not
+   */
+  unique?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MongoIndex.
+ * Cosmos DB Mongo collection index key
+ *
+ */
+export interface MongoIndex {
+  /**
+   * @member {MongoIndexKeys} [key] Cosmos DB Mongo collection index keys
+   */
+  key?: MongoIndexKeys;
+  /**
+   * @member {MongoIndexOptions} [options] Cosmos DB Mongo collection index key
+   * options
+   */
+  options?: MongoIndexOptions;
+}
+
+/**
+ * @interface
+ * An interface representing MongoCollectionResource.
+ * Cosmos DB Mongo collection resource object
+ *
+ */
+export interface MongoCollectionResource {
+  /**
+   * @member {string} id Name of the Cosmos DB Mongo collection
+   */
+  id: string;
+  /**
+   * @member {{ [propertyName: string]: string }} [shardKey] A key-value pair
+   * of shard keys to be applied for the request.
+   */
+  shardKey?: { [propertyName: string]: string };
+  /**
+   * @member {MongoIndex[]} [indexes] List of index keys
+   */
+  indexes?: MongoIndex[];
+}
+
+/**
+ * @interface
+ * An interface representing MongoCollectionCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB Mongo collection.
+ *
+ */
+export interface MongoCollectionCreateUpdateParameters {
+  /**
+   * @member {MongoCollectionResource} resource The standard JSON format of a
+   * Mongo collection
+   */
+  resource: MongoCollectionResource;
+  /**
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing TableResource.
+ * Cosmos DB table id object
+ *
+ */
+export interface TableResource {
+  /**
+   * @member {string} id Name of the Cosmos DB table
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing TableCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB Table.
+ *
+ */
+export interface TableCreateUpdateParameters {
+  /**
+   * @member {TableResource} resource The standard JSON format of a Table
+   */
+  resource: TableResource;
+  /**
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing CassandraKeyspaceResource.
+ * Cosmos DB Cassandra keyspace id object
+ *
+ */
+export interface CassandraKeyspaceResource {
+  /**
+   * @member {string} id Name of the Cosmos DB Cassandra keyspace
+   */
+  id: string;
+}
+
+/**
+ * @interface
+ * An interface representing CassandraKeyspaceCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB Cassandra keyspace.
+ *
+ */
+export interface CassandraKeyspaceCreateUpdateParameters {
+  /**
+   * @member {CassandraKeyspaceResource} resource The standard JSON format of a
+   * Cassandra keyspace
+   */
+  resource: CassandraKeyspaceResource;
+  /**
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing Column.
+ * Cosmos DB Cassandra table column
+ *
+ */
+export interface Column {
+  /**
+   * @member {string} [name] Name of the Cosmos DB Cassandra table column
+   */
+  name?: string;
+  /**
+   * @member {string} [type] Type of the Cosmos DB Cassandra table column
+   */
+  type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CassandraPartitionKey.
+ * Cosmos DB Cassandra table partition key
+ *
+ */
+export interface CassandraPartitionKey {
+  /**
+   * @member {string} [name] Name of the Cosmos DB Cassandra table partition
+   * key
+   */
+  name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ClusterKey.
+ * Cosmos DB Cassandra table cluster key
+ *
+ */
+export interface ClusterKey {
+  /**
+   * @member {string} [name] Name of the Cosmos DB Cassandra table cluster key
+   */
+  name?: string;
+  /**
+   * @member {string} [orderBy] Order of the Cosmos DB Cassandra table cluster
+   * key, only support "Asc" and "Desc"
+   */
+  orderBy?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CassandraSchema.
+ * Cosmos DB Cassandra table schema
+ *
+ */
+export interface CassandraSchema {
+  /**
+   * @member {Column[]} [columns] List of Cassandra table columns.
+   */
+  columns?: Column[];
+  /**
+   * @member {CassandraPartitionKey[]} [partitionKeys] List of partition key.
+   */
+  partitionKeys?: CassandraPartitionKey[];
+  /**
+   * @member {ClusterKey[]} [clusterKeys] List of cluster key.
+   */
+  clusterKeys?: ClusterKey[];
+}
+
+/**
+ * @interface
+ * An interface representing CassandraTableResource.
+ * Cosmos DB Cassandra table id object
+ *
+ */
+export interface CassandraTableResource {
+  /**
+   * @member {string} id Name of the Cosmos DB Cassandra table
+   */
+  id: string;
+  /**
+   * @member {number} [defaultTtl] Time to live of the Cosmos DB Cassandra
+   * table
+   */
+  defaultTtl?: number;
+  /**
+   * @member {CassandraSchema} [schema] Schema of the Cosmos DB Cassandra table
+   */
+  schema?: CassandraSchema;
+}
+
+/**
+ * @interface
+ * An interface representing CassandraTableCreateUpdateParameters.
+ * Parameters to create and update Cosmos DB Cassandra table.
+ *
+ */
+export interface CassandraTableCreateUpdateParameters {
+  /**
+   * @member {CassandraTableResource} resource The standard JSON format of a
+   * Cassandra table
+   */
+  resource: CassandraTableResource;
+  /**
+   * @member {{ [propertyName: string]: string }} options A key-value pair of
+   * options to be applied for the request. This corresponds to the headers
+   * sent with the request.
+   */
+  options: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
  * An interface representing OperationDisplay.
  * The object that represents the operation.
  *
@@ -634,7 +1421,7 @@ export interface Usage {
  */
 export interface PartitionUsage extends Usage {
   /**
-   * @member {string} [partitionId] The parition id (GUID identifier) of the
+   * @member {string} [partitionId] The partition id (GUID identifier) of the
    * usages.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -915,7 +1702,7 @@ export interface PercentileMetric {
  */
 export interface PartitionMetric extends Metric {
   /**
-   * @member {string} [partitionId] The parition id (GUID identifier) of the
+   * @member {string} [partitionId] The partition id (GUID identifier) of the
    * metric values.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -1050,6 +1837,82 @@ export interface MetricDefinitionsListResult extends Array<MetricDefinition> {
 
 /**
  * @interface
+ * An interface representing the SqlDatabaseListResult.
+ * The List operation response, that contains the SQL databases and their
+ * properties.
+ *
+ * @extends Array<SqlDatabase>
+ */
+export interface SqlDatabaseListResult extends Array<SqlDatabase> {
+}
+
+/**
+ * @interface
+ * An interface representing the SqlContainerListResult.
+ * The List operation response, that contains the SQL containers and their
+ * properties.
+ *
+ * @extends Array<SqlContainer>
+ */
+export interface SqlContainerListResult extends Array<SqlContainer> {
+}
+
+/**
+ * @interface
+ * An interface representing the MongoDatabaseListResult.
+ * The List operation response, that contains the Mongo databases and their
+ * properties.
+ *
+ * @extends Array<MongoDatabase>
+ */
+export interface MongoDatabaseListResult extends Array<MongoDatabase> {
+}
+
+/**
+ * @interface
+ * An interface representing the MongoCollectionListResult.
+ * The List operation response, that contains the Mongo collections and their
+ * properties.
+ *
+ * @extends Array<MongoCollection>
+ */
+export interface MongoCollectionListResult extends Array<MongoCollection> {
+}
+
+/**
+ * @interface
+ * An interface representing the TableListResult.
+ * The List operation response, that contains the Table and their properties.
+ *
+ * @extends Array<Table>
+ */
+export interface TableListResult extends Array<Table> {
+}
+
+/**
+ * @interface
+ * An interface representing the CassandraKeyspaceListResult.
+ * The List operation response, that contains the Cassandra keyspaces and their
+ * properties.
+ *
+ * @extends Array<CassandraKeyspace>
+ */
+export interface CassandraKeyspaceListResult extends Array<CassandraKeyspace> {
+}
+
+/**
+ * @interface
+ * An interface representing the CassandraTableListResult.
+ * The List operation response, that contains the Cassandra tables and their
+ * properties.
+ *
+ * @extends Array<CassandraTable>
+ */
+export interface CassandraTableListResult extends Array<CassandraTable> {
+}
+
+/**
+ * @interface
  * An interface representing the OperationListResult.
  * Result of the request to list Resource Provider operations. It contains a
  * list of operations and a URL link to get the next set of results.
@@ -1117,6 +1980,46 @@ export type DatabaseAccountOfferType = 'Standard';
  * @enum {string}
  */
 export type DefaultConsistencyLevel = 'Eventual' | 'Session' | 'BoundedStaleness' | 'Strong' | 'ConsistentPrefix';
+
+/**
+ * Defines values for IndexingMode.
+ * Possible values include: 'Consistent', 'Lazy', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type IndexingMode = 'Consistent' | 'Lazy' | 'None';
+
+/**
+ * Defines values for DataType.
+ * Possible values include: 'String', 'Number', 'Point', 'Polygon', 'LineString', 'MultiPolygon'
+ * @readonly
+ * @enum {string}
+ */
+export type DataType = 'String' | 'Number' | 'Point' | 'Polygon' | 'LineString' | 'MultiPolygon';
+
+/**
+ * Defines values for IndexKind.
+ * Possible values include: 'Hash', 'Range', 'Spatial'
+ * @readonly
+ * @enum {string}
+ */
+export type IndexKind = 'Hash' | 'Range' | 'Spatial';
+
+/**
+ * Defines values for PartitionKind.
+ * Possible values include: 'Hash', 'Range'
+ * @readonly
+ * @enum {string}
+ */
+export type PartitionKind = 'Hash' | 'Range';
+
+/**
+ * Defines values for ConflictResolutionMode.
+ * Possible values include: 'LastWriterWins', 'Custom'
+ * @readonly
+ * @enum {string}
+ */
+export type ConflictResolutionMode = 'LastWriterWins' | 'Custom';
 
 /**
  * Defines values for KeyKind.
@@ -1395,6 +2298,538 @@ export type DatabaseAccountsListMetricDefinitionsResponse = MetricDefinitionsLis
 };
 
 /**
+ * Contains response data for the listSqlDatabases operation.
+ */
+export type DatabaseAccountsListSqlDatabasesResponse = SqlDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the createSqlDatabase operation.
+ */
+export type DatabaseAccountsCreateSqlDatabaseResponse = SqlDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabase;
+    };
+};
+
+/**
+ * Contains response data for the getSqlDatabase operation.
+ */
+export type DatabaseAccountsGetSqlDatabaseResponse = SqlDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabase;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlDatabase operation.
+ */
+export type DatabaseAccountsUpdateSqlDatabaseResponse = SqlDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listSqlContainers operation.
+ */
+export type DatabaseAccountsListSqlContainersResponse = SqlContainerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainerListResult;
+    };
+};
+
+/**
+ * Contains response data for the createSqlContainer operation.
+ */
+export type DatabaseAccountsCreateSqlContainerResponse = SqlContainer & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainer;
+    };
+};
+
+/**
+ * Contains response data for the getSqlContainer operation.
+ */
+export type DatabaseAccountsGetSqlContainerResponse = SqlContainer & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainer;
+    };
+};
+
+/**
+ * Contains response data for the updateSqlContainer operation.
+ */
+export type DatabaseAccountsUpdateSqlContainerResponse = SqlContainer & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainer;
+    };
+};
+
+/**
+ * Contains response data for the listMongoDatabases operation.
+ */
+export type DatabaseAccountsListMongoDatabasesResponse = MongoDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the createMongoDatabase operation.
+ */
+export type DatabaseAccountsCreateMongoDatabaseResponse = MongoDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDatabase;
+    };
+};
+
+/**
+ * Contains response data for the getMongoDatabase operation.
+ */
+export type DatabaseAccountsGetMongoDatabaseResponse = MongoDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDatabase;
+    };
+};
+
+/**
+ * Contains response data for the updateMongoDatabase operation.
+ */
+export type DatabaseAccountsUpdateMongoDatabaseResponse = MongoDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listMongoCollections operation.
+ */
+export type DatabaseAccountsListMongoCollectionsResponse = MongoCollectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoCollectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the createMongoCollection operation.
+ */
+export type DatabaseAccountsCreateMongoCollectionResponse = MongoCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoCollection;
+    };
+};
+
+/**
+ * Contains response data for the getMongoCollection operation.
+ */
+export type DatabaseAccountsGetMongoCollectionResponse = MongoCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoCollection;
+    };
+};
+
+/**
+ * Contains response data for the updateMongoCollection operation.
+ */
+export type DatabaseAccountsUpdateMongoCollectionResponse = MongoCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoCollection;
+    };
+};
+
+/**
+ * Contains response data for the listTables operation.
+ */
+export type DatabaseAccountsListTablesResponse = TableListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableListResult;
+    };
+};
+
+/**
+ * Contains response data for the createTable operation.
+ */
+export type DatabaseAccountsCreateTableResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the getTable operation.
+ */
+export type DatabaseAccountsGetTableResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the updateTable operation.
+ */
+export type DatabaseAccountsUpdateTableResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the listCassandraKeyspaces operation.
+ */
+export type DatabaseAccountsListCassandraKeyspacesResponse = CassandraKeyspaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the createCassandraKeyspace operation.
+ */
+export type DatabaseAccountsCreateCassandraKeyspaceResponse = CassandraKeyspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspace;
+    };
+};
+
+/**
+ * Contains response data for the getCassandraKeyspace operation.
+ */
+export type DatabaseAccountsGetCassandraKeyspaceResponse = CassandraKeyspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspace;
+    };
+};
+
+/**
+ * Contains response data for the updateCassandraKeyspace operation.
+ */
+export type DatabaseAccountsUpdateCassandraKeyspaceResponse = CassandraKeyspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspace;
+    };
+};
+
+/**
+ * Contains response data for the listCassandraTables operation.
+ */
+export type DatabaseAccountsListCassandraTablesResponse = CassandraTableListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTableListResult;
+    };
+};
+
+/**
+ * Contains response data for the createCassandraTable operation.
+ */
+export type DatabaseAccountsCreateCassandraTableResponse = CassandraTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTable;
+    };
+};
+
+/**
+ * Contains response data for the getCassandraTable operation.
+ */
+export type DatabaseAccountsGetCassandraTableResponse = CassandraTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTable;
+    };
+};
+
+/**
+ * Contains response data for the updateCassandraTable operation.
+ */
+export type DatabaseAccountsUpdateCassandraTableResponse = CassandraTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTable;
+    };
+};
+
+/**
  * Contains response data for the beginPatch operation.
  */
 export type DatabaseAccountsBeginPatchResponse = DatabaseAccount & {
@@ -1429,6 +2864,272 @@ export type DatabaseAccountsBeginCreateOrUpdateResponse = DatabaseAccount & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DatabaseAccount;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateSqlDatabase operation.
+ */
+export type DatabaseAccountsBeginCreateSqlDatabaseResponse = SqlDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabase;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateSqlDatabase operation.
+ */
+export type DatabaseAccountsBeginUpdateSqlDatabaseResponse = SqlDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlDatabase;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateSqlContainer operation.
+ */
+export type DatabaseAccountsBeginCreateSqlContainerResponse = SqlContainer & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainer;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateSqlContainer operation.
+ */
+export type DatabaseAccountsBeginUpdateSqlContainerResponse = SqlContainer & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlContainer;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateMongoDatabase operation.
+ */
+export type DatabaseAccountsBeginCreateMongoDatabaseResponse = MongoDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDatabase;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateMongoDatabase operation.
+ */
+export type DatabaseAccountsBeginUpdateMongoDatabaseResponse = MongoDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoDatabase;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateMongoCollection operation.
+ */
+export type DatabaseAccountsBeginCreateMongoCollectionResponse = MongoCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoCollection;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateMongoCollection operation.
+ */
+export type DatabaseAccountsBeginUpdateMongoCollectionResponse = MongoCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MongoCollection;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateTable operation.
+ */
+export type DatabaseAccountsBeginCreateTableResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTable operation.
+ */
+export type DatabaseAccountsBeginUpdateTableResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateCassandraKeyspace operation.
+ */
+export type DatabaseAccountsBeginCreateCassandraKeyspaceResponse = CassandraKeyspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspace;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateCassandraKeyspace operation.
+ */
+export type DatabaseAccountsBeginUpdateCassandraKeyspaceResponse = CassandraKeyspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraKeyspace;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateCassandraTable operation.
+ */
+export type DatabaseAccountsBeginCreateCassandraTableResponse = CassandraTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTable;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateCassandraTable operation.
+ */
+export type DatabaseAccountsBeginUpdateCassandraTableResponse = CassandraTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraTable;
     };
 };
 
