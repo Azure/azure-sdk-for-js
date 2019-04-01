@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/reservationOrderMappers";
 import * as Parameters from "../models/parameters";
@@ -24,6 +25,35 @@ export class ReservationOrder {
    */
   constructor(client: AzureReservationAPIContext) {
     this.client = client;
+  }
+
+  /**
+   * Calculate price for placing a `ReservationOrder`
+   * @summary Calculate price for a `ReservationOrder`.
+   * @param parameters Information needed for calculate or purchase reservation
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ReservationOrderCalculateResponse>
+   */
+  calculate(parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderCalculateResponse>;
+  /**
+   * @param parameters Information needed for calculate or purchase reservation
+   * @param callback The callback
+   */
+  calculate(parameters: Models.PurchaseRequest, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
+  /**
+   * @param parameters Information needed for calculate or purchase reservation
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  calculate(parameters: Models.PurchaseRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
+  calculate(parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculatePriceResponse>, callback?: msRest.ServiceCallback<Models.CalculatePriceResponse>): Promise<Models.ReservationOrderCalculateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        parameters,
+        options
+      },
+      calculateOperationSpec,
+      callback) as Promise<Models.ReservationOrderCalculateResponse>;
   }
 
   /**
@@ -49,6 +79,19 @@ export class ReservationOrder {
       },
       listOperationSpec,
       callback) as Promise<Models.ReservationOrderListResponse>;
+  }
+
+  /**
+   * Purchase `ReservationOrder` and create resource under the specificed URI
+   * @summary Purchase `ReservationOrder`
+   * @param reservationOrderId Order Id of the reservation
+   * @param parameters Information needed for calculate or purchase reservation
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ReservationOrderPurchaseResponse>
+   */
+  purchase(reservationOrderId: string, parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderPurchaseResponse> {
+    return this.beginPurchase(reservationOrderId,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationOrderPurchaseResponse>;
   }
 
   /**
@@ -78,6 +121,25 @@ export class ReservationOrder {
       },
       getOperationSpec,
       callback) as Promise<Models.ReservationOrderGetResponse>;
+  }
+
+  /**
+   * Purchase `ReservationOrder` and create resource under the specificed URI
+   * @summary Purchase `ReservationOrder`
+   * @param reservationOrderId Order Id of the reservation
+   * @param parameters Information needed for calculate or purchase reservation
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginPurchase(reservationOrderId: string, parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        reservationOrderId,
+        parameters,
+        options
+      },
+      beginPurchaseOperationSpec,
+      options);
   }
 
   /**
@@ -112,6 +174,33 @@ export class ReservationOrder {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const calculateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Capacity/calculatePrice",
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.PurchaseRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CalculatePriceResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Capacity/reservationOrders",
@@ -146,6 +235,39 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
+      bodyMapper: Mappers.ReservationOrderResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginPurchaseOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}",
+  urlParameters: [
+    Parameters.reservationOrderId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.PurchaseRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationOrderResponse
+    },
+    202: {
       bodyMapper: Mappers.ReservationOrderResponse
     },
     default: {
