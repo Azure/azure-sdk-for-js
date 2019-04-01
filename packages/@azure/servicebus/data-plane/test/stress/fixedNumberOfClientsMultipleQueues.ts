@@ -18,34 +18,41 @@ async function main(): Promise<void> {
     isJobDone = true;
   }, testDurationInMilliseconds);
 
-  sendReceiveMessages();
+  await sendReceiveMessages();
 }
 
 async function sendReceiveMessages(): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   const clients = [];
+  const senders = [];
+  const receivers = [];
   for (let i = 0; i < numOfClients; i++) {
-    clients[i] = ns.createQueueClient(`t1-queue-new-${i + 1}`);
+    clients[i] = ns.createQueueClient(`queue-${i + 1}`);
+    senders[i] = clients[i].createSender();
+    receivers[i] = clients[i].createReceiver();
   }
 
   try {
     while (!isJobDone) {
       for (let i = 0; i < numOfClients; i++) {
-        const sender = clients[i].createSender();
         const message: SendableMessageInfo = {
           messageId: msgId,
           body: "test",
           label: `${msgId}`
         };
         msgId++;
-        await sender.send(message);
-        const receiver = clients[i].createReceiver();
-        const messagesReceived = await receiver.receiveBatch(1);
+        await senders[i].send(message);
+        const messagesReceived = await receivers[i].receiveBatch(1);
         await messagesReceived[0].complete();
       }
     }
   } finally {
+    for (let i = 0; i < numOfClients; i++) {
+      await senders[i].close();
+      await receivers[i].close();
+      await clients[i].close();
+    }
     await ns.close();
     clearInterval(snapshotIntervalID);
   }
