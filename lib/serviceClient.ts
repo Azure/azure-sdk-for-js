@@ -483,6 +483,10 @@ export function getOperationArgumentValueFromParameterPath(serviceClient: Servic
       serializer.serialize(parameterMapper, value, parameterPathString);
     }
   } else {
+    if (parameterMapper.required) {
+      value = {};
+    }
+
     for (const propertyName in parameterPath) {
       const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties![propertyName];
       const propertyPath: ParameterPath = parameterPath[propertyName];
