@@ -14,7 +14,9 @@ import {
   SubscriptionClient,
   delay,
   ServiceBusMessage,
-  SendableMessageInfo
+  SendableMessageInfo,
+  ReceiveMode,
+  SessionReceiver
 } from "../lib";
 
 import {
@@ -89,14 +91,14 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.createSessionReceiver({
+    let receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
     });
     let msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 0, "Unexpected number of messages");
 
     await receiver.close();
-    receiver = await receiverClient.createSessionReceiver();
+    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
     msgs = await receiver.receiveBatch(1);
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -150,7 +152,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await senderClient.createSender().send(testMessage);
 
-    let receiver = await receiverClient.createSessionReceiver({
+    let receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
     });
     let receivedMsgs: ServiceBusMessage[] = [];
@@ -162,7 +164,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
     await receiver.close();
 
-    receiver = await receiverClient.createSessionReceiver();
+    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
     receivedMsgs = [];
     receiver.receive(
       (msg: ServiceBusMessage) => {
@@ -247,7 +249,9 @@ describe("SessionReceiver with no sessionId", function(): void {
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
 
-    let receiver = await receiverClient.createSessionReceiver();
+    let receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: undefined
+    });
     let msgs = await receiver.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -266,7 +270,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     await msgs[0].complete();
     await receiver.close();
 
-    receiver = await receiverClient.createSessionReceiver();
+    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined });
     msgs = await receiver.receiveBatch(2);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -340,7 +344,9 @@ describe("Session State", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
 
-    let receiver = await receiverClient.createSessionReceiver();
+    let receiver = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: undefined
+    });
     let msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -356,7 +362,9 @@ describe("Session State", function(): void {
 
     await receiver.close();
 
-    receiver = await receiverClient.createSessionReceiver();
+    receiver = <SessionReceiver>(
+      await receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined })
+    );
     msgs = await receiver.receiveBatch(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");

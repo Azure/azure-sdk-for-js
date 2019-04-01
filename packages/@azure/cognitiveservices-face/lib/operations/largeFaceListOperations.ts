@@ -27,8 +27,35 @@ export class LargeFaceListOperations {
   }
 
   /**
-   * Create an empty large face list. Up to 64 large face lists are allowed to exist in one
-   * subscription.
+   * Create an empty large face list with user-specified largeFaceListId, name, an optional userData
+   * and recognitionModel.
+   * <br /> Large face list is a list of faces, up to 1,000,000 faces, and used by [Face - Find
+   * Similar](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395237).
+   * <br /> After creation, user should use [LargeFaceList Face -
+   * Add](/docs/services/563879b61984550e40cbbe8d/operations/5a158c10d2de3616c086f2d3) to import the
+   * faces and [LargeFaceList -
+   * Train](/docs/services/563879b61984550e40cbbe8d/operations/5a158422d2de3616c086f2d1) to make it
+   * ready for [Face -
+   * FindSimilar](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395237). Faces
+   * are stored on server until [LargeFaceList -
+   * Delete](/docs/services/563879b61984550e40cbbe8d/operations/5a1580d5d2de3616c086f2cd) is called.
+   * <br /> Find Similar is used for scenario like finding celebrity-like faces, similar face
+   * filtering, or as a light way face identification. But if the actual use is to identify person,
+   * please use
+   * [PersonGroup](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244) /
+   * [LargePersonGroup](/docs/services/563879b61984550e40cbbe8d/operations/599acdee6ac60f11b48b5a9d)
+   * and [Face -
+   * Identify](/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239).
+   * <br />
+   * * Free-tier subscription quota: 64 large face lists.
+   * * S0-tier subscription quota: 1,000,000 large face lists.
+   * <br />
+   * 'recognitionModel' should be specified to associate with this large face list. The default value
+   * for 'recognitionModel' is 'recognition_01', if the latest model needed, please explicitly
+   * specify the model you need in this parameter. New faces that are added to an existing large face
+   * list will use the recognition model that's already associated with the collection. Existing face
+   * features in a large face list can't be updated to features extracted by another version of
+   * recognition model.
    * @param largeFaceListId Id referencing a particular large face list.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -56,12 +83,12 @@ export class LargeFaceListOperations {
   }
 
   /**
-   * Retrieve a large face list's information.
+   * Retrieve a large face list’s largeFaceListId, name, userData and recognitionModel.
    * @param largeFaceListId Id referencing a particular large face list.
    * @param [options] The optional parameters
    * @returns Promise<Models.LargeFaceListGetResponse>
    */
-  get(largeFaceListId: string, options?: msRest.RequestOptionsBase): Promise<Models.LargeFaceListGetResponse>;
+  get(largeFaceListId: string, options?: Models.LargeFaceListGetOptionalParams): Promise<Models.LargeFaceListGetResponse>;
   /**
    * @param largeFaceListId Id referencing a particular large face list.
    * @param callback The callback
@@ -72,8 +99,8 @@ export class LargeFaceListOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(largeFaceListId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LargeFaceList>): void;
-  get(largeFaceListId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LargeFaceList>, callback?: msRest.ServiceCallback<Models.LargeFaceList>): Promise<Models.LargeFaceListGetResponse> {
+  get(largeFaceListId: string, options: Models.LargeFaceListGetOptionalParams, callback: msRest.ServiceCallback<Models.LargeFaceList>): void;
+  get(largeFaceListId: string, options?: Models.LargeFaceListGetOptionalParams | msRest.ServiceCallback<Models.LargeFaceList>, callback?: msRest.ServiceCallback<Models.LargeFaceList>): Promise<Models.LargeFaceListGetResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
@@ -169,12 +196,26 @@ export class LargeFaceListOperations {
   }
 
   /**
-   * Retrieve information about all existing large face lists. Only largeFaceListId, name and
-   * userData will be returned.
+   * List large face lists’ information of largeFaceListId, name, userData and recognitionModel. <br
+   * />
+   * To get face information inside largeFaceList use [LargeFaceList Face -
+   * Get](/docs/services/563879b61984550e40cbbe8d/operations/5a158cf2d2de3616c086f2d5)<br />
+   * * Large face lists are stored in alphabetical order of largeFaceListId.
+   * * "start" parameter (string, optional) is a user-provided largeFaceListId value that returned
+   * entries have larger ids by string comparison. "start" set to empty to indicate return from the
+   * first item.
+   * * "top" parameter (int, optional) specifies the number of entries to return. A maximal of 1000
+   * entries can be returned in one call. To fetch more, you can specify "start" with the last
+   * returned entry’s Id of the current call.
+   * <br />
+   * For example, total 5 large person lists: "list1", ..., "list5".
+   * <br /> "start=&top=" will return all 5 lists.
+   * <br /> "start=&top=2" will return "list1", "list2".
+   * <br /> "start=list2&top=3" will return "list3", "list4", "list5".
    * @param [options] The optional parameters
    * @returns Promise<Models.LargeFaceListListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.LargeFaceListListResponse>;
+  list(options?: Models.LargeFaceListListOptionalParams): Promise<Models.LargeFaceListListResponse>;
   /**
    * @param callback The callback
    */
@@ -183,8 +224,8 @@ export class LargeFaceListOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LargeFaceList[]>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LargeFaceList[]>, callback?: msRest.ServiceCallback<Models.LargeFaceList[]>): Promise<Models.LargeFaceListListResponse> {
+  list(options: Models.LargeFaceListListOptionalParams, callback: msRest.ServiceCallback<Models.LargeFaceList[]>): void;
+  list(options?: Models.LargeFaceListListOptionalParams | msRest.ServiceCallback<Models.LargeFaceList[]>, callback?: msRest.ServiceCallback<Models.LargeFaceList[]>): Promise<Models.LargeFaceListListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -222,7 +263,7 @@ export class LargeFaceListOperations {
   }
 
   /**
-   * Delete an existing face from a large face list (given by a persisitedFaceId and a
+   * Delete an existing face from a large face list (given by a persistedFaceId and a
    * largeFaceListId). Persisted image related to the face will also be deleted.
    * @param largeFaceListId Id referencing a particular large face list.
    * @param persistedFaceId Id referencing a particular persistedFaceId of an existing face.
@@ -435,10 +476,14 @@ const createOperationSpec: msRest.OperationSpec = {
       userData: [
         "options",
         "userData"
+      ],
+      recognitionModel: [
+        "options",
+        "recognitionModel"
       ]
     },
     mapper: {
-      ...Mappers.NameAndUserDataContract,
+      ...Mappers.MetaDataContract,
       required: true
     }
   },
@@ -457,6 +502,9 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.largeFaceListId
+  ],
+  queryParameters: [
+    Parameters.returnRecognitionModel
   ],
   responses: {
     200: {
@@ -540,6 +588,9 @@ const listOperationSpec: msRest.OperationSpec = {
   path: "largefacelists",
   urlParameters: [
     Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.returnRecognitionModel
   ],
   responses: {
     200: {
