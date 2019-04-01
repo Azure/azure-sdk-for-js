@@ -769,11 +769,21 @@ export class MessageReceiver extends LinkEntity {
         );
       }
       if (shouldReopen) {
+        log.receiver(
+          "[%s] Closing the disconnected [%s]Receiver and creating a new one..",
+          this._context.namespace.connectionId,
+          this.name
+        );
         // provide a new name to the link while re-connecting it. This ensures that
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
+        log.receiver(
+          "[%s] New [%s]Receiver has been created.",
+          this._context.namespace.connectionId,
+          this.name
+        );
         const config: RetryConfig<void> = {
           operation: () =>
             this._init(options).then(() => {
@@ -952,12 +962,8 @@ export class MessageReceiver extends LinkEntity {
         );
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (this.receiverType === ReceiverType.streaming) {
-          if (!this._context.streamingReceiver) {
-            this._context.streamingReceiver = this as any;
-          } else {
-            this._context.streamingReceiver.name = this._receiver.name;
-          }
+        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
+          this._context.streamingReceiver = this as any;
         } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
           this._context.batchingReceiver = this as any;
         }
@@ -1025,6 +1031,7 @@ export class MessageReceiver extends LinkEntity {
       credit_window: 0,
       ...options
     };
+    this.name = rcvrOptions.name as any;
     return rcvrOptions;
   }
 }
