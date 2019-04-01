@@ -629,7 +629,11 @@ export module ReceivedMessageInfo {
    * @ignore
    * Converts given AmqpMessage to ReceivedMessageInfo
    */
-  export function fromAmqpMessage(msg: AmqpMessage, delivery?: Delivery): ReceivedMessageInfo {
+  export function fromAmqpMessage(
+    msg: AmqpMessage,
+    delivery?: Delivery,
+    shouldReorderLockToken?: boolean
+  ): ReceivedMessageInfo {
     const sbmsg: SendableMessageInfo = SendableMessageInfo.fromAmqpMessage(msg);
     const props: any = {};
     if (msg.message_annotations != undefined) {
@@ -671,9 +675,13 @@ export module ReceivedMessageInfo {
       lockToken:
         delivery && delivery.tag.length !== 0
           ? uuid_to_string(
-              reorderLockToken(
-                typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-              )
+              shouldReorderLockToken === true
+                ? reorderLockToken(
+                    typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+                  )
+                : typeof delivery.tag === "string"
+                ? Buffer.from(delivery.tag)
+                : delivery.tag
             )
           : undefined,
       ...sbmsg,
@@ -889,8 +897,13 @@ export class ServiceBusMessage implements ReceivedMessage {
   /**
    * @internal
    */
-  constructor(context: ClientEntityContext, msg: AmqpMessage, delivery: Delivery) {
-    Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery));
+  constructor(
+    context: ClientEntityContext,
+    msg: AmqpMessage,
+    delivery: Delivery,
+    shouldReorderLockToken: boolean
+  ) {
+    Object.assign(this, ReceivedMessageInfo.fromAmqpMessage(msg, delivery, shouldReorderLockToken));
     this._context = context;
     if (msg.body) {
       this.body = this._context.namespace.dataTransformer.decode(msg.body);

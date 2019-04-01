@@ -2,9 +2,9 @@
   "name": "@azure/cognitiveservices-face",
   "author": "Microsoft Corporation",
   "description": "FaceClient Library with typescript type definitions for node.js and browser.",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "dependencies": {
-    "@azure/ms-rest-js": "^1.1.0",
+    "@azure/ms-rest-js": "^1.6.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -22,6 +22,7 @@
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/cognitiveservices-face",
@@ -42,6 +43,7 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "lib/**/*.ts",
+    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -51,5 +53,5 @@
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "authPublish": true
+  "autoPublish": true
 }

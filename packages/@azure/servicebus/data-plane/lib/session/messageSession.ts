@@ -61,15 +61,10 @@ export interface CreateMessageSessionReceiverLinkOptions {
  */
 export interface SessionReceiverOptions {
   /**
-   * @property {string} [sessionId] The sessionId for the message session. If none is provided,
-   * the SessionReceiver gets created for a randomly chosen session from available sessions
+   * @property {string} [sessionId] The sessionId for the message session. If null or undefined is
+   * provided, the SessionReceiver gets created for a randomly chosen session from available sessions
    */
-  sessionId?: string;
-  /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
-   * Possible values are `ReceiveMode.peekLock` (default) and `ReceiveMode.receiveAndDelete`
-   */
-  receiveMode?: ReceiveMode;
+  sessionId: string | undefined;
   /**
    * @property {number} [maxSessionAutoRenewLockDurationInSeconds] The maximum duration in seconds
    * until which, the lock on the session will be renewed automatically.
@@ -130,6 +125,7 @@ export interface SessionManagerOptions extends SessionMessageHandlerOptions {
 export type MessageSessionOptions = SessionManagerOptions &
   SessionReceiverOptions & {
     callee?: SessionCallee;
+    receiveMode?: ReceiveMode;
   };
 
 /**
@@ -268,7 +264,7 @@ export class MessageSession extends LinkEntity {
     });
     this._context.isSessionEnabled = true;
     this.isReceivingMessages = false;
-    if (!options) options = {};
+    if (!options) options = { sessionId: undefined };
     this.autoComplete = false;
     this.sessionId = options.sessionId;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
@@ -615,7 +611,8 @@ export class MessageSession extends LinkEntity {
         const bMessage: ServiceBusMessage = new ServiceBusMessage(
           this._context,
           context.message!,
-          context.delivery!
+          context.delivery!,
+          true
         );
         try {
           await this._onMessage(bMessage);
@@ -884,7 +881,8 @@ export class MessageSession extends LinkEntity {
           const data: ServiceBusMessage = new ServiceBusMessage(
             this._context,
             context.message!,
-            context.delivery!
+            context.delivery!,
+            true
           );
           if (brokeredMessages.length < maxMessageCount) {
             brokeredMessages.push(data);
