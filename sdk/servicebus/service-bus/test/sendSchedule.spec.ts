@@ -17,10 +17,6 @@ import {
   SendableMessageInfo,
   ReceiveMode
 } from "../src";
-=======
-  SendableMessageInfo
-} from "../src";
->>>>>>> 7476a579... rebased master and fixed conflicts:sdk/servicebus/service-bus/test/sendSchedule.spec.ts
 
 import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../src/receiver";

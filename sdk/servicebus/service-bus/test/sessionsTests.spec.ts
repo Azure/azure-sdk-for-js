@@ -14,15 +14,10 @@ import {
   SubscriptionClient,
   delay,
   ServiceBusMessage,
-<<<<<<< HEAD:packages/@azure/servicebus/data-plane/test/sessionsTests.spec.ts
   SendableMessageInfo,
   ReceiveMode,
   SessionReceiver
 } from "../src";
-=======
-  SendableMessageInfo
-} from "../src";
->>>>>>> 7476a579... rebased master and fixed conflicts:sdk/servicebus/service-bus/test/sessionsTests.spec.ts
 
 import {
   TestMessage,
