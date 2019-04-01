@@ -769,25 +769,24 @@ export class MessageReceiver extends LinkEntity {
         );
       }
       if (shouldReopen) {
-        log.receiver(
-          "[%s] Closing the disconnected [%s]Receiver and creating a new one..",
-          this._context.namespace.connectionId,
-          this.name
-        );
+        const disconnectedReceiverName = this.name;
         // provide a new name to the link while re-connecting it. This ensures that
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
-        // shall retry forever at an interval of 15 seconds if the error is a retryable error
-        // else bail out when the error is not retryable or the oepration succeeds.
+
         log.receiver(
-          "[%s] New [%s]Receiver has been created.",
+          "[%s] Closing the disconnected Receiver '%s' and creating a new one with the name '%s'",
           this._context.namespace.connectionId,
+          disconnectedReceiverName,
           this.name
         );
+
+        // shall retry forever at an interval of 15 seconds if the error is a retryable error
+        // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () =>
             this._init(options).then(() => {
-              if (this._receiver) {
+              if (this._receiver && this.receiverType === ReceiverType.streaming) {
                 this._receiver.addCredit(this.maxConcurrentCalls);
               }
             }),
@@ -1031,7 +1030,9 @@ export class MessageReceiver extends LinkEntity {
       credit_window: 0,
       ...options
     };
-    this.name = rcvrOptions.name as any;
+    if (useNewName) {
+      this.name = rcvrOptions.name as any;
+    }
     return rcvrOptions;
   }
 }
