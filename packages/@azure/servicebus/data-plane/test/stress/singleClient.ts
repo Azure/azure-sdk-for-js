@@ -1,4 +1,4 @@
-import { ServiceBusClient, SendableMessageInfo } from "../../lib";
+import { ServiceBusClient, SendableMessageInfo, ReceiveMode } from "../../lib";
 
 const connectionString = "";
 const queueName = "";
@@ -37,7 +37,7 @@ async function sendReceiveMessages(): Promise<void> {
       await sender.send(message);
       await sender.close();
 
-      const receiver = client.createReceiver();
+      const receiver = await client.createReceiver(ReceiveMode.peekLock);
       const messagesReceived = await receiver.receiveBatch(1);
       await messagesReceived[0].complete();
       await receiver.close();

@@ -1,4 +1,11 @@
-import { ServiceBusClient, SendableMessageInfo, OnMessage, OnError, delay } from "../../lib";
+import {
+  ServiceBusClient,
+  SendableMessageInfo,
+  OnMessage,
+  OnError,
+  delay,
+  ReceiveMode
+} from "../../lib";
 
 const connectionString = "";
 const queueName = "";
@@ -47,7 +54,7 @@ async function receiveMessages(): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   try {
-    const receiver = client.createReceiver();
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
     const onMessageHandler: OnMessage = async (brokeredMessage) => {
       const receivedMsgId = brokeredMessage.messageId;
 

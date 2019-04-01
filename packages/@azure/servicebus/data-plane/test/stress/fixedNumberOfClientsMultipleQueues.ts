@@ -1,4 +1,4 @@
-import { ServiceBusClient, SendableMessageInfo } from "../../lib";
+import { ServiceBusClient, SendableMessageInfo, ReceiveMode } from "../../lib";
 
 const connectionString = "";
 
@@ -30,7 +30,7 @@ async function sendReceiveMessages(): Promise<void> {
   for (let i = 0; i < numOfClients; i++) {
     clients[i] = ns.createQueueClient(`queue-${i + 1}`);
     senders[i] = clients[i].createSender();
-    receivers[i] = clients[i].createReceiver();
+    receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
   }
 
   try {
