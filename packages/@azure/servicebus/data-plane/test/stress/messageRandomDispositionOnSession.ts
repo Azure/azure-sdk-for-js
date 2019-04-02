@@ -14,8 +14,8 @@ const queueName = "";
 const testDurationInMilliseconds = 60000 * 5 * 12 * 24 * 7; // 1 week
 
 const messagesToProcess: Set<number> = new Set<number>();
-const messageAbandonedMap: { [key: number]: number } = {};
 
+let abandonAttempt = 0;
 let abandonCount = 0;
 let completeCount = 0;
 let deadletterCount = 0;
@@ -47,7 +47,6 @@ async function sendMessages(): Promise<void> {
         label: `${msgId}`,
         sessionId: "session-1"
       };
-      messageAbandonedMap[msgId] = 0;
       messagesToProcess.add(msgId);
       msgId++;
       await sender.send(message);
@@ -76,14 +75,14 @@ async function receiveMessages(): Promise<void> {
 
       switch (seed) {
         case 0: {
-          const currCount = messageAbandonedMap[receivedMsgId];
+          abandonAttempt++;
+          const currCount = brokeredMessage.deliveryCount;
           if (currCount === 10) {
             abandonCount++;
             if (messagesToProcess.has(receivedMsgId)) {
               messagesToProcess.delete(receivedMsgId);
             }
           }
-          messageAbandonedMap[receivedMsgId] = currCount + 1;
           await brokeredMessage.abandon();
           break;
         }
@@ -141,6 +140,7 @@ function snapshot(): void {
   console.log("Number of messages completed : ", completeCount);
   console.log("Number of messages deadlettered : ", deadletterCount);
   console.log("Number of messages deferred : ", deferCount);
+  console.log("Number of abandon attempts on messages : ", abandonAttempt);
   console.log("\n");
 }
 
