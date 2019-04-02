@@ -33,6 +33,6 @@
     "allowJs": false /* Don't allow JavaScript files to be compiled.*/
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "typings/**", "./examples/**/*.ts"],
-  "include": ["./lib/**/*.ts", "./test/**/*.ts"]
+  "exclude": ["node_modules", "typings/**", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

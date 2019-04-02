@@ -2,7 +2,7 @@
 
 Azure Service Bus is a highly-reliable cloud messaging service from Microsoft
 
-Use the client library for Azure Service Bus in your Node.js application to 
+Use the client library for Azure Service Bus in your Node.js application to
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
@@ -20,7 +20,7 @@ Install the Azure Service Bus client library using npm
 
 `npm install @azure/service-bus`
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a 
+**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Service Bus Namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/) to use this package.
 If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
@@ -52,7 +52,7 @@ this class using one of the 3 static methods on it
 
 ### Key concepts
 
-Once you have initialized the `ServiceBusClient` class, use the below methods to create client 
+Once you have initialized the `ServiceBusClient` class, use the below methods to create client
 objects for Queues, Topics and Subscriptions to interact with existing Service Bus entities. Please
 note that the Queues, Topics and Subscriptions should already have been created prior to using this
 library.
@@ -66,7 +66,7 @@ library.
   - Takes the name of existing Service Bus Topic and Subscription instances, returns a SubscriptionClient
   that you can use to receive messages from the subscription.
 
-Next, using the client object created in the previous step, create a sender or a receiver based on 
+Next, using the client object created in the previous step, create a sender or a receiver based on
 whether you want to send or receive messages
 
 ### Examples
@@ -201,10 +201,10 @@ export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,
 
 ## Next Steps
 
-Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane/examples)
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from
 [Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview).
 
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Fservicebus%2Fdata-plane%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/servicebus/service-bus/README.png)
 

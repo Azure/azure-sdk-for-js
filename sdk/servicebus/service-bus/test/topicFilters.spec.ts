@@ -15,7 +15,7 @@ import {
   SendableMessageInfo,
   CorrelationFilter,
   ReceiveMode
-} from "../lib";
+} from "../src";
 import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.

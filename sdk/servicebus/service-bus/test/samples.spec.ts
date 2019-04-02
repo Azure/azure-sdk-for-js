@@ -21,12 +21,12 @@ describe("Ensure typescript samples use published package", function(): void {
   }
 
   it("Ensure getStarted samples use published package", () => {
-    const folder = path.join(__dirname, "../examples/typescript/gettingStarted");
+    const folder = path.join(__dirname, "../samples/typescript/gettingStarted");
     testSamples(folder);
   });
 
   it("Ensure advancedFeatures samples use published package", () => {
-    const folder = path.join(__dirname, "../examples/typescript/advancedFeatures");
+    const folder = path.join(__dirname, "../samples/typescript/advancedFeatures");
     testSamples(folder);
   });
 });

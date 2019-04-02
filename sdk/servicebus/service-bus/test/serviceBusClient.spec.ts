@@ -22,7 +22,7 @@ import {
   Receiver,
   SessionReceiver,
   ReceiveMode
-} from "../lib";
+} from "../src";
 import { getSenderReceiverClients, ClientType, TestMessage, purge, getEnvVars } from "./testUtils";
 import long from "long";
 
