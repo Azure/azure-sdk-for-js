@@ -196,11 +196,16 @@ export class Receiver {
       }
       this._isClosed = true;
     } catch (err) {
-      const msg =
-        `An error occurred while closing the receiver for` +
-        `"${this._context.entityPath}": ${JSON.stringify(err)} `;
-      log.error(msg);
-      throw new Error(msg);
+      const msg = `An error occurred while closing the receiver for "${
+        this._context.entityPath
+      }": `;
+      if (err instanceof Error) {
+        log.error(msg);
+      } else {
+        err = new Error(msg + JSON.stringify(err));
+      }
+      log.error(err);
+      throw err;
     }
   }
 

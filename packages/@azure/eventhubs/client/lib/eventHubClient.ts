@@ -151,9 +151,14 @@ export class EventHubClient {
         log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
-      log.error(msg);
-      throw new Error(msg);
+      const msg = `An error occurred while closing the connection "${this._context.connectionId}": `;
+      if (err instanceof Error) {
+        log.error(msg);
+      } else {
+        err = new Error(msg + JSON.stringify(err));
+      }
+      log.error(err);
+      throw err;
     }
   }
 
