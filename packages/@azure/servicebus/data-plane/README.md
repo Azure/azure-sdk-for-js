@@ -10,7 +10,7 @@ Use the client library for Azure Service Bus to
 
 ## Status
 
-This library is currently in preview and the apis may change prior to release.
+This library is currently in preview and the APIs may change prior to release.
 
 ## Getting Started
 
@@ -94,7 +94,7 @@ await sender.send({
 ### Receive messages
 
 Once you have created an instance of a `QueueClient` class, create a receiver and use the `receiveBatch`
-function to recieve messages in a batch
+function to receive messages in a batch
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
@@ -106,7 +106,7 @@ for(let i = 0; i < myMessages.length; i++) {
 }
 ```
 
-Another way to receive messages is by setting up message handlers and have it running as long as you please.
+Another way to receive messages is by setting up message handlers and have it running as long as you need.
 
 ```javascript
 const myMessageHandler = async (message) => {
@@ -129,7 +129,7 @@ const queueClient = serviceBusClient.createQueueClient("my-session-queue");
 const sender = queueClient.createSender();
 await sender.send({
   body: "my-message-body",
-  sessionId: "my-session
+  sessionId: "my-session"
 });
 ```
 
