@@ -13,7 +13,8 @@ import {
   TopicClient,
   SubscriptionClient,
   ServiceBusMessage,
-  SendableMessageInfo
+  SendableMessageInfo,
+  ReceiveMode
 } from "../lib";
 
 import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
@@ -87,11 +88,13 @@ async function beforeEachTest(
   }
 
   sender = senderClient.createSender();
-  receiver = useSessions
-    ? await receiverClient.createSessionReceiver({
-        sessionId: TestMessage.sessionId
-      })
-    : receiverClient.createReceiver();
+  if (useSessions) {
+    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: TestMessage.sessionId
+    });
+  } else {
+    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  }
 }
 
 async function afterEachTest(): Promise<void> {
@@ -341,7 +344,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterMsgs = await deadLetterClient.createReceiver().receiveBatch(1);
+    const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(

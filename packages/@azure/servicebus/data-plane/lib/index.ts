@@ -18,7 +18,7 @@ export { TopicClient } from "./topicClient";
 export { SubscriptionClient } from "./subscriptionClient";
 
 export { Sender } from "./sender";
-export { Receiver, MessageReceiverOptions, SessionReceiver } from "./receiver";
+export { Receiver, SessionReceiver } from "./receiver";
 
 export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";

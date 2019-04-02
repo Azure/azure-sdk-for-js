@@ -13,7 +13,8 @@ import {
   ServiceBusMessage,
   TopicClient,
   SendableMessageInfo,
-  CorrelationFilter
+  CorrelationFilter,
+  ReceiveMode
 } from "../lib";
 import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
 
@@ -121,7 +122,7 @@ async function receiveOrders(
 ): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
-  const receiver = client.createReceiver();
+  const receiver = await client.createReceiver(ReceiveMode.peekLock);
   receiver.receive(
     (msg: ServiceBusMessage) => {
       return msg.complete().then(() => {
