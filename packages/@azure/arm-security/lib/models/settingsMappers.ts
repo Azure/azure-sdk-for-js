@@ -12,7 +12,27 @@ export {
   discriminators,
   SettingsList,
   Setting,
+  SettingResource,
+  Resource,
+  BaseResource,
   CloudError,
-  DataExportSetting
+  Pricing,
+  AscLocation,
+  Alert,
+  AlertEntity,
+  AlertConfidenceReason,
+  DataExportSetting,
+  SecurityTask,
+  SecurityTaskParameters,
+  AdvancedThreatProtectionSetting,
+  AutoProvisioningSetting,
+  Compliance,
+  ComplianceSegment,
+  InformationProtectionPolicy,
+  SensitivityLabel,
+  InformationType,
+  InformationProtectionKeyword,
+  SecurityContact,
+  WorkspaceSetting
 } from "../models/mappers";
 
