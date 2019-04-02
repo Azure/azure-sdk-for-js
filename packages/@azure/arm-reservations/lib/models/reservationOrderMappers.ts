@@ -11,7 +11,7 @@
 export {
   PurchaseRequest,
   SkuName,
-  PurchaseRequestPropertiesAdvancedProperties,
+  PurchaseRequestPropertiesReservedResourceProperties,
   CalculatePriceResponse,
   CalculatePriceResponseProperties,
   CalculatePriceResponsePropertiesBillingCurrencyTotal,

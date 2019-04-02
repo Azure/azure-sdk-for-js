@@ -347,6 +347,9 @@ export interface ReservationOrderResponse extends BaseResource {
 /**
  * @interface
  * An interface representing CalculatePriceResponsePropertiesBillingCurrencyTotal.
+ * Currency and amount that customer will be charged in customer's local
+ * currency. Tax is not included.
+ *
  */
 export interface CalculatePriceResponsePropertiesBillingCurrencyTotal {
   /**
@@ -361,14 +364,94 @@ export interface CalculatePriceResponsePropertiesBillingCurrencyTotal {
 
 /**
  * @interface
- * An interface representing PurchaseRequestPropertiesAdvancedProperties.
+ * An interface representing CalculatePriceResponsePropertiesPricingCurrencyTotal.
+ * Amount that Microsoft uses for record. Used during refund for calculating
+ * refund limit. Tax is not included.
+ *
  */
-export interface PurchaseRequestPropertiesAdvancedProperties {
+export interface CalculatePriceResponsePropertiesPricingCurrencyTotal {
+  /**
+   * @member {string} [currencyCode]
+   */
+  currencyCode?: string;
+  /**
+   * @member {number} [amount]
+   */
+  amount?: number;
+}
+
+/**
+ * @interface
+ * An interface representing CalculatePriceResponseProperties.
+ */
+export interface CalculatePriceResponseProperties {
+  /**
+   * @member {CalculatePriceResponsePropertiesBillingCurrencyTotal}
+   * [billingCurrencyTotal] Currency and amount that customer will be charged
+   * in customer's local currency. Tax is not included.
+   */
+  billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
+  /**
+   * @member {boolean} [isBillingPartnerManaged]
+   */
+  isBillingPartnerManaged?: boolean;
+  /**
+   * @member {string} [reservationOrderId] GUID that represents reservation
+   * order that can be placed after calculating price
+   */
+  reservationOrderId?: string;
+  /**
+   * @member {string} [skuTitle] Long name for the SKU that is being purchased
+   */
+  skuTitle?: string;
+  /**
+   * @member {string} [skuDescription] Short name for the SKU that is being
+   * purchased
+   */
+  skuDescription?: string;
+  /**
+   * @member {CalculatePriceResponsePropertiesPricingCurrencyTotal}
+   * [pricingCurrencyTotal] Amount that Microsoft uses for record. Used during
+   * refund for calculating refund limit. Tax is not included.
+   */
+  pricingCurrencyTotal?: CalculatePriceResponsePropertiesPricingCurrencyTotal;
+}
+
+/**
+ * @interface
+ * An interface representing CalculatePriceResponse.
+ */
+export interface CalculatePriceResponse {
+  /**
+   * @member {CalculatePriceResponseProperties} [properties]
+   */
+  properties?: CalculatePriceResponseProperties;
+}
+
+/**
+ * @interface
+ * An interface representing PurchaseRequestPropertiesReservedResourceProperties.
+ * properties specific to each reserved resource type.
+ *
+ */
+export interface PurchaseRequestPropertiesReservedResourceProperties {
   /**
    * @member {InstanceFlexibility} [instanceFlexibility] Possible values
    * include: 'True', 'False'
    */
   instanceFlexibility?: InstanceFlexibility;
+}
+
+/**
+ * @interface
+ * An interface representing MergeRequest.
+ */
+export interface MergeRequest {
+  /**
+   * @member {string[]} [sources] Format of the resource id should be
+   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
+   */
+  sources?: string[];
 }
 
 /**
@@ -416,88 +499,11 @@ export interface PurchaseRequest {
    */
   appliedScopes?: string[];
   /**
-   * @member {PurchaseRequestPropertiesAdvancedProperties} [advancedProperties]
+   * @member {PurchaseRequestPropertiesReservedResourceProperties}
+   * [reservedResourceProperties] properties specific to each reserved resource
+   * type.
    */
-  advancedProperties?: PurchaseRequestPropertiesAdvancedProperties;
-}
-
-/**
- * @interface
- * An interface representing CalculatePriceResponsePropertiesPricingCurrencyTotal.
- */
-export interface CalculatePriceResponsePropertiesPricingCurrencyTotal {
-  /**
-   * @member {string} [currencyCode]
-   */
-  currencyCode?: string;
-  /**
-   * @member {number} [amount]
-   */
-  amount?: number;
-}
-
-/**
- * @interface
- * An interface representing CalculatePriceResponseProperties.
- */
-export interface CalculatePriceResponseProperties {
-  /**
-   * @member {CalculatePriceResponsePropertiesBillingCurrencyTotal}
-   * [billingCurrencyTotal]
-   */
-  billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
-  /**
-   * @member {boolean} [isTaxIncluded]
-   */
-  isTaxIncluded?: boolean;
-  /**
-   * @member {PurchaseRequest} [purchaseRequest]
-   */
-  purchaseRequest?: PurchaseRequest;
-  /**
-   * @member {boolean} [isBillingPartnerManaged]
-   */
-  isBillingPartnerManaged?: boolean;
-  /**
-   * @member {string} [reservationOrderId]
-   */
-  reservationOrderId?: string;
-  /**
-   * @member {string} [skuTitle]
-   */
-  skuTitle?: string;
-  /**
-   * @member {string} [skuDescription]
-   */
-  skuDescription?: string;
-  /**
-   * @member {CalculatePriceResponsePropertiesPricingCurrencyTotal}
-   * [pricingCurrencyTotal]
-   */
-  pricingCurrencyTotal?: CalculatePriceResponsePropertiesPricingCurrencyTotal;
-}
-
-/**
- * @interface
- * An interface representing CalculatePriceResponse.
- */
-export interface CalculatePriceResponse {
-  /**
-   * @member {CalculatePriceResponseProperties} [properties]
-   */
-  properties?: CalculatePriceResponseProperties;
-}
-
-/**
- * @interface
- * An interface representing MergeRequest.
- */
-export interface MergeRequest {
-  /**
-   * @member {string[]} [sources] Format of the resource id should be
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-   */
-  sources?: string[];
+  reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
 }
 
 /**
