@@ -2,7 +2,7 @@
 
 Azure Service Bus is a highly-reliable cloud messaging service from Microsoft
 
-Use the client library for Azure Service Bus in your Nodejs application to 
+Use the client library for Azure Service Bus in your Node.js application to 
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
@@ -22,7 +22,7 @@ Install the Azure Service Bus client library using npm
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a 
 [Service Bus Namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/) to use this package.
-If you are using this package in a Node.js application, then use Nodejs 6.x or higher.
+If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
 ### Configure Typescript
 
