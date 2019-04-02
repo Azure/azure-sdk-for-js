@@ -240,12 +240,12 @@ export class SubscriptionClient implements Client {
    * Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
-   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwErrorIfClientOrConnectionClosed();
-    return this._context.managementClient!.peek(messageCount);
+    return this._context.managementClient!.peek(maxMessageCount);
   }
 
   /**
@@ -256,16 +256,16 @@ export class SubscriptionClient implements Client {
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
-    messageCount?: number
+    maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: messageCount
+      messageCount: maxMessageCount
     });
   }
 
