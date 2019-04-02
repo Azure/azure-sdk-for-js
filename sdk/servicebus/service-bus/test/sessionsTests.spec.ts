@@ -17,7 +17,7 @@ import {
   SendableMessageInfo,
   ReceiveMode,
   SessionReceiver
-} from "../lib";
+} from "../src";
 
 import {
   TestMessage,

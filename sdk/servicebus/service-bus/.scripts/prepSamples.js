@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const baseFolder = path.join(__dirname, "../examples/typescript");
+const baseFolder = path.join(__dirname, "../samples/typescript");
 
 processFolders(path.join(baseFolder, "gettingStarted"));
 processFolders(path.join(baseFolder, "advancedFeatures"));
@@ -19,7 +19,7 @@ function enableLocalRun(file) {
     const sbregex = new RegExp('import (.*) from "@azure/service-bus"');
     const msrestregex = new RegExp('import (.*) from "ms-rest-azure"');
     const updatedContents = fileContents
-        .replace(sbregex, 'import $1 from "../../../lib"')
+        .replace(sbregex, 'import $1 from "../../../src"')
         .replace(msrestregex, 'import $1 from "@azure/ms-rest-nodeauth"');
     fs.writeFileSync(file, updatedContents, {encoding: "utf-8"});
 }

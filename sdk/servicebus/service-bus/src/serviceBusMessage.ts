@@ -12,7 +12,7 @@ import {
 import { Constants, AmqpMessage } from "@azure/amqp-common";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken } from "../lib/util/utils";
+import { reorderLockToken } from "../src/util/utils";
 
 /**
  * The mode in which messages should be received

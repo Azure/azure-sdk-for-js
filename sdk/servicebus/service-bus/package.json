@@ -16,8 +16,8 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/lib/index.js",
-  "types": "./typings/lib/index.d.ts",
+  "module": "dist-esm/src/index.js",
+  "types": "./typings/src/index.d.ts",
   "engine": {
     "node": ">=6.0.0"
   },
@@ -68,8 +68,8 @@
     "changelog.md",
     "Readme.md",
     "dist/",
-    "dist-esm/lib/",
-    "lib/",
+    "dist-esm/src/",
+    "src/",
     "typings/"
   ],
   "scripts": {

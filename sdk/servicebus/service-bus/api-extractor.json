@@ -12,10 +12,10 @@
     "missingReleaseTags": "allow"
   },
   "project": {
-    "entryPointSourceFile": "typings/lib/index.d.ts"
+    "entryPointSourceFile": "typings/src/index.d.ts"
   },
   "dtsRollup": {
     "enabled": true,
-    "mainDtsRollupPath": "../typings/lib/index-rollup.d.ts"
+    "mainDtsRollupPath": "../typings/src/index-rollup.d.ts"
   }
 }
