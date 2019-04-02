@@ -774,6 +774,8 @@ export class MessageReceiver extends LinkEntity {
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
 
+        this.name = options.name as any;
+
         log.receiver(
           "[%s] Closing the disconnected Receiver '%s' and creating a new one with the name '%s'",
           this._context.namespace.connectionId,
@@ -1030,9 +1032,7 @@ export class MessageReceiver extends LinkEntity {
       credit_window: 0,
       ...options
     };
-    if (useNewName) {
-      this.name = rcvrOptions.name as any;
-    }
+
     return rcvrOptions;
   }
 }
