@@ -14,7 +14,7 @@ For running this test, connection string of the Service Bus namespace and queue 
 must be supplied.
 */
 
-import { ServiceBusClient, SendableMessageInfo, ReceiveMode } from "../../lib";
+import { ServiceBusClient, SendableMessageInfo, ReceiveMode, Sender, Receiver } from "../../lib";
 
 const connectionString = "";
 const queueName = "";
@@ -44,26 +44,19 @@ async function sendReceiveMessages(): Promise<void> {
   const clients = [];
   const senders = [];
   const receivers = [];
-  for (let i = 0; i < numOfClients; i++) {
-    clients[i] = ns.createQueueClient(queueName);
-    senders[i] = clients[i].createSender();
-    receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
-  }
+
+  const sendReceiveMessagePromises = [];
 
   try {
-    while (!isJobDone) {
-      for (let i = 0; i < numOfClients; i++) {
-        const message: SendableMessageInfo = {
-          messageId: msgId,
-          body: "test",
-          label: `${msgId}`
-        };
-        msgId++;
-        await senders[i].send(message);
-        const messagesReceived = await receivers[i].receiveBatch(1);
-        await messagesReceived[0].complete();
-      }
+    for (let i = 0; i < numOfClients; i++) {
+      clients[i] = ns.createQueueClient(queueName);
+      senders[i] = clients[i].createSender();
+      receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
+
+      sendReceiveMessagePromises.push(sendReceiveMessagesPerClient(senders[i], receivers[i]));
     }
+
+    await Promise.all(sendReceiveMessagePromises);
   } finally {
     for (let i = 0; i < numOfClients; i++) {
       await senders[i].close();
@@ -72,6 +65,22 @@ async function sendReceiveMessages(): Promise<void> {
     }
     await ns.close();
     clearInterval(snapshotIntervalID);
+  }
+}
+
+async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver): Promise<void> {
+  while (!isJobDone) {
+    for (let i = 0; i < numOfClients; i++) {
+      const message: SendableMessageInfo = {
+        messageId: msgId,
+        body: "test",
+        label: `${msgId}`
+      };
+      msgId++;
+      await sender.send(message);
+      const messagesReceived = await receiver.receiveBatch(1);
+      await messagesReceived[0].complete();
+    }
   }
 }
 

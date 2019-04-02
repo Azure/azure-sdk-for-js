@@ -99,7 +99,7 @@ async function receiveMessages(): Promise<void> {
               messagesToProcess.delete(receivedMsgId);
             }
           }
-          brokeredMessage.abandon();
+          await brokeredMessage.abandon();
           break;
         }
         case 1: {
@@ -107,7 +107,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.complete();
+          await brokeredMessage.complete();
           break;
         }
         case 2: {
@@ -115,7 +115,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.deadLetter();
+          await brokeredMessage.deadLetter();
           break;
         }
         case 3: {
@@ -123,7 +123,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.defer();
+          await brokeredMessage.defer();
           break;
         }
         default: {
