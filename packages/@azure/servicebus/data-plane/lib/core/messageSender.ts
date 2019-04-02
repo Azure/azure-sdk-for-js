@@ -260,7 +260,7 @@ export class MessageSender extends LinkEntity {
           _sender: this._sender
         };
         log.error(
-          "[%s] Something is busted. State of sender '%s' with address '%s' is: %O",
+          "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
           this._context.namespace.connectionId,
           this.name,
           this.address,
@@ -279,6 +279,7 @@ export class MessageSender extends LinkEntity {
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
             times: Constants.defaultConnectionRetryAttempts,
+            connectionHost: this._context.namespace.config.host,
             delayInSeconds: 15
           };
           return retry<void>(config);
