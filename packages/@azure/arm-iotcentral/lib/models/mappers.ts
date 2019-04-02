@@ -391,6 +391,48 @@ export const AppAvailabilityInfo: msRest.CompositeMapper = {
   }
 };
 
+export const AppTemplate: msRest.CompositeMapper = {
+  serializedName: "AppTemplate",
+  type: {
+    name: "Composite",
+    className: "AppTemplate",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AppListResult: msRest.CompositeMapper = {
   serializedName: "AppListResult",
   type: {
@@ -411,6 +453,35 @@ export const AppListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "App"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AppTemplatesResult: msRest.CompositeMapper = {
+  serializedName: "AppTemplatesResult",
+  type: {
+    name: "Composite",
+    className: "AppTemplatesResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppTemplate"
             }
           }
         }
