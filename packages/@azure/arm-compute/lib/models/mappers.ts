@@ -235,6 +235,13 @@ export const AvailabilitySet: msRest.CompositeMapper = {
           }
         }
       },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
       statuses: {
         readOnly: true,
         serializedName: "properties.statuses",
@@ -311,6 +318,13 @@ export const AvailabilitySetUpdate: msRest.CompositeMapper = {
           }
         }
       },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
       statuses: {
         readOnly: true,
         serializedName: "properties.statuses",
@@ -331,6 +345,73 @@ export const AvailabilitySetUpdate: msRest.CompositeMapper = {
           className: "Sku"
         }
       }
+    }
+  }
+};
+
+export const ProximityPlacementGroup: msRest.CompositeMapper = {
+  serializedName: "ProximityPlacementGroup",
+  type: {
+    name: "Composite",
+    className: "ProximityPlacementGroup",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      proximityPlacementGroupType: {
+        serializedName: "properties.proximityPlacementGroupType",
+        type: {
+          name: "String"
+        }
+      },
+      virtualMachines: {
+        readOnly: true,
+        serializedName: "properties.virtualMachines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      virtualMachineScaleSets: {
+        readOnly: true,
+        serializedName: "properties.virtualMachineScaleSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      availabilitySets: {
+        readOnly: true,
+        serializedName: "properties.availabilitySets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ProximityPlacementGroupUpdate: msRest.CompositeMapper = {
+  serializedName: "ProximityPlacementGroupUpdate",
+  type: {
+    name: "Composite",
+    className: "ProximityPlacementGroupUpdate",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties
     }
   }
 };
@@ -2214,6 +2295,13 @@ export const VirtualMachine: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -2335,6 +2423,13 @@ export const VirtualMachineUpdate: msRest.CompositeMapper = {
       },
       availabilitySet: {
         serializedName: "properties.availabilitySet",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
         type: {
           name: "Composite",
           className: "SubResource"
@@ -3785,6 +3880,17 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -3981,6 +4087,12 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      doNotRunExtensionsOnOverprovisionedVMs: {
+        serializedName: "properties.doNotRunExtensionsOnOverprovisionedVMs",
+        type: {
+          name: "Boolean"
+        }
+      },
       uniqueId: {
         readOnly: true,
         serializedName: "properties.uniqueId",
@@ -4004,6 +4116,13 @@ export const VirtualMachineScaleSet: msRest.CompositeMapper = {
         serializedName: "properties.platformFaultDomainCount",
         type: {
           name: "Number"
+        }
+      },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
         }
       },
       identity: {
@@ -5859,18 +5978,12 @@ export const KeyVaultAndKeyReference: msRest.CompositeMapper = {
   }
 };
 
-export const EncryptionSettings: msRest.CompositeMapper = {
-  serializedName: "EncryptionSettings",
+export const EncryptionSettingsElement: msRest.CompositeMapper = {
+  serializedName: "EncryptionSettingsElement",
   type: {
     name: "Composite",
-    className: "EncryptionSettings",
+    className: "EncryptionSettingsElement",
     modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
       diskEncryptionKey: {
         serializedName: "diskEncryptionKey",
         type: {
@@ -5883,6 +5996,35 @@ export const EncryptionSettings: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "KeyVaultAndKeyReference"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionSettingsCollection: msRest.CompositeMapper = {
+  serializedName: "EncryptionSettingsCollection",
+  type: {
+    name: "Composite",
+    className: "EncryptionSettingsCollection",
+    modelProperties: {
+      enabled: {
+        required: true,
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionSettings: {
+        serializedName: "encryptionSettings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EncryptionSettingsElement"
+            }
+          }
         }
       }
     }
@@ -5938,6 +6080,12 @@ export const Disk: msRest.CompositeMapper = {
           ]
         }
       },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
+        type: {
+          name: "String"
+        }
+      },
       creationData: {
         required: true,
         serializedName: "properties.creationData",
@@ -5952,11 +6100,11 @@ export const Disk: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       provisioningState: {
@@ -5976,6 +6124,13 @@ export const Disk: msRest.CompositeMapper = {
         serializedName: "properties.diskMBpsReadWrite",
         type: {
           name: "Number"
+        }
+      },
+      diskState: {
+        readOnly: true,
+        serializedName: "properties.diskState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -6004,11 +6159,11 @@ export const DiskUpdate: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       diskIOPSReadWrite: {
@@ -6148,6 +6303,12 @@ export const Snapshot: msRest.CompositeMapper = {
           ]
         }
       },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
+        type: {
+          name: "String"
+        }
+      },
       creationData: {
         required: true,
         serializedName: "properties.creationData",
@@ -6162,11 +6323,11 @@ export const Snapshot: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       provisioningState: {
@@ -6202,11 +6363,11 @@ export const SnapshotUpdate: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       tags: {
@@ -7262,6 +7423,35 @@ export const VirtualMachineSizeListResult: msRest.CompositeMapper = {
               className: "VirtualMachineSize"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ProximityPlacementGroupListResult: msRest.CompositeMapper = {
+  serializedName: "ProximityPlacementGroupListResult",
+  type: {
+    name: "Composite",
+    className: "ProximityPlacementGroupListResult",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProximityPlacementGroup"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
