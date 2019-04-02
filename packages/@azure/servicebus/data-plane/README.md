@@ -73,10 +73,10 @@ whether you want to send or receive messages
 
 The following sections provide code snippets that cover some of the common tasks using Azure Service Bus
 
-- Send messages
-- Receive messages
-- Send messages using Sessions
-- Receive messages using Sessions
+- [Send messages](#send-messages)
+- [Receive messages](#receive-messages)
+- [Send messages using Sessions](#send-messages-using-sessions)
+- [Receive messages using Sessions](#receive-messages-using-sessions)
 
 ### Send messages
 
@@ -94,7 +94,10 @@ await sender.send({
 ### Receive messages
 
 Once you have created an instance of a `QueueClient` class, create a receiver and use the `receiveBatch`
-function to receive messages in a batch
+function to receive messages in a batch.
+
+Once you receive a message you can call `complete()`, `abandon()`, `defer()` or `deadletter()` on it
+based on how you want to settle the message. To learn more, please read [Settling Received Messages](https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations)
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
@@ -106,7 +109,8 @@ for(let i = 0; i < myMessages.length; i++) {
 }
 ```
 
-Another way to receive messages is by setting up message handlers and have it running as long as you need.
+Another way to receive messages is by setting up message handlers and have it running as long as you
+need. When you are done, call `receiver.close()` to stop receiving any more messages.
 
 ```javascript
 const myMessageHandler = async (message) => {
@@ -141,7 +145,7 @@ the session from which you want to receive messages.
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
-const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: "my-session});
+const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: "my-session"});
 const myMessages = await receiver.receiveBatch(10);
 for(let i = 0; i < myMessages.length; i++) {
   console.log(myMessages[i].body);
