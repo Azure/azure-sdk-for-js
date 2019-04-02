@@ -16,11 +16,11 @@ import {
   delay,
   SendableMessageInfo,
   ReceiveMode
-} from "../lib";
+} from "../src";
 
 import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
-import { Receiver, SessionReceiver } from "../lib/receiver";
-import { Sender } from "../lib/sender";
+import { Receiver, SessionReceiver } from "../src/receiver";
+import { Sender } from "../src/sender";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,

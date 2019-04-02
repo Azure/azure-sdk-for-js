@@ -9,7 +9,7 @@ import {
   SubscriptionClient,
   delay,
   ReceiveMode
-} from "../lib";
+} from "../src";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";

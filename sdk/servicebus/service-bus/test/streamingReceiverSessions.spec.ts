@@ -14,9 +14,9 @@ import {
   TopicClient,
   SubscriptionClient,
   delay
-} from "../lib";
+} from "../src";
 
-import { DispositionType, ReceiveMode } from "../lib/serviceBusMessage";
+import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";
 
 import {
   TestMessage,
@@ -25,8 +25,8 @@ import {
   purge,
   checkWithTimeout
 } from "./testUtils";
-import { Sender } from "../lib/sender";
-import { SessionReceiver } from "../lib/receiver";
+import { Sender } from "../src/sender";
+import { SessionReceiver } from "../src/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
