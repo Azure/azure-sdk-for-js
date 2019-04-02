@@ -7,10 +7,11 @@ Single client is created -> single sender is created ->
 message is sent -> message received -> message completed ->
 receiver closed -> client closed
 
-The test assumes no other process is working with the queue defined in here.
+The test assumes no other process is working with the queues defined in here.
 
-For running this test, connection string of the Service Bus namespace and queue name
+For running this test, connection string of the Service Bus namespace and queue names
 must be supplied.
+Note that 10 queues are to be created with name format as queue-1, queue-2 ... queue-10
 */
 
 import { ServiceBusClient, SendableMessageInfo, ReceiveMode } from "../../lib";
