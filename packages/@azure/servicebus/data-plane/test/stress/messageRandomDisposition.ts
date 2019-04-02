@@ -4,7 +4,8 @@ Creates a single sender and a single receiver on a queue.
 Runs following sequence of steps in a long running loop.
 Sends a message -> receives a message -> performs random message disposition option
 
-The test assumes no other process is working with the queue defined in here.
+The test assumes no other process is working with the queues defined in here,
+but the queues must be empty and use default configurations before running the test.
 
 For running this test, connection string of the Service Bus namespace and queue name
 must be supplied.

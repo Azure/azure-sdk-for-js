@@ -7,7 +7,8 @@ Single client is created -> single sender is created ->
 message is sent -> message received -> message completed ->
 receiver closed -> client closed
 
-The test assumes no other process is working with the queues defined in here.
+The test assumes no other process is working with the queues defined in here,
+but the queues must be empty and use default configurations before running the test.
 
 For running this test, connection string of the Service Bus namespace and queue names
 must be supplied.
