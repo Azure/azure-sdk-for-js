@@ -28,6 +28,7 @@ const testDurationInMilliseconds = 60000 * 5 * 12 * 24 * 7; // 1 week
 const messagesToProcess: Set<number> = new Set<number>();
 
 let abandonAttempt = 0;
+let abandonCount = 0;
 let completeCount = 0;
 let deadletterCount = 0;
 let deferCount = 0;
@@ -87,29 +88,40 @@ async function receiveMessages(): Promise<void> {
       */
       const seed = Math.floor((Math.random() * 10) % 4);
 
-      if (messagesToProcess.has(receivedMsgId)) {
-        messagesToProcess.delete(receivedMsgId);
-      }
-
       switch (seed) {
         case 0: {
           abandonAttempt++;
-          await brokeredMessage.abandon();
+          if (brokeredMessage.deliveryCount === 10) {
+            abandonCount++;
+            if (messagesToProcess.has(receivedMsgId)) {
+              messagesToProcess.delete(receivedMsgId);
+            }
+          }
+          brokeredMessage.abandon();
           break;
         }
         case 1: {
           completeCount++;
-          await brokeredMessage.complete();
+          if (messagesToProcess.has(receivedMsgId)) {
+            messagesToProcess.delete(receivedMsgId);
+          }
+          brokeredMessage.complete();
           break;
         }
         case 2: {
           deadletterCount++;
-          await brokeredMessage.deadLetter();
+          if (messagesToProcess.has(receivedMsgId)) {
+            messagesToProcess.delete(receivedMsgId);
+          }
+          brokeredMessage.deadLetter();
           break;
         }
         case 3: {
           deferCount++;
-          await brokeredMessage.defer();
+          if (messagesToProcess.has(receivedMsgId)) {
+            messagesToProcess.delete(receivedMsgId);
+          }
+          brokeredMessage.defer();
           break;
         }
         default: {
@@ -139,6 +151,7 @@ function snapshot(): void {
   console.log("Time : ", new Date());
   console.log("Number of messages not processed yet : ", messagesToProcess.size);
   console.log("Number of messages sent so far : ", msgId);
+  console.log("Number of messages abandoned : ", abandonCount);
   console.log("Number of messages completed : ", completeCount);
   console.log("Number of messages deadlettered : ", deadletterCount);
   console.log("Number of messages deferred : ", deferCount);
