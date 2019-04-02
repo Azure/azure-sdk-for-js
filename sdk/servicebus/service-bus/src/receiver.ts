@@ -347,12 +347,12 @@ export class SessionReceiver {
    * Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
-   * @param messageCount The number of messages to retrieve. Default value `1`.
+   * @param maxMessageCount The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
-    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, messageCount);
+    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
   }
 
   /**
@@ -363,17 +363,17 @@ export class SessionReceiver {
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
-    messageCount?: number
+    maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       sessionId: this.sessionId!,
-      messageCount: messageCount
+      messageCount: maxMessageCount
     });
   }
 
