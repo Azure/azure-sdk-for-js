@@ -1,8 +1,8 @@
-# Azure Service Bus client library for Typescript and Javascript
+# Azure Service Bus client library for Javascript
 
-Microsoft Azure Service Bus is a highly-reliable cloud messaging service between applications and services.
+Azure Service Bus is a highly-reliable cloud messaging service from Microsoft
 
-Use the client library for Azure Service Bus to 
+Use the client library for Azure Service Bus in your Nodejs application to 
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
@@ -16,7 +16,7 @@ This library is currently in preview and the APIs may change prior to release.
 
 ### Install the package
 
-Install the Azure Service Bus client library for Typescript/Javascript using npm
+Install the Azure Service Bus client library using npm
 
 `npm install @azure/service-bus`
 
