@@ -1,3 +1,15 @@
+/*
+Test Scenario summary:
+Creates a single sender and a single receiver on a queue.
+Runs following sequence of steps in a long running loop.
+Sends a message -> receives a message -> completes the message.
+
+The test assumes no other process is working with the queue defined in here.
+
+For running this test, connection string of the Service Bus namespace and queue name
+must be supplied.
+*/
+
 import {
   ServiceBusClient,
   SendableMessageInfo,

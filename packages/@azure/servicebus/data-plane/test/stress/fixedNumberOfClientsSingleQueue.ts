@@ -1,3 +1,18 @@
+/*
+Test Scenario summary:
+Creates 10 clients against single queue.
+On each, single sender/receiver are created and kept alive.
+Runs following sequence of steps in a long running loop:
+Single client is created -> single sender is created ->
+message is sent -> message received -> message completed ->
+receiver closed -> client closed
+
+The test assumes no other process is working with the queue defined in here.
+
+For running this test, connection string of the Service Bus namespace and queue name
+must be supplied.
+*/
+
 import { ServiceBusClient, SendableMessageInfo, ReceiveMode } from "../../lib";
 
 const connectionString = "";
