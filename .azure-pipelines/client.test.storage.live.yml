@@ -8,19 +8,47 @@
 #   Example: --fgrep "test description"
 
 jobs:
-  - job: 'Test_Node'
+  - job: 'Test_Storage_Node'
     strategy:
       # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
       # since the tests would attempt to use the same resources which causes conflicts.
       maxParallel: 1
       matrix:
+        Linux_Node6X:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          NodeVersion: '6.x'
+        Linux_Node8X:
+          OSName: 'Linux'
+          OSVmImage: 'ubuntu-16.04'
+          NodeVersion: '8.x'
         Linux_Node10X:
           OSName: 'Linux'
           OSVmImage: 'ubuntu-16.04'
           NodeVersion: '10.x'
+        Windows_Node6X:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          NodeVersion: '6.x'
+        Windows_Node8X:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          NodeVersion: '8.x'
         Windows_Node10X:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
+          NodeVersion: '10.x'
+        Mac_Node6X:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
+          NodeVersion: '6.x'
+        Mac_Node8X:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
+          NodeVersion: '8.x'
+        Mac_Node10X:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
           NodeVersion: '10.x'
 
     pool:
@@ -53,19 +81,10 @@ jobs:
       - script: npm run live-test-client-$(Package)-node -- -- --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- $(AdditionalTestArguments)
         displayName: 'npm run live-test-client-$(Package)-node'
         env:
-          # Service Bus
-          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
-          CLEAN_NAMESPACE: 'true'
-          RESOURCE_GROUP: $(service-bus-test-resource-group)
-          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
-          # Event Hubs
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          EVENTHUB_NAME: $(js-event-hubs-test-name)
-          IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
-          STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
 
       - task: PublishTestResults@2
         inputs:
@@ -74,7 +93,7 @@ jobs:
         condition: succeededOrFailed()
         displayName: 'Publish node test results'
 
-  - job: 'Test_Browser'
+  - job: 'Test_Storage_Browser'
     strategy:
       # Service Bus and Event Hubs currently lack support for running multiple test suites in parallel,
       # since the tests would attempt to use the same resources which causes conflicts.
@@ -87,6 +106,10 @@ jobs:
         Windows_Node10X:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
+          NodeVersion: '10.x'
+        Mac_Node10X:
+          OSName: 'Mac'
+          OSVmImage: 'macOS-10.13'
           NodeVersion: '10.x'
 
     pool:
@@ -118,19 +141,10 @@ jobs:
         condition: succeededOrFailed()
         displayName: 'npm run live-test-client-$(Package)-browser'
         env:
-          # Service Bus
-          AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-          AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-          AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-          AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
-          CLEAN_NAMESPACE: 'true'
-          RESOURCE_GROUP: $(service-bus-test-resource-group)
-          SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
-          # Event Hubs
-          EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-          EVENTHUB_NAME: $(js-event-hubs-test-name)
-          IOTHUB_CONNECTION_STRING: $(js-event-hubs-test-iothub-connection-string)
-          STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+          # Storage
+          ACCOUNT_NAME: $(js-storage-test-account-name)
+          ACCOUNT_KEY: $(js-storage-test-account-key)
+          ACCOUNT_SAS: $(js-storage-test-account-sas)
 
       - task: PublishTestResults@2
         inputs:
