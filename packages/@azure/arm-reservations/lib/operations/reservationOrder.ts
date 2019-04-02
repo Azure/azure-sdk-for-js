@@ -30,26 +30,26 @@ export class ReservationOrder {
   /**
    * Calculate price for placing a `ReservationOrder`
    * @summary Calculate price for a `ReservationOrder`.
-   * @param parameters Information needed for calculate or purchase reservation
+   * @param body Information needed for calculate or purchase reservation
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderCalculateResponse>
    */
-  calculate(parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderCalculateResponse>;
+  calculate(body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderCalculateResponse>;
   /**
-   * @param parameters Information needed for calculate or purchase reservation
+   * @param body Information needed for calculate or purchase reservation
    * @param callback The callback
    */
-  calculate(parameters: Models.PurchaseRequest, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
+  calculate(body: Models.PurchaseRequest, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
   /**
-   * @param parameters Information needed for calculate or purchase reservation
+   * @param body Information needed for calculate or purchase reservation
    * @param options The optional parameters
    * @param callback The callback
    */
-  calculate(parameters: Models.PurchaseRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
-  calculate(parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculatePriceResponse>, callback?: msRest.ServiceCallback<Models.CalculatePriceResponse>): Promise<Models.ReservationOrderCalculateResponse> {
+  calculate(body: Models.PurchaseRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
+  calculate(body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculatePriceResponse>, callback?: msRest.ServiceCallback<Models.CalculatePriceResponse>): Promise<Models.ReservationOrderCalculateResponse> {
     return this.client.sendOperationRequest(
       {
-        parameters,
+        body,
         options
       },
       calculateOperationSpec,
@@ -85,12 +85,12 @@ export class ReservationOrder {
    * Purchase `ReservationOrder` and create resource under the specificed URI
    * @summary Purchase `ReservationOrder`
    * @param reservationOrderId Order Id of the reservation
-   * @param parameters Information needed for calculate or purchase reservation
+   * @param body Information needed for calculate or purchase reservation
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderPurchaseResponse>
    */
-  purchase(reservationOrderId: string, parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderPurchaseResponse> {
-    return this.beginPurchase(reservationOrderId,parameters,options)
+  purchase(reservationOrderId: string, body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderPurchaseResponse> {
+    return this.beginPurchase(reservationOrderId,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationOrderPurchaseResponse>;
   }
 
@@ -127,15 +127,15 @@ export class ReservationOrder {
    * Purchase `ReservationOrder` and create resource under the specificed URI
    * @summary Purchase `ReservationOrder`
    * @param reservationOrderId Order Id of the reservation
-   * @param parameters Information needed for calculate or purchase reservation
+   * @param body Information needed for calculate or purchase reservation
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPurchase(reservationOrderId: string, parameters: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPurchase(reservationOrderId: string, body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         reservationOrderId,
-        parameters,
+        body,
         options
       },
       beginPurchaseOperationSpec,
@@ -184,7 +184,7 @@ const calculateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "parameters",
+    parameterPath: "body",
     mapper: {
       ...Mappers.PurchaseRequest,
       required: true
@@ -257,7 +257,7 @@ const beginPurchaseOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "parameters",
+    parameterPath: "body",
     mapper: {
       ...Mappers.PurchaseRequest,
       required: true
