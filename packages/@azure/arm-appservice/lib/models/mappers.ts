@@ -918,6 +918,12 @@ export const VnetInfo: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isSwift: {
+        serializedName: "properties.isSwift",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1292,6 +1298,30 @@ export const DeletedSite: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedServiceIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+  serializedName: "ManagedServiceIdentity_userAssignedIdentitiesValue",
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentityUserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedServiceIdentity: msRest.CompositeMapper = {
   serializedName: "ManagedServiceIdentity",
   type: {
@@ -1318,15 +1348,38 @@ export const ManagedServiceIdentity: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      identityIds: {
-        serializedName: "identityIds",
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
         type: {
-          name: "Sequence",
-          element: {
+          name: "Dictionary",
+          value: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "ManagedServiceIdentityUserAssignedIdentitiesValue"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const GeoDistribution: msRest.CompositeMapper = {
+  serializedName: "GeoDistribution",
+  type: {
+    name: "Composite",
+    className: "GeoDistribution",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      numberOfWorkers: {
+        serializedName: "numberOfWorkers",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1477,7 +1530,6 @@ export const IpSecurityRestriction: msRest.CompositeMapper = {
     className: "IpSecurityRestriction",
     modelProperties: {
       ipAddress: {
-        required: true,
         serializedName: "ipAddress",
         type: {
           name: "String"
@@ -1487,6 +1539,24 @@ export const IpSecurityRestriction: msRest.CompositeMapper = {
         serializedName: "subnetMask",
         type: {
           name: "String"
+        }
+      },
+      vnetSubnetResourceId: {
+        serializedName: "vnetSubnetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      vnetTrafficTag: {
+        serializedName: "vnetTrafficTag",
+        type: {
+          name: "Number"
+        }
+      },
+      subnetTrafficTag: {
+        serializedName: "subnetTrafficTag",
+        type: {
+          name: "Number"
         }
       },
       action: {
@@ -1558,6 +1628,12 @@ export const CorsSettings: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      supportCredentials: {
+        serializedName: "supportCredentials",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2477,6 +2553,24 @@ export const SiteConfig: msRest.CompositeMapper = {
           }
         }
       },
+      scmIpSecurityRestrictions: {
+        serializedName: "scmIpSecurityRestrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpSecurityRestriction"
+            }
+          }
+        }
+      },
+      scmIpSecurityRestrictionsUseMain: {
+        serializedName: "scmIpSecurityRestrictionsUseMain",
+        type: {
+          name: "Boolean"
+        }
+      },
       http20Enabled: {
         serializedName: "http20Enabled",
         defaultValue: true,
@@ -2737,6 +2831,12 @@ export const Site: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      clientCertExclusionPaths: {
+        serializedName: "properties.clientCertExclusionPaths",
+        type: {
+          name: "String"
+        }
+      },
       hostNamesDisabled: {
         serializedName: "properties.hostNamesDisabled",
         type: {
@@ -2823,6 +2923,38 @@ export const Site: msRest.CompositeMapper = {
         serializedName: "properties.httpsOnly",
         type: {
           name: "Boolean"
+        }
+      },
+      redundancyMode: {
+        serializedName: "properties.redundancyMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "Manual",
+            "Failover",
+            "ActiveActive",
+            "GeoRedundant"
+          ]
+        }
+      },
+      inProgressOperationId: {
+        readOnly: true,
+        serializedName: "properties.inProgressOperationId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      geoDistributions: {
+        serializedName: "properties.geoDistributions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GeoDistribution"
+            }
+          }
         }
       },
       identity: {
@@ -2996,12 +3128,6 @@ export const AppServicePlan: msRest.CompositeMapper = {
       subscription: {
         readOnly: true,
         serializedName: "properties.subscription",
-        type: {
-          name: "String"
-        }
-      },
-      adminSiteName: {
-        serializedName: "properties.adminSiteName",
         type: {
           name: "String"
         }
@@ -6494,6 +6620,12 @@ export const StackMinorVersion: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      isRemoteDebuggingEnabled: {
+        serializedName: "isRemoteDebuggingEnabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -6533,6 +6665,12 @@ export const StackMajorVersion: msRest.CompositeMapper = {
               className: "StackMinorVersion"
             }
           }
+        }
+      },
+      applicationInsights: {
+        serializedName: "applicationInsights",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -7302,6 +7440,52 @@ export const SourceControl: msRest.CompositeMapper = {
         serializedName: "properties.expirationTime",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ValidateContainerSettingsRequest: msRest.CompositeMapper = {
+  serializedName: "ValidateContainerSettingsRequest",
+  type: {
+    name: "Composite",
+    className: "ValidateContainerSettingsRequest",
+    modelProperties: {
+      baseUrl: {
+        serializedName: "baseUrl",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      },
+      repository: {
+        serializedName: "repository",
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
+        }
+      },
+      platform: {
+        serializedName: "platform",
+        type: {
+          name: "String"
         }
       }
     }
@@ -9883,6 +10067,12 @@ export const SiteAuthSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      clientSecretCertificateThumbprint: {
+        serializedName: "properties.clientSecretCertificateThumbprint",
+        type: {
+          name: "String"
+        }
+      },
       issuer: {
         serializedName: "properties.issuer",
         type: {
@@ -10432,6 +10622,24 @@ export const SiteConfigResource: msRest.CompositeMapper = {
           }
         }
       },
+      scmIpSecurityRestrictions: {
+        serializedName: "properties.scmIpSecurityRestrictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpSecurityRestriction"
+            }
+          }
+        }
+      },
+      scmIpSecurityRestrictionsUseMain: {
+        serializedName: "properties.scmIpSecurityRestrictionsUseMain",
+        type: {
+          name: "Boolean"
+        }
+      },
       http20Enabled: {
         serializedName: "properties.http20Enabled",
         defaultValue: true,
@@ -10859,6 +11067,12 @@ export const SitePatchResource: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      clientCertExclusionPaths: {
+        serializedName: "properties.clientCertExclusionPaths",
+        type: {
+          name: "String"
+        }
+      },
       hostNamesDisabled: {
         serializedName: "properties.hostNamesDisabled",
         type: {
@@ -10945,6 +11159,38 @@ export const SitePatchResource: msRest.CompositeMapper = {
         serializedName: "properties.httpsOnly",
         type: {
           name: "Boolean"
+        }
+      },
+      redundancyMode: {
+        serializedName: "properties.redundancyMode",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "Manual",
+            "Failover",
+            "ActiveActive",
+            "GeoRedundant"
+          ]
+        }
+      },
+      inProgressOperationId: {
+        readOnly: true,
+        serializedName: "properties.inProgressOperationId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      geoDistributions: {
+        serializedName: "properties.geoDistributions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GeoDistribution"
+            }
+          }
         }
       }
     }
@@ -12237,6 +12483,68 @@ export const AppServiceEnvironmentPatchResource: msRest.CompositeMapper = {
   }
 };
 
+export const EndpointDetail: msRest.CompositeMapper = {
+  serializedName: "EndpointDetail",
+  type: {
+    name: "Composite",
+    className: "EndpointDetail",
+    modelProperties: {
+      ipAddress: {
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      },
+      latency: {
+        serializedName: "latency",
+        type: {
+          name: "Number"
+        }
+      },
+      isAccessable: {
+        serializedName: "isAccessable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointDependency: msRest.CompositeMapper = {
+  serializedName: "EndpointDependency",
+  type: {
+    name: "Composite",
+    className: "EndpointDependency",
+    modelProperties: {
+      domainName: {
+        serializedName: "domainName",
+        type: {
+          name: "String"
+        }
+      },
+      endpointDetails: {
+        serializedName: "endpointDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HostingEnvironmentDiagnostics: msRest.CompositeMapper = {
   serializedName: "HostingEnvironmentDiagnostics",
   type: {
@@ -12253,6 +12561,44 @@ export const HostingEnvironmentDiagnostics: msRest.CompositeMapper = {
         serializedName: "diagnosicsOutput",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InboundEnvironmentEndpoint: msRest.CompositeMapper = {
+  serializedName: "InboundEnvironmentEndpoint",
+  type: {
+    name: "Composite",
+    className: "InboundEnvironmentEndpoint",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      ports: {
+        serializedName: "ports",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -12320,6 +12666,34 @@ export const MetricDefinition: msRest.CompositeMapper = {
         serializedName: "properties.displayName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpoint: msRest.CompositeMapper = {
+  serializedName: "OutboundEnvironmentEndpoint",
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpoint",
+    modelProperties: {
+      category: {
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EndpointDependency"
+            }
+          }
         }
       }
     }
@@ -12515,12 +12889,6 @@ export const AppServicePlanPatchResource: msRest.CompositeMapper = {
       subscription: {
         readOnly: true,
         serializedName: "properties.subscription",
-        type: {
-          name: "String"
-        }
-      },
-      adminSiteName: {
-        serializedName: "properties.adminSiteName",
         type: {
           name: "String"
         }
@@ -14070,6 +14438,36 @@ export const StampCapacityCollection: msRest.CompositeMapper = {
   }
 };
 
+export const InboundEnvironmentEndpointCollection: msRest.CompositeMapper = {
+  serializedName: "InboundEnvironmentEndpointCollection",
+  type: {
+    name: "Composite",
+    className: "InboundEnvironmentEndpointCollection",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundEnvironmentEndpoint"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkerPoolCollection: msRest.CompositeMapper = {
   serializedName: "WorkerPoolCollection",
   type: {
@@ -14145,6 +14543,36 @@ export const UsageCollection: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Usage"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OutboundEnvironmentEndpointCollection: msRest.CompositeMapper = {
+  serializedName: "OutboundEnvironmentEndpointCollection",
+  type: {
+    name: "Composite",
+    className: "OutboundEnvironmentEndpointCollection",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OutboundEnvironmentEndpoint"
             }
           }
         }
