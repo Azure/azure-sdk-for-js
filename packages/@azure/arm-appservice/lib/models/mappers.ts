@@ -11192,6 +11192,13 @@ export const SitePatchResource: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
       }
     }
   }

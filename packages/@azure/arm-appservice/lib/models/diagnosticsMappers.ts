@@ -151,6 +151,8 @@ export {
   CloningInfo,
   SlotSwapStatus,
   GeoDistribution,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityUserAssignedIdentitiesValue,
   SitePhpErrorLogFlag,
   SiteSourceControl,
   SlotConfigNamesResource,
@@ -185,8 +187,6 @@ export {
   AppServiceCertificateResource,
   AppServiceCertificateOrder,
   Site,
-  ManagedServiceIdentity,
-  ManagedServiceIdentityUserAssignedIdentitiesValue,
   AppServicePlan
 } from "../models/mappers";
 
