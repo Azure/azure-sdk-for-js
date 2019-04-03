@@ -209,18 +209,18 @@ export interface BatchAccount extends Resource {
   readonly autoStorage?: AutoStorageProperties;
   /**
    * @member {number} [dedicatedCoreQuota] The dedicated core quota for the
-   * Batch account. The dedicated core quota for the Batch account. For
-   * accounts with PoolAllocationMode set to UserSubscription, quota is managed
-   * on the subscription so this value is not returned.
+   * Batch account. For accounts with PoolAllocationMode set to
+   * UserSubscription, quota is managed on the subscription so this value is
+   * not returned.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly dedicatedCoreQuota?: number;
   /**
    * @member {number} [lowPriorityCoreQuota] The low-priority core quota for
-   * the Batch account. The low-priority core quota for the Batch account. For
-   * accounts with PoolAllocationMode set to UserSubscription, quota is managed
-   * on the subscription so this value is not returned.
+   * the Batch account. For accounts with PoolAllocationMode set to
+   * UserSubscription, quota is managed on the subscription so this value is
+   * not returned.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
