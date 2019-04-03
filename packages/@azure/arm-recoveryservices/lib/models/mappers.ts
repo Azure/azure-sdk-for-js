@@ -365,6 +365,111 @@ export const ReplicationUsage: msRest.CompositeMapper = {
   }
 };
 
+export const CheckNameAvailabilityParameters: msRest.CompositeMapper = {
+  serializedName: "CheckNameAvailabilityParameters",
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityParameters",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
+  serializedName: "CheckNameAvailabilityResult",
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityResult",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckNameAvailabilityResultResource: msRest.CompositeMapper = {
+  serializedName: "CheckNameAvailabilityResultResource",
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityResultResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CheckNameAvailabilityResult"
+        }
+      }
+    }
+  }
+};
+
 export const ClientDiscoveryDisplay: msRest.CompositeMapper = {
   serializedName: "ClientDiscoveryDisplay",
   type: {
@@ -496,43 +601,6 @@ export const ClientDiscoveryValueForSingleApi: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ClientDiscoveryForProperties"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      eTag: {
-        serializedName: "eTag",
-        type: {
-          name: "String"
         }
       }
     }
