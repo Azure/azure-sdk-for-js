@@ -45,7 +45,7 @@ npm i -g ts-node
 - Clone the repo, cd to the sub folder for service bus and install the dependencies
 ```
 git clone https://github.com/azure/azure-sdk-for-js.git
-cd azure-sdk-for-js/packages/@azure/servicebus/data-plane
+cd azure-sdk-for-js/sdk/servicebus/service-bus
 npm install
 ```
 - Build the project
