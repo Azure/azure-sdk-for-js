@@ -21,10 +21,10 @@ async function main() {
 
 // Shuffle and send messages
 async function sendMessages() {
-  const nsSend = Namespace.createFromConnectionString(connectionString);
+  const nsSend = ServiceBusClient.createFromConnectionString(connectionString);
   // If using Topics, use createTopicClient to send to a topic
   const sendClient = nsSend.createQueueClient(queueName);
-  const sender = sendClient.getSender();
+  const sender = sendClient.createSender();
 
   const data = [
     { step: 1, title: "Shop" },
@@ -58,7 +58,7 @@ async function sendMessages() {
 }
 
 async function receiveMessage() {
-  const nsRcv = Namespace.createFromConnectionString(connectionString);
+  const nsRcv = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const receiveClient = nsRcv.createQueueClient(queueName);
@@ -98,13 +98,13 @@ async function receiveMessage() {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    let receiver = receiveClient.getReceiver();
+    let receiver = await receiveClient.createReceiver(ReceiveMode.peekLock);
     receiver.receive(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = receiveClient.getReceiver();
+    receiver = await receiveClient.createReceiver(ReceiveMode.peekLock);
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;

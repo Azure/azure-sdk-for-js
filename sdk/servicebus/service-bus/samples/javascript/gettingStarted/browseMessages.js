@@ -14,7 +14,7 @@ const connectionString = "";
 const queueName = "";
 
 async function main() {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics, use createSubscriptionClient to peek from a topic subscription
   const client = ns.createQueueClient(queueName);

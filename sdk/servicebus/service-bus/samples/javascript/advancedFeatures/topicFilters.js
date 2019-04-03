@@ -21,7 +21,7 @@ const subscriptionName2 = "";
 const subscriptionName3 = "";
 
 async function main() {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await addRules(ns);
 
@@ -61,7 +61,7 @@ async function sendMessages(ns) {
     };
 
     console.log(` Sending message ${index} - ${message.body}`);
-    await topicClient.getSender().send(message);
+    await topicClient.createSender().send(message);
   }
 }
 
@@ -71,29 +71,29 @@ async function receiveMessages(ns) {
   const subscription2Client = ns.createSubscriptionClient(topicName, subscriptionName2);
   const subscription3Client = ns.createSubscriptionClient(topicName, subscriptionName3);
 
-  const messagesFromSubscription1 = await subscription1Client.getReceiver().receiveBatch(10, 5);
-  console.log(">>>>> Messages from the first subscription:");
-  for (let i = 0; i < messagesFromSubscription1.length; i++) {
-    console.log(messagesFromSubscription1[i].body);
-    await messagesFromSubscription1[i].complete();
-  }
-  await subscription1Client.close();
+	const messagesFromSubscription1 = await subscription1.receiveBatch(10, 5);
+	console.log(">>>>> Messages from the first subscription:");
+	for (let i = 0; i < messagesFromSubscription1.length; i++) {
+		console.log(messagesFromSubscription1[i].body);
+		await messagesFromSubscription1[i].complete();
+	}
+	await subscription1.close();
 
-  const messagesFromSubscription2 = await subscription2Client.getReceiver().receiveBatch(10, 5);
-  console.log(">>>>> Messages from the second subscription:");
-  for (let i = 0; i < messagesFromSubscription2.length; i++) {
-    console.log(messagesFromSubscription2[i].body);
-    await messagesFromSubscription2[i].complete();
-  }
-  await subscription2Client.close();
+	const messagesFromSubscription2 = await subscription2.receiveBatch(10, 5);
+	console.log(">>>>> Messages from the second subscription:");
+	for (let i = 0; i < messagesFromSubscription2.length; i++) {
+		console.log(messagesFromSubscription2[i].body);
+		await messagesFromSubscription2[i].complete();
+	}
+	await subscription2.close();
 
-  const messagesFromSubscription3 = await subscription3Client.getReceiver().receiveBatch(10, 5);
-  console.log(">>>>> Messages from the third subscription:");
-  for (let i = 0; i < messagesFromSubscription3.length; i++) {
-    console.log(messagesFromSubscription3[i].body);
-    await messagesFromSubscription3[i].complete();
-  }
-  await subscription3Client.close();
+	const messagesFromSubscription3 = await subscription3.receiveBatch(10, 5);
+	console.log(">>>>> Messages from the third subscription:");
+	for (let i = 0; i < messagesFromSubscription3.length; i++) {
+		console.log(messagesFromSubscription3[i].body);
+		await messagesFromSubscription3[i].complete();
+	}
+	await subscription3.close();
 }
 
 async function removeAllRules(client) {

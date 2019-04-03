@@ -26,11 +26,11 @@ const listOfScientists = [
 ];
 
 async function main(){
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {

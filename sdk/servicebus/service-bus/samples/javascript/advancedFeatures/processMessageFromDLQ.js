@@ -12,7 +12,7 @@ const { Namespace } = require("@azure/service-bus");
 const connectionString = "";
 const queueName = "";
 
-const ns = Namespace.createFromConnectionString(connectionString);
+const ns = ServiceBusClient.createFromConnectionString(connectionString);
 const deadLetterQueueName = Namespace.getDeadLetterQueuePath(queueName);
 // const deadLetterQueueName = Namespace.getDeadLetterTopicPath(topicName, subscriptionName);
 
@@ -28,7 +28,7 @@ async function main() {
 
 async function processDeadletterMessageQueue() {
   const client = ns.createQueueClient(deadLetterQueueName);
-  const receiver = client.getReceiver();
+  const receiver = await client.createReceiver(ReceiveMode.peekLock);
 
   const message = await receiver.receiveBatch(1);
 
@@ -51,7 +51,7 @@ async function processDeadletterMessageQueue() {
 async function fixAndResendMessage(oldMessage) {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = oldMessage.clone();

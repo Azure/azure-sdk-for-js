@@ -26,7 +26,7 @@ const listOfScientists = [
 ];
 
 async function main(){
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await sendScheduledMessages(ns);
 
@@ -40,7 +40,7 @@ async function main(){
 async function sendScheduledMessages(ns){
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -74,7 +74,7 @@ async function receiveMessages(ns) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  const receiver = client.getReceiver();
+  const receiver = await client.createReceiver(ReceiveMode.peekLock);
   receiver.receive(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();

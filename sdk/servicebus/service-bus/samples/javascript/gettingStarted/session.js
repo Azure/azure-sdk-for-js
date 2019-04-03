@@ -29,7 +29,7 @@ const listOfScientists = [
 ];
 
 async function main() {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   try {
     await sendMessage(ns, listOfScientists[0], "session-1");
@@ -54,7 +54,7 @@ async function main() {
 async function sendMessage(ns, scientist, sessionId) {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,

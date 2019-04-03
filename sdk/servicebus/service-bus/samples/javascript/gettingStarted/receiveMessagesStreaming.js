@@ -12,14 +12,14 @@ const connectionString = "";
 const queueName = "";
 
 async function main() {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const client = ns.createQueueClient(queueName);
   
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.js file
-  const receiver = client.getReceiver();
+  const receiver = await client.createReceiver(ReceiveMode.peekLock);
 
   const onMessageHandler = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);

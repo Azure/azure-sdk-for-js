@@ -22,7 +22,7 @@ const { Namespace } = require("@azure/service-bus");
 const connectionString = "";
 const userEventsQueueName = "";
 
-const ns = Namespace.createFromConnectionString(connectionString);
+const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
   try {
@@ -93,7 +93,7 @@ async function getSessionState(sessionId) {
 async function sendMessagesForSession(shoppingEvents, sessionId) {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(userEventsQueueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {

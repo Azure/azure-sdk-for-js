@@ -10,8 +10,8 @@
     Here, assign "owner" role to your account.
 */
 
-import { Namespace } from "@azure/service-bus";
-import { loginWithUsernamePassword } from "ms-rest-azure";
+import { ServiceBusClient } from "../../../src";
+import { loginWithUsernamePassword } from "@azure/ms-rest-nodeauth";
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
@@ -20,18 +20,18 @@ const username = "";
 const password = "";
 
 async function main(): Promise<void> {
-  const tokenCreds = await loginWithUsernamePassword(username, password, {
-    tokenAudience: "https://servicebus.azure.net/"
-  });
+	const tokenCreds = await loginWithUsernamePassword(username, password, {
+		tokenAudience: "https://servicebus.azure.net/"
+	});
 
-  const ns = Namespace.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+	const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and to send/receive messages
   */
-  await ns.close();
+	await ns.close();
 }
 
 main().catch((err) => {
-  console.log("Error occurred: ", err);
+	console.log("Error occurred: ", err);
 });

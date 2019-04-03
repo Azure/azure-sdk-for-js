@@ -13,7 +13,7 @@ const connectionString = "";
 const queueName = "";
 
 
-const ns = Namespace.createFromConnectionString(connectionString);
+const ns = ServiceBusClient.createFromConnectionString(connectionString);
 async function main() {
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
@@ -28,7 +28,7 @@ async function main() {
 async function sendMessage() {
   // If using Topics, use createTopicClient to send to a topic
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   const message = {
     body: { name: "Creamy Chicken Pasta", type: "Dinner" },
@@ -42,7 +42,7 @@ async function sendMessage() {
 async function receiveMessage() {
   // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const client = ns.createQueueClient(queueName);
-  const receiver = client.getReceiver();
+  const receiver = await client.createReceiver(ReceiveMode.peekLock);
 
   const message = await receiver.receiveBatch(1);
 

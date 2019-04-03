@@ -31,7 +31,7 @@ async function main() {
     tokenAudience: "https://servicebus.azure.net/"
   });
 
-  const ns = Namespace.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and send/receive messages
