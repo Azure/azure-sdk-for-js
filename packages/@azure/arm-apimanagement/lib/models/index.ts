@@ -1955,7 +1955,7 @@ export interface BackendServiceFabricClusterProperties {
   clientCertificatethumbprint: string;
   /**
    * @member {number} [maxPartitionResolutionRetries] Maximum number of retries
-   * while attempting resolve the parition.
+   * while attempting resolve the partition.
    */
   maxPartitionResolutionRetries?: number;
   /**
@@ -2209,7 +2209,7 @@ export interface BackendUpdateParameters {
 export interface BackendReconnectContract extends Resource {
   /**
    * @member {string} [after] Duration in ISO8601 format after which reconnect
-   * will be initiated. Minimum duration of the Reconect is PT2M.
+   * will be initiated. Minimum duration of the Reconnect is PT2M.
    */
   after?: string;
 }
@@ -2258,6 +2258,83 @@ export interface CertificateCreateOrUpdateParameters {
 
 /**
  * @interface
+ * An interface representing ResourceSku.
+ * Describes an available API Management SKU.
+ *
+ */
+export interface ResourceSku {
+  /**
+   * @member {SkuType} [name] Name of the Sku. Possible values include:
+   * 'Developer', 'Standard', 'Premium', 'Basic'
+   */
+  name?: SkuType;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceSkuCapacity.
+ * Describes scaling information of a SKU.
+ *
+ */
+export interface ResourceSkuCapacity {
+  /**
+   * @member {number} [minimum] The minimum capacity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly minimum?: number;
+  /**
+   * @member {number} [maximum] The maximum capacity that can be set.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maximum?: number;
+  /**
+   * @member {number} [default] The default capacity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly default?: number;
+  /**
+   * @member {ResourceSkuCapacityScaleType} [scaleType] The scale type
+   * applicable to the sku. Possible values include: 'automatic', 'manual',
+   * 'none'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scaleType?: ResourceSkuCapacityScaleType;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceSkuResult.
+ * Describes an available API Management service SKU.
+ *
+ */
+export interface ResourceSkuResult {
+  /**
+   * @member {string} [resourceType] The type of resource the SKU applies to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * @member {ResourceSku} [sku] Specifies API Management SKU.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sku?: ResourceSku;
+  /**
+   * @member {ResourceSkuCapacity} [capacity] Specifies the number of API
+   * Management units.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly capacity?: ResourceSkuCapacity;
+}
+
+/**
+ * @interface
  * An interface representing CertificateInformation.
  * SSL certificate information.
  *
@@ -2297,7 +2374,7 @@ export interface CertificateConfiguration {
   certificatePassword?: string;
   /**
    * @member {StoreName} storeName The
-   * System.Security.Cryptography.x509certificates.Storename certificate store
+   * System.Security.Cryptography.x509certificates.StoreName certificate store
    * location. Only Root and CertificateAuthority are valid locations. Possible
    * values include: 'CertificateAuthority', 'Root'
    */
@@ -2608,7 +2685,7 @@ export interface ApiManagementServiceBaseProperties {
   certificates?: CertificateConfiguration[];
   /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -2795,7 +2872,7 @@ export interface ApiManagementServiceResource extends ApimResource {
   certificates?: CertificateConfiguration[];
   /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -2956,7 +3033,7 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
   certificates?: CertificateConfiguration[];
   /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -4378,8 +4455,8 @@ export interface ReportRecordContract {
    */
   timestamp?: Date;
   /**
-   * @member {string} [interval] Length of agregation period.  Interval must be
-   * multiple of 15 minutes and may not be zero. The value should be in ISO
+   * @member {string} [interval] Length of aggregation period.  Interval must
+   * be multiple of 15 minutes and may not be zero. The value should be in ISO
    * 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
    */
   interval?: string;
@@ -4428,14 +4505,14 @@ export interface ReportRecordContract {
    */
   subscriptionId?: string;
   /**
-   * @member {number} [callCountSuccess] Number of succesful calls. This
+   * @member {number} [callCountSuccess] Number of successful calls. This
    * includes calls returning HttpStatusCode <= 301 and
    * HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
    */
   callCountSuccess?: number;
   /**
    * @member {number} [callCountBlocked] Number of calls blocked due to invalid
-   * credentials. This includes calls returning HttpStatusCode.Unauthorize and
+   * credentials. This includes calls returning HttpStatusCode.Unauthorized and
    * HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
    */
   callCountBlocked?: number;
@@ -4563,7 +4640,7 @@ export interface RequestReportRecordContract {
    * @member {string} [cache] Specifies if response cache was involved in
    * generating the response. If the value is none, the cache was not used. If
    * the value is hit, cached response was returned. If the value is miss, the
-   * cache was used but lookup resulted in a miss and request was fullfilled by
+   * cache was used but lookup resulted in a miss and request was fulfilled by
    * the backend.
    */
   cache?: string;
@@ -4610,7 +4687,7 @@ export interface SubscriptionCreateParameters {
   userId: string;
   /**
    * @member {string} productId Product (product id path) for which
-   * subscription is being created in form /products/{productid}
+   * subscription is being created in form /products/{productId}
    */
   productId: string;
   /**
@@ -8500,6 +8577,21 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * @interface
+ * An interface representing the ResourceSkuResults.
+ * The API Management service SKUs operation response.
+ *
+ * @extends Array<ResourceSkuResult>
+ */
+export interface ResourceSkuResults extends Array<ResourceSkuResult> {
+  /**
+   * @member {string} [nextLink] The uri to fetch the next page of API
+   * Management service Skus.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ApiManagementServiceListResult.
  * The response of the List API Management services operation.
  *
@@ -8832,20 +8924,28 @@ export type BearerTokenSendingMethod = 'authorizationHeader' | 'query';
 export type BackendProtocol = 'http' | 'soap';
 
 /**
- * Defines values for HostnameType.
- * Possible values include: 'Proxy', 'Portal', 'Management', 'Scm'
- * @readonly
- * @enum {string}
- */
-export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm';
-
-/**
  * Defines values for SkuType.
  * Possible values include: 'Developer', 'Standard', 'Premium', 'Basic'
  * @readonly
  * @enum {string}
  */
 export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic';
+
+/**
+ * Defines values for ResourceSkuCapacityScaleType.
+ * Possible values include: 'automatic', 'manual', 'none'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceSkuCapacityScaleType = 'automatic' | 'manual' | 'none';
+
+/**
+ * Defines values for HostnameType.
+ * Possible values include: 'Proxy', 'Portal', 'Management', 'Scm'
+ * @readonly
+ * @enum {string}
+ */
+export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm';
 
 /**
  * Defines values for VirtualNetworkType.
@@ -10540,6 +10640,44 @@ export type ApiManagementOperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServiceSkus operation.
+ */
+export type ApiManagementServiceSkusListAvailableServiceSkusResponse = ResourceSkuResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuResults;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServiceSkusNext operation.
+ */
+export type ApiManagementServiceSkusListAvailableServiceSkusNextResponse = ResourceSkuResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuResults;
     };
 };
 
