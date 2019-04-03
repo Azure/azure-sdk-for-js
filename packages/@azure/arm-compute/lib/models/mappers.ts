@@ -6628,11 +6628,7 @@ export const GalleryImageVersionPublishingProfile: msRest.CompositeMapper = {
       storageAccountType: {
         serializedName: "storageAccountType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Standard_LRS",
-            "Standard_ZRS"
-          ]
+          name: "String"
         }
       }
     }
@@ -6860,11 +6856,7 @@ export const TargetRegion: msRest.CompositeMapper = {
       storageAccountType: {
         serializedName: "storageAccountType",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Standard_LRS",
-            "Standard_ZRS"
-          ]
+          name: "String"
         }
       }
     }
