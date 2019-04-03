@@ -10,15 +10,14 @@
 
 export {
   discriminators,
-  CertificateRequest,
-  RawCertificateData,
-  VaultCertificateResponse,
-  BaseResource,
-  ResourceCertificateDetails,
-  CloudError,
-  ResourceCertificateAndAadDetails,
-  ResourceCertificateAndAcsDetails,
+  CheckNameAvailabilityParameters,
+  CheckNameAvailabilityResultResource,
   Resource,
+  BaseResource,
+  CheckNameAvailabilityResult,
+  CloudError,
+  VaultCertificateResponse,
+  ResourceCertificateDetails,
   TrackedResource,
   PatchTrackedResource,
   Vault,
@@ -27,7 +26,7 @@ export {
   Sku,
   PatchVault,
   VaultExtendedInfoResource,
-  CheckNameAvailabilityResultResource,
-  CheckNameAvailabilityResult
+  ResourceCertificateAndAadDetails,
+  ResourceCertificateAndAcsDetails
 } from "../models/mappers";
 

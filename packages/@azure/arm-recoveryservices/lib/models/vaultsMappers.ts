@@ -23,6 +23,8 @@ export {
   PatchTrackedResource,
   VaultCertificateResponse,
   ResourceCertificateDetails,
+  CheckNameAvailabilityResultResource,
+  CheckNameAvailabilityResult,
   VaultExtendedInfoResource,
   ResourceCertificateAndAadDetails,
   ResourceCertificateAndAcsDetails
