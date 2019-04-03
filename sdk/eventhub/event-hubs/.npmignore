@@ -1,0 +1,47 @@
+# git #
+.git*
+
+# Node #
+node_modules/
+
+# Test folder #
+test/
+testhub/
+
+# Tools and dev scripts #
+tools/
+tasks/
+scripts/
+gruntfile.js
+gulpfile.js
+
+# Nuget packages #
+.nuget/
+packages/
+packages.config
+
+# VS #
+.ntvs_analysis.*
+*.sln
+*.obj
+
+# Examples #
+samples/
+# vscode #
+.vscode/
+.env
+sample.env
+
+# misc #
+contribute.md
+.idea/
+changelog.md
+samples/
+typings/samples/
+dist/samples/
+docs/
+typedoc/
+
+# coverage #
+.nyc_output
+coverage
