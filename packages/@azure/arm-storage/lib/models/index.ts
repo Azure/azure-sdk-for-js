@@ -230,7 +230,7 @@ export interface Sku {
    * creation; optional for update. Note that in older versions, SKU name was
    * called accountType. Possible values include: 'Standard_LRS',
    * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS',
-   * 'Premium_ZRS', 'Standard_GZRS', 'Standard_RAGZRS'
+   * 'Premium_ZRS'
    */
   name: SkuName;
   /**
@@ -2212,11 +2212,11 @@ export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 /**
  * Defines values for SkuName.
  * Possible values include: 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS',
- * 'Premium_LRS', 'Premium_ZRS', 'Standard_GZRS', 'Standard_RAGZRS'
+ * 'Premium_LRS', 'Premium_ZRS'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS' | 'Standard_GZRS' | 'Standard_RAGZRS';
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS';
 
 /**
  * Defines values for SkuTier.
