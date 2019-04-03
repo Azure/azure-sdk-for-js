@@ -13,7 +13,6 @@ import {
 import { StoredProcedureResponse } from "../../dist-esm/client/StoredProcedure/StoredProcedureResponse";
 import { UserResponse } from "../../dist-esm/client/User/UserResponse";
 import { endpoint, masterKey } from "./_testConfig";
-import { PrivateContainer } from "./PrivateContainer";
 
 const defaultClient = new CosmosClient({ endpoint, auth: { masterKey } });
 
@@ -66,11 +65,6 @@ export async function getTestContainer(
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
   await db.containers.create({ ...containerDef, ...{ id } }, options);
   return db.container(id);
-}
-
-export function createPrivateContainer(container: Container) {
-  // This is a hack to access trigger and udf for existing tests while we figure out what we're going to do
-  return new PrivateContainer(container.database, container.id, (container as any).clientContext);
 }
 
 export async function bulkInsertItems(
@@ -236,53 +230,53 @@ export function replaceOrUpsertPermission(
 
 // Trigger
 export function createOrUpsertTrigger(
-  container: PrivateContainer,
+  container: Container,
   body: any,
   options: any,
   isUpsertTest: boolean
 ): Promise<TriggerResponse> {
   if (isUpsertTest) {
-    return container.triggers.upsert(body, options);
+    return container.scripts.triggers.upsert(body, options);
   } else {
-    return container.triggers.create(body, options);
+    return container.scripts.triggers.create(body, options);
   }
 }
 export function replaceOrUpsertTrigger(
-  container: PrivateContainer,
+  container: Container,
   body: any,
   options: any,
   isUpsertTest: boolean
 ): Promise<TriggerResponse> {
   if (isUpsertTest) {
-    return container.triggers.upsert(body, options);
+    return container.scripts.triggers.upsert(body, options);
   } else {
-    return container.trigger(body.id).replace(body, options);
+    return container.scripts.trigger(body.id).replace(body, options);
   }
 }
 
 // User Defined Function
 export function createOrUpsertUserDefinedFunction(
-  container: PrivateContainer,
+  container: Container,
   body: any,
   options: any,
   isUpsertTest: boolean
 ): Promise<UserDefinedFunctionResponse> {
   if (isUpsertTest) {
-    return container.userDefinedFunctions.upsert(body, options);
+    return container.scripts.userDefinedFunctions.upsert(body, options);
   } else {
-    return container.userDefinedFunctions.create(body, options);
+    return container.scripts.userDefinedFunctions.create(body, options);
   }
 }
 export function replaceOrUpsertUserDefinedFunction(
-  container: PrivateContainer,
+  container: Container,
   body: any,
   options: any,
   isUpsertTest: boolean
 ): Promise<UserDefinedFunctionResponse> {
   if (isUpsertTest) {
-    return container.userDefinedFunctions.upsert(body, options);
+    return container.scripts.userDefinedFunctions.upsert(body, options);
   } else {
-    return container.userDefinedFunction(body.id).replace(body, options);
+    return container.scripts.userDefinedFunction(body.id).replace(body, options);
   }
 }
 
@@ -294,9 +288,9 @@ export function createOrUpsertStoredProcedure(
   isUpsertTest: boolean
 ): Promise<StoredProcedureResponse> {
   if (isUpsertTest) {
-    return container.storedProcedures.upsert(body, options);
+    return container.scripts.storedProcedures.upsert(body, options);
   } else {
-    return container.storedProcedures.create(body, options);
+    return container.scripts.storedProcedures.create(body, options);
   }
 }
 export function replaceOrUpsertStoredProcedure(
@@ -306,8 +300,8 @@ export function replaceOrUpsertStoredProcedure(
   isUpsertTest: boolean
 ): Promise<StoredProcedureResponse> {
   if (isUpsertTest) {
-    return container.storedProcedures.upsert(body, options);
+    return container.scripts.storedProcedures.upsert(body, options);
   } else {
-    return container.storedProcedure(body.id).replace(body, options);
+    return container.scripts.storedProcedure(body.id).replace(body, options);
   }
 }

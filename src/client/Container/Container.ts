@@ -12,9 +12,7 @@ import { FeedOptions, RequestOptions, ResourceResponse } from "../../request";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
-import { StoredProcedure, StoredProcedures } from "../StoredProcedure";
-import { Trigger, Triggers } from "../Trigger";
-import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
+import { Scripts } from "../Script/Scripts";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
 import { PartitionKeyRange } from "./PartitionKeyRange";
@@ -48,43 +46,15 @@ export class Container {
     return this.$items;
   }
 
-  private $sprocs: StoredProcedures;
+  private $scripts: Scripts;
   /**
-   * Operations for creating new stored procedures, and reading/querying all stored procedures.
-   *
-   * For reading, replacing, or deleting an existing stored procedure, use `.storedProcedure(id)`.
+   * All operations for Stored Procedures, Triggers, and User Defined Functions
    */
-  public get storedProcedures(): StoredProcedures {
-    if (!this.$sprocs) {
-      this.$sprocs = new StoredProcedures(this, this.clientContext);
+  public get scripts(): Scripts {
+    if (!this.$scripts) {
+      this.$scripts = new Scripts(this, this.clientContext);
     }
-    return this.$sprocs;
-  }
-
-  private $triggers: Triggers;
-  /**
-   * Operations for creating new triggers, and reading/querying all triggers.
-   *
-   * For reading, replacing, or deleting an existing trigger, use `.trigger(id)`.
-   */
-  protected get __triggers(): Triggers {
-    if (!this.$triggers) {
-      this.$triggers = new Triggers(this, this.clientContext);
-    }
-    return this.$triggers;
-  }
-
-  private $udfs: UserDefinedFunctions;
-  /**
-   * Operations for creating new user defined functions, and reading/querying all user defined functions.
-   *
-   * For reading, replacing, or deleting an existing user defined function, use `.userDefinedFunction(id)`.
-   */
-  protected get __userDefinedFunctions(): UserDefinedFunctions {
-    if (!this.$udfs) {
-      this.$udfs = new UserDefinedFunctions(this, this.clientContext);
-    }
-    return this.$udfs;
+    return this.$scripts;
   }
 
   private $conflicts: Conflicts;
@@ -134,16 +104,6 @@ export class Container {
   }
 
   /**
-   * Used to read, replace, or delete a specific, existing {@link UserDefinedFunction} by id.
-   *
-   * Use `.userDefinedFunctions` for creating new user defined functions, or querying/reading all user defined functions.
-   * @param id The id of the {@link UserDefinedFunction}.
-   */
-  protected __userDefinedFunction(id: string): UserDefinedFunction {
-    return new UserDefinedFunction(this, id, this.clientContext);
-  }
-
-  /**
    * Used to read, replace, or delete a specific, existing {@link Conflict} by id.
    *
    * Use `.conflicts` for creating new conflicts, or querying/reading all conflicts.
@@ -151,26 +111,6 @@ export class Container {
    */
   public conflict(id: string): Conflict {
     return new Conflict(this, id, this.clientContext);
-  }
-
-  /**
-   * Used to read, replace, or delete a specific, existing {@link StoredProcedure} by id.
-   *
-   * Use `.storedProcedures` for creating new stored procedures, or querying/reading all stored procedures.
-   * @param id The id of the {@link StoredProcedure}.
-   */
-  public storedProcedure(id: string): StoredProcedure {
-    return new StoredProcedure(this, id, this.clientContext);
-  }
-
-  /**
-   * Used to read, replace, or delete a specific, existing {@link Trigger} by id.
-   *
-   * Use `.triggers` for creating new triggers, or querying/reading all triggers.
-   * @param id The id of the {@link Trigger}.
-   */
-  protected __trigger(id: string): Trigger {
-    return new Trigger(this, id, this.clientContext);
   }
 
   /** Read the container's definition */

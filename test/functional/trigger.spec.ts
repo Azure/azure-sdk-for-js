@@ -1,8 +1,7 @@
 import assert from "assert";
 import { TriggerOperation, TriggerType } from "../../dist-esm";
-import { TriggerDefinition } from "../../dist-esm/client";
-import { PrivateContainer } from "../common/PrivateContainer";
-import { createPrivateContainer, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { TriggerDefinition, Container } from "../../dist-esm/client";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const notFoundErrorCode = 404;
 
@@ -11,17 +10,17 @@ declare var getContext: any;
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  let container: PrivateContainer;
+  let container: Container;
 
   beforeEach(async function() {
     await removeAllDatabases();
-    container = createPrivateContainer(await getTestContainer("trigger container"));
+    container = await getTestContainer("trigger container");
   });
 
   describe("Validate Trigger CRUD", function() {
     it("nativeApi Should do trigger CRUD operations successfully name based", async function() {
       // read triggers
-      const { resources: triggers } = await container.triggers.readAll().fetchAll();
+      const { resources: triggers } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(Array.isArray(triggers), true);
 
       // create a trigger
@@ -37,13 +36,13 @@ describe("NodeJS CRUD Tests", function() {
       // tslint:enable:no-var-keyword
       // tslint:enable:prefer-const
 
-      const { resource: trigger } = await container.triggers.create(triggerDefinition);
+      const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
 
       assert.equal(trigger.id, triggerDefinition.id);
       assert.equal(trigger.body, "serverScript() { var x = 10; }");
 
       // read triggers after creation
-      const { resources: triggersAfterCreation } = await container.triggers.readAll().fetchAll();
+      const { resources: triggersAfterCreation } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(
         triggersAfterCreation.length,
         beforeCreateTriggersCount + 1,
@@ -60,27 +59,27 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { resources: results } = await container.triggers.query(querySpec).fetchAll();
+      const { resources: results } = await container.scripts.triggers.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
 
       // replace trigger
       // prettier-ignore
       trigger.body = function () { const x = 20; };
-      const { resource: replacedTrigger } = await container.trigger(trigger.id).replace(trigger);
+      const { resource: replacedTrigger } = await container.scripts.trigger(trigger.id).replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
       assert.equal(replacedTrigger.body, "function () { const x = 20; }");
 
       // read trigger
-      const { resource: triggerAfterReplace } = await container.trigger(replacedTrigger.id).read();
+      const { resource: triggerAfterReplace } = await container.scripts.trigger(replacedTrigger.id).read();
       assert.equal(replacedTrigger.id, triggerAfterReplace.id);
 
       // delete trigger
-      await await container.trigger(replacedTrigger.id).delete();
+      await await container.scripts.trigger(replacedTrigger.id).delete();
 
       // read triggers after deletion
       try {
-        await container.trigger(replacedTrigger.id).read();
+        await container.scripts.trigger(replacedTrigger.id).read();
         assert.fail("Must fail to read after deletion");
       } catch (err) {
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
@@ -89,7 +88,7 @@ describe("NodeJS CRUD Tests", function() {
 
     it("nativeApi Should do trigger CRUD operations successfully name based with upsert", async function() {
       // read triggers
-      const { resources: triggers } = await container.triggers.readAll().fetchAll();
+      const { resources: triggers } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(Array.isArray(triggers), true);
 
       // create a trigger
@@ -105,13 +104,13 @@ describe("NodeJS CRUD Tests", function() {
       // tslint:enable:no-var-keyword
       // tslint:enable:prefer-const
 
-      const { resource: trigger } = await container.triggers.upsert(triggerDefinition);
+      const { resource: trigger } = await container.scripts.triggers.upsert(triggerDefinition);
 
       assert.equal(trigger.id, triggerDefinition.id);
       assert.equal(trigger.body, "serverScript() { var x = 10; }");
 
       // read triggers after creation
-      const { resources: triggersAfterCreation } = await container.triggers.readAll().fetchAll();
+      const { resources: triggersAfterCreation } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(
         triggersAfterCreation.length,
         beforeCreateTriggersCount + 1,
@@ -128,27 +127,27 @@ describe("NodeJS CRUD Tests", function() {
           }
         ]
       };
-      const { resources: results } = await container.triggers.query(querySpec).fetchAll();
+      const { resources: results } = await container.scripts.triggers.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
 
       // replace trigger
       // prettier-ignore
       trigger.body = function () { const x = 20; };
-      const { resource: replacedTrigger } = await container.triggers.upsert(trigger);
+      const { resource: replacedTrigger } = await container.scripts.triggers.upsert(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
       assert.equal(replacedTrigger.body, "function () { const x = 20; }");
 
       // read trigger
-      const { resource: triggerAfterReplace } = await container.trigger(replacedTrigger.id).read();
+      const { resource: triggerAfterReplace } = await container.scripts.trigger(replacedTrigger.id).read();
       assert.equal(replacedTrigger.id, triggerAfterReplace.id);
 
       // delete trigger
-      await await container.trigger(replacedTrigger.id).delete();
+      await await container.scripts.trigger(replacedTrigger.id).delete();
 
       // read triggers after deletion
       try {
-        await container.trigger(replacedTrigger.id).read();
+        await container.scripts.trigger(replacedTrigger.id).read();
         assert.fail("Must fail to read after deletion");
       } catch (err) {
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
@@ -227,7 +226,7 @@ describe("NodeJS CRUD Tests", function() {
 
     it("should do trigger operations successfully with create", async function() {
       for (const trigger of triggers) {
-        await container.triggers.create(trigger);
+        await container.scripts.triggers.create(trigger);
       }
       // create document
       const { resource: document } = await container.items.create(
@@ -265,7 +264,7 @@ describe("NodeJS CRUD Tests", function() {
 
     it("should do trigger operations successfully with upsert", async function() {
       for (const trigger of triggers) {
-        await container.triggers.upsert(trigger);
+        await container.scripts.triggers.upsert(trigger);
       }
       // create document
       const { resource: document } = await container.items.upsert(
