@@ -9,6 +9,7 @@
  */
 
 export {
+  EnrollmentAccountListResult,
   EnrollmentAccount,
   Resource,
   BaseResource,

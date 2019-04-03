@@ -9,16 +9,18 @@
  */
 
 export {
-  EnrollmentAccount,
+  PaymentMethodsListResult,
+  PaymentMethod,
   Resource,
   BaseResource,
-  Department,
   ErrorResponse,
   ErrorDetails,
   BillingProfile,
   Address,
   EnabledAzureSKUs,
   InvoiceSection,
+  EnrollmentAccount,
+  Department,
   BillingAccount,
   Enrollment,
   EnrollmentPolicies,
@@ -32,7 +34,6 @@ export {
   TransactionsSummary,
   Policy,
   AvailableBalance,
-  PaymentMethod,
   BillingRoleAssignment,
   BillingRoleDefinition,
   BillingPermissions,
