@@ -6,7 +6,7 @@ Use the client library for Azure Service Bus in your Node.js application to
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
 
 ## Status
 
