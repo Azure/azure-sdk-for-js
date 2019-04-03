@@ -8145,6 +8145,10 @@ export interface SitePatchResource extends ProxyOnlyResource {
    * site
    */
   geoDistributions?: GeoDistribution[];
+  /**
+   * @member {ManagedServiceIdentity} [identity]
+   */
+  identity?: ManagedServiceIdentity;
 }
 
 /**
