@@ -65,19 +65,18 @@ async function sendReceiveMessages(): Promise<void> {
 
 async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver): Promise<void> {
   while (!isJobDone) {
-    for (let i = 0; i < numOfClients; i++) {
-      const message: SendableMessageInfo = {
-        messageId: msgId,
-        body: "test",
-        label: `${msgId}`
-      };
-      msgId++;
-      await sender.send(message);
-      const messagesReceived = await receiver.receiveBatch(1);
-      await messagesReceived[0].complete();
-    }
+    const message: SendableMessageInfo = {
+      messageId: msgId,
+      body: "test",
+      label: `${msgId}`
+    };
+    msgId++;
+    await sender.send(message);
+    const messagesReceived = await receiver.receiveBatch(1);
+    await messagesReceived[0].complete();
   }
 }
+
 
 function snapshot(): void {
   console.log("Time : ", new Date());
