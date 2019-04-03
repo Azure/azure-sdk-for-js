@@ -9,16 +9,17 @@
  */
 
 export {
-  EnrollmentAccount,
+  Policy,
   Resource,
   BaseResource,
-  Department,
   ErrorResponse,
   ErrorDetails,
   BillingProfile,
   Address,
   EnabledAzureSKUs,
   InvoiceSection,
+  EnrollmentAccount,
+  Department,
   BillingAccount,
   Enrollment,
   EnrollmentPolicies,
@@ -30,7 +31,6 @@ export {
   BillingSubscriptionSummary,
   EnrollmentAccountContext,
   TransactionsSummary,
-  Policy,
   AvailableBalance,
   PaymentMethod,
   BillingRoleAssignment,
