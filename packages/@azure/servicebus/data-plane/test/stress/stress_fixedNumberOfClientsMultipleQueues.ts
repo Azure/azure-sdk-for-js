@@ -1,18 +1,13 @@
 /*
 Test Scenario summary:
-Creates 10 clients against single queue.
-On each, single sender/receiver are created and kept alive.
-Runs following sequence of steps in a long running loop:
-Single client is created -> single sender is created ->
-message is sent -> message received -> message completed ->
-receiver closed -> client closed
+- Creates 10 clients against 10 different existing queues with names as queue-1, queue-2, ... queue-10.
+- Sends, receives & completes messages in a loop on each client independently.
+- All senders, receivers and clients are closed in the end.
 
 The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.
 
-For running this test, connection string of the Service Bus namespace and queue names
-must be supplied.
-Note that 10 queues are to be created with name format as queue-1, queue-2 ... queue-10
+For running this test, connection string of the Service Bus namespace must be supplied.
 */
 
 import { ServiceBusClient, SendableMessageInfo, ReceiveMode, Sender, Receiver } from "../../lib";

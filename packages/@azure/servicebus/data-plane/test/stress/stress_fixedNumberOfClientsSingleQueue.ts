@@ -1,11 +1,8 @@
 /*
 Test Scenario summary:
-Creates 10 clients against single queue.
-On each, single sender/receiver are created and kept alive.
-Runs following sequence of steps in a long running loop:
-Single client is created -> single sender is created ->
-message is sent -> message received -> message completed ->
-receiver closed -> client closed
+- Creates 10 clients against a single existing queue.
+- Sends, receives & completes messages in a loop on each client independently.
+- All senders, receivers and clients are closed in the end.
 
 The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.

@@ -1,7 +1,7 @@
 /*
 Test Scenario summary:
-Creates a single sender and a single receiver on a queue.
-Runs following sequence of steps in a long running loop.
+- Creates a single sender and a single receiver on a queue.
+- Runs following sequence of steps in a long running loop.
 Sends a message -> receives a message -> performs random message disposition option
 
 The test assumes no other process is working with the queues defined in here,
