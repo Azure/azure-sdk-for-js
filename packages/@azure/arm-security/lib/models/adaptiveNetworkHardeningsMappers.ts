@@ -10,11 +10,14 @@
 
 export {
   discriminators,
-  AutoProvisioningSettingList,
-  AutoProvisioningSetting,
+  AdaptiveNetworkHardeningsList,
+  AdaptiveNetworkHardening,
   Resource,
   BaseResource,
+  Rule,
+  EffectiveNetworkSecurityGroups,
   CloudError,
+  AdaptiveNetworkHardeningEnforceRequest,
   RegulatoryComplianceStandard,
   RegulatoryComplianceControl,
   RegulatoryComplianceAssessment,
@@ -22,6 +25,7 @@ export {
   Pricing,
   SecurityContact,
   WorkspaceSetting,
+  AutoProvisioningSetting,
   Compliance,
   ComplianceSegment,
   AdvancedThreatProtectionSetting,
@@ -42,9 +46,6 @@ export {
   Alert,
   AlertEntity,
   AlertConfidenceReason,
-  AdaptiveNetworkHardening,
-  Rule,
-  EffectiveNetworkSecurityGroups,
   Setting,
   DataExportSetting
 } from "../models/mappers";
