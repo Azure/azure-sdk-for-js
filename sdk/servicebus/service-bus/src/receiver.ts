@@ -118,8 +118,7 @@ export class Receiver {
    * @param prefetchSize Number of messages to fetch at a time from Service Bus
    * - **Default**: `100`
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message. If no message is received by this time,
-   * the returned promise gets resolved to an empty array.
+   * should wait to receive the first message.
    * - **Default**: `60` seconds.
    */
   async *getMessageIterator(prefetchSize?: number, idleTimeoutInSeconds?: number): AsyncIterableIterator<ServiceBusMessage> {
