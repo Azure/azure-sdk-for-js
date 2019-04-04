@@ -81,7 +81,7 @@ export class BatchingReceiver extends MessageReceiver {
           clearTimeout(firstMessageWaitTimer);
         }
 
-        // Removing listeners, so that the next receiveBatch() call can set them again.
+        // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
@@ -106,7 +106,7 @@ export class BatchingReceiver extends MessageReceiver {
 
           this.isReceivingMessages = false;
           log.batching(
-            "[%s] Receiver '%s': Resolving receiveBatch() with %d messages.",
+            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
             this._context.namespace.connectionId,
             this.name,
             brokeredMessages.length
@@ -153,7 +153,7 @@ export class BatchingReceiver extends MessageReceiver {
         this.isReceivingMessages = false;
 
         log.batching(
-          "[%s] Receiver '%s' drained. Resolving receiveBatch() with %d messages.",
+          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
           this._context.namespace.connectionId,
           this.name,
           brokeredMessages.length

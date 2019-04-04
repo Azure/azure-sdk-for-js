@@ -46,7 +46,7 @@ async function sendReceiveMessages(): Promise<void> {
     for (let i = 0; i < numOfClients; i++) {
       clients[i] = ns.createQueueClient(`t0-queue-new-${i + 1}`);
       senders[i] = clients[i].createSender();
-      receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
+      receivers[i] = clients[i].createReceiver(ReceiveMode.peekLock);
 
       sendReceiveMessagePromises.push(sendReceiveMessagesPerClient(senders[i], receivers[i]));
     }
@@ -71,8 +71,8 @@ async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver):
       label: `${msgId}`
     };
     msgId++;
-    await sender.send(message);
-    const messagesReceived = await receiver.receiveBatch(1);
+    await sender.sendMessage(message);
+    const messagesReceived = await receiver.receiveMessages(1);
     await messagesReceived[0].complete();
   }
 }
