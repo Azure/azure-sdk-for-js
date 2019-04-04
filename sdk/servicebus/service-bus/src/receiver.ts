@@ -210,7 +210,7 @@ export class Receiver {
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
-   * When this return true, registerMessageHandler() or receiveMessages() calls cannot be made.
+   * When this returns true, registerMessageHandler() or receiveMessages() calls cannot be made.
    */
   isReceivingMessages(): boolean {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
@@ -502,7 +502,7 @@ export class SessionReceiver {
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
-   * When this return true, registerMessageHandler() or receiveMessages() calls cannot be made.
+   * When this returns true, registerMessageHandler() or receiveMessages() calls cannot be made.
    */
   isReceivingMessages(): boolean {
     return this._messageSession.isReceivingMessages;
