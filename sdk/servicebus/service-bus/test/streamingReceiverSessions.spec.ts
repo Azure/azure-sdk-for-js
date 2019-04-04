@@ -114,10 +114,10 @@ describe("Sessions Streaming - Misc Tests", function(): void {
 
   async function testAutoComplete(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive((msg: ServiceBusMessage) => {
+    sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
       should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -181,10 +181,10 @@ describe("Sessions Streaming - Misc Tests", function(): void {
 
   async function testManualComplete(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
@@ -255,10 +255,10 @@ describe("Sessions Streaming - Complete message", function(): void {
 
   async function testComplete(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -366,9 +366,9 @@ describe("Sessions Streaming - Abandon message", function(): void {
 
   async function testAbandon(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
     let abandonFlag = 0;
-    await sessionReceiver.receive(
+    await sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
           abandonFlag = 1;
@@ -393,7 +393,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
     sessionReceiver = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
-    const receivedMsgs = await sessionReceiver.receiveBatch(1);
+    const receivedMsgs = await sessionReceiver.receiveMessages(1);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(
       receivedMsgs[0].messageId,
@@ -492,10 +492,10 @@ describe("Sessions Streaming - Defer message", function(): void {
 
   async function testDefer(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     let sequenceNum: any = 0;
-    await sessionReceiver.receive(
+    await sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.defer().then(() => {
           sequenceNum = msg.sequenceNumber;
@@ -618,10 +618,10 @@ describe("Sessions Streaming - Deadletter message", function(): void {
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     let msgCount = 0;
-    await sessionReceiver.receive(
+    await sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.deadLetter().then(() => {
           msgCount++;
@@ -639,7 +639,7 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
-    const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -739,12 +739,12 @@ describe("Sessions Streaming - Multiple Streaming Receivers", function(): void {
   });
 
   async function testMultipleReceiveCalls(): Promise<void> {
-    await sessionReceiver.receive((msg: ServiceBusMessage) => {
+    await sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
     await delay(5000);
     try {
-      await sessionReceiver.receive(
+      await sessionReceiver.registerMessageHandler(
         (msg: ServiceBusMessage) => {
           return Promise.resolve();
         },
@@ -820,10 +820,10 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
 
   async function testSettlement(operation: DispositionType): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive((msg: ServiceBusMessage) => {
+    sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -1021,11 +1021,11 @@ describe("Sessions Streaming - User Error", function(): void {
 
   async function testUserError(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
     const errorMessage = "Will we see this error message?";
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(async (msg: ServiceBusMessage) => {
+    sessionReceiver.registerMessageHandler(async (msg: ServiceBusMessage) => {
       await msg.complete().then(() => {
         receivedMsgs.push(msg);
       });
@@ -1102,12 +1102,12 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     }
 
     const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
-    await sender.sendBatch(testMessages);
+    await sender.sendMessages(testMessages);
 
     const settledMsgs: ServiceBusMessage[] = [];
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    sessionReceiver.receive(
+    sessionReceiver.registerMessageHandler(
       async (msg: ServiceBusMessage) => {
         if (receivedMsgs.length === 1) {
           if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {

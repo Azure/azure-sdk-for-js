@@ -47,7 +47,7 @@ export class Sender {
    * @param message - Message to send.
    * @returns Promise<void>
    */
-  async send(message: SendableMessageInfo): Promise<void> {
+  async sendMessage(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.send(message);
@@ -65,7 +65,7 @@ export class Sender {
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
    */
-  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
+  async sendMessages(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);

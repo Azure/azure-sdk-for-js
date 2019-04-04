@@ -126,7 +126,7 @@ export class MessageReceiver extends LinkEntity {
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers
-   * or while messages are received using receiveBatch(). Default: false.
+   * or while messages are received using receiveMessages(). Default: false.
    */
   autoComplete: boolean;
   /**

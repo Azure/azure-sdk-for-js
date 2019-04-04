@@ -112,7 +112,7 @@ async function sendOrders(): Promise<void> {
       },
       partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
     };
-    await sender.send(message);
+    await sender.sendMessage(message);
   }
 }
 
@@ -123,7 +123,7 @@ async function receiveOrders(
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
   const receiver = await client.createReceiver(ReceiveMode.peekLock);
-  receiver.receive(
+  receiver.registerMessageHandler(
     (msg: ServiceBusMessage) => {
       return msg.complete().then(() => {
         receivedMsgs.push(msg);

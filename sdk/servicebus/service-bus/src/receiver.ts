@@ -57,7 +57,11 @@ export class Receiver {
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
+  registerMessageHandler(
+    onMessage: OnMessage,
+    onError: OnError,
+    options?: MessageHandlerOptions
+  ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._validateNewReceiveCall(ReceiverType.streaming);
 
@@ -80,7 +84,7 @@ export class Receiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(
+  async receiveMessages(
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
@@ -206,7 +210,7 @@ export class Receiver {
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
-   * When this return true, a new receive() or receiveBatch() call cannot be made.
+   * When this return true, registerMessageHandler() or receiveMessages() calls cannot be made.
    */
   isReceivingMessages(): boolean {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
@@ -428,13 +432,13 @@ export class SessionReceiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(
+  async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     try {
-      return await this._messageSession.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
+      return await this._messageSession.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
@@ -465,7 +469,11 @@ export class SessionReceiver {
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+  registerMessageHandler(
+    onMessage: OnMessage,
+    onError: OnError,
+    options?: SessionMessageHandlerOptions
+  ): void {
     this._throwIfReceiverOrConnectionClosed();
     return this._messageSession.receive(onMessage, onError, options);
   }
@@ -494,7 +502,7 @@ export class SessionReceiver {
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
-   * When this return true, a new receive() or receiveBatch() call cannot be made on the receiver.
+   * When this return true, registerMessageHandler() or receiveMessages() calls cannot be made.
    */
   isReceivingMessages(): boolean {
     return this._messageSession.isReceivingMessages;

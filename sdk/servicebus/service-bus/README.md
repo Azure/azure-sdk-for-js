@@ -102,7 +102,7 @@ based on how you want to settle the message. To learn more, please read [Settlin
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
 const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
-const myMessages = await receiver.receiveBatch(10);
+const myMessages = await receiver.receiveMessages(10);
 for(let i = 0; i < myMessages.length; i++) {
   console.log(myMessages[i].body);
   await myMessages[i].complete();
@@ -146,7 +146,7 @@ the session from which you want to receive messages.
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
 const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: "my-session"});
-const myMessages = await receiver.receiveBatch(10);
+const myMessages = await receiver.receiveMessages(10);
 for(let i = 0; i < myMessages.length; i++) {
   console.log(myMessages[i].body);
   await myMessages[i].complete();

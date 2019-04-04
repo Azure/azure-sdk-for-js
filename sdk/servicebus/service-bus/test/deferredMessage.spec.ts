@@ -102,8 +102,8 @@ async function afterEachTest(): Promise<void> {
 }
 
 async function deferMessage(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
-  await sender.send(testMessages);
-  const receivedMsgs = await receiver.receiveBatch(1);
+  await sender.sendMessage(testMessages);
+  const receivedMsgs = await receiver.receiveMessages(1);
 
   should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
   should.equal(receivedMsgs[0].body, testMessages.body, "MessageBody is different than expected");
@@ -345,7 +345,7 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
-    const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
