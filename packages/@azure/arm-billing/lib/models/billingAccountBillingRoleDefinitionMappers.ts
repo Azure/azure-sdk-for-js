@@ -9,16 +9,19 @@
  */
 
 export {
-  EnrollmentAccount,
+  BillingRoleDefinition,
   Resource,
   BaseResource,
-  Department,
+  BillingPermissions,
   ErrorResponse,
   ErrorDetails,
+  BillingRoleDefinitionListResult,
   BillingProfile,
   Address,
   EnabledAzureSKUs,
   InvoiceSection,
+  EnrollmentAccount,
+  Department,
   BillingAccount,
   Enrollment,
   EnrollmentPolicies,
@@ -34,8 +37,6 @@ export {
   AvailableBalance,
   PaymentMethod,
   BillingRoleAssignment,
-  BillingRoleDefinition,
-  BillingPermissions,
   Agreement,
   Participants
 } from "../models/mappers";
