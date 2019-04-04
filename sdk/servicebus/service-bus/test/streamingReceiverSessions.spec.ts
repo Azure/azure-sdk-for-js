@@ -368,7 +368,7 @@ describe("Sessions Streaming - Abandon message", function (): void {
     const testMessage = TestMessage.getSessionSample();
     await sender.sendMessage(testMessage);
     let abandonFlag = 0;
-    await sessionReceiver.registerMessageHandler(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.abandon().then(() => {
           abandonFlag = 1;
@@ -495,7 +495,7 @@ describe("Sessions Streaming - Defer message", function (): void {
     await sender.sendMessage(testMessage);
 
     let sequenceNum: any = 0;
-    await sessionReceiver.registerMessageHandler(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.defer().then(() => {
           sequenceNum = msg.sequenceNumber;
@@ -621,7 +621,7 @@ describe("Sessions Streaming - Deadletter message", function (): void {
     await sender.sendMessage(testMessage);
 
     let msgCount = 0;
-    await sessionReceiver.registerMessageHandler(
+    sessionReceiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.deadLetter().then(() => {
           msgCount++;
@@ -739,12 +739,12 @@ describe("Sessions Streaming - Multiple Streaming Receivers", function (): void 
   });
 
   async function testMultipleReceiveCalls(): Promise<void> {
-    await sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
+    sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
     await delay(5000);
     try {
-      await sessionReceiver.registerMessageHandler(
+      sessionReceiver.registerMessageHandler(
         (msg: ServiceBusMessage) => {
           return Promise.resolve();
         },

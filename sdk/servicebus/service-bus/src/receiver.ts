@@ -68,7 +68,12 @@ export class Receiver {
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._validateNewReceiveCall(ReceiverType.streaming);
-
+    if (!onMessage || typeof onMessage !== "function") {
+      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
+    }
+    if (!onError || typeof onError !== "function") {
+      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+    }
     const sReceiver = StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: this._receiveMode
@@ -502,11 +507,11 @@ export class SessionReceiver {
    *
    * @returns void
    */
-  async registerMessageHandler(
+  registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
     options?: SessionMessageHandlerOptions
-  ): Promise<void> {
+  ): void {
     this._throwIfReceiverOrConnectionClosed();
     if (this.isReceivingMessages()) {
       throw new Error(
@@ -514,8 +519,17 @@ export class SessionReceiver {
         `already receiving messages.`
       );
     }
-    await this._createMessageSessionIfDoesntExist();
-    this._messageSession!.receive(onMessage, onError, options);
+    if (typeof onMessage !== "function") {
+      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
+    }
+    if (typeof onError !== "function") {
+      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+    }
+    this._createMessageSessionIfDoesntExist().then(() => {
+      this._messageSession!.receive(onMessage, onError, options);
+    }).catch((err) => {
+      onError(err);
+    });
   }
 
   /**
