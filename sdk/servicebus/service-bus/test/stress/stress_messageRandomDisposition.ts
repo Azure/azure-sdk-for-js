@@ -1,6 +1,6 @@
 /*
 Test Scenario summary:
-- Creates a single sender and a single receiver on a queue with sessions enabled.
+- Creates a single sender and a single receiver on a queue.
 - Runs following sequence of steps in a long running loop.
 Sends a message -> receives a message -> performs random message disposition option
 
@@ -8,7 +8,7 @@ The test assumes no other process is working with the queues defined in here,
 but the queues must be empty and use default configurations before running the test.
 
 For running this test, connection string of the Service Bus namespace and queue name
-must be supplied. The queue must have sessions enabled.
+must be supplied.
 */
 
 import {
@@ -17,9 +17,8 @@ import {
   OnMessage,
   OnError,
   delay,
-  ServiceBusMessage,
   ReceiveMode
-} from "../../lib";
+} from "../../src";
 
 const connectionString = "";
 const queueName = "";
@@ -57,8 +56,7 @@ async function sendMessages(): Promise<void> {
       const message: SendableMessageInfo = {
         messageId: msgId,
         body: "test",
-        label: `${msgId}`,
-        sessionId: "session-1"
+        label: `${msgId}`
       };
       messagesToProcess.add(msgId);
       msgId++;
@@ -76,8 +74,8 @@ async function receiveMessages(): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   try {
-    const receiver = await client.createReceiver(ReceiveMode.peekLock, { sessionId: "session-1" });
-    const onMessageHandler: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    const onMessageHandler: OnMessage = async (brokeredMessage) => {
       const receivedMsgId = brokeredMessage.messageId;
 
       if (typeof receivedMsgId !== "number") {
@@ -131,7 +129,8 @@ async function receiveMessages(): Promise<void> {
         }
       }
     };
-    const onErrorHandler: OnError = (err: Error) => {
+
+    const onErrorHandler: OnError = (err) => {
       throw err;
     };
 
