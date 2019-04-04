@@ -21,27 +21,27 @@ export class Receiver {
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
-	private _context: ClientEntityContext;
-	private _receiveMode: ReceiveMode;
-	private _isClosed: boolean = false;
+  private _context: ClientEntityContext;
+  private _receiveMode: ReceiveMode;
+  private _isClosed: boolean = false;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
    * @readonly
    */
-	public get isClosed(): boolean {
-		return this._isClosed;
-	}
+  public get isClosed(): boolean {
+    return this._isClosed;
+  }
 
   /**
    * @internal
    */
-	constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
-		throwErrorIfConnectionClosed(context.namespace);
-		this._context = context;
+  constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
+    throwErrorIfConnectionClosed(context.namespace);
+    this._context = context;
 
-		this._receiveMode = receiveMode;
-	}
+    this._receiveMode = receiveMode;
+  }
 
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
@@ -58,17 +58,17 @@ export class Receiver {
    *
    * @returns void
    */
-	receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
-		this._throwIfReceiverOrConnectionClosed();
-		this._validateNewReceiveCall(ReceiverType.streaming);
+  receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
+    this._throwIfReceiverOrConnectionClosed();
+    this._validateNewReceiveCall(ReceiverType.streaming);
 
-		const sReceiver = StreamingReceiver.create(this._context, {
-			...options,
-			receiveMode: this._receiveMode
-		});
-		this._context.streamingReceiver = sReceiver;
-		return sReceiver.receive(onMessage, onError);
-	}
+    const sReceiver = StreamingReceiver.create(this._context, {
+      ...options,
+      receiveMode: this._receiveMode
+    });
+    this._context.streamingReceiver = sReceiver;
+    return sReceiver.receive(onMessage, onError);
+  }
 
   /**
    * Returns a batch of messages based on given count and timeout over an AMQP receiver link
@@ -81,204 +81,204 @@ export class Receiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-	async receiveBatch(
-		maxMessageCount: number,
-		idleTimeoutInSeconds?: number
-	): Promise<ServiceBusMessage[]> {
-		this._throwIfReceiverOrConnectionClosed();
-		this._validateNewReceiveCall(ReceiverType.batching);
+  async receiveBatch(
+    maxMessageCount: number,
+    idleTimeoutInSeconds?: number
+  ): Promise<ServiceBusMessage[]> {
+    this._throwIfReceiverOrConnectionClosed();
+    this._validateNewReceiveCall(ReceiverType.batching);
 
-		if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
-			const options: ReceiveOptions = {
-				maxConcurrentCalls: 0,
-				receiveMode: this._receiveMode,
-				newMessageWaitTimeoutInSeconds: 1
-			};
-			this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
-		}
+    if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
+      const options: ReceiveOptions = {
+        maxConcurrentCalls: 0,
+        receiveMode: this._receiveMode,
+        newMessageWaitTimeoutInSeconds: 1
+      };
+      this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+    }
 
-		try {
-			return await this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
-		} catch (err) {
-			log.error(
-				"[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-				"max time:\n %O",
-				this._context.namespace.connectionId,
-				this._context.batchingReceiver.name,
-				maxMessageCount,
-				idleTimeoutInSeconds,
-				err
-			);
-			throw err;
-		}
-	}
+    try {
+      return await this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
+    } catch (err) {
+      log.error(
+        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+        "max time:\n %O",
+        this._context.namespace.connectionId,
+        this._context.batchingReceiver.name,
+        maxMessageCount,
+        idleTimeoutInSeconds,
+        err
+      );
+      throw err;
+    }
+  }
 
-	/**
-	 * Gets an async iterator over messages from the receiver
-	 * @param prefetchSize Number of messages to fetch at a time from Service Bus
-	 * - **Default**: `100`
-	 * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
+  /**
+   * Gets an async iterator over messages from the receiver
+   * @param prefetchSize Number of messages to fetch at a time from Service Bus
+   * - **Default**: `100`
+   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
    * the returned promise gets resolved to an empty array.
    * - **Default**: `60` seconds.
-	 */
-	async *getMessageIterator(prefetchSize?: number, idleTimeoutInSeconds?: number): AsyncIterableIterator<ServiceBusMessage> {
-		if (typeof prefetchSize === 'undefined') {
-			prefetchSize = prefetchSizeInIterator;
-		}
-		if (typeof prefetchSize !== "number" || prefetchSize <= 0 || prefetchSize > 2048) {
-			throw new Error(
-				"'prefetchSize' parameter should be a number greater than 0 and less than 2049."
-			);
-		}
-		while (true) {
-			const currentBatch = await this.receiveBatch(prefetchSize, idleTimeoutInSeconds);
-			yield* currentBatch;
-		}
-	}
+   */
+  async *getMessageIterator(prefetchSize?: number, idleTimeoutInSeconds?: number): AsyncIterableIterator<ServiceBusMessage> {
+    if (typeof prefetchSize === 'undefined') {
+      prefetchSize = prefetchSizeInIterator;
+    }
+    if (typeof prefetchSize !== "number" || prefetchSize <= 0 || prefetchSize > 2048) {
+      throw new Error(
+        "'prefetchSize' parameter should be a number greater than 0 and less than 2049."
+      );
+    }
+    while (true) {
+      const currentBatch = await this.receiveBatch(prefetchSize, idleTimeoutInSeconds);
+      yield* currentBatch;
+    }
+  }
 
-	/**
-	 * Renews the lock on the message.
-	 *
-	 * When a message is received in `PeekLock` mode, the message is locked on the server for this
-	 * receiver instance for a duration as specified during the Queue/Subscription creation
-	 * (LockDuration). If processing of the message requires longer than this duration, the
-	 * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
-	 * LockDuration set on the Entity.
-	 *
-	 * @param lockTokenOrMessage - Lock token of the message or the message itself.
-	 * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-	 */
-	async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
-		this._throwIfReceiverOrConnectionClosed();
-		if (this._receiveMode !== ReceiveMode.peekLock) {
-			throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-		}
-		return this._context.managementClient!.renewLock(lockTokenOrMessage);
-	}
+  /**
+   * Renews the lock on the message.
+   *
+   * When a message is received in `PeekLock` mode, the message is locked on the server for this
+   * receiver instance for a duration as specified during the Queue/Subscription creation
+   * (LockDuration). If processing of the message requires longer than this duration, the
+   * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
+   * LockDuration set on the Entity.
+   *
+   * @param lockTokenOrMessage - Lock token of the message or the message itself.
+   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   */
+  async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+    this._throwIfReceiverOrConnectionClosed();
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return this._context.managementClient!.renewLock(lockTokenOrMessage);
+  }
 
-	/**
-	 * Receives a deferred message identified by the given `sequenceNumber`.
-	 * @param sequenceNumber The sequence number of the message that will be received.
-	 * @returns Promise<ServiceBusMessage | undefined>
-	 * - Returns `Message` identified by sequence number.
-	 * - Returns `undefined` if no such message is found.
-	 * - Throws an error if the message has not been deferred.
-	 */
-	async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
-		this._throwIfReceiverOrConnectionClosed();
-		if (this._receiveMode !== ReceiveMode.peekLock) {
-			throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-		}
-		return this._context.managementClient!.receiveDeferredMessage(
-			sequenceNumber,
-			this._receiveMode
-		);
-	}
+  /**
+   * Receives a deferred message identified by the given `sequenceNumber`.
+   * @param sequenceNumber The sequence number of the message that will be received.
+   * @returns Promise<ServiceBusMessage | undefined>
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * - Throws an error if the message has not been deferred.
+   */
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    this._throwIfReceiverOrConnectionClosed();
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return this._context.managementClient!.receiveDeferredMessage(
+      sequenceNumber,
+      this._receiveMode
+    );
+  }
 
-	/**
-	 * Receives a list of deferred messages identified by given `sequenceNumbers`.
-	 * @param sequenceNumbers A list containing the sequence numbers to receive.
-	 * @returns Promise<ServiceBusMessage[]>
-	 * - Returns a list of messages identified by the given sequenceNumbers.
-	 * - Returns an empty list if no messages are found.
-	 * - Throws an error if the messages have not been deferred.
-	 */
-	async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
-		this._throwIfReceiverOrConnectionClosed();
-		if (this._receiveMode !== ReceiveMode.peekLock) {
-			throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-		}
-		return this._context.managementClient!.receiveDeferredMessages(
-			sequenceNumbers,
-			this._receiveMode
-		);
-	}
+  /**
+   * Receives a list of deferred messages identified by given `sequenceNumbers`.
+   * @param sequenceNumbers A list containing the sequence numbers to receive.
+   * @returns Promise<ServiceBusMessage[]>
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * - Throws an error if the messages have not been deferred.
+   */
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+    this._throwIfReceiverOrConnectionClosed();
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return this._context.managementClient!.receiveDeferredMessages(
+      sequenceNumbers,
+      this._receiveMode
+    );
+  }
 
-	/**
-	 * Closes the underlying AMQP receiver link.
-	 * Once closed, the receiver cannot be used for any further operations.
-	 * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate
-	 * a new Receiver
-	 *
-	 * @returns {Promise<void>}
-	 */
-	async close(): Promise<void> {
-		try {
-			if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
-				// Close the streaming receiver.
-				if (this._context.streamingReceiver) {
-					await this._context.streamingReceiver.close();
-				}
+  /**
+   * Closes the underlying AMQP receiver link.
+   * Once closed, the receiver cannot be used for any further operations.
+   * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * a new Receiver
+   *
+   * @returns {Promise<void>}
+   */
+  async close(): Promise<void> {
+    try {
+      if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+        // Close the streaming receiver.
+        if (this._context.streamingReceiver) {
+          await this._context.streamingReceiver.close();
+        }
 
-				// Close the batching receiver.
-				if (this._context.batchingReceiver) {
-					await this._context.batchingReceiver.close();
-				}
+        // Close the batching receiver.
+        if (this._context.batchingReceiver) {
+          await this._context.batchingReceiver.close();
+        }
 
-				// Make sure that we clear the map of deferred messages
-				this._context.requestResponseLockedMessages.clear();
-			}
-			this._isClosed = true;
-		} catch (err) {
-			const msg =
-				`An error occurred while closing the receiver for` +
-				`"${this._context.entityPath}": ${JSON.stringify(err)} `;
-			log.error(msg);
-			throw new Error(msg);
-		}
-	}
+        // Make sure that we clear the map of deferred messages
+        this._context.requestResponseLockedMessages.clear();
+      }
+      this._isClosed = true;
+    } catch (err) {
+      const msg =
+        `An error occurred while closing the receiver for` +
+        `"${this._context.entityPath}": ${JSON.stringify(err)} `;
+      log.error(msg);
+      throw new Error(msg);
+    }
+  }
 
-	/**
-	 * Indicates whether the receiver is currently receiving messages or not.
-	 * When this return true, a new receive() or receiveBatch() call cannot be made.
-	 */
-	isReceivingMessages(): boolean {
-		if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
-			return true;
-		}
-		if (
-			this._context.batchingReceiver &&
-			this._context.batchingReceiver.isOpen() &&
-			this._context.batchingReceiver.isReceivingMessages
-		) {
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Indicates whether the receiver is currently receiving messages or not.
+   * When this return true, a new receive() or receiveBatch() call cannot be made.
+   */
+  isReceivingMessages(): boolean {
+    if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
+      return true;
+    }
+    if (
+      this._context.batchingReceiver &&
+      this._context.batchingReceiver.isOpen() &&
+      this._context.batchingReceiver.isReceivingMessages
+    ) {
+      return true;
+    }
+    return false;
+  }
 
-	private _validateNewReceiveCall(newCallType: ReceiverType): void {
-		let currentlyActiveReceiver = "";
-		let currentlyActiveReceiverType = "";
-		if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
-			currentlyActiveReceiver = this._context.streamingReceiver.name;
-			currentlyActiveReceiverType = "streaming";
-		} else if (
-			this._context.batchingReceiver &&
-			this._context.batchingReceiver.isOpen() &&
-			this._context.batchingReceiver.isReceivingMessages
-		) {
-			currentlyActiveReceiver = this._context.batchingReceiver.name;
-			currentlyActiveReceiverType = "batching";
-		}
+  private _validateNewReceiveCall(newCallType: ReceiverType): void {
+    let currentlyActiveReceiver = "";
+    let currentlyActiveReceiverType = "";
+    if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
+      currentlyActiveReceiver = this._context.streamingReceiver.name;
+      currentlyActiveReceiverType = "streaming";
+    } else if (
+      this._context.batchingReceiver &&
+      this._context.batchingReceiver.isOpen() &&
+      this._context.batchingReceiver.isReceivingMessages
+    ) {
+      currentlyActiveReceiver = this._context.batchingReceiver.name;
+      currentlyActiveReceiverType = "batching";
+    }
 
-		if (currentlyActiveReceiverType && currentlyActiveReceiver) {
-			const msg =
-				`A "${currentlyActiveReceiverType}" receiver with id ` +
-				`"${currentlyActiveReceiver}" is active for "${this._context.entityPath}". ` +
-				`A ${newCallType === ReceiverType.streaming ? "new receive" : "receiveBatch"}() call ` +
-				`cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
+    if (currentlyActiveReceiverType && currentlyActiveReceiver) {
+      const msg =
+        `A "${currentlyActiveReceiverType}" receiver with id ` +
+        `"${currentlyActiveReceiver}" is active for "${this._context.entityPath}". ` +
+        `A ${newCallType === ReceiverType.streaming ? "new receive" : "receiveBatch"}() call ` +
+        `cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
 
-			throw new Error(msg);
-		}
-	}
+      throw new Error(msg);
+    }
+  }
 
-	private _throwIfReceiverOrConnectionClosed(): void {
-		throwErrorIfConnectionClosed(this._context.namespace);
-		if (this.isClosed) {
-			throw new Error("The receiver has been closed and can no longer be used.");
-		}
-	}
+  private _throwIfReceiverOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this.isClosed) {
+      throw new Error("The receiver has been closed and can no longer be used.");
+    }
+  }
 }
 
 /**
@@ -294,75 +294,75 @@ export class SessionReceiver {
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
 
-	private _context: ClientEntityContext;
-	private _receiveMode: ReceiveMode;
-	private _sessionId: string | undefined;
-	private _messageSession: MessageSession;
+  private _context: ClientEntityContext;
+  private _receiveMode: ReceiveMode;
+  private _sessionId: string | undefined;
+  private _messageSession: MessageSession;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
    * @readonly
    */
-	public get isClosed(): boolean {
-		return !this._context.messageSessions[this.sessionId];
-	}
+  public get isClosed(): boolean {
+    return !this._context.messageSessions[this.sessionId];
+  }
 
   /**
    * @property {string} [sessionId] The sessionId for the message session.
    * @readonly
    */
-	public get sessionId(): string {
-		return this._sessionId || "";
-	}
+  public get sessionId(): string {
+    return this._sessionId || "";
+  }
 
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
    * @readonly
    */
-	public get sessionLockedUntilUtc(): Date | undefined {
-		return this._messageSession.sessionLockedUntilUtc;
-	}
+  public get sessionLockedUntilUtc(): Date | undefined {
+    return this._messageSession.sessionLockedUntilUtc;
+  }
 
   /**
    * @internal
    */
-	constructor(context: ClientEntityContext, messageSession: MessageSession) {
-		throwErrorIfConnectionClosed(context.namespace);
-		this._context = context;
-		this._receiveMode = messageSession.receiveMode;
-		this._sessionId = messageSession.sessionId;
-		this._messageSession = messageSession;
-	}
+  constructor(context: ClientEntityContext, messageSession: MessageSession) {
+    throwErrorIfConnectionClosed(context.namespace);
+    this._context = context;
+    this._receiveMode = messageSession.receiveMode;
+    this._sessionId = messageSession.sessionId;
+    this._messageSession = messageSession;
+  }
 
   /**
    * Renews the lock for the Session.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-	async renewLock(): Promise<Date> {
-		this._throwIfReceiverOrConnectionClosed();
-		this._messageSession.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-			this.sessionId!
-		);
-		return this._messageSession.sessionLockedUntilUtc;
-	}
+  async renewLock(): Promise<Date> {
+    this._throwIfReceiverOrConnectionClosed();
+    this._messageSession.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
+      this.sessionId!
+    );
+    return this._messageSession.sessionLockedUntilUtc;
+  }
 
   /**
    * Sets the state of the MessageSession.
    * @param state The state that needs to be set.
    */
-	async setState(state: any): Promise<void> {
-		this._throwIfReceiverOrConnectionClosed();
-		return this._context.managementClient!.setSessionState(this.sessionId!, state);
-	}
+  async setState(state: any): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+  }
 
   /**
    * Gets the state of the MessageSession.
    * @returns Promise<any> The state of that session
    */
-	async getState(): Promise<any> {
-		this._throwIfReceiverOrConnectionClosed();
-		return this._context.managementClient!.getSessionState(this.sessionId!);
-	}
+  async getState(): Promise<any> {
+    this._throwIfReceiverOrConnectionClosed();
+    return this._context.managementClient!.getSessionState(this.sessionId!);
+  }
 
   /**
    * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
@@ -375,10 +375,10 @@ export class SessionReceiver {
    * @param maxMessageCount The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    */
-	async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
-		this._throwIfReceiverOrConnectionClosed();
-		return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
-	}
+  async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
+    this._throwIfReceiverOrConnectionClosed();
+    return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
+  }
 
   /**
    * Peeks the desired number of active messages (including deferred but not deadlettered messages)
@@ -391,16 +391,16 @@ export class SessionReceiver {
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-	async peekBySequenceNumber(
-		fromSequenceNumber: Long,
-		maxMessageCount?: number
-	): Promise<ReceivedMessageInfo[]> {
-		this._throwIfReceiverOrConnectionClosed();
-		return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-			sessionId: this.sessionId!,
-			messageCount: maxMessageCount
-		});
-	}
+  async peekBySequenceNumber(
+    fromSequenceNumber: Long,
+    maxMessageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
+    this._throwIfReceiverOrConnectionClosed();
+    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
+      sessionId: this.sessionId!,
+      messageCount: maxMessageCount
+    });
+  }
 
   /**
    * Receives a deferred message identified by the given `sequenceNumber`.
@@ -410,17 +410,17 @@ export class SessionReceiver {
    * - Returns `undefined` if no such message is found.
    * - Throws an error if the message has not been deferred.
    */
-	async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
-		this._throwIfReceiverOrConnectionClosed();
-		if (this._receiveMode !== ReceiveMode.peekLock) {
-			throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-		}
-		return this._context.managementClient!.receiveDeferredMessage(
-			sequenceNumber,
-			this._receiveMode,
-			this.sessionId
-		);
-	}
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    this._throwIfReceiverOrConnectionClosed();
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return this._context.managementClient!.receiveDeferredMessage(
+      sequenceNumber,
+      this._receiveMode,
+      this.sessionId
+    );
+  }
 
   /**
    * Receives a list of deferred messages identified by given `sequenceNumbers`.
@@ -430,17 +430,17 @@ export class SessionReceiver {
    * - Returns an empty list if no messages are found.
    * - Throws an error if the messages have not been deferred.
    */
-	async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
-		this._throwIfReceiverOrConnectionClosed();
-		if (this._receiveMode !== ReceiveMode.peekLock) {
-			throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-		}
-		return this._context.managementClient!.receiveDeferredMessages(
-			sequenceNumbers,
-			this._receiveMode,
-			this.sessionId
-		);
-	}
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+    this._throwIfReceiverOrConnectionClosed();
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return this._context.managementClient!.receiveDeferredMessages(
+      sequenceNumbers,
+      this._receiveMode,
+      this.sessionId
+    );
+  }
 
   /**
    * Returns a batch of messages based on given count and timeout over an AMQP receiver link
@@ -453,26 +453,26 @@ export class SessionReceiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-	async receiveBatch(
-		maxMessageCount: number,
-		maxWaitTimeInSeconds?: number
-	): Promise<ServiceBusMessage[]> {
-		this._throwIfReceiverOrConnectionClosed();
-		try {
-			return await this._messageSession.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
-		} catch (err) {
-			log.error(
-				"[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-				"max time:\n %O",
-				this._context.namespace.connectionId,
-				this._messageSession.name,
-				maxMessageCount,
-				maxWaitTimeInSeconds,
-				err
-			);
-			throw err;
-		}
-	}
+  async receiveBatch(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number
+  ): Promise<ServiceBusMessage[]> {
+    this._throwIfReceiverOrConnectionClosed();
+    try {
+      return await this._messageSession.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
+    } catch (err) {
+      log.error(
+        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+        "max time:\n %O",
+        this._context.namespace.connectionId,
+        this._messageSession.name,
+        maxMessageCount,
+        maxWaitTimeInSeconds,
+        err
+      );
+      throw err;
+    }
+  }
 
   /**
    * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
@@ -490,10 +490,10 @@ export class SessionReceiver {
    *
    * @returns void
    */
-	receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
-		this._throwIfReceiverOrConnectionClosed();
-		return this._messageSession.receive(onMessage, onError, options);
-	}
+  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+    this._throwIfReceiverOrConnectionClosed();
+    return this._messageSession.receive(onMessage, onError, options);
+  }
 
   /**
    * Closes the underlying AMQP receiver link.
@@ -503,32 +503,32 @@ export class SessionReceiver {
    *
    * @returns {Promise<void>}
    */
-	async close(): Promise<void> {
-		try {
-			await this._messageSession.close();
-		} catch (err) {
-			log.error(
-				"[%s] An error occurred while closing the message session with id '%s': %O.",
-				this._context.namespace.connectionId,
-				this.sessionId,
-				err
-			);
-			throw err;
-		}
-	}
+  async close(): Promise<void> {
+    try {
+      await this._messageSession.close();
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while closing the message session with id '%s': %O.",
+        this._context.namespace.connectionId,
+        this.sessionId,
+        err
+      );
+      throw err;
+    }
+  }
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
    * When this return true, a new receive() or receiveBatch() call cannot be made on the receiver.
    */
-	isReceivingMessages(): boolean {
-		return this._messageSession.isReceivingMessages;
-	}
+  isReceivingMessages(): boolean {
+    return this._messageSession.isReceivingMessages;
+  }
 
-	private _throwIfReceiverOrConnectionClosed(): void {
-		throwErrorIfConnectionClosed(this._context.namespace);
-		if (this.isClosed) {
-			throw new Error("The receiver has been closed and can no longer be used.");
-		}
-	}
+  private _throwIfReceiverOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this.isClosed) {
+      throw new Error("The receiver has been closed and can no longer be used.");
+    }
+  }
 }
