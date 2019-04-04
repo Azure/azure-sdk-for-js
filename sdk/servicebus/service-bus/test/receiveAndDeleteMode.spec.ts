@@ -80,11 +80,11 @@ async function beforeEachTest(
 
   sender = senderClient.createSender();
   if (useSessions) {
-    receiver = await receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
       sessionId: TestMessage.sessionId
     });
   } else {
-    receiver = await receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
   }
 
   errorWasThrown = false;

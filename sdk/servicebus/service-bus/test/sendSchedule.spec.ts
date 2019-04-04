@@ -65,11 +65,11 @@ async function beforeEachTest(
   }
 
   if (useSessions) {
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
   } else {
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   }
 }
 
