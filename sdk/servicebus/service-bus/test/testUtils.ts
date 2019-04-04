@@ -388,7 +388,7 @@ export async function purge(
       } else {
         receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
       }
-      const msgs = await receiver.receiveBatch(peekedMsgs.length);
+      const msgs = await receiver.receiveMessages(peekedMsgs.length);
       for (let index = 0; index < msgs.length; index++) {
         if (msgs[index]) {
           await msgs[index].complete();
