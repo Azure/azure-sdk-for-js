@@ -460,7 +460,7 @@ export class SessionReceiver {
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     try {
-      if (this.isReceivingMessages) {
+      if (this.isReceivingMessages()) {
         throw new Error(
           `MessageSession '${this._messageSession!.name}' with sessionId '${this.sessionId}' is ` +
             `already receiving messages.`
@@ -504,7 +504,7 @@ export class SessionReceiver {
     options?: SessionMessageHandlerOptions
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
-    if (this.isReceivingMessages) {
+    if (this.isReceivingMessages()) {
       throw new Error(
         `MessageSession '${this._messageSession!.name}' with sessionId '${this.sessionId}' is ` +
           `already receiving messages.`
