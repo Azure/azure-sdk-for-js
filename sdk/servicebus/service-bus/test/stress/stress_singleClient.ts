@@ -48,11 +48,11 @@ async function sendReceiveMessages(): Promise<void> {
         label: `${msgId}`
       };
       msgId++;
-      await sender.send(message);
+      await sender.sendMessage(message);
       await sender.close();
 
       const receiver = await client.createReceiver(ReceiveMode.peekLock);
-      const messagesReceived = await receiver.receiveBatch(1);
+      const messagesReceived = await receiver.receiveMessages(1);
       await messagesReceived[0].complete();
       await receiver.close();
 

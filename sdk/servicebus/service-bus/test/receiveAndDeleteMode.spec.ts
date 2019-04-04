@@ -100,8 +100,8 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   });
 
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
-    await sender.send(testMessages);
-    const msgs = await receiver.receiveBatch(1);
+    await sender.sendMessage(testMessages);
+    const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -201,10 +201,10 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     testMessages: SendableMessageInfo,
     autoCompleteFlag: boolean
   ): Promise<void> {
-    await sender.send(testMessages);
+    await sender.sendMessage(testMessages);
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    receiver.receive(
+    receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         return Promise.resolve();
@@ -394,8 +394,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await afterEachTest();
   });
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
-    await sender.send(testMessages);
-    const msgs = await receiver.receiveBatch(1);
+    await sender.sendMessage(testMessages);
+    const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");

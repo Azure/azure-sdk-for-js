@@ -118,10 +118,10 @@ describe("Streaming - Misc Tests", function(): void {
 
   async function testAutoComplete(): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive((msg: ServiceBusMessage) => {
+    receiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
       should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -171,10 +171,10 @@ describe("Streaming - Misc Tests", function(): void {
 
   async function testManualComplete(): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive(
+    receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
@@ -234,10 +234,10 @@ describe("Streaming - Complete message", function(): void {
 
   async function testComplete(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive(
+    receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -312,11 +312,11 @@ describe("Streaming - Abandon message", function(): void {
 
   async function testMultipleAbandons(): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     let checkDeliveryCount = 0;
 
-    receiver.receive(
+    receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         should.equal(
           msg.deliveryCount,
@@ -340,7 +340,7 @@ describe("Streaming - Abandon message", function(): void {
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
     const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
-    const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -395,9 +395,9 @@ describe("Streaming - Defer message", function(): void {
 
   async function testDefer(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
     let sequenceNum: any = 0;
-    receiver.receive(
+    receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.defer().then(() => {
           sequenceNum = msg.sequenceNumber;
@@ -497,10 +497,10 @@ describe("Streaming - Deadletter message", function(): void {
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive(
+    receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
         return msg.deadLetter().then(() => {
           receivedMsgs.push(msg);
@@ -520,7 +520,7 @@ describe("Streaming - Deadletter message", function(): void {
     await testPeekMsgsLength(receiverClient, 0);
 
     const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
-    const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
     should.equal(
@@ -596,12 +596,12 @@ describe("Streaming - Multiple Streaming Receivers", function(): void {
   });
 
   async function testMultipleReceiveCalls(): Promise<void> {
-    receiver.receive((msg: ServiceBusMessage) => {
+    receiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
     await delay(1000);
     try {
-      receiver.receive(
+      receiver.registerMessageHandler(
         (msg: ServiceBusMessage) => {
           return Promise.resolve();
         },
@@ -665,9 +665,9 @@ describe("Streaming - Settle an already Settled message throws error", () => {
 
   async function testSettlement(operation: DispositionType): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessage(testMessage);
     const receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive((msg: ServiceBusMessage) => {
+    receiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -795,11 +795,11 @@ describe("Streaming - User Error", function(): void {
   });
 
   async function testUserError(): Promise<void> {
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessage(TestMessage.getSample());
     const errorMessage = "Will we see this error message?";
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    receiver.receive(async (msg: ServiceBusMessage) => {
+    receiver.registerMessageHandler(async (msg: ServiceBusMessage) => {
       await msg.complete().then(() => {
         receivedMsgs.push(msg);
       });
@@ -855,12 +855,12 @@ describe("Streaming - maxConcurrentCalls", function(): void {
 
   async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
     const testMessages = [TestMessage.getSample(), TestMessage.getSample()];
-    await sender.sendBatch(testMessages);
+    await sender.sendMessages(testMessages);
 
     const settledMsgs: ServiceBusMessage[] = [];
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    receiver.receive(
+    receiver.registerMessageHandler(
       async (msg: ServiceBusMessage) => {
         if (receivedMsgs.length === 1) {
           if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
