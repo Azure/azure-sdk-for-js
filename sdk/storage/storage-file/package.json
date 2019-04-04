@@ -13,19 +13,19 @@
     "process": false
   },
   "types": "./typings/src/index.d.ts",
-  "engines": {
-    "node": ">=6.5.0"
+  "engine": {
+    "node": ">=6.0.0"
   },
   "dependencies": {
-    "events": "3.0.0",
-    "@azure/ms-rest-js": "1.2.6",
+    "events": "^3.0.0",
+    "@azure/ms-rest-js": "^1.2.6",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^6.3.0",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.18",
+    "@types/node": "^8.0.0",
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
@@ -57,7 +57,7 @@
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-uglify": "^6.0.0",
-    "rollup-plugin-visualizer": "^0.9.2",
+    "rollup-plugin-visualizer": "^1.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2"

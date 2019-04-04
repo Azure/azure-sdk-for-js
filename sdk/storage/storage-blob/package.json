@@ -13,26 +13,25 @@
     "process": false
   },
   "types": "./typings/src/index.d.ts",
-  "engines": {
-    "node": ">=6.5.0"
+  "engine": {
+    "node": ">=6.0.0"
   },
   "dependencies": {
-    "@azure/ms-rest-js": "1.2.3",
-    "events": "3.0.0",
+    "@azure/ms-rest-js": "^1.2.6",
+    "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^6.3.0",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.3",
+    "@types/node": "^8.0.0",
     "assert": "^1.4.1",
     "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
-    "es6-promise": "^4.2.4",
+    "es6-promise": "^4.2.5",
     "gulp": "^4.0.0",
     "gulp-zip": "^4.2.0",
-    "istanbul": "^0.4.5",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
@@ -50,15 +49,15 @@
     "nyc": "^14.0.0",
     "puppeteer": "^1.11.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.65.2",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-multi-entry": "^2.0.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-replace": "^2.0.0",
+    "rollup": "^1.0.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-uglify": "^5.0.2",
-    "rollup-plugin-visualizer": "^0.9.0",
+    "rollup-plugin-uglify": "^6.0.0",
+    "rollup-plugin-visualizer": "^1.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2"
