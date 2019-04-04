@@ -115,7 +115,7 @@ export class Receiver {
 
   /**
    * Gets an async iterator over messages from the receiver
-   * @param prefetchSize Number of messages to fetch at a time from Service Bus
+   * @param prefetchSize Maximum number of messages to fetch at a time from Service Bus
    * - **Default**: `100`
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message.
