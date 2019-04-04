@@ -12,7 +12,7 @@ import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
- * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
+ * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
  */
@@ -105,7 +105,7 @@ export class Receiver {
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
+        "max time:\n %O",
         this._context.namespace.connectionId,
         this._context.batchingReceiver.name,
         maxMessageCount,
@@ -177,7 +177,7 @@ export class Receiver {
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
-   * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate
    * a new Receiver
    *
    * @returns {Promise<void>}
@@ -442,7 +442,7 @@ export class SessionReceiver {
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
+        "max time:\n %O",
         this._context.namespace.connectionId,
         this._messageSession.name,
         maxMessageCount,
