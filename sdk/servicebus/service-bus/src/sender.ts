@@ -20,24 +20,24 @@ export class Sender {
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the Client.
    */
-	private _context: ClientEntityContext;
-	private _isClosed: boolean = false;
+  private _context: ClientEntityContext;
+  private _isClosed: boolean = false;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this sender.
    * @readonly
    */
-	public get isClosed(): boolean {
-		return this._isClosed;
-	}
+  public get isClosed(): boolean {
+    return this._isClosed;
+  }
 
   /**
    * @internal
    */
-	constructor(context: ClientEntityContext) {
-		throwErrorIfConnectionClosed(context.namespace);
-		this._context = context;
-	}
+  constructor(context: ClientEntityContext) {
+    throwErrorIfConnectionClosed(context.namespace);
+    this._context = context;
+  }
   /**
    * Sends the given message after creating an AMQP Sender link if it doesnt already exists.
    *
@@ -47,11 +47,11 @@ export class Sender {
    * @param message - Message to send.
    * @returns Promise<void>
    */
-	async sendMessage(message: SendableMessageInfo): Promise<void> {
-		this._throwIfSenderOrConnectionClosed();
-		const sender = MessageSender.create(this._context);
-		return sender.send(message);
-	}
+  async sendMessage(message: SendableMessageInfo): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+    const sender = MessageSender.create(this._context);
+    return sender.send(message);
+  }
 
   /**
    * Sends the given messages in a batch i.e. in a single AMQP message after creating an AMQP Sender
@@ -65,11 +65,11 @@ export class Sender {
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
    */
-	async sendMessages(messages: SendableMessageInfo[]): Promise<void> {
-		this._throwIfSenderOrConnectionClosed();
-		const sender = MessageSender.create(this._context);
-		return sender.sendBatch(messages);
-	}
+  async sendMessages(messages: SendableMessageInfo[]): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+    const sender = MessageSender.create(this._context);
+    return sender.sendBatch(messages);
+  }
 
   /**
    * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
@@ -81,17 +81,17 @@ export class Sender {
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    */
-	async scheduleMessage(
-		scheduledEnqueueTimeUtc: Date,
-		message: SendableMessageInfo
-	): Promise<Long> {
-		this._throwIfSenderOrConnectionClosed();
-		const scheduleMessages: ScheduleMessage[] = [
-			{ message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
-		];
-		const result = await this._context.managementClient!.scheduleMessages(scheduleMessages);
-		return result[0];
-	}
+  async scheduleMessage(
+    scheduledEnqueueTimeUtc: Date,
+    message: SendableMessageInfo
+  ): Promise<Long> {
+    this._throwIfSenderOrConnectionClosed();
+    const scheduleMessages: ScheduleMessage[] = [
+      { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
+    ];
+    const result = await this._context.managementClient!.scheduleMessages(scheduleMessages);
+    return result[0];
+  }
 
   /**
    * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
@@ -103,39 +103,39 @@ export class Sender {
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
    * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    */
-	async scheduleMessages(
-		scheduledEnqueueTimeUtc: Date,
-		messages: SendableMessageInfo[]
-	): Promise<Long[]> {
-		this._throwIfSenderOrConnectionClosed();
-		const scheduleMessages: ScheduleMessage[] = messages.map((message) => {
-			return {
-				message,
-				scheduledEnqueueTimeUtc
-			};
-		});
-		return this._context.managementClient!.scheduleMessages(scheduleMessages);
-	}
+  async scheduleMessages(
+    scheduledEnqueueTimeUtc: Date,
+    messages: SendableMessageInfo[]
+  ): Promise<Long[]> {
+    this._throwIfSenderOrConnectionClosed();
+    const scheduleMessages: ScheduleMessage[] = messages.map((message) => {
+      return {
+        message,
+        scheduledEnqueueTimeUtc
+      };
+    });
+    return this._context.managementClient!.scheduleMessages(scheduleMessages);
+  }
 
   /**
    * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumber - The sequence number of the message to be cancelled.
    * @returns Promise<void>
    */
-	async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
-		this._throwIfSenderOrConnectionClosed();
-		return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
-	}
+  async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+  }
 
   /**
    * Cancels an array of messages that were scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */
-	async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
-		this._throwIfSenderOrConnectionClosed();
-		return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
-	}
+  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+  }
 
   /**
    * Closes the underlying AMQP sender link.
@@ -144,29 +144,29 @@ export class Sender {
    *
    * @returns {Promise<void>}
    */
-	async close(): Promise<void> {
-		try {
-			if (
-				this._context.namespace.connection &&
-				this._context.namespace.connection.isOpen() &&
-				this._context.sender
-			) {
-				await this._context.sender.close();
-			}
-			this._isClosed = true;
-		} catch (err) {
-			const msg =
-				`An error occurred while closing the sender for` +
-				`"${this._context.entityPath}": ${JSON.stringify(err)} `;
-			log.error(msg);
-			throw new Error(msg);
-		}
-	}
+  async close(): Promise<void> {
+    try {
+      if (
+        this._context.namespace.connection &&
+        this._context.namespace.connection.isOpen() &&
+        this._context.sender
+      ) {
+        await this._context.sender.close();
+      }
+      this._isClosed = true;
+    } catch (err) {
+      const msg =
+        `An error occurred while closing the sender for` +
+        `"${this._context.entityPath}": ${JSON.stringify(err)} `;
+      log.error(msg);
+      throw new Error(msg);
+    }
+  }
 
-	private _throwIfSenderOrConnectionClosed(): void {
-		throwErrorIfConnectionClosed(this._context.namespace);
-		if (this._isClosed) {
-			throw new Error("The sender has been closed and can no longer be used.");
-		}
-	}
+  private _throwIfSenderOrConnectionClosed(): void {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (this._isClosed) {
+      throw new Error("The sender has been closed and can no longer be used.");
+    }
+  }
 }

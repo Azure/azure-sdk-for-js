@@ -26,50 +26,50 @@ let snapshotIntervalID: any;
 let isJobDone = false;
 
 async function main(): Promise<void> {
-	snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
-	setTimeout(() => {
-		isJobDone = true;
-	}, testDurationInMilliseconds);
+  snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
+  setTimeout(() => {
+    isJobDone = true;
+  }, testDurationInMilliseconds);
 
-	await sendReceiveMessages();
+  await sendReceiveMessages();
 }
 
 async function sendReceiveMessages(): Promise<void> {
-	const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-	try {
-		while (!isJobDone) {
-			const client = ns.createQueueClient(queueName);
-			const sender = client.createSender();
+  try {
+    while (!isJobDone) {
+      const client = ns.createQueueClient(queueName);
+      const sender = client.createSender();
 
-			const message: SendableMessageInfo = {
-				messageId: msgId,
-				body: "test",
-				label: `${msgId}`
-			};
-			msgId++;
-			await sender.sendMessage(message);
-			await sender.close();
+      const message: SendableMessageInfo = {
+        messageId: msgId,
+        body: "test",
+        label: `${msgId}`
+      };
+      msgId++;
+      await sender.sendMessage(message);
+      await sender.close();
 
-			const receiver = await client.createReceiver(ReceiveMode.peekLock);
-			const messagesReceived = await receiver.receiveMessages(1);
-			await messagesReceived[0].complete();
-			await receiver.close();
+      const receiver = await client.createReceiver(ReceiveMode.peekLock);
+      const messagesReceived = await receiver.receiveMessages(1);
+      await messagesReceived[0].complete();
+      await receiver.close();
 
-			await client.close();
-		}
-	} finally {
-		await ns.close();
-		clearInterval(snapshotIntervalID);
-	}
+      await client.close();
+    }
+  } finally {
+    await ns.close();
+    clearInterval(snapshotIntervalID);
+  }
 }
 
 function snapshot(): void {
-	console.log("Time : ", new Date());
-	console.log("Number of clients opened, closed successfully so far : ", msgId);
-	console.log("\n");
+  console.log("Time : ", new Date());
+  console.log("Number of clients opened, closed successfully so far : ", msgId);
+  console.log("\n");
 }
 
 main().catch((err) => {
-	console.log("Error occurred: ", err);
+  console.log("Error occurred: ", err);
 });
