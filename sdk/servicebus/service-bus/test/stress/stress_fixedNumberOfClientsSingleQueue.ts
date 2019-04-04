@@ -27,64 +27,64 @@ let snapshotIntervalID: any;
 let isJobDone = false;
 
 async function main(): Promise<void> {
-  snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
-  setTimeout(() => {
-    isJobDone = true;
-  }, testDurationInMilliseconds);
+	snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
+	setTimeout(() => {
+		isJobDone = true;
+	}, testDurationInMilliseconds);
 
-  await sendReceiveMessages();
+	await sendReceiveMessages();
 }
 
 async function sendReceiveMessages(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+	const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-  const clients = [];
-  const senders = [];
-  const receivers = [];
+	const clients = [];
+	const senders = [];
+	const receivers = [];
 
-  const sendReceiveMessagePromises = [];
+	const sendReceiveMessagePromises = [];
 
-  try {
-    for (let i = 0; i < numOfClients; i++) {
-      clients[i] = ns.createQueueClient(queueName);
-      senders[i] = clients[i].createSender();
-      receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
+	try {
+		for (let i = 0; i < numOfClients; i++) {
+			clients[i] = ns.createQueueClient(queueName);
+			senders[i] = clients[i].createSender();
+			receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
 
-      sendReceiveMessagePromises.push(sendReceiveMessagesPerClient(senders[i], receivers[i]));
-    }
+			sendReceiveMessagePromises.push(sendReceiveMessagesPerClient(senders[i], receivers[i]));
+		}
 
-    await Promise.all(sendReceiveMessagePromises);
-  } finally {
-    for (let i = 0; i < numOfClients; i++) {
-      await senders[i].close();
-      await receivers[i].close();
-      await clients[i].close();
-    }
-    await ns.close();
-    clearInterval(snapshotIntervalID);
-  }
+		await Promise.all(sendReceiveMessagePromises);
+	} finally {
+		for (let i = 0; i < numOfClients; i++) {
+			await senders[i].close();
+			await receivers[i].close();
+			await clients[i].close();
+		}
+		await ns.close();
+		clearInterval(snapshotIntervalID);
+	}
 }
 
 async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver): Promise<void> {
-  while (!isJobDone) {
-    const message: SendableMessageInfo = {
-      messageId: msgId,
-      body: "test",
-      label: `${msgId}`
-    };
-    msgId++;
-    await sender.send(message);
-    const messagesReceived = await receiver.receiveBatch(1);
-    await messagesReceived[0].complete();
-  }
+	while (!isJobDone) {
+		const message: SendableMessageInfo = {
+			messageId: msgId,
+			body: "test",
+			label: `${msgId}`
+		};
+		msgId++;
+		await sender.sendMessage(message);
+		const messagesReceived = await receiver.receiveMessages(1);
+		await messagesReceived[0].complete();
+	}
 }
 
 function snapshot(): void {
-  console.log("Time : ", new Date());
-  console.log("Number of clients opened, closed successfully so far : ", msgId);
-  console.log("\n");
+	console.log("Time : ", new Date());
+	console.log("Number of clients opened, closed successfully so far : ", msgId);
+	console.log("\n");
 }
 
 main().catch((err) => {
-  console.log("Error occurred: ", err);
+	console.log("Error occurred: ", err);
 });
