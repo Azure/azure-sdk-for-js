@@ -1,0 +1,30 @@
+{
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "src/FileDownloadResponse.browser.ts",
+      "src/highlevel.browser.ts",
+      "src/highlevel.common.ts",
+      "src/policies/BrowserPolicy.ts",
+      "src/models.ts",
+      "src/index.browser.ts",
+      "src/utils/utils.browser.ts",
+      "src/generated/lib/storageClient.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html",
+      "cobertura"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "all": true
+  }

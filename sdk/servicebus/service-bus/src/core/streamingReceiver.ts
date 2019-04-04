@@ -95,12 +95,6 @@ export class StreamingReceiver extends MessageReceiver {
    */
   receive(onMessage: OnMessage, onError: OnError): void {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!onMessage || typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
-    }
-    if (!onError || typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
-    }
     this._onMessage = onMessage;
     this._onError = onError;
     if (this.isOpen()) {

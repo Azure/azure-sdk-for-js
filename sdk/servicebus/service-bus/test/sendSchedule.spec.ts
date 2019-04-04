@@ -65,11 +65,11 @@ async function beforeEachTest(
   }
 
   if (useSessions) {
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
   } else {
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   }
 }
 
@@ -84,8 +84,8 @@ describe("Simple Send", function(): void {
 
   async function testSimpleSend(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await senderClient.createSender().send(testMessages);
-    const msgs = await receiver.receiveBatch(1);
+    await senderClient.createSender().sendMessage(testMessages);
+    const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -165,7 +165,7 @@ describe("Schedule single message", function(): void {
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
     await senderClient.createSender().scheduleMessage(scheduleTime, testMessages);
 
-    const msgs = await receiver.receiveBatch(1);
+    const msgs = await receiver.receiveMessages(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -275,7 +275,7 @@ describe("Schedule multiple messages", function(): void {
     const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
     await senderClient.createSender().scheduleMessages(scheduleTime, testMessages);
 
-    const msgs = await receiver.receiveBatch(2);
+    const msgs = await receiver.receiveMessages(2);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 2, "Unexpected number of messages");
 
@@ -554,7 +554,7 @@ describe("Message validations", function(): void {
     let actualErrorMsg = "";
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     const sender = senderClient.createSender();
-    await sender.send(msg).catch((err) => {
+    await sender.sendMessage(msg).catch((err) => {
       actualErrorMsg = err.message;
     });
     should.equal(actualErrorMsg, expectedErrorMsg, "Error not thrown as expected");
