@@ -1,11 +1,24 @@
+/*
+Test Scenario summary:
+- Creates a single sender and a single receiver on a queue.
+- Runs following sequence of steps in a long running loop.
+Sends a message -> receives a message -> performs random message disposition option
+
+The test assumes no other process is working with the queues defined in here,
+but the queues must be empty and use default configurations before running the test.
+
+For running this test, connection string of the Service Bus namespace and queue name
+must be supplied.
+*/
+
 import {
   ServiceBusClient,
   SendableMessageInfo,
   OnMessage,
   OnError,
   delay,
-  ServiceBusMessage
-} from "../../lib";
+  ReceiveMode
+} from "../../src";
 
 const connectionString = "";
 const queueName = "";
@@ -13,8 +26,8 @@ const queueName = "";
 const testDurationInMilliseconds = 60000 * 5 * 12 * 24 * 7; // 1 week
 
 const messagesToProcess: Set<number> = new Set<number>();
-const messageAbandonedMap: { [key: number]: number } = {};
 
+let abandonAttempt = 0;
 let abandonCount = 0;
 let completeCount = 0;
 let deadletterCount = 0;
@@ -28,8 +41,9 @@ let isJobDone = false;
 
 async function main(): Promise<void> {
   snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
-  sendMessages();
-  receiveMessages();
+  const sendPromise = sendMessages();
+  const receivePromise = receiveMessages();
+  await Promise.all([sendPromise, receivePromise]);
 }
 
 async function sendMessages(): Promise<void> {
@@ -42,18 +56,16 @@ async function sendMessages(): Promise<void> {
       const message: SendableMessageInfo = {
         messageId: msgId,
         body: "test",
-        label: `${msgId}`,
-        sessionId: "session-1"
+        label: `${msgId}`
       };
-      messageAbandonedMap[msgId] = 0;
       messagesToProcess.add(msgId);
       msgId++;
       await sender.send(message);
       await delay(2000); // Throttling send to not increase queue size
     }
   } finally {
-    client.close();
-    ns.close();
+    await client.close();
+    await ns.close();
   }
 }
 
@@ -62,27 +74,30 @@ async function receiveMessages(): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   try {
-    const receiver = await client.createSessionReceiver({ sessionId: "session-1" });
-    const onMessageHandler: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    const onMessageHandler: OnMessage = async (brokeredMessage) => {
       const receivedMsgId = brokeredMessage.messageId;
 
       if (typeof receivedMsgId !== "number") {
         throw new Error("MessageId is corrupt or is of unexpected type");
       }
 
+      /*
+      Since there are 4 ways a message can be disposed namely abandon(), complete(),
+      defer() and deadletter(), the randomization factor is chosen to be 4.
+      */
       const seed = Math.floor((Math.random() * 10) % 4);
 
       switch (seed) {
         case 0: {
-          const currCount = messageAbandonedMap[receivedMsgId];
-          if (currCount === 10) {
+          abandonAttempt++;
+          if (brokeredMessage.deliveryCount === 10) {
             abandonCount++;
             if (messagesToProcess.has(receivedMsgId)) {
               messagesToProcess.delete(receivedMsgId);
             }
           }
-          messageAbandonedMap[receivedMsgId] = currCount + 1;
-          brokeredMessage.abandon();
+          await brokeredMessage.abandon();
           break;
         }
         case 1: {
@@ -90,7 +105,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.complete();
+          await brokeredMessage.complete();
           break;
         }
         case 2: {
@@ -98,7 +113,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.deadLetter();
+          await brokeredMessage.deadLetter();
           break;
         }
         case 3: {
@@ -106,7 +121,7 @@ async function receiveMessages(): Promise<void> {
           if (messagesToProcess.has(receivedMsgId)) {
             messagesToProcess.delete(receivedMsgId);
           }
-          brokeredMessage.defer();
+          await brokeredMessage.defer();
           break;
         }
         default: {
@@ -114,7 +129,8 @@ async function receiveMessages(): Promise<void> {
         }
       }
     };
-    const onErrorHandler: OnError = (err: Error) => {
+
+    const onErrorHandler: OnError = (err) => {
       throw err;
     };
 
@@ -126,8 +142,8 @@ async function receiveMessages(): Promise<void> {
     await receiver.close();
     clearInterval(snapshotIntervalID);
   } finally {
-    client.close();
-    ns.close();
+    await client.close();
+    await ns.close();
   }
 }
 
@@ -139,6 +155,7 @@ function snapshot(): void {
   console.log("Number of messages completed : ", completeCount);
   console.log("Number of messages deadlettered : ", deadletterCount);
   console.log("Number of messages deferred : ", deferCount);
+  console.log("Number of abandon attempts on messages : ", abandonAttempt);
   console.log("\n");
 }
 

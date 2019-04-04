@@ -1,4 +1,24 @@
-import { ServiceBusClient, SendableMessageInfo, OnMessage, OnError, delay } from "../../lib";
+/*
+Test Scenario summary:
+Creates a single sender and a single receiver on a queue.
+Runs following sequence of steps in a long running loop.
+Sends a message -> receives a message -> completes the message.
+
+The test assumes no other process is working with the queues defined in here,
+but the queues must be empty and use default configurations before running the test.
+
+For running this test, connection string of the Service Bus namespace and queue name
+must be supplied.
+*/
+
+import {
+  ServiceBusClient,
+  SendableMessageInfo,
+  OnMessage,
+  OnError,
+  delay,
+  ReceiveMode
+} from "../../src";
 
 const connectionString = "";
 const queueName = "";
@@ -14,8 +34,9 @@ let isJobDone = false;
 
 async function main(): Promise<void> {
   snapshotIntervalID = setInterval(snapshot, 5000); // Every 5 seconds
-  sendMessages();
-  receiveMessages();
+  const sendPromise = sendMessages();
+  const receivePromise = receiveMessages();
+  await Promise.all([sendPromise, receivePromise]);
 }
 
 async function sendMessages(): Promise<void> {
@@ -36,8 +57,8 @@ async function sendMessages(): Promise<void> {
       await delay(2000); // Throttling send to not increase queue size
     }
   } finally {
-    client.close();
-    ns.close();
+    await client.close();
+    await ns.close();
   }
 }
 
@@ -46,7 +67,7 @@ async function receiveMessages(): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   try {
-    const receiver = client.createReceiver();
+    const receiver = await client.createReceiver(ReceiveMode.peekLock);
     const onMessageHandler: OnMessage = async (brokeredMessage) => {
       const receivedMsgId = brokeredMessage.messageId;
 
@@ -74,8 +95,8 @@ async function receiveMessages(): Promise<void> {
     await receiver.close();
     clearInterval(snapshotIntervalID);
   } finally {
-    client.close();
-    ns.close();
+    await client.close();
+    await ns.close();
   }
 }
 
