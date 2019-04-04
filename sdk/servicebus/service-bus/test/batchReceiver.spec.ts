@@ -93,11 +93,11 @@ async function beforeEachTest(
 
   sender = senderClient.createSender();
   if (useSessions) {
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
   } else {
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   }
 }
 
@@ -315,7 +315,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
     const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
 
     should.equal(
@@ -500,7 +500,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
     const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
 
     should.equal(
@@ -622,7 +622,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    deadletterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    deadletterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
     const deadLetterMsgs = await deadletterReceiver.receiveBatch(1);
 
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");

@@ -535,12 +535,7 @@ export class MessageSession extends LinkEntity {
    */
   receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isReceivingMessages) {
-      throw new Error(
-        `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
-          `already receiving messages.`
-      );
-    }
+
     if (typeof onMessage !== "function") {
       throw new Error("'onSessionMessage' is a required parameter and must be of type 'function'.");
     }
@@ -726,12 +721,6 @@ export class MessageSession extends LinkEntity {
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isReceivingMessages) {
-      throw new Error(
-        `MessageSession '${this.name}' with sessionId '${this.sessionId}' is ` +
-          `already receiving messages.`
-      );
-    }
 
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
       throw new Error(

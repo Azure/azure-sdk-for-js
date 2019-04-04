@@ -101,7 +101,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
   }
 
   sender = senderClient.createSender();
-  receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   errorWasThrown = false;
   unexpectedError = undefined;
@@ -339,7 +339,7 @@ describe("Streaming - Abandon message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
-    const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
     const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
@@ -417,7 +417,7 @@ describe("Streaming - Defer message", function(): void {
     await receiver.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-    receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+    receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
     const deferredMsgs = await receiver.receiveDeferredMessages([sequenceNum]);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
@@ -519,7 +519,7 @@ describe("Streaming - Deadletter message", function(): void {
 
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
     const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");

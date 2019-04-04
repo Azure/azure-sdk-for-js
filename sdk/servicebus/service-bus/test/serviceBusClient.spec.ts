@@ -459,11 +459,11 @@ describe("Errors after close()", function(): void {
 
     sender = senderClient.createSender();
     if (useSessions) {
-      receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+      receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
         sessionId: TestMessage.sessionId
       });
     } else {
-      receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+      receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
     }
 
     // Normal send/receive
@@ -655,11 +655,11 @@ describe("Errors after close()", function(): void {
     let errorNewReceiver: string = "";
     try {
       if (useSessions) {
-        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
           sessionId: TestMessage.sessionId
         });
       } else {
-        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
       }
     } catch (err) {
       errorNewReceiver = err.message;

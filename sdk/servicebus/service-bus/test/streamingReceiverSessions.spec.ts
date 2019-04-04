@@ -95,7 +95,7 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
 
-  sessionReceiver = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+  sessionReceiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId
   });
 
@@ -117,7 +117,7 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive((msg: ServiceBusMessage) => {
+    await await sessionReceiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
       should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -184,7 +184,7 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(
+    await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         receivedMsgs.push(msg);
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
@@ -258,7 +258,7 @@ describe("Sessions Streaming - Complete message", function(): void {
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(
+    await sessionReceiver.receive(
       (msg: ServiceBusMessage) => {
         should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
         should.equal(msg.messageId, testMessage.messageId, "MessageId is different than expected");
@@ -390,7 +390,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
     }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    sessionReceiver = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+    sessionReceiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
     const receivedMsgs = await sessionReceiver.receiveBatch(1);
@@ -638,7 +638,7 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     should.equal(msgCount, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
 
-    const deadLetterReceiver = await deadLetterClient.createReceiver(ReceiveMode.peekLock);
+    const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
     const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
     should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
     should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
@@ -823,7 +823,7 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive((msg: ServiceBusMessage) => {
+    await sessionReceiver.receive((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
       return Promise.resolve();
     }, unExpectedErrorHandler);
@@ -1025,7 +1025,7 @@ describe("Sessions Streaming - User Error", function(): void {
     const errorMessage = "Will we see this error message?";
 
     const receivedMsgs: ServiceBusMessage[] = [];
-    sessionReceiver.receive(async (msg: ServiceBusMessage) => {
+    await sessionReceiver.receive(async (msg: ServiceBusMessage) => {
       await msg.complete().then(() => {
         receivedMsgs.push(msg);
       });
@@ -1107,7 +1107,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     const settledMsgs: ServiceBusMessage[] = [];
     const receivedMsgs: ServiceBusMessage[] = [];
 
-    sessionReceiver.receive(
+    await sessionReceiver.receive(
       async (msg: ServiceBusMessage) => {
         if (receivedMsgs.length === 1) {
           if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {

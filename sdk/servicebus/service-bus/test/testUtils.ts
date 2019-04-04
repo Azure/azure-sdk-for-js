@@ -382,11 +382,11 @@ export async function purge(
     } else {
       let receiver;
       if (sessionId) {
-        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
           sessionId
         });
       } else {
-        receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
       }
       const msgs = await receiver.receiveBatch(peekedMsgs.length);
       for (let index = 0; index < msgs.length; index++) {

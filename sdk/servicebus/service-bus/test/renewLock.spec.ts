@@ -342,7 +342,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
 
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   const msgs = await receiver.receiveBatch(1);
 
   // Compute expected initial lock expiry time
@@ -391,7 +391,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
 
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   const msgs = await receiver.receiveBatch(1);
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -425,7 +425,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -500,7 +500,7 @@ async function testAutoLockRenewalConfigBehavior(
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
   await senderClient.createSender().send(testMessage);
-  const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+  const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     if (numOfMessagesReceived < 1) {
@@ -545,7 +545,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    const newReceiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
+    const newReceiver = receiverClient.createReceiver(ReceiveMode.peekLock);
     const unprocessedMsgs = await newReceiver.receiveBatch(1);
     await unprocessedMsgs[0].complete();
   }

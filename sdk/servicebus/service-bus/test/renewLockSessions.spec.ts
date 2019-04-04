@@ -351,7 +351,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
 
-  const sessionClient = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+  const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -401,7 +401,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
 
-  let sessionClient = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+  let sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -423,7 +423,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Subsequent receivers for the same session should work as expected.
-  sessionClient = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+  sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: undefined
   });
   const unprocessedMsgs = await sessionClient.receiveBatch(1);
@@ -441,7 +441,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
-  const sessionClient = <SessionReceiver>await receiverClient.createReceiver(ReceiveMode.peekLock, {
+  const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -519,7 +519,7 @@ async function testAutoLockRenewalConfigBehavior(
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
 
-  const sessionClient = await receiverClient.createReceiver(ReceiveMode.peekLock, {
+  const sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: options.maxSessionAutoRenewLockDurationInSeconds
   });
