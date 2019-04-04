@@ -41,7 +41,7 @@ async function main(){
       };
 
       console.log(`Sending message: ${message.body} - ${message.label}`);
-      await sender.send(message);
+      await sender.sendMessage(message);
     }
 
     await client.close();

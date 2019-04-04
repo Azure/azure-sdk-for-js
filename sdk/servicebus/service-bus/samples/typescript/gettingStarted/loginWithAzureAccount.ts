@@ -20,18 +20,18 @@ const username = "";
 const password = "";
 
 async function main(): Promise<void> {
-	const tokenCreds = await loginWithUsernamePassword(username, password, {
-		tokenAudience: "https://servicebus.azure.net/"
-	});
+  const tokenCreds = await loginWithUsernamePassword(username, password, {
+    tokenAudience: "https://servicebus.azure.net/"
+  });
 
-	const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and to send/receive messages
   */
-	await ns.close();
+  await ns.close();
 }
 
 main().catch((err) => {
-	console.log("Error occurred: ", err);
+  console.log("Error occurred: ", err);
 });

@@ -35,16 +35,16 @@ async function sendMessage() {
     contentType: "application/json",
     label: "Recipe"
   };
-  await sender.send(message);
+  await sender.sendMessage(message);
   await client.close();
 }
 
 async function receiveMessage() {
   // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
   const client = ns.createQueueClient(queueName);
-  const receiver = await client.createReceiver(ReceiveMode.peekLock);
+  const receiver = client.createReceiver(ReceiveMode.peekLock);
 
-  const message = await receiver.receiveBatch(1);
+  const message = await receiver.receiveMessages(1);
 
   if (message) {
     console.log(

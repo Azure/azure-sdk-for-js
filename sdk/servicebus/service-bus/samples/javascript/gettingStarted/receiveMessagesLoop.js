@@ -1,5 +1,5 @@
 /*
-  This sample demonstrates how the receiveBatch() function can be used to receive Service Bus
+  This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
   messages in a loop.
 
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
@@ -19,11 +19,11 @@ async function main(){
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.js file
-  const receiver = await client.createReceiver(ReceiveMode.peekLock);
+  const receiver = client.createReceiver(ReceiveMode.peekLock);
 
   try {
     for (let i = 0; i < 10; i++) {
-      const messages = await receiver.receiveBatch(1, 5);
+      const messages = await receiver.receiveMessages(1, 5);
       if (!messages.length) {
         console.log("No more messages to receive");
         break;

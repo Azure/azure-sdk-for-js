@@ -14,18 +14,18 @@ import { interactiveLogin } from "@azure/ms-rest-nodeauth";
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
 
 async function main(): Promise<void> {
-	const tokenCreds = await interactiveLogin({
-		tokenAudience: "https://servicebus.azure.net/"
-	});
+  const tokenCreds = await interactiveLogin({
+    tokenAudience: "https://servicebus.azure.net/"
+  });
 
-	const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and send/receive messages
   */
-	await ns.close();
+  await ns.close();
 }
 
 main().catch((err) => {
-	console.log("Error occurred: ", err);
+  console.log("Error occurred: ", err);
 });

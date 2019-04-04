@@ -44,7 +44,7 @@ async function sendMessages() {
     promises.push(
       delay(Math.random() * 30).then(async () => {
         try {
-          await sender.send(message);
+          await sender.sendMessage(message);
           console.log("Sent message step:", data[index].step);
         } catch (err) {
           console.log("Error while sending message", err);
@@ -99,7 +99,7 @@ async function receiveMessage() {
     };
 
     let receiver = await receiveClient.createReceiver(ReceiveMode.peekLock);
-    receiver.receive(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
+    receiver.registerMessageHandler(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);

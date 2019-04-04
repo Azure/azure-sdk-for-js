@@ -74,8 +74,8 @@ async function receiveMessages(ns) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  const receiver = await client.createReceiver(ReceiveMode.peekLock);
-  receiver.receive(onMessageHandler, onErrorHandler);
+  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
@@ -84,7 +84,7 @@ async function receiveMessages(ns) {
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
-  receiver.receive(onMessageHandler, onErrorHandler);
+  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);

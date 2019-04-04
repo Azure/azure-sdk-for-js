@@ -63,7 +63,7 @@ async function sendMessage(ns, scientist, sessionId) {
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
-  await sender.send(message);
+  await sender.sendMessage(message);
 
   await client.close();
 }
@@ -79,7 +79,7 @@ async function receiveMessages(ns, sessionId) {
   const onError = (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  receiver.receive(onMessage, onError);
+  receiver.registerMessageHandler(onMessage, onError);
   await delay(5000);
 
   await client.close();

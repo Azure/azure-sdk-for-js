@@ -28,9 +28,9 @@ async function main() {
 
 async function processDeadletterMessageQueue() {
   const client = ns.createQueueClient(deadLetterQueueName);
-  const receiver = await client.createReceiver(ReceiveMode.peekLock);
+  const receiver = client.createReceiver(ReceiveMode.peekLock);
 
-  const message = await receiver.receiveBatch(1);
+  const message = await receiver.receiveMessages(1);
 
   if (message.length > 0) {
     console.log(">>>>> Received the message from DLQ - ", message[0].body);
@@ -58,7 +58,7 @@ async function fixAndResendMessage(oldMessage) {
 
   console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
-  await sender.send(repairedMessage);
+  await sender.sendMessage(repairedMessage);
   await client.close();
 }
 

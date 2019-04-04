@@ -101,7 +101,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
       body: shoppingEvents[index],
       label: "Shopping Step"
     };
-    await sender.send(message);
+    await sender.sendMessage(message);
   }
   await client.close();
 }
@@ -112,7 +112,7 @@ async function processMessageFromSession(sessionId) {
 
   const sessionReceiver = await client.getSessionReceiver({ sessionId: sessionId });
 
-  const messages = await sessionReceiver.receiveBatch(1, 10);
+  const messages = await sessionReceiver.receiveMessages(1, 10);
 
   // Custom logic for processing the messages
   if (messages.length > 0) {

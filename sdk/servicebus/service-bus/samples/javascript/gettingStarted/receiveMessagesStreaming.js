@@ -19,7 +19,7 @@ async function main() {
   
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.js file
-  const receiver = await client.createReceiver(ReceiveMode.peekLock);
+  const receiver = client.createReceiver(ReceiveMode.peekLock);
 
   const onMessageHandler = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);
@@ -30,7 +30,7 @@ async function main() {
   };
 
   try {
-    receiver.receive(onMessageHandler, onErrorHandler, { autoComplete: false });
+    receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
 
     // Waiting long enough before closing the receiver to receive messages
     await delay(5000);
