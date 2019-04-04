@@ -86,15 +86,15 @@ function to send messages.
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
 const sender = queueClient.createSender();
-await sender.send({
+await sender.sendMessage({
   body: "my-message-body"
 });
 ```
 
 ### Receive messages
 
-Once you have created an instance of a `QueueClient` class, create a receiver and use the `receiveBatch`
-function to receive messages in a batch.
+Once you have created an instance of a `QueueClient` class, create a receiver and use the
+`receiveMessages` function to receive messages based on given `maxMessageCount`.
 
 Once you receive a message you can call `complete()`, `abandon()`, `defer()` or `deadletter()` on it
 based on how you want to settle the message. To learn more, please read [Settling Received Messages](https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations)
@@ -119,7 +119,7 @@ const myMessageHandler = async (message) => {
 const myErrorHandler = (error) => {
   console.log(error);
 }
-receiver.receive(myMessageHandler, myErrorHandler);
+receiver.registerMessageHandler(myMessageHandler, myErrorHandler);
 ```
 
 ### Send messages using Sessions
@@ -131,7 +131,7 @@ message, set the `sessionId` property in the message body to ensure your message
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
 const sender = queueClient.createSender();
-await sender.send({
+await sender.sendMessage({
   body: "my-message-body",
   sessionId: "my-session"
 });

@@ -245,7 +245,7 @@ export class Receiver {
       const msg =
         `A "${currentlyActiveReceiverType}" receiver with id ` +
         `"${currentlyActiveReceiver}" is active for "${this._context.entityPath}". ` +
-        `A ${newCallType === ReceiverType.streaming ? "new receive" : "receiveBatch"}() call ` +
+        `A ${newCallType === ReceiverType.streaming ? "new registerMessageHandler" : "receiveMessages"}() call ` +
         `cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
 
       throw new Error(msg);
@@ -263,7 +263,7 @@ export class Receiver {
 /**
  * The SessionReceiver class can be used to receive messages from a session enabled Queue or
  * Subscription in a batch or by registering handlers.
- * Use the `getSessionReceiver` function on the QueueClient or SubscriptionClient to instantiate a
+ * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a
  * SessionReceiver.
  * The SessionReceiver class is an abstraction over the underlying AMQP receiver link.
  * @class SessionReceiver
@@ -481,7 +481,7 @@ export class SessionReceiver {
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
-   * Use the `getSessionReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate
    * a new Receiver
    *
    * @returns {Promise<void>}
