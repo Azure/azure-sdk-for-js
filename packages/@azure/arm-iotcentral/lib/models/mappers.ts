@@ -391,6 +391,96 @@ export const AppAvailabilityInfo: msRest.CompositeMapper = {
   }
 };
 
+export const AppTemplateProperties: msRest.CompositeMapper = {
+  serializedName: "AppTemplateProperties",
+  type: {
+    name: "Composite",
+    className: "AppTemplateProperties",
+    modelProperties: {
+      manifestId: {
+        readOnly: true,
+        serializedName: "manifestId",
+        type: {
+          name: "String"
+        }
+      },
+      manifestVersion: {
+        readOnly: true,
+        serializedName: "manifestVersion",
+        type: {
+          name: "String"
+        }
+      },
+      appTemplateName: {
+        readOnly: true,
+        serializedName: "appTemplateName",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        readOnly: true,
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      order: {
+        readOnly: true,
+        serializedName: "order",
+        type: {
+          name: "Number"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppTemplate: msRest.CompositeMapper = {
+  serializedName: "AppTemplate",
+  type: {
+    name: "Composite",
+    className: "AppTemplate",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AppTemplateProperties"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AppListResult: msRest.CompositeMapper = {
   serializedName: "AppListResult",
   type: {
@@ -411,6 +501,35 @@ export const AppListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "App"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AppTemplatesResult: msRest.CompositeMapper = {
+  serializedName: "AppTemplatesResult",
+  type: {
+    name: "Composite",
+    className: "AppTemplatesResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppTemplate"
             }
           }
         }
