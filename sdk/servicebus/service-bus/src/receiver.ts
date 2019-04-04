@@ -292,15 +292,15 @@ export class SessionReceiver {
    * @readonly
    */
   public get isClosed(): boolean {
-    return this._messageSession ? !this._context.messageSessions[this.sessionId] : false;
+    return this.sessionId ? !this._context.messageSessions[this.sessionId] : false;
   }
 
   /**
    * @property {string} [sessionId] The sessionId for the message session.
    * @readonly
    */
-  public get sessionId(): string {
-    return (this._messageSession && this._messageSession.sessionId) || "";
+  public get sessionId(): string | undefined {
+    return (this._messageSession && this._messageSession.sessionId) || undefined;
   }
 
   /**
