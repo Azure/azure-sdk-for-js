@@ -10,7 +10,7 @@ but the queues must be empty and use default configurations before running the t
 For running this test, connection string of the Service Bus namespace must be supplied.
 */
 
-import { ServiceBusClient, SendableMessageInfo, ReceiveMode, Sender, Receiver } from "../../lib";
+import { ServiceBusClient, SendableMessageInfo, ReceiveMode, Sender, Receiver } from "../../src";
 
 const connectionString = "";
 
@@ -44,7 +44,7 @@ async function sendReceiveMessages(): Promise<void> {
 
   try {
     for (let i = 0; i < numOfClients; i++) {
-      clients[i] = ns.createQueueClient(`queue-${i + 1}`);
+      clients[i] = ns.createQueueClient(`t0-queue-new-${i + 1}`);
       senders[i] = clients[i].createSender();
       receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
 
@@ -76,7 +76,6 @@ async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver):
     await messagesReceived[0].complete();
   }
 }
-
 
 function snapshot(): void {
   console.log("Time : ", new Date());

@@ -18,7 +18,7 @@ import {
   OnError,
   delay,
   ReceiveMode
-} from "../../lib";
+} from "../../src";
 
 const connectionString = "";
 const queueName = "";
