@@ -153,7 +153,7 @@ export class TagDescription {
   }
 
   /**
-   * Create/Update tag fescription in scope of the Api.
+   * Create/Update tag description in scope of the Api.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service

@@ -27,7 +27,7 @@ export class ApiDiagnosticLogger {
   }
 
   /**
-   * Lists all loggers assosiated with the specified Diagnostic of an API.
+   * Lists all loggers associated with the specified Diagnostic of an API.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
@@ -117,7 +117,7 @@ export class ApiDiagnosticLogger {
   }
 
   /**
-   * Attaches a logger to a dignostic for an API.
+   * Attaches a logger to a diagnostic for an API.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
@@ -211,7 +211,7 @@ export class ApiDiagnosticLogger {
   }
 
   /**
-   * Lists all loggers assosiated with the specified Diagnostic of an API.
+   * Lists all loggers associated with the specified Diagnostic of an API.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticLoggerListByServiceNextResponse>
