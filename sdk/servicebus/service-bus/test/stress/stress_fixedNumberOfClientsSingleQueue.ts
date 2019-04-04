@@ -48,7 +48,7 @@ async function sendReceiveMessages(): Promise<void> {
     for (let i = 0; i < numOfClients; i++) {
       clients[i] = ns.createQueueClient(queueName);
       senders[i] = clients[i].createSender();
-      receivers[i] = await clients[i].createReceiver(ReceiveMode.peekLock);
+      receivers[i] = clients[i].createReceiver(ReceiveMode.peekLock);
 
       sendReceiveMessagePromises.push(sendReceiveMessagesPerClient(senders[i], receivers[i]));
     }
