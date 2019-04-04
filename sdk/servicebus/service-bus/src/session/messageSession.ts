@@ -161,8 +161,8 @@ export class MessageSession extends LinkEntity {
   receiveMode: ReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
-   * automatically after the message processing is complete while receiving messages with handlers
-   * or while messages are received using receiveBatch(). Default: false.
+   * automatically after the message processing is complete while receiving messages with handlers.
+   * Default: false.
    */
   autoComplete: boolean;
   /**
@@ -721,7 +721,7 @@ export class MessageSession extends LinkEntity {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(
+  async receiveMessages(
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
@@ -766,7 +766,7 @@ export class MessageSession extends LinkEntity {
         if (firstMessageWaitTimer) {
           clearTimeout(firstMessageWaitTimer);
         }
-        // Removing listeners, so that the next receiveBatch() call can set them again.
+        // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
@@ -787,7 +787,7 @@ export class MessageSession extends LinkEntity {
         // a batch of messages.
         setnewMessageWaitTimeoutInSeconds();
 
-        // Removing listeners, so that the next receiveBatch() call can set them again.
+        // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
           this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
         }
@@ -810,7 +810,7 @@ export class MessageSession extends LinkEntity {
 
           this.isReceivingMessages = false;
           log.messageSession(
-            "[%s] Receiver '%s': Resolving receiveBatch() with %d messages.",
+            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
             this._context.namespace.connectionId,
             this.name,
             brokeredMessages.length
@@ -861,7 +861,7 @@ export class MessageSession extends LinkEntity {
         this.isReceivingMessages = false;
 
         log.messageSession(
-          "[%s] Receiver '%s' drained. Resolving receiveBatch() with %d messages.",
+          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
           this._context.namespace.connectionId,
           this.name,
           brokeredMessages.length
@@ -888,7 +888,7 @@ export class MessageSession extends LinkEntity {
             brokeredMessages.push(data);
           }
         } catch (err) {
-          // Removing listeners, so that the next receiveBatch() call can set them again.
+          // Removing listeners, so that the next receiveMessages() call can set them again.
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);

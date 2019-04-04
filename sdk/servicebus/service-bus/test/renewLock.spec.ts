@@ -340,10 +340,10 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().send(testMessage);
+  await senderClient.createSender().sendMessage(testMessage);
 
   const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
-  const msgs = await receiver.receiveBatch(1);
+  const msgs = await receiver.receiveMessages(1);
 
   // Compute expected initial lock expiry time
   const expectedLockExpiryTimeUtc = new Date();
@@ -389,10 +389,10 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().send(testMessage);
+  await senderClient.createSender().sendMessage(testMessage);
 
   const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
-  const msgs = await receiver.receiveBatch(1);
+  const msgs = await receiver.receiveMessages(1);
 
   should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   should.equal(msgs.length, 1, "Expected message length does not match");
@@ -411,7 +411,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
   // Clean up any left over messages
-  const unprocessedMsgs = await receiver.receiveBatch(1);
+  const unprocessedMsgs = await receiver.receiveMessages(1);
   await unprocessedMsgs[0].complete();
 }
 
@@ -424,7 +424,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().send(testMessage);
+  await senderClient.createSender().sendMessage(testMessage);
   const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
@@ -472,7 +472,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     }
   };
 
-  receiver.receive(onMessage, onError, {
+  receiver.registerMessageHandler(onMessage, onError, {
     autoComplete: false,
     maxMessageAutoRenewLockDurationInSeconds: 0
   });
@@ -499,7 +499,7 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().send(testMessage);
+  await senderClient.createSender().sendMessage(testMessage);
   const receiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
@@ -530,7 +530,7 @@ async function testAutoLockRenewalConfigBehavior(
     }
   };
 
-  receiver.receive(onMessage, onError, {
+  receiver.registerMessageHandler(onMessage, onError, {
     autoComplete: false,
     maxMessageAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInSeconds
   });
@@ -546,7 +546,7 @@ async function testAutoLockRenewalConfigBehavior(
   if (options.willCompleteFail) {
     // Clean up any left over messages
     const newReceiver = await receiverClient.createReceiver(ReceiveMode.peekLock);
-    const unprocessedMsgs = await newReceiver.receiveBatch(1);
+    const unprocessedMsgs = await newReceiver.receiveMessages(1);
     await unprocessedMsgs[0].complete();
   }
 }

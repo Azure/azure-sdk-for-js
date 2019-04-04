@@ -53,7 +53,7 @@ async function sendMessages(): Promise<void> {
       };
       messageMap.add(msgId);
       msgId++;
-      await sender.send(message);
+      await sender.sendMessage(message);
       await delay(2000); // Throttling send to not increase queue size
     }
   } finally {
@@ -87,7 +87,7 @@ async function receiveMessages(): Promise<void> {
       throw err;
     };
 
-    receiver.receive(onMessageHandler, onErrorHandler, { autoComplete: false });
+    receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
     await delay(testDurationInMilliseconds);
 
     isJobDone = true;

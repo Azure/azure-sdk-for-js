@@ -12,7 +12,7 @@ import { throwErrorIfConnectionClosed } from "./util/utils";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
- * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
+ * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
  */
@@ -57,7 +57,11 @@ export class Receiver {
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void {
+  registerMessageHandler(
+    onMessage: OnMessage,
+    onError: OnError,
+    options?: MessageHandlerOptions
+  ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._validateNewReceiveCall(ReceiverType.streaming);
 
@@ -80,7 +84,7 @@ export class Receiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(
+  async receiveMessages(
     maxMessageCount: number,
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
@@ -101,7 +105,7 @@ export class Receiver {
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
+        "max time:\n %O",
         this._context.namespace.connectionId,
         this._context.batchingReceiver.name,
         maxMessageCount,
@@ -173,7 +177,7 @@ export class Receiver {
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
-   * Use the `getReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate
    * a new Receiver
    *
    * @returns {Promise<void>}
@@ -206,7 +210,7 @@ export class Receiver {
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
-   * When this return true, a new receive() or receiveBatch() call cannot be made.
+   * When this returns true, registerMessageHandler() or receiveMessages() calls cannot be made.
    */
   isReceivingMessages(): boolean {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
@@ -241,7 +245,7 @@ export class Receiver {
       const msg =
         `A "${currentlyActiveReceiverType}" receiver with id ` +
         `"${currentlyActiveReceiver}" is active for "${this._context.entityPath}". ` +
-        `A ${newCallType === ReceiverType.streaming ? "new receive" : "receiveBatch"}() call ` +
+        `A ${newCallType === ReceiverType.streaming ? "new registerMessageHandler" : "receiveMessages"}() call ` +
         `cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
 
       throw new Error(msg);
@@ -259,7 +263,7 @@ export class Receiver {
 /**
  * The SessionReceiver class can be used to receive messages from a session enabled Queue or
  * Subscription in a batch or by registering handlers.
- * Use the `getSessionReceiver` function on the QueueClient or SubscriptionClient to instantiate a
+ * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a
  * SessionReceiver.
  * The SessionReceiver class is an abstraction over the underlying AMQP receiver link.
  * @class SessionReceiver
@@ -428,17 +432,17 @@ export class SessionReceiver {
    * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(
+  async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     try {
-      return await this._messageSession.receiveBatch(maxMessageCount, maxWaitTimeInSeconds);
+      return await this._messageSession.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
+        "max time:\n %O",
         this._context.namespace.connectionId,
         this._messageSession.name,
         maxMessageCount,
@@ -465,7 +469,11 @@ export class SessionReceiver {
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+  registerMessageHandler(
+    onMessage: OnMessage,
+    onError: OnError,
+    options?: SessionMessageHandlerOptions
+  ): void {
     this._throwIfReceiverOrConnectionClosed();
     return this._messageSession.receive(onMessage, onError, options);
   }
@@ -473,7 +481,7 @@ export class SessionReceiver {
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
-   * Use the `getSessionReceiver` function on the QueueClient or SubscriptionClient to instantiate
+   * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate
    * a new Receiver
    *
    * @returns {Promise<void>}
@@ -494,7 +502,7 @@ export class SessionReceiver {
 
   /**
    * Indicates whether the receiver is currently receiving messages or not.
-   * When this return true, a new receive() or receiveBatch() call cannot be made on the receiver.
+   * When this returns true, registerMessageHandler() or receiveMessages() calls cannot be made.
    */
   isReceivingMessages(): boolean {
     return this._messageSession.isReceivingMessages;
