@@ -37,7 +37,7 @@ class ApplicationInsightsManagementClient extends ApplicationInsightsManagementC
   /**
    * Initializes a new instance of the ApplicationInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ApplicationInsightsManagementClientOptions) {
