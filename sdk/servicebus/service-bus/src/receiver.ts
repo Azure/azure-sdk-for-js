@@ -127,14 +127,13 @@ export class Receiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * The iterator exits if it is not able to fetch a new message in over a minute.
+   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
+   * fetch a new message in over a minute.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
+      this._throwIfReceiverOrConnectionClosed();
       const currentBatch = await this.receiveMessages(1);
-      if (!currentBatch.length) {
-        break;
-      }
       yield currentBatch[0];
     }
   }
@@ -548,14 +547,13 @@ export class SessionReceiver {
 
   /**
    * Gets an async iterator over messages from the receiver.
-   * The iterator exits if it is not able to fetch a new message in over a minute.
+   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
+   * fetch a new message in over a minute.
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
+      this._throwIfReceiverOrConnectionClosed();
       const currentBatch = await this.receiveMessages(1);
-      if (!currentBatch.length) {
-        break;
-      }
       yield currentBatch[0];
     }
   }
