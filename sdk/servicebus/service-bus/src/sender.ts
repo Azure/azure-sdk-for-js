@@ -155,11 +155,10 @@ export class Sender {
       }
       this._isClosed = true;
     } catch (err) {
-      log.error(`An error occurred while closing the sender for "${this._context.entityPath}": `);
-      if (!(err instanceof Error)) {
-        err = new Error(JSON.stringify(err));
-      }
-      log.error(err);
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(
+        `An error occurred while closing the sender for "${this._context.entityPath}":\n${err}`
+      );
       throw err;
     }
   }

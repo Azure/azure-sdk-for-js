@@ -223,11 +223,10 @@ export class Receiver {
       }
       this._isClosed = true;
     } catch (err) {
-      log.error(`An error occurred while closing the receiver for "${this._context.entityPath}": `);
-      if (!(err instanceof Error)) {
-        err = new Error(JSON.stringify(err));
-      }
-      log.error(err);
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(
+        `An error occurred while closing the receiver for "${this._context.entityPath}":\n${err}`
+      );
       throw err;
     }
   }
@@ -554,15 +553,12 @@ export class SessionReceiver {
         await this._messageSession.close();
       }
     } catch (err) {
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
         `An error occurred while closing the receiver for session "${this.sessionId}" in "${
           this._context.entityPath
-        }": `
+        }":\n${err}`
       );
-      if (!(err instanceof Error)) {
-        err = new Error(JSON.stringify(err));
-      }
-      log.error(err);
       throw err;
     }
   }

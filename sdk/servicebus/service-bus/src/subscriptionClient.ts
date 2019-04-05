@@ -114,11 +114,8 @@ export class SubscriptionClient implements Client {
         log.subscriptionClient("Closed the subscription client '%s'.", this.id);
       }
     } catch (err) {
-      log.error(`An error occurred while closing the subscription client "${this.id}": `);
-      if (!(err instanceof Error)) {
-        err = new Error(JSON.stringify(err));
-      }
-      log.error(err);
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(`An error occurred while closing the subscription client "${this.id}":\n${err}`);
       throw err;
     }
   }
