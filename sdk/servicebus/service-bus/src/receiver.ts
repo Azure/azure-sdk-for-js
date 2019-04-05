@@ -4,7 +4,7 @@ import * as Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
-import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/messageReceiver";
+import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
 import {
@@ -67,7 +67,7 @@ export class Receiver {
     options?: MessageHandlerOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
-    this._validateNewReceiveCall(ReceiverType.streaming);
+    this._throwIfAlreadyReceiving();
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -98,7 +98,7 @@ export class Receiver {
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    this._validateNewReceiveCall(ReceiverType.batching);
+    this._throwIfAlreadyReceiving();
 
     if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
       const options: ReceiveOptions = {
@@ -122,6 +122,20 @@ export class Receiver {
         err
       );
       throw err;
+    }
+  }
+
+  /**
+   * Gets an async iterator over messages from the receiver.
+   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
+   * fetch a new message in over a minute.
+   */
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
+    while (true) {
+      this._throwIfReceiverOrConnectionClosed();
+      this._throwIfAlreadyReceiving();
+      const currentBatch = await this.receiveMessages(1);
+      yield currentBatch[0];
     }
   }
 
@@ -235,29 +249,14 @@ export class Receiver {
     return false;
   }
 
-  private _validateNewReceiveCall(newCallType: ReceiverType): void {
-    let currentlyActiveReceiver = "";
-    let currentlyActiveReceiverType = "";
-    if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
-      currentlyActiveReceiver = this._context.streamingReceiver.name;
-      currentlyActiveReceiverType = "streaming";
-    } else if (
-      this._context.batchingReceiver &&
-      this._context.batchingReceiver.isOpen() &&
-      this._context.batchingReceiver.isReceivingMessages
-    ) {
-      currentlyActiveReceiver = this._context.batchingReceiver.name;
-      currentlyActiveReceiverType = "batching";
-    }
-
-    if (currentlyActiveReceiverType && currentlyActiveReceiver) {
-      const msg =
-        `A "${currentlyActiveReceiverType}" receiver with id ` +
-        `"${currentlyActiveReceiver}" is active for "${this._context.entityPath}". ` +
-        `A ${newCallType === ReceiverType.streaming ? "new registerMessageHandler" : "receiveMessages"}() call ` +
-        `cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
-
-      throw new Error(msg);
+  private _throwIfAlreadyReceiving(): void {
+    if ((this._context.streamingReceiver && this._context.streamingReceiver.isOpen())
+      || (
+        this._context.batchingReceiver &&
+        this._context.batchingReceiver.isOpen() &&
+        this._context.batchingReceiver.isReceivingMessages
+      )) {
+      throw new Error(`The receiver for "${this._context.entityPath}" is already receiving messages.`);
     }
   }
 
@@ -468,13 +467,8 @@ export class SessionReceiver {
     maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfAlreadyReceiving();
     try {
-      if (this.isReceivingMessages()) {
-        throw new Error(
-          `MessageSession '${this._messageSession!.name}' with sessionId '${this.sessionId}' is ` +
-          `already receiving messages.`
-        );
-      }
       await this._createMessageSessionIfDoesntExist();
       return this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
@@ -513,12 +507,7 @@ export class SessionReceiver {
     options?: SessionMessageHandlerOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
-    if (this.isReceivingMessages()) {
-      throw new Error(
-        `MessageSession '${this._messageSession!.name}' with sessionId '${this.sessionId}' is ` +
-        `already receiving messages.`
-      );
-    }
+    this._throwIfAlreadyReceiving();
     if (typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -530,6 +519,20 @@ export class SessionReceiver {
     }).catch((err) => {
       onError(err);
     });
+  }
+
+  /**
+   * Gets an async iterator over messages from the receiver.
+   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
+   * fetch a new message in over a minute.
+   */
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
+    while (true) {
+      this._throwIfReceiverOrConnectionClosed();
+      this._throwIfAlreadyReceiving();
+      const currentBatch = await this.receiveMessages(1);
+      yield currentBatch[0];
+    }
   }
 
   /**
@@ -584,6 +587,12 @@ export class SessionReceiver {
     });
     if (this._messageSession.sessionId) {
       delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+    }
+  }
+
+  private _throwIfAlreadyReceiving(): void {
+    if (this.isReceivingMessages()) {
+      throw new Error(`The receiver for session "${this.sessionId}" in "${this._context.entityPath}" is already receiving messages.`);
     }
   }
 }
