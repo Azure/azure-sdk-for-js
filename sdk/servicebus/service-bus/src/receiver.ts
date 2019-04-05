@@ -127,24 +127,12 @@ export class Receiver {
   }
 
   /**
-   * Gets an async iterator over messages from the receiver
-   * @param prefetchSize Maximum number of messages to fetch at a time from Service Bus
-   * - **Default**: `100`
-   * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
-   * should wait to receive the first message.
-   * - **Default**: `60` seconds.
+   * Gets an async iterator over messages from the receiver.
+   * The iterator exits if it is not able to fetch a new message in over a minute.
    */
-  async *getMessageIterator(prefetchSize?: number, idleTimeoutInSeconds?: number): AsyncIterableIterator<ServiceBusMessage> {
-    if (typeof prefetchSize === 'undefined') {
-      prefetchSize = prefetchSizeInIterator;
-    }
-    if (typeof prefetchSize !== "number" || prefetchSize <= 0 || prefetchSize > 2048) {
-      throw new Error(
-        "'prefetchSize' parameter should be a number greater than 0 and less than 2049."
-      );
-    }
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
-      const currentBatch = await this.receiveMessages(prefetchSize, idleTimeoutInSeconds);
+      const currentBatch = await this.receiveMessages(1);
       yield* currentBatch;
     }
   }
