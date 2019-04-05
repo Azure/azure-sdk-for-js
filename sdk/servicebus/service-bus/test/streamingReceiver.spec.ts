@@ -597,7 +597,7 @@ describe("Streaming - Multiple Receiver Operations", function (): void {
 
   async function testMultipleReceiveCalls(): Promise<void> {
     let errorMessage;
-    const expectedErrorMessage = `The receiver for "${receiverClient.entityPath}" is already receiving messages.`
+    const expectedErrorMessage = `The receiver for "${receiverClient.entityPath}" is already receiving messages.`;
     receiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);

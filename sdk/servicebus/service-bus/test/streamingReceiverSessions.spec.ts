@@ -740,7 +740,7 @@ describe("Sessions Streaming - Multiple Receive Operations", function (): void {
 
   async function testMultipleReceiveCalls(): Promise<void> {
     let errorMessage;
-    const expectedErrorMessage = `The receiver for session "${TestMessage.sessionId}" in "${receiverClient.entityPath}" is already receiving messages.`
+    const expectedErrorMessage = `The receiver for session "${TestMessage.sessionId}" in "${receiverClient.entityPath}" is already receiving messages.`;
     sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
