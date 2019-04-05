@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-10-01',
+    defaultValue: '2019-03-01',
     type: {
       name: "String"
     }
@@ -50,13 +50,25 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-06-01',
+    defaultValue: '2018-09-30',
     type: {
       name: "String"
     }
   }
 };
 export const apiVersion3: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-06-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion4: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -292,6 +304,19 @@ export const select: msRest.OperationQueryParameter = {
     serializedName: "$select",
     type: {
       name: "String"
+    }
+  }
+};
+export const skipShutdown: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "skipShutdown"
+  ],
+  mapper: {
+    serializedName: "skipShutdown",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
     }
   }
 };
