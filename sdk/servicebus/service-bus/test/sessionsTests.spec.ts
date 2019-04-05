@@ -450,7 +450,6 @@ describe("Peek session", function (): void {
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(true);
   });
   it("Partitioned Subscription - Peek Session with sessionId", async function (): Promise<void> {
@@ -458,7 +457,6 @@ describe("Peek session", function (): void {
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(true);
   });
   it("Unpartitioned Queue - Peek Session with sessionId", async function (): Promise<void> {
@@ -466,7 +464,6 @@ describe("Peek session", function (): void {
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(true);
   });
   it("Unpartitioned Subscription - Peek Session with sessionId", async function (): Promise<void> {
@@ -474,7 +471,6 @@ describe("Peek session", function (): void {
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(true);
   });
 
@@ -483,7 +479,6 @@ describe("Peek session", function (): void {
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(false);
   });
   it("Partitioned Subscription - Peek Session without sessionId", async function (): Promise<void> {
@@ -491,7 +486,6 @@ describe("Peek session", function (): void {
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(false);
   });
   it("Unpartitioned Queue - Peek Session without sessionId", async function (): Promise<void> {
@@ -499,7 +493,6 @@ describe("Peek session", function (): void {
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(false);
   });
   it("Unpartitioned Subscription - Peek Session without sessionId", async function (): Promise<void> {
@@ -507,7 +500,6 @@ describe("Peek session", function (): void {
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
     );
-    await purge(receiverClient, testSessionId2);
     await peekSession(false);
   });
 });
