@@ -21,11 +21,9 @@ import { ServiceBusClient, ReceiveMode } from "../../../src";
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const userEventsQueueName = "";
-
-let ns: ServiceBusClient;
+const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main(): Promise<void> {
-  ns = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await runScenario();
   } finally {
@@ -74,7 +72,7 @@ async function runScenario(): Promise<void> {
 }
 
 async function getSessionState(sessionId: string): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
 
   const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
@@ -94,7 +92,7 @@ async function getSessionState(sessionId: string): Promise<void> {
 }
 
 async function sendMessagesForSession(shoppingEvents: any[], sessionId: string): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
   const sender = client.createSender();
 
@@ -110,7 +108,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string):
 }
 
 async function processMessageFromSession(sessionId: string): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
 
   const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {

@@ -14,7 +14,7 @@ const queueName = "";
 async function main(): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at

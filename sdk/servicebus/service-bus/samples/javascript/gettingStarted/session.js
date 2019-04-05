@@ -8,7 +8,7 @@
   sessions in Service Bus.
 */
 
-const { Namespace, delay } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
@@ -52,7 +52,7 @@ async function main() {
 }
 
 async function sendMessage(ns, scientist, sessionId) {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 
@@ -69,9 +69,9 @@ async function sendMessage(ns, scientist, sessionId) {
 }
 
 async function receiveMessages(ns, sessionId) {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
-  const receiver = await client.getSessionReceiver({ sessionId: sessionId });
+  const receiver = client.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
 
   const onMessage = async (brokeredMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);

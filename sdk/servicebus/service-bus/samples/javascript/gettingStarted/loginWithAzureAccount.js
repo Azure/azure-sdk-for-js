@@ -10,7 +10,7 @@
     Here, assign "owner" role to your account.
 */
 
-const { Namespace } = require("@azure/service-bus");
+const { ServiceBusClient } = require("@azure/service-bus");
 const { loginWithUsernamePassword } = require("ms-rest-azure");
 
 // Define Service Bus Endpoint here and related entity names here

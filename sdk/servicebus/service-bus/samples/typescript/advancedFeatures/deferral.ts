@@ -22,7 +22,7 @@ async function main(): Promise<void> {
 // Shuffle and send messages
 async function sendMessages(): Promise<void> {
   const nsSend = ServiceBusClient.createFromConnectionString(connectionString);
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const sendClient = nsSend.createQueueClient(queueName);
   const sender = sendClient.createSender();
 
@@ -60,7 +60,7 @@ async function sendMessages(): Promise<void> {
 async function receiveMessage(): Promise<void> {
   const nsRcv = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const receiveClient = nsRcv.createQueueClient(queueName);
 
   const deferredSteps = new Map();

@@ -6,17 +6,15 @@
   to the Dead Letter Queue
 */
 
-const { Namespace } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
 
+// If deadlettered messages from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
+const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);
 const ns = ServiceBusClient.createFromConnectionString(connectionString);
-const deadLetterQueueName = Namespace.getDeadLetterQueuePath(queueName);
-// const deadLetterQueueName = Namespace.getDeadLetterTopicPath(topicName, subscriptionName);
-
-
 
 async function main() {
   try {
@@ -30,16 +28,16 @@ async function processDeadletterMessageQueue() {
   const client = ns.createQueueClient(deadLetterQueueName);
   const receiver = client.createReceiver(ReceiveMode.peekLock);
 
-  const message = await receiver.receiveMessages(1);
+  const messages = await receiver.receiveMessages(1);
 
-  if (message.length > 0) {
-    console.log(">>>>> Received the message from DLQ - ", message[0].body);
+  if (messages.length > 0) {
+    console.log(">>>>> Received the message from DLQ - ", messages[0].body);
 
     // Do something with the message retrieved from DLQ
-    await fixAndResendMessage(message[0]);
+    await fixAndResendMessage(messages[0]);
 
     // Mark message as complete/processed.
-    await message[0].complete();
+    await messages[0].complete();
   } else {
     console.log(">>>> Error: No messages were received from the DLQ.");
   }
@@ -49,7 +47,7 @@ async function processDeadletterMessageQueue() {
 
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage) {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 

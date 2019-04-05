@@ -28,7 +28,7 @@ const listOfScientists = [
 async function main(): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 

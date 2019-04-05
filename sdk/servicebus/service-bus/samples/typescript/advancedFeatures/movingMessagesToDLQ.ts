@@ -11,11 +11,9 @@ import { ServiceBusClient, ReceiveMode } from "../../../src";
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
-
-let ns: ServiceBusClient;
+const ns: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main(): Promise<void> {
-  ns = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
     await sendMessage();
@@ -27,7 +25,7 @@ async function main(): Promise<void> {
 }
 
 async function sendMessage(): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 
@@ -41,19 +39,19 @@ async function sendMessage(): Promise<void> {
 }
 
 async function receiveMessage(): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const receiver = client.createReceiver(ReceiveMode.peekLock);
 
-  const message = await receiver.receiveMessages(1);
+  const messages = await receiver.receiveMessages(1);
 
-  if (message) {
+  if (messages.length) {
     console.log(
       ">>>>> Deadletter the one message received from the main queue - ",
-      message[0].body
+      messages[0].body
     );
     // Deadletter the message received
-    await message[0].deadLetter({
+    await messages[0].deadLetter({
       deadletterReason: "Incorrect Recipe type",
       deadLetterErrorDescription: "Recipe type does not  match preferences."
     });

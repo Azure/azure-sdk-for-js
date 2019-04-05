@@ -72,13 +72,13 @@ async function sendMessages(ns: ServiceBusClient): Promise<void> {
 
 // Prints messages from the 3 subscriptions
 async function receiveMessages(ns: ServiceBusClient): Promise<void> {
-  const subscription1 = await ns
+  const subscription1 = ns
     .createSubscriptionClient(topicName, subscriptionName1)
     .createReceiver(ReceiveMode.peekLock);
-  const subscription2 = await ns
+  const subscription2 = ns
     .createSubscriptionClient(topicName, subscriptionName2)
     .createReceiver(ReceiveMode.peekLock);
-  const subscription3 = await ns
+  const subscription3 = ns
     .createSubscriptionClient(topicName, subscriptionName3)
     .createReceiver(ReceiveMode.peekLock);
 

@@ -8,7 +8,7 @@
   message deferral.
 */
 
-const { Namespace, delay } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -22,7 +22,7 @@ async function main() {
 // Shuffle and send messages
 async function sendMessages() {
   const nsSend = ServiceBusClient.createFromConnectionString(connectionString);
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const sendClient = nsSend.createQueueClient(queueName);
   const sender = sendClient.createSender();
 
@@ -60,7 +60,7 @@ async function sendMessages() {
 async function receiveMessage() {
   const nsRcv = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const receiveClient = nsRcv.createQueueClient(queueName);
 
   const deferredSteps = new Map();

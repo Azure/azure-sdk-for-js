@@ -15,7 +15,7 @@
        tab. Here, assign "owner" role to the registered application.
 */
 
-const { Namespace } = require("@azure/service-bus");
+const { ServiceBusClient } = require("@azure/service-bus");
 const { loginWithServicePrincipalSecret } = require("ms-rest-azure");
 
 // Define Service Bus Endpoint here and related entity names here

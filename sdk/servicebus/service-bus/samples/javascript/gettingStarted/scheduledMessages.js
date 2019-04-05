@@ -6,7 +6,7 @@
   to learn about scheduling messages.
 */
 
-const { Namespace, delay } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -38,7 +38,7 @@ async function main(){
 
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(ns){
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 
@@ -58,7 +58,7 @@ async function sendScheduledMessages(ns){
 }
 
 async function receiveMessages(ns) {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;

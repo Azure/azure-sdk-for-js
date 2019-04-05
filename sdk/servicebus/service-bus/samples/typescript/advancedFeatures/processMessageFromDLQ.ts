@@ -12,13 +12,11 @@ import { ServiceBusMessage, ServiceBusClient, ReceiveMode, QueueClient } from ".
 const connectionString = "";
 const queueName = "";
 
+// If deadlettered messages from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);
-// const deadLetterQueueName = TopicClient.getDeadLetterTopicPath(topicName, subscriptionName);
-
-let ns: ServiceBusClient;
+const ns: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main(): Promise<void> {
-  ns = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -30,16 +28,16 @@ async function processDeadletterMessageQueue(): Promise<void> {
   const client = ns.createQueueClient(deadLetterQueueName);
   const receiver = client.createReceiver(ReceiveMode.peekLock);
 
-  const message = await receiver.receiveMessages(1);
+  const messages = await receiver.receiveMessages(1);
 
-  if (message.length > 0) {
-    console.log(">>>>> Received the message from DLQ - ", message[0].body);
+  if (messages.length > 0) {
+    console.log(">>>>> Received the message from DLQ - ", messages[0].body);
 
     // Do something with the message retrieved from DLQ
-    await fixAndResendMessage(message[0]);
+    await fixAndResendMessage(messages[0]);
 
     // Mark message as complete/processed.
-    await message[0].complete();
+    await messages[0].complete();
   } else {
     console.log(">>>> Error: No messages were received from the DLQ.");
   }
@@ -49,7 +47,7 @@ async function processDeadletterMessageQueue(): Promise<void> {
 
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 

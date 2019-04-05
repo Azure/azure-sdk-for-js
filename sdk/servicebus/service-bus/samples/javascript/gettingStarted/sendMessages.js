@@ -6,7 +6,7 @@
   to learn about Queues, Topics and Subscriptions.
 */
 
-const { Namespace } = require("@azure/service-bus");
+const { ServiceBusClient } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -28,7 +28,7 @@ const listOfScientists = [
 async function main(){
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 

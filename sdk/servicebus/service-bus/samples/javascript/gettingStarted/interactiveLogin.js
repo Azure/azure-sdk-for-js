@@ -7,7 +7,7 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 */
 
-const { Namespace } = require("@azure/service-bus");
+const { ServiceBusClient } = require("@azure/service-bus");
 const { interactiveLogin } = require("ms-rest-azure");
 
 // Define Service Bus Endpoint here

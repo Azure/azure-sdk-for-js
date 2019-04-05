@@ -16,12 +16,11 @@
   to learn about session state.
 */
 
-const { Namespace } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const userEventsQueueName = "";
-
 const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
@@ -73,10 +72,12 @@ async function runScenario() {
 }
 
 async function getSessionState(sessionId) {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
 
-  const sessionReceiver = await client.getSessionReceiver({ sessionId: sessionId });
+  const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
+    sessionId: sessionId
+  });
 
   const sessionState = await sessionReceiver.getState();
   if (sessionState) {
@@ -91,7 +92,7 @@ async function getSessionState(sessionId) {
 }
 
 async function sendMessagesForSession(shoppingEvents, sessionId) {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
   const sender = client.createSender();
 
@@ -107,10 +108,12 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
 }
 
 async function processMessageFromSession(sessionId) {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
 
-  const sessionReceiver = await client.getSessionReceiver({ sessionId: sessionId });
+  const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
+    sessionId: sessionId
+  });
 
   const messages = await sessionReceiver.receiveMessages(1, 10);
 

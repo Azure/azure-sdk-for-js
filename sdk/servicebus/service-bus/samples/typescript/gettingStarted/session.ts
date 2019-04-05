@@ -52,7 +52,7 @@ async function main(): Promise<void> {
 }
 
 async function sendMessage(ns: ServiceBusClient, scientist: any, sessionId: string): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 
@@ -69,7 +69,7 @@ async function sendMessage(ns: ServiceBusClient, scientist: any, sessionId: stri
 }
 
 async function receiveMessages(ns: ServiceBusClient, sessionId: string): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const receiver = client.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
 

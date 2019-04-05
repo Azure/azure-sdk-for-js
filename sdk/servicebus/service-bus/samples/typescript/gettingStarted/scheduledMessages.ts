@@ -45,7 +45,7 @@ async function main(): Promise<void> {
 
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(ns: ServiceBusClient): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
   const sender = client.createSender();
 
@@ -65,7 +65,7 @@ async function sendScheduledMessages(ns: ServiceBusClient): Promise<void> {
 }
 
 async function receiveMessages(ns: ServiceBusClient): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
