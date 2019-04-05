@@ -359,6 +359,14 @@
     {
       "packageName": "@azure/storage-queue",
       "projectFolder": "sdk/storage/storage-queue"
+    },
+    {
+      "packageName": "@azure/template",
+      "projectFolder": "sdk/template/template"
+    },
+    {
+      "packageName": "testhub",
+      "projectFolder": "sdk/eventhub/testhub"
     }
   ]
 }
