@@ -414,7 +414,7 @@ describe("Session State", function (): void {
   });
 });
 
-describe.only("Peek session", function (): void {
+describe("Peek session", function (): void {
   afterEach(async () => {
     await afterEachTest();
   });
