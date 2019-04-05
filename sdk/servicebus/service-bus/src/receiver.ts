@@ -114,7 +114,7 @@ export class Receiver {
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-        "max time:\n %O",
+          "max time:\n %O",
         this._context.namespace.connectionId,
         this._context.batchingReceiver.name,
         maxMessageCount,
@@ -223,11 +223,11 @@ export class Receiver {
       }
       this._isClosed = true;
     } catch (err) {
-      const msg =
-        `An error occurred while closing the receiver for` +
-        `"${this._context.entityPath}": ${JSON.stringify(err)} `;
-      log.error(msg);
-      throw new Error(msg);
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(
+        `An error occurred while closing the receiver for "${this._context.entityPath}":\n${err}`
+      );
+      throw err;
     }
   }
 
@@ -250,13 +250,15 @@ export class Receiver {
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if ((this._context.streamingReceiver && this._context.streamingReceiver.isOpen())
-      || (
-        this._context.batchingReceiver &&
+    if (
+      (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) ||
+      (this._context.batchingReceiver &&
         this._context.batchingReceiver.isOpen() &&
-        this._context.batchingReceiver.isReceivingMessages
-      )) {
-      throw new Error(`The receiver for "${this._context.entityPath}" is already receiving messages.`);
+        this._context.batchingReceiver.isReceivingMessages)
+    ) {
+      throw new Error(
+        `The receiver for "${this._context.entityPath}" is already receiving messages.`
+      );
     }
   }
 
@@ -474,7 +476,7 @@ export class SessionReceiver {
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-        "max time:\n %O",
+          "max time:\n %O",
         this._context.namespace.connectionId,
         this._messageSession!.name,
         maxMessageCount,
@@ -514,11 +516,13 @@ export class SessionReceiver {
     if (typeof onError !== "function") {
       throw new Error("'onError' is a required parameter and must be of type 'function'.");
     }
-    this._createMessageSessionIfDoesntExist().then(() => {
-      this._messageSession!.receive(onMessage, onError, options);
-    }).catch((err) => {
-      onError(err);
-    });
+    this._createMessageSessionIfDoesntExist()
+      .then(() => {
+        this._messageSession!.receive(onMessage, onError, options);
+      })
+      .catch((err) => {
+        onError(err);
+      });
   }
 
   /**
@@ -549,11 +553,11 @@ export class SessionReceiver {
         await this._messageSession.close();
       }
     } catch (err) {
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
-        "[%s] An error occurred while closing the message session with id '%s': %O.",
-        this._context.namespace.connectionId,
-        this.sessionId,
-        err
+        `An error occurred while closing the receiver for session "${this.sessionId}" in "${
+          this._context.entityPath
+        }":\n${err}`
       );
       throw err;
     }
@@ -592,7 +596,11 @@ export class SessionReceiver {
 
   private _throwIfAlreadyReceiving(): void {
     if (this.isReceivingMessages()) {
-      throw new Error(`The receiver for session "${this.sessionId}" in "${this._context.entityPath}" is already receiving messages.`);
+      throw new Error(
+        `The receiver for session "${this.sessionId}" in "${
+          this._context.entityPath
+        }" is already receiving messages.`
+      );
     }
   }
 }

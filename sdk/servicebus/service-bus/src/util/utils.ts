@@ -154,9 +154,9 @@ export function toBuffer(input: any): Buffer {
       const msg =
         `An error occurred while executing JSON.stringify() on the given input ` +
         input +
-        `${err ? err.stack : JSON.stringify(err)}`;
+        `${err instanceof Error ? err.stack : JSON.stringify(err)}`;
       log.error("[utils.toBuffer] " + msg);
-      throw new Error(msg);
+      throw err instanceof Error ? err : new Error(msg);
     }
   }
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
