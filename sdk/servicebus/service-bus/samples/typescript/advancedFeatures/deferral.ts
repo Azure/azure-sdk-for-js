@@ -98,13 +98,13 @@ async function receiveMessage(): Promise<void> {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    let receiver = await receiveClient.createReceiver(ReceiveMode.peekLock);
+    let receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
     receiver.registerMessageHandler(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = await receiveClient.createReceiver(ReceiveMode.peekLock);
+    receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
