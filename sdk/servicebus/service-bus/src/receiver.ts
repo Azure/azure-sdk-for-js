@@ -13,7 +13,6 @@ import {
   SessionReceiverOptions
 } from "./session/messageSession";
 import { throwErrorIfConnectionClosed } from "./util/utils";
-import { prefetchSizeInIterator } from "./util/constants";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
