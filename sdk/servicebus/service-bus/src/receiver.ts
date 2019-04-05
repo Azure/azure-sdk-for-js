@@ -144,7 +144,7 @@ export class Receiver {
       );
     }
     while (true) {
-      const currentBatch = await this.receiveBatch(prefetchSize, idleTimeoutInSeconds);
+      const currentBatch = await this.receiveMessages(prefetchSize, idleTimeoutInSeconds);
       yield* currentBatch;
     }
   }
