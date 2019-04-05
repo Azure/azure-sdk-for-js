@@ -1114,15 +1114,9 @@ export const StorageAccount: msRest.CompositeMapper = {
         }
       },
       minimumTLSVersion: {
-        readOnly: true,
         serializedName: "properties.minimumTLSVersion",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "TLS1_0",
-            "TLS1_1",
-            "TLS1_2"
-          ]
+          name: "String"
         }
       },
       allowBlobPublicAccess: {

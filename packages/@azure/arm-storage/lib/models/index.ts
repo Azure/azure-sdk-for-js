@@ -902,10 +902,8 @@ export interface StorageAccount extends TrackedResource {
    * @member {MinimumTLSVersion} [minimumTLSVersion] TLS version control on
    * storage account in customer configuration, TLS v1.2 by default. Possible
    * values include: 'TLS1_0', 'TLS1_1', 'TLS1_2'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
    */
-  readonly minimumTLSVersion?: MinimumTLSVersion;
+  minimumTLSVersion?: MinimumTLSVersion;
   /**
    * @member {boolean} [allowBlobPublicAccess] Public access to a container is
    * enabled if the value is true.
