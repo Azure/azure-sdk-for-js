@@ -424,11 +424,12 @@ describe("Peek session", function (): void {
     const testMessage = TestMessage.getSessionSample();
     await sender.sendMessage(testMessage);
 
-    let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+    const receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: useSessionId ? testMessage.sessionId : undefined
     });
 
     // At this point AMQP reciever link has not been established.
+    // peek() will not establish the link if sessionId was provided
     const peekedMsgs = await receiver.peek(1);
     should.equal(peekedMsgs.length, 1, "Unexpected number of messages");
     should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
