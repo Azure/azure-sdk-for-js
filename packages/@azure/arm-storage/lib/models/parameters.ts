@@ -159,6 +159,18 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     }
   }
 };
+export const skipToken: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "skipToken"
+  ],
+  mapper: {
+    serializedName: "$skipToken",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {

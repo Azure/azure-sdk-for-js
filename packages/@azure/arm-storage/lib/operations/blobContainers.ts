@@ -37,7 +37,7 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: Models.BlobContainersListOptionalParams): Promise<Models.BlobContainersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -56,8 +56,8 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
+  list(resourceGroupName: string, accountName: string, options: Models.BlobContainersListOptionalParams, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
+  list(resourceGroupName: string, accountName: string, options?: Models.BlobContainersListOptionalParams | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -746,7 +746,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.skipToken
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -794,6 +795,9 @@ const createOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {
+      bodyMapper: Mappers.BlobContainer
+    },
     201: {
       bodyMapper: Mappers.BlobContainer
     },
