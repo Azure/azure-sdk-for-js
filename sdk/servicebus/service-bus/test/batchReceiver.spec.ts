@@ -825,6 +825,22 @@ describe("Batch Receiver - Multiple Receiver Operations", function (): void {
     }
     should.equal(errorMessage, expectedErrorMessage, "Unexpected error message for receiveMessages");
 
+    let unexpectedError;
+    try {
+      receiver.registerMessageHandler(
+        (msg: ServiceBusMessage) => {
+          return Promise.resolve();
+        },
+        (err) => {
+          unexpectedError = err;
+        }
+      );
+    } catch (err) {
+      errorMessage = err && err.message;
+    }
+    should.equal(errorMessage, expectedErrorMessage, "Unexpected error message for registerMessageHandler");
+    should.equal(unexpectedError, undefined, "Unexpected error found in errorHandler for registerMessageHandler");
+
 
     await firstBatchPromise;
   }
