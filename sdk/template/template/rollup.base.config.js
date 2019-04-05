@@ -72,8 +72,8 @@ export function browserConfig(test = false, production = false) {
         }
       }),
       nodeResolve({
-        preferBuiltins: false,
-        browser: true
+        mainFields: ['module', 'browser'],
+        preferBuiltins: false
       }),
       cjs({
         namedExports: { events: ["EventEmitter"] }
