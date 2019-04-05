@@ -1257,6 +1257,11 @@ export interface ContainerServiceNetworkProfile {
    * or the Kubernetes service address range. Default value: '172.17.0.1/16' .
    */
   dockerBridgeCidr?: string;
+  /**
+   * @member {LoadBalancerSku} [loadBalancerSku] The load balancer sku for the
+   * managed cluster. Possible values include: 'standard', 'basic'
+   */
+  loadBalancerSku?: LoadBalancerSku;
 }
 
 /**
@@ -1820,6 +1825,14 @@ export type NetworkPlugin = 'azure' | 'kubenet';
  * @enum {string}
  */
 export type NetworkPolicy = 'calico' | 'azure';
+
+/**
+ * Defines values for LoadBalancerSku.
+ * Possible values include: 'standard', 'basic'
+ * @readonly
+ * @enum {string}
+ */
+export type LoadBalancerSku = 'standard' | 'basic';
 
 /**
  * Contains response data for the list operation.

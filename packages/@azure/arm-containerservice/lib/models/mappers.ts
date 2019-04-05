@@ -1339,6 +1339,12 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      loadBalancerSku: {
+        serializedName: "loadBalancerSku",
+        type: {
+          name: "String"
+        }
       }
     }
   }
