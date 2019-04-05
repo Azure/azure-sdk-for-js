@@ -7,7 +7,7 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 */
 
-import { ServiceBusClient } from "../../../src";
+import { ServiceBusClient } from "@azure/service-bus";
 import { interactiveLogin } from "@azure/ms-rest-nodeauth";
 
 // Define Service Bus Endpoint here

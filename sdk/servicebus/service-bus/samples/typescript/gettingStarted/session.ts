@@ -8,7 +8,13 @@
   sessions in Service Bus.
 */
 
-import { OnError, delay, ServiceBusClient, ReceiveMode, ServiceBusMessage } from "../../../src";
+import {
+  OnError,
+  delay,
+  ServiceBusClient,
+  ReceiveMode,
+  ServiceBusMessage
+} from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled

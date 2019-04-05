@@ -16,7 +16,7 @@ import {
   ReceiveMode,
   SendableMessageInfo,
   SubscriptionClient
-} from "../../../src";
+} from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

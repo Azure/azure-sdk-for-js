@@ -10,7 +10,7 @@
     Here, assign "owner" role to your account.
 */
 
-import { ServiceBusClient } from "../../../src";
+import { ServiceBusClient } from "@azure/service-bus";
 import { loginWithUsernamePassword } from "@azure/ms-rest-nodeauth";
 
 // Define Service Bus Endpoint here and related entity names here

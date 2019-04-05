@@ -6,7 +6,7 @@
   to the Dead Letter Queue
 */
 
-import { ServiceBusMessage, ServiceBusClient, ReceiveMode, QueueClient } from "../../../src";
+import { ServiceBusMessage, ServiceBusClient, ReceiveMode, QueueClient } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

@@ -6,7 +6,7 @@
   to learn about Queues, Topics and Subscriptions.
 */
 
-import { ServiceBusClient, SendableMessageInfo } from "../../../src";
+import { ServiceBusClient, SendableMessageInfo } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

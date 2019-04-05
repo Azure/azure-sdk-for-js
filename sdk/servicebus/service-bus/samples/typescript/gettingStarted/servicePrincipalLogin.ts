@@ -15,7 +15,7 @@
        tab. Here, assign "owner" role to the registered application.
 */
 
-import { ServiceBusClient } from "../../../src";
+import { ServiceBusClient } from "@azure/service-bus";
 import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
 
 // Define Service Bus Endpoint here and related entity names here

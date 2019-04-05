@@ -8,7 +8,7 @@
   message deferral.
 */
 
-import { ServiceBusClient, ReceiveMode, OnMessage, OnError, delay } from "../../../src";
+import { ServiceBusClient, ReceiveMode, OnMessage, OnError, delay } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

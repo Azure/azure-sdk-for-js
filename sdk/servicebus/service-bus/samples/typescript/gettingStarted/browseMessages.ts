@@ -7,7 +7,7 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { ServiceBusClient } from "../../../src";
+import { ServiceBusClient } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
