@@ -101,11 +101,9 @@ export class QueueClient implements Client {
         log.qClient("Closed the Queue client '%s'.", this.id);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the queue client "${this.id}": `;
-      if (err instanceof Error) {
-        log.error(msg);
-      } else {
-        err = new Error(msg + JSON.stringify(err));
+      log.error(`An error occurred while closing the queue client "${this.id}": `);
+      if (!(err instanceof Error)) {
+        err = new Error(JSON.stringify(err));
       }
       log.error(err);
       throw err;
