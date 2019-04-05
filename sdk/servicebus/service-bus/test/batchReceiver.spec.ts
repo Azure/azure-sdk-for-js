@@ -803,49 +803,74 @@ describe("Batch Receiver - Settle deadlettered message", function (): void {
   });
 });
 
-describe("Batch Receiver - Multiple ReceiveBatch calls", function (): void {
+describe("Batch Receiver - Multiple Receiver Operations", function (): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   // We use an empty queue/topic here so that the first receiveMessages call takes time to return
-  async function testParallelReceiveBatchCalls(): Promise<void> {
+  async function testParallelReceiveCalls(useSessions?: boolean): Promise<void> {
     const firstBatchPromise = receiver.receiveMessages(1, 10);
     await delay(5000);
-    const secondBatchPromise = receiver.receiveMessages(1, 10).catch((err) => {
-      should.equal(err.name, "Error", "Error name is different than expected");
-      errorWasThrown = true;
-    });
-    await Promise.all([firstBatchPromise, secondBatchPromise]);
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+
+    let errorMessage;
+    let expectedErrorMessage = `The receiver for "${receiverClient.entityPath}" is already receiving messages.`;
+    if (useSessions) {
+      expectedErrorMessage = `The receiver for session "${TestMessage.sessionId}" in "${receiverClient.entityPath}" is already receiving messages.`;
+    }
+    try {
+      await receiver.receiveMessages(1);
+    } catch (err) {
+      errorMessage = err && err.message;
+    }
+    should.equal(errorMessage, expectedErrorMessage, "Unexpected error message for receiveMessages");
+
+    let unexpectedError;
+    try {
+      receiver.registerMessageHandler(
+        (msg: ServiceBusMessage) => {
+          return Promise.resolve();
+        },
+        (err) => {
+          unexpectedError = err;
+        }
+      );
+    } catch (err) {
+      errorMessage = err && err.message;
+    }
+    should.equal(errorMessage, expectedErrorMessage, "Unexpected error message for registerMessageHandler");
+    should.equal(unexpectedError, undefined, "Unexpected error found in errorHandler for registerMessageHandler");
+
+
+    await firstBatchPromise;
   }
 
   it("Partitioned Queue: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls();
   });
 
   it("Partitioned Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls();
   });
 
   it("Unpartitioned Queue: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls();
   });
 
   it("Unpartitioned Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls();
   });
 
   it("Partitioned Queue with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
@@ -856,7 +881,7 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function (): void {
       ClientType.PartitionedQueueWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls(true);
   });
 
   it("Partitioned Subscription with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
@@ -867,7 +892,7 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function (): void {
       ClientType.PartitionedSubscriptionWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls(true);
   });
 
   it("Unpartitioned Queue with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
@@ -878,7 +903,7 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function (): void {
       ClientType.UnpartitionedQueueWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls(true);
   });
 
   it("Unpartitioned Subscription with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function (): Promise<
@@ -889,7 +914,7 @@ describe("Batch Receiver - Multiple ReceiveBatch calls", function (): void {
       ClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
-    await testParallelReceiveBatchCalls();
+    await testParallelReceiveCalls(true);
   });
 
   const messages: SendableMessageInfo[] = [
