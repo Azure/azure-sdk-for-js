@@ -199,6 +199,51 @@ export class Clusters {
   }
 
   /**
+   * Gets the gateway settings for the specified cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ClustersGetGatewaySettingsResponse>
+   */
+  getGatewaySettings(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetGatewaySettingsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param callback The callback
+   */
+  getGatewaySettings(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.GatewaySettings>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getGatewaySettings(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewaySettings>): void;
+  getGatewaySettings(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewaySettings>, callback?: msRest.ServiceCallback<Models.GatewaySettings>): Promise<Models.ClustersGetGatewaySettingsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        options
+      },
+      getGatewaySettingsOperationSpec,
+      callback) as Promise<Models.ClustersGetGatewaySettingsResponse>;
+  }
+
+  /**
+   * Configures the gateway settings on the specified cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The cluster configurations.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  updateGatewaySettings(resourceGroupName: string, clusterName: string, parameters: Models.UpdateGatewaySettingsParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginUpdateGatewaySettings(resourceGroupName,clusterName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Executes script actions on the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -286,6 +331,26 @@ export class Clusters {
         options
       },
       beginRotateDiskEncryptionKeyOperationSpec,
+      options);
+  }
+
+  /**
+   * Configures the gateway settings on the specified cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The cluster configurations.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateGatewaySettings(resourceGroupName: string, clusterName: string, parameters: Models.UpdateGatewaySettingsParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options
+      },
+      beginUpdateGatewaySettingsOperationSpec,
       options);
   }
 
@@ -472,6 +537,31 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getGatewaySettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/getGatewaySettings",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewaySettings
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
@@ -578,6 +668,37 @@ const beginRotateDiskEncryptionKeyOperationSpec: msRest.OperationSpec = {
     parameterPath: "parameters",
     mapper: {
       ...Mappers.ClusterDiskEncryptionParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginUpdateGatewaySettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/updateGatewaySettings",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.UpdateGatewaySettingsParameters,
       required: true
     }
   },
