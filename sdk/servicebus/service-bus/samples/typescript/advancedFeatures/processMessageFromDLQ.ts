@@ -12,7 +12,7 @@ import { ServiceBusMessage, ServiceBusClient, ReceiveMode, QueueClient } from "@
 const connectionString = "";
 const queueName = "";
 
-// If deadlettered messages from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
+// If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);
 const ns: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
 

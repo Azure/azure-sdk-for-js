@@ -12,7 +12,7 @@ const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 const connectionString = "";
 const queueName = "";
 
-// If deadlettered messages from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
+// If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);
 const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
