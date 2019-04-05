@@ -258,9 +258,8 @@ export class ManagementClient extends LinkEntity {
    * entity.
    *
    * Unlike a `received` message, `peeked` message will not have lock token associated with it,
-   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
-   * `receive() | receiveBatch()` this method will fetch even Deferred messages
-   * (but not Deadlettered message).
+   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. This method will
+   * also fetch even Deferred messages (but not Deadlettered message).
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
@@ -277,9 +276,8 @@ export class ManagementClient extends LinkEntity {
    * subsequent message in the entity.
    *
    * Unlike a `received` message, `peeked` message will not have lock token associated with it,
-   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
-   * `receive() | receiveBatch()` this method will also fetch `Deferred` messages, but
-   * **NOT** `Deadlettered` messages.
+   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`.  This method will
+   * also fetch even Deferred messages (but not Deadlettered message).
    * @param {string} sessionId The sessionId from which messages need to be peeked.
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>

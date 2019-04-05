@@ -6,7 +6,7 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
 import { Client } from "./client";
-import { MessageSession, SessionReceiverOptions } from "./session/messageSession";
+import { SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
 import { Receiver, SessionReceiver } from "./receiver";
 import { throwErrorIfConnectionClosed } from "./util/utils";
@@ -158,10 +158,10 @@ export class QueueClient implements Client {
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
    *
-   * @returns Promise<Receiver> A promise that resolves to a receiver to receive messages from a
-   * Queue which does not have sessions enabled.
+   * @returns Receiver A receiver to receive messages from a Queue which does not have
+   * sessions enabled.
    */
-  public async createReceiver(receiveMode: ReceiveMode): Promise<Receiver>;
+  public createReceiver(receiveMode: ReceiveMode): Receiver;
   /**
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
    * given, a random session among the available sessions is used.
@@ -174,13 +174,12 @@ export class QueueClient implements Client {
    * @param sessionOptions Options to provide sessionId and duration of automatic lock renewal for
    * the session receiver.
    *
-   * @returns Promise<SessionReceiver> A promise that resolves to a receiver to receive from a
-   * session in the Queue.
+   * @returns SessionReceiver A receiver to receive from a session in the Queue.
    */
-  public async createReceiver(
+  public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions: SessionReceiverOptions
-  ): Promise<SessionReceiver>;
+  ): SessionReceiver;
   /**
    * Create a Receiver for receiving messages from a Queue.
    *
@@ -190,14 +189,13 @@ export class QueueClient implements Client {
    * to provide sessionId and duration for which automatic lock renewal for should be done for the
    * receiver.
    *
-   * @returns Promise<Receiver|SessionReceiver> A promise that resolves to a receiver to receive
-   * from a session in the Queue if `sessionOptions` were provided. Else, the promise resolves to a
-   * receiver to receive messages from the Queue.
+   * @returns Receiver|SessionReceiver A receiver to receive from a session in the Queue if
+   * `sessionOptions` were provided. Else, a receiver to receive messages from the Queue.
    */
-  public async createReceiver(
+  public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
-  ): Promise<Receiver | SessionReceiver> {
+  ): Receiver | SessionReceiver {
     this._throwErrorIfClientOrConnectionClosed();
 
     // Receiver for Queue where sessions are not enabled
@@ -226,17 +224,7 @@ export class QueueClient implements Client {
       }
     }
 
-    this._context.isSessionEnabled = true;
-    const messageSession = await MessageSession.create(this._context, {
-      sessionId: sessionOptions.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds:
-        sessionOptions.maxSessionAutoRenewLockDurationInSeconds,
-      receiveMode
-    });
-    if (messageSession.sessionId) {
-      delete this._context.expiredMessageSessions[messageSession.sessionId];
-    }
-    return new SessionReceiver(this._context, messageSession);
+    return new SessionReceiver(this._context, receiveMode, sessionOptions);
   }
 
   /**
@@ -247,12 +235,12 @@ export class QueueClient implements Client {
    * Unlike a `received` message, `peeked` message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
-   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwErrorIfClientOrConnectionClosed();
-    return this._context.managementClient!.peek(messageCount);
+    return this._context.managementClient!.peek(maxMessageCount);
   }
 
   /**
@@ -263,16 +251,16 @@ export class QueueClient implements Client {
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param [messageCount] The number of messages to retrieve. Default value `1`.
+   * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
-    messageCount?: number
+    maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwErrorIfClientOrConnectionClosed();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: messageCount
+      messageCount: maxMessageCount
     });
   }
 

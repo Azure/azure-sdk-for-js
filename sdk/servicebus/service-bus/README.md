@@ -6,7 +6,7 @@ Use the client library for Azure Service Bus in your Node.js application to
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/)
 
 ## Status
 
@@ -75,6 +75,7 @@ The following sections provide code snippets that cover some of the common tasks
 
 - [Send messages](#send-messages)
 - [Receive messages](#receive-messages)
+- [Settle a message](#settle-a-message)
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages using Sessions](#receive-messages-using-sessions)
 
@@ -86,41 +87,60 @@ function to send messages.
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
 const sender = queueClient.createSender();
-await sender.send({
+await sender.sendMessage({
   body: "my-message-body"
 });
 ```
 
 ### Receive messages
 
-Once you have created an instance of a `QueueClient` class, create a receiver and use the `receiveBatch`
-function to receive messages in a batch.
-
-Once you receive a message you can call `complete()`, `abandon()`, `defer()` or `deadletter()` on it
-based on how you want to settle the message. To learn more, please read [Settling Received Messages](https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations)
+Once you have created an instance of a `QueueClient` or `SubscriptionClient` class, create a receiver
+using the `createReceiver` function.
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
 const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
-const myMessages = await receiver.receiveBatch(10);
-for(let i = 0; i < myMessages.length; i++) {
-  console.log(myMessages[i].body);
-  await myMessages[i].complete();
-}
 ```
 
-Another way to receive messages is by setting up message handlers and have it running as long as you
+You can use this receiver in one of 3 ways to receive messages:
+
+#### Get an array of messages
+
+Use the `receiveMessages` function which returns a promise that resolves to an array of messages.
+
+```javascript
+const myMessages = await receiver.receiveMessages(10);
+```
+
+#### Register message handler
+
+Use the `registerMessageHandler` to set up message handlers and have it running as long as you
 need. When you are done, call `receiver.close()` to stop receiving any more messages.
 
 ```javascript
 const myMessageHandler = async (message) => {
-  myOtherCode(message);
+  // your code here
 }
 const myErrorHandler = (error) => {
   console.log(error);
 }
-receiver.receive(myMessageHandler, myErrorHandler);
+receiver.registerMessageHandler(myMessageHandler, myErrorHandler);
 ```
+
+#### Use async iterator
+
+Use the `getMessageIterator` to get an async iterator over messages
+
+```javascript
+for await (let message of receiver.getMessageIterator()){
+  // your code here
+}
+```
+
+### Settle a message
+
+Once you receive a message you can call `complete()`, `abandon()`, `defer()` or `deadletter()` on it
+based on how you want to settle the message. To learn more, please read [Settling Received Messages](https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations)
 
 ### Send messages using Sessions
 
@@ -131,7 +151,7 @@ message, set the `sessionId` property in the message body to ensure your message
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
 const sender = queueClient.createSender();
-await sender.send({
+await sender.sendMessage({
   body: "my-message-body",
   sessionId: "my-session"
 });
@@ -140,18 +160,18 @@ await sender.send({
 ### Receive messages from Sessions
 
 To receive messages from sessions, you first need to create a session enabled Queue and send messages
-to it. Then, use an instance of `QueueClient` to create a receiver. Note that you will need to specify
-the session from which you want to receive messages.
+to it. Then, use an instance of `QueueClient` or `SubscriptionClient` to create a receiver. Note
+that you will need to specify the session from which you want to receive messages.
 
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
 const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: "my-session"});
-const myMessages = await receiver.receiveBatch(10);
-for(let i = 0; i < myMessages.length; i++) {
-  console.log(myMessages[i].body);
-  await myMessages[i].complete();
-}
 ```
+You can use this receiver in one of 3 ways to receive messages
+- [Get an array of messages](#get-an-array-of-messages)
+- [Register message handler](#register-message-handler)
+- [Use async iterator](#use-async-iterator)
+
 
 ## Troubleshooting
 

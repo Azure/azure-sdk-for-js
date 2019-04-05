@@ -12,7 +12,7 @@ import { throwErrorIfConnectionClosed } from "./util/utils";
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
  * and cancel such scheduled messages.
- * Use the `getSender` function on the QueueClient or TopicClient to instantiate a Sender.
+ * Use the `createSender` function on the QueueClient or TopicClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
@@ -47,7 +47,7 @@ export class Sender {
    * @param message - Message to send.
    * @returns Promise<void>
    */
-  async send(message: SendableMessageInfo): Promise<void> {
+  async sendMessage(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.send(message);
@@ -65,7 +65,7 @@ export class Sender {
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
    */
-  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
+  async sendMessages(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);
@@ -140,7 +140,7 @@ export class Sender {
   /**
    * Closes the underlying AMQP sender link.
    * Once closed, the sender cannot be used for any further operations.
-   * Use the `getSender` function on the QueueClient or TopicClient to instantiate a new Sender
+   * Use the `createSender` function on the QueueClient or TopicClient to instantiate a new Sender
    *
    * @returns {Promise<void>}
    */

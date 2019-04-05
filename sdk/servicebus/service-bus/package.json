@@ -1,10 +1,10 @@
 {
   "name": "@azure/service-bus",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-preview.1",
+  "version": "1.0.0-preview.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/packages/%40azure/servicebus/data-plane",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
