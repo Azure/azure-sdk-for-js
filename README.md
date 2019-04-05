@@ -68,9 +68,9 @@ get your code included into the project.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2FREADME.png)
 
-## Tested Operating Systems and Node Versions
+## Client Library Tested Operating Systems and Node Versions
 
-Currently, the tests in this repository are running against:
+Currently, the tests for client libraries in this repository are running against:
 
 |                      | Linux (Ubuntu 16.04) | MacOS 10.13 | Windows Server 2016 |
 |----------------------|----------------------|-------------|---------------------|
