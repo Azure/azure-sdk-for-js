@@ -733,12 +733,14 @@ describe("Sessions Streaming - Deadletter message", function (): void {
   });
 });
 
-describe("Sessions Streaming - Multiple Streaming Receivers", function (): void {
+describe("Sessions Streaming - Multiple Receive Operations", function (): void {
   afterEach(async () => {
     await afterEachTest();
   });
 
   async function testMultipleReceiveCalls(): Promise<void> {
+    let errorMessage;
+    const expectedErrorMessage = `The receiver for session "${TestMessage.sessionId}" in "${receiverClient.entityPath}" is already receiving messages.`;
     sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
@@ -748,22 +750,24 @@ describe("Sessions Streaming - Multiple Streaming Receivers", function (): void 
         (msg: ServiceBusMessage) => {
           return Promise.resolve();
         },
-        (err: Error) => {
-          should.exist(err);
-        }
+        unExpectedErrorHandler
       );
     } catch (err) {
-      errorWasThrown = true;
-      should.equal(
-        !err.message.search("has already been created for the Subscription"),
-        false,
-        "ErrorMessage is different than expected"
-      );
+      errorMessage = err && err.message;
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    should.equal(errorMessage, expectedErrorMessage, "Unexpected error message for registerMessageHandler");
+    should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+
+    errorMessage = "";
+    try {
+      await sessionReceiver.receiveMessages(1);
+    } catch (err) {
+      errorMessage = err && err.message;
+    }
+    should.equal(errorMessage, expectedErrorMessage, "Unexpected error message for receiveMessages");
   }
 
-  it("Partitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function (): Promise<
+  it("Partitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function (): Promise<
     void
   > {
     await beforeEachTest(
@@ -773,7 +777,7 @@ describe("Sessions Streaming - Multiple Streaming Receivers", function (): void 
     await testMultipleReceiveCalls();
   });
 
-  it("Partitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function (): Promise<
+  it("Partitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function (): Promise<
     void
   > {
     await beforeEachTest(
@@ -783,7 +787,7 @@ describe("Sessions Streaming - Multiple Streaming Receivers", function (): void 
     await testMultipleReceiveCalls();
   });
 
-  it("UnPartitioned Queue: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function (): Promise<
+  it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function (): Promise<
     void
   > {
     await beforeEachTest(
@@ -793,7 +797,7 @@ describe("Sessions Streaming - Multiple Streaming Receivers", function (): void 
     await testMultipleReceiveCalls();
   });
 
-  it("UnPartitioned Subscription: Second Streaming Receiver call should fail if the first one is not stopped(with sessions)", async function (): Promise<
+  it("UnPartitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped(with sessions)", async function (): Promise<
     void
   > {
     await beforeEachTest(
