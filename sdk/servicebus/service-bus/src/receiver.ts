@@ -132,7 +132,10 @@ export class Receiver {
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
       const currentBatch = await this.receiveMessages(1);
-      yield* currentBatch;
+      if (!currentBatch.length) {
+        break;
+      }
+      yield currentBatch[0];
     }
   }
 
@@ -541,6 +544,20 @@ export class SessionReceiver {
     }).catch((err) => {
       onError(err);
     });
+  }
+
+  /**
+   * Gets an async iterator over messages from the receiver.
+   * The iterator exits if it is not able to fetch a new message in over a minute.
+   */
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
+    while (true) {
+      const currentBatch = await this.receiveMessages(1);
+      if (!currentBatch.length) {
+        break;
+      }
+      yield currentBatch[0];
+    }
   }
 
   /**
