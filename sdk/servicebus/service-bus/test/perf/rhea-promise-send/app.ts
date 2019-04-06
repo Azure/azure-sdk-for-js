@@ -20,7 +20,6 @@ async function main() {
 
   // SharedAccessKey
   const password = connectionString.match(/SharedAccessKey=(.*)/)![1];
-  log(password);
 
   const maxInflight = process.argv.length > 2 ? parseInt(process.argv[2]) : 1;
   const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 10;
