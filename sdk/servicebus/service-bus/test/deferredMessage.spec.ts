@@ -165,7 +165,7 @@ async function completeDeferredMessage(
   await testPeekMsgsLength(receiverClient, 0);
 }
 
-describe("Abandon/Defer/Deadletter deferred message", function (): void {
+describe("Abandon/Defer/Deadletter deferred message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -181,21 +181,21 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   }
 
-  it("Partitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testAbandon();
   });
 
-  it("Partitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testAbandon();
   });
 
-  it("Partitioned Queue with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Queue with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -206,7 +206,7 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testAbandon(true);
   });
 
-  it("Partitioned Subscription with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Subscription with Sessions: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -217,21 +217,21 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testAbandon(true);
   });
 
-  it("Unpartitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testAbandon();
   });
 
-  it("Unpartitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
     await testAbandon();
   });
 
-  it("Unpartitioned Queue with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Queue with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -242,7 +242,7 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testAbandon(true);
   });
 
-  it("Unpartitioned Subscription with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Subscription with Sessions:: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -264,21 +264,21 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   }
 
-  it("Partitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testDefer();
   });
 
-  it("Partitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testDefer();
   });
 
-  it("Partitioned Queue with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Queue with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -289,7 +289,7 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testDefer(true);
   });
 
-  it("Partitioned Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Partitioned Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -300,21 +300,21 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testDefer(true);
   });
 
-  it("Unpartitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testDefer();
   });
 
-  it("Unpartitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
     await testDefer();
   });
 
-  it("Unpartitioned Queue with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Queue with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -325,7 +325,7 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testDefer(true);
   });
 
-  it("Unpartitioned Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function (): Promise<
+  it("Unpartitioned Subscription with Sessions: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -365,21 +365,21 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testPeekMsgsLength(deadLetterClient, 0);
   }
 
-  it("Partitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Partitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     await testDeadletter();
   });
 
-  it("Partitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Partitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
     await testDeadletter();
   });
 
-  it("Partitioned Queue with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Partitioned Queue with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -390,7 +390,7 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testDeadletter(true);
   });
 
-  it("Partitioned Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Partitioned Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -401,21 +401,21 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testDeadletter(true);
   });
 
-  it("Unpartitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Unpartitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
     await testDeadletter();
   });
 
-  it("Unpartitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Unpartitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
     await testDeadletter();
   });
 
-  it("Unpartitioned Queue with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Unpartitioned Queue with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -426,7 +426,7 @@ describe("Abandon/Defer/Deadletter deferred message", function (): void {
     await testDeadletter(true);
   });
 
-  it("Unpartitioned Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function (): Promise<
+  it("Unpartitioned Subscription with Sessions: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
     await beforeEachTest(

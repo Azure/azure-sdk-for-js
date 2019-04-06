@@ -82,7 +82,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("SessionReceiver with invalid sessionId", function (): void {
+describe("SessionReceiver with invalid sessionId", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -108,7 +108,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Partitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -118,7 +118,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await test_batching();
   });
 
-  it("Partitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Partitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -128,7 +128,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await test_batching();
   });
 
-  it("Unpartitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Unpartitioned Queue - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -138,7 +138,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await test_batching();
   });
 
-  it("Unpartitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Unpartitioned Subscription - Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -185,7 +185,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Partitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -195,7 +195,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await test_streaming();
   });
 
-  it("Partitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Partitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -205,7 +205,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await test_streaming();
   });
 
-  it("Unpartitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Unpartitioned Queue - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -215,7 +215,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
     await test_streaming();
   });
 
-  it("Unpartitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function (): Promise<
+  it("Unpartitioned Subscription - Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -226,7 +226,7 @@ describe("SessionReceiver with invalid sessionId", function (): void {
   });
 });
 
-describe("SessionReceiver with no sessionId", function (): void {
+describe("SessionReceiver with no sessionId", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -290,7 +290,7 @@ describe("SessionReceiver with no sessionId", function (): void {
     await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue: complete() removes message from random session", async function (): Promise<
+  it("Partitioned Queue: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -301,7 +301,7 @@ describe("SessionReceiver with no sessionId", function (): void {
     await testComplete_batching();
   });
 
-  it("Partitioned Subscription: complete() removes message from random session", async function (): Promise<
+  it("Partitioned Subscription: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -312,7 +312,7 @@ describe("SessionReceiver with no sessionId", function (): void {
     await testComplete_batching();
   });
 
-  it("Unpartitioned Queue: complete() removes message from random session", async function (): Promise<
+  it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -323,7 +323,7 @@ describe("SessionReceiver with no sessionId", function (): void {
     await testComplete_batching();
   });
 
-  it("Unpartitioned Subscription: complete() removes message from random session", async function (): Promise<
+  it("Unpartitioned Subscription: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -335,7 +335,7 @@ describe("SessionReceiver with no sessionId", function (): void {
   });
 });
 
-describe("Session State", function (): void {
+describe("Session State", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -380,7 +380,7 @@ describe("Session State", function (): void {
     await msgs[0].complete();
     await testPeekMsgsLength(receiverClient, 0);
   }
-  it("Partitioned Queue - Testing getState and setState", async function (): Promise<void> {
+  it("Partitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
@@ -388,7 +388,7 @@ describe("Session State", function (): void {
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Partitioned Subscription - Testing getState and setState", async function (): Promise<void> {
+  it("Partitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
@@ -396,7 +396,7 @@ describe("Session State", function (): void {
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Unpartitioned Queue - Testing getState and setState", async function (): Promise<void> {
+  it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
@@ -404,7 +404,7 @@ describe("Session State", function (): void {
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Unpartitioned Subscription - Testing getState and setState", async function (): Promise<void> {
+  it("Unpartitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
@@ -414,7 +414,7 @@ describe("Session State", function (): void {
   });
 });
 
-describe("Peek session", function (): void {
+describe("Peek session", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -433,8 +433,16 @@ describe("Peek session", function (): void {
     const peekedMsgs = await receiver.peek(1);
     should.equal(peekedMsgs.length, 1, "Unexpected number of messages");
     should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
-    should.equal(peekedMsgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
-    should.equal(peekedMsgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
+    should.equal(
+      peekedMsgs[0].messageId,
+      testMessage.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(
+      peekedMsgs[0].sessionId,
+      testMessage.sessionId,
+      "SessionId is different than expected"
+    );
 
     const msgs = await receiver.receiveMessages(1);
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -445,28 +453,28 @@ describe("Peek session", function (): void {
     await msgs[0].complete();
   }
 
-  it("Partitioned Queue - Peek Session with sessionId", async function (): Promise<void> {
+  it("Partitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
     );
     await peekSession(true);
   });
-  it("Partitioned Subscription - Peek Session with sessionId", async function (): Promise<void> {
+  it("Partitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
     );
     await peekSession(true);
   });
-  it("Unpartitioned Queue - Peek Session with sessionId", async function (): Promise<void> {
+  it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
     );
     await peekSession(true);
   });
-  it("Unpartitioned Subscription - Peek Session with sessionId", async function (): Promise<void> {
+  it("Unpartitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
@@ -474,28 +482,30 @@ describe("Peek session", function (): void {
     await peekSession(true);
   });
 
-  it("Partitioned Queue - Peek Session without sessionId", async function (): Promise<void> {
+  it("Partitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedQueueWithSessions,
       ClientType.PartitionedQueueWithSessions
     );
     await peekSession(false);
   });
-  it("Partitioned Subscription - Peek Session without sessionId", async function (): Promise<void> {
+  it("Partitioned Subscription - Peek Session without sessionId", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.PartitionedTopicWithSessions,
       ClientType.PartitionedSubscriptionWithSessions
     );
     await peekSession(false);
   });
-  it("Unpartitioned Queue - Peek Session without sessionId", async function (): Promise<void> {
+  it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
     await beforeEachTest(
       ClientType.UnpartitionedQueueWithSessions,
       ClientType.UnpartitionedQueueWithSessions
     );
     await peekSession(false);
   });
-  it("Unpartitioned Subscription - Peek Session without sessionId", async function (): Promise<void> {
+  it("Unpartitioned Subscription - Peek Session without sessionId", async function(): Promise<
+    void
+  > {
     await beforeEachTest(
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
