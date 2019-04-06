@@ -530,7 +530,7 @@ const checkSubdomainAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listTemplatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/iotAppTemplates",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/IoTAppTemplates",
   urlParameters: [
     Parameters.subscriptionId
   ],
