@@ -44,6 +44,7 @@
     "@types/sinon": "7.0.10",
     "@types/tunnel": "^0.0.0",
     "@types/underscore": "^1.8.8",
+    "abort-controller": "3.0.0",
     "cross-env": "5.2.0",
     "esm": "3.2.18",
     "execa": "1.0.0",
@@ -76,8 +77,8 @@
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
-    "abort-controller": "2.0.3",
     "binary-search-bounds": "2.0.3",
+    "node-abort-controller": "1.0.3",
     "node-fetch": "2.3.0",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",

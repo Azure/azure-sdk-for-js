@@ -1,4 +1,4 @@
-import { AbortController } from "abort-controller";
+import AbortController from "node-abort-controller";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
