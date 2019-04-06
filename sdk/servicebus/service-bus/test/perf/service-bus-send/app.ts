@@ -8,6 +8,7 @@ const _start = moment();
 let _messages = 0;
 
 async function main() {
+  // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
   const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
 
