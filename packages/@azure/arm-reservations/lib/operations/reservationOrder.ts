@@ -28,7 +28,7 @@ export class ReservationOrder {
   }
 
   /**
-   * Calculate price for placing a `ReservationOrder`
+   * Calculate price for placing a `ReservationOrder`.
    * @summary Calculate price for a `ReservationOrder`.
    * @param body Information needed for calculate or purchase reservation
    * @param [options] The optional parameters
@@ -82,7 +82,7 @@ export class ReservationOrder {
   }
 
   /**
-   * Purchase `ReservationOrder` and create resource under the specificed URI
+   * Purchase `ReservationOrder` and create resource under the specified URI.
    * @summary Purchase `ReservationOrder`
    * @param reservationOrderId Order Id of the reservation
    * @param body Information needed for calculate or purchase reservation
@@ -124,7 +124,7 @@ export class ReservationOrder {
   }
 
   /**
-   * Purchase `ReservationOrder` and create resource under the specificed URI
+   * Purchase `ReservationOrder` and create resource under the specified URI.
    * @summary Purchase `ReservationOrder`
    * @param reservationOrderId Order Id of the reservation
    * @param body Information needed for calculate or purchase reservation
