@@ -51,7 +51,7 @@ export class Alerts {
   }
 
   /**
-   * List all the alerts alerts that are associated with the resource group
+   * List all the alerts that are associated with the resource group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param [options] The optional parameters
@@ -307,7 +307,7 @@ export class Alerts {
   }
 
   /**
-   * List all the alerts alerts that are associated with the resource group
+   * List all the alerts that are associated with the resource group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListByResourceGroupNextResponse>
