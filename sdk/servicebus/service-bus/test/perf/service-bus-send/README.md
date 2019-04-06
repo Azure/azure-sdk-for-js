@@ -1,5 +1,5 @@
 # Overview
-Measures the maximum throughput of `sender.sendMessage()` in package `@azure/service-bus`.
+Measures the maximum throughput of `sender.send()` in package `@azure/service-bus`.
 
 # Instructions
 1. Create a Service Bus namespace with `Tier=Premium` and `Messaging Units=4`.  It is recommended to use the largest possible namespace to allow maximum client throughput.
