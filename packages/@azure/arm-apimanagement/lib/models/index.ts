@@ -84,6 +84,29 @@ export interface ErrorResponse {
 
 /**
  * @interface
+ * An interface representing RegionContract.
+ * Region profile.
+ *
+ */
+export interface RegionContract {
+  /**
+   * @member {string} [name] Region name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {boolean} [isMasterRegion] whether Region is the master region.
+   */
+  isMasterRegion?: boolean;
+  /**
+   * @member {boolean} [isDeleted] whether Region is deleted.
+   */
+  isDeleted?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The Resource definition.
  *
@@ -112,113 +135,6 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
- * An interface representing PolicyContract.
- * Policy Contract details.
- *
- * @extends Resource
- */
-export interface PolicyContract extends Resource {
-  /**
-   * @member {string} policyContent Json escaped Xml Encoded contents of the
-   * Policy.
-   */
-  policyContent: string;
-  /**
-   * @member {PolicyContentFormat} [contentFormat] Format of the policyContent.
-   * Possible values include: 'xml', 'xml-link', 'rawxml', 'rawxml-link'.
-   * Default value: 'xml' .
-   */
-  contentFormat?: PolicyContentFormat;
-}
-
-/**
- * @interface
- * An interface representing PolicyCollection.
- * The response of the list policy operation.
- *
- */
-export interface PolicyCollection {
-  /**
-   * @member {PolicyContract[]} [value] Policy Contract value.
-   */
-  value?: PolicyContract[];
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing PolicySnippetContract.
- * Policy snippet.
- *
- */
-export interface PolicySnippetContract {
-  /**
-   * @member {string} [name] Snippet name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {string} [content] Snippet content.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly content?: string;
-  /**
-   * @member {string} [toolTip] Snippet toolTip.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly toolTip?: string;
-  /**
-   * @member {number} [scope] Binary OR value of the Snippet scope.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly scope?: number;
-}
-
-/**
- * @interface
- * An interface representing PolicySnippetsCollection.
- * The response of the list policy snippets operation.
- *
- */
-export interface PolicySnippetsCollection {
-  /**
-   * @member {PolicySnippetContract[]} [value] Policy snippet value.
-   */
-  value?: PolicySnippetContract[];
-}
-
-/**
- * @interface
- * An interface representing RegionContract.
- * Region profile.
- *
- */
-export interface RegionContract {
-  /**
-   * @member {string} [name] Region name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly name?: string;
-  /**
-   * @member {boolean} [isMasterRegion] whether Region is the master region.
-   */
-  isMasterRegion?: boolean;
-  /**
-   * @member {boolean} [isDeleted] whether Region is deleted.
-   */
-  isDeleted?: boolean;
-}
-
-/**
- * @interface
  * An interface representing ApiExportResult.
  * API Export result Blob Uri.
  *
@@ -229,1116 +145,6 @@ export interface ApiExportResult {
    * the export operation. The Blob Uri is only valid for 5 minutes.
    */
   link?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiVersionSetContractDetails.
- * An API Version Set contains the common configuration for a set of API
- * Versions relating
- *
- */
-export interface ApiVersionSetContractDetails {
-  /**
-   * @member {string} [id] Identifier for existing API Version Set. Omit this
-   * value to create a new Version Set.
-   */
-  id?: string;
-  /**
-   * @member {string} [description] Description of API Version Set.
-   */
-  description?: string;
-  /**
-   * @member {VersioningScheme1} [versioningScheme] An value that determines
-   * where the API Version identifer will be located in a HTTP request.
-   * Possible values include: 'Segment', 'Query', 'Header'
-   */
-  versioningScheme?: VersioningScheme1;
-  /**
-   * @member {string} [versionQueryName] Name of query parameter that indicates
-   * the API Version if versioningScheme is set to `query`.
-   */
-  versionQueryName?: string;
-  /**
-   * @member {string} [versionHeaderName] Name of HTTP header parameter that
-   * indicates the API Version if versioningScheme is set to `header`.
-   */
-  versionHeaderName?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiEntityBaseContract.
- * API base contract details.
- *
- */
-export interface ApiEntityBaseContract {
-  /**
-   * @member {string} [description] Description of the API. May include HTML
-   * formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {AuthenticationSettingsContract} [authenticationSettings]
-   * Collection of authentication settings included into this API.
-   */
-  authenticationSettings?: AuthenticationSettingsContract;
-  /**
-   * @member {SubscriptionKeyParameterNamesContract}
-   * [subscriptionKeyParameterNames] Protocols over which API is made
-   * available.
-   */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
-  /**
-   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
-   * 'soap'
-   */
-  apiType?: ApiType;
-  /**
-   * @member {string} [apiRevision] Describes the Revision of the Api. If no
-   * value is provided, default revision 1 is created
-   */
-  apiRevision?: string;
-  /**
-   * @member {string} [apiVersion] Indicates the Version identifier of the API
-   * if the API is versioned
-   */
-  apiVersion?: string;
-  /**
-   * @member {boolean} [isCurrent] Indicates if API revision is current api
-   * revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isCurrent?: boolean;
-  /**
-   * @member {boolean} [isOnline] Indicates if API revision is accessible via
-   * the gateway.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isOnline?: boolean;
-  /**
-   * @member {string} [apiRevisionDescription] Description of the Api Revision.
-   */
-  apiRevisionDescription?: string;
-  /**
-   * @member {string} [apiVersionDescription] Description of the Api Version.
-   */
-  apiVersionDescription?: string;
-  /**
-   * @member {string} [apiVersionSetId] A resource identifier for the related
-   * ApiVersionSet.
-   */
-  apiVersionSetId?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiContractProperties.
- * Api Entity Properties
- *
- * @extends ApiEntityBaseContract
- */
-export interface ApiContractProperties extends ApiEntityBaseContract {
-  /**
-   * @member {string} [displayName] API name.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [serviceUrl] Absolute URL of the backend service
-   * implementing this API.
-   */
-  serviceUrl?: string;
-  /**
-   * @member {string} path Relative URL uniquely identifying this API and all
-   * of its resource paths within the API Management service instance. It is
-   * appended to the API endpoint base URL specified during the service
-   * instance creation to form a public URL for this API.
-   */
-  path: string;
-  /**
-   * @member {Protocol[]} [protocols] Describes on which protocols the
-   * operations in this API can be invoked.
-   */
-  protocols?: Protocol[];
-  /**
-   * @member {ApiVersionSetContractDetails} [apiVersionSet]
-   */
-  apiVersionSet?: ApiVersionSetContractDetails;
-}
-
-/**
- * @interface
- * An interface representing ApiContract.
- * API details.
- *
- * @extends Resource
- */
-export interface ApiContract extends Resource {
-  /**
-   * @member {string} [description] Description of the API. May include HTML
-   * formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {AuthenticationSettingsContract} [authenticationSettings]
-   * Collection of authentication settings included into this API.
-   */
-  authenticationSettings?: AuthenticationSettingsContract;
-  /**
-   * @member {SubscriptionKeyParameterNamesContract}
-   * [subscriptionKeyParameterNames] Protocols over which API is made
-   * available.
-   */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
-  /**
-   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
-   * 'soap'
-   */
-  apiType?: ApiType;
-  /**
-   * @member {string} [apiRevision] Describes the Revision of the Api. If no
-   * value is provided, default revision 1 is created
-   */
-  apiRevision?: string;
-  /**
-   * @member {string} [apiVersion] Indicates the Version identifier of the API
-   * if the API is versioned
-   */
-  apiVersion?: string;
-  /**
-   * @member {boolean} [isCurrent] Indicates if API revision is current api
-   * revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isCurrent?: boolean;
-  /**
-   * @member {boolean} [isOnline] Indicates if API revision is accessible via
-   * the gateway.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isOnline?: boolean;
-  /**
-   * @member {string} [apiRevisionDescription] Description of the Api Revision.
-   */
-  apiRevisionDescription?: string;
-  /**
-   * @member {string} [apiVersionDescription] Description of the Api Version.
-   */
-  apiVersionDescription?: string;
-  /**
-   * @member {string} [apiVersionSetId] A resource identifier for the related
-   * ApiVersionSet.
-   */
-  apiVersionSetId?: string;
-  /**
-   * @member {string} [displayName] API name.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [serviceUrl] Absolute URL of the backend service
-   * implementing this API.
-   */
-  serviceUrl?: string;
-  /**
-   * @member {string} path Relative URL uniquely identifying this API and all
-   * of its resource paths within the API Management service instance. It is
-   * appended to the API endpoint base URL specified during the service
-   * instance creation to form a public URL for this API.
-   */
-  path: string;
-  /**
-   * @member {Protocol[]} [protocols] Describes on which protocols the
-   * operations in this API can be invoked.
-   */
-  protocols?: Protocol[];
-  /**
-   * @member {ApiVersionSetContractDetails} [apiVersionSet]
-   */
-  apiVersionSet?: ApiVersionSetContractDetails;
-}
-
-/**
- * @interface
- * An interface representing ApiCreateOrUpdatePropertiesWsdlSelector.
- * Criteria to limit import of WSDL to a subset of the document.
- *
- */
-export interface ApiCreateOrUpdatePropertiesWsdlSelector {
-  /**
-   * @member {string} [wsdlServiceName] Name of service to import from WSDL
-   */
-  wsdlServiceName?: string;
-  /**
-   * @member {string} [wsdlEndpointName] Name of endpoint(port) to import from
-   * WSDL
-   */
-  wsdlEndpointName?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiCreateOrUpdateParameter.
- * API Create or Update Parameters.
- *
- */
-export interface ApiCreateOrUpdateParameter {
-  /**
-   * @member {string} [description] Description of the API. May include HTML
-   * formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {AuthenticationSettingsContract} [authenticationSettings]
-   * Collection of authentication settings included into this API.
-   */
-  authenticationSettings?: AuthenticationSettingsContract;
-  /**
-   * @member {SubscriptionKeyParameterNamesContract}
-   * [subscriptionKeyParameterNames] Protocols over which API is made
-   * available.
-   */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
-  /**
-   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
-   * 'soap'
-   */
-  apiType?: ApiType;
-  /**
-   * @member {string} [apiRevision] Describes the Revision of the Api. If no
-   * value is provided, default revision 1 is created
-   */
-  apiRevision?: string;
-  /**
-   * @member {string} [apiVersion] Indicates the Version identifier of the API
-   * if the API is versioned
-   */
-  apiVersion?: string;
-  /**
-   * @member {boolean} [isCurrent] Indicates if API revision is current api
-   * revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isCurrent?: boolean;
-  /**
-   * @member {boolean} [isOnline] Indicates if API revision is accessible via
-   * the gateway.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isOnline?: boolean;
-  /**
-   * @member {string} [apiRevisionDescription] Description of the Api Revision.
-   */
-  apiRevisionDescription?: string;
-  /**
-   * @member {string} [apiVersionDescription] Description of the Api Version.
-   */
-  apiVersionDescription?: string;
-  /**
-   * @member {string} [apiVersionSetId] A resource identifier for the related
-   * ApiVersionSet.
-   */
-  apiVersionSetId?: string;
-  /**
-   * @member {string} [displayName] API name.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [serviceUrl] Absolute URL of the backend service
-   * implementing this API.
-   */
-  serviceUrl?: string;
-  /**
-   * @member {string} path Relative URL uniquely identifying this API and all
-   * of its resource paths within the API Management service instance. It is
-   * appended to the API endpoint base URL specified during the service
-   * instance creation to form a public URL for this API.
-   */
-  path: string;
-  /**
-   * @member {Protocol[]} [protocols] Describes on which protocols the
-   * operations in this API can be invoked.
-   */
-  protocols?: Protocol[];
-  /**
-   * @member {ApiVersionSetContractDetails} [apiVersionSet]
-   */
-  apiVersionSet?: ApiVersionSetContractDetails;
-  /**
-   * @member {string} [contentValue] Content value when Importing an API.
-   */
-  contentValue?: string;
-  /**
-   * @member {ContentFormat} [contentFormat] Format of the Content in which the
-   * API is getting imported. Possible values include: 'wadl-xml',
-   * 'wadl-link-json', 'swagger-json', 'swagger-link-json', 'wsdl', 'wsdl-link'
-   */
-  contentFormat?: ContentFormat;
-  /**
-   * @member {ApiCreateOrUpdatePropertiesWsdlSelector} [wsdlSelector] Criteria
-   * to limit import of WSDL to a subset of the document.
-   */
-  wsdlSelector?: ApiCreateOrUpdatePropertiesWsdlSelector;
-  /**
-   * @member {SoapApiType} [soapApiType] Type of Api to create.
-   * * `http` creates a SOAP to REST API
-   * * `soap` creates a SOAP pass-through API. Possible values include:
-   * 'SoapToRest', 'SoapPassThrough'
-   */
-  soapApiType?: SoapApiType;
-}
-
-/**
- * @interface
- * An interface representing ApiUpdateContract.
- * API update contract details.
- *
- */
-export interface ApiUpdateContract {
-  /**
-   * @member {string} [description] Description of the API. May include HTML
-   * formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {AuthenticationSettingsContract} [authenticationSettings]
-   * Collection of authentication settings included into this API.
-   */
-  authenticationSettings?: AuthenticationSettingsContract;
-  /**
-   * @member {SubscriptionKeyParameterNamesContract}
-   * [subscriptionKeyParameterNames] Protocols over which API is made
-   * available.
-   */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
-  /**
-   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
-   * 'soap'
-   */
-  apiType?: ApiType;
-  /**
-   * @member {string} [apiRevision] Describes the Revision of the Api. If no
-   * value is provided, default revision 1 is created
-   */
-  apiRevision?: string;
-  /**
-   * @member {string} [apiVersion] Indicates the Version identifier of the API
-   * if the API is versioned
-   */
-  apiVersion?: string;
-  /**
-   * @member {boolean} [isCurrent] Indicates if API revision is current api
-   * revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isCurrent?: boolean;
-  /**
-   * @member {boolean} [isOnline] Indicates if API revision is accessible via
-   * the gateway.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isOnline?: boolean;
-  /**
-   * @member {string} [apiRevisionDescription] Description of the Api Revision.
-   */
-  apiRevisionDescription?: string;
-  /**
-   * @member {string} [apiVersionDescription] Description of the Api Version.
-   */
-  apiVersionDescription?: string;
-  /**
-   * @member {string} [apiVersionSetId] A resource identifier for the related
-   * ApiVersionSet.
-   */
-  apiVersionSetId?: string;
-  /**
-   * @member {string} [displayName] API name.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [serviceUrl] Absolute URL of the backend service
-   * implementing this API.
-   */
-  serviceUrl?: string;
-  /**
-   * @member {string} [path] Relative URL uniquely identifying this API and all
-   * of its resource paths within the API Management service instance. It is
-   * appended to the API endpoint base URL specified during the service
-   * instance creation to form a public URL for this API.
-   */
-  path?: string;
-  /**
-   * @member {Protocol[]} [protocols] Describes on which protocols the
-   * operations in this API can be invoked.
-   */
-  protocols?: Protocol[];
-}
-
-/**
- * @interface
- * An interface representing OAuth2AuthenticationSettingsContract.
- * API OAuth2 Authentication settings details.
- *
- */
-export interface OAuth2AuthenticationSettingsContract {
-  /**
-   * @member {string} [authorizationServerId] OAuth authorization server
-   * identifier.
-   */
-  authorizationServerId?: string;
-  /**
-   * @member {string} [scope] operations scope.
-   */
-  scope?: string;
-}
-
-/**
- * @interface
- * An interface representing OpenIdAuthenticationSettingsContract.
- * API OAuth2 Authentication settings details.
- *
- */
-export interface OpenIdAuthenticationSettingsContract {
-  /**
-   * @member {string} [openidProviderId] OAuth authorization server identifier.
-   */
-  openidProviderId?: string;
-  /**
-   * @member {BearerTokenSendingMethods[]} [bearerTokenSendingMethods] How to
-   * send token to the server.
-   */
-  bearerTokenSendingMethods?: BearerTokenSendingMethods[];
-}
-
-/**
- * @interface
- * An interface representing AuthenticationSettingsContract.
- * API Authentication Settings.
- *
- */
-export interface AuthenticationSettingsContract {
-  /**
-   * @member {OAuth2AuthenticationSettingsContract} [oAuth2] OAuth2
-   * Authentication settings
-   */
-  oAuth2?: OAuth2AuthenticationSettingsContract;
-  /**
-   * @member {OpenIdAuthenticationSettingsContract} [openid] OpenID Connect
-   * Authentication Settings
-   */
-  openid?: OpenIdAuthenticationSettingsContract;
-  /**
-   * @member {boolean} [subscriptionKeyRequired] Specifies whether subscription
-   * key is required during call to this API, true - API is included into
-   * closed products only, false - API is included into open products alone,
-   * null - there is a mix of products.
-   */
-  subscriptionKeyRequired?: boolean;
-}
-
-/**
- * @interface
- * An interface representing SubscriptionKeyParameterNamesContract.
- * Subscription key parameter names details.
- *
- */
-export interface SubscriptionKeyParameterNamesContract {
-  /**
-   * @member {string} [header] Subscription key header name.
-   */
-  header?: string;
-  /**
-   * @member {string} [query] Subscription key query string parameter name.
-   */
-  query?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiRevisionContract.
- * Summary of revision metadata.
- *
- */
-export interface ApiRevisionContract {
-  /**
-   * @member {string} [apiId] Identifier of the API Revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly apiId?: string;
-  /**
-   * @member {string} [apiRevision] Revision number of API.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly apiRevision?: string;
-  /**
-   * @member {Date} [createdDateTime] The time the API Revision was created.
-   * The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as
-   * specified by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdDateTime?: Date;
-  /**
-   * @member {Date} [updatedDateTime] The time the API Revision were updated.
-   * The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as
-   * specified by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedDateTime?: Date;
-  /**
-   * @member {string} [description] Description of the API Revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly description?: string;
-  /**
-   * @member {string} [privateUrl] Gateway URL for accessing the non-current
-   * API Revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly privateUrl?: string;
-  /**
-   * @member {boolean} [isOnline] Indicates if API revision is the current api
-   * revision.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isOnline?: boolean;
-  /**
-   * @member {boolean} [isCurrent] Indicates if API revision is accessible via
-   * the gateway.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isCurrent?: boolean;
-}
-
-/**
- * @interface
- * An interface representing ApiRevisionInfoContract.
- * Object used to create an API Revision or Version based on an existing API
- * Revision
- *
- */
-export interface ApiRevisionInfoContract {
-  /**
-   * @member {string} [sourceApiId] Resource identifier of API to be used to
-   * create the revision from.
-   */
-  sourceApiId?: string;
-  /**
-   * @member {string} [apiVersionName] Version identifier for the new API
-   * Version.
-   */
-  apiVersionName?: string;
-  /**
-   * @member {string} [apiRevisionDescription] Description of new API Revision.
-   */
-  apiRevisionDescription?: string;
-  /**
-   * @member {ApiVersionSetContractDetails} [apiVersionSet] Version set details
-   */
-  apiVersionSet?: ApiVersionSetContractDetails;
-}
-
-/**
- * @interface
- * An interface representing ApiReleaseContract.
- * Api Release details.
- *
- * @extends Resource
- */
-export interface ApiReleaseContract extends Resource {
-  /**
-   * @member {string} [apiId] Identifier of the API the release belongs to.
-   */
-  apiId?: string;
-  /**
-   * @member {Date} [createdDateTime] The time the API was released. The date
-   * conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the
-   * ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdDateTime?: Date;
-  /**
-   * @member {Date} [updatedDateTime] The time the API release was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedDateTime?: Date;
-  /**
-   * @member {string} [notes] Release Notes
-   */
-  notes?: string;
-}
-
-/**
- * @interface
- * An interface representing OperationContract.
- * Api Operation details.
- *
- * @extends Resource
- */
-export interface OperationContract extends Resource {
-  /**
-   * @member {ParameterContract[]} [templateParameters] Collection of URL
-   * template parameters.
-   */
-  templateParameters?: ParameterContract[];
-  /**
-   * @member {string} [description] Description of the operation. May include
-   * HTML formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {RequestContract} [request] An entity containing request details.
-   */
-  request?: RequestContract;
-  /**
-   * @member {ResponseContract[]} [responses] Array of Operation responses.
-   */
-  responses?: ResponseContract[];
-  /**
-   * @member {string} [policies] Operation Policies
-   */
-  policies?: string;
-  /**
-   * @member {string} displayName Operation Name.
-   */
-  displayName: string;
-  /**
-   * @member {string} method A Valid HTTP Operation Method. Typical Http
-   * Methods like GET, PUT, POST but not limited by only them.
-   */
-  method: string;
-  /**
-   * @member {string} urlTemplate Relative URL template identifying the target
-   * resource for this operation. May include parameters. Example:
-   * /customers/{cid}/orders/{oid}/?date={date}
-   */
-  urlTemplate: string;
-}
-
-/**
- * @interface
- * An interface representing ParameterContract.
- * Operation parameters details.
- *
- */
-export interface ParameterContract {
-  /**
-   * @member {string} name Parameter name.
-   */
-  name: string;
-  /**
-   * @member {string} [description] Parameter description.
-   */
-  description?: string;
-  /**
-   * @member {string} type Parameter type.
-   */
-  type: string;
-  /**
-   * @member {string} [defaultValue] Default parameter value.
-   */
-  defaultValue?: string;
-  /**
-   * @member {boolean} [required] whether parameter is required or not.
-   */
-  required?: boolean;
-  /**
-   * @member {string[]} [values] Parameter values.
-   */
-  values?: string[];
-}
-
-/**
- * @interface
- * An interface representing RepresentationContract.
- * Operation request/response representation details.
- *
- */
-export interface RepresentationContract {
-  /**
-   * @member {string} contentType Specifies a registered or custom content type
-   * for this representation, e.g. application/xml.
-   */
-  contentType: string;
-  /**
-   * @member {string} [sample] An example of the representation.
-   */
-  sample?: string;
-  /**
-   * @member {string} [schemaId] Schema identifier. Applicable only if
-   * 'contentType' value is neither 'application/x-www-form-urlencoded' nor
-   * 'multipart/form-data'.
-   */
-  schemaId?: string;
-  /**
-   * @member {string} [typeName] Type name defined by the schema. Applicable
-   * only if 'contentType' value is neither 'application/x-www-form-urlencoded'
-   * nor 'multipart/form-data'.
-   */
-  typeName?: string;
-  /**
-   * @member {ParameterContract[]} [formParameters] Collection of form
-   * parameters. Required if 'contentType' value is either
-   * 'application/x-www-form-urlencoded' or 'multipart/form-data'..
-   */
-  formParameters?: ParameterContract[];
-}
-
-/**
- * @interface
- * An interface representing RequestContract.
- * Operation request details.
- *
- */
-export interface RequestContract {
-  /**
-   * @member {string} [description] Operation request description.
-   */
-  description?: string;
-  /**
-   * @member {ParameterContract[]} [queryParameters] Collection of operation
-   * request query parameters.
-   */
-  queryParameters?: ParameterContract[];
-  /**
-   * @member {ParameterContract[]} [headers] Collection of operation request
-   * headers.
-   */
-  headers?: ParameterContract[];
-  /**
-   * @member {RepresentationContract[]} [representations] Collection of
-   * operation request representations.
-   */
-  representations?: RepresentationContract[];
-}
-
-/**
- * @interface
- * An interface representing ResponseContract.
- * Operation response details.
- *
- */
-export interface ResponseContract {
-  /**
-   * @member {number} statusCode Operation response HTTP status code.
-   */
-  statusCode: number;
-  /**
-   * @member {string} [description] Operation response description.
-   */
-  description?: string;
-  /**
-   * @member {RepresentationContract[]} [representations] Collection of
-   * operation response representations.
-   */
-  representations?: RepresentationContract[];
-  /**
-   * @member {ParameterContract[]} [headers] Collection of operation response
-   * headers.
-   */
-  headers?: ParameterContract[];
-}
-
-/**
- * @interface
- * An interface representing OperationEntityBaseContract.
- * Api Operation Entity Base Contract details.
- *
- */
-export interface OperationEntityBaseContract {
-  /**
-   * @member {ParameterContract[]} [templateParameters] Collection of URL
-   * template parameters.
-   */
-  templateParameters?: ParameterContract[];
-  /**
-   * @member {string} [description] Description of the operation. May include
-   * HTML formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {RequestContract} [request] An entity containing request details.
-   */
-  request?: RequestContract;
-  /**
-   * @member {ResponseContract[]} [responses] Array of Operation responses.
-   */
-  responses?: ResponseContract[];
-  /**
-   * @member {string} [policies] Operation Policies
-   */
-  policies?: string;
-}
-
-/**
- * @interface
- * An interface representing OperationUpdateContract.
- * Api Operation Update Contract details.
- *
- */
-export interface OperationUpdateContract {
-  /**
-   * @member {ParameterContract[]} [templateParameters] Collection of URL
-   * template parameters.
-   */
-  templateParameters?: ParameterContract[];
-  /**
-   * @member {string} [description] Description of the operation. May include
-   * HTML formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {RequestContract} [request] An entity containing request details.
-   */
-  request?: RequestContract;
-  /**
-   * @member {ResponseContract[]} [responses] Array of Operation responses.
-   */
-  responses?: ResponseContract[];
-  /**
-   * @member {string} [policies] Operation Policies
-   */
-  policies?: string;
-  /**
-   * @member {string} [displayName] Operation Name.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [method] A Valid HTTP Operation Method. Typical Http
-   * Methods like GET, PUT, POST but not limited by only them.
-   */
-  method?: string;
-  /**
-   * @member {string} [urlTemplate] Relative URL template identifying the
-   * target resource for this operation. May include parameters. Example:
-   * /customers/{cid}/orders/{oid}/?date={date}
-   */
-  urlTemplate?: string;
-}
-
-/**
- * @interface
- * An interface representing SchemaContract.
- * Schema Contract details.
- *
- * @extends Resource
- */
-export interface SchemaContract extends Resource {
-  /**
-   * @member {string} contentType Must be a valid a media type used in a
-   * Content-Type header as defined in the RFC 2616. Media type of the schema
-   * document (e.g. application/json, application/xml).
-   */
-  contentType: string;
-  /**
-   * @member {string} [value] Json escaped string defining the document
-   * representing the Schema.
-   */
-  value?: string;
-}
-
-/**
- * @interface
- * An interface representing IssueContract.
- * Issue Contract details.
- *
- * @extends Resource
- */
-export interface IssueContract extends Resource {
-  /**
-   * @member {Date} [createdDate] Date and time when the issue was created.
-   */
-  createdDate?: Date;
-  /**
-   * @member {State} [state] Status of the issue. Possible values include:
-   * 'proposed', 'open', 'removed', 'resolved', 'closed'
-   */
-  state?: State;
-  /**
-   * @member {string} [apiId] A resource identifier for the API the issue was
-   * created for.
-   */
-  apiId?: string;
-  /**
-   * @member {string} title The issue title.
-   */
-  title: string;
-  /**
-   * @member {string} description Text describing the issue.
-   */
-  description: string;
-  /**
-   * @member {string} userId A resource identifier for the user created the
-   * issue.
-   */
-  userId: string;
-}
-
-/**
- * @interface
- * An interface representing IssueUpdateContract.
- * Issue update Parameters.
- *
- */
-export interface IssueUpdateContract {
-  /**
-   * @member {Date} [createdDate] Date and time when the issue was created.
-   */
-  createdDate?: Date;
-  /**
-   * @member {State} [state] Status of the issue. Possible values include:
-   * 'proposed', 'open', 'removed', 'resolved', 'closed'
-   */
-  state?: State;
-  /**
-   * @member {string} [apiId] A resource identifier for the API the issue was
-   * created for.
-   */
-  apiId?: string;
-  /**
-   * @member {string} [title] The issue title.
-   */
-  title?: string;
-  /**
-   * @member {string} [description] Text describing the issue.
-   */
-  description?: string;
-  /**
-   * @member {string} [userId] A resource identifier for the user created the
-   * issue.
-   */
-  userId?: string;
-}
-
-/**
- * @interface
- * An interface representing IssueContractBaseProperties.
- * Issue contract Base Properties.
- *
- */
-export interface IssueContractBaseProperties {
-  /**
-   * @member {Date} [createdDate] Date and time when the issue was created.
-   */
-  createdDate?: Date;
-  /**
-   * @member {State} [state] Status of the issue. Possible values include:
-   * 'proposed', 'open', 'removed', 'resolved', 'closed'
-   */
-  state?: State;
-  /**
-   * @member {string} [apiId] A resource identifier for the API the issue was
-   * created for.
-   */
-  apiId?: string;
-}
-
-/**
- * @interface
- * An interface representing IssueCommentContract.
- * Issue Comment Contract details.
- *
- * @extends Resource
- */
-export interface IssueCommentContract extends Resource {
-  /**
-   * @member {string} text Comment text.
-   */
-  text: string;
-  /**
-   * @member {Date} [createdDate] Date and time when the comment was created.
-   */
-  createdDate?: Date;
-  /**
-   * @member {string} userId A resource identifier for the user who left the
-   * comment.
-   */
-  userId: string;
-}
-
-/**
- * @interface
- * An interface representing IssueAttachmentContract.
- * Issue Attachment Contract details.
- *
- * @extends Resource
- */
-export interface IssueAttachmentContract extends Resource {
-  /**
-   * @member {string} title Filename by which the binary data will be saved.
-   */
-  title: string;
-  /**
-   * @member {string} contentFormat Either 'link' if content is provided via an
-   * HTTP link or the MIME type of the Base64-encoded binary data provided in
-   * the 'content' property.
-   */
-  contentFormat: string;
-  /**
-   * @member {string} content An HTTP link or Base64-encoded binary data.
-   */
-  content: string;
-}
-
-/**
- * @interface
- * An interface representing LoggerContract.
- * Logger details.
- *
- * @extends Resource
- */
-export interface LoggerContract extends Resource {
-  /**
-   * @member {LoggerType} loggerType Logger type. Possible values include:
-   * 'azureEventHub', 'applicationInsights'
-   */
-  loggerType: LoggerType;
-  /**
-   * @member {string} [description] Logger description.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} credentials The name and
-   * SendRule connection string of the event hub for azureEventHub logger.
-   * Instrumentation key for applicationInsights logger.
-   */
-  credentials: { [propertyName: string]: string };
-  /**
-   * @member {boolean} [isBuffered] Whether records are buffered in the logger
-   * before publishing. Default is assumed to be true.
-   */
-  isBuffered?: boolean;
-}
-
-/**
- * @interface
- * An interface representing DiagnosticContract.
- * Diagnostic details.
- *
- * @extends Resource
- */
-export interface DiagnosticContract extends Resource {
-  /**
-   * @member {boolean} enabled Indicates whether a diagnostic should receive
-   * data or not.
-   */
-  enabled: boolean;
 }
 
 /**
@@ -1371,9 +177,9 @@ export interface ProductEntityBaseParameters {
   subscriptionRequired?: boolean;
   /**
    * @member {boolean} [approvalRequired] whether subscription approval is
-   * required. If false, new subscriptions will be approved automatically
+   * required. If false, new subscriptions will be approved automatically
    * enabling developers to call the product’s APIs immediately after
-   * subscribing. If true, administrators must manually approve the
+   * subscribing. If true, administrators must manually approve the
    * subscription before the developer can any of the product’s APIs. Can be
    * present only if subscriptionRequired property is present and has a value
    * of false.
@@ -1381,7 +187,7 @@ export interface ProductEntityBaseParameters {
   approvalRequired?: boolean;
   /**
    * @member {number} [subscriptionsLimit] Whether the number of subscriptions
-   * a user can have to this product at the same time. Set to null or omit to
+   * a user can have to this product at the same time. Set to null or omit to
    * allow unlimited per user subscriptions. Can be present only if
    * subscriptionRequired property is present and has a value of false.
    */
@@ -1476,6 +282,247 @@ export interface OperationTagResourceContractProperties {
 
 /**
  * @interface
+ * An interface representing SubscriptionKeyParameterNamesContract.
+ * Subscription key parameter names details.
+ *
+ */
+export interface SubscriptionKeyParameterNamesContract {
+  /**
+   * @member {string} [header] Subscription key header name.
+   */
+  header?: string;
+  /**
+   * @member {string} [query] Subscription key query string parameter name.
+   */
+  query?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OpenIdAuthenticationSettingsContract.
+ * API OAuth2 Authentication settings details.
+ *
+ */
+export interface OpenIdAuthenticationSettingsContract {
+  /**
+   * @member {string} [openidProviderId] OAuth authorization server identifier.
+   */
+  openidProviderId?: string;
+  /**
+   * @member {BearerTokenSendingMethods[]} [bearerTokenSendingMethods] How to
+   * send token to the server.
+   */
+  bearerTokenSendingMethods?: BearerTokenSendingMethods[];
+}
+
+/**
+ * @interface
+ * An interface representing OAuth2AuthenticationSettingsContract.
+ * API OAuth2 Authentication settings details.
+ *
+ */
+export interface OAuth2AuthenticationSettingsContract {
+  /**
+   * @member {string} [authorizationServerId] OAuth authorization server
+   * identifier.
+   */
+  authorizationServerId?: string;
+  /**
+   * @member {string} [scope] operations scope.
+   */
+  scope?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AuthenticationSettingsContract.
+ * API Authentication Settings.
+ *
+ */
+export interface AuthenticationSettingsContract {
+  /**
+   * @member {OAuth2AuthenticationSettingsContract} [oAuth2] OAuth2
+   * Authentication settings
+   */
+  oAuth2?: OAuth2AuthenticationSettingsContract;
+  /**
+   * @member {OpenIdAuthenticationSettingsContract} [openid] OpenID Connect
+   * Authentication Settings
+   */
+  openid?: OpenIdAuthenticationSettingsContract;
+  /**
+   * @member {boolean} [subscriptionKeyRequired] Specifies whether subscription
+   * key is required during call to this API, true - API is included into
+   * closed products only, false - API is included into open products alone,
+   * null - there is a mix of products.
+   */
+  subscriptionKeyRequired?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetContractDetails.
+ * An API Version Set contains the common configuration for a set of API
+ * Versions relating
+ *
+ */
+export interface ApiVersionSetContractDetails {
+  /**
+   * @member {string} [id] Identifier for existing API Version Set. Omit this
+   * value to create a new Version Set.
+   */
+  id?: string;
+  /**
+   * @member {string} [description] Description of API Version Set.
+   */
+  description?: string;
+  /**
+   * @member {VersioningScheme1} [versioningScheme] An value that determines
+   * where the API Version identifer will be located in a HTTP request.
+   * Possible values include: 'Segment', 'Query', 'Header'
+   */
+  versioningScheme?: VersioningScheme1;
+  /**
+   * @member {string} [versionQueryName] Name of query parameter that indicates
+   * the API Version if versioningScheme is set to `query`.
+   */
+  versionQueryName?: string;
+  /**
+   * @member {string} [versionHeaderName] Name of HTTP header parameter that
+   * indicates the API Version if versioningScheme is set to `header`.
+   */
+  versionHeaderName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiCreateOrUpdatePropertiesWsdlSelector.
+ * Criteria to limit import of WSDL to a subset of the document.
+ *
+ */
+export interface ApiCreateOrUpdatePropertiesWsdlSelector {
+  /**
+   * @member {string} [wsdlServiceName] Name of service to import from WSDL
+   */
+  wsdlServiceName?: string;
+  /**
+   * @member {string} [wsdlEndpointName] Name of endpoint(port) to import from
+   * WSDL
+   */
+  wsdlEndpointName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiEntityBaseContract.
+ * API base contract details.
+ *
+ */
+export interface ApiEntityBaseContract {
+  /**
+   * @member {string} [description] Description of the API. May include HTML
+   * formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {AuthenticationSettingsContract} [authenticationSettings]
+   * Collection of authentication settings included into this API.
+   */
+  authenticationSettings?: AuthenticationSettingsContract;
+  /**
+   * @member {SubscriptionKeyParameterNamesContract}
+   * [subscriptionKeyParameterNames] Protocols over which API is made
+   * available.
+   */
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  /**
+   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
+   * 'soap'
+   */
+  apiType?: ApiType;
+  /**
+   * @member {string} [apiRevision] Describes the Revision of the Api. If no
+   * value is provided, default revision 1 is created
+   */
+  apiRevision?: string;
+  /**
+   * @member {string} [apiVersion] Indicates the Version identifier of the API
+   * if the API is versioned
+   */
+  apiVersion?: string;
+  /**
+   * @member {boolean} [isCurrent] Indicates if API revision is current api
+   * revision.
+   */
+  isCurrent?: boolean;
+  /**
+   * @member {boolean} [isOnline] Indicates if API revision is accessible via
+   * the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isOnline?: boolean;
+  /**
+   * @member {string} [apiRevisionDescription] Description of the Api Revision.
+   */
+  apiRevisionDescription?: string;
+  /**
+   * @member {string} [apiVersionDescription] Description of the Api Version.
+   */
+  apiVersionDescription?: string;
+  /**
+   * @member {string} [apiVersionSetId] A resource identifier for the related
+   * ApiVersionSet.
+   */
+  apiVersionSetId?: string;
+  /**
+   * @member {boolean} [subscriptionRequired] Specifies whether an API or
+   * Product subscription is required for accessing the API.
+   */
+  subscriptionRequired?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ApiContractProperties.
+ * Api Entity Properties
+ *
+ * @extends ApiEntityBaseContract
+ */
+export interface ApiContractProperties extends ApiEntityBaseContract {
+  /**
+   * @member {string} [sourceApiId] API identifier of the source API.
+   */
+  sourceApiId?: string;
+  /**
+   * @member {string} [displayName] API name. Must be 1 to 300 characters long.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [serviceUrl] Absolute URL of the backend service
+   * implementing this API. Cannot be more than 2000 characters long.
+   */
+  serviceUrl?: string;
+  /**
+   * @member {string} path Relative URL uniquely identifying this API and all
+   * of its resource paths within the API Management service instance. It is
+   * appended to the API endpoint base URL specified during the service
+   * instance creation to form a public URL for this API.
+   */
+  path: string;
+  /**
+   * @member {Protocol[]} [protocols] Describes on which protocols the
+   * operations in this API can be invoked.
+   */
+  protocols?: Protocol[];
+  /**
+   * @member {ApiVersionSetContractDetails} [apiVersionSet] Version set details
+   */
+  apiVersionSet?: ApiVersionSetContractDetails;
+}
+
+/**
+ * @interface
  * An interface representing ApiTagResourceContractProperties.
  * API contract properties for the Tag Resources.
  *
@@ -1557,6 +604,377 @@ export interface TagResourceContract {
 
 /**
  * @interface
+ * An interface representing TagContract.
+ * Tag Contract details.
+ *
+ * @extends Resource
+ */
+export interface TagContract extends Resource {
+  /**
+   * @member {string} displayName Tag name.
+   */
+  displayName: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagDescriptionContract.
+ * Contract details.
+ *
+ * @extends Resource
+ */
+export interface TagDescriptionContract extends Resource {
+  /**
+   * @member {string} [description] Description of the Tag.
+   */
+  description?: string;
+  /**
+   * @member {string} [externalDocsUrl] Absolute URL of external resources
+   * describing the tag.
+   */
+  externalDocsUrl?: string;
+  /**
+   * @member {string} [externalDocsDescription] Description of the external
+   * resources describing the tag.
+   */
+  externalDocsDescription?: string;
+  /**
+   * @member {string} [displayName] Tag name.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagDescriptionCreateParameters.
+ * Parameters supplied to the Create TagDescription operation.
+ *
+ */
+export interface TagDescriptionCreateParameters {
+  /**
+   * @member {string} [description] Description of the Tag.
+   */
+  description?: string;
+  /**
+   * @member {string} [externalDocsUrl] Absolute URL of external resources
+   * describing the tag.
+   */
+  externalDocsUrl?: string;
+  /**
+   * @member {string} [externalDocsDescription] Description of the external
+   * resources describing the tag.
+   */
+  externalDocsDescription?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueAttachmentContract.
+ * Issue Attachment Contract details.
+ *
+ * @extends Resource
+ */
+export interface IssueAttachmentContract extends Resource {
+  /**
+   * @member {string} title Filename by which the binary data will be saved.
+   */
+  title: string;
+  /**
+   * @member {string} contentFormat Either 'link' if content is provided via an
+   * HTTP link or the MIME type of the Base64-encoded binary data provided in
+   * the 'content' property.
+   */
+  contentFormat: string;
+  /**
+   * @member {string} content An HTTP link or Base64-encoded binary data.
+   */
+  content: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueCommentContract.
+ * Issue Comment Contract details.
+ *
+ * @extends Resource
+ */
+export interface IssueCommentContract extends Resource {
+  /**
+   * @member {string} text Comment text.
+   */
+  text: string;
+  /**
+   * @member {Date} [createdDate] Date and time when the comment was created.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} userId A resource identifier for the user who left the
+   * comment.
+   */
+  userId: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueContractBaseProperties.
+ * Issue contract Base Properties.
+ *
+ */
+export interface IssueContractBaseProperties {
+  /**
+   * @member {Date} [createdDate] Date and time when the issue was created.
+   */
+  createdDate?: Date;
+  /**
+   * @member {State} [state] Status of the issue. Possible values include:
+   * 'proposed', 'open', 'removed', 'resolved', 'closed'
+   */
+  state?: State;
+  /**
+   * @member {string} [apiId] A resource identifier for the API the issue was
+   * created for.
+   */
+  apiId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueUpdateContract.
+ * Issue update Parameters.
+ *
+ */
+export interface IssueUpdateContract {
+  /**
+   * @member {Date} [createdDate] Date and time when the issue was created.
+   */
+  createdDate?: Date;
+  /**
+   * @member {State} [state] Status of the issue. Possible values include:
+   * 'proposed', 'open', 'removed', 'resolved', 'closed'
+   */
+  state?: State;
+  /**
+   * @member {string} [apiId] A resource identifier for the API the issue was
+   * created for.
+   */
+  apiId?: string;
+  /**
+   * @member {string} [title] The issue title.
+   */
+  title?: string;
+  /**
+   * @member {string} [description] Text describing the issue.
+   */
+  description?: string;
+  /**
+   * @member {string} [userId] A resource identifier for the user created the
+   * issue.
+   */
+  userId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueContract.
+ * Issue Contract details.
+ *
+ * @extends Resource
+ */
+export interface IssueContract extends Resource {
+  /**
+   * @member {Date} [createdDate] Date and time when the issue was created.
+   */
+  createdDate?: Date;
+  /**
+   * @member {State} [state] Status of the issue. Possible values include:
+   * 'proposed', 'open', 'removed', 'resolved', 'closed'
+   */
+  state?: State;
+  /**
+   * @member {string} [apiId] A resource identifier for the API the issue was
+   * created for.
+   */
+  apiId?: string;
+  /**
+   * @member {string} title The issue title.
+   */
+  title: string;
+  /**
+   * @member {string} description Text describing the issue.
+   */
+  description: string;
+  /**
+   * @member {string} userId A resource identifier for the user created the
+   * issue.
+   */
+  userId: string;
+}
+
+/**
+ * @interface
+ * An interface representing BodyDiagnosticSettings.
+ * Body logging settings.
+ *
+ */
+export interface BodyDiagnosticSettings {
+  /**
+   * @member {number} [bytes] Number of request body bytes to log.
+   */
+  bytes?: number;
+}
+
+/**
+ * @interface
+ * An interface representing HttpMessageDiagnostic.
+ * Http message diagnostic settings.
+ *
+ */
+export interface HttpMessageDiagnostic {
+  /**
+   * @member {string[]} [headers] Array of HTTP Headers to log.
+   */
+  headers?: string[];
+  /**
+   * @member {BodyDiagnosticSettings} [body] Body logging settings.
+   */
+  body?: BodyDiagnosticSettings;
+}
+
+/**
+ * @interface
+ * An interface representing PipelineDiagnosticSettings.
+ * Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.
+ *
+ */
+export interface PipelineDiagnosticSettings {
+  /**
+   * @member {HttpMessageDiagnostic} [request] Diagnostic settings for request.
+   */
+  request?: HttpMessageDiagnostic;
+  /**
+   * @member {HttpMessageDiagnostic} [response] Diagnostic settings for
+   * response.
+   */
+  response?: HttpMessageDiagnostic;
+}
+
+/**
+ * @interface
+ * An interface representing SamplingSettings.
+ * Sampling settings for Diagnostic.
+ *
+ */
+export interface SamplingSettings {
+  /**
+   * @member {SamplingType} [samplingType] Sampling type. Possible values
+   * include: 'fixed'
+   */
+  samplingType?: SamplingType;
+  /**
+   * @member {number} [percentage] Rate of sampling for fixed-rate sampling.
+   */
+  percentage?: number;
+}
+
+/**
+ * @interface
+ * An interface representing DiagnosticContract.
+ * Diagnostic details.
+ *
+ * @extends Resource
+ */
+export interface DiagnosticContract extends Resource {
+  /**
+   * @member {AlwaysLog} [alwaysLog] Specifies for what type of messages
+   * sampling settings should not apply. Possible values include: 'allErrors'
+   */
+  alwaysLog?: AlwaysLog;
+  /**
+   * @member {string} loggerId Resource Id of a target logger.
+   */
+  loggerId: string;
+  /**
+   * @member {SamplingSettings} [sampling] Sampling settings for Diagnostic.
+   */
+  sampling?: SamplingSettings;
+  /**
+   * @member {PipelineDiagnosticSettings} [frontend] Diagnostic settings for
+   * incoming/outgoing HTTP messages to the Gateway.
+   */
+  frontend?: PipelineDiagnosticSettings;
+  /**
+   * @member {PipelineDiagnosticSettings} [backend] Diagnostic settings for
+   * incoming/outgoing HTTP messages to the Backend
+   */
+  backend?: PipelineDiagnosticSettings;
+  /**
+   * @member {boolean} [enableHttpCorrelationHeaders] Whether to process
+   * Correlation Headers coming to Api Management Service. Only applicable to
+   * Application Insights diagnostics. Default is true.
+   */
+  enableHttpCorrelationHeaders?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing SchemaContract.
+ * Schema Contract details.
+ *
+ * @extends Resource
+ */
+export interface SchemaContract extends Resource {
+  /**
+   * @member {string} contentType Must be a valid a media type used in a
+   * Content-Type header as defined in the RFC 2616. Media type of the schema
+   * document (e.g. application/json, application/xml).
+   */
+  contentType: string;
+  /**
+   * @member {string} [value] Json escaped string defining the document
+   * representing the Schema.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyContract.
+ * Policy Contract details.
+ *
+ * @extends Resource
+ */
+export interface PolicyContract extends Resource {
+  /**
+   * @member {string} value Contents of the Policy as defined by the format.
+   */
+  value: string;
+  /**
+   * @member {PolicyContentFormat} [format] Format of the policyContent.
+   * Possible values include: 'xml', 'xml-link', 'rawxml', 'rawxml-link'.
+   * Default value: 'xml' .
+   */
+  format?: PolicyContentFormat;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyCollection.
+ * The response of the list policy operation.
+ *
+ */
+export interface PolicyCollection {
+  /**
+   * @member {PolicyContract[]} [value] Policy Contract value.
+   */
+  value?: PolicyContract[];
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing ProductContract.
  * Product details.
  *
@@ -1586,9 +1004,9 @@ export interface ProductContract extends Resource {
   subscriptionRequired?: boolean;
   /**
    * @member {boolean} [approvalRequired] whether subscription approval is
-   * required. If false, new subscriptions will be approved automatically
+   * required. If false, new subscriptions will be approved automatically
    * enabling developers to call the product’s APIs immediately after
-   * subscribing. If true, administrators must manually approve the
+   * subscribing. If true, administrators must manually approve the
    * subscription before the developer can any of the product’s APIs. Can be
    * present only if subscriptionRequired property is present and has a value
    * of false.
@@ -1596,7 +1014,7 @@ export interface ProductContract extends Resource {
   approvalRequired?: boolean;
   /**
    * @member {number} [subscriptionsLimit] Whether the number of subscriptions
-   * a user can have to this product at the same time. Set to null or omit to
+   * a user can have to this product at the same time. Set to null or omit to
    * allow unlimited per user subscriptions. Can be present only if
    * subscriptionRequired property is present and has a value of false.
    */
@@ -1617,12 +1035,776 @@ export interface ProductContract extends Resource {
 
 /**
  * @interface
- * An interface representing AuthorizationServerContract.
- * External OAuth authorization server settings.
+ * An interface representing ParameterContract.
+ * Operation parameters details.
+ *
+ */
+export interface ParameterContract {
+  /**
+   * @member {string} name Parameter name.
+   */
+  name: string;
+  /**
+   * @member {string} [description] Parameter description.
+   */
+  description?: string;
+  /**
+   * @member {string} type Parameter type.
+   */
+  type: string;
+  /**
+   * @member {string} [defaultValue] Default parameter value.
+   */
+  defaultValue?: string;
+  /**
+   * @member {boolean} [required] Specifies whether parameter is required or
+   * not.
+   */
+  required?: boolean;
+  /**
+   * @member {string[]} [values] Parameter values.
+   */
+  values?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing RepresentationContract.
+ * Operation request/response representation details.
+ *
+ */
+export interface RepresentationContract {
+  /**
+   * @member {string} contentType Specifies a registered or custom content type
+   * for this representation, e.g. application/xml.
+   */
+  contentType: string;
+  /**
+   * @member {string} [sample] An example of the representation.
+   */
+  sample?: string;
+  /**
+   * @member {string} [schemaId] Schema identifier. Applicable only if
+   * 'contentType' value is neither 'application/x-www-form-urlencoded' nor
+   * 'multipart/form-data'.
+   */
+  schemaId?: string;
+  /**
+   * @member {string} [typeName] Type name defined by the schema. Applicable
+   * only if 'contentType' value is neither 'application/x-www-form-urlencoded'
+   * nor 'multipart/form-data'.
+   */
+  typeName?: string;
+  /**
+   * @member {ParameterContract[]} [formParameters] Collection of form
+   * parameters. Required if 'contentType' value is either
+   * 'application/x-www-form-urlencoded' or 'multipart/form-data'..
+   */
+  formParameters?: ParameterContract[];
+}
+
+/**
+ * @interface
+ * An interface representing ResponseContract.
+ * Operation response details.
+ *
+ */
+export interface ResponseContract {
+  /**
+   * @member {number} statusCode Operation response HTTP status code.
+   */
+  statusCode: number;
+  /**
+   * @member {string} [description] Operation response description.
+   */
+  description?: string;
+  /**
+   * @member {RepresentationContract[]} [representations] Collection of
+   * operation response representations.
+   */
+  representations?: RepresentationContract[];
+  /**
+   * @member {ParameterContract[]} [headers] Collection of operation response
+   * headers.
+   */
+  headers?: ParameterContract[];
+}
+
+/**
+ * @interface
+ * An interface representing RequestContract.
+ * Operation request details.
+ *
+ */
+export interface RequestContract {
+  /**
+   * @member {string} [description] Operation request description.
+   */
+  description?: string;
+  /**
+   * @member {ParameterContract[]} [queryParameters] Collection of operation
+   * request query parameters.
+   */
+  queryParameters?: ParameterContract[];
+  /**
+   * @member {ParameterContract[]} [headers] Collection of operation request
+   * headers.
+   */
+  headers?: ParameterContract[];
+  /**
+   * @member {RepresentationContract[]} [representations] Collection of
+   * operation request representations.
+   */
+  representations?: RepresentationContract[];
+}
+
+/**
+ * @interface
+ * An interface representing OperationEntityBaseContract.
+ * Api Operation Entity Base Contract details.
+ *
+ */
+export interface OperationEntityBaseContract {
+  /**
+   * @member {ParameterContract[]} [templateParameters] Collection of URL
+   * template parameters.
+   */
+  templateParameters?: ParameterContract[];
+  /**
+   * @member {string} [description] Description of the operation. May include
+   * HTML formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {RequestContract} [request] An entity containing request details.
+   */
+  request?: RequestContract;
+  /**
+   * @member {ResponseContract[]} [responses] Array of Operation responses.
+   */
+  responses?: ResponseContract[];
+  /**
+   * @member {string} [policies] Operation Policies
+   */
+  policies?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationUpdateContract.
+ * Api Operation Update Contract details.
+ *
+ */
+export interface OperationUpdateContract {
+  /**
+   * @member {ParameterContract[]} [templateParameters] Collection of URL
+   * template parameters.
+   */
+  templateParameters?: ParameterContract[];
+  /**
+   * @member {string} [description] Description of the operation. May include
+   * HTML formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {RequestContract} [request] An entity containing request details.
+   */
+  request?: RequestContract;
+  /**
+   * @member {ResponseContract[]} [responses] Array of Operation responses.
+   */
+  responses?: ResponseContract[];
+  /**
+   * @member {string} [policies] Operation Policies
+   */
+  policies?: string;
+  /**
+   * @member {string} [displayName] Operation Name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [method] A Valid HTTP Operation Method. Typical Http
+   * Methods like GET, PUT, POST but not limited by only them.
+   */
+  method?: string;
+  /**
+   * @member {string} [urlTemplate] Relative URL template identifying the
+   * target resource for this operation. May include parameters. Example:
+   * /customers/{cid}/orders/{oid}/?date={date}
+   */
+  urlTemplate?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationContract.
+ * Api Operation details.
  *
  * @extends Resource
  */
-export interface AuthorizationServerContract extends Resource {
+export interface OperationContract extends Resource {
+  /**
+   * @member {ParameterContract[]} [templateParameters] Collection of URL
+   * template parameters.
+   */
+  templateParameters?: ParameterContract[];
+  /**
+   * @member {string} [description] Description of the operation. May include
+   * HTML formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {RequestContract} [request] An entity containing request details.
+   */
+  request?: RequestContract;
+  /**
+   * @member {ResponseContract[]} [responses] Array of Operation responses.
+   */
+  responses?: ResponseContract[];
+  /**
+   * @member {string} [policies] Operation Policies
+   */
+  policies?: string;
+  /**
+   * @member {string} displayName Operation Name.
+   */
+  displayName: string;
+  /**
+   * @member {string} method A Valid HTTP Operation Method. Typical Http
+   * Methods like GET, PUT, POST but not limited by only them.
+   */
+  method: string;
+  /**
+   * @member {string} urlTemplate Relative URL template identifying the target
+   * resource for this operation. May include parameters. Example:
+   * /customers/{cid}/orders/{oid}/?date={date}
+   */
+  urlTemplate: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiReleaseContract.
+ * ApiRelease details.
+ *
+ * @extends Resource
+ */
+export interface ApiReleaseContract extends Resource {
+  /**
+   * @member {string} [apiId] Identifier of the API the release belongs to.
+   */
+  apiId?: string;
+  /**
+   * @member {Date} [createdDateTime] The time the API was released. The date
+   * conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the
+   * ISO 8601 standard.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDateTime?: Date;
+  /**
+   * @member {Date} [updatedDateTime] The time the API release was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedDateTime?: Date;
+  /**
+   * @member {string} [notes] Release Notes
+   */
+  notes?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiRevisionContract.
+ * Summary of revision metadata.
+ *
+ */
+export interface ApiRevisionContract {
+  /**
+   * @member {string} [apiId] Identifier of the API Revision.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly apiId?: string;
+  /**
+   * @member {string} [apiRevision] Revision number of API.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly apiRevision?: string;
+  /**
+   * @member {Date} [createdDateTime] The time the API Revision was created.
+   * The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as
+   * specified by the ISO 8601 standard.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDateTime?: Date;
+  /**
+   * @member {Date} [updatedDateTime] The time the API Revision were updated.
+   * The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as
+   * specified by the ISO 8601 standard.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedDateTime?: Date;
+  /**
+   * @member {string} [description] Description of the API Revision.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [privateUrl] Gateway URL for accessing the non-current
+   * API Revision.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly privateUrl?: string;
+  /**
+   * @member {boolean} [isOnline] Indicates if API revision is the current api
+   * revision.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isOnline?: boolean;
+  /**
+   * @member {boolean} [isCurrent] Indicates if API revision is accessible via
+   * the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isCurrent?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ApiUpdateContract.
+ * API update contract details.
+ *
+ */
+export interface ApiUpdateContract {
+  /**
+   * @member {string} [description] Description of the API. May include HTML
+   * formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {AuthenticationSettingsContract} [authenticationSettings]
+   * Collection of authentication settings included into this API.
+   */
+  authenticationSettings?: AuthenticationSettingsContract;
+  /**
+   * @member {SubscriptionKeyParameterNamesContract}
+   * [subscriptionKeyParameterNames] Protocols over which API is made
+   * available.
+   */
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  /**
+   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
+   * 'soap'
+   */
+  apiType?: ApiType;
+  /**
+   * @member {string} [apiRevision] Describes the Revision of the Api. If no
+   * value is provided, default revision 1 is created
+   */
+  apiRevision?: string;
+  /**
+   * @member {string} [apiVersion] Indicates the Version identifier of the API
+   * if the API is versioned
+   */
+  apiVersion?: string;
+  /**
+   * @member {boolean} [isCurrent] Indicates if API revision is current api
+   * revision.
+   */
+  isCurrent?: boolean;
+  /**
+   * @member {boolean} [isOnline] Indicates if API revision is accessible via
+   * the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isOnline?: boolean;
+  /**
+   * @member {string} [apiRevisionDescription] Description of the Api Revision.
+   */
+  apiRevisionDescription?: string;
+  /**
+   * @member {string} [apiVersionDescription] Description of the Api Version.
+   */
+  apiVersionDescription?: string;
+  /**
+   * @member {string} [apiVersionSetId] A resource identifier for the related
+   * ApiVersionSet.
+   */
+  apiVersionSetId?: string;
+  /**
+   * @member {boolean} [subscriptionRequired] Specifies whether an API or
+   * Product subscription is required for accessing the API.
+   */
+  subscriptionRequired?: boolean;
+  /**
+   * @member {string} [displayName] API name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [serviceUrl] Absolute URL of the backend service
+   * implementing this API.
+   */
+  serviceUrl?: string;
+  /**
+   * @member {string} [path] Relative URL uniquely identifying this API and all
+   * of its resource paths within the API Management service instance. It is
+   * appended to the API endpoint base URL specified during the service
+   * instance creation to form a public URL for this API.
+   */
+  path?: string;
+  /**
+   * @member {Protocol[]} [protocols] Describes on which protocols the
+   * operations in this API can be invoked.
+   */
+  protocols?: Protocol[];
+}
+
+/**
+ * @interface
+ * An interface representing ApiContract.
+ * Api details.
+ *
+ * @extends Resource
+ */
+export interface ApiContract extends Resource {
+  /**
+   * @member {string} [description] Description of the API. May include HTML
+   * formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {AuthenticationSettingsContract} [authenticationSettings]
+   * Collection of authentication settings included into this API.
+   */
+  authenticationSettings?: AuthenticationSettingsContract;
+  /**
+   * @member {SubscriptionKeyParameterNamesContract}
+   * [subscriptionKeyParameterNames] Protocols over which API is made
+   * available.
+   */
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  /**
+   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
+   * 'soap'
+   */
+  apiType?: ApiType;
+  /**
+   * @member {string} [apiRevision] Describes the Revision of the Api. If no
+   * value is provided, default revision 1 is created
+   */
+  apiRevision?: string;
+  /**
+   * @member {string} [apiVersion] Indicates the Version identifier of the API
+   * if the API is versioned
+   */
+  apiVersion?: string;
+  /**
+   * @member {boolean} [isCurrent] Indicates if API revision is current api
+   * revision.
+   */
+  isCurrent?: boolean;
+  /**
+   * @member {boolean} [isOnline] Indicates if API revision is accessible via
+   * the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isOnline?: boolean;
+  /**
+   * @member {string} [apiRevisionDescription] Description of the Api Revision.
+   */
+  apiRevisionDescription?: string;
+  /**
+   * @member {string} [apiVersionDescription] Description of the Api Version.
+   */
+  apiVersionDescription?: string;
+  /**
+   * @member {string} [apiVersionSetId] A resource identifier for the related
+   * ApiVersionSet.
+   */
+  apiVersionSetId?: string;
+  /**
+   * @member {boolean} [subscriptionRequired] Specifies whether an API or
+   * Product subscription is required for accessing the API.
+   */
+  subscriptionRequired?: boolean;
+  /**
+   * @member {string} [sourceApiId] API identifier of the source API.
+   */
+  sourceApiId?: string;
+  /**
+   * @member {string} [displayName] API name. Must be 1 to 300 characters long.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [serviceUrl] Absolute URL of the backend service
+   * implementing this API. Cannot be more than 2000 characters long.
+   */
+  serviceUrl?: string;
+  /**
+   * @member {string} path Relative URL uniquely identifying this API and all
+   * of its resource paths within the API Management service instance. It is
+   * appended to the API endpoint base URL specified during the service
+   * instance creation to form a public URL for this API.
+   */
+  path: string;
+  /**
+   * @member {Protocol[]} [protocols] Describes on which protocols the
+   * operations in this API can be invoked.
+   */
+  protocols?: Protocol[];
+  /**
+   * @member {ApiVersionSetContractDetails} [apiVersionSet] Version set details
+   */
+  apiVersionSet?: ApiVersionSetContractDetails;
+}
+
+/**
+ * @interface
+ * An interface representing ApiCreateOrUpdateParameter.
+ * API Create or Update Parameters.
+ *
+ */
+export interface ApiCreateOrUpdateParameter {
+  /**
+   * @member {string} [description] Description of the API. May include HTML
+   * formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {AuthenticationSettingsContract} [authenticationSettings]
+   * Collection of authentication settings included into this API.
+   */
+  authenticationSettings?: AuthenticationSettingsContract;
+  /**
+   * @member {SubscriptionKeyParameterNamesContract}
+   * [subscriptionKeyParameterNames] Protocols over which API is made
+   * available.
+   */
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  /**
+   * @member {ApiType} [apiType] Type of API. Possible values include: 'http',
+   * 'soap'
+   */
+  apiType?: ApiType;
+  /**
+   * @member {string} [apiRevision] Describes the Revision of the Api. If no
+   * value is provided, default revision 1 is created
+   */
+  apiRevision?: string;
+  /**
+   * @member {string} [apiVersion] Indicates the Version identifier of the API
+   * if the API is versioned
+   */
+  apiVersion?: string;
+  /**
+   * @member {boolean} [isCurrent] Indicates if API revision is current api
+   * revision.
+   */
+  isCurrent?: boolean;
+  /**
+   * @member {boolean} [isOnline] Indicates if API revision is accessible via
+   * the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isOnline?: boolean;
+  /**
+   * @member {string} [apiRevisionDescription] Description of the Api Revision.
+   */
+  apiRevisionDescription?: string;
+  /**
+   * @member {string} [apiVersionDescription] Description of the Api Version.
+   */
+  apiVersionDescription?: string;
+  /**
+   * @member {string} [apiVersionSetId] A resource identifier for the related
+   * ApiVersionSet.
+   */
+  apiVersionSetId?: string;
+  /**
+   * @member {boolean} [subscriptionRequired] Specifies whether an API or
+   * Product subscription is required for accessing the API.
+   */
+  subscriptionRequired?: boolean;
+  /**
+   * @member {string} [sourceApiId] API identifier of the source API.
+   */
+  sourceApiId?: string;
+  /**
+   * @member {string} [displayName] API name. Must be 1 to 300 characters long.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [serviceUrl] Absolute URL of the backend service
+   * implementing this API. Cannot be more than 2000 characters long.
+   */
+  serviceUrl?: string;
+  /**
+   * @member {string} path Relative URL uniquely identifying this API and all
+   * of its resource paths within the API Management service instance. It is
+   * appended to the API endpoint base URL specified during the service
+   * instance creation to form a public URL for this API.
+   */
+  path: string;
+  /**
+   * @member {Protocol[]} [protocols] Describes on which protocols the
+   * operations in this API can be invoked.
+   */
+  protocols?: Protocol[];
+  /**
+   * @member {ApiVersionSetContractDetails} [apiVersionSet] Version set details
+   */
+  apiVersionSet?: ApiVersionSetContractDetails;
+  /**
+   * @member {string} [value] Content value when Importing an API.
+   */
+  value?: string;
+  /**
+   * @member {ContentFormat} [format] Format of the Content in which the API is
+   * getting imported. Possible values include: 'wadl-xml', 'wadl-link-json',
+   * 'swagger-json', 'swagger-link-json', 'wsdl', 'wsdl-link', 'openapi',
+   * 'openapi+json', 'openapi-link'
+   */
+  format?: ContentFormat;
+  /**
+   * @member {ApiCreateOrUpdatePropertiesWsdlSelector} [wsdlSelector] Criteria
+   * to limit import of WSDL to a subset of the document.
+   */
+  wsdlSelector?: ApiCreateOrUpdatePropertiesWsdlSelector;
+  /**
+   * @member {SoapApiType} [soapApiType] Type of Api to create.
+   * * `http` creates a SOAP to REST API
+   * * `soap` creates a SOAP pass-through API. Possible values include:
+   * 'SoapToRest', 'SoapPassThrough'
+   */
+  soapApiType?: SoapApiType;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetEntityBase.
+ * Api Version set base parameters
+ *
+ */
+export interface ApiVersionSetEntityBase {
+  /**
+   * @member {string} [description] Description of API Version Set.
+   */
+  description?: string;
+  /**
+   * @member {string} [versionQueryName] Name of query parameter that indicates
+   * the API Version if versioningScheme is set to `query`.
+   */
+  versionQueryName?: string;
+  /**
+   * @member {string} [versionHeaderName] Name of HTTP header parameter that
+   * indicates the API Version if versioningScheme is set to `header`.
+   */
+  versionHeaderName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetUpdateParameters.
+ * Parameters to update or create an Api Version Set Contract.
+ *
+ */
+export interface ApiVersionSetUpdateParameters {
+  /**
+   * @member {string} [description] Description of API Version Set.
+   */
+  description?: string;
+  /**
+   * @member {string} [versionQueryName] Name of query parameter that indicates
+   * the API Version if versioningScheme is set to `query`.
+   */
+  versionQueryName?: string;
+  /**
+   * @member {string} [versionHeaderName] Name of HTTP header parameter that
+   * indicates the API Version if versioningScheme is set to `header`.
+   */
+  versionHeaderName?: string;
+  /**
+   * @member {string} [displayName] Name of API Version Set
+   */
+  displayName?: string;
+  /**
+   * @member {VersioningScheme} [versioningScheme] An value that determines
+   * where the API Version identifer will be located in a HTTP request.
+   * Possible values include: 'Segment', 'Query', 'Header'
+   */
+  versioningScheme?: VersioningScheme;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetContract.
+ * Api Version Set Contract details.
+ *
+ * @extends Resource
+ */
+export interface ApiVersionSetContract extends Resource {
+  /**
+   * @member {string} [description] Description of API Version Set.
+   */
+  description?: string;
+  /**
+   * @member {string} [versionQueryName] Name of query parameter that indicates
+   * the API Version if versioningScheme is set to `query`.
+   */
+  versionQueryName?: string;
+  /**
+   * @member {string} [versionHeaderName] Name of HTTP header parameter that
+   * indicates the API Version if versioningScheme is set to `header`.
+   */
+  versionHeaderName?: string;
+  /**
+   * @member {string} displayName Name of API Version Set
+   */
+  displayName: string;
+  /**
+   * @member {VersioningScheme} versioningScheme An value that determines where
+   * the API Version identifer will be located in a HTTP request. Possible
+   * values include: 'Segment', 'Query', 'Header'
+   */
+  versioningScheme: VersioningScheme;
+}
+
+/**
+ * @interface
+ * An interface representing TokenBodyParameterContract.
+ * OAuth acquire token request body parameter (www-url-form-encoded).
+ *
+ */
+export interface TokenBodyParameterContract {
+  /**
+   * @member {string} name body parameter name.
+   */
+  name: string;
+  /**
+   * @member {string} value body parameter value.
+   */
+  value: string;
+}
+
+/**
+ * @interface
+ * An interface representing AuthorizationServerContractBaseProperties.
+ * External OAuth authorization server Update settings contract.
+ *
+ */
+export interface AuthorizationServerContractBaseProperties {
   /**
    * @member {string} [description] Description of the authorization server.
    * Can contain HTML formatting tags.
@@ -1688,31 +1870,6 @@ export interface AuthorizationServerContract extends Resource {
    * server. Default resource owner password.
    */
   resourceOwnerPassword?: string;
-  /**
-   * @member {string} displayName User-friendly authorization server name.
-   */
-  displayName: string;
-  /**
-   * @member {string} clientRegistrationEndpoint Optional reference to a page
-   * where client or app registration for this authorization server is
-   * performed. Contains absolute URL to entity being referenced.
-   */
-  clientRegistrationEndpoint: string;
-  /**
-   * @member {string} authorizationEndpoint OAuth authorization endpoint. See
-   * http://tools.ietf.org/html/rfc6749#section-3.2.
-   */
-  authorizationEndpoint: string;
-  /**
-   * @member {GrantType[]} grantTypes Form of an authorization grant, which the
-   * client uses to request the access token.
-   */
-  grantTypes: GrantType[];
-  /**
-   * @member {string} clientId Client or app id registered with this
-   * authorization server.
-   */
-  clientId: string;
 }
 
 /**
@@ -1817,28 +1974,12 @@ export interface AuthorizationServerUpdateContract extends Resource {
 
 /**
  * @interface
- * An interface representing TokenBodyParameterContract.
- * OAuth acquire token request body parameter (www-url-form-encoded).
+ * An interface representing AuthorizationServerContract.
+ * External OAuth authorization server settings.
  *
+ * @extends Resource
  */
-export interface TokenBodyParameterContract {
-  /**
-   * @member {string} name body parameter name.
-   */
-  name: string;
-  /**
-   * @member {string} value body parameter value.
-   */
-  value: string;
-}
-
-/**
- * @interface
- * An interface representing AuthorizationServerContractBaseProperties.
- * External OAuth authorization server Update settings contract.
- *
- */
-export interface AuthorizationServerContractBaseProperties {
+export interface AuthorizationServerContract extends Resource {
   /**
    * @member {string} [description] Description of the authorization server.
    * Can contain HTML formatting tags.
@@ -1904,6 +2045,90 @@ export interface AuthorizationServerContractBaseProperties {
    * server. Default resource owner password.
    */
   resourceOwnerPassword?: string;
+  /**
+   * @member {string} displayName User-friendly authorization server name.
+   */
+  displayName: string;
+  /**
+   * @member {string} clientRegistrationEndpoint Optional reference to a page
+   * where client or app registration for this authorization server is
+   * performed. Contains absolute URL to entity being referenced.
+   */
+  clientRegistrationEndpoint: string;
+  /**
+   * @member {string} authorizationEndpoint OAuth authorization endpoint. See
+   * http://tools.ietf.org/html/rfc6749#section-3.2.
+   */
+  authorizationEndpoint: string;
+  /**
+   * @member {GrantType[]} grantTypes Form of an authorization grant, which the
+   * client uses to request the access token.
+   */
+  grantTypes: GrantType[];
+  /**
+   * @member {string} clientId Client or app id registered with this
+   * authorization server.
+   */
+  clientId: string;
+}
+
+/**
+ * @interface
+ * An interface representing BackendReconnectContract.
+ * Reconnect request parameters.
+ *
+ * @extends Resource
+ */
+export interface BackendReconnectContract extends Resource {
+  /**
+   * @member {string} [after] Duration in ISO8601 format after which reconnect
+   * will be initiated. Minimum duration of the Reconnect is PT2M.
+   */
+  after?: string;
+}
+
+/**
+ * @interface
+ * An interface representing BackendTlsProperties.
+ * Properties controlling TLS Certificate Validation.
+ *
+ */
+export interface BackendTlsProperties {
+  /**
+   * @member {boolean} [validateCertificateChain] Flag indicating whether SSL
+   * certificate chain validation should be done when using self-signed
+   * certificates for this backend host. Default value: true .
+   */
+  validateCertificateChain?: boolean;
+  /**
+   * @member {boolean} [validateCertificateName] Flag indicating whether SSL
+   * certificate name validation should be done when using self-signed
+   * certificates for this backend host. Default value: true .
+   */
+  validateCertificateName?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing BackendProxyContract.
+ * Details of the Backend WebProxy Server to use in the Request to Backend.
+ *
+ */
+export interface BackendProxyContract {
+  /**
+   * @member {string} url WebProxy Server AbsoluteUri property which includes
+   * the entire URI stored in the Uri instance, including all fragments and
+   * query strings.
+   */
+  url: string;
+  /**
+   * @member {string} [username] Username to connect to the WebProxy server
+   */
+  username?: string;
+  /**
+   * @member {string} [password] Password to connect to the WebProxy Server
+   */
+  password?: string;
 }
 
 /**
@@ -1921,6 +2146,34 @@ export interface BackendAuthorizationHeaderCredentials {
    * @member {string} parameter Authentication Parameter value.
    */
   parameter: string;
+}
+
+/**
+ * @interface
+ * An interface representing BackendCredentialsContract.
+ * Details of the Credentials used to connect to Backend.
+ *
+ */
+export interface BackendCredentialsContract {
+  /**
+   * @member {string[]} [certificate] List of Client Certificate Thumbprint.
+   */
+  certificate?: string[];
+  /**
+   * @member {{ [propertyName: string]: string[] }} [query] Query Parameter
+   * description.
+   */
+  query?: { [propertyName: string]: string[] };
+  /**
+   * @member {{ [propertyName: string]: string[] }} [header] Header Parameter
+   * description.
+   */
+  header?: { [propertyName: string]: string[] };
+  /**
+   * @member {BackendAuthorizationHeaderCredentials} [authorization]
+   * Authorization header authentication
+   */
+  authorization?: BackendAuthorizationHeaderCredentials;
 }
 
 /**
@@ -1955,7 +2208,7 @@ export interface BackendServiceFabricClusterProperties {
   clientCertificatethumbprint: string;
   /**
    * @member {number} [maxPartitionResolutionRetries] Maximum number of retries
-   * while attempting resolve the parition.
+   * while attempting resolve the partition.
    */
   maxPartitionResolutionRetries?: number;
   /**
@@ -1986,78 +2239,6 @@ export interface BackendProperties {
    * Backend Service Fabric Cluster Properties
    */
   serviceFabricCluster?: BackendServiceFabricClusterProperties;
-}
-
-/**
- * @interface
- * An interface representing BackendCredentialsContract.
- * Details of the Credentials used to connect to Backend.
- *
- */
-export interface BackendCredentialsContract {
-  /**
-   * @member {string[]} [certificate] List of Client Certificate Thumbprint.
-   */
-  certificate?: string[];
-  /**
-   * @member {{ [propertyName: string]: string[] }} [query] Query Parameter
-   * description.
-   */
-  query?: { [propertyName: string]: string[] };
-  /**
-   * @member {{ [propertyName: string]: string[] }} [header] Header Parameter
-   * description.
-   */
-  header?: { [propertyName: string]: string[] };
-  /**
-   * @member {BackendAuthorizationHeaderCredentials} [authorization]
-   * Authorization header authentication
-   */
-  authorization?: BackendAuthorizationHeaderCredentials;
-}
-
-/**
- * @interface
- * An interface representing BackendProxyContract.
- * Details of the Backend WebProxy Server to use in the Request to Backend.
- *
- */
-export interface BackendProxyContract {
-  /**
-   * @member {string} url WebProxy Server AbsoluteUri property which includes
-   * the entire URI stored in the Uri instance, including all fragments and
-   * query strings.
-   */
-  url: string;
-  /**
-   * @member {string} [username] Username to connect to the WebProxy server
-   */
-  username?: string;
-  /**
-   * @member {string} [password] Password to connect to the WebProxy Server
-   */
-  password?: string;
-}
-
-/**
- * @interface
- * An interface representing BackendTlsProperties.
- * Properties controlling TLS Certificate Validation.
- *
- */
-export interface BackendTlsProperties {
-  /**
-   * @member {boolean} [validateCertificateChain] Flag indicating whether SSL
-   * certificate chain validation should be done when using self-signed
-   * certificates for this backend host. Default value: true .
-   */
-  validateCertificateChain?: boolean;
-  /**
-   * @member {boolean} [validateCertificateName] Flag indicating whether SSL
-   * certificate name validation should be done when using self-signed
-   * certificates for this backend host. Default value: true .
-   */
-  validateCertificateName?: boolean;
 }
 
 /**
@@ -2098,6 +2279,55 @@ export interface BackendBaseParameters {
    * @member {BackendTlsProperties} [tls] Backend TLS Properties
    */
   tls?: BackendTlsProperties;
+}
+
+/**
+ * @interface
+ * An interface representing BackendUpdateParameters.
+ * Backend update parameters.
+ *
+ */
+export interface BackendUpdateParameters {
+  /**
+   * @member {string} [title] Backend Title.
+   */
+  title?: string;
+  /**
+   * @member {string} [description] Backend Description.
+   */
+  description?: string;
+  /**
+   * @member {string} [resourceId] Management Uri of the Resource in External
+   * System. This url can be the Arm Resource Id of Logic Apps, Function Apps
+   * or Api Apps.
+   */
+  resourceId?: string;
+  /**
+   * @member {BackendProperties} [properties] Backend Properties contract
+   */
+  properties?: BackendProperties;
+  /**
+   * @member {BackendCredentialsContract} [credentials] Backend Credentials
+   * Contract Properties
+   */
+  credentials?: BackendCredentialsContract;
+  /**
+   * @member {BackendProxyContract} [proxy] Backend Proxy Contract Properties
+   */
+  proxy?: BackendProxyContract;
+  /**
+   * @member {BackendTlsProperties} [tls] Backend TLS Properties
+   */
+  tls?: BackendTlsProperties;
+  /**
+   * @member {string} [url] Runtime Url of the Backend.
+   */
+  url?: string;
+  /**
+   * @member {BackendProtocol} [protocol] Backend communication protocol.
+   * Possible values include: 'http', 'soap'
+   */
+  protocol?: BackendProtocol;
 }
 
 /**
@@ -2152,66 +2382,47 @@ export interface BackendContract extends Resource {
 
 /**
  * @interface
- * An interface representing BackendUpdateParameters.
- * Backend update parameters.
+ * An interface representing CacheUpdateParameters.
+ * Cache update details.
  *
  */
-export interface BackendUpdateParameters {
+export interface CacheUpdateParameters {
   /**
-   * @member {string} [title] Backend Title.
-   */
-  title?: string;
-  /**
-   * @member {string} [description] Backend Description.
+   * @member {string} [description] Cache description
    */
   description?: string;
   /**
-   * @member {string} [resourceId] Management Uri of the Resource in External
-   * System. This url can be the Arm Resource Id of Logic Apps, Function Apps
-   * or Api Apps.
+   * @member {string} [connectionString] Runtime connection string to cache
+   */
+  connectionString?: string;
+  /**
+   * @member {string} [resourceId] Original uri of entity in external system
+   * cache points to
    */
   resourceId?: string;
-  /**
-   * @member {BackendProperties} [properties] Backend Properties contract
-   */
-  properties?: BackendProperties;
-  /**
-   * @member {BackendCredentialsContract} [credentials] Backend Credentials
-   * Contract Properties
-   */
-  credentials?: BackendCredentialsContract;
-  /**
-   * @member {BackendProxyContract} [proxy] Backend Proxy Contract Properties
-   */
-  proxy?: BackendProxyContract;
-  /**
-   * @member {BackendTlsProperties} [tls] Backend TLS Properties
-   */
-  tls?: BackendTlsProperties;
-  /**
-   * @member {string} [url] Runtime Url of the Backend.
-   */
-  url?: string;
-  /**
-   * @member {BackendProtocol} [protocol] Backend communication protocol.
-   * Possible values include: 'http', 'soap'
-   */
-  protocol?: BackendProtocol;
 }
 
 /**
  * @interface
- * An interface representing BackendReconnectContract.
- * Reconnect request parameters.
+ * An interface representing CacheContract.
+ * Cache details.
  *
  * @extends Resource
  */
-export interface BackendReconnectContract extends Resource {
+export interface CacheContract extends Resource {
   /**
-   * @member {string} [after] Duration in ISO8601 format after which reconnect
-   * will be initiated. Minimum duration of the Reconect is PT2M.
+   * @member {string} [description] Cache description
    */
-  after?: string;
+  description?: string;
+  /**
+   * @member {string} connectionString Runtime connection string to cache
+   */
+  connectionString: string;
+  /**
+   * @member {string} [resourceId] Original uri of entity in external system
+   * cache points to
+   */
+  resourceId?: string;
 }
 
 /**
@@ -2258,6 +2469,83 @@ export interface CertificateCreateOrUpdateParameters {
 
 /**
  * @interface
+ * An interface representing ResourceSku.
+ * Describes an available API Management SKU.
+ *
+ */
+export interface ResourceSku {
+  /**
+   * @member {SkuType} [name] Name of the Sku. Possible values include:
+   * 'Developer', 'Standard', 'Premium', 'Basic', 'Consumption'
+   */
+  name?: SkuType;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceSkuCapacity.
+ * Describes scaling information of a SKU.
+ *
+ */
+export interface ResourceSkuCapacity {
+  /**
+   * @member {number} [minimum] The minimum capacity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly minimum?: number;
+  /**
+   * @member {number} [maximum] The maximum capacity that can be set.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maximum?: number;
+  /**
+   * @member {number} [default] The default capacity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly default?: number;
+  /**
+   * @member {ResourceSkuCapacityScaleType} [scaleType] The scale type
+   * applicable to the sku. Possible values include: 'automatic', 'manual',
+   * 'none'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scaleType?: ResourceSkuCapacityScaleType;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceSkuResult.
+ * Describes an available API Management service SKU.
+ *
+ */
+export interface ResourceSkuResult {
+  /**
+   * @member {string} [resourceType] The type of resource the SKU applies to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * @member {ResourceSku} [sku] Specifies API Management SKU.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sku?: ResourceSku;
+  /**
+   * @member {ResourceSkuCapacity} [capacity] Specifies the number of API
+   * Management units.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly capacity?: ResourceSkuCapacity;
+}
+
+/**
+ * @interface
  * An interface representing CertificateInformation.
  * SSL certificate information.
  *
@@ -2297,7 +2585,7 @@ export interface CertificateConfiguration {
   certificatePassword?: string;
   /**
    * @member {StoreName} storeName The
-   * System.Security.Cryptography.x509certificates.Storename certificate store
+   * System.Security.Cryptography.x509certificates.StoreName certificate store
    * location. Only Root and CertificateAuthority are valid locations. Possible
    * values include: 'CertificateAuthority', 'Root'
    */
@@ -2317,7 +2605,7 @@ export interface CertificateConfiguration {
 export interface HostnameConfiguration {
   /**
    * @member {HostnameType} type Hostname type. Possible values include:
-   * 'Proxy', 'Portal', 'Management', 'Scm'
+   * 'Proxy', 'Portal', 'Management', 'Scm', 'DeveloperPortal'
    */
   type: HostnameType;
   /**
@@ -2400,7 +2688,7 @@ export interface VirtualNetworkConfiguration {
 export interface ApiManagementServiceSkuProperties {
   /**
    * @member {SkuType} name Name of the Sku. Possible values include:
-   * 'Developer', 'Standard', 'Premium', 'Basic'
+   * 'Developer', 'Standard', 'Premium', 'Basic', 'Consumption'
    */
   name: SkuType;
   /**
@@ -2607,8 +2895,15 @@ export interface ApiManagementServiceBaseProperties {
    */
   certificates?: CertificateConfiguration[];
   /**
+   * @member {boolean} [enableClientCertificate] Property only meant to be used
+   * for Consumption SKU Service. This enforces a client certificate to be
+   * presented on each request to the gateway and enabled ability to
+   * authenticate the certificate in the policy. Default value: false .
+   */
+  enableClientCertificate?: boolean;
+  /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -2794,8 +3089,15 @@ export interface ApiManagementServiceResource extends ApimResource {
    */
   certificates?: CertificateConfiguration[];
   /**
+   * @member {boolean} [enableClientCertificate] Property only meant to be used
+   * for Consumption SKU Service. This enforces a client certificate to be
+   * presented on each request to the gateway and enabled ability to
+   * authenticate the certificate in the policy. Default value: false .
+   */
+  enableClientCertificate?: boolean;
+  /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -2955,8 +3257,15 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    */
   certificates?: CertificateConfiguration[];
   /**
+   * @member {boolean} [enableClientCertificate] Property only meant to be used
+   * for Consumption SKU Service. This enforces a client certificate to be
+   * presented on each request to the gateway and enabled ability to
+   * authenticate the certificate in the policy. Default value: false .
+   */
+  enableClientCertificate?: boolean;
+  /**
    * @member {VirtualNetworkType} [virtualNetworkType] The type of VPN in which
-   * API Managemet service needs to be configured in. None (Default Value)
+   * API Management service needs to be configured in. None (Default Value)
    * means the API Management service is not part of any Virtual Network,
    * External means the API Management deployment is set up inside a Virtual
    * Network having an Internet Facing Endpoint, and Internal means that API
@@ -3069,69 +3378,6 @@ export interface ApiManagementServiceApplyNetworkConfigurationParameters {
 
 /**
  * @interface
- * An interface representing ApiManagementServiceUploadCertificateParameters.
- * Parameters supplied to the Upload SSL certificate for an API Management
- * service operation.
- *
- */
-export interface ApiManagementServiceUploadCertificateParameters {
-  /**
-   * @member {HostnameType} type Hostname type. Possible values include:
-   * 'Proxy', 'Portal', 'Management', 'Scm'
-   */
-  type: HostnameType;
-  /**
-   * @member {string} certificate Base64 Encoded certificate.
-   */
-  certificate: string;
-  /**
-   * @member {string} certificatePassword Certificate password.
-   */
-  certificatePassword: string;
-}
-
-/**
- * @interface
- * An interface representing HostnameConfigurationOld.
- * Custom hostname configuration.
- *
- */
-export interface HostnameConfigurationOld {
-  /**
-   * @member {HostnameType} type Hostname type. Possible values include:
-   * 'Proxy', 'Portal', 'Management', 'Scm'
-   */
-  type: HostnameType;
-  /**
-   * @member {string} hostname Hostname to configure.
-   */
-  hostname: string;
-  /**
-   * @member {CertificateInformation} certificate Certificate information.
-   */
-  certificate: CertificateInformation;
-}
-
-/**
- * @interface
- * An interface representing ApiManagementServiceUpdateHostnameParameters.
- * Parameters supplied to the UpdateHostname operation.
- *
- */
-export interface ApiManagementServiceUpdateHostnameParameters {
-  /**
-   * @member {HostnameConfigurationOld[]} [update] Hostnames to create or
-   * update.
-   */
-  update?: HostnameConfigurationOld[];
-  /**
-   * @member {HostnameType[]} [deleteProperty] Hostnames types to delete.
-   */
-  deleteProperty?: HostnameType[];
-}
-
-/**
- * @interface
  * An interface representing OperationDisplay.
  * The object that describes the operation.
  *
@@ -3206,6 +3452,37 @@ export interface EmailTemplateParametersContractProperties {
 
 /**
  * @interface
+ * An interface representing EmailTemplateUpdateParameters.
+ * Email Template update Parameters.
+ *
+ */
+export interface EmailTemplateUpdateParameters {
+  /**
+   * @member {string} [subject] Subject of the Template.
+   */
+  subject?: string;
+  /**
+   * @member {string} [title] Title of the Template.
+   */
+  title?: string;
+  /**
+   * @member {string} [description] Description of the Email Template.
+   */
+  description?: string;
+  /**
+   * @member {string} [body] Email Template Body. This should be a valid
+   * XDocument
+   */
+  body?: string;
+  /**
+   * @member {EmailTemplateParametersContractProperties[]} [parameters] Email
+   * Template Parameter values.
+   */
+  parameters?: EmailTemplateParametersContractProperties[];
+}
+
+/**
+ * @interface
  * An interface representing EmailTemplateContract.
  * Email Template details.
  *
@@ -3241,172 +3518,6 @@ export interface EmailTemplateContract extends Resource {
    * Template Parameter values.
    */
   parameters?: EmailTemplateParametersContractProperties[];
-}
-
-/**
- * @interface
- * An interface representing EmailTemplateUpdateParameters.
- * Email Template update Parameters.
- *
- */
-export interface EmailTemplateUpdateParameters {
-  /**
-   * @member {string} [subject] Subject of the Template.
-   */
-  subject?: string;
-  /**
-   * @member {string} [title] Title of the Template.
-   */
-  title?: string;
-  /**
-   * @member {string} [description] Description of the Email Template.
-   */
-  description?: string;
-  /**
-   * @member {string} [body] Email Template Body. This should be a valid
-   * XDocument
-   */
-  body?: string;
-  /**
-   * @member {EmailTemplateParametersContractProperties[]} [parameters] Email
-   * Template Parameter values.
-   */
-  parameters?: EmailTemplateParametersContractProperties[];
-}
-
-/**
- * @interface
- * An interface representing GroupContractProperties.
- * Group contract Properties.
- *
- */
-export interface GroupContractProperties {
-  /**
-   * @member {string} displayName Group name.
-   */
-  displayName: string;
-  /**
-   * @member {string} [description] Group description. Can contain HTML
-   * formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {boolean} [builtIn] true if the group is one of the three system
-   * groups (Administrators, Developers, or Guests); otherwise false.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly builtIn?: boolean;
-  /**
-   * @member {GroupType} [type] Group type. Possible values include: 'custom',
-   * 'system', 'external'
-   */
-  type?: GroupType;
-  /**
-   * @member {string} [externalId] For external groups, this property contains
-   * the id of the group from the external identity provider, e.g. for Azure
-   * Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>;
-   * otherwise the value is null.
-   */
-  externalId?: string;
-}
-
-/**
- * @interface
- * An interface representing GroupContract.
- * Contract details.
- *
- * @extends Resource
- */
-export interface GroupContract extends Resource {
-  /**
-   * @member {string} displayName Group name.
-   */
-  displayName: string;
-  /**
-   * @member {string} [description] Group description. Can contain HTML
-   * formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {boolean} [builtIn] true if the group is one of the three system
-   * groups (Administrators, Developers, or Guests); otherwise false.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly builtIn?: boolean;
-  /**
-   * @member {GroupType} [groupContractType] Group type. Possible values
-   * include: 'custom', 'system', 'external'
-   */
-  groupContractType?: GroupType;
-  /**
-   * @member {string} [externalId] For external groups, this property contains
-   * the id of the group from the external identity provider, e.g. for Azure
-   * Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>;
-   * otherwise the value is null.
-   */
-  externalId?: string;
-}
-
-/**
- * @interface
- * An interface representing GroupCreateParameters.
- * Parameters supplied to the Create Group operation.
- *
- */
-export interface GroupCreateParameters {
-  /**
-   * @member {string} displayName Group name.
-   */
-  displayName: string;
-  /**
-   * @member {string} [description] Group description.
-   */
-  description?: string;
-  /**
-   * @member {GroupType} [type] Group type. Possible values include: 'custom',
-   * 'system', 'external'
-   */
-  type?: GroupType;
-  /**
-   * @member {string} [externalId] Identifier of the external groups, this
-   * property contains the id of the group from the external identity provider,
-   * e.g. for Azure Active Directory
-   * aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the
-   * value is null.
-   */
-  externalId?: string;
-}
-
-/**
- * @interface
- * An interface representing GroupUpdateParameters.
- * Parameters supplied to the Update Group operation.
- *
- */
-export interface GroupUpdateParameters {
-  /**
-   * @member {string} [displayName] Group name.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [description] Group description.
-   */
-  description?: string;
-  /**
-   * @member {GroupType} [type] Group type. Possible values include: 'custom',
-   * 'system', 'external'
-   */
-  type?: GroupType;
-  /**
-   * @member {string} [externalId] Identifier of the external groups, this
-   * property contains the id of the group from the external identity provider,
-   * e.g. for Azure Active Directory
-   * aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the
-   * value is null.
-   */
-  externalId?: string;
 }
 
 /**
@@ -3451,6 +3562,43 @@ export interface UserEntityBaseParameters {
    * identities.
    */
   identities?: UserIdentityContract[];
+}
+
+/**
+ * @interface
+ * An interface representing GroupContractProperties.
+ * Group contract Properties.
+ *
+ */
+export interface GroupContractProperties {
+  /**
+   * @member {string} displayName Group name.
+   */
+  displayName: string;
+  /**
+   * @member {string} [description] Group description. Can contain HTML
+   * formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {boolean} [builtIn] true if the group is one of the three system
+   * groups (Administrators, Developers, or Guests); otherwise false.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly builtIn?: boolean;
+  /**
+   * @member {GroupType} [type] Group type. Possible values include: 'custom',
+   * 'system', 'external'
+   */
+  type?: GroupType;
+  /**
+   * @member {string} [externalId] For external groups, this property contains
+   * the id of the group from the external identity provider, e.g. for Azure
+   * Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object
+   * id>`; otherwise the value is null.
+   */
+  externalId?: string;
 }
 
 /**
@@ -3508,23 +3656,125 @@ export interface UserContract extends Resource {
 
 /**
  * @interface
- * An interface representing IdentityProviderContract.
- * Identity Provider details.
+ * An interface representing GroupUpdateParameters.
+ * Parameters supplied to the Update Group operation.
+ *
+ */
+export interface GroupUpdateParameters {
+  /**
+   * @member {string} [displayName] Group name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [description] Group description.
+   */
+  description?: string;
+  /**
+   * @member {GroupType} [type] Group type. Possible values include: 'custom',
+   * 'system', 'external'
+   */
+  type?: GroupType;
+  /**
+   * @member {string} [externalId] Identifier of the external groups, this
+   * property contains the id of the group from the external identity provider,
+   * e.g. for Azure Active Directory
+   * `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the
+   * value is null.
+   */
+  externalId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing GroupContract.
+ * Contract details.
  *
  * @extends Resource
  */
-export interface IdentityProviderContract extends Resource {
+export interface GroupContract extends Resource {
   /**
-   * @member {IdentityProviderType} [identityProviderContractType] Identity
-   * Provider Type identifier. Possible values include: 'facebook', 'google',
-   * 'microsoft', 'twitter', 'aad', 'aadB2C'
+   * @member {string} displayName Group name.
    */
-  identityProviderContractType?: IdentityProviderType;
+  displayName: string;
+  /**
+   * @member {string} [description] Group description. Can contain HTML
+   * formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {boolean} [builtIn] true if the group is one of the three system
+   * groups (Administrators, Developers, or Guests); otherwise false.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly builtIn?: boolean;
+  /**
+   * @member {GroupType} [groupContractType] Group type. Possible values
+   * include: 'custom', 'system', 'external'
+   */
+  groupContractType?: GroupType;
+  /**
+   * @member {string} [externalId] For external groups, this property contains
+   * the id of the group from the external identity provider, e.g. for Azure
+   * Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object
+   * id>`; otherwise the value is null.
+   */
+  externalId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing GroupCreateParameters.
+ * Parameters supplied to the Create Group operation.
+ *
+ */
+export interface GroupCreateParameters {
+  /**
+   * @member {string} displayName Group name.
+   */
+  displayName: string;
+  /**
+   * @member {string} [description] Group description.
+   */
+  description?: string;
+  /**
+   * @member {GroupType} [type] Group type. Possible values include: 'custom',
+   * 'system', 'external'
+   */
+  type?: GroupType;
+  /**
+   * @member {string} [externalId] Identifier of the external groups, this
+   * property contains the id of the group from the external identity provider,
+   * e.g. for Azure Active Directory
+   * `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the
+   * value is null.
+   */
+  externalId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IdentityProviderBaseParameters.
+ * Identity Provider Base Parameter Properties.
+ *
+ */
+export interface IdentityProviderBaseParameters {
+  /**
+   * @member {IdentityProviderType} [type] Identity Provider Type identifier.
+   * Possible values include: 'facebook', 'google', 'microsoft', 'twitter',
+   * 'aad', 'aadB2C'
+   */
+  type?: IdentityProviderType;
   /**
    * @member {string[]} [allowedTenants] List of Allowed Tenants when
    * configuring Azure Active Directory login.
    */
   allowedTenants?: string[];
+  /**
+   * @member {string} [authority] OpenID Connect discovery endpoint hostname
+   * for AAD or AAD B2C.
+   */
+  authority?: string;
   /**
    * @member {string} [signupPolicyName] Signup Policy Name. Only applies to
    * AAD B2C Identity Provider.
@@ -3545,19 +3795,6 @@ export interface IdentityProviderContract extends Resource {
    * Only applies to AAD B2C Identity Provider.
    */
   passwordResetPolicyName?: string;
-  /**
-   * @member {string} clientId Client Id of the Application in the external
-   * Identity Provider. It is App ID for Facebook login, Client ID for Google
-   * login, App ID for Microsoft.
-   */
-  clientId: string;
-  /**
-   * @member {string} clientSecret Client secret of the Application in external
-   * Identity Provider, used to authenticate login request. For example, it is
-   * App Secret for Facebook login, API Key for Google login, Public Key for
-   * Microsoft.
-   */
-  clientSecret: string;
 }
 
 /**
@@ -3578,6 +3815,11 @@ export interface IdentityProviderUpdateParameters {
    * configuring Azure Active Directory login.
    */
   allowedTenants?: string[];
+  /**
+   * @member {string} [authority] OpenID Connect discovery endpoint hostname
+   * for AAD or AAD B2C.
+   */
+  authority?: string;
   /**
    * @member {string} [signupPolicyName] Signup Policy Name. Only applies to
    * AAD B2C Identity Provider.
@@ -3615,22 +3857,28 @@ export interface IdentityProviderUpdateParameters {
 
 /**
  * @interface
- * An interface representing IdentityProviderBaseParameters.
- * Identity Provider Base Parameter Properties.
+ * An interface representing IdentityProviderContract.
+ * Identity Provider details.
  *
+ * @extends Resource
  */
-export interface IdentityProviderBaseParameters {
+export interface IdentityProviderContract extends Resource {
   /**
-   * @member {IdentityProviderType} [type] Identity Provider Type identifier.
-   * Possible values include: 'facebook', 'google', 'microsoft', 'twitter',
-   * 'aad', 'aadB2C'
+   * @member {IdentityProviderType} [identityProviderContractType] Identity
+   * Provider Type identifier. Possible values include: 'facebook', 'google',
+   * 'microsoft', 'twitter', 'aad', 'aadB2C'
    */
-  type?: IdentityProviderType;
+  identityProviderContractType?: IdentityProviderType;
   /**
    * @member {string[]} [allowedTenants] List of Allowed Tenants when
    * configuring Azure Active Directory login.
    */
   allowedTenants?: string[];
+  /**
+   * @member {string} [authority] OpenID Connect discovery endpoint hostname
+   * for AAD or AAD B2C.
+   */
+  authority?: string;
   /**
    * @member {string} [signupPolicyName] Signup Policy Name. Only applies to
    * AAD B2C Identity Provider.
@@ -3651,6 +3899,19 @@ export interface IdentityProviderBaseParameters {
    * Only applies to AAD B2C Identity Provider.
    */
   passwordResetPolicyName?: string;
+  /**
+   * @member {string} clientId Client Id of the Application in the external
+   * Identity Provider. It is App ID for Facebook login, Client ID for Google
+   * login, App ID for Microsoft.
+   */
+  clientId: string;
+  /**
+   * @member {string} clientSecret Client secret of the Application in external
+   * Identity Provider, used to authenticate login request. For example, it is
+   * App Secret for Facebook login, API Key for Google login, Public Key for
+   * Microsoft.
+   */
+  clientSecret: string;
 }
 
 /**
@@ -3683,106 +3944,37 @@ export interface LoggerUpdateContract {
 
 /**
  * @interface
- * An interface representing RecipientsContractProperties.
- * Notification Parameter contract.
- *
- */
-export interface RecipientsContractProperties {
-  /**
-   * @member {string[]} [emails] List of Emails subscribed for the
-   * notification.
-   */
-  emails?: string[];
-  /**
-   * @member {string[]} [users] List of Users subscribed for the notification.
-   */
-  users?: string[];
-}
-
-/**
- * @interface
- * An interface representing NotificationContract.
- * Notification details.
+ * An interface representing LoggerContract.
+ * Logger details.
  *
  * @extends Resource
  */
-export interface NotificationContract extends Resource {
+export interface LoggerContract extends Resource {
   /**
-   * @member {string} title Title of the Notification.
+   * @member {LoggerType} loggerType Logger type. Possible values include:
+   * 'azureEventHub', 'applicationInsights'
    */
-  title: string;
+  loggerType: LoggerType;
   /**
-   * @member {string} [description] Description of the Notification.
+   * @member {string} [description] Logger description.
    */
   description?: string;
   /**
-   * @member {RecipientsContractProperties} [recipients] Recipient Parameter
-   * values.
+   * @member {{ [propertyName: string]: string }} credentials The name and
+   * SendRule connection string of the event hub for azureEventHub logger.
+   * Instrumentation key for applicationInsights logger.
    */
-  recipients?: RecipientsContractProperties;
-}
-
-/**
- * @interface
- * An interface representing RecipientUserContract.
- * Recipient User details.
- *
- * @extends Resource
- */
-export interface RecipientUserContract extends Resource {
+  credentials: { [propertyName: string]: string };
   /**
-   * @member {string} [userId] API Management UserId subscribed to
-   * notification.
+   * @member {boolean} [isBuffered] Whether records are buffered in the logger
+   * before publishing. Default is assumed to be true.
    */
-  userId?: string;
-}
-
-/**
- * @interface
- * An interface representing RecipientUserCollection.
- * Paged Recipient User list representation.
- *
- */
-export interface RecipientUserCollection {
+  isBuffered?: boolean;
   /**
-   * @member {RecipientUserContract[]} [value] Page values.
+   * @member {string} [resourceId] Azure Resource Id of a log target (either
+   * Azure Event Hub resource or Azure Application Insights resource).
    */
-  value?: RecipientUserContract[];
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing RecipientEmailContract.
- * Recipient Email details.
- *
- * @extends Resource
- */
-export interface RecipientEmailContract extends Resource {
-  /**
-   * @member {string} [email] User Email subscribed to notification.
-   */
-  email?: string;
-}
-
-/**
- * @interface
- * An interface representing RecipientEmailCollection.
- * Paged Recipient User list representation.
- *
- */
-export interface RecipientEmailCollection {
-  /**
-   * @member {RecipientEmailContract[]} [value] Page values.
-   */
-  value?: RecipientEmailContract[];
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
+  resourceId?: string;
 }
 
 /**
@@ -3863,35 +4055,106 @@ export interface NetworkStatusContractByLocation {
 
 /**
  * @interface
- * An interface representing OpenidConnectProviderContract.
- * OpenId Connect Provider details.
+ * An interface representing RecipientEmailContract.
+ * Recipient Email details.
  *
  * @extends Resource
  */
-export interface OpenidConnectProviderContract extends Resource {
+export interface RecipientEmailContract extends Resource {
   /**
-   * @member {string} displayName User-friendly OpenID Connect Provider name.
+   * @member {string} [email] User Email subscribed to notification.
    */
-  displayName: string;
+  email?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecipientEmailCollection.
+ * Paged Recipient User list representation.
+ *
+ */
+export interface RecipientEmailCollection {
   /**
-   * @member {string} [description] User-friendly description of OpenID Connect
-   * Provider.
+   * @member {RecipientEmailContract[]} [value] Page values.
+   */
+  value?: RecipientEmailContract[];
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecipientUserContract.
+ * Recipient User details.
+ *
+ * @extends Resource
+ */
+export interface RecipientUserContract extends Resource {
+  /**
+   * @member {string} [userId] API Management UserId subscribed to
+   * notification.
+   */
+  userId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecipientUserCollection.
+ * Paged Recipient User list representation.
+ *
+ */
+export interface RecipientUserCollection {
+  /**
+   * @member {RecipientUserContract[]} [value] Page values.
+   */
+  value?: RecipientUserContract[];
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecipientsContractProperties.
+ * Notification Parameter contract.
+ *
+ */
+export interface RecipientsContractProperties {
+  /**
+   * @member {string[]} [emails] List of Emails subscribed for the
+   * notification.
+   */
+  emails?: string[];
+  /**
+   * @member {string[]} [users] List of Users subscribed for the notification.
+   */
+  users?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing NotificationContract.
+ * Notification details.
+ *
+ * @extends Resource
+ */
+export interface NotificationContract extends Resource {
+  /**
+   * @member {string} title Title of the Notification.
+   */
+  title: string;
+  /**
+   * @member {string} [description] Description of the Notification.
    */
   description?: string;
   /**
-   * @member {string} metadataEndpoint Metadata endpoint URI.
+   * @member {RecipientsContractProperties} [recipients] Recipient Parameter
+   * values.
    */
-  metadataEndpoint: string;
-  /**
-   * @member {string} clientId Client ID of developer console which is the
-   * client application.
-   */
-  clientId: string;
-  /**
-   * @member {string} [clientSecret] Client Secret of developer console which
-   * is the client application.
-   */
-  clientSecret?: string;
+  recipients?: RecipientsContractProperties;
 }
 
 /**
@@ -3928,16 +4191,138 @@ export interface OpenidConnectProviderUpdateContract {
 
 /**
  * @interface
- * An interface representing PortalSigninSettings.
- * Sign-In settings for the Developer Portal.
+ * An interface representing OpenidConnectProviderContract.
+ * OpenId Connect Provider details.
  *
  * @extends Resource
  */
-export interface PortalSigninSettings extends Resource {
+export interface OpenidConnectProviderContract extends Resource {
   /**
-   * @member {boolean} [enabled] Redirect Anonymous users to the Sign-In page.
+   * @member {string} displayName User-friendly OpenID Connect Provider name.
+   */
+  displayName: string;
+  /**
+   * @member {string} [description] User-friendly description of OpenID Connect
+   * Provider.
+   */
+  description?: string;
+  /**
+   * @member {string} metadataEndpoint Metadata endpoint URI.
+   */
+  metadataEndpoint: string;
+  /**
+   * @member {string} clientId Client ID of developer console which is the
+   * client application.
+   */
+  clientId: string;
+  /**
+   * @member {string} [clientSecret] Client Secret of developer console which
+   * is the client application.
+   */
+  clientSecret?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicySnippetContract.
+ * Policy snippet.
+ *
+ */
+export interface PolicySnippetContract {
+  /**
+   * @member {string} [name] Snippet name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [content] Snippet content.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly content?: string;
+  /**
+   * @member {string} [toolTip] Snippet toolTip.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly toolTip?: string;
+  /**
+   * @member {number} [scope] Binary OR value of the Snippet scope.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scope?: number;
+}
+
+/**
+ * @interface
+ * An interface representing PolicySnippetsCollection.
+ * The response of the list policy snippets operation.
+ *
+ */
+export interface PolicySnippetsCollection {
+  /**
+   * @member {PolicySnippetContract[]} [value] Policy snippet value.
+   */
+  value?: PolicySnippetContract[];
+}
+
+/**
+ * @interface
+ * An interface representing RegistrationDelegationSettingsProperties.
+ * User registration delegation settings properties.
+ *
+ */
+export interface RegistrationDelegationSettingsProperties {
+  /**
+   * @member {boolean} [enabled] Enable or disable delegation for user
+   * registration.
    */
   enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing SubscriptionsDelegationSettingsProperties.
+ * Subscriptions delegation settings properties.
+ *
+ */
+export interface SubscriptionsDelegationSettingsProperties {
+  /**
+   * @member {boolean} [enabled] Enable or disable delegation for
+   * subscriptions.
+   */
+  enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing PortalDelegationSettings.
+ * Delegation settings for a developer portal.
+ *
+ * @extends Resource
+ */
+export interface PortalDelegationSettings extends Resource {
+  /**
+   * @member {string} [url] A delegation Url.
+   */
+  url?: string;
+  /**
+   * @member {string} [validationKey] A base64-encoded validation key to
+   * validate, that a request is coming from Azure API Management.
+   */
+  validationKey?: string;
+  /**
+   * @member {SubscriptionsDelegationSettingsProperties} [subscriptions]
+   * Subscriptions delegation settings.
+   */
+  subscriptions?: SubscriptionsDelegationSettingsProperties;
+  /**
+   * @member {RegistrationDelegationSettingsProperties} [userRegistration] User
+   * registration delegation settings.
+   */
+  userRegistration?: RegistrationDelegationSettingsProperties;
 }
 
 /**
@@ -3984,118 +4369,16 @@ export interface PortalSignupSettings extends Resource {
 
 /**
  * @interface
- * An interface representing SubscriptionsDelegationSettingsProperties.
- * Subscriptions delegation settings properties.
- *
- */
-export interface SubscriptionsDelegationSettingsProperties {
-  /**
-   * @member {boolean} [enabled] Enable or disable delegation for
-   * subscriptions.
-   */
-  enabled?: boolean;
-}
-
-/**
- * @interface
- * An interface representing RegistrationDelegationSettingsProperties.
- * User registration delegation settings properties.
- *
- */
-export interface RegistrationDelegationSettingsProperties {
-  /**
-   * @member {boolean} [enabled] Enable or disable delegation for user
-   * registration.
-   */
-  enabled?: boolean;
-}
-
-/**
- * @interface
- * An interface representing PortalDelegationSettings.
- * Delegation settings for a developer portal.
+ * An interface representing PortalSigninSettings.
+ * Sign-In settings for the Developer Portal.
  *
  * @extends Resource
  */
-export interface PortalDelegationSettings extends Resource {
+export interface PortalSigninSettings extends Resource {
   /**
-   * @member {string} [url] A delegation Url.
+   * @member {boolean} [enabled] Redirect Anonymous users to the Sign-In page.
    */
-  url?: string;
-  /**
-   * @member {string} [validationKey] A base64-encoded validation key to
-   * validate, that a request is coming from Azure API Management.
-   */
-  validationKey?: string;
-  /**
-   * @member {SubscriptionsDelegationSettingsProperties} [subscriptions]
-   * Subscriptions delegation settings.
-   */
-  subscriptions?: SubscriptionsDelegationSettingsProperties;
-  /**
-   * @member {RegistrationDelegationSettingsProperties} [userRegistration] User
-   * registration delegation settings.
-   */
-  userRegistration?: RegistrationDelegationSettingsProperties;
-}
-
-/**
- * @interface
- * An interface representing ProductUpdateParameters.
- * Product Update parameters.
- *
- */
-export interface ProductUpdateParameters {
-  /**
-   * @member {string} [description] Product description. May include HTML
-   * formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {string} [terms] Product terms of use. Developers trying to
-   * subscribe to the product will be presented and required to accept these
-   * terms before they can complete the subscription process.
-   */
-  terms?: string;
-  /**
-   * @member {boolean} [subscriptionRequired] Whether a product subscription is
-   * required for accessing APIs included in this product. If true, the product
-   * is referred to as "protected" and a valid subscription key is required for
-   * a request to an API included in the product to succeed. If false, the
-   * product is referred to as "open" and requests to an API included in the
-   * product can be made without a subscription key. If property is omitted
-   * when creating a new product it's value is assumed to be true.
-   */
-  subscriptionRequired?: boolean;
-  /**
-   * @member {boolean} [approvalRequired] whether subscription approval is
-   * required. If false, new subscriptions will be approved automatically
-   * enabling developers to call the product’s APIs immediately after
-   * subscribing. If true, administrators must manually approve the
-   * subscription before the developer can any of the product’s APIs. Can be
-   * present only if subscriptionRequired property is present and has a value
-   * of false.
-   */
-  approvalRequired?: boolean;
-  /**
-   * @member {number} [subscriptionsLimit] Whether the number of subscriptions
-   * a user can have to this product at the same time. Set to null or omit to
-   * allow unlimited per user subscriptions. Can be present only if
-   * subscriptionRequired property is present and has a value of false.
-   */
-  subscriptionsLimit?: number;
-  /**
-   * @member {ProductState} [state] whether product is published or not.
-   * Published products are discoverable by users of developer portal. Non
-   * published products are visible only to administrators. Default state of
-   * Product is notPublished. Possible values include: 'notPublished',
-   * 'published'
-   */
-  state?: ProductState;
-  /**
-   * @member {string} [displayName] Product name.
-   */
-  displayName?: string;
+  enabled?: boolean;
 }
 
 /**
@@ -4107,17 +4390,16 @@ export interface ProductUpdateParameters {
  */
 export interface SubscriptionContract extends Resource {
   /**
-   * @member {string} userId The user resource identifier of the subscription
-   * owner. The value is a valid relative URL in the format of /users/{uid}
-   * where {uid} is a user identifier.
+   * @member {string} [ownerId] The user resource identifier of the
+   * subscription owner. The value is a valid relative URL in the format of
+   * /users/{userId} where {userId} is a user identifier.
    */
-  userId: string;
+  ownerId?: string;
   /**
-   * @member {string} productId The product resource identifier of the
-   * subscribed product. The value is a valid relative URL in the format of
-   * /products/{productId} where {productId} is a product identifier.
+   * @member {string} scope Scope like /products/{productId} or /apis or
+   * /apis/{apiId}.
    */
-  productId: string;
+  scope: string;
   /**
    * @member {string} [displayName] The name of the subscription, or null if
    * the subscription has no name.
@@ -4188,16 +4470,78 @@ export interface SubscriptionContract extends Resource {
    * administrator.
    */
   stateComment?: string;
+  /**
+   * @member {boolean} [allowTracing] Determines whether tracing is enabled
+   */
+  allowTracing?: boolean;
 }
 
 /**
  * @interface
- * An interface representing PropertyContract.
- * Property details.
+ * An interface representing ProductUpdateParameters.
+ * Product Update parameters.
  *
- * @extends Resource
  */
-export interface PropertyContract extends Resource {
+export interface ProductUpdateParameters {
+  /**
+   * @member {string} [description] Product description. May include HTML
+   * formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {string} [terms] Product terms of use. Developers trying to
+   * subscribe to the product will be presented and required to accept these
+   * terms before they can complete the subscription process.
+   */
+  terms?: string;
+  /**
+   * @member {boolean} [subscriptionRequired] Whether a product subscription is
+   * required for accessing APIs included in this product. If true, the product
+   * is referred to as "protected" and a valid subscription key is required for
+   * a request to an API included in the product to succeed. If false, the
+   * product is referred to as "open" and requests to an API included in the
+   * product can be made without a subscription key. If property is omitted
+   * when creating a new product it's value is assumed to be true.
+   */
+  subscriptionRequired?: boolean;
+  /**
+   * @member {boolean} [approvalRequired] whether subscription approval is
+   * required. If false, new subscriptions will be approved automatically
+   * enabling developers to call the product’s APIs immediately after
+   * subscribing. If true, administrators must manually approve the
+   * subscription before the developer can any of the product’s APIs. Can be
+   * present only if subscriptionRequired property is present and has a value
+   * of false.
+   */
+  approvalRequired?: boolean;
+  /**
+   * @member {number} [subscriptionsLimit] Whether the number of subscriptions
+   * a user can have to this product at the same time. Set to null or omit to
+   * allow unlimited per user subscriptions. Can be present only if
+   * subscriptionRequired property is present and has a value of false.
+   */
+  subscriptionsLimit?: number;
+  /**
+   * @member {ProductState} [state] whether product is published or not.
+   * Published products are discoverable by users of developer portal. Non
+   * published products are visible only to administrators. Default state of
+   * Product is notPublished. Possible values include: 'notPublished',
+   * 'published'
+   */
+  state?: ProductState;
+  /**
+   * @member {string} [displayName] Product name.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PropertyEntityBaseParameters.
+ * Property Entity Base Parameters set.
+ *
+ */
+export interface PropertyEntityBaseParameters {
   /**
    * @member {string[]} [tags] Optional tags that when provided can be used to
    * filter the property list.
@@ -4208,16 +4552,6 @@ export interface PropertyContract extends Resource {
    * should be encrypted or not. Default value is false.
    */
   secret?: boolean;
-  /**
-   * @member {string} displayName Unique name of Property. It may contain only
-   * letters, digits, period, dash, and underscore characters.
-   */
-  displayName: string;
-  /**
-   * @member {string} value Value of the property. Can contain policy
-   * expressions. It may not be empty or consist only of whitespace.
-   */
-  value: string;
 }
 
 /**
@@ -4251,11 +4585,12 @@ export interface PropertyUpdateParameters {
 
 /**
  * @interface
- * An interface representing PropertyEntityBaseParameters.
- * Property Entity Base Parameters set.
+ * An interface representing PropertyContract.
+ * Property details.
  *
+ * @extends Resource
  */
-export interface PropertyEntityBaseParameters {
+export interface PropertyContract extends Resource {
   /**
    * @member {string[]} [tags] Optional tags that when provided can be used to
    * filter the property list.
@@ -4266,6 +4601,16 @@ export interface PropertyEntityBaseParameters {
    * should be encrypted or not. Default value is false.
    */
   secret?: boolean;
+  /**
+   * @member {string} displayName Unique name of Property. It may contain only
+   * letters, digits, period, dash, and underscore characters.
+   */
+  displayName: string;
+  /**
+   * @member {string} value Value of the property. Can contain policy
+   * expressions. It may not be empty or consist only of whitespace.
+   */
+  value: string;
 }
 
 /**
@@ -4344,161 +4689,6 @@ export interface QuotaCounterCollection {
 
 /**
  * @interface
- * An interface representing QuotaCounterValueContract.
- * Quota counter value details.
- *
- */
-export interface QuotaCounterValueContract {
-  /**
-   * @member {number} [callsCount] Number of times Counter was called.
-   */
-  callsCount?: number;
-  /**
-   * @member {number} [kbTransferred] Data Transferred in KiloBytes.
-   */
-  kbTransferred?: number;
-}
-
-/**
- * @interface
- * An interface representing ReportRecordContract.
- * Report data.
- *
- */
-export interface ReportRecordContract {
-  /**
-   * @member {string} [name] Name depending on report endpoint specifies
-   * product, API, operation or developer name.
-   */
-  name?: string;
-  /**
-   * @member {Date} [timestamp] Start of aggregation period. The date conforms
-   * to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO
-   * 8601 standard.
-   */
-  timestamp?: Date;
-  /**
-   * @member {string} [interval] Length of agregation period.  Interval must be
-   * multiple of 15 minutes and may not be zero. The value should be in ISO
-   * 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
-   */
-  interval?: string;
-  /**
-   * @member {string} [country] Country to which this record data is related.
-   */
-  country?: string;
-  /**
-   * @member {string} [region] Country region to which this record data is
-   * related.
-   */
-  region?: string;
-  /**
-   * @member {string} [zip] Zip code to which this record data is related.
-   */
-  zip?: string;
-  /**
-   * @member {string} [userId] User identifier path. /users/{userId}
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly userId?: string;
-  /**
-   * @member {string} [productId] Product identifier path.
-   * /products/{productId}
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly productId?: string;
-  /**
-   * @member {string} [apiId] API identifier path. /apis/{apiId}
-   */
-  apiId?: string;
-  /**
-   * @member {string} [operationId] Operation identifier path.
-   * /apis/{apiId}/operations/{operationId}
-   */
-  operationId?: string;
-  /**
-   * @member {string} [apiRegion] API region identifier.
-   */
-  apiRegion?: string;
-  /**
-   * @member {string} [subscriptionId] Subscription identifier path.
-   * /subscriptions/{subscriptionId}
-   */
-  subscriptionId?: string;
-  /**
-   * @member {number} [callCountSuccess] Number of succesful calls. This
-   * includes calls returning HttpStatusCode <= 301 and
-   * HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
-   */
-  callCountSuccess?: number;
-  /**
-   * @member {number} [callCountBlocked] Number of calls blocked due to invalid
-   * credentials. This includes calls returning HttpStatusCode.Unauthorize and
-   * HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
-   */
-  callCountBlocked?: number;
-  /**
-   * @member {number} [callCountFailed] Number of calls failed due to proxy or
-   * backend errors. This includes calls returning
-   * HttpStatusCode.BadRequest(400) and any Code between
-   * HttpStatusCode.InternalServerError (500) and 600
-   */
-  callCountFailed?: number;
-  /**
-   * @member {number} [callCountOther] Number of other calls.
-   */
-  callCountOther?: number;
-  /**
-   * @member {number} [callCountTotal] Total number of calls.
-   */
-  callCountTotal?: number;
-  /**
-   * @member {number} [bandwidth] Bandwidth consumed.
-   */
-  bandwidth?: number;
-  /**
-   * @member {number} [cacheHitCount] Number of times when content was served
-   * from cache policy.
-   */
-  cacheHitCount?: number;
-  /**
-   * @member {number} [cacheMissCount] Number of times content was fetched from
-   * backend.
-   */
-  cacheMissCount?: number;
-  /**
-   * @member {number} [apiTimeAvg] Average time it took to process request.
-   */
-  apiTimeAvg?: number;
-  /**
-   * @member {number} [apiTimeMin] Minimum time it took to process request.
-   */
-  apiTimeMin?: number;
-  /**
-   * @member {number} [apiTimeMax] Maximum time it took to process request.
-   */
-  apiTimeMax?: number;
-  /**
-   * @member {number} [serviceTimeAvg] Average time it took to process request
-   * on backend.
-   */
-  serviceTimeAvg?: number;
-  /**
-   * @member {number} [serviceTimeMin] Minimum time it took to process request
-   * on backend.
-   */
-  serviceTimeMin?: number;
-  /**
-   * @member {number} [serviceTimeMax] Maximum time it took to process request
-   * on backend.
-   */
-  serviceTimeMax?: number;
-}
-
-/**
- * @interface
  * An interface representing RequestReportRecordContract.
  * Request Report data.
  *
@@ -4563,7 +4753,7 @@ export interface RequestReportRecordContract {
    * @member {string} [cache] Specifies if response cache was involved in
    * generating the response. If the value is none, the cache was not used. If
    * the value is hit, cached response was returned. If the value is miss, the
-   * cache was used but lookup resulted in a miss and request was fullfilled by
+   * cache was used but lookup resulted in a miss and request was fulfilled by
    * the backend.
    */
   cache?: string;
@@ -4598,49 +4788,140 @@ export interface RequestReportRecordContract {
 
 /**
  * @interface
- * An interface representing SubscriptionCreateParameters.
- * Subscription create details.
+ * An interface representing ReportRecordContract.
+ * Report data.
  *
  */
-export interface SubscriptionCreateParameters {
+export interface ReportRecordContract {
   /**
-   * @member {string} userId User (user id path) for whom subscription is being
-   * created in form /users/{uid}
+   * @member {string} [name] Name depending on report endpoint specifies
+   * product, API, operation or developer name.
    */
-  userId: string;
+  name?: string;
   /**
-   * @member {string} productId Product (product id path) for which
-   * subscription is being created in form /products/{productid}
+   * @member {Date} [timestamp] Start of aggregation period. The date conforms
+   * to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO
+   * 8601 standard.
    */
-  productId: string;
+  timestamp?: Date;
   /**
-   * @member {string} displayName Subscription name.
+   * @member {string} [interval] Length of aggregation period.  Interval must
+   * be multiple of 15 minutes and may not be zero. The value should be in ISO
+   * 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).
    */
-  displayName: string;
+  interval?: string;
   /**
-   * @member {string} [primaryKey] Primary subscription key. If not specified
-   * during request key will be generated automatically.
+   * @member {string} [country] Country to which this record data is related.
    */
-  primaryKey?: string;
+  country?: string;
   /**
-   * @member {string} [secondaryKey] Secondary subscription key. If not
-   * specified during request key will be generated automatically.
+   * @member {string} [region] Country region to which this record data is
+   * related.
    */
-  secondaryKey?: string;
+  region?: string;
   /**
-   * @member {SubscriptionState} [state] Initial subscription state. If no
-   * value is specified, subscription is created with Submitted state. Possible
-   * states are * active – the subscription is active, * suspended – the
-   * subscription is blocked, and the subscriber cannot call any APIs of the
-   * product, * submitted – the subscription request has been made by the
-   * developer, but has not yet been approved or rejected, * rejected – the
-   * subscription request has been denied by an administrator, * cancelled –
-   * the subscription has been cancelled by the developer or administrator, *
-   * expired – the subscription reached its expiration date and was
-   * deactivated. Possible values include: 'suspended', 'active', 'expired',
-   * 'submitted', 'rejected', 'cancelled'
+   * @member {string} [zip] Zip code to which this record data is related.
    */
-  state?: SubscriptionState;
+  zip?: string;
+  /**
+   * @member {string} [userId] User identifier path. /users/{userId}
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly userId?: string;
+  /**
+   * @member {string} [productId] Product identifier path.
+   * /products/{productId}
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly productId?: string;
+  /**
+   * @member {string} [apiId] API identifier path. /apis/{apiId}
+   */
+  apiId?: string;
+  /**
+   * @member {string} [operationId] Operation identifier path.
+   * /apis/{apiId}/operations/{operationId}
+   */
+  operationId?: string;
+  /**
+   * @member {string} [apiRegion] API region identifier.
+   */
+  apiRegion?: string;
+  /**
+   * @member {string} [subscriptionId] Subscription identifier path.
+   * /subscriptions/{subscriptionId}
+   */
+  subscriptionId?: string;
+  /**
+   * @member {number} [callCountSuccess] Number of successful calls. This
+   * includes calls returning HttpStatusCode <= 301 and
+   * HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect
+   */
+  callCountSuccess?: number;
+  /**
+   * @member {number} [callCountBlocked] Number of calls blocked due to invalid
+   * credentials. This includes calls returning HttpStatusCode.Unauthorized and
+   * HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests
+   */
+  callCountBlocked?: number;
+  /**
+   * @member {number} [callCountFailed] Number of calls failed due to proxy or
+   * backend errors. This includes calls returning
+   * HttpStatusCode.BadRequest(400) and any Code between
+   * HttpStatusCode.InternalServerError (500) and 600
+   */
+  callCountFailed?: number;
+  /**
+   * @member {number} [callCountOther] Number of other calls.
+   */
+  callCountOther?: number;
+  /**
+   * @member {number} [callCountTotal] Total number of calls.
+   */
+  callCountTotal?: number;
+  /**
+   * @member {number} [bandwidth] Bandwidth consumed.
+   */
+  bandwidth?: number;
+  /**
+   * @member {number} [cacheHitCount] Number of times when content was served
+   * from cache policy.
+   */
+  cacheHitCount?: number;
+  /**
+   * @member {number} [cacheMissCount] Number of times content was fetched from
+   * backend.
+   */
+  cacheMissCount?: number;
+  /**
+   * @member {number} [apiTimeAvg] Average time it took to process request.
+   */
+  apiTimeAvg?: number;
+  /**
+   * @member {number} [apiTimeMin] Minimum time it took to process request.
+   */
+  apiTimeMin?: number;
+  /**
+   * @member {number} [apiTimeMax] Maximum time it took to process request.
+   */
+  apiTimeMax?: number;
+  /**
+   * @member {number} [serviceTimeAvg] Average time it took to process request
+   * on backend.
+   */
+  serviceTimeAvg?: number;
+  /**
+   * @member {number} [serviceTimeMin] Minimum time it took to process request
+   * on backend.
+   */
+  serviceTimeMin?: number;
+  /**
+   * @member {number} [serviceTimeMax] Maximum time it took to process request
+   * on backend.
+   */
+  serviceTimeMax?: number;
 }
 
 /**
@@ -4651,14 +4932,14 @@ export interface SubscriptionCreateParameters {
  */
 export interface SubscriptionUpdateParameters {
   /**
-   * @member {string} [userId] User identifier path: /users/{uid}
+   * @member {string} [ownerId] User identifier path: /users/{userId}
    */
-  userId?: string;
+  ownerId?: string;
   /**
-   * @member {string} [productId] Product identifier path:
-   * /products/{productId}
+   * @member {string} [scope] Scope like /products/{productId} or /apis or
+   * /apis/{apiId}
    */
-  productId?: string;
+  scope?: string;
   /**
    * @member {Date} [expirationDate] Subscription expiration date. The setting
    * is for audit purposes only and the subscription is not automatically
@@ -4697,20 +4978,61 @@ export interface SubscriptionUpdateParameters {
    * change by the administrator.
    */
   stateComment?: string;
+  /**
+   * @member {boolean} [allowTracing] Determines whether tracing can be enabled
+   */
+  allowTracing?: boolean;
 }
 
 /**
  * @interface
- * An interface representing TagContract.
- * Tag Contract details.
+ * An interface representing SubscriptionCreateParameters.
+ * Subscription create details.
  *
- * @extends Resource
  */
-export interface TagContract extends Resource {
+export interface SubscriptionCreateParameters {
   /**
-   * @member {string} displayName Tag name.
+   * @member {string} [ownerId] User (user id path) for whom subscription is
+   * being created in form /users/{userId}
+   */
+  ownerId?: string;
+  /**
+   * @member {string} scope Scope like /products/{productId} or /apis or
+   * /apis/{apiId}.
+   */
+  scope: string;
+  /**
+   * @member {string} displayName Subscription name.
    */
   displayName: string;
+  /**
+   * @member {string} [primaryKey] Primary subscription key. If not specified
+   * during request key will be generated automatically.
+   */
+  primaryKey?: string;
+  /**
+   * @member {string} [secondaryKey] Secondary subscription key. If not
+   * specified during request key will be generated automatically.
+   */
+  secondaryKey?: string;
+  /**
+   * @member {SubscriptionState} [state] Initial subscription state. If no
+   * value is specified, subscription is created with Submitted state. Possible
+   * states are * active – the subscription is active, * suspended – the
+   * subscription is blocked, and the subscriber cannot call any APIs of the
+   * product, * submitted – the subscription request has been made by the
+   * developer, but has not yet been approved or rejected, * rejected – the
+   * subscription request has been denied by an administrator, * cancelled –
+   * the subscription has been cancelled by the developer or administrator, *
+   * expired – the subscription reached its expiration date and was
+   * deactivated. Possible values include: 'suspended', 'active', 'expired',
+   * 'submitted', 'rejected', 'cancelled'
+   */
+  state?: SubscriptionState;
+  /**
+   * @member {boolean} [allowTracing] Determines whether tracing can be enabled
+   */
+  allowTracing?: boolean;
 }
 
 /**
@@ -4728,112 +5050,46 @@ export interface TagCreateUpdateParameters {
 
 /**
  * @interface
- * An interface representing TagDescriptionContract.
- * Contract details.
- *
- * @extends Resource
- */
-export interface TagDescriptionContract extends Resource {
-  /**
-   * @member {string} [description] Description of the Tag.
-   */
-  description?: string;
-  /**
-   * @member {string} [externalDocsUrl] Absolute URL of external resources
-   * describing the tag.
-   */
-  externalDocsUrl?: string;
-  /**
-   * @member {string} [externalDocsDescription] Description of the external
-   * resources describing the tag.
-   */
-  externalDocsDescription?: string;
-  /**
-   * @member {string} [displayName] Tag name.
-   */
-  displayName?: string;
-}
-
-/**
- * @interface
- * An interface representing TagDescriptionCreateParameters.
- * Parameters supplied to the Create TagDescription operation.
+ * An interface representing TenantConfigurationSyncStateContract.
+ * Tenant Configuration Synchronization State.
  *
  */
-export interface TagDescriptionCreateParameters {
+export interface TenantConfigurationSyncStateContract {
   /**
-   * @member {string} [description] Description of the Tag.
+   * @member {string} [branch] The name of Git branch.
    */
-  description?: string;
+  branch?: string;
   /**
-   * @member {string} [externalDocsUrl] Absolute URL of external resources
-   * describing the tag.
+   * @member {string} [commitId] The latest commit Id.
    */
-  externalDocsUrl?: string;
+  commitId?: string;
   /**
-   * @member {string} [externalDocsDescription] Description of the external
-   * resources describing the tag.
+   * @member {boolean} [isExport] value indicating if last sync was save (true)
+   * or deploy (false) operation.
    */
-  externalDocsDescription?: string;
-}
-
-/**
- * @interface
- * An interface representing AccessInformationContract.
- * Tenant access information contract of the API Management service.
- *
- */
-export interface AccessInformationContract {
+  isExport?: boolean;
   /**
-   * @member {string} [id] Identifier.
+   * @member {boolean} [isSynced] value indicating if last synchronization was
+   * later than the configuration change.
    */
-  id?: string;
+  isSynced?: boolean;
   /**
-   * @member {string} [primaryKey] Primary access key.
+   * @member {boolean} [isGitEnabled] value indicating whether Git
+   * configuration access is enabled.
    */
-  primaryKey?: string;
+  isGitEnabled?: boolean;
   /**
-   * @member {string} [secondaryKey] Secondary access key.
+   * @member {Date} [syncDate] The date of the latest synchronization. The date
+   * conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by
+   * the ISO 8601 standard.
    */
-  secondaryKey?: string;
+  syncDate?: Date;
   /**
-   * @member {boolean} [enabled] Tenant access information of the API
-   * Management service.
+   * @member {Date} [configurationChangeDate] The date of the latest
+   * configuration change. The date conforms to the following format:
+   * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
    */
-  enabled?: boolean;
-}
-
-/**
- * @interface
- * An interface representing AccessInformationUpdateParameters.
- * Tenant access information update parameters of the API Management service.
- *
- */
-export interface AccessInformationUpdateParameters {
-  /**
-   * @member {boolean} [enabled] Tenant access information of the API
-   * Management service.
-   */
-  enabled?: boolean;
-}
-
-/**
- * @interface
- * An interface representing DeployConfigurationParameters.
- * Parameters supplied to the Deploy Configuration operation.
- *
- */
-export interface DeployConfigurationParameters {
-  /**
-   * @member {string} branch The name of the Git branch from which the
-   * configuration is to be deployed to the configuration database.
-   */
-  branch: string;
-  /**
-   * @member {boolean} [force] The value enforcing deleting subscriptions to
-   * products that are deleted in this update.
-   */
-  force?: boolean;
+  configurationChangeDate?: Date;
 }
 
 /**
@@ -4907,6 +5163,25 @@ export interface OperationResultContract {
 
 /**
  * @interface
+ * An interface representing DeployConfigurationParameters.
+ * Parameters supplied to the Deploy Configuration operation.
+ *
+ */
+export interface DeployConfigurationParameters {
+  /**
+   * @member {string} branch The name of the Git branch from which the
+   * configuration is to be deployed to the configuration database.
+   */
+  branch: string;
+  /**
+   * @member {boolean} [force] The value enforcing deleting subscriptions to
+   * products that are deleted in this update.
+   */
+  force?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing SaveConfigurationParameter.
  * Parameters supplied to the Save Tenant Configuration operation.
  *
@@ -4927,46 +5202,74 @@ export interface SaveConfigurationParameter {
 
 /**
  * @interface
- * An interface representing TenantConfigurationSyncStateContract.
- * Tenant Configuration Synchronization State.
+ * An interface representing AccessInformationContract.
+ * Tenant access information contract of the API Management service.
  *
  */
-export interface TenantConfigurationSyncStateContract {
+export interface AccessInformationContract {
   /**
-   * @member {string} [branch] The name of Git branch.
+   * @member {string} [id] Identifier.
    */
-  branch?: string;
+  id?: string;
   /**
-   * @member {string} [commitId] The latest commit Id.
+   * @member {string} [primaryKey] Primary access key.
    */
-  commitId?: string;
+  primaryKey?: string;
   /**
-   * @member {boolean} [isExport] value indicating if last sync was save (true)
-   * or deploy (false) operation.
+   * @member {string} [secondaryKey] Secondary access key.
    */
-  isExport?: boolean;
+  secondaryKey?: string;
   /**
-   * @member {boolean} [isSynced] value indicating if last synchronization was
-   * later than the configuration change.
+   * @member {boolean} [enabled] Determines whether direct access is enabled.
    */
-  isSynced?: boolean;
+  enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing AccessInformationUpdateParameters.
+ * Tenant access information update parameters of the API Management service
+ *
+ */
+export interface AccessInformationUpdateParameters {
   /**
-   * @member {boolean} [isGitEnabled] value indicating whether Git
-   * configuration access is enabled.
+   * @member {boolean} [enabled] Determines whether direct access is enabled.
    */
-  isGitEnabled?: boolean;
+  enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing UserTokenResult.
+ * Get User Token response details.
+ *
+ */
+export interface UserTokenResult {
   /**
-   * @member {Date} [syncDate] The date of the latest synchronization. The date
-   * conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by
-   * the ISO 8601 standard.
+   * @member {string} [value] Shared Access Authorization token for the User.
    */
-  syncDate?: Date;
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserTokenParameters.
+ * Parameters supplied to the Get User Token operation.
+ *
+ */
+export interface UserTokenParameters {
   /**
-   * @member {Date} [configurationChangeDate] The date of the latest
-   * configuration change. The date conforms to the following format:
+   * @member {KeyType} keyType The Key to be used to generate token for user.
+   * Possible values include: 'primary', 'secondary'. Default value: 'primary'
+   * .
+   */
+  keyType: KeyType;
+  /**
+   * @member {Date} expiry The Expiry time of the Token. Maximum token expiry
+   * time is set to 30 days. The date conforms to the following format:
    * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
    */
-  configurationChangeDate?: Date;
+  expiry: Date;
 }
 
 /**
@@ -4980,6 +5283,50 @@ export interface GenerateSsoUrlResult {
    * @member {string} [value] Redirect Url containing the SSO URL value.
    */
   value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserUpdateParameters.
+ * User update parameters.
+ *
+ */
+export interface UserUpdateParameters {
+  /**
+   * @member {UserState} [state] Account state. Specifies whether the user is
+   * active or not. Blocked users are unable to sign into the developer portal
+   * or call any APIs of subscribed products. Default state is Active. Possible
+   * values include: 'active', 'blocked', 'pending', 'deleted'. Default value:
+   * 'active' .
+   */
+  state?: UserState;
+  /**
+   * @member {string} [note] Optional note about a user set by the
+   * administrator.
+   */
+  note?: string;
+  /**
+   * @member {UserIdentityContract[]} [identities] Collection of user
+   * identities.
+   */
+  identities?: UserIdentityContract[];
+  /**
+   * @member {string} [email] Email address. Must not be empty and must be
+   * unique within the service instance.
+   */
+  email?: string;
+  /**
+   * @member {string} [password] User Password.
+   */
+  password?: string;
+  /**
+   * @member {string} [firstName] First name.
+   */
+  firstName?: string;
+  /**
+   * @member {string} [lastName] Last name.
+   */
+  lastName?: string;
 }
 
 /**
@@ -5035,211 +5382,47 @@ export interface UserCreateParameters {
 
 /**
  * @interface
- * An interface representing UserTokenParameters.
- * Parameters supplied to the Get User Token operation.
+ * An interface representing ApiRevisionInfoContract.
+ * Object used to create an API Revision or Version based on an existing API
+ * Revision
  *
  */
-export interface UserTokenParameters {
+export interface ApiRevisionInfoContract {
   /**
-   * @member {KeyType} keyType The Key to be used to generate token for user.
-   * Possible values include: 'primary', 'secondary'. Default value: 'primary'
-   * .
+   * @member {string} [sourceApiId] Resource identifier of API to be used to
+   * create the revision from.
    */
-  keyType: KeyType;
+  sourceApiId?: string;
   /**
-   * @member {Date} expiry The Expiry time of the Token. Maximum token expiry
-   * time is set to 30 days. The date conforms to the following format:
-   * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   * @member {string} [apiVersionName] Version identifier for the new API
+   * Version.
    */
-  expiry: Date;
+  apiVersionName?: string;
+  /**
+   * @member {string} [apiRevisionDescription] Description of new API Revision.
+   */
+  apiRevisionDescription?: string;
+  /**
+   * @member {ApiVersionSetContractDetails} [apiVersionSet] Version set details
+   */
+  apiVersionSet?: ApiVersionSetContractDetails;
 }
 
 /**
  * @interface
- * An interface representing UserTokenResult.
- * Get User Token response details.
+ * An interface representing QuotaCounterValueContract.
+ * Quota counter value details.
  *
  */
-export interface UserTokenResult {
+export interface QuotaCounterValueContract {
   /**
-   * @member {string} [value] Shared Access Authorization token for the User.
+   * @member {number} [callsCount] Number of times Counter was called.
    */
-  value?: string;
-}
-
-/**
- * @interface
- * An interface representing UserUpdateParameters.
- * User update parameters.
- *
- */
-export interface UserUpdateParameters {
+  callsCount?: number;
   /**
-   * @member {UserState} [state] Account state. Specifies whether the user is
-   * active or not. Blocked users are unable to sign into the developer portal
-   * or call any APIs of subscribed products. Default state is Active. Possible
-   * values include: 'active', 'blocked', 'pending', 'deleted'. Default value:
-   * 'active' .
+   * @member {number} [kbTransferred] Data Transferred in KiloBytes.
    */
-  state?: UserState;
-  /**
-   * @member {string} [note] Optional note about a user set by the
-   * administrator.
-   */
-  note?: string;
-  /**
-   * @member {UserIdentityContract[]} [identities] Collection of user
-   * identities.
-   */
-  identities?: UserIdentityContract[];
-  /**
-   * @member {string} [email] Email address. Must not be empty and must be
-   * unique within the service instance.
-   */
-  email?: string;
-  /**
-   * @member {string} [password] User Password.
-   */
-  password?: string;
-  /**
-   * @member {string} [firstName] First name.
-   */
-  firstName?: string;
-  /**
-   * @member {string} [lastName] Last name.
-   */
-  lastName?: string;
-}
-
-/**
- * @interface
- * An interface representing CurrentUserIdentity.
- */
-export interface CurrentUserIdentity {
-  /**
-   * @member {string} [id] API Management service user id.
-   */
-  id?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiVersionSetContract.
- * Api Version Set Contract details.
- *
- * @extends Resource
- */
-export interface ApiVersionSetContract extends Resource {
-  /**
-   * @member {string} [description] Description of API Version Set.
-   */
-  description?: string;
-  /**
-   * @member {string} [versionQueryName] Name of query parameter that indicates
-   * the API Version if versioningScheme is set to `query`.
-   */
-  versionQueryName?: string;
-  /**
-   * @member {string} [versionHeaderName] Name of HTTP header parameter that
-   * indicates the API Version if versioningScheme is set to `header`.
-   */
-  versionHeaderName?: string;
-  /**
-   * @member {string} displayName Name of API Version Set
-   */
-  displayName: string;
-  /**
-   * @member {VersioningScheme} versioningScheme An value that determines where
-   * the API Version identifer will be located in a HTTP request. Possible
-   * values include: 'Segment', 'Query', 'Header'
-   */
-  versioningScheme: VersioningScheme;
-}
-
-/**
- * @interface
- * An interface representing ApiVersionSetEntityBase.
- * Api Version set base parameters
- *
- */
-export interface ApiVersionSetEntityBase {
-  /**
-   * @member {string} [description] Description of API Version Set.
-   */
-  description?: string;
-  /**
-   * @member {string} [versionQueryName] Name of query parameter that indicates
-   * the API Version if versioningScheme is set to `query`.
-   */
-  versionQueryName?: string;
-  /**
-   * @member {string} [versionHeaderName] Name of HTTP header parameter that
-   * indicates the API Version if versioningScheme is set to `header`.
-   */
-  versionHeaderName?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiVersionSetUpdateParameters.
- * Parameters to update or create an Api Version Set Contract.
- *
- */
-export interface ApiVersionSetUpdateParameters {
-  /**
-   * @member {string} [description] Description of API Version Set.
-   */
-  description?: string;
-  /**
-   * @member {string} [versionQueryName] Name of query parameter that indicates
-   * the API Version if versioningScheme is set to `query`.
-   */
-  versionQueryName?: string;
-  /**
-   * @member {string} [versionHeaderName] Name of HTTP header parameter that
-   * indicates the API Version if versioningScheme is set to `header`.
-   */
-  versionHeaderName?: string;
-  /**
-   * @member {string} [displayName] Name of API Version Set
-   */
-  displayName?: string;
-  /**
-   * @member {VersioningScheme} [versioningScheme] An value that determines
-   * where the API Version identifer will be located in a HTTP request.
-   * Possible values include: 'Segment', 'Query', 'Header'
-   */
-  versioningScheme?: VersioningScheme;
-}
-
-/**
- * @interface
- * An interface representing PolicyListByServiceOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface PolicyListByServiceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {PolicyScopeContract} [scope] Policy scope. Possible values
-   * include: 'Tenant', 'Product', 'Api', 'Operation', 'All'
-   */
-  scope?: PolicyScopeContract;
-}
-
-/**
- * @interface
- * An interface representing PolicySnippetsListByServiceOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface PolicySnippetsListByServiceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {PolicyScopeContract} [scope] Policy scope. Possible values
-   * include: 'Tenant', 'Product', 'Api', 'Operation', 'All'
-   */
-  scope?: PolicyScopeContract;
+  kbTransferred?: number;
 }
 
 /**
@@ -5251,19 +5434,16 @@ export interface PolicySnippetsListByServiceOptionalParams extends msRest.Reques
  */
 export interface ApiListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | description | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | serviceUrl  | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | path        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| description | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| path | filter | ge, le, eq, ne,
+   * gt, lt | substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5275,8 +5455,12 @@ export interface ApiListByServiceOptionalParams extends msRest.RequestOptionsBas
    */
   skip?: number;
   /**
+   * @member {string} [tags] Include tags in the response.
+   */
+  tags?: string;
+  /**
    * @member {boolean} [expandApiVersionSet] Include full ApiVersionSet
-   * resource in response. Default value: false .
+   * resource in response
    */
   expandApiVersionSet?: boolean;
 }
@@ -5320,51 +5504,67 @@ export interface ApiDeleteMethodOptionalParams extends msRest.RequestOptionsBase
 export interface ApiListByTagsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | aid         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | apiRevision | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | path        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | serviceUrl  | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | isCurrent   | eq                     | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing ApiRevisionsListOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ApiRevisionsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
    * Supported functions               |
    * |-------------|------------------------|-----------------------------------|
    *
+   * |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith|
+   * |displayName | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith|
    * |apiRevision | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
    * endswith|
+   * |path | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith|
+   * |description | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith|
+   * |serviceUrl | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith|
+   * |isCurrent | eq |    |
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+  /**
+   * @member {boolean} [includeNotTaggedApis] Include not tagged APIs.
+   */
+  includeNotTaggedApis?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ApiBeginCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiRevisionListByServiceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiRevisionListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5379,19 +5579,18 @@ export interface ApiRevisionsListOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
- * An interface representing ApiReleaseListOptionalParams.
+ * An interface representing ApiReleaseListByServiceOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ApiReleaseListOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiReleaseListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field | Supported operators    | Supported
-   * functions                         |
-   * |-------|------------------------|---------------------------------------------|
-   * | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
-   * |notes|ge le eq ne gt lt|substringof contains startswith endswith|
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * notes | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5402,6 +5601,21 @@ export interface ApiReleaseListOptionalParams extends msRest.RequestOptionsBase 
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ApiReleaseCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiReleaseCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
 }
 
 /**
@@ -5413,17 +5627,16 @@ export interface ApiReleaseListOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface ApiOperationListByApiOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | name        | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | method      | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | description | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | urlTemplate | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| method | filter | ge,
+   * le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>|
+   * description | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| urlTemplate | filter | ge, le, eq, ne, gt,
+   * lt | substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5434,6 +5647,10 @@ export interface ApiOperationListByApiOptionalParams extends msRest.RequestOptio
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {string} [tags] Include tags in the response.
+   */
+  tags?: string;
 }
 
 /**
@@ -5468,6 +5685,133 @@ export interface ApiOperationPolicyCreateOrUpdateOptionalParams extends msRest.R
 
 /**
  * @interface
+ * An interface representing TagListByOperationOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TagListByOperationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| name | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
+ * An interface representing TagListByApiOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TagListByApiOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| name | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
+ * An interface representing TagListByProductOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TagListByProductOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| name | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
+ * An interface representing TagListByServiceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TagListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+  /**
+   * @member {string} [scope] Scope like 'apis', 'products' or 'apis/{apiId}
+   */
+  scope?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface TagCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
  * An interface representing ApiProductListByApisOptionalParams.
  * Optional Parameters.
  *
@@ -5475,11 +5819,11 @@ export interface ApiOperationPolicyCreateOrUpdateOptionalParams extends msRest.R
  */
 export interface ApiProductListByApisOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field | Supported operators    | Supported
-   * functions                         |
-   * |-------|------------------------|---------------------------------------------|
-   * | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5509,6 +5853,32 @@ export interface ApiPolicyCreateOrUpdateOptionalParams extends msRest.RequestOpt
 
 /**
  * @interface
+ * An interface representing ApiSchemaListByApiOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiSchemaListByApiOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * contentType | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
  * An interface representing ApiSchemaCreateOrUpdateOptionalParams.
  * Optional Parameters.
  *
@@ -5524,6 +5894,21 @@ export interface ApiSchemaCreateOrUpdateOptionalParams extends msRest.RequestOpt
 
 /**
  * @interface
+ * An interface representing ApiSchemaDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiSchemaDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [force] If true removes all references to the schema
+   * before deleting it.
+   */
+  force?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing ApiDiagnosticListByServiceOptionalParams.
  * Optional Parameters.
  *
@@ -5531,11 +5916,11 @@ export interface ApiSchemaCreateOrUpdateOptionalParams extends msRest.RequestOpt
  */
 export interface ApiDiagnosticListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>
    */
   filter?: string;
   /**
@@ -5565,22 +5950,26 @@ export interface ApiDiagnosticCreateOrUpdateOptionalParams extends msRest.Reques
 
 /**
  * @interface
- * An interface representing ApiDiagnosticLoggerListByServiceOptionalParams.
+ * An interface representing ApiIssueListByServiceOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ApiDiagnosticLoggerListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | type        | eq                     |
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| userId | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| state | filter | eq |     | </br>
    */
   filter?: string;
+  /**
+   * @member {boolean} [expandCommentsAttachments] Expand the comment
+   * attachments.
+   */
+  expandCommentsAttachments?: boolean;
   /**
    * @member {number} [top] Number of records to return.
    */
@@ -5593,32 +5982,17 @@ export interface ApiDiagnosticLoggerListByServiceOptionalParams extends msRest.R
 
 /**
  * @interface
- * An interface representing ApiIssueListByServiceOptionalParams.
+ * An interface representing ApiIssueGetOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface ApiIssueListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiIssueGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | state        | eq                     |
-   * |
-   * | userId          | ge, le, eq, ne, gt, lt | substringof, startswith,
-   * endswith |
+   * @member {boolean} [expandCommentsAttachments] Expand the comment
+   * attachments.
    */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
+  expandCommentsAttachments?: boolean;
 }
 
 /**
@@ -5630,25 +6004,8 @@ export interface ApiIssueListByServiceOptionalParams extends msRest.RequestOptio
  */
 export interface ApiIssueCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [ifMatch] ETag of the Issue Entity. ETag should match the
-   * current entity state from the header response of the GET request or it
-   * should be * for unconditional update.
-   */
-  ifMatch?: string;
-}
-
-/**
- * @interface
- * An interface representing ApiIssueUpdateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ApiIssueUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ifMatch] ETag of the Issue Entity. ETag should match the
-   * current entity state from the header response of the GET request or it
-   * should be * for unconditional update.
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
    */
   ifMatch?: string;
 }
@@ -5662,13 +6019,12 @@ export interface ApiIssueUpdateOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface ApiIssueCommentListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | userId          | ge, le, eq, ne, gt, lt | substringof, startswith,
-   * endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| userId | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5690,9 +6046,8 @@ export interface ApiIssueCommentListByServiceOptionalParams extends msRest.Reque
  */
 export interface ApiIssueCommentCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [ifMatch] ETag of the Issue Entity. ETag should match the
-   * current entity state from the header response of the GET request or it
-   * should be * for unconditional update.
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
    */
   ifMatch?: string;
 }
@@ -5706,13 +6061,12 @@ export interface ApiIssueCommentCreateOrUpdateOptionalParams extends msRest.Requ
  */
 export interface ApiIssueAttachmentListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | userId          | ge, le, eq, ne, gt, lt | substringof, startswith,
-   * endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| userId | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5734,9 +6088,127 @@ export interface ApiIssueAttachmentListByServiceOptionalParams extends msRest.Re
  */
 export interface ApiIssueAttachmentCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [ifMatch] ETag of the Issue Entity. ETag should match the
-   * current entity state from the header response of the GET request or it
-   * should be * for unconditional update.
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiTagDescriptionListByServiceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiTagDescriptionListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>|
+   * displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| name | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ApiTagDescriptionCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiTagDescriptionCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationListByTagsOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface OperationListByTagsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| apiName | filter |
+   * ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| description | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| method | filter | ge, le, eq, ne,
+   * gt, lt | substringof, contains, startswith, endswith | </br>| urlTemplate
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+  /**
+   * @member {boolean} [includeNotTaggedOperations] Include not tagged
+   * Operations.
+   */
+  includeNotTaggedOperations?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetListByServiceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiVersionSetListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ApiVersionSetCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
    */
   ifMatch?: string;
 }
@@ -5750,13 +6222,12 @@ export interface ApiIssueAttachmentCreateOrUpdateOptionalParams extends msRest.R
  */
 export interface AuthorizationServerListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field | Supported operators    | Supported
-   * functions                         |
-   * |-------|------------------------|---------------------------------------------|
-   * | id    | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
-   * | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5793,13 +6264,13 @@ export interface AuthorizationServerCreateOrUpdateOptionalParams extends msRest.
  */
 export interface BackendListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field | Supported operators    | Supported
-   * functions                         |
-   * |-------|------------------------|---------------------------------------------|
-   * | id    | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
-   * | host  | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| title | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| url | filter | ge, le, eq, ne, gt,
+   * lt | substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -5844,6 +6315,39 @@ export interface BackendReconnectOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
+ * An interface representing CacheListByServiceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface CacheListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
+ * An interface representing CacheCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface CacheCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
  * An interface representing CertificateListByServiceOptionalParams.
  * Optional Parameters.
  *
@@ -5851,17 +6355,14 @@ export interface BackendReconnectOptionalParams extends msRest.RequestOptionsBas
  */
 export interface CertificateListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field          | Supported operators    |
-   * Supported functions                         |
-   * |----------------|------------------------|---------------------------------------------|
-   * | id             | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | subject        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | thumbprint     | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | expirationDate | ge, le, eq, ne, gt, lt | N/A
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| subject | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| thumbprint | filter | ge, le, eq,
+   * ne, gt, lt | substringof, contains, startswith, endswith | </br>|
+   * expirationDate | filter | ge, le, eq, ne, gt, lt |     | </br>
    */
   filter?: string;
   /**
@@ -5934,11 +6435,11 @@ export interface ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOption
  */
 export interface DiagnosticListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>
    */
   filter?: string;
   /**
@@ -5968,40 +6469,20 @@ export interface DiagnosticCreateOrUpdateOptionalParams extends msRest.RequestOp
 
 /**
  * @interface
- * An interface representing DiagnosticLoggerListByServiceOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface DiagnosticLoggerListByServiceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, startswith, endswith
-   * |
-   * | type        | eq                     |
-   * |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
  * An interface representing EmailTemplateListByServiceOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
 export interface EmailTemplateListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>
+   */
+  filter?: string;
   /**
    * @member {number} [top] Number of records to return.
    */
@@ -6036,17 +6517,14 @@ export interface EmailTemplateCreateOrUpdateOptionalParams extends msRest.Reques
  */
 export interface GroupListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | type        | eq, ne                 | N/A
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| description | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| aadObjectId | filter | eq |     | </br>
    */
   filter?: string;
   /**
@@ -6083,23 +6561,17 @@ export interface GroupCreateOrUpdateOptionalParams extends msRest.RequestOptions
  */
 export interface GroupUserListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field            | Supported operators    |
-   * Supported functions               |
-   * |------------------|------------------------|-----------------------------------|
-   * | id               | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | firstName        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | lastName         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | email            | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state            | eq                     | N/A
-   * |
-   * | registrationDate | ge, le, eq, ne, gt, lt | N/A
-   * |
-   * | note             | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| firstName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| lastName | filter |
+   * ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| registrationDate | filter | ge, le, eq, ne,
+   * gt, lt |     | </br>| note | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -6129,6 +6601,38 @@ export interface IdentityProviderCreateOrUpdateOptionalParams extends msRest.Req
 
 /**
  * @interface
+ * An interface representing IssueListByServiceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface IssueListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| title | filter | ge, le, eq, ne,
+   * gt, lt | substringof, contains, startswith, endswith | </br>| description
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| authorName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| state | filter | eq |
+   * | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+}
+
+/**
+ * @interface
  * An interface representing LoggerListByServiceOptionalParams.
  * Optional Parameters.
  *
@@ -6136,13 +6640,14 @@ export interface IdentityProviderCreateOrUpdateOptionalParams extends msRest.Req
  */
 export interface LoggerListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field | Supported operators    | Supported
-   * functions                         |
-   * |-------|------------------------|---------------------------------------------|
-   * | id    | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
-   * | type  | eq                     |
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| description | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| loggerType | filter |
+   * eq |     | </br>| resourceId | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -6168,6 +6673,20 @@ export interface LoggerCreateOrUpdateOptionalParams extends msRest.RequestOption
    * an entity, but required when updating an entity.
    */
   ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing LoggerDeleteMethodOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface LoggerDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [force] Force deletion even if diagnostic is attached.
+   */
+  force?: boolean;
 }
 
 /**
@@ -6212,13 +6731,12 @@ export interface NotificationCreateOrUpdateOptionalParams extends msRest.Request
  */
 export interface OpenIdConnectProviderListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field | Supported operators    | Supported
-   * functions                         |
-   * |-------|------------------------|---------------------------------------------|
-   * | id    | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
-   * | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -6248,6 +6766,81 @@ export interface OpenIdConnectProviderCreateOrUpdateOptionalParams extends msRes
 
 /**
  * @interface
+ * An interface representing PolicyCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface PolicyCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicySnippetListByServiceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface PolicySnippetListByServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {PolicyScopeContract} [scope] Policy scope. Possible values
+   * include: 'Tenant', 'Product', 'Api', 'Operation', 'All'
+   */
+  scope?: PolicyScopeContract;
+}
+
+/**
+ * @interface
+ * An interface representing SignInSettingsCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SignInSettingsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SignUpSettingsCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface SignUpSettingsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DelegationSettingsCreateOrUpdateOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DelegationSettingsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
+   * an entity, but required when updating an entity.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * @interface
  * An interface representing ProductListByServiceOptionalParams.
  * Optional Parameters.
  *
@@ -6255,19 +6848,16 @@ export interface OpenIdConnectProviderCreateOrUpdateOptionalParams extends msRes
  */
 export interface ProductListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | terms       | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state       | eq                     |
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| description | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| state | filter | eq |     | </br>| groups |
+   * expand |     |     | </br>
    */
   filter?: string;
   /**
@@ -6284,6 +6874,10 @@ export interface ProductListByServiceOptionalParams extends msRest.RequestOption
    * false.
    */
   expandGroups?: boolean;
+  /**
+   * @member {string} [tags] Products which are part of a specific tag.
+   */
+  tags?: string;
 }
 
 /**
@@ -6318,6 +6912,41 @@ export interface ProductDeleteMethodOptionalParams extends msRest.RequestOptions
 
 /**
  * @interface
+ * An interface representing ProductListByTagsOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface ProductListByTagsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| description | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| state | filter | eq | substringof, contains,
+   * startswith, endswith | </br>
+   */
+  filter?: string;
+  /**
+   * @member {number} [top] Number of records to return.
+   */
+  top?: number;
+  /**
+   * @member {number} [skip] Number of records to skip.
+   */
+  skip?: number;
+  /**
+   * @member {boolean} [includeNotTaggedProducts] Include not tagged Products.
+   */
+  includeNotTaggedProducts?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing ProductApiListByProductOptionalParams.
  * Optional Parameters.
  *
@@ -6325,19 +6954,16 @@ export interface ProductDeleteMethodOptionalParams extends msRest.RequestOptions
  */
 export interface ProductApiListByProductOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | serviceUrl  | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | path        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| description | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| path | filter | ge, le, eq, ne,
+   * gt, lt | substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -6359,17 +6985,11 @@ export interface ProductApiListByProductOptionalParams extends msRest.RequestOpt
  */
 export interface ProductGroupListByProductOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | type        | eq, ne                 | N/A
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt |     | </br>| displayName | filter |
+   * eq, ne |     | </br>| description | filter | eq, ne |     | </br>
    */
   filter?: string;
   /**
@@ -6391,21 +7011,20 @@ export interface ProductGroupListByProductOptionalParams extends msRest.RequestO
  */
 export interface ProductSubscriptionsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field        | Supported operators    |
-   * Supported functions                         |
-   * |--------------|------------------------|---------------------------------------------|
-   * | id           | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | stateComment | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | userId       | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | productId    | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state        | eq                     |
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| stateComment | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| scope | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| userId | filter | ge,
+   * le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>|
+   * productId | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| state | filter | eq |     | </br>| user |
+   * expand |     |     | </br>
    */
   filter?: string;
   /**
@@ -6442,13 +7061,12 @@ export interface ProductPolicyCreateOrUpdateOptionalParams extends msRest.Reques
  */
 export interface PropertyListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field | Supported operators    | Supported
-   * functions                                   |
-   * |-------|------------------------|-------------------------------------------------------|
-   * | tags  | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith, any, all |
-   * | name  | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith           |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| tags
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith, any, all | </br>| displayName | filter | ge, le, eq, ne, gt, lt
+   * | substringof, contains, startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -6492,6 +7110,10 @@ export interface ReportsListByApiOptionalParams extends msRest.RequestOptionsBas
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {string} [orderby] OData order by query option.
+   */
+  orderby?: string;
 }
 
 /**
@@ -6510,6 +7132,10 @@ export interface ReportsListByUserOptionalParams extends msRest.RequestOptionsBa
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {string} [orderby] OData order by query option.
+   */
+  orderby?: string;
 }
 
 /**
@@ -6528,6 +7154,10 @@ export interface ReportsListByOperationOptionalParams extends msRest.RequestOpti
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {string} [orderby] OData order by query option.
+   */
+  orderby?: string;
 }
 
 /**
@@ -6546,6 +7176,10 @@ export interface ReportsListByProductOptionalParams extends msRest.RequestOption
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {string} [orderby] OData order by query option.
+   */
+  orderby?: string;
 }
 
 /**
@@ -6556,10 +7190,6 @@ export interface ReportsListByProductOptionalParams extends msRest.RequestOption
  * @extends RequestOptionsBase
  */
 export interface ReportsListByGeoOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] The filter to apply on the operation.
-   */
-  filter?: string;
   /**
    * @member {number} [top] Number of records to return.
    */
@@ -6579,10 +7209,6 @@ export interface ReportsListByGeoOptionalParams extends msRest.RequestOptionsBas
  */
 export interface ReportsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] The filter to apply on the operation.
-   */
-  filter?: string;
-  /**
    * @member {number} [top] Number of records to return.
    */
   top?: number;
@@ -6590,6 +7216,10 @@ export interface ReportsListBySubscriptionOptionalParams extends msRest.RequestO
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {string} [orderby] OData order by query option.
+   */
+  orderby?: string;
 }
 
 /**
@@ -6601,10 +7231,6 @@ export interface ReportsListBySubscriptionOptionalParams extends msRest.RequestO
  */
 export interface ReportsListByTimeOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] The filter to apply on the operation.
-   */
-  filter?: string;
-  /**
    * @member {number} [top] Number of records to return.
    */
   top?: number;
@@ -6612,6 +7238,10 @@ export interface ReportsListByTimeOptionalParams extends msRest.RequestOptionsBa
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {string} [orderby] OData order by query option.
+   */
+  orderby?: string;
 }
 
 /**
@@ -6641,21 +7271,20 @@ export interface ReportsListByRequestOptionalParams extends msRest.RequestOption
  */
 export interface SubscriptionListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field        | Supported operators    |
-   * Supported functions                         |
-   * |--------------|------------------------|---------------------------------------------|
-   * | id           | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | stateComment | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | userId       | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | productId    | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state        | eq                     |
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| stateComment | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| scope | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| userId | filter | ge,
+   * le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>|
+   * productId | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| state | filter | eq |     | </br>| user |
+   * expand |     |     | </br>
    */
   filter?: string;
   /**
@@ -6716,277 +7345,25 @@ export interface SubscriptionUpdateOptionalParams extends msRest.RequestOptionsB
  */
 export interface TagResourceListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | aid         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | apiName     | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | apiRevision | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | path        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | serviceUrl  | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | method      | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | urlTemplate | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | terms       | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state       | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | isCurrent   | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing TagListByServiceOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagListByServiceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing TagListByApiOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagListByApiOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing TagAssignToApiOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagAssignToApiOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
-   * an entity, but required when updating an entity.
-   */
-  ifMatch?: string;
-}
-
-/**
- * @interface
- * An interface representing TagListByOperationOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagListByOperationOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | method     | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
-   * endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | urlTemplate | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing TagAssignToOperationOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagAssignToOperationOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
-   * an entity, but required when updating an entity.
-   */
-  ifMatch?: string;
-}
-
-/**
- * @interface
- * An interface representing TagListByProductOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagListByProductOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing TagAssignToProductOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagAssignToProductOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
-   * an entity, but required when updating an entity.
-   */
-  ifMatch?: string;
-}
-
-/**
- * @interface
- * An interface representing TagDescriptionListByApiOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagDescriptionListByApiOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing TagDescriptionCreateOrUpdateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface TagDescriptionCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
-   * an entity, but required when updating an entity.
-   */
-  ifMatch?: string;
-}
-
-/**
- * @interface
- * An interface representing OperationListByTagsOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface OperationListByTagsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | apiName     | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | method      | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | urlTemplate | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| aid
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| name | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| displayName | filter | ge, le, eq,
+   * ne, gt, lt | substringof, contains, startswith, endswith | </br>| apiName
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| apiRevision | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| path | filter | ge,
+   * le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>|
+   * description | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| serviceUrl | filter | ge, le, eq, ne, gt, lt
+   * | substringof, contains, startswith, endswith | </br>| method | filter |
+   * ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof,
+   * contains, startswith, endswith | </br>| terms | filter | ge, le, eq, ne,
+   * gt, lt | substringof, contains, startswith, endswith | </br>| state |
+   * filter | eq |     | </br>| isCurrent | filter | eq |     | </br>
    */
   filter?: string;
   /**
@@ -7008,23 +7385,18 @@ export interface OperationListByTagsOptionalParams extends msRest.RequestOptions
  */
 export interface UserListByServiceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field            | Supported operators    |
-   * Supported functions               |
-   * |------------------|------------------------|-----------------------------------|
-   * | id               | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | firstName        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | lastName         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | email            | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state            | eq                     | N/A
-   * |
-   * | registrationDate | ge, le, eq, ne, gt, lt | N/A
-   * |
-   * | note             | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| firstName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| lastName | filter |
+   * ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| state | filter | eq |     | </br>|
+   * registrationDate | filter | ge, le, eq, ne, gt, lt |     | </br>| note |
+   * filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| groups | expand |     |     | </br>
    */
   filter?: string;
   /**
@@ -7035,6 +7407,10 @@ export interface UserListByServiceOptionalParams extends msRest.RequestOptionsBa
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
+  /**
+   * @member {boolean} [expandGroups] Detailed Group in response.
+   */
+  expandGroups?: boolean;
 }
 
 /**
@@ -7081,15 +7457,14 @@ export interface UserDeleteMethodOptionalParams extends msRest.RequestOptionsBas
  */
 export interface UserGroupListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field       | Supported operators    |
-   * Supported functions                         |
-   * |-------------|------------------------|---------------------------------------------|
-   * | id          | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | description | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| description | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>
    */
   filter?: string;
   /**
@@ -7111,21 +7486,19 @@ export interface UserGroupListOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface UserSubscriptionListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * @member {string} [filter] | Field        | Supported operators    |
-   * Supported functions                         |
-   * |--------------|------------------------|---------------------------------------------|
-   * | id           | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | name         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | stateComment | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | userId       | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | productId    | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state        | eq                     |
-   * |
+   * @member {string} [filter] |   Field     |     Usage     |     Supported
+   * operators     |     Supported functions
+   * |</br>|-------------|-------------|-------------|-------------|</br>| name
+   * | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith,
+   * endswith | </br>| displayName | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| stateComment | filter
+   * | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |
+   * </br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>| scope | filter | ge, le, eq, ne, gt, lt |
+   * substringof, contains, startswith, endswith | </br>| userId | filter | ge,
+   * le, eq, ne, gt, lt | substringof, contains, startswith, endswith | </br>|
+   * productId | filter | ge, le, eq, ne, gt, lt | substringof, contains,
+   * startswith, endswith | </br>
    */
   filter?: string;
   /**
@@ -7136,59 +7509,6 @@ export interface UserSubscriptionListOptionalParams extends msRest.RequestOption
    * @member {number} [skip] Number of records to skip.
    */
   skip?: number;
-}
-
-/**
- * @interface
- * An interface representing ApiVersionSetListByServiceOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ApiVersionSetListByServiceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [filter] | Field            | Supported operators    |
-   * Supported functions               |
-   * |------------------|------------------------|-----------------------------------|
-   * | id               | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | firstName        | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | lastName         | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | email            | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   * | state            | eq                     | N/A
-   * |
-   * | registrationDate | ge, le, eq, ne, gt, lt | N/A
-   * |
-   * | note             | ge, le, eq, ne, gt, lt | substringof, contains,
-   * startswith, endswith |
-   */
-  filter?: string;
-  /**
-   * @member {number} [top] Number of records to return.
-   */
-  top?: number;
-  /**
-   * @member {number} [skip] Number of records to skip.
-   */
-  skip?: number;
-}
-
-/**
- * @interface
- * An interface representing ApiVersionSetCreateOrUpdateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface ApiVersionSetCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * @member {string} [ifMatch] ETag of the Entity. Not required when creating
-   * an entity, but required when updating an entity.
-   */
-  ifMatch?: string;
 }
 
 /**
@@ -7201,34 +7521,6 @@ export interface ApiManagementClientOptions extends AzureServiceClientOptions {
    * @member {string} [baseUri]
    */
   baseUri?: string;
-}
-
-/**
- * @interface
- * An interface representing PolicyGetEntityTagHeaders.
- * Defines headers for GetEntityTag operation.
- *
- */
-export interface PolicyGetEntityTagHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing PolicyGetHeaders.
- * Defines headers for Get operation.
- *
- */
-export interface PolicyGetHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
 }
 
 /**
@@ -7289,6 +7581,34 @@ export interface ApiReleaseGetEntityTagHeaders {
 
 /**
  * @interface
+ * An interface representing ApiReleaseGetHeaders.
+ * Defines headers for Get operation.
+ *
+ */
+export interface ApiReleaseGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiReleaseCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiReleaseCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing ApiOperationGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7308,6 +7628,20 @@ export interface ApiOperationGetEntityTagHeaders {
  *
  */
 export interface ApiOperationGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiOperationCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiOperationCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7345,11 +7679,39 @@ export interface ApiOperationPolicyGetHeaders {
 
 /**
  * @interface
- * An interface representing ApiPolicyListByApiHeaders.
- * Defines headers for ListByApi operation.
+ * An interface representing ApiOperationPolicyCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
  *
  */
-export interface ApiPolicyListByApiHeaders {
+export interface ApiOperationPolicyCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagGetEntityStateByOperationHeaders.
+ * Defines headers for GetEntityStateByOperation operation.
+ *
+ */
+export interface TagGetEntityStateByOperationHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagGetByOperationHeaders.
+ * Defines headers for GetByOperation operation.
+ *
+ */
+export interface TagGetByOperationHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7387,11 +7749,11 @@ export interface ApiPolicyGetHeaders {
 
 /**
  * @interface
- * An interface representing ApiSchemaListByApiHeaders.
- * Defines headers for ListByApi operation.
+ * An interface representing ApiPolicyCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
  *
  */
-export interface ApiSchemaListByApiHeaders {
+export interface ApiPolicyCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7429,6 +7791,20 @@ export interface ApiSchemaGetHeaders {
 
 /**
  * @interface
+ * An interface representing ApiSchemaCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiSchemaCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing ApiDiagnosticGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7448,6 +7824,20 @@ export interface ApiDiagnosticGetEntityTagHeaders {
  *
  */
 export interface ApiDiagnosticGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiDiagnosticCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiDiagnosticCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7485,6 +7875,20 @@ export interface ApiIssueGetHeaders {
 
 /**
  * @interface
+ * An interface representing ApiIssueCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiIssueCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing ApiIssueCommentGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7504,6 +7908,20 @@ export interface ApiIssueCommentGetEntityTagHeaders {
  *
  */
 export interface ApiIssueCommentGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiIssueCommentCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiIssueCommentCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7541,6 +7959,146 @@ export interface ApiIssueAttachmentGetHeaders {
 
 /**
  * @interface
+ * An interface representing ApiIssueAttachmentCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiIssueAttachmentCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiTagDescriptionGetEntityTagHeaders.
+ * Defines headers for GetEntityTag operation.
+ *
+ */
+export interface ApiTagDescriptionGetEntityTagHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiTagDescriptionGetHeaders.
+ * Defines headers for Get operation.
+ *
+ */
+export interface ApiTagDescriptionGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiTagDescriptionCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiTagDescriptionCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagGetEntityStateByApiHeaders.
+ * Defines headers for GetEntityStateByApi operation.
+ *
+ */
+export interface TagGetEntityStateByApiHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagGetByApiHeaders.
+ * Defines headers for GetByApi operation.
+ *
+ */
+export interface TagGetByApiHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagAssignToApiHeaders.
+ * Defines headers for AssignToApi operation.
+ *
+ */
+export interface TagAssignToApiHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetGetEntityTagHeaders.
+ * Defines headers for GetEntityTag operation.
+ *
+ */
+export interface ApiVersionSetGetEntityTagHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetGetHeaders.
+ * Defines headers for Get operation.
+ *
+ */
+export interface ApiVersionSetGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ApiVersionSetCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing AuthorizationServerGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7560,6 +8118,20 @@ export interface AuthorizationServerGetEntityTagHeaders {
  *
  */
 export interface AuthorizationServerGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing AuthorizationServerCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface AuthorizationServerCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7597,6 +8169,62 @@ export interface BackendGetHeaders {
 
 /**
  * @interface
+ * An interface representing BackendCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface BackendCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing CacheGetEntityTagHeaders.
+ * Defines headers for GetEntityTag operation.
+ *
+ */
+export interface CacheGetEntityTagHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing CacheGetHeaders.
+ * Defines headers for Get operation.
+ *
+ */
+export interface CacheGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing CacheCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface CacheCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing CertificateGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7625,6 +8253,20 @@ export interface CertificateGetHeaders {
 
 /**
  * @interface
+ * An interface representing CertificateCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface CertificateCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing DiagnosticGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7644,6 +8286,20 @@ export interface DiagnosticGetEntityTagHeaders {
  *
  */
 export interface DiagnosticGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing DiagnosticCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface DiagnosticCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7709,6 +8365,20 @@ export interface GroupGetHeaders {
 
 /**
  * @interface
+ * An interface representing GroupCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface GroupCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing IdentityProviderGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7728,6 +8398,34 @@ export interface IdentityProviderGetEntityTagHeaders {
  *
  */
 export interface IdentityProviderGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing IdentityProviderCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface IdentityProviderCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueGetHeaders.
+ * Defines headers for Get operation.
+ *
+ */
+export interface IssueGetHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7765,6 +8463,20 @@ export interface LoggerGetHeaders {
 
 /**
  * @interface
+ * An interface representing LoggerCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface LoggerCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing OpenIdConnectProviderGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7784,6 +8496,62 @@ export interface OpenIdConnectProviderGetEntityTagHeaders {
  *
  */
 export interface OpenIdConnectProviderGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing OpenIdConnectProviderCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface OpenIdConnectProviderCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyGetEntityTagHeaders.
+ * Defines headers for GetEntityTag operation.
+ *
+ */
+export interface PolicyGetEntityTagHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyGetHeaders.
+ * Defines headers for Get operation.
+ *
+ */
+export interface PolicyGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface PolicyCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7905,11 +8673,11 @@ export interface ProductGetHeaders {
 
 /**
  * @interface
- * An interface representing ProductPolicyListByProductHeaders.
- * Defines headers for ListByProduct operation.
+ * An interface representing ProductCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
  *
  */
-export interface ProductPolicyListByProductHeaders {
+export interface ProductCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -7947,6 +8715,48 @@ export interface ProductPolicyGetHeaders {
 
 /**
  * @interface
+ * An interface representing ProductPolicyCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface ProductPolicyCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagGetEntityStateByProductHeaders.
+ * Defines headers for GetEntityStateByProduct operation.
+ *
+ */
+export interface TagGetEntityStateByProductHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagGetByProductHeaders.
+ * Defines headers for GetByProduct operation.
+ *
+ */
+export interface TagGetByProductHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing PropertyGetEntityTagHeaders.
  * Defines headers for GetEntityTag operation.
  *
@@ -7966,6 +8776,20 @@ export interface PropertyGetEntityTagHeaders {
  *
  */
 export interface PropertyGetHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
+ * An interface representing PropertyCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface PropertyCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -8003,6 +8827,20 @@ export interface SubscriptionGetHeaders {
 
 /**
  * @interface
+ * An interface representing SubscriptionCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
+ *
+ */
+export interface SubscriptionCreateOrUpdateHeaders {
+  /**
+   * @member {string} [eTag] Current entity state version. Should be treated as
+   * opaque and used to make conditional HTTP requests.
+   */
+  eTag: string;
+}
+
+/**
+ * @interface
  * An interface representing TagGetEntityStateHeaders.
  * Defines headers for GetEntityState operation.
  *
@@ -8031,11 +8869,11 @@ export interface TagGetHeaders {
 
 /**
  * @interface
- * An interface representing TagGetEntityStateByApiHeaders.
- * Defines headers for GetEntityStateByApi operation.
+ * An interface representing TagCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
  *
  */
-export interface TagGetEntityStateByApiHeaders {
+export interface TagCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -8045,95 +8883,11 @@ export interface TagGetEntityStateByApiHeaders {
 
 /**
  * @interface
- * An interface representing TagGetByApiHeaders.
- * Defines headers for GetByApi operation.
+ * An interface representing TenantAccessGetEntityTagHeaders.
+ * Defines headers for GetEntityTag operation.
  *
  */
-export interface TagGetByApiHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing TagDescriptionGetEntityStateHeaders.
- * Defines headers for GetEntityState operation.
- *
- */
-export interface TagDescriptionGetEntityStateHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing TagDescriptionGetHeaders.
- * Defines headers for Get operation.
- *
- */
-export interface TagDescriptionGetHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing TagGetEntityStateByOperationHeaders.
- * Defines headers for GetEntityStateByOperation operation.
- *
- */
-export interface TagGetEntityStateByOperationHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing TagGetByOperationHeaders.
- * Defines headers for GetByOperation operation.
- *
- */
-export interface TagGetByOperationHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing TagGetEntityStateByProductHeaders.
- * Defines headers for GetEntityStateByProduct operation.
- *
- */
-export interface TagGetEntityStateByProductHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing TagGetByProductHeaders.
- * Defines headers for GetByProduct operation.
- *
- */
-export interface TagGetByProductHeaders {
+export interface TenantAccessGetEntityTagHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -8199,11 +8953,11 @@ export interface UserGetHeaders {
 
 /**
  * @interface
- * An interface representing ApiVersionSetGetEntityTagHeaders.
- * Defines headers for GetEntityTag operation.
+ * An interface representing UserCreateOrUpdateHeaders.
+ * Defines headers for CreateOrUpdate operation.
  *
  */
-export interface ApiVersionSetGetEntityTagHeaders {
+export interface UserCreateOrUpdateHeaders {
   /**
    * @member {string} [eTag] Current entity state version. Should be treated as
    * opaque and used to make conditional HTTP requests.
@@ -8211,38 +8965,6 @@ export interface ApiVersionSetGetEntityTagHeaders {
   eTag: string;
 }
 
-/**
- * @interface
- * An interface representing ApiVersionSetGetHeaders.
- * Defines headers for Get operation.
- *
- */
-export interface ApiVersionSetGetHeaders {
-  /**
-   * @member {string} [eTag] Current entity state version. Should be treated as
-   * opaque and used to make conditional HTTP requests.
-   */
-  eTag: string;
-}
-
-
-/**
- * @interface
- * An interface representing the RegionListResult.
- * Lists Regions operation response details.
- *
- * @extends Array<RegionContract>
- */
-export interface RegionListResult extends Array<RegionContract> {
-  /**
-   * @member {number} [count] Total record count number across all pages.
-   */
-  count?: number;
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
-}
 
 /**
  * @interface
@@ -8269,10 +8991,6 @@ export interface ApiCollection extends Array<ApiContract> {
  */
 export interface TagResourceCollection extends Array<TagResourceContract> {
   /**
-   * @member {number} [count] Total record count number across all pages.
-   */
-  count?: number;
-  /**
    * @member {string} [nextLink] Next page link if any.
    */
   nextLink?: string;
@@ -8297,7 +9015,7 @@ export interface ApiRevisionCollection extends Array<ApiRevisionContract> {
 /**
  * @interface
  * An interface representing the ApiReleaseCollection.
- * Paged Api Revision list representation.
+ * Paged ApiRelease list representation.
  *
  * @extends Array<ApiReleaseContract>
  */
@@ -8324,6 +9042,20 @@ export interface OperationCollection extends Array<OperationContract> {
    * the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the TagCollection.
+ * Paged Tag list representation.
+ *
+ * @extends Array<TagContract>
+ */
+export interface TagCollection extends Array<TagContract> {
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -8364,24 +9096,6 @@ export interface SchemaCollection extends Array<SchemaContract> {
  * @extends Array<DiagnosticContract>
  */
 export interface DiagnosticCollection extends Array<DiagnosticContract> {
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the LoggerCollection.
- * Paged Logger list representation.
- *
- * @extends Array<LoggerContract>
- */
-export interface LoggerCollection extends Array<LoggerContract> {
-  /**
-   * @member {number} [count] Total record count number across all pages.
-   */
-  count?: number;
   /**
    * @member {string} [nextLink] Next page link if any.
    */
@@ -8438,6 +9152,34 @@ export interface IssueAttachmentCollection extends Array<IssueAttachmentContract
 
 /**
  * @interface
+ * An interface representing the TagDescriptionCollection.
+ * Paged TagDescription list representation.
+ *
+ * @extends Array<TagDescriptionContract>
+ */
+export interface TagDescriptionCollection extends Array<TagDescriptionContract> {
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ApiVersionSetCollection.
+ * Paged Api Version Set list representation.
+ *
+ * @extends Array<ApiVersionSetContract>
+ */
+export interface ApiVersionSetCollection extends Array<ApiVersionSetContract> {
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the AuthorizationServerCollection.
  * Paged OAuth2 Authorization Servers list representation.
  *
@@ -8470,6 +9212,20 @@ export interface BackendCollection extends Array<BackendContract> {
 
 /**
  * @interface
+ * An interface representing the CacheCollection.
+ * Paged Caches list representation.
+ *
+ * @extends Array<CacheContract>
+ */
+export interface CacheCollection extends Array<CacheContract> {
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the CertificateCollection.
  * Paged Certificates list representation.
  *
@@ -8494,6 +9250,21 @@ export interface OperationListResult extends Array<Operation> {
   /**
    * @member {string} [nextLink] URL to get the next set of operation list
    * results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ResourceSkuResults.
+ * The API Management service SKUs operation response.
+ *
+ * @extends Array<ResourceSkuResult>
+ */
+export interface ResourceSkuResults extends Array<ResourceSkuResult> {
+  /**
+   * @member {string} [nextLink] The uri to fetch the next page of API
+   * Management service Skus.
    */
   nextLink?: string;
 }
@@ -8571,6 +9342,24 @@ export interface IdentityProviderList extends Array<IdentityProviderContract> {
 
 /**
  * @interface
+ * An interface representing the LoggerCollection.
+ * Paged Logger list representation.
+ *
+ * @extends Array<LoggerContract>
+ */
+export interface LoggerCollection extends Array<LoggerContract> {
+  /**
+   * @member {number} [count] Total record count number across all pages.
+   */
+  count?: number;
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the NotificationCollection.
  * Paged Notification list representation.
  *
@@ -8627,6 +9416,24 @@ export interface PropertyCollection extends Array<PropertyContract> {
 
 /**
  * @interface
+ * An interface representing the RegionListResult.
+ * Lists Regions operation response details.
+ *
+ * @extends Array<RegionContract>
+ */
+export interface RegionListResult extends Array<RegionContract> {
+  /**
+   * @member {number} [count] Total record count number across all pages.
+   */
+  count?: number;
+  /**
+   * @member {string} [nextLink] Next page link if any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing the ReportCollection.
  * Paged Report records list representation.
  *
@@ -8659,34 +9466,6 @@ export interface RequestReportCollection extends Array<RequestReportRecordContra
 
 /**
  * @interface
- * An interface representing the TagCollection.
- * Paged Tag list representation.
- *
- * @extends Array<TagContract>
- */
-export interface TagCollection extends Array<TagContract> {
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the TagDescriptionCollection.
- * Paged TagDescription list representation.
- *
- * @extends Array<TagDescriptionContract>
- */
-export interface TagDescriptionCollection extends Array<TagDescriptionContract> {
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the UserIdentityCollection.
  * List of Users Identity list representation.
  *
@@ -8704,26 +9483,20 @@ export interface UserIdentityCollection extends Array<UserIdentityContract> {
 }
 
 /**
- * @interface
- * An interface representing the ApiVersionSetCollection.
- * Paged Api Version Set list representation.
- *
- * @extends Array<ApiVersionSetContract>
- */
-export interface ApiVersionSetCollection extends Array<ApiVersionSetContract> {
-  /**
-   * @member {string} [nextLink] Next page link if any.
-   */
-  nextLink?: string;
-}
-
-/**
- * Defines values for PolicyContentFormat.
- * Possible values include: 'xml', 'xml-link', 'rawxml', 'rawxml-link'
+ * Defines values for ProductState.
+ * Possible values include: 'notPublished', 'published'
  * @readonly
  * @enum {string}
  */
-export type PolicyContentFormat = 'xml' | 'xml-link' | 'rawxml' | 'rawxml-link';
+export type ProductState = 'notPublished' | 'published';
+
+/**
+ * Defines values for BearerTokenSendingMethods.
+ * Possible values include: 'authorizationHeader', 'query'
+ * @readonly
+ * @enum {string}
+ */
+export type BearerTokenSendingMethods = 'authorizationHeader' | 'query';
 
 /**
  * Defines values for Protocol.
@@ -8736,11 +9509,11 @@ export type Protocol = 'http' | 'https';
 /**
  * Defines values for ContentFormat.
  * Possible values include: 'wadl-xml', 'wadl-link-json', 'swagger-json', 'swagger-link-json',
- * 'wsdl', 'wsdl-link'
+ * 'wsdl', 'wsdl-link', 'openapi', 'openapi+json', 'openapi-link'
  * @readonly
  * @enum {string}
  */
-export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'swagger-link-json' | 'wsdl' | 'wsdl-link';
+export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'swagger-link-json' | 'wsdl' | 'wsdl-link' | 'openapi' | 'openapi+json' | 'openapi-link';
 
 /**
  * Defines values for SoapApiType.
@@ -8749,14 +9522,6 @@ export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'sw
  * @enum {string}
  */
 export type SoapApiType = 'http' | 'soap';
-
-/**
- * Defines values for BearerTokenSendingMethods.
- * Possible values include: 'authorizationHeader', 'query'
- * @readonly
- * @enum {string}
- */
-export type BearerTokenSendingMethods = 'authorizationHeader' | 'query';
 
 /**
  * Defines values for ApiType.
@@ -8775,20 +9540,36 @@ export type ApiType = 'http' | 'soap';
 export type State = 'proposed' | 'open' | 'removed' | 'resolved' | 'closed';
 
 /**
- * Defines values for LoggerType.
- * Possible values include: 'azureEventHub', 'applicationInsights'
+ * Defines values for SamplingType.
+ * Possible values include: 'fixed'
  * @readonly
  * @enum {string}
  */
-export type LoggerType = 'azureEventHub' | 'applicationInsights';
+export type SamplingType = 'fixed';
 
 /**
- * Defines values for ProductState.
- * Possible values include: 'notPublished', 'published'
+ * Defines values for AlwaysLog.
+ * Possible values include: 'allErrors'
  * @readonly
  * @enum {string}
  */
-export type ProductState = 'notPublished' | 'published';
+export type AlwaysLog = 'allErrors';
+
+/**
+ * Defines values for PolicyContentFormat.
+ * Possible values include: 'xml', 'xml-link', 'rawxml', 'rawxml-link'
+ * @readonly
+ * @enum {string}
+ */
+export type PolicyContentFormat = 'xml' | 'xml-link' | 'rawxml' | 'rawxml-link';
+
+/**
+ * Defines values for VersioningScheme.
+ * Possible values include: 'Segment', 'Query', 'Header'
+ * @readonly
+ * @enum {string}
+ */
+export type VersioningScheme = 'Segment' | 'Query' | 'Header';
 
 /**
  * Defines values for GrantType.
@@ -8832,20 +9613,28 @@ export type BearerTokenSendingMethod = 'authorizationHeader' | 'query';
 export type BackendProtocol = 'http' | 'soap';
 
 /**
- * Defines values for HostnameType.
- * Possible values include: 'Proxy', 'Portal', 'Management', 'Scm'
+ * Defines values for SkuType.
+ * Possible values include: 'Developer', 'Standard', 'Premium', 'Basic', 'Consumption'
  * @readonly
  * @enum {string}
  */
-export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm';
+export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic' | 'Consumption';
 
 /**
- * Defines values for SkuType.
- * Possible values include: 'Developer', 'Standard', 'Premium', 'Basic'
+ * Defines values for ResourceSkuCapacityScaleType.
+ * Possible values include: 'automatic', 'manual', 'none'
  * @readonly
  * @enum {string}
  */
-export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic';
+export type ResourceSkuCapacityScaleType = 'automatic' | 'manual' | 'none';
+
+/**
+ * Defines values for HostnameType.
+ * Possible values include: 'Proxy', 'Portal', 'Management', 'Scm', 'DeveloperPortal'
+ * @readonly
+ * @enum {string}
+ */
+export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm' | 'DeveloperPortal';
 
 /**
  * Defines values for VirtualNetworkType.
@@ -8864,14 +9653,6 @@ export type VirtualNetworkType = 'None' | 'External' | 'Internal';
 export type NameAvailabilityReason = 'Valid' | 'Invalid' | 'AlreadyExists';
 
 /**
- * Defines values for GroupType.
- * Possible values include: 'custom', 'system', 'external'
- * @readonly
- * @enum {string}
- */
-export type GroupType = 'custom' | 'system' | 'external';
-
-/**
  * Defines values for Confirmation.
  * Possible values include: 'signup', 'invite'
  * @readonly
@@ -8888,12 +9669,28 @@ export type Confirmation = 'signup' | 'invite';
 export type UserState = 'active' | 'blocked' | 'pending' | 'deleted';
 
 /**
+ * Defines values for GroupType.
+ * Possible values include: 'custom', 'system', 'external'
+ * @readonly
+ * @enum {string}
+ */
+export type GroupType = 'custom' | 'system' | 'external';
+
+/**
  * Defines values for IdentityProviderType.
  * Possible values include: 'facebook', 'google', 'microsoft', 'twitter', 'aad', 'aadB2C'
  * @readonly
  * @enum {string}
  */
 export type IdentityProviderType = 'facebook' | 'google' | 'microsoft' | 'twitter' | 'aad' | 'aadB2C';
+
+/**
+ * Defines values for LoggerType.
+ * Possible values include: 'azureEventHub', 'applicationInsights'
+ * @readonly
+ * @enum {string}
+ */
+export type LoggerType = 'azureEventHub' | 'applicationInsights';
 
 /**
  * Defines values for ConnectivityStatusType.
@@ -8928,12 +9725,15 @@ export type AsyncOperationStatus = 'Started' | 'InProgress' | 'Succeeded' | 'Fai
 export type KeyType = 'primary' | 'secondary';
 
 /**
- * Defines values for VersioningScheme.
- * Possible values include: 'Segment', 'Query', 'Header'
+ * Defines values for NotificationName.
+ * Possible values include: 'RequestPublisherNotificationMessage',
+ * 'PurchasePublisherNotificationMessage', 'NewApplicationNotificationMessage', 'BCC',
+ * 'NewIssuePublisherNotificationMessage', 'AccountClosedPublisher',
+ * 'QuotaLimitApproachingPublisherNotificationMessage'
  * @readonly
  * @enum {string}
  */
-export type VersioningScheme = 'Segment' | 'Query' | 'Header';
+export type NotificationName = 'RequestPublisherNotificationMessage' | 'PurchasePublisherNotificationMessage' | 'NewApplicationNotificationMessage' | 'BCC' | 'NewIssuePublisherNotificationMessage' | 'AccountClosedPublisher' | 'QuotaLimitApproachingPublisherNotificationMessage';
 
 /**
  * Defines values for TemplateName.
@@ -8950,17 +9750,6 @@ export type VersioningScheme = 'Segment' | 'Query' | 'Header';
 export type TemplateName = 'applicationApprovedNotificationMessage' | 'accountClosedDeveloper' | 'quotaLimitApproachingDeveloperNotificationMessage' | 'newDeveloperNotificationMessage' | 'emailChangeIdentityDefault' | 'inviteUserNotificationMessage' | 'newCommentNotificationMessage' | 'confirmSignUpIdentityDefault' | 'newIssueNotificationMessage' | 'purchaseDeveloperNotificationMessage' | 'passwordResetIdentityDefault' | 'passwordResetByAdminNotificationMessage' | 'rejectDeveloperNotificationMessage' | 'requestDeveloperNotificationMessage';
 
 /**
- * Defines values for NotificationName.
- * Possible values include: 'RequestPublisherNotificationMessage',
- * 'PurchasePublisherNotificationMessage', 'NewApplicationNotificationMessage', 'BCC',
- * 'NewIssuePublisherNotificationMessage', 'AccountClosedPublisher',
- * 'QuotaLimitApproachingPublisherNotificationMessage'
- * @readonly
- * @enum {string}
- */
-export type NotificationName = 'RequestPublisherNotificationMessage' | 'PurchasePublisherNotificationMessage' | 'NewApplicationNotificationMessage' | 'BCC' | 'NewIssuePublisherNotificationMessage' | 'AccountClosedPublisher' | 'QuotaLimitApproachingPublisherNotificationMessage';
-
-/**
  * Defines values for PolicyScopeContract.
  * Possible values include: 'Tenant', 'Product', 'Api', 'Operation', 'All'
  * @readonly
@@ -8970,11 +9759,11 @@ export type PolicyScopeContract = 'Tenant' | 'Product' | 'Api' | 'Operation' | '
 
 /**
  * Defines values for ExportFormat.
- * Possible values include: 'Swagger', 'Wsdl', 'Wadl'
+ * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'OpenApi3'
  * @readonly
  * @enum {string}
  */
-export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link';
+export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link' | 'openapi-link';
 
 /**
  * Defines values for VersioningScheme1.
@@ -8991,139 +9780,6 @@ export type VersioningScheme1 = 'Segment' | 'Query' | 'Header';
  * @enum {string}
  */
 export type StoreName = 'CertificateAuthority' | 'Root';
-
-/**
- * Contains response data for the listByService operation.
- */
-export type PolicyListByServiceResponse = PolicyCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityTag operation.
- */
-export type PolicyGetEntityTagResponse = PolicyGetEntityTagHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PolicyGetEntityTagHeaders;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PolicyGetResponse = PolicyContract & PolicyGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PolicyGetHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyContract;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PolicyCreateOrUpdateResponse = PolicyContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyContract;
-    };
-};
-
-/**
- * Contains response data for the listByService operation.
- */
-export type PolicySnippetsListByServiceResponse = PolicySnippetsCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicySnippetsCollection;
-    };
-};
-
-/**
- * Contains response data for the listByService operation.
- */
-export type RegionsListByServiceResponse = RegionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegionListResult;
-    };
-};
-
-/**
- * Contains response data for the listByServiceNext operation.
- */
-export type RegionsListByServiceNextResponse = RegionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegionListResult;
-    };
-};
 
 /**
  * Contains response data for the listByService operation.
@@ -9263,9 +9919,9 @@ export type ApiListByTagsNextResponse = TagResourceCollection & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the listByService operation.
  */
-export type ApiRevisionsListResponse = ApiRevisionCollection & {
+export type ApiRevisionListByServiceResponse = ApiRevisionCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -9282,9 +9938,9 @@ export type ApiRevisionsListResponse = ApiRevisionCollection & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the listByServiceNext operation.
  */
-export type ApiRevisionsListNextResponse = ApiRevisionCollection & {
+export type ApiRevisionListByServiceNextResponse = ApiRevisionCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -9301,9 +9957,9 @@ export type ApiRevisionsListNextResponse = ApiRevisionCollection & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the listByService operation.
  */
-export type ApiReleaseListResponse = ApiReleaseCollection & {
+export type ApiReleaseListByServiceResponse = ApiReleaseCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -9337,11 +9993,15 @@ export type ApiReleaseGetEntityTagResponse = ApiReleaseGetEntityTagHeaders & {
 /**
  * Contains response data for the get operation.
  */
-export type ApiReleaseGetResponse = ApiReleaseContract & {
+export type ApiReleaseGetResponse = ApiReleaseContract & ApiReleaseGetHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiReleaseGetHeaders;
       /**
        * The response body as text (string format)
        */
@@ -9354,13 +10014,17 @@ export type ApiReleaseGetResponse = ApiReleaseContract & {
 };
 
 /**
- * Contains response data for the create operation.
+ * Contains response data for the createOrUpdate operation.
  */
-export type ApiReleaseCreateResponse = ApiReleaseContract & {
+export type ApiReleaseCreateOrUpdateResponse = ApiReleaseContract & ApiReleaseCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiReleaseCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -9373,9 +10037,9 @@ export type ApiReleaseCreateResponse = ApiReleaseContract & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the listByServiceNext operation.
  */
-export type ApiReleaseListNextResponse = ApiReleaseCollection & {
+export type ApiReleaseListByServiceNextResponse = ApiReleaseCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -9451,11 +10115,15 @@ export type ApiOperationGetResponse = OperationContract & ApiOperationGetHeaders
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiOperationCreateOrUpdateResponse = OperationContract & {
+export type ApiOperationCreateOrUpdateResponse = OperationContract & ApiOperationCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiOperationCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -9546,7 +10214,30 @@ export type ApiOperationPolicyGetResponse = PolicyContract & ApiOperationPolicyG
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiOperationPolicyCreateOrUpdateResponse = PolicyContract & {
+export type ApiOperationPolicyCreateOrUpdateResponse = PolicyContract & ApiOperationPolicyCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiOperationPolicyCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyContract;
+    };
+};
+
+/**
+ * Contains response data for the listByOperation operation.
+ */
+export type TagListByOperationResponse = TagCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -9558,7 +10249,376 @@ export type ApiOperationPolicyCreateOrUpdateResponse = PolicyContract & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PolicyContract;
+      parsedBody: TagCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityStateByOperation operation.
+ */
+export type TagGetEntityStateByOperationResponse = TagGetEntityStateByOperationHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetEntityStateByOperationHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getByOperation operation.
+ */
+export type TagGetByOperationResponse = TagContract & TagGetByOperationHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetByOperationHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the assignToOperation operation.
+ */
+export type TagAssignToOperationResponse = TagContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the listByApi operation.
+ */
+export type TagListByApiResponse = TagCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityStateByApi operation.
+ */
+export type TagGetEntityStateByApiResponse = TagGetEntityStateByApiHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetEntityStateByApiHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getByApi operation.
+ */
+export type TagGetByApiResponse = TagContract & TagGetByApiHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetByApiHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the assignToApi operation.
+ */
+export type TagAssignToApiResponse = TagContract & TagAssignToApiHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagAssignToApiHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the listByProduct operation.
+ */
+export type TagListByProductResponse = TagCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityStateByProduct operation.
+ */
+export type TagGetEntityStateByProductResponse = TagGetEntityStateByProductHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetEntityStateByProductHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getByProduct operation.
+ */
+export type TagGetByProductResponse = TagContract & TagGetByProductHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetByProductHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the assignToProduct operation.
+ */
+export type TagAssignToProductResponse = TagContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type TagListByServiceResponse = TagCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityState operation.
+ */
+export type TagGetEntityStateResponse = TagGetEntityStateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetEntityStateHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TagGetResponse = TagContract & TagGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagGetHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type TagCreateOrUpdateResponse = TagContract & TagCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: TagCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagContract;
+    };
+};
+
+/**
+ * Contains response data for the listByOperationNext operation.
+ */
+export type TagListByOperationNextResponse = TagCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByApiNext operation.
+ */
+export type TagListByApiNextResponse = TagCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByProductNext operation.
+ */
+export type TagListByProductNextResponse = TagCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type TagListByServiceNextResponse = TagCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagCollection;
     };
 };
 
@@ -9603,15 +10663,11 @@ export type ApiProductListByApisNextResponse = ProductCollection & {
 /**
  * Contains response data for the listByApi operation.
  */
-export type ApiPolicyListByApiResponse = PolicyCollection & ApiPolicyListByApiHeaders & {
+export type ApiPolicyListByApiResponse = PolicyCollection & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiPolicyListByApiHeaders;
       /**
        * The response body as text (string format)
        */
@@ -9664,11 +10720,15 @@ export type ApiPolicyGetResponse = PolicyContract & ApiPolicyGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiPolicyCreateOrUpdateResponse = PolicyContract & {
+export type ApiPolicyCreateOrUpdateResponse = PolicyContract & ApiPolicyCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiPolicyCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -9683,15 +10743,11 @@ export type ApiPolicyCreateOrUpdateResponse = PolicyContract & {
 /**
  * Contains response data for the listByApi operation.
  */
-export type ApiSchemaListByApiResponse = SchemaCollection & ApiSchemaListByApiHeaders & {
+export type ApiSchemaListByApiResponse = SchemaCollection & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiSchemaListByApiHeaders;
       /**
        * The response body as text (string format)
        */
@@ -9744,7 +10800,30 @@ export type ApiSchemaGetResponse = SchemaContract & ApiSchemaGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiSchemaCreateOrUpdateResponse = SchemaContract & {
+export type ApiSchemaCreateOrUpdateResponse = SchemaContract & ApiSchemaCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiSchemaCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SchemaContract;
+    };
+};
+
+/**
+ * Contains response data for the listByApiNext operation.
+ */
+export type ApiSchemaListByApiNextResponse = SchemaCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -9756,7 +10835,7 @@ export type ApiSchemaCreateOrUpdateResponse = SchemaContract & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SchemaContract;
+      parsedBody: SchemaCollection;
     };
 };
 
@@ -9820,11 +10899,15 @@ export type ApiDiagnosticGetResponse = DiagnosticContract & ApiDiagnosticGetHead
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiDiagnosticCreateOrUpdateResponse = DiagnosticContract & {
+export type ApiDiagnosticCreateOrUpdateResponse = DiagnosticContract & ApiDiagnosticCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiDiagnosticCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -9852,86 +10935,6 @@ export type ApiDiagnosticListByServiceNextResponse = DiagnosticCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DiagnosticCollection;
-    };
-};
-
-/**
- * Contains response data for the listByService operation.
- */
-export type ApiDiagnosticLoggerListByServiceResponse = LoggerCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerCollection;
-    };
-};
-
-/**
- * Contains response data for the checkEntityExists operation.
- */
-export type ApiDiagnosticLoggerCheckEntityExistsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ApiDiagnosticLoggerCreateOrUpdateResponse = LoggerContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerContract;
-    };
-};
-
-/**
- * Contains response data for the listByServiceNext operation.
- */
-export type ApiDiagnosticLoggerListByServiceNextResponse = LoggerCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerCollection;
     };
 };
 
@@ -9995,11 +10998,15 @@ export type ApiIssueGetResponse = IssueContract & ApiIssueGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiIssueCreateOrUpdateResponse = IssueContract & {
+export type ApiIssueCreateOrUpdateResponse = IssueContract & ApiIssueCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiIssueCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -10090,11 +11097,15 @@ export type ApiIssueCommentGetResponse = IssueCommentContract & ApiIssueCommentG
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiIssueCommentCreateOrUpdateResponse = IssueCommentContract & {
+export type ApiIssueCommentCreateOrUpdateResponse = IssueCommentContract & ApiIssueCommentCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiIssueCommentCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -10185,11 +11196,15 @@ export type ApiIssueAttachmentGetResponse = IssueAttachmentContract & ApiIssueAt
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiIssueAttachmentCreateOrUpdateResponse = IssueAttachmentContract & {
+export type ApiIssueAttachmentCreateOrUpdateResponse = IssueAttachmentContract & ApiIssueAttachmentCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiIssueAttachmentCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -10217,6 +11232,242 @@ export type ApiIssueAttachmentListByServiceNextResponse = IssueAttachmentCollect
        * The response body as parsed JSON or XML
        */
       parsedBody: IssueAttachmentCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type ApiTagDescriptionListByServiceResponse = TagDescriptionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagDescriptionCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type ApiTagDescriptionGetEntityTagResponse = ApiTagDescriptionGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiTagDescriptionGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ApiTagDescriptionGetResponse = TagDescriptionContract & ApiTagDescriptionGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiTagDescriptionGetHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagDescriptionContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ApiTagDescriptionCreateOrUpdateResponse = TagDescriptionContract & ApiTagDescriptionCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiTagDescriptionCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagDescriptionContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type ApiTagDescriptionListByServiceNextResponse = TagDescriptionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagDescriptionCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByTags operation.
+ */
+export type OperationListByTagsResponse = TagResourceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagResourceCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByTagsNext operation.
+ */
+export type OperationListByTagsNextResponse = TagResourceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagResourceCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type ApiVersionSetListByServiceResponse = ApiVersionSetCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiVersionSetCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type ApiVersionSetGetEntityTagResponse = ApiVersionSetGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiVersionSetGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ApiVersionSetGetResponse = ApiVersionSetContract & ApiVersionSetGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiVersionSetGetHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiVersionSetContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ApiVersionSetCreateOrUpdateResponse = ApiVersionSetContract & ApiVersionSetCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ApiVersionSetCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiVersionSetContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type ApiVersionSetListByServiceNextResponse = ApiVersionSetCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiVersionSetCollection;
     };
 };
 
@@ -10280,11 +11531,15 @@ export type AuthorizationServerGetResponse = AuthorizationServerContract & Autho
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerContract & {
+export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerContract & AuthorizationServerCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AuthorizationServerCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -10375,11 +11630,15 @@ export type BackendGetResponse = BackendContract & BackendGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type BackendCreateOrUpdateResponse = BackendContract & {
+export type BackendCreateOrUpdateResponse = BackendContract & BackendCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BackendCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -10407,6 +11666,105 @@ export type BackendListByServiceNextResponse = BackendCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: BackendCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type CacheListByServiceResponse = CacheCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CacheCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type CacheGetEntityTagResponse = CacheGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CacheGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CacheGetResponse = CacheContract & CacheGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CacheGetHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CacheContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type CacheCreateOrUpdateResponse = CacheContract & CacheCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CacheCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CacheContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type CacheListByServiceNextResponse = CacheCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CacheCollection;
     };
 };
 
@@ -10470,11 +11828,15 @@ export type CertificateGetResponse = CertificateContract & CertificateGetHeaders
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type CertificateCreateOrUpdateResponse = CertificateContract & {
+export type CertificateCreateOrUpdateResponse = CertificateContract & CertificateCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: CertificateCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -10540,6 +11902,44 @@ export type ApiManagementOperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServiceSkus operation.
+ */
+export type ApiManagementServiceSkusListAvailableServiceSkusResponse = ResourceSkuResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuResults;
+    };
+};
+
+/**
+ * Contains response data for the listAvailableServiceSkusNext operation.
+ */
+export type ApiManagementServiceSkusListAvailableServiceSkusNextResponse = ResourceSkuResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceSkuResults;
     };
 };
 
@@ -10623,6 +12023,25 @@ export type ApiManagementServiceUpdateResponse = ApiManagementServiceResource & 
  * Contains response data for the get operation.
  */
 export type ApiManagementServiceGetResponse = ApiManagementServiceResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiManagementServiceResource;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type ApiManagementServiceDeleteMethodResponse = ApiManagementServiceResource & {
   /**
    * The underlying HTTP response.
    */
@@ -10734,44 +12153,6 @@ export type ApiManagementServiceApplyNetworkConfigurationUpdatesResponse = ApiMa
 };
 
 /**
- * Contains response data for the uploadCertificate operation.
- */
-export type ApiManagementServiceUploadCertificateResponse = CertificateInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateInformation;
-    };
-};
-
-/**
- * Contains response data for the updateHostname operation.
- */
-export type ApiManagementServiceUpdateHostnameResponse = ApiManagementServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
-};
-
-/**
  * Contains response data for the beginRestore operation.
  */
 export type ApiManagementServiceBeginRestoreResponse = ApiManagementServiceResource & {
@@ -10848,9 +12229,9 @@ export type ApiManagementServiceBeginUpdateResponse = ApiManagementServiceResour
 };
 
 /**
- * Contains response data for the beginApplyNetworkConfigurationUpdates operation.
+ * Contains response data for the beginDeleteMethod operation.
  */
-export type ApiManagementServiceBeginApplyNetworkConfigurationUpdatesResponse = ApiManagementServiceResource & {
+export type ApiManagementServiceBeginDeleteMethodResponse = ApiManagementServiceResource & {
   /**
    * The underlying HTTP response.
    */
@@ -10867,9 +12248,9 @@ export type ApiManagementServiceBeginApplyNetworkConfigurationUpdatesResponse = 
 };
 
 /**
- * Contains response data for the beginUpdateHostname operation.
+ * Contains response data for the beginApplyNetworkConfigurationUpdates operation.
  */
-export type ApiManagementServiceBeginUpdateHostnameResponse = ApiManagementServiceResource & {
+export type ApiManagementServiceBeginApplyNetworkConfigurationUpdatesResponse = ApiManagementServiceResource & {
   /**
    * The underlying HTTP response.
    */
@@ -10983,11 +12364,15 @@ export type DiagnosticGetResponse = DiagnosticContract & DiagnosticGetHeaders & 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type DiagnosticCreateOrUpdateResponse = DiagnosticContract & {
+export type DiagnosticCreateOrUpdateResponse = DiagnosticContract & DiagnosticCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DiagnosticCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -11015,86 +12400,6 @@ export type DiagnosticListByServiceNextResponse = DiagnosticCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DiagnosticCollection;
-    };
-};
-
-/**
- * Contains response data for the listByService operation.
- */
-export type DiagnosticLoggerListByServiceResponse = LoggerCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerCollection;
-    };
-};
-
-/**
- * Contains response data for the checkEntityExists operation.
- */
-export type DiagnosticLoggerCheckEntityExistsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DiagnosticLoggerCreateOrUpdateResponse = LoggerContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerContract;
-    };
-};
-
-/**
- * Contains response data for the listByServiceNext operation.
- */
-export type DiagnosticLoggerListByServiceNextResponse = LoggerCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerCollection;
     };
 };
 
@@ -11253,11 +12558,15 @@ export type GroupGetResponse = GroupContract & GroupGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type GroupCreateOrUpdateResponse = GroupContract & {
+export type GroupCreateOrUpdateResponse = GroupContract & GroupCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GroupCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -11428,11 +12737,15 @@ export type IdentityProviderGetResponse = IdentityProviderContract & IdentityPro
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type IdentityProviderCreateOrUpdateResponse = IdentityProviderContract & {
+export type IdentityProviderCreateOrUpdateResponse = IdentityProviderContract & IdentityProviderCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: IdentityProviderCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -11460,6 +12773,67 @@ export type IdentityProviderListByServiceNextResponse = IdentityProviderList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: IdentityProviderList;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type IssueListByServiceResponse = IssueCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IssueCollection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IssueGetResponse = IssueContract & IssueGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: IssueGetHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IssueContract;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type IssueListByServiceNextResponse = IssueCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IssueCollection;
     };
 };
 
@@ -11523,11 +12897,15 @@ export type LoggerGetResponse = LoggerContract & LoggerGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type LoggerCreateOrUpdateResponse = LoggerContract & {
+export type LoggerCreateOrUpdateResponse = LoggerContract & LoggerCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: LoggerCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -11555,6 +12933,44 @@ export type LoggerListByServiceNextResponse = LoggerCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: LoggerCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type NetworkStatusListByServiceResponse = Array<NetworkStatusContractByLocation> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkStatusContractByLocation[];
+    };
+};
+
+/**
+ * Contains response data for the listByLocation operation.
+ */
+export type NetworkStatusListByLocationResponse = NetworkStatusContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkStatusContract;
     };
 };
 
@@ -11654,29 +13070,6 @@ export type NotificationRecipientUserListByNotificationResponse = RecipientUserC
 };
 
 /**
- * Contains response data for the checkEntityExists operation.
- */
-export type NotificationRecipientUserCheckEntityExistsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
-};
-
-/**
  * Contains response data for the createOrUpdate operation.
  */
 export type NotificationRecipientUserCreateOrUpdateResponse = RecipientUserContract & {
@@ -11715,29 +13108,6 @@ export type NotificationRecipientEmailListByNotificationResponse = RecipientEmai
 };
 
 /**
- * Contains response data for the checkEntityExists operation.
- */
-export type NotificationRecipientEmailCheckEntityExistsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
-};
-
-/**
  * Contains response data for the createOrUpdate operation.
  */
 export type NotificationRecipientEmailCreateOrUpdateResponse = RecipientEmailContract & {
@@ -11753,44 +13123,6 @@ export type NotificationRecipientEmailCreateOrUpdateResponse = RecipientEmailCon
        * The response body as parsed JSON or XML
        */
       parsedBody: RecipientEmailContract;
-    };
-};
-
-/**
- * Contains response data for the listByService operation.
- */
-export type NetworkStatusListByServiceResponse = Array<NetworkStatusContractByLocation> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkStatusContractByLocation[];
-    };
-};
-
-/**
- * Contains response data for the listByLocation operation.
- */
-export type NetworkStatusListByLocationResponse = NetworkStatusContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkStatusContract;
     };
 };
 
@@ -11854,11 +13186,15 @@ export type OpenIdConnectProviderGetResponse = OpenidConnectProviderContract & O
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type OpenIdConnectProviderCreateOrUpdateResponse = OpenidConnectProviderContract & {
+export type OpenIdConnectProviderCreateOrUpdateResponse = OpenidConnectProviderContract & OpenIdConnectProviderCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: OpenIdConnectProviderCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -11886,6 +13222,105 @@ export type OpenIdConnectProviderListByServiceNextResponse = OpenIdConnectProvid
        * The response body as parsed JSON or XML
        */
       parsedBody: OpenIdConnectProviderCollection;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type PolicyListByServiceResponse = PolicyCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyCollection;
+    };
+};
+
+/**
+ * Contains response data for the getEntityTag operation.
+ */
+export type PolicyGetEntityTagResponse = PolicyGetEntityTagHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PolicyGetEntityTagHeaders;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PolicyGetResponse = PolicyContract & PolicyGetHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PolicyGetHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyContract;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PolicyCreateOrUpdateResponse = PolicyContract & PolicyCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PolicyCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyContract;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type PolicySnippetListByServiceResponse = PolicySnippetsCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicySnippetsCollection;
     };
 };
 
@@ -12120,7 +13555,30 @@ export type ProductGetResponse = ProductContract & ProductGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ProductCreateOrUpdateResponse = ProductContract & {
+export type ProductCreateOrUpdateResponse = ProductContract & ProductCreateOrUpdateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ProductCreateOrUpdateHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProductContract;
+    };
+};
+
+/**
+ * Contains response data for the listByTags operation.
+ */
+export type ProductListByTagsResponse = TagResourceCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -12132,7 +13590,7 @@ export type ProductCreateOrUpdateResponse = ProductContract & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ProductContract;
+      parsedBody: TagResourceCollection;
     };
 };
 
@@ -12156,6 +13614,25 @@ export type ProductListByServiceNextResponse = ProductCollection & {
 };
 
 /**
+ * Contains response data for the listByTagsNext operation.
+ */
+export type ProductListByTagsNextResponse = TagResourceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagResourceCollection;
+    };
+};
+
+/**
  * Contains response data for the listByProduct operation.
  */
 export type ProductApiListByProductResponse = ApiCollection & {
@@ -12171,29 +13648,6 @@ export type ProductApiListByProductResponse = ApiCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ApiCollection;
-    };
-};
-
-/**
- * Contains response data for the checkEntityExists operation.
- */
-export type ProductApiCheckEntityExistsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
     };
 };
 
@@ -12251,29 +13705,6 @@ export type ProductGroupListByProductResponse = GroupCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: GroupCollection;
-    };
-};
-
-/**
- * Contains response data for the checkEntityExists operation.
- */
-export type ProductGroupCheckEntityExistsResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
     };
 };
 
@@ -12356,15 +13787,11 @@ export type ProductSubscriptionsListNextResponse = SubscriptionCollection & {
 /**
  * Contains response data for the listByProduct operation.
  */
-export type ProductPolicyListByProductResponse = PolicyCollection & ProductPolicyListByProductHeaders & {
+export type ProductPolicyListByProductResponse = PolicyCollection & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProductPolicyListByProductHeaders;
       /**
        * The response body as text (string format)
        */
@@ -12417,11 +13844,15 @@ export type ProductPolicyGetResponse = PolicyContract & ProductPolicyGetHeaders 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ProductPolicyCreateOrUpdateResponse = PolicyContract & {
+export type ProductPolicyCreateOrUpdateResponse = PolicyContract & ProductPolicyCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ProductPolicyCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -12493,11 +13924,15 @@ export type PropertyGetResponse = PropertyContract & PropertyGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type PropertyCreateOrUpdateResponse = PropertyContract & {
+export type PropertyCreateOrUpdateResponse = PropertyContract & PropertyCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PropertyCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -12563,6 +13998,44 @@ export type QuotaByPeriodKeysGetResponse = QuotaCounterContract & {
        * The response body as parsed JSON or XML
        */
       parsedBody: QuotaCounterContract;
+    };
+};
+
+/**
+ * Contains response data for the listByService operation.
+ */
+export type RegionListByServiceResponse = RegionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByServiceNext operation.
+ */
+export type RegionListByServiceNextResponse = RegionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RegionListResult;
     };
 };
 
@@ -12911,11 +14384,15 @@ export type SubscriptionGetResponse = SubscriptionContract & SubscriptionGetHead
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type SubscriptionCreateOrUpdateResponse = SubscriptionContract & {
+export type SubscriptionCreateOrUpdateResponse = SubscriptionContract & SubscriptionCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -12985,28 +14462,9 @@ export type TagResourceListByServiceNextResponse = TagResourceCollection & {
 };
 
 /**
- * Contains response data for the listByService operation.
+ * Contains response data for the getEntityTag operation.
  */
-export type TagListByServiceResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityState operation.
- */
-export type TagGetEntityStateResponse = TagGetEntityStateHeaders & {
+export type TenantAccessGetEntityTagResponse = TenantAccessGetEntityTagHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -13014,486 +14472,7 @@ export type TagGetEntityStateResponse = TagGetEntityStateHeaders & {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: TagGetEntityStateHeaders;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type TagGetResponse = TagContract & TagGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type TagCreateOrUpdateResponse = TagContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the listByApi operation.
- */
-export type TagListByApiResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityStateByApi operation.
- */
-export type TagGetEntityStateByApiResponse = TagGetEntityStateByApiHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetEntityStateByApiHeaders;
-    };
-};
-
-/**
- * Contains response data for the getByApi operation.
- */
-export type TagGetByApiResponse = TagContract & TagGetByApiHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetByApiHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the assignToApi operation.
- */
-export type TagAssignToApiResponse = TagContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the listByOperation operation.
- */
-export type TagListByOperationResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityStateByOperation operation.
- */
-export type TagGetEntityStateByOperationResponse = TagGetEntityStateByOperationHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetEntityStateByOperationHeaders;
-    };
-};
-
-/**
- * Contains response data for the getByOperation operation.
- */
-export type TagGetByOperationResponse = TagContract & TagGetByOperationHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetByOperationHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the assignToOperation operation.
- */
-export type TagAssignToOperationResponse = TagContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the listByProduct operation.
- */
-export type TagListByProductResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityStateByProduct operation.
- */
-export type TagGetEntityStateByProductResponse = TagGetEntityStateByProductHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetEntityStateByProductHeaders;
-    };
-};
-
-/**
- * Contains response data for the getByProduct operation.
- */
-export type TagGetByProductResponse = TagContract & TagGetByProductHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetByProductHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the assignToProduct operation.
- */
-export type TagAssignToProductResponse = TagContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
-};
-
-/**
- * Contains response data for the listByServiceNext operation.
- */
-export type TagListByServiceNextResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the listByApiNext operation.
- */
-export type TagListByApiNextResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the listByOperationNext operation.
- */
-export type TagListByOperationNextResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the listByProductNext operation.
- */
-export type TagListByProductNextResponse = TagCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
-};
-
-/**
- * Contains response data for the listByApi operation.
- */
-export type TagDescriptionListByApiResponse = TagDescriptionCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagDescriptionCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityState operation.
- */
-export type TagDescriptionGetEntityStateResponse = TagDescriptionGetEntityStateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagDescriptionGetEntityStateHeaders;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type TagDescriptionGetResponse = TagDescriptionContract & TagDescriptionGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagDescriptionGetHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagDescriptionContract;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type TagDescriptionCreateOrUpdateResponse = TagDescriptionContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagDescriptionContract;
-    };
-};
-
-/**
- * Contains response data for the listByApiNext operation.
- */
-export type TagDescriptionListByApiNextResponse = TagDescriptionCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagDescriptionCollection;
-    };
-};
-
-/**
- * Contains response data for the listByTags operation.
- */
-export type OperationListByTagsResponse = TagResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the listByTagsNext operation.
- */
-export type OperationListByTagsNextResponse = TagResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
+      parsedHeaders: TenantAccessGetEntityTagHeaders;
     };
 };
 
@@ -13677,25 +14656,6 @@ export type TenantConfigurationBeginValidateResponse = OperationResultContract &
 };
 
 /**
- * Contains response data for the getIdentity operation.
- */
-export type UserGetIdentityResponse = CurrentUserIdentity & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CurrentUserIdentity;
-    };
-};
-
-/**
  * Contains response data for the listByService operation.
  */
 export type UserListByServiceResponse = UserCollection & {
@@ -13755,11 +14715,15 @@ export type UserGetResponse = UserContract & UserGetHeaders & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type UserCreateOrUpdateResponse = UserContract & {
+export type UserCreateOrUpdateResponse = UserContract & UserCreateOrUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: UserCreateOrUpdateHeaders;
       /**
        * The response body as text (string format)
        */
@@ -13939,101 +14903,6 @@ export type UserIdentitiesListNextResponse = UserIdentityCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: UserIdentityCollection;
-    };
-};
-
-/**
- * Contains response data for the listByService operation.
- */
-export type ApiVersionSetListByServiceResponse = ApiVersionSetCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiVersionSetCollection;
-    };
-};
-
-/**
- * Contains response data for the getEntityTag operation.
- */
-export type ApiVersionSetGetEntityTagResponse = ApiVersionSetGetEntityTagHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiVersionSetGetEntityTagHeaders;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ApiVersionSetGetResponse = ApiVersionSetContract & ApiVersionSetGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiVersionSetGetHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiVersionSetContract;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ApiVersionSetCreateOrUpdateResponse = ApiVersionSetContract & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiVersionSetContract;
-    };
-};
-
-/**
- * Contains response data for the listByServiceNext operation.
- */
-export type ApiVersionSetListByServiceNextResponse = ApiVersionSetCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiVersionSetCollection;
     };
 };
 
