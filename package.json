@@ -47,7 +47,7 @@
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.15.0",
     "mocha-multi-reporters": "^1.1.6",
-    "prettier": "^1.14.0",
+    "prettier": "1.14.3",
     "requirejs": "^2.3.5",
     "sinon": "^5.1.1",
     "ts-node": "^6.2.0",
