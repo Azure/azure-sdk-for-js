@@ -102,7 +102,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string):
       body: shoppingEvents[index],
       label: "Shopping Step"
     };
-    await sender.sendMessage(message);
+    await sender.send(message);
   }
   await client.close();
 }

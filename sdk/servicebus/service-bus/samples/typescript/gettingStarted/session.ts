@@ -69,7 +69,7 @@ async function sendMessage(ns: ServiceBusClient, scientist: any, sessionId: stri
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
-  await sender.sendMessage(message);
+  await sender.send(message);
 
   await client.close();
 }

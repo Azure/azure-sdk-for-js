@@ -44,7 +44,7 @@ async function sendMessages() {
     promises.push(
       delay(Math.random() * 30).then(async () => {
         try {
-          await sender.sendMessage(message);
+          await sender.send(message);
           console.log("Sent message step:", data[index].step);
         } catch (err) {
           console.log("Error while sending message", err);

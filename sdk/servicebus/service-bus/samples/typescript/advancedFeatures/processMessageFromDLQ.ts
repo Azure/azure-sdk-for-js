@@ -56,7 +56,7 @@ async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void>
 
   console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
-  await sender.sendMessage(repairedMessage);
+  await sender.send(repairedMessage);
   await client.close();
 }
 

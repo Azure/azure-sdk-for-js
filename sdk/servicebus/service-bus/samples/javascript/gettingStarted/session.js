@@ -63,7 +63,7 @@ async function sendMessage(ns, scientist, sessionId) {
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
-  await sender.sendMessage(message);
+  await sender.send(message);
 
   await client.close();
 }

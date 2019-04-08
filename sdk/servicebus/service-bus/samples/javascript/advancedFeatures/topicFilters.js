@@ -61,7 +61,7 @@ async function sendMessages(ns) {
     };
 
     console.log(` Sending message ${index} - ${message.body}`);
-    await topicClient.createSender().sendMessage(message);
+    await topicClient.createSender().send(message);
   }
 }
 

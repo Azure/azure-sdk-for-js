@@ -34,7 +34,7 @@ async function sendMessage() {
     contentType: "application/json",
     label: "Recipe"
   };
-  await sender.sendMessage(message);
+  await sender.send(message);
   await client.close();
 }
 
