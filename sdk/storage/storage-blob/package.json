@@ -22,6 +22,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^6.3.0",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.3",
@@ -74,7 +75,8 @@
     "build:es6": "tsc -p tsconfig.json",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.1.3",
     "build:browserzip": "gulp zip",
-    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml"
+    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "extract-api": "tsc -p . && api-extractor run --local"
   },
   "repository": {
     "type": "git",
