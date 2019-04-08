@@ -301,6 +301,51 @@ export interface AppAvailabilityInfo {
 
 /**
  * @interface
+ * An interface representing AppTemplate.
+ * IoT Central Application Template.
+ *
+ */
+export interface AppTemplate {
+  /**
+   * @member {string} [manifestId] The ID of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly manifestId?: string;
+  /**
+   * @member {string} [manifestVersion] The version of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly manifestVersion?: string;
+  /**
+   * @member {string} [appTemplateName] The name of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly appTemplateName?: string;
+  /**
+   * @member {string} [title] The title of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly title?: string;
+  /**
+   * @member {number} [order] The order of the template in the templates list.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly order?: number;
+  /**
+   * @member {string} [description] The description of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+}
+
+/**
+ * @interface
  * An interface representing IotCentralClientOptions.
  * @extends AzureServiceClientOptions
  */
@@ -323,6 +368,21 @@ export interface AppListResult extends Array<App> {
   /**
    * @member {string} [nextLink] The link used to get the next page of IoT
    * Central Applications.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the AppTemplatesResult.
+ * A list of IoT Central Application Templates with a next link.
+ *
+ * @extends Array<AppTemplate>
+ */
+export interface AppTemplatesResult extends Array<AppTemplate> {
+  /**
+   * @member {string} [nextLink] The link used to get the next page of IoT
+   * Central application templates.
    */
   nextLink?: string;
 }
@@ -485,6 +545,25 @@ export type AppsCheckSubdomainAvailabilityResponse = AppAvailabilityInfo & {
 };
 
 /**
+ * Contains response data for the listTemplates operation.
+ */
+export type AppsListTemplatesResponse = AppTemplatesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppTemplatesResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type AppsBeginCreateOrUpdateResponse = App & {
@@ -557,6 +636,25 @@ export type AppsListByResourceGroupNextResponse = AppListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AppListResult;
+    };
+};
+
+/**
+ * Contains response data for the listTemplatesNext operation.
+ */
+export type AppsListTemplatesNextResponse = AppTemplatesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppTemplatesResult;
     };
 };
 
