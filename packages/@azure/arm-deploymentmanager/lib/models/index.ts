@@ -378,7 +378,7 @@ export interface StepOperationInfo {
 /**
  * @interface
  * An interface representing ResourceOperation.
- * Individial resource operation information.
+ * Individual resource operation information.
  *
  */
 export interface ResourceOperation {
