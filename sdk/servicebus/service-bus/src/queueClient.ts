@@ -14,8 +14,8 @@ import {
   throwErrorIfClientOrConnectionClosed,
   getOpenSenderErrorMsg,
   getOpenReceiverErrorMsg,
-  throwParameterInstanceCheckError,
-  throwTypeErrorIfMissingParameter,
+  throwTypeErrorIfParameterNotLong,
+  throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterTypeMismatch
 } from "./util/utils";
 import { AmqpError, generate_uuid } from "rhea-promise";
@@ -261,13 +261,13 @@ export class QueueClient implements Client {
     throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
 
     // Type check for fromSequenceNumber
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "fromSequenceNumber",
       fromSequenceNumber
     );
     if (!Long.isLong(fromSequenceNumber)) {
-      throwParameterInstanceCheckError(
+      throwTypeErrorIfParameterNotLong(
         this._context.namespace.connectionId,
         "fromSequenceNumber",
         "Long"

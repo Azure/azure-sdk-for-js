@@ -10,8 +10,8 @@ import { ClientEntityContext } from "./clientEntityContext";
 import {
   throwErrorIfConnectionClosed,
   getSenderClosedErrorMsg,
-  throwTypeErrorIfMissingParameter,
-  throwParameterInstanceCheckError
+  throwTypeErrorIfParameterMissing,
+  throwTypeErrorIfParameterNotLong
 } from "./util/utils";
 
 /**
@@ -91,7 +91,7 @@ export class Sender {
     message: SendableMessageInfo
   ): Promise<Long> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(this._context.namespace.connectionId, "message", message);
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
 
     const result = await this.scheduleMessages(scheduledEnqueueTimeUtc, [message]);
     return result[0];
@@ -114,17 +114,17 @@ export class Sender {
     this._throwIfSenderOrConnectionClosed();
 
     // Checks for scheduledEnqueueTimeUtc
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "scheduledEnqueueTimeUtc",
       scheduledEnqueueTimeUtc
     );
     if (!(scheduledEnqueueTimeUtc instanceof Date)) {
-      throwParameterInstanceCheckError(
-        this._context.namespace.connectionId,
-        "scheduledEnqueueTimeUtc",
-        "Date"
+      const error = new TypeError(
+        `The parameter "scheduledEnqueueTimeUtc" should be an instance of "Date"`
       );
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
     }
     const now = Date.now();
     const enqueueTimeInMs = scheduledEnqueueTimeUtc.getTime();
@@ -138,7 +138,7 @@ export class Sender {
     }
 
     // Checks for messages
-    throwTypeErrorIfMissingParameter(this._context.namespace.connectionId, "messages", messages);
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
     if (!Array.isArray(messages)) {
       const error = new TypeError(
         `The parameter "messages" should be an array of items that implement the interface "SendableMessageInfo"`
@@ -174,13 +174,13 @@ export class Sender {
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumber",
       sequenceNumber
     );
     if (!Long.isLong(sequenceNumber)) {
-      throwParameterInstanceCheckError(
+      throwTypeErrorIfParameterNotLong(
         this._context.namespace.connectionId,
         "sequenceNumber",
         "Long"
@@ -196,7 +196,7 @@ export class Sender {
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumbers",
       sequenceNumbers

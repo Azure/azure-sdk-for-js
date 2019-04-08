@@ -299,7 +299,7 @@ export function getAlreadyRecevingErrorMsg(entityPath: string, sessionId?: strin
  * @param parameterName Name of the parameter to check
  * @param parameterValue Value of the parameter to check
  */
-export function throwTypeErrorIfMissingParameter(
+export function throwTypeErrorIfParameterMissing(
   connectionId: string,
   parameterName: string,
   parameterValue: any
@@ -336,20 +336,20 @@ export function throwTypeErrorIfParameterTypeMismatch(
 
 /**
  * @internal
- * Logs and Throws TypeError saying that given parameter is not an instance of expected type
- * Note: This function doesnt perform any checks. It just logs and throws.
+ * Logs and Throws TypeError if given parameter is not of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
- * @param expectedType Expected type of the parameter
+ * @param parameterValue Value of the parameter to type check
  */
-export function throwParameterInstanceCheckError(
+export function throwTypeErrorIfParameterNotLong(
   connectionId: string,
   parameterName: string,
-  expectedType: string
+  parameterValue: any
 ): TypeError | undefined {
-  const error = new TypeError(
-    `The parameter "${parameterName}" should be of instance "${expectedType}"`
-  );
+  if (Long.isLong(parameterValue)) {
+    return;
+  }
+  const error = new TypeError(`The parameter "${parameterName}" should be of type "${Long}"`);
   log.error(`[${connectionId}] ${error}`);
   throw error;
 }

@@ -16,8 +16,8 @@ import {
   throwErrorIfConnectionClosed,
   getReceiverClosedErrorMsg,
   getAlreadyRecevingErrorMsg,
-  throwTypeErrorIfMissingParameter,
-  throwParameterInstanceCheckError,
+  throwTypeErrorIfParameterMissing,
+  throwTypeErrorIfParameterNotLong,
   getOpenReceiverErrorMsg,
   throwTypeErrorIfParameterTypeMismatch
 } from "./util/utils";
@@ -156,7 +156,7 @@ export class Receiver {
    */
   async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "lockTokenOrMessage",
       lockTokenOrMessage
@@ -200,13 +200,13 @@ export class Receiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumber",
       sequenceNumber
     );
     if (!Long.isLong(sequenceNumber)) {
-      throwParameterInstanceCheckError(
+      throwTypeErrorIfParameterNotLong(
         this._context.namespace.connectionId,
         "sequenceNumber",
         "Long"
@@ -235,7 +235,7 @@ export class Receiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumbers",
       sequenceNumbers
@@ -495,13 +495,13 @@ export class SessionReceiver {
     this._throwIfReceiverOrConnectionClosed();
 
     // Type check for fromSequenceNumber
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "fromSequenceNumber",
       fromSequenceNumber
     );
     if (!Long.isLong(fromSequenceNumber)) {
-      throwParameterInstanceCheckError(
+      throwTypeErrorIfParameterNotLong(
         this._context.namespace.connectionId,
         "fromSequenceNumber",
         "Long"
@@ -540,13 +540,13 @@ export class SessionReceiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumber",
       sequenceNumber
     );
     if (!Long.isLong(sequenceNumber)) {
-      throwParameterInstanceCheckError(
+      throwTypeErrorIfParameterNotLong(
         this._context.namespace.connectionId,
         "sequenceNumber",
         "Long"
@@ -579,7 +579,7 @@ export class SessionReceiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumbers",
       sequenceNumbers

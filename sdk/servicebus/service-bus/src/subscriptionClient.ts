@@ -17,9 +17,9 @@ import {
   throwErrorIfConnectionClosed,
   throwErrorIfClientOrConnectionClosed,
   getOpenReceiverErrorMsg,
-  throwTypeErrorIfMissingParameter,
+  throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterTypeMismatch,
-  throwParameterInstanceCheckError
+  throwTypeErrorIfParameterNotLong
 } from "./util/utils";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
@@ -262,13 +262,13 @@ export class SubscriptionClient implements Client {
     throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
 
     // Type check for fromSequenceNumber
-    throwTypeErrorIfMissingParameter(
+    throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "fromSequenceNumber",
       fromSequenceNumber
     );
     if (!Long.isLong(fromSequenceNumber)) {
-      throwParameterInstanceCheckError(
+      throwTypeErrorIfParameterNotLong(
         this._context.namespace.connectionId,
         "fromSequenceNumber",
         "Long"
@@ -308,7 +308,7 @@ export class SubscriptionClient implements Client {
    */
   async removeRule(ruleName: string): Promise<void> {
     throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
-    throwTypeErrorIfMissingParameter(this._context.namespace.connectionId, "ruleName", ruleName);
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     throwTypeErrorIfParameterTypeMismatch(
       this._context.namespace.connectionId,
       "ruleName",
@@ -338,7 +338,7 @@ export class SubscriptionClient implements Client {
     throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
 
     // Type check ruleName
-    throwTypeErrorIfMissingParameter(this._context.namespace.connectionId, "ruleName", ruleName);
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     throwTypeErrorIfParameterTypeMismatch(
       this._context.namespace.connectionId,
       "ruleName",
@@ -357,7 +357,7 @@ export class SubscriptionClient implements Client {
     }
 
     // Type check filter
-    throwTypeErrorIfMissingParameter(this._context.namespace.connectionId, "filter", filter);
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "filter", filter);
     if (typeof filter !== "boolean" && typeof filter !== "string") {
       let filterTypeErrorMessage: string = "";
       const filterProperties = Object.keys(filter);
