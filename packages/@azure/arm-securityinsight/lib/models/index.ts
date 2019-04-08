@@ -329,24 +329,24 @@ export interface CaseModel extends Resource {
    */
   description?: string;
   /**
-   * @member {string} title The title of the case
+   * @member {string} [title] The title of the case
    */
-  title: string;
+  title?: string;
   /**
    * @member {UserInfo} [assignedTo] Describes a user that the case is assigned
    * to
    */
   assignedTo?: UserInfo;
   /**
-   * @member {CaseSeverity} severity The severity of the case. Possible values
-   * include: 'Critical', 'High', 'Medium', 'Low', 'Informational'
+   * @member {CaseSeverity} [severity] The severity of the case. Possible
+   * values include: 'Critical', 'High', 'Medium', 'Low', 'Informational'
    */
-  severity: CaseSeverity;
+  severity?: CaseSeverity;
   /**
-   * @member {CaseStatus} status The status of the case. Possible values
+   * @member {CaseStatus} [status] The status of the case. Possible values
    * include: 'Draft', 'Open', 'InProgress', 'Closed'
    */
-  status: CaseStatus;
+  status?: CaseStatus;
   /**
    * @member {CloseReason} [closeReason] The reason the case was closed.
    * Possible values include: 'Resolved', 'Dismissed', 'Other'

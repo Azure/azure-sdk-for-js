@@ -371,31 +371,31 @@ export const CaseModel: msRest.CompositeMapper = {
         }
       },
       lastUpdatedTimeUtc: {
-        serializedName: "properties.lastUpdatedTimeUtc",
+        serializedName: "properties.LastUpdatedTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       createdTimeUtc: {
-        serializedName: "properties.createdTimeUtc",
+        serializedName: "properties.CreatedTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       endTimeUtc: {
-        serializedName: "properties.endTimeUtc",
+        serializedName: "properties.EndTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       startTimeUtc: {
-        serializedName: "properties.startTimeUtc",
+        serializedName: "properties.StartTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       labels: {
-        serializedName: "properties.labels",
+        serializedName: "properties.Labels",
         type: {
           name: "Sequence",
           element: {
@@ -406,41 +406,38 @@ export const CaseModel: msRest.CompositeMapper = {
         }
       },
       description: {
-        serializedName: "properties.description",
+        serializedName: "properties.Description",
         type: {
           name: "String"
         }
       },
       title: {
-        required: true,
-        serializedName: "properties.title",
+        serializedName: "properties.Title",
         type: {
           name: "String"
         }
       },
       assignedTo: {
-        serializedName: "properties.assignedTo",
+        serializedName: "properties.AssignedTo",
         type: {
           name: "Composite",
           className: "UserInfo"
         }
       },
       severity: {
-        required: true,
-        serializedName: "properties.severity",
+        serializedName: "properties.Severity",
         type: {
           name: "String"
         }
       },
       status: {
-        required: true,
-        serializedName: "properties.status",
+        serializedName: "properties.Status",
         type: {
           name: "String"
         }
       },
       closeReason: {
-        serializedName: "properties.closeReason",
+        serializedName: "properties.CloseReason",
         type: {
           name: "String"
         }
