@@ -3,6 +3,7 @@ import { HTTPMethod, OperationType, ResourceType } from "../common";
 import { Agent } from "../CosmosClientOptions";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
+import { PluginConfig } from "../plugins/Plugin";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
 import { LocationRouting } from "./LocationRouting";
@@ -25,4 +26,5 @@ export interface RequestContext {
   method: HTTPMethod;
   partitionKeyRangeId?: string;
   options: FeedOptions | RequestOptions;
+  plugins: PluginConfig[];
 }

@@ -2,6 +2,7 @@ import AbortController from "node-abort-controller";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
+import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
 import { ErrorResponse } from "./ErrorResponse";
 import { bodyFromData } from "./request";
@@ -12,6 +13,10 @@ import { TimeoutError } from "./TimeoutError";
 /** @hidden */
 
 export async function executeRequest(requestContext: RequestContext) {
+  return executePlugins(requestContext, httpRequest, PluginOn.request);
+}
+
+async function httpRequest(requestContext: RequestContext) {
   const controller = new AbortController();
   const signal = controller.signal;
 
