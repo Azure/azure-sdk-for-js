@@ -6683,6 +6683,12 @@ export const GalleryImageVersionPublishingProfile: msRest.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      storageAccountType: {
+        serializedName: "storageAccountType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6904,6 +6910,12 @@ export const TargetRegion: msRest.CompositeMapper = {
         serializedName: "regionalReplicaCount",
         type: {
           name: "Number"
+        }
+      },
+      storageAccountType: {
+        serializedName: "storageAccountType",
+        type: {
+          name: "String"
         }
       }
     }

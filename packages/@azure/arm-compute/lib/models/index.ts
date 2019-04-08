@@ -5411,6 +5411,12 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
    * property is updatable.
    */
   endOfLifeDate?: Date;
+  /**
+   * @member {StorageAccountType} [storageAccountType] Specifies the storage
+   * account type to be used to store the image. This property is not
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   */
+  storageAccountType?: StorageAccountType;
 }
 
 /**
@@ -5597,6 +5603,12 @@ export interface TargetRegion {
    * Image Version to be created per region. This property is updatable.
    */
   regionalReplicaCount?: number;
+  /**
+   * @member {StorageAccountType} [storageAccountType] Specifies the storage
+   * account type to be used to store the image. This property is not
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   */
+  storageAccountType?: StorageAccountType;
 }
 
 /**
@@ -6977,6 +6989,14 @@ export type SnapshotStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'Stan
  * @enum {string}
  */
 export type AccessLevel = 'None' | 'Read' | 'Write';
+
+/**
+ * Defines values for StorageAccountType.
+ * Possible values include: 'Standard_LRS', 'Standard_ZRS'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS';
 
 /**
  * Defines values for AggregatedReplicationState.
