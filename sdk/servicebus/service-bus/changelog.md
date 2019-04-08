@@ -22,6 +22,8 @@ longer supported. Use `createReceiver` instead and pass the `sessionOptions` par
 `sessionId` and the duration until which you want to lock the session.
 * `receive` and `receiveBatch` functions on the reciever are renamed to `registerMessageHandler` and
 `receiveMessages`
+* `renewLock` on the receiver is renamed to `renewMessageLock`. In case of receiver from sessions,
+this is renamed to `renewSessionLock`.
 * A third way of receiving messages is introduced on the receiver via `getMessageIterator` function
 which returns an async iterator over messages.
 
