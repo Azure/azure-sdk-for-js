@@ -6,7 +6,7 @@
   to the Dead Letter Queue
 */
 
-const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode, QueueClient } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";

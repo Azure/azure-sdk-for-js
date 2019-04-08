@@ -57,7 +57,7 @@ async function addRules(ns: ServiceBusClient): Promise<void> {
 
 // Sends 100 messages with a user property called "priority" whose value is between 1 and 4
 async function sendMessages(ns: ServiceBusClient): Promise<void> {
-  const topicClient = ns.createTopicClient(topicName);
+  const sender = ns.createTopicClient(topicName).createSender();
   for (let index = 0; index < 10; index++) {
     const priority = Math.ceil(Math.random() * 4);
     const message: SendableMessageInfo = {
@@ -66,7 +66,7 @@ async function sendMessages(ns: ServiceBusClient): Promise<void> {
     };
 
     console.log(` Sending message ${index} - ${message.body}`);
-    await topicClient.createSender().send(message);
+    await sender.send(message);
   }
 }
 

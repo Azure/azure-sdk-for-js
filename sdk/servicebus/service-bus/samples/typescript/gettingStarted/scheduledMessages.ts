@@ -81,13 +81,14 @@ async function receiveMessages(ns: ServiceBusClient): Promise<void> {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  let receiver = client.createReceiver(ReceiveMode.peekLock);
   receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
+  receiver = client.createReceiver(ReceiveMode.peekLock);
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
