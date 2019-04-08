@@ -373,6 +373,10 @@ export interface ApiVersionSetContractDetails {
    */
   id?: string;
   /**
+   * @member {string} [name] The display Name of the API Version Set.
+   */
+  name?: string;
+  /**
    * @member {string} [description] Description of API Version Set.
    */
   description?: string;

@@ -446,6 +446,12 @@ export const ApiVersionSetContractDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
       description: {
         serializedName: "description",
         type: {
