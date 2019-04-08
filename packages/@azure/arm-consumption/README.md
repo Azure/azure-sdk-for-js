@@ -9,23 +9,23 @@ This package contains an isomorphic SDK for ConsumptionManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-consumption
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list usageDetails as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -34,12 +34,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ConsumptionManagementClient(creds, subscriptionId);
-  const expand = "testexpand";
-  const filter = "testfilter";
-  const skiptoken = "testskiptoken";
-  const top = 1;
-  const apply = "testapply";
-  client.usageDetails.list(expand, filter, skiptoken, top, apply).then((result) => {
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -48,11 +43,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list usageDetails as an example written in JavaScript.
+#### browser - Authentication, client creation and list operations as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -82,12 +77,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmConsumption.ConsumptionManagementClient(res.creds, subscriptionId);
-        const expand = "testexpand";
-        const filter = "testfilter";
-        const skiptoken = "testskiptoken";
-        const top = 1;
-        const apply = "testapply";
-        client.usageDetails.list(expand, filter, skiptoken, top, apply).then((result) => {
+        client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -104,6 +94,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Farm-consumption%2FREADME.png)
