@@ -227,77 +227,97 @@ describe("addRule()", function(): void {
 
   it("Add rule with a name which matches with existing rule", async function(): Promise<void> {
     await subscriptionClient.addRule("Priority_1", "priority = 1");
-    let errorWasThrown = false;
+    let errorName = "";
     try {
       await subscriptionClient.addRule("Priority_1", "priority = 2");
     } catch (error) {
-      errorWasThrown = true;
+      errorName = error && error.name;
+    } finally {
       should.equal(
-        !error.message.search("Priority_1' already exists."),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(
-        error.name,
+        errorName,
         "MessagingEntityAlreadyExistsError",
         "ErrorName is different than expected"
       );
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Add rule with no name", async function(): Promise<void> {
-    let errorWasThrown = false;
+    let errorName = "";
+    let errorMessage = "";
+    try {
+      await subscriptionClient.addRule(undefined as any, "priority = 2");
+    } catch (error) {
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
+      should.equal(errorMessage, `Missing parameter "ruleName"`);
+    }
+  });
+
+  it("Add rule with wrongly typed name", async function(): Promise<void> {
+    let errorName = "";
+    let errorMessage = "";
+    try {
+      await subscriptionClient.addRule(1 as any, "priority = 2");
+    } catch (error) {
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
+      should.equal(errorMessage, `The parameter "ruleName" should be of type "string"`);
+    }
+  });
+
+  it("Add rule with empty string as name", async function(): Promise<void> {
+    let errorName = "";
     try {
       await subscriptionClient.addRule("", "priority = 2");
     } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        !error.message.search("Rule name is missing"),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(error.name, "Error", "ErrorName is different than expected");
+      errorName = error && error.name;
+    } finally {
+      should.equal(errorName, "ArgumentError", "ErrorName is different than expected");
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Add rule with no filter", async function(): Promise<void> {
-    let errorWasThrown = false;
+    let errorName = "";
+    let errorMessage = "";
     try {
-      await subscriptionClient.addRule("Priority_1", "");
+      await subscriptionClient.addRule("Priority_1", undefined as any);
     } catch (error) {
-      errorWasThrown = true;
-      should.equal(
-        !error.message.search("Filter is missing"),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(error.name, "Error", "ErrorName is different than expected");
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
+      should.equal(errorMessage, `Missing parameter "filter"`);
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("Add rule with a Boolean filter whose input is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
+  it("Add rule with a filter which is not a Boolean, SQL expression or a Correlation filter", async function(): Promise<
     void
   > {
-    let errorWasThrown = false;
+    let errorName = "";
+    let errorMessage = "";
     try {
       await subscriptionClient.addRule("Priority_2", {});
     } catch (error) {
-      errorWasThrown = true;
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
       should.equal(
-        error.message,
-        "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
+        errorMessage,
+        `The parameter "filter" should be either a boolean, string or should have one of the Correlation filter properties.`
       );
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("Adding a rule with a Correlation filter, error for irrelevant properties", async function(): Promise<
     void
   > {
-    let errorWasThrown = false;
+    let errorName = "";
+    let errorMessage = "";
     const filter: any = {
       correlationId: 1,
       invalidProperty: 2
@@ -305,13 +325,32 @@ describe("addRule()", function(): void {
     try {
       await subscriptionClient.addRule("Priority_2", filter);
     } catch (error) {
-      errorWasThrown = true;
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
       should.equal(
-        error.message,
-        'Cannot add rule. Given filter object has unexpected property "invalidProperty".'
+        errorMessage,
+        `The parameter "filter" has unexpected property "invalidProperty".`
       );
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("Add rule with wrongly typed sqlRuleActionExpression", async function(): Promise<void> {
+    let errorName = "";
+    let errorMessage = "";
+    try {
+      await subscriptionClient.addRule("boo", "priority = 2", 1 as any);
+    } catch (error) {
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
+      should.equal(
+        errorMessage,
+        `The parameter "sqlRuleActionExpression" should be of type "string"`
+      );
+    }
   });
 });
 
@@ -324,39 +363,59 @@ describe("removeRule()", function(): void {
     await afterEachTest();
   });
 
-  it("Removing non existing rule on a subscription that doesnt have any rules should throw error", async function(): Promise<
-    void
-  > {
-    let errorWasThrown = false;
+  it("Remove rule with no name", async function(): Promise<void> {
+    let errorName = "";
+    let errorMessage = "";
     try {
-      await subscriptionClient.removeRule("Priority_5");
+      await subscriptionClient.removeRule(undefined as any);
     } catch (error) {
-      should.equal(
-        !error.message.search("Priority_5' could not be found"),
-        false,
-        "ErrorMessage is different than expected"
-      );
-      should.equal(
-        error.name,
-        "MessagingEntityNotFoundError",
-        "ErrorName is different than expected"
-      );
-      errorWasThrown = true;
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
+      should.equal(errorMessage, `Missing parameter "ruleName"`);
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("Removing non existing rule on a subscription that has other rules should throw error", async function(): Promise<
+  it("Remove rule with wrongly typed name", async function(): Promise<void> {
+    let errorName = "";
+    let errorMessage = "";
+    try {
+      await subscriptionClient.removeRule(1 as any);
+    } catch (error) {
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "TypeError", "ErrorName is different than expected");
+      should.equal(errorMessage, `The parameter "ruleName" should be of type "string"`);
+    }
+  });
+
+  it("Remove rule with empty string as name", async function(): Promise<void> {
+    let errorName = "";
+    try {
+      await subscriptionClient.removeRule("");
+    } catch (error) {
+      errorName = error && error.name;
+    } finally {
+      should.equal(errorName, "ArgumentError", "ErrorName is different than expected");
+    }
+  });
+
+  it("Removing non existing rule on a subscription should throw error", async function(): Promise<
     void
   > {
-    let errorWasThrown = false;
+    let errorName = "";
+    let errorMessage = "";
     try {
       await subscriptionClient.addRule("Priority_1", "priority = 1");
       await subscriptionClient.removeRule("Priority_5");
     } catch (error) {
-      errorWasThrown = true;
+      errorName = error && error.name;
+      errorMessage = error && error.message;
+    } finally {
+      should.equal(errorName, "MessagingEntityNotFoundError", errorMessage);
     }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 

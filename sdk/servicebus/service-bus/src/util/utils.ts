@@ -305,7 +305,7 @@ export function throwTypeErrorIfParameterMissing(
   parameterValue: any
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
-    const error = new TypeError(`Missing parameter "${parameterName}`);
+    const error = new TypeError(`Missing parameter "${parameterName}"`);
     log.error(`[${connectionId}] ${error}`);
     throw error;
   }

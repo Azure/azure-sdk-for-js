@@ -371,8 +371,9 @@ export class SubscriptionClient implements Client {
         }
       }
       if (filterTypeErrorMessage) {
-        log.error(filterTypeErrorMessage);
-        throw filterTypeErrorMessage;
+        const error = new TypeError(filterTypeErrorMessage);
+        log.error(`[${this._context.namespace.connectionId}] ${error}`);
+        throw error;
       }
     }
 
