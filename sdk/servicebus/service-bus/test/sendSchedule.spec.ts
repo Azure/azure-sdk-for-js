@@ -84,7 +84,7 @@ describe("Simple Send", function(): void {
 
   async function testSimpleSend(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await senderClient.createSender().sendMessage(testMessages);
+    await senderClient.createSender().send(testMessages);
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -554,7 +554,7 @@ describe("Message validations", function(): void {
     let actualErrorMsg = "";
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
     const sender = senderClient.createSender();
-    await sender.sendMessage(msg).catch((err) => {
+    await sender.send(msg).catch((err) => {
       actualErrorMsg = err.message;
     });
     should.equal(actualErrorMsg, expectedErrorMsg, "Error not thrown as expected");

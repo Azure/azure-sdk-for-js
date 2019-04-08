@@ -71,7 +71,7 @@ async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver):
       label: `${msgId}`
     };
     msgId++;
-    await sender.sendMessage(message);
+    await sender.send(message);
     const messagesReceived = await receiver.receiveMessages(1);
     await messagesReceived[0].complete();
   }

@@ -20,7 +20,6 @@ meant to do.
 * The function to get a receiver for a session enabled Queue/Subsciption, `getSessionReceiver` is no
 longer supported. Use `createReceiver` instead and pass the `sessionOptions` parameter to provide
 `sessionId` and the duration until which you want to lock the session.
-* `send` and `sendBatch` functions on the sender are renamed to `sendMessage` and `sendMessages`
 * `receive` and `receiveBatch` functions on the reciever are renamed to `registerMessageHandler` and
 `receiveMessages`
 * A third way of receiving messages is introduced on the receiver via `getMessageIterator` function

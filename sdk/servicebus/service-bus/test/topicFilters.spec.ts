@@ -112,7 +112,7 @@ async function sendOrders(): Promise<void> {
       },
       partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
     };
-    await sender.sendMessage(message);
+    await sender.send(message);
   }
 }
 
