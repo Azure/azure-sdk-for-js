@@ -78,11 +78,9 @@ export class TopicClient implements Client {
         log.topicClient("Closed the topic client '%s'.", this.id);
       }
     } catch (err) {
-      const msg =
-        `An error occurred while closing the topic client ` +
-        `"${this.id}": ${JSON.stringify(err)} `;
-      log.error(msg);
-      throw new Error(msg);
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(`An error occurred while closing the topic client "${this.id}":\n${err}`);
+      throw err;
     }
   }
 

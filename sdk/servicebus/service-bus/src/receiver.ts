@@ -4,7 +4,7 @@ import * as Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
-import { ReceiveOptions, OnError, OnMessage, ReceiverType } from "./core/messageReceiver";
+import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
 import {
@@ -67,7 +67,7 @@ export class Receiver {
     options?: MessageHandlerOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
-    this._validateNewReceiveCall(ReceiverType.streaming);
+    this._throwIfAlreadyReceiving();
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -98,7 +98,7 @@ export class Receiver {
     idleTimeoutInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    this._validateNewReceiveCall(ReceiverType.batching);
+    this._throwIfAlreadyReceiving();
 
     if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
       const options: ReceiveOptions = {
@@ -114,7 +114,7 @@ export class Receiver {
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-        "max time:\n %O",
+          "max time:\n %O",
         this._context.namespace.connectionId,
         this._context.batchingReceiver.name,
         maxMessageCount,
@@ -126,18 +126,31 @@ export class Receiver {
   }
 
   /**
-   * Renews the lock on the message.
+   * Gets an async iterator over messages from the receiver.
+   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
+   * fetch a new message in over a minute.
+   */
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
+    while (true) {
+      this._throwIfReceiverOrConnectionClosed();
+      this._throwIfAlreadyReceiving();
+      const currentBatch = await this.receiveMessages(1);
+      yield currentBatch[0];
+    }
+  }
+
+  /**
+   * Renews the lock on the message for the duration as specified during the Queue/Subscription
+   * creation. Check the `lockedUntilUtc` property on the message for the time when the lock expires.
    *
-   * When a message is received in `PeekLock` mode, the message is locked on the server for this
-   * receiver instance for a duration as specified during the Queue/Subscription creation
-   * (LockDuration). If processing of the message requires longer than this duration, the
-   * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
-   * LockDuration set on the Entity.
+   * If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   * before its lock expires, then the message lands back in the Queue/Subscription for the next
+   * receive operation.
    *
-   * @param lockTokenOrMessage - Lock token of the message or the message itself.
+   * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+  async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
@@ -209,11 +222,11 @@ export class Receiver {
       }
       this._isClosed = true;
     } catch (err) {
-      const msg =
-        `An error occurred while closing the receiver for` +
-        `"${this._context.entityPath}": ${JSON.stringify(err)} `;
-      log.error(msg);
-      throw new Error(msg);
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(
+        `An error occurred while closing the receiver for "${this._context.entityPath}":\n${err}`
+      );
+      throw err;
     }
   }
 
@@ -235,29 +248,16 @@ export class Receiver {
     return false;
   }
 
-  private _validateNewReceiveCall(newCallType: ReceiverType): void {
-    let currentlyActiveReceiver = "";
-    let currentlyActiveReceiverType = "";
-    if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
-      currentlyActiveReceiver = this._context.streamingReceiver.name;
-      currentlyActiveReceiverType = "streaming";
-    } else if (
-      this._context.batchingReceiver &&
-      this._context.batchingReceiver.isOpen() &&
-      this._context.batchingReceiver.isReceivingMessages
+  private _throwIfAlreadyReceiving(): void {
+    if (
+      (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) ||
+      (this._context.batchingReceiver &&
+        this._context.batchingReceiver.isOpen() &&
+        this._context.batchingReceiver.isReceivingMessages)
     ) {
-      currentlyActiveReceiver = this._context.batchingReceiver.name;
-      currentlyActiveReceiverType = "batching";
-    }
-
-    if (currentlyActiveReceiverType && currentlyActiveReceiver) {
-      const msg =
-        `A "${currentlyActiveReceiverType}" receiver with id ` +
-        `"${currentlyActiveReceiver}" is active for "${this._context.entityPath}". ` +
-        `A ${newCallType === ReceiverType.streaming ? "new registerMessageHandler" : "receiveMessages"}() call ` +
-        `cannot be made at this time. Either wait for current receiver to complete or create a new receiver.`;
-
-      throw new Error(msg);
+      throw new Error(
+        `The receiver for "${this._context.entityPath}" is already receiving messages.`
+      );
     }
   }
 
@@ -326,10 +326,17 @@ export class SessionReceiver {
   }
 
   /**
-   * Renews the lock for the Session.
-   * @returns Promise<Date> New lock token expiry date and time in UTC format.
+   * Renews the lock on the session.
+   * Check the `sessionLockedUntilUtc` property on the reciever for the time when the lock expires.
+   *
+   * When the lock on the session expires
+   * - no more messages can be received using this receiver
+   * - messages already received but not settled will land back in the Queue/Subscription for the
+   * next receiver to receive
+   *
+   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
-  async renewLock(): Promise<Date> {
+  async renewSessionLock(): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
@@ -468,19 +475,14 @@ export class SessionReceiver {
     maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfAlreadyReceiving();
     try {
-      if (this.isReceivingMessages()) {
-        throw new Error(
-          `MessageSession '${this._messageSession!.name}' with sessionId '${this.sessionId}' is ` +
-          `already receiving messages.`
-        );
-      }
       await this._createMessageSessionIfDoesntExist();
       return this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
       log.error(
         "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-        "max time:\n %O",
+          "max time:\n %O",
         this._context.namespace.connectionId,
         this._messageSession!.name,
         maxMessageCount,
@@ -513,23 +515,34 @@ export class SessionReceiver {
     options?: SessionMessageHandlerOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
-    if (this.isReceivingMessages()) {
-      throw new Error(
-        `MessageSession '${this._messageSession!.name}' with sessionId '${this.sessionId}' is ` +
-        `already receiving messages.`
-      );
-    }
+    this._throwIfAlreadyReceiving();
     if (typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
     if (typeof onError !== "function") {
       throw new Error("'onError' is a required parameter and must be of type 'function'.");
     }
-    this._createMessageSessionIfDoesntExist().then(() => {
-      this._messageSession!.receive(onMessage, onError, options);
-    }).catch((err) => {
-      onError(err);
-    });
+    this._createMessageSessionIfDoesntExist()
+      .then(() => {
+        this._messageSession!.receive(onMessage, onError, options);
+      })
+      .catch((err) => {
+        onError(err);
+      });
+  }
+
+  /**
+   * Gets an async iterator over messages from the receiver.
+   * While iterating, you will get `undefined` instead of a message, if the iterator is not able to
+   * fetch a new message in over a minute.
+   */
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
+    while (true) {
+      this._throwIfReceiverOrConnectionClosed();
+      this._throwIfAlreadyReceiving();
+      const currentBatch = await this.receiveMessages(1);
+      yield currentBatch[0];
+    }
   }
 
   /**
@@ -546,11 +559,11 @@ export class SessionReceiver {
         await this._messageSession.close();
       }
     } catch (err) {
+      err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
-        "[%s] An error occurred while closing the message session with id '%s': %O.",
-        this._context.namespace.connectionId,
-        this.sessionId,
-        err
+        `An error occurred while closing the receiver for session "${this.sessionId}" in "${
+          this._context.entityPath
+        }":\n${err}`
       );
       throw err;
     }
@@ -584,6 +597,16 @@ export class SessionReceiver {
     });
     if (this._messageSession.sessionId) {
       delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+    }
+  }
+
+  private _throwIfAlreadyReceiving(): void {
+    if (this.isReceivingMessages()) {
+      throw new Error(
+        `The receiver for session "${this.sessionId}" in "${
+          this._context.entityPath
+        }" is already receiving messages.`
+      );
     }
   }
 }

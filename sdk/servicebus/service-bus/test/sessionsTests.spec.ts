@@ -89,7 +89,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_batching(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.createSender().sendMessage(testMessage);
+    await senderClient.createSender().send(testMessage);
 
     let receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
@@ -150,7 +150,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_streaming(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.createSender().sendMessage(testMessage);
+    await senderClient.createSender().send(testMessage);
 
     let receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
@@ -246,27 +246,22 @@ describe("SessionReceiver with no sessionId", function(): void {
 
   async function testComplete_batching(): Promise<void> {
     const sender = senderClient.createSender();
-    await sender.sendMessage(testMessagesWithDifferentSessionIds[0]);
-    await sender.sendMessage(testMessagesWithDifferentSessionIds[1]);
+    await sender.send(testMessagesWithDifferentSessionIds[0]);
+    await sender.send(testMessagesWithDifferentSessionIds[1]);
 
     let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
     });
     let msgs = await receiver.receiveMessages(2);
-    let peekInSessionResults = await receiver.peek(1);
 
     should.equal(msgs.length, 1, "Unexpected number of messages received");
-    should.equal(peekInSessionResults.length, 1, "Unexpected number of messages peeked");
 
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
           msgs[0].body === x.body &&
           msgs[0].messageId === x.messageId &&
-          msgs[0].sessionId === x.sessionId &&
-          peekInSessionResults[0].body === x.body &&
-          peekInSessionResults[0].messageId === x.messageId &&
-          peekInSessionResults[0].sessionId === x.sessionId
+          msgs[0].sessionId === x.sessionId
       ),
       true,
       "Received Message doesnt match any of the test messages"
@@ -278,20 +273,15 @@ describe("SessionReceiver with no sessionId", function(): void {
       receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined })
     );
     msgs = await receiver.receiveMessages(2);
-    peekInSessionResults = await receiver.peek(1);
 
     should.equal(msgs.length, 1, "Unexpected number of messages received");
-    should.equal(peekInSessionResults.length, 1, "Unexpected number of messages peeked");
 
     should.equal(
       testMessagesWithDifferentSessionIds.some(
         (x) =>
           msgs[0].body === x.body &&
           msgs[0].messageId === x.messageId &&
-          msgs[0].sessionId === x.sessionId &&
-          peekInSessionResults[0].body === x.body &&
-          peekInSessionResults[0].messageId === x.messageId &&
-          peekInSessionResults[0].sessionId === x.sessionId
+          msgs[0].sessionId === x.sessionId
       ),
       true,
       "Received Message doesnt match any of the test messages"
@@ -353,7 +343,7 @@ describe("Session State", function(): void {
   async function testGetSetState(): Promise<void> {
     const sender = senderClient.createSender();
     const testMessage = TestMessage.getSessionSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
@@ -421,5 +411,105 @@ describe("Session State", function(): void {
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
+  });
+});
+
+describe("Peek session", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function peekSession(useSessionId: boolean): Promise<void> {
+    const sender = senderClient.createSender();
+    const testMessage = TestMessage.getSessionSample();
+    await sender.send(testMessage);
+
+    const receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: useSessionId ? testMessage.sessionId : undefined
+    });
+
+    // At this point AMQP reciever link has not been established.
+    // peek() will not establish the link if sessionId was provided
+    const peekedMsgs = await receiver.peek(1);
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages");
+    should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(
+      peekedMsgs[0].messageId,
+      testMessage.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(
+      peekedMsgs[0].sessionId,
+      testMessage.sessionId,
+      "SessionId is different than expected"
+    );
+
+    const msgs = await receiver.receiveMessages(1);
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].sessionId, testMessage.sessionId, "SessionId is different than expected");
+
+    await msgs[0].complete();
+  }
+
+  it("Partitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await peekSession(true);
+  });
+  it("Partitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await peekSession(true);
+  });
+  it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await peekSession(true);
+  });
+  it("Unpartitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await peekSession(true);
+  });
+
+  it("Partitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions
+    );
+    await peekSession(false);
+  });
+  it("Partitioned Subscription - Peek Session without sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions
+    );
+    await peekSession(false);
+  });
+  it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions
+    );
+    await peekSession(false);
+  });
+  it("Unpartitioned Subscription - Peek Session without sessionId", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await peekSession(false);
   });
 });
