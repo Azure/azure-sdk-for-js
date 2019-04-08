@@ -87,7 +87,7 @@ function to send messages.
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
 const sender = queueClient.createSender();
-await sender.sendMessage({
+await sender.send({
   body: "my-message-body"
 });
 ```
@@ -151,7 +151,7 @@ message, set the `sessionId` property in the message body to ensure your message
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-session-queue");
 const sender = queueClient.createSender();
-await sender.sendMessage({
+await sender.send({
   body: "my-message-body",
   sessionId: "my-session"
 });
