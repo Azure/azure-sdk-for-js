@@ -27,22 +27,22 @@ export class IotHub {
   }
 
   /**
-   * Perform customer initiated fail over of given hub
-   * @summary Customer Initiated Fail over
+   * Perform manual fail over of given hub
+   * @summary Manual Failover Fail over
    * @param iotHubName IotHub to fail over
    * @param resourceGroupName resource group which Iot Hub belongs to
    * @param failoverRegion Region the hub will be failed over to
    * @param [options] The optional parameters
-   * @returns Promise<Models.IotHubCustomerInitiatedFailoverResponse>
+   * @returns Promise<Models.IotHubManualFailoverResponse>
    */
-  customerInitiatedFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options?: msRest.RequestOptionsBase): Promise<Models.IotHubCustomerInitiatedFailoverResponse>;
+  manualFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options?: msRest.RequestOptionsBase): Promise<Models.IotHubManualFailoverResponse>;
   /**
    * @param iotHubName IotHub to fail over
    * @param resourceGroupName resource group which Iot Hub belongs to
    * @param failoverRegion Region the hub will be failed over to
    * @param callback The callback
    */
-  customerInitiatedFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, callback: msRest.ServiceCallback<Models.IotHubDescription>): void;
+  manualFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, callback: msRest.ServiceCallback<Models.IotHubDescription>): void;
   /**
    * @param iotHubName IotHub to fail over
    * @param resourceGroupName resource group which Iot Hub belongs to
@@ -50,8 +50,8 @@ export class IotHub {
    * @param options The optional parameters
    * @param callback The callback
    */
-  customerInitiatedFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubDescription>): void;
-  customerInitiatedFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubDescription>, callback?: msRest.ServiceCallback<Models.IotHubDescription>): Promise<Models.IotHubCustomerInitiatedFailoverResponse> {
+  manualFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotHubDescription>): void;
+  manualFailover(iotHubName: string, resourceGroupName: string, failoverRegion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotHubDescription>, callback?: msRest.ServiceCallback<Models.IotHubDescription>): Promise<Models.IotHubManualFailoverResponse> {
     return this.client.sendOperationRequest(
       {
         iotHubName,
@@ -59,14 +59,14 @@ export class IotHub {
         failoverRegion,
         options
       },
-      customerInitiatedFailoverOperationSpec,
-      callback) as Promise<Models.IotHubCustomerInitiatedFailoverResponse>;
+      manualFailoverOperationSpec,
+      callback) as Promise<Models.IotHubManualFailoverResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const customerInitiatedFailoverOperationSpec: msRest.OperationSpec = {
+const manualFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/failover",
   urlParameters: [

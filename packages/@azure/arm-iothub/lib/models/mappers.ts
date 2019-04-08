@@ -2175,7 +2175,7 @@ export const ImportDevicesRequest: msRest.CompositeMapper = {
 };
 
 export const FailoverInput: msRest.CompositeMapper = {
-  serializedName: "failoverInput",
+  serializedName: "FailoverInput",
   type: {
     name: "Composite",
     className: "FailoverInput",

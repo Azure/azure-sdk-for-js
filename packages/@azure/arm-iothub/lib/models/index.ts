@@ -1665,8 +1665,7 @@ export interface ImportDevicesRequest {
 /**
  * @interface
  * An interface representing FailoverInput.
- * Use to provide failover region when requesting Customer Initiated Fail over
- * for a hub.
+ * Use to provide failover region when requesting manual Failover for a hub.
  *
  */
 export interface FailoverInput {
@@ -2822,9 +2821,9 @@ export type CertificatesVerifyResponse = CertificateDescription & {
 };
 
 /**
- * Contains response data for the customerInitiatedFailover operation.
+ * Contains response data for the manualFailover operation.
  */
-export type IotHubCustomerInitiatedFailoverResponse = IotHubDescription & {
+export type IotHubManualFailoverResponse = IotHubDescription & {
   /**
    * The underlying HTTP response.
    */
