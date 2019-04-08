@@ -101,6 +101,8 @@ export {
   VirtualMachineScaleSetVM,
   VirtualMachineScaleSetVMInstanceView,
   VirtualMachineHealthStatus,
+  VirtualMachineScaleSetVMNetworkProfileConfiguration,
+  VirtualMachineScaleSetVMProtectionPolicy,
   UpdateResource,
   Disk,
   DiskSku,

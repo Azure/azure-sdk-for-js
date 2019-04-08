@@ -116,6 +116,8 @@ export {
   VirtualMachineScaleSetVM,
   VirtualMachineScaleSetVMInstanceView,
   VirtualMachineHealthStatus,
+  VirtualMachineScaleSetVMNetworkProfileConfiguration,
+  VirtualMachineScaleSetVMProtectionPolicy,
   RollingUpgradeStatusInfo,
   RollingUpgradeRunningStatus,
   RollingUpgradeProgressInfo,

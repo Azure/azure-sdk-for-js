@@ -3940,6 +3940,41 @@ export interface VirtualMachineScaleSetVMInstanceView {
 
 /**
  * @interface
+ * An interface representing VirtualMachineScaleSetVMNetworkProfileConfiguration.
+ * Describes a virtual machine scale set VM network profile.
+ *
+ */
+export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
+  /**
+   * @member {VirtualMachineScaleSetNetworkConfiguration[]}
+   * [networkInterfaceConfigurations] The list of network configurations.
+   */
+  networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
+}
+
+/**
+ * @interface
+ * An interface representing VirtualMachineScaleSetVMProtectionPolicy.
+ * The protection policy of a virtual machine scale set VM.
+ *
+ */
+export interface VirtualMachineScaleSetVMProtectionPolicy {
+  /**
+   * @member {boolean} [protectFromScaleIn] Indicates that the virtual machine
+   * scale set VM shouldn't be considered for deletion during a scale-in
+   * operation.
+   */
+  protectFromScaleIn?: boolean;
+  /**
+   * @member {boolean} [protectFromScaleSetActions] Indicates that model
+   * updates or actions (including scale-in) initiated on the virtual machine
+   * scale set should not be applied to the virtual machine scale set VM.
+   */
+  protectFromScaleSetActions?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachineScaleSetVM.
  * Describes a virtual machine scale set virtual machine.
  *
@@ -4007,6 +4042,12 @@ export interface VirtualMachineScaleSetVM extends Resource {
    */
   networkProfile?: NetworkProfile;
   /**
+   * @member {VirtualMachineScaleSetVMNetworkProfileConfiguration}
+   * [networkProfileConfiguration] Specifies the network profile configuration
+   * of the virtual machine.
+   */
+  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
+  /**
    * @member {DiagnosticsProfile} [diagnosticsProfile] Specifies the boot
    * diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
    */
@@ -4044,6 +4085,19 @@ export interface VirtualMachineScaleSetVM extends Resource {
    * <br><br> Minimum api-version: 2015-06-15
    */
   licenseType?: string;
+  /**
+   * @member {string} [modelDefinitionApplied] Specifies whether the model
+   * applied to the virtual machine is the model of the virtual machine scale
+   * set or the customized model for the virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly modelDefinitionApplied?: string;
+  /**
+   * @member {VirtualMachineScaleSetVMProtectionPolicy} [protectionPolicy]
+   * Specifies the protection policy of the virtual machine.
+   */
+  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
   /**
    * @member {Plan} [plan] Specifies information about the marketplace image
    * used to create the virtual machine. This element is only used for
@@ -5364,6 +5418,12 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
    * property is updatable.
    */
   endOfLifeDate?: Date;
+  /**
+   * @member {StorageAccountType} [storageAccountType] Specifies the storage
+   * account type to be used to store the image. This property is not
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   */
+  storageAccountType?: StorageAccountType;
 }
 
 /**
@@ -5550,6 +5610,12 @@ export interface TargetRegion {
    * Image Version to be created per region. This property is updatable.
    */
   regionalReplicaCount?: number;
+  /**
+   * @member {StorageAccountType} [storageAccountType] Specifies the storage
+   * account type to be used to store the image. This property is not
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   */
+  storageAccountType?: StorageAccountType;
 }
 
 /**
@@ -7012,6 +7078,14 @@ export type SnapshotStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'Stan
  * @enum {string}
  */
 export type AccessLevel = 'None' | 'Read' | 'Write';
+
+/**
+ * Defines values for StorageAccountType.
+ * Possible values include: 'Standard_LRS', 'Standard_ZRS'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS';
 
 /**
  * Defines values for AggregatedReplicationState.

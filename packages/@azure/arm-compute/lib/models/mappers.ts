@@ -4789,6 +4789,50 @@ export const VirtualMachineScaleSetVMInstanceView: msRest.CompositeMapper = {
   }
 };
 
+export const VirtualMachineScaleSetVMNetworkProfileConfiguration: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMNetworkProfileConfiguration",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMNetworkProfileConfiguration",
+    modelProperties: {
+      networkInterfaceConfigurations: {
+        serializedName: "networkInterfaceConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineScaleSetNetworkConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetVMProtectionPolicy: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMProtectionPolicy",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMProtectionPolicy",
+    modelProperties: {
+      protectFromScaleIn: {
+        serializedName: "protectFromScaleIn",
+        type: {
+          name: "Boolean"
+        }
+      },
+      protectFromScaleSetActions: {
+        serializedName: "protectFromScaleSetActions",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVM",
   type: {
@@ -4868,6 +4912,13 @@ export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
           className: "NetworkProfile"
         }
       },
+      networkProfileConfiguration: {
+        serializedName: "properties.networkProfileConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetVMNetworkProfileConfiguration"
+        }
+      },
       diagnosticsProfile: {
         serializedName: "properties.diagnosticsProfile",
         type: {
@@ -4893,6 +4944,20 @@ export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
         serializedName: "properties.licenseType",
         type: {
           name: "String"
+        }
+      },
+      modelDefinitionApplied: {
+        readOnly: true,
+        serializedName: "properties.modelDefinitionApplied",
+        type: {
+          name: "String"
+        }
+      },
+      protectionPolicy: {
+        serializedName: "properties.protectionPolicy",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetVMProtectionPolicy"
         }
       },
       plan: {
@@ -6624,6 +6689,12 @@ export const GalleryImageVersionPublishingProfile: msRest.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      storageAccountType: {
+        serializedName: "storageAccountType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6845,6 +6916,12 @@ export const TargetRegion: msRest.CompositeMapper = {
         serializedName: "regionalReplicaCount",
         type: {
           name: "Number"
+        }
+      },
+      storageAccountType: {
+        serializedName: "storageAccountType",
+        type: {
+          name: "String"
         }
       }
     }
