@@ -3785,6 +3785,17 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -4772,6 +4783,50 @@ export const VirtualMachineScaleSetVMInstanceView: msRest.CompositeMapper = {
   }
 };
 
+export const VirtualMachineScaleSetVMNetworkProfileConfiguration: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMNetworkProfileConfiguration",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMNetworkProfileConfiguration",
+    modelProperties: {
+      networkInterfaceConfigurations: {
+        serializedName: "networkInterfaceConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineScaleSetNetworkConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetVMProtectionPolicy: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetVMProtectionPolicy",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetVMProtectionPolicy",
+    modelProperties: {
+      protectFromScaleIn: {
+        serializedName: "protectFromScaleIn",
+        type: {
+          name: "Boolean"
+        }
+      },
+      protectFromScaleSetActions: {
+        serializedName: "protectFromScaleSetActions",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetVM",
   type: {
@@ -4851,6 +4906,13 @@ export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
           className: "NetworkProfile"
         }
       },
+      networkProfileConfiguration: {
+        serializedName: "properties.networkProfileConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetVMNetworkProfileConfiguration"
+        }
+      },
       diagnosticsProfile: {
         serializedName: "properties.diagnosticsProfile",
         type: {
@@ -4876,6 +4938,20 @@ export const VirtualMachineScaleSetVM: msRest.CompositeMapper = {
         serializedName: "properties.licenseType",
         type: {
           name: "String"
+        }
+      },
+      modelDefinitionApplied: {
+        readOnly: true,
+        serializedName: "properties.modelDefinitionApplied",
+        type: {
+          name: "String"
+        }
+      },
+      protectionPolicy: {
+        serializedName: "properties.protectionPolicy",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetVMProtectionPolicy"
         }
       },
       plan: {
@@ -5859,18 +5935,12 @@ export const KeyVaultAndKeyReference: msRest.CompositeMapper = {
   }
 };
 
-export const EncryptionSettings: msRest.CompositeMapper = {
-  serializedName: "EncryptionSettings",
+export const EncryptionSettingsElement: msRest.CompositeMapper = {
+  serializedName: "EncryptionSettingsElement",
   type: {
     name: "Composite",
-    className: "EncryptionSettings",
+    className: "EncryptionSettingsElement",
     modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
       diskEncryptionKey: {
         serializedName: "diskEncryptionKey",
         type: {
@@ -5883,6 +5953,35 @@ export const EncryptionSettings: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "KeyVaultAndKeyReference"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionSettingsCollection: msRest.CompositeMapper = {
+  serializedName: "EncryptionSettingsCollection",
+  type: {
+    name: "Composite",
+    className: "EncryptionSettingsCollection",
+    modelProperties: {
+      enabled: {
+        required: true,
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionSettings: {
+        serializedName: "encryptionSettings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EncryptionSettingsElement"
+            }
+          }
         }
       }
     }
@@ -5938,6 +6037,12 @@ export const Disk: msRest.CompositeMapper = {
           ]
         }
       },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
+        type: {
+          name: "String"
+        }
+      },
       creationData: {
         required: true,
         serializedName: "properties.creationData",
@@ -5952,11 +6057,11 @@ export const Disk: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       provisioningState: {
@@ -5976,6 +6081,13 @@ export const Disk: msRest.CompositeMapper = {
         serializedName: "properties.diskMBpsReadWrite",
         type: {
           name: "Number"
+        }
+      },
+      diskState: {
+        readOnly: true,
+        serializedName: "properties.diskState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -6004,11 +6116,11 @@ export const DiskUpdate: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       diskIOPSReadWrite: {
@@ -6148,6 +6260,12 @@ export const Snapshot: msRest.CompositeMapper = {
           ]
         }
       },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
+        type: {
+          name: "String"
+        }
+      },
       creationData: {
         required: true,
         serializedName: "properties.creationData",
@@ -6162,11 +6280,11 @@ export const Snapshot: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       provisioningState: {
@@ -6202,11 +6320,11 @@ export const SnapshotUpdate: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      encryptionSettings: {
-        serializedName: "properties.encryptionSettings",
+      encryptionSettingsCollection: {
+        serializedName: "properties.encryptionSettingsCollection",
         type: {
           name: "Composite",
-          className: "EncryptionSettings"
+          className: "EncryptionSettingsCollection"
         }
       },
       tags: {
