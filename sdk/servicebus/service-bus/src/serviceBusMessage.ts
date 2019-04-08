@@ -242,27 +242,27 @@ export module SendableMessageInfo {
    */
   export function validate(msg: SendableMessageInfo): void {
     if (!msg) {
-      throw new Error("'msg' cannot be null or undefined.");
+      throw new TypeError("'msg' cannot be null or undefined.");
     }
 
     if (msg.contentType != undefined && typeof msg.contentType !== "string") {
-      throw new Error("'contentType' must be of type 'string'.");
+      throw new TypeError("'contentType' must be of type 'string'.");
     }
 
     if (msg.label != undefined && typeof msg.label !== "string") {
-      throw new Error("'label' must be of type 'string'.");
+      throw new TypeError("'label' must be of type 'string'.");
     }
 
     if (msg.to != undefined && typeof msg.to !== "string") {
-      throw new Error("'to' must be of type 'string'.");
+      throw new TypeError("'to' must be of type 'string'.");
     }
 
     if (msg.replyToSessionId != undefined && typeof msg.replyToSessionId !== "string") {
-      throw new Error("'replyToSessionId' must be of type 'string'.");
+      throw new TypeError("'replyToSessionId' must be of type 'string'.");
     }
 
     if (msg.timeToLive != undefined && typeof msg.timeToLive !== "number") {
-      throw new Error("'timeToLive' must be of type 'number'.");
+      throw new TypeError("'timeToLive' must be of type 'number'.");
     }
 
     if (
@@ -270,7 +270,7 @@ export module SendableMessageInfo {
       (!(msg.scheduledEnqueueTimeUtc instanceof Date) ||
         msg.scheduledEnqueueTimeUtc!.toString() === "Invalid Date")
     ) {
-      throw new Error("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
+      throw new TypeError("'scheduledEnqueueTimeUtc' must be an instance of a valid 'Date'.");
     }
 
     if (
@@ -278,7 +278,7 @@ export module SendableMessageInfo {
       (typeof msg.partitionKey === "string" &&
         msg.partitionKey.length > Constants.maxPartitionKeyLength)
     ) {
-      throw new Error(
+      throw new TypeError(
         "'partitionKey' must be of type 'string' with a length less than 128 characters."
       );
     }
@@ -288,13 +288,13 @@ export module SendableMessageInfo {
       (typeof msg.viaPartitionKey === "string" &&
         msg.viaPartitionKey.length > Constants.maxPartitionKeyLength)
     ) {
-      throw new Error(
+      throw new TypeError(
         "'viaPartitionKey' must be of type 'string' with a length less than 128 characters."
       );
     }
 
     if (msg.sessionId != undefined && typeof msg.sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'.");
+      throw new TypeError("'sessionId' must be of type 'string'.");
     }
 
     if (
@@ -302,7 +302,7 @@ export module SendableMessageInfo {
       typeof msg.sessionId === "string" &&
       msg.sessionId.length > Constants.maxSessionIdLength
     ) {
-      throw new Error(
+      throw new TypeError(
         "Length of 'sessionId' of type 'string' cannot be greater than 128 characters."
       );
     }
@@ -313,7 +313,7 @@ export module SendableMessageInfo {
       typeof msg.messageId !== "number" &&
       !Buffer.isBuffer(msg.messageId)
     ) {
-      throw new Error("'messageId' must be of type 'string' | 'number' | Buffer.");
+      throw new TypeError("'messageId' must be of type 'string' | 'number' | Buffer.");
     }
 
     if (
@@ -321,7 +321,7 @@ export module SendableMessageInfo {
       typeof msg.messageId === "number" &&
       Math.floor(msg.messageId) !== msg.messageId
     ) {
-      throw new Error("'messageId' must be a whole integer. Decimal points are not allowed.");
+      throw new TypeError("'messageId' must be a whole integer. Decimal points are not allowed.");
     }
 
     if (
@@ -329,7 +329,7 @@ export module SendableMessageInfo {
       typeof msg.messageId === "string" &&
       msg.messageId.length > Constants.maxMessageIdLength
     ) {
-      throw new Error(
+      throw new TypeError(
         "Length of 'messageId' of type 'string' cannot be greater than 128 characters."
       );
     }
@@ -340,7 +340,7 @@ export module SendableMessageInfo {
       typeof msg.correlationId !== "number" &&
       !Buffer.isBuffer(msg.correlationId)
     ) {
-      throw new Error("'correlationId' must be of type 'string' | 'number' | Buffer.");
+      throw new TypeError("'correlationId' must be of type 'string' | 'number' | Buffer.");
     }
   }
 
@@ -553,19 +553,19 @@ export module ReceivedMessageInfo {
   export function validate(msg: ReceivedMessageInfo): void {
     SendableMessageInfo.validate(msg);
     if (msg.lockToken != undefined && typeof msg.lockToken !== "string") {
-      throw new Error("'lockToken' must be of type 'string'.");
+      throw new TypeError("'lockToken' must be of type 'string'.");
     }
 
     if (msg.deliveryCount != undefined && typeof msg.deliveryCount !== "number") {
-      throw new Error("'deliveryCount' must be of type 'number'.");
+      throw new TypeError("'deliveryCount' must be of type 'number'.");
     }
 
     if (msg.sequenceNumber != undefined && !Long.isLong(msg.sequenceNumber)) {
-      throw new Error("'sequenceNumber' must be an instance of 'Long' .");
+      throw new TypeError("'sequenceNumber' must be an instance of 'Long' .");
     }
 
     if (msg.enqueuedSequenceNumber != undefined && typeof msg.enqueuedSequenceNumber !== "number") {
-      throw new Error("'enqueuedSequenceNumber' must be of type 'number'.");
+      throw new TypeError("'enqueuedSequenceNumber' must be of type 'number'.");
     }
 
     if (
@@ -573,7 +573,7 @@ export module ReceivedMessageInfo {
       !(msg.enqueuedTimeUtc instanceof Date) &&
       msg.enqueuedTimeUtc!.toString() === "Invalid Date"
     ) {
-      throw new Error("'enqueuedTimeUtc' must be an instance of a valid 'Date'.");
+      throw new TypeError("'enqueuedTimeUtc' must be an instance of a valid 'Date'.");
     }
 
     if (
@@ -581,7 +581,7 @@ export module ReceivedMessageInfo {
       !(msg.expiresAtUtc instanceof Date) &&
       msg.expiresAtUtc!.toString() === "Invalid Date"
     ) {
-      throw new Error("'expiresAtUtc' must be an instance of a valid 'Date'.");
+      throw new TypeError("'expiresAtUtc' must be an instance of a valid 'Date'.");
     }
 
     if (
@@ -589,7 +589,7 @@ export module ReceivedMessageInfo {
       !(msg.lockedUntilUtc instanceof Date) &&
       msg.lockedUntilUtc!.toString() === "Invalid Date"
     ) {
-      throw new Error("'lockedUntilUtc' must be an instance of a valid 'Date'.");
+      throw new TypeError("'lockedUntilUtc' must be an instance of a valid 'Date'.");
     }
   }
 

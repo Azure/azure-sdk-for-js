@@ -369,7 +369,8 @@ export class MessageReceiver extends LinkEntity {
         const autoRenewLockTask = (): void => {
           if (
             new Date(totalAutoLockRenewDuration) > bMessage.lockedUntilUtc! &&
-            Date.now() < totalAutoLockRenewDuration
+            Date.now() < totalAutoLockRenewDuration &&
+            bMessage.lockToken
           ) {
             if (this._messageRenewLockTimers.has(bMessage.messageId as string)) {
               // TODO: We can run into problems with clock skew between the client and the server.
@@ -396,7 +397,7 @@ export class MessageReceiver extends LinkEntity {
                       connectionId,
                       bMessage.messageId
                     );
-                    await this._context.managementClient!.renewLock(bMessage);
+                    await this._context.managementClient!.renewLock(bMessage.lockToken!);
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
                       connectionId,

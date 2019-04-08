@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as Long from "long";
+import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
 import { ScheduleMessage } from "./core/managementClient";
 import { ClientEntityContext } from "./clientEntityContext";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  throwErrorIfConnectionClosed,
+  getSenderClosedErrorMsg,
+  throwTypeErrorIfMissingParameter,
+  throwParameterInstanceCheckError
+} from "./util/utils";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -86,10 +91,9 @@ export class Sender {
     message: SendableMessageInfo
   ): Promise<Long> {
     this._throwIfSenderOrConnectionClosed();
-    const scheduleMessages: ScheduleMessage[] = [
-      { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
-    ];
-    const result = await this._context.managementClient!.scheduleMessages(scheduleMessages);
+    throwTypeErrorIfMissingParameter(this._context.namespace.connectionId, "message", message);
+
+    const result = await this.scheduleMessages(scheduledEnqueueTimeUtc, [message]);
     return result[0];
   }
 
@@ -108,6 +112,52 @@ export class Sender {
     messages: SendableMessageInfo[]
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
+
+    // Checks for scheduledEnqueueTimeUtc
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "scheduledEnqueueTimeUtc",
+      scheduledEnqueueTimeUtc
+    );
+    if (!(scheduledEnqueueTimeUtc instanceof Date)) {
+      throwParameterInstanceCheckError(
+        this._context.namespace.connectionId,
+        "scheduledEnqueueTimeUtc",
+        "Date"
+      );
+    }
+    const now = Date.now();
+    const enqueueTimeInMs = scheduledEnqueueTimeUtc.getTime();
+    if (enqueueTimeInMs < now) {
+      const error = new Error(
+        `Cannot schedule messages in the past. Given scheduledEnqueueTimeUtc` +
+          `(${enqueueTimeInMs}) is before the current time (${now}).`
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
+    }
+
+    // Checks for messages
+    throwTypeErrorIfMissingParameter(this._context.namespace.connectionId, "messages", messages);
+    if (!Array.isArray(messages)) {
+      const error = new TypeError(
+        `The parameter "messages" should be an array of items that implement the interface "SendableMessageInfo"`
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
+    }
+    try {
+      messages.forEach((item) => SendableMessageInfo.validate(item));
+    } catch (error) {
+      if (error instanceof Error) {
+        error.message = `Error validating given message: ${error.message}`;
+      } else {
+        error = new TypeError(`Error validating given message: ${JSON.stringify}`);
+      }
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
+    }
+
     const scheduleMessages: ScheduleMessage[] = messages.map((message) => {
       return {
         message,
@@ -124,6 +174,18 @@ export class Sender {
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    if (!Long.isLong(sequenceNumber)) {
+      throwParameterInstanceCheckError(
+        this._context.namespace.connectionId,
+        "sequenceNumber",
+        "Long"
+      );
+    }
     return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
@@ -134,6 +196,18 @@ export class Sender {
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers) || sequenceNumbers.some((item) => !Long.isLong(item))) {
+      const error = new TypeError(
+        `The parameter "sequenceNumbers" should be an array of items of type "Long"`
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
+    }
     return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 
@@ -166,7 +240,12 @@ export class Sender {
   private _throwIfSenderOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
-      throw new Error("The sender has been closed and can no longer be used.");
+      const errorMessage = getSenderClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${errorMessage}`);
+      throw new Error(errorMessage);
     }
   }
 }

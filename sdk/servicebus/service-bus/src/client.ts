@@ -25,3 +25,8 @@ export interface Client {
    */
   detached(error?: AmqpError | Error): Promise<void>;
 }
+
+/**
+ * @internal
+ */
+export type ClientType = "QueueClient" | "TopicClient" | "SubscriptionClient";

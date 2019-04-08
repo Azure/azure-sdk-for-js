@@ -102,7 +102,10 @@ export interface CorrelationFilter {
   userProperties?: any;
 }
 
-const validCorrelationProperties = [
+/**
+ * @internal
+ */
+export const validCorrelationProperties = [
   "correlationId",
   "messageId",
   "to",
@@ -124,7 +127,7 @@ export interface PeekOptions {
    * The number of messages that need to be peeked.
    * - **Default: `1`**.
    */
-  messageCount?: number;
+  messageCount: number;
   /**
    * The id of the session for which the messages need to be peeked.
    * This should only be provided if messages are being fetched from a `session enabled` Queue or
@@ -263,7 +266,7 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peek(messageCount: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), {
       messageCount: messageCount
@@ -284,12 +287,9 @@ export class ManagementClient extends LinkEntity {
    */
   async peekMessagesBySession(
     sessionId: string,
-    messageCount?: number
+    messageCount: number
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (sessionId == undefined) {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
     return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), {
       sessionId: sessionId,
       messageCount: messageCount
@@ -304,22 +304,10 @@ export class ManagementClient extends LinkEntity {
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
-    options?: PeekOptions
+    options: PeekOptions
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!options) options = {};
-    if (fromSequenceNumber == undefined || !Long.isLong(fromSequenceNumber)) {
-      throw new Error(
-        "'fromSequenceNumber' is a required parameter and must be an instance of 'Long'."
-      );
-    }
-    if (options.messageCount != undefined && typeof options.messageCount !== "number") {
-      throw new Error("'messageCount' must be of type 'number'.");
-    }
-    if (options.sessionId != undefined && typeof options.sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'.");
-    }
-    if (options.messageCount == undefined) options.messageCount = 1;
+
     const messageList: ReceivedMessageInfo[] = [];
     try {
       const messageBody: any = {};
@@ -388,29 +376,16 @@ export class ManagementClient extends LinkEntity {
    * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
    * LockDuration set on the Entity.
    *
-   * @param {string | ServiceBusMessage} lockTokenOrMessage Lock token of the message or
-   * the message itself.
-   * @param {SendRequestOptions} [options] Options that can be set while sending the request.
+   * @param {string } lockToken Lock token of the message
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(
-    lockTokenOrMessage: string | ServiceBusMessage,
-    options?: SendRequestOptions
-  ): Promise<Date> {
+  async renewLock(lockToken: string): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!lockTokenOrMessage) {
-      throw new Error("'lockTokenOrMessage' is a required parameter.");
-    }
-    if (typeof lockTokenOrMessage !== "object" && typeof lockTokenOrMessage !== "string") {
-      throw new Error("'lockTokenOrMessage must be of type 'string' or of type 'object'.");
-    }
-    if (!options) options = {};
-    if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
-    if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
-    if (options.times == undefined) options.times = 5;
-    const lockToken: string = (lockTokenOrMessage as ServiceBusMessage).lockToken
-      ? ((lockTokenOrMessage as ServiceBusMessage).lockToken as string)
-      : (lockTokenOrMessage as string);
+    const options = {
+      delayInSeconds: 1,
+      timeoutInSeconds: 5,
+      times: 5
+    };
     try {
       const messageBody: any = {};
 
@@ -441,9 +416,6 @@ export class ManagementClient extends LinkEntity {
       });
       const result = await this._mgmtReqResLink!.sendRequest(request, options);
       const lockedUntilUtc = new Date(result.body.expirations[0]);
-      if (typeof lockTokenOrMessage === "object") {
-        (lockTokenOrMessage as ServiceBusMessage).lockedUntilUtc = lockedUntilUtc;
-      }
       return lockedUntilUtc;
     } catch (err) {
       const error = translate(err);
@@ -463,31 +435,12 @@ export class ManagementClient extends LinkEntity {
    */
   async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(messages)) {
-      throw new Error("'messages' is a required parameter of type 'Array'.");
-    }
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
-      if (typeof item.message !== "object") {
-        throw new Error("'message' is a required property and must be of type 'object'.");
-      }
-      if (!(item.scheduledEnqueueTimeUtc instanceof Date)) {
-        throw new Error(
-          "'scheduledEnqueueTimeUtc' is a required property and must be of type 'Date'."
-        );
-      }
-      const now = Date.now();
-      const enqueueTimeInMs = item.scheduledEnqueueTimeUtc.getTime();
-      if (enqueueTimeInMs < now) {
-        throw new Error(
-          `Cannot schedule messages in the past. Given scheduledEnqueueTimeUtc` +
-            `(${enqueueTimeInMs}) < current time (${now}).`
-        );
-      }
+
       item.message.scheduledEnqueueTimeUtc = item.scheduledEnqueueTimeUtc;
       if (!item.message.messageId) item.message.messageId = generate_uuid();
-      SendableMessageInfo.validate(item.message);
       const amqpMessage = SendableMessageInfo.toAmqpMessage(item.message);
 
       try {
@@ -567,16 +520,10 @@ export class ManagementClient extends LinkEntity {
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(sequenceNumbers)) {
-      throw new Error("'sequenceNumbers' is a required parameter of type 'Array'.");
-    }
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
       const sequenceNumber = sequenceNumbers[i];
-      if (!Long.isLong(sequenceNumber)) {
-        throw new Error("An item in the 'sequenceNumbers' Array must be an instance of 'Long'.");
-      }
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
@@ -645,11 +592,7 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string
   ): Promise<ServiceBusMessage | undefined> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Long.isLong(sequenceNumber)) {
-      throw new Error(
-        "'sequenceNumber' is a required parameter and must be an instance of 'Long'."
-      );
-    }
+
     let message: ServiceBusMessage | undefined = undefined;
     const messages = await this.receiveDeferredMessages([sequenceNumber], receiveMode, sessionId);
     if (messages.length) {
@@ -673,17 +616,6 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string
   ): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(sequenceNumbers)) {
-      throw new Error("'sequenceNumbers' is a required parameter and must be of type 'Array'.");
-    }
-
-    if (typeof receiveMode !== "number") {
-      throw new Error("'receiveMode' is a required parameter with value 1 or 2.");
-    }
-
-    if (sessionId && typeof sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'.");
-    }
 
     const messageList: ServiceBusMessage[] = [];
     const messageBody: any = {};
@@ -854,9 +786,6 @@ export class ManagementClient extends LinkEntity {
    */
   async renewSessionLock(sessionId: string, options?: SendRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (typeof sessionId !== "string") {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
     if (!options) options = {};
     if (options.delayInSeconds == undefined) options.delayInSeconds = 1;
     if (options.timeoutInSeconds == undefined) options.timeoutInSeconds = 5;
@@ -911,9 +840,6 @@ export class ManagementClient extends LinkEntity {
    */
   async setSessionState(sessionId: string, state: any): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (typeof sessionId !== "string") {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
 
     try {
       const messageBody: any = {};
@@ -957,9 +883,7 @@ export class ManagementClient extends LinkEntity {
    */
   async getSessionState(sessionId: string): Promise<any> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (typeof sessionId !== "string") {
-      throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
-    }
+
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -1179,9 +1103,7 @@ export class ManagementClient extends LinkEntity {
    */
   async removeRule(ruleName: string): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!ruleName || typeof ruleName !== "string") {
-      throw new Error("Cannot remove rule. Rule name is missing or is not a string.");
-    }
+
     try {
       const request: AmqpMessage = {
         body: {
@@ -1230,31 +1152,7 @@ export class ManagementClient extends LinkEntity {
     sqlRuleActionExpression?: string
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!ruleName || typeof ruleName !== "string") {
-      throw new Error("Cannot add rule. Rule name is missing or is not a string.");
-    }
-    if (!filter && filter !== false) {
-      throw new Error("Cannot add rule. Filter is missing.");
-    }
-    if (typeof filter !== "boolean" && typeof filter !== "string") {
-      const filterProperties = Object.keys(filter);
-      if (!filterProperties.length) {
-        throw new Error(
-          "Cannot add rule. Filter should be either a boolean, string or should have one of the Correlation filter properties."
-        );
-      }
-      for (let i = 0; i < filterProperties.length; i++) {
-        const filterProperty = filterProperties[i];
-        if (validCorrelationProperties.indexOf(filterProperty) === -1) {
-          throw new Error(
-            `Cannot add rule. Given filter object has unexpected property "${filterProperty}".`
-          );
-        }
-      }
-    }
-    if (sqlRuleActionExpression && typeof sqlRuleActionExpression !== "string") {
-      throw new Error("Cannot add rule. Given action expression is not a string.");
-    }
+
     try {
       const ruleDescription: any = {};
       switch (typeof filter) {

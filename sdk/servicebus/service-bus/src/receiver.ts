@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import * as Long from "long";
+import Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
@@ -12,7 +12,15 @@ import {
   SessionMessageHandlerOptions,
   SessionReceiverOptions
 } from "./session/messageSession";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  throwErrorIfConnectionClosed,
+  getReceiverClosedErrorMsg,
+  getAlreadyRecevingErrorMsg,
+  throwTypeErrorIfMissingParameter,
+  throwParameterInstanceCheckError,
+  getOpenReceiverErrorMsg,
+  throwTypeErrorIfParameterTypeMismatch
+} from "./util/utils";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
@@ -69,10 +77,10 @@ export class Receiver {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     if (!onMessage || typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
+      throw new TypeError("'onMessage' is a required parameter and must be of type 'function'.");
     }
     if (!onError || typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+      throw new TypeError("'onError' is a required parameter and must be of type 'function'.");
     }
     const sReceiver = StreamingReceiver.create(this._context, {
       ...options,
@@ -106,23 +114,20 @@ export class Receiver {
         receiveMode: this._receiveMode,
         newMessageWaitTimeoutInSeconds: 1
       };
-      this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+      try {
+        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+      } catch (err) {
+        log.error(
+          "[%s] An error occurred while creating the Batching Receiver for '%s':\n %O",
+          this._context.namespace.connectionId,
+          this._context.entityPath,
+          err
+        );
+        throw err;
+      }
     }
 
-    try {
-      return await this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
-    } catch (err) {
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
-        this._context.namespace.connectionId,
-        this._context.batchingReceiver.name,
-        maxMessageCount,
-        idleTimeoutInSeconds,
-        err
-      );
-      throw err;
-    }
+    return this._context.batchingReceiver.receive(maxMessageCount, idleTimeoutInSeconds);
   }
 
   /**
@@ -132,8 +137,6 @@ export class Receiver {
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
-      this._throwIfReceiverOrConnectionClosed();
-      this._throwIfAlreadyReceiving();
       const currentBatch = await this.receiveMessages(1);
       yield currentBatch[0];
     }
@@ -148,15 +151,43 @@ export class Receiver {
    * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
    * LockDuration set on the Entity.
    *
-   * @param lockTokenOrMessage - Lock token of the message or the message itself.
+   * @param lockToken - Lock token of the message.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
   async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "lockTokenOrMessage",
+      lockTokenOrMessage
+    );
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      const error = new Error(
+        `The "renewLock" operation is only supported in "PeekLock" receive mode.`
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
     }
-    return this._context.managementClient!.renewLock(lockTokenOrMessage);
+
+    if (typeof lockTokenOrMessage === "string") {
+      return this._context.managementClient!.renewLock(lockTokenOrMessage);
+    }
+
+    if (typeof lockTokenOrMessage.lockToken === "string") {
+      return this._context
+        .managementClient!.renewLock(lockTokenOrMessage.lockToken)
+        .then((lockedUntilUtc) => {
+          lockTokenOrMessage.lockedUntilUtc = lockedUntilUtc;
+          return lockedUntilUtc;
+        });
+    }
+
+    const error = new TypeError(
+      `The parameter "lockTokenOrMessage" does not have a valid lockToken property`
+    );
+    log.error(`[${this._context.namespace.connectionId}] ${error}`);
+    throw error;
   }
 
   /**
@@ -169,9 +200,25 @@ export class Receiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    if (!Long.isLong(sequenceNumber)) {
+      throwParameterInstanceCheckError(
+        this._context.namespace.connectionId,
+        "sequenceNumber",
+        "Long"
+      );
     }
+
+    if (this._receiveMode !== ReceiveMode.peekLock) {
+      throw new Error(
+        `The "receiveDeferredMessage" operation is only supported in "PeekLock" receive mode.`
+      );
+    }
+
     return this._context.managementClient!.receiveDeferredMessage(
       sequenceNumber,
       this._receiveMode
@@ -188,8 +235,23 @@ export class Receiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers) || sequenceNumbers.some((item) => !Long.isLong(item))) {
+      const error = new TypeError(
+        `The parameter "sequenceNumbers" should be an array of items of type "Long"`
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
+    }
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        `The "receiveDeferredMessages" operation is only supported in "PeekLock" receive mode.`
+      );
     }
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
@@ -250,22 +312,22 @@ export class Receiver {
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (
-      (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) ||
-      (this._context.batchingReceiver &&
-        this._context.batchingReceiver.isOpen() &&
-        this._context.batchingReceiver.isReceivingMessages)
-    ) {
-      throw new Error(
-        `The receiver for "${this._context.entityPath}" is already receiving messages.`
-      );
+    if (this.isReceivingMessages()) {
+      const error = new Error(getAlreadyRecevingErrorMsg(this._context.entityPath));
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
     }
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      throw new Error("The receiver has been closed and can no longer be used.");
+      const errorMessage = getReceiverClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${errorMessage}`);
+      throw new Error(errorMessage);
     }
   }
 }
@@ -301,7 +363,9 @@ export class SessionReceiver {
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return (this._messageSession && this._messageSession.sessionId) || undefined;
+    return (
+      (this._messageSession && this._messageSession.sessionId) || this._sessionOptions.sessionId
+    );
   }
 
   /**
@@ -324,6 +388,27 @@ export class SessionReceiver {
     this._context = context;
     this._receiveMode = receiveMode;
     this._sessionOptions = sessionOptions;
+
+    if (sessionOptions.sessionId) {
+      if (typeof sessionOptions.sessionId !== "string") {
+        const error = `The "sessionId" property on the "sessionOptions" parameter should be of type string`;
+        log.error(`[${this._context.namespace.connectionId}] ${error}`);
+        throw error;
+      }
+      // Check if receiver for given session already exists
+      if (
+        this._context.messageSessions[sessionOptions.sessionId] &&
+        this._context.messageSessions[sessionOptions.sessionId].isOpen()
+      ) {
+        const errorMessage = getOpenReceiverErrorMsg(
+          this._context.clientType,
+          this._context.entityPath,
+          sessionOptions.sessionId
+        );
+        log.error(`[${this._context.namespace.connectionId}] ${errorMessage}`);
+        throw new Error(errorMessage);
+      }
+    }
   }
 
   /**
@@ -372,6 +457,19 @@ export class SessionReceiver {
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
+
+    // Type check for maxMessageCount
+    if (maxMessageCount !== undefined) {
+      throwTypeErrorIfParameterTypeMismatch(
+        this._context.namespace.connectionId,
+        "maxMessageCount",
+        maxMessageCount,
+        "number"
+      );
+    } else {
+      maxMessageCount = 1;
+    }
+
     // Peek doesnt need an AMQP receiver link unless no sessionId was given
     if (!this.sessionId) {
       await this._createMessageSessionIfDoesntExist();
@@ -395,6 +493,33 @@ export class SessionReceiver {
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
+
+    // Type check for fromSequenceNumber
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "fromSequenceNumber",
+      fromSequenceNumber
+    );
+    if (!Long.isLong(fromSequenceNumber)) {
+      throwParameterInstanceCheckError(
+        this._context.namespace.connectionId,
+        "fromSequenceNumber",
+        "Long"
+      );
+    }
+
+    // Type check for maxMessageCount
+    if (maxMessageCount !== undefined) {
+      throwTypeErrorIfParameterTypeMismatch(
+        this._context.namespace.connectionId,
+        "maxMessageCount",
+        maxMessageCount,
+        "number"
+      );
+    } else {
+      maxMessageCount = 1;
+    }
+
     // Peek doesnt need an AMQP receiver link unless no sessionId was given
     if (!this.sessionId) {
       await this._createMessageSessionIfDoesntExist();
@@ -415,8 +540,23 @@ export class SessionReceiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    if (!Long.isLong(sequenceNumber)) {
+      throwParameterInstanceCheckError(
+        this._context.namespace.connectionId,
+        "sequenceNumber",
+        "Long"
+      );
+    }
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        `The "receiveDeferredMessage" operation is only supported in "PeekLock" receive mode.`
+      );
     }
     // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
     if (!this.sessionId) {
@@ -439,8 +579,23 @@ export class SessionReceiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers) || sequenceNumbers.some((item) => !Long.isLong(item))) {
+      const error = new TypeError(
+        `The parameter "sequenceNumbers" should be an array of items of type "Long"`
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
+    }
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+      throw new Error(
+        `The "receiveDeferredMessages" operation is only supported in "PeekLock" receive mode.`
+      );
     }
     // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
     if (!this.sessionId) {
@@ -470,21 +625,8 @@ export class SessionReceiver {
   ): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    try {
-      await this._createMessageSessionIfDoesntExist();
-      return this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
-    } catch (err) {
-      log.error(
-        "[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O",
-        this._context.namespace.connectionId,
-        this._messageSession!.name,
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        err
-      );
-      throw err;
-    }
+    await this._createMessageSessionIfDoesntExist();
+    return this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
   }
 
   /**
@@ -511,10 +653,10 @@ export class SessionReceiver {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     if (typeof onMessage !== "function") {
-      throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
+      throw new TypeError("'onMessage' is a required parameter and must be of type 'function'.");
     }
     if (typeof onError !== "function") {
-      throw new Error("'onError' is a required parameter and must be of type 'function'.");
+      throw new TypeError("'onError' is a required parameter and must be of type 'function'.");
     }
     this._createMessageSessionIfDoesntExist()
       .then(() => {
@@ -532,8 +674,6 @@ export class SessionReceiver {
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
-      this._throwIfReceiverOrConnectionClosed();
-      this._throwIfAlreadyReceiving();
       const currentBatch = await this.receiveMessages(1);
       yield currentBatch[0];
     }
@@ -574,7 +714,13 @@ export class SessionReceiver {
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      throw new Error("The receiver has been closed and can no longer be used.");
+      const errorMessage = getReceiverClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType,
+        this.sessionId!
+      );
+      log.error(`[${this._context.namespace.connectionId}] ${errorMessage}`);
+      throw new Error(errorMessage);
     }
   }
 
@@ -589,18 +735,19 @@ export class SessionReceiver {
         .maxSessionAutoRenewLockDurationInSeconds,
       receiveMode: this._receiveMode
     });
-    if (this._messageSession.sessionId) {
-      delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+    // By this point, we should have a valid sessionId on the messageSession
+    // If not, the receiver cannot be used, so throw error.
+    if (!this._messageSession.sessionId) {
+      throw new Error("Something went wrong. Cannot lock a session.");
     }
+    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
   }
 
   private _throwIfAlreadyReceiving(): void {
     if (this.isReceivingMessages()) {
-      throw new Error(
-        `The receiver for session "${this.sessionId}" in "${
-          this._context.entityPath
-        }" is already receiving messages.`
-      );
+      const error = new Error(getAlreadyRecevingErrorMsg(this._context.entityPath, this.sessionId));
+      log.error(`[${this._context.namespace.connectionId}] ${error}`);
+      throw error;
     }
   }
 }

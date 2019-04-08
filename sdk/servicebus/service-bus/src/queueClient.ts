@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as Long from "long";
+import Long from "long";
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
@@ -9,7 +9,15 @@ import { Client } from "./client";
 import { SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
 import { Receiver, SessionReceiver } from "./receiver";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  throwErrorIfConnectionClosed,
+  throwErrorIfClientOrConnectionClosed,
+  getOpenSenderErrorMsg,
+  getOpenReceiverErrorMsg,
+  throwParameterInstanceCheckError,
+  throwTypeErrorIfMissingParameter,
+  throwTypeErrorIfParameterTypeMismatch
+} from "./util/utils";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 
@@ -53,7 +61,7 @@ export class QueueClient implements Client {
     throwErrorIfConnectionClosed(context);
     this.entityPath = name;
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, context);
+    this._context = ClientEntityContext.create(this.entityPath, "QueueClient", context);
   }
 
   /**
@@ -133,15 +141,14 @@ export class QueueClient implements Client {
    * Throws error if an open sender already exists for this QueueClient.
    */
   createSender(): Sender {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
     if (!this._currentSender || this._currentSender.isClosed) {
       this._currentSender = new Sender(this._context);
       return this._currentSender;
     }
-    throw new Error(
-      "An open sender already exists on this QueueClient. Please close it and try" +
-        " again or use a new QueueClient instance"
-    );
+    const errorMessage = getOpenSenderErrorMsg("QueueClient", this.entityPath);
+    log.error(`[${this._context.namespace.connectionId}] ${errorMessage}`);
+    throw new Error(errorMessage);
   }
 
   /**
@@ -191,7 +198,7 @@ export class QueueClient implements Client {
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
   ): Receiver | SessionReceiver {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
 
     // Receiver for Queue where sessions are not enabled
     if (!sessionOptions) {
@@ -199,24 +206,9 @@ export class QueueClient implements Client {
         this._currentReceiver = new Receiver(this._context, receiveMode);
         return this._currentReceiver;
       }
-      throw new Error(
-        "An open receiver already exists on this QueueClient. Please close it and try" +
-          " again or use a new QueueClient instance"
-      );
-    }
-
-    // Check if receiver for given session already exists
-    if (sessionOptions.sessionId) {
-      if (
-        this._context.messageSessions[sessionOptions.sessionId] &&
-        this._context.messageSessions[sessionOptions.sessionId].isOpen()
-      ) {
-        throw new Error(
-          `An open receiver already exists for sessionId '${
-            sessionOptions.sessionId
-          }'. Please close it and try again.`
-        );
-      }
+      const errorMessage = getOpenReceiverErrorMsg("QueueClient", this.entityPath);
+      log.error(`[${this._context.namespace.connectionId}] ${errorMessage}`);
+      throw new Error(errorMessage);
     }
 
     return new SessionReceiver(this._context, receiveMode, sessionOptions);
@@ -234,7 +226,20 @@ export class QueueClient implements Client {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
+
+    // Type check for maxMessageCount
+    if (maxMessageCount !== undefined) {
+      throwTypeErrorIfParameterTypeMismatch(
+        this._context.namespace.connectionId,
+        "maxMessageCount",
+        maxMessageCount,
+        "number"
+      );
+    } else {
+      maxMessageCount = 1;
+    }
+
     return this._context.managementClient!.peek(maxMessageCount);
   }
 
@@ -253,7 +258,34 @@ export class QueueClient implements Client {
     fromSequenceNumber: Long,
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    this._throwErrorIfClientOrConnectionClosed();
+    throwErrorIfClientOrConnectionClosed(this._context.namespace, this.entityPath, this._isClosed);
+
+    // Type check for fromSequenceNumber
+    throwTypeErrorIfMissingParameter(
+      this._context.namespace.connectionId,
+      "fromSequenceNumber",
+      fromSequenceNumber
+    );
+    if (!Long.isLong(fromSequenceNumber)) {
+      throwParameterInstanceCheckError(
+        this._context.namespace.connectionId,
+        "fromSequenceNumber",
+        "Long"
+      );
+    }
+
+    // Type check for maxMessageCount
+    if (maxMessageCount !== undefined) {
+      throwTypeErrorIfParameterTypeMismatch(
+        this._context.namespace.connectionId,
+        "maxMessageCount",
+        maxMessageCount,
+        "number"
+      );
+    } else {
+      maxMessageCount = 1;
+    }
+
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       messageCount: maxMessageCount
     });
@@ -276,17 +308,6 @@ export class QueueClient implements Client {
   //     lastUpdatedTime
   //   );
   // }
-
-  /**
-   * Throws error if this queueClient has been closed
-   * @param client
-   */
-  private _throwErrorIfClientOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
-      throw new Error("The queueClient has been closed and can no longer be used.");
-    }
-  }
 
   /**
    * Returns the corresponding dead letter queue name for the queue represented by the given name.
