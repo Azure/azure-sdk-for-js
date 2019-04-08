@@ -48,7 +48,7 @@ async function sendReceiveMessages(): Promise<void> {
         label: `${msgId}`
       };
       msgId++;
-      await sender.sendMessage(message);
+      await sender.send(message);
       await sender.close();
 
       const receiver = client.createReceiver(ReceiveMode.peekLock);

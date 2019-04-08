@@ -119,7 +119,7 @@ describe("Streaming - Misc Tests", function(): void {
 
   async function testAutoComplete(): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler((msg: ServiceBusMessage) => {
@@ -172,7 +172,7 @@ describe("Streaming - Misc Tests", function(): void {
 
   async function testManualComplete(): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler(
@@ -235,7 +235,7 @@ describe("Streaming - Complete message", function(): void {
 
   async function testComplete(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler(
@@ -313,7 +313,7 @@ describe("Streaming - Abandon message", function(): void {
 
   async function testMultipleAbandons(): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     let checkDeliveryCount = 0;
 
@@ -396,7 +396,7 @@ describe("Streaming - Defer message", function(): void {
 
   async function testDefer(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
     let sequenceNum: any = 0;
     receiver.registerMessageHandler(
       (msg: ServiceBusMessage) => {
@@ -498,7 +498,7 @@ describe("Streaming - Deadletter message", function(): void {
 
   async function testDeadletter(autoComplete: boolean): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler(
@@ -675,7 +675,7 @@ describe("Streaming - Settle an already Settled message throws error", () => {
 
   async function testSettlement(operation: DispositionType): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
     const receivedMsgs: ServiceBusMessage[] = [];
     receiver.registerMessageHandler((msg: ServiceBusMessage) => {
       receivedMsgs.push(msg);
@@ -805,7 +805,7 @@ describe("Streaming - User Error", function(): void {
   });
 
   async function testUserError(): Promise<void> {
-    await sender.sendMessage(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
     const errorMessage = "Will we see this error message?";
 
     const receivedMsgs: ServiceBusMessage[] = [];
@@ -865,7 +865,7 @@ describe("Streaming - maxConcurrentCalls", function(): void {
 
   async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
     const testMessages = [TestMessage.getSample(), TestMessage.getSample()];
-    await sender.sendMessages(testMessages);
+    await sender.sendBatch(testMessages);
 
     const settledMsgs: ServiceBusMessage[] = [];
     const receivedMsgs: ServiceBusMessage[] = [];

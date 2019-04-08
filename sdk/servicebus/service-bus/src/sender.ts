@@ -52,15 +52,15 @@ export class Sender {
    * @param message - Message to send.
    * @returns Promise<void>
    */
-  async sendMessage(message: SendableMessageInfo): Promise<void> {
+  async send(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.send(message);
   }
 
   /**
-   * Sends the given messages in a batch i.e. in a single AMQP message after creating an AMQP Sender
-   * link if it doesnt already exists.
+   * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
+   * Sender link if it doesnt already exists.
    *
    * To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
    * and/or `partitionKey` properties respectively on the messages. When doing so, all
@@ -70,7 +70,7 @@ export class Sender {
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
    */
-  async sendMessages(messages: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);

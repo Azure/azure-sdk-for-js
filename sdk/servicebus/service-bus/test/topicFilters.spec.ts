@@ -112,7 +112,7 @@ async function sendOrders(): Promise<void> {
       },
       partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
     };
-    await sender.sendMessage(message);
+    await sender.send(message);
   }
 }
 
@@ -701,5 +701,105 @@ describe("Correlation Filter - Send/Receive", function(): void {
     }
 
     await testPeekMsgsLength(subscriptionClient, 0);
+  });
+});
+
+describe("Multiple subscriptions on single topic - Receive messages", function(): void {
+  let ns: ServiceBusClient;
+  let testSubscriptionClient: SubscriptionClient;
+  let defaultSubscriptionClient: SubscriptionClient;
+  let testTopicClient: TopicClient;
+
+  beforeEach(async () => {
+    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+      throw new Error(
+        "Define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+      );
+    }
+
+    ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
+
+    const testClients = await getSenderReceiverClients(
+      ns,
+      ClientType.TopicFilterTestTopic,
+      ClientType.TopicFilterTestSubscription
+    );
+    const defaultClients = await getSenderReceiverClients(
+      ns,
+      ClientType.TopicFilterTestTopic,
+      ClientType.TopicFilterTestDefaultSubscription
+    );
+
+    testTopicClient = testClients.senderClient as TopicClient;
+    testSubscriptionClient = testClients.receiverClient as SubscriptionClient;
+    defaultSubscriptionClient = defaultClients.receiverClient as SubscriptionClient;
+
+    await purge(testSubscriptionClient);
+    const peekedSubscription1Msg = await testSubscriptionClient.peek();
+    if (peekedSubscription1Msg.length) {
+      chai.assert.fail("Please use an empty Subscription for integration testing");
+    }
+    await removeAllRules(testSubscriptionClient);
+
+    await purge(defaultSubscriptionClient);
+    const peekedSubscription2Msg = await defaultSubscriptionClient.peek();
+    if (peekedSubscription2Msg.length) {
+      chai.assert.fail("Please use an empty Subscription for integration testing");
+    }
+
+    await testSubscriptionClient.addRule("$Default", true);
+  });
+
+  afterEach(async () => {
+    await ns.close();
+  });
+
+  it("Does not delete messages in all subscriptions when using ReceiveAndDelete mode", async function(): Promise<
+    void
+  > {
+    const sender = testTopicClient.createSender();
+    const receiver = testSubscriptionClient.createReceiver(ReceiveMode.receiveAndDelete);
+
+    const numOfMessages = 3;
+    for (let index = 0; index < numOfMessages; index++) {
+      const message: SendableMessageInfo = {
+        body: "",
+        messageId: `messageId: ${Math.random()}`,
+        label: `${index + 1}`,
+        partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
+      };
+      await sender.send(message);
+    }
+
+    const receivedMsgs: ServiceBusMessage[] = [];
+
+    let errorFromErrorHandler: Error | undefined;
+
+    receiver.registerMessageHandler(
+      (msg: ServiceBusMessage) => {
+        receivedMsgs.push(msg);
+        return Promise.resolve();
+      },
+      (err: Error) => {
+        if (err) {
+          errorFromErrorHandler = err;
+        }
+      },
+      { autoComplete: false }
+    );
+
+    const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === numOfMessages);
+    should.equal(msgsCheck, true, "Could not receive the messages in expected time.");
+
+    should.equal(receivedMsgs.length, numOfMessages, "Unexpected number of messages");
+
+    should.equal(
+      errorFromErrorHandler,
+      undefined,
+      errorFromErrorHandler && errorFromErrorHandler.message
+    );
+
+    await testPeekMsgsLength(testSubscriptionClient, 0);
+    await testPeekMsgsLength(defaultSubscriptionClient, numOfMessages);
   });
 });
