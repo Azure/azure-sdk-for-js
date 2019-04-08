@@ -89,7 +89,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_batching(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.createSender().sendMessage(testMessage);
+    await senderClient.createSender().send(testMessage);
 
     let receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
@@ -150,7 +150,7 @@ describe("SessionReceiver with invalid sessionId", function(): void {
 
   async function test_streaming(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
-    await senderClient.createSender().sendMessage(testMessage);
+    await senderClient.createSender().send(testMessage);
 
     let receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: "non" + TestMessage.sessionId
@@ -246,8 +246,8 @@ describe("SessionReceiver with no sessionId", function(): void {
 
   async function testComplete_batching(): Promise<void> {
     const sender = senderClient.createSender();
-    await sender.sendMessage(testMessagesWithDifferentSessionIds[0]);
-    await sender.sendMessage(testMessagesWithDifferentSessionIds[1]);
+    await sender.send(testMessagesWithDifferentSessionIds[0]);
+    await sender.send(testMessagesWithDifferentSessionIds[1]);
 
     let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
@@ -343,7 +343,7 @@ describe("Session State", function(): void {
   async function testGetSetState(): Promise<void> {
     const sender = senderClient.createSender();
     const testMessage = TestMessage.getSessionSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
@@ -422,7 +422,7 @@ describe("Peek session", function(): void {
   async function peekSession(useSessionId: boolean): Promise<void> {
     const sender = senderClient.createSender();
     const testMessage = TestMessage.getSessionSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
 
     const receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: useSessionId ? testMessage.sessionId : undefined

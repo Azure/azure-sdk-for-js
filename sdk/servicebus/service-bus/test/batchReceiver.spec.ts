@@ -110,7 +110,7 @@ describe("Batch Receiver - Settle message", function(): void {
   });
 
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -291,7 +291,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
   async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
     let abandonMsgCount = 0;
 
     while (abandonMsgCount < maxDeliveryCount) {
@@ -606,7 +606,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
   let deadletterReceiver: Receiver;
 
   async function deadLetterMessage(testMessage: SendableMessageInfo): Promise<ServiceBusMessage> {
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveMessages(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
@@ -846,7 +846,6 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
     } catch (err) {
       errorMessage = err && err.message;
     }
-
     should.equal(
       errorMessage,
       expectedErrorMessage,
@@ -962,7 +961,7 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
   // See https://github.com/Azure/azure-service-bus-node/issues/31
   async function testSequentialReceiveBatchCalls(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? messageWithSessions : messages;
-    await sender.sendMessages(testMessages);
+    await sender.sendBatch(testMessages);
     const msgs1 = await receiver.receiveMessages(1);
     const msgs2 = await receiver.receiveMessages(1);
 
@@ -1069,7 +1068,7 @@ describe("Batch Receiver - Others", function(): void {
 
   async function testNoSettlement(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
 
     let receivedMsgs = await receiver.receiveMessages(1);
 
@@ -1126,7 +1125,7 @@ describe("Batch Receiver - Others", function(): void {
 
   async function testAskForMore(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
     const receivedMsgs = await receiver.receiveMessages(2);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");

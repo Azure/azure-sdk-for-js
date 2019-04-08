@@ -140,18 +140,17 @@ export class Receiver {
   }
 
   /**
-   * Renews the lock on the message.
+   * Renews the lock on the message for the duration as specified during the Queue/Subscription
+   * creation. Check the `lockedUntilUtc` property on the message for the time when the lock expires.
    *
-   * When a message is received in `PeekLock` mode, the message is locked on the server for this
-   * receiver instance for a duration as specified during the Queue/Subscription creation
-   * (LockDuration). If processing of the message requires longer than this duration, the
-   * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
-   * LockDuration set on the Entity.
+   * If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   * before its lock expires, then the message lands back in the Queue/Subscription for the next
+   * receive operation.
    *
-   * @param lockTokenOrMessage - Lock token of the message or the message itself.
+   * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+  async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
@@ -327,10 +326,17 @@ export class SessionReceiver {
   }
 
   /**
-   * Renews the lock for the Session.
-   * @returns Promise<Date> New lock token expiry date and time in UTC format.
+   * Renews the lock on the session.
+   * Check the `sessionLockedUntilUtc` property on the reciever for the time when the lock expires.
+   *
+   * When the lock on the session expires
+   * - no more messages can be received using this receiver
+   * - messages already received but not settled will land back in the Queue/Subscription for the
+   * next receiver to receive
+   *
+   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
-  async renewLock(): Promise<Date> {
+  async renewSessionLock(): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(

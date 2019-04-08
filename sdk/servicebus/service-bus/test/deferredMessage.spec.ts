@@ -102,7 +102,7 @@ async function afterEachTest(): Promise<void> {
 }
 
 async function deferMessage(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
-  await sender.sendMessage(testMessages);
+  await sender.send(testMessages);
   const receivedMsgs = await receiver.receiveMessages(1);
 
   should.equal(receivedMsgs.length, 1, "Unexpected number of messages");

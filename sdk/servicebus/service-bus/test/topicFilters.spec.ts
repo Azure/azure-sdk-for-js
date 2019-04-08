@@ -112,7 +112,7 @@ async function sendOrders(): Promise<void> {
       },
       partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
     };
-    await sender.sendMessage(message);
+    await sender.send(message);
   }
 }
 
@@ -709,7 +709,7 @@ describe("Multiple subscriptions on single topic - Receive messages", function()
         label: `${index + 1}`,
         partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
       };
-      await sender.sendMessage(message);
+      await sender.send(message);
     }
 
     const receivedMsgs: ServiceBusMessage[] = [];

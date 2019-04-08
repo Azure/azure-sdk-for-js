@@ -340,7 +340,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
 
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   const msgs = await receiver.receiveMessages(1);
@@ -365,7 +365,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   await delay(5000);
   if (msgs[0].lockToken) {
-    await receiver.renewLock(msgs[0].lockToken);
+    await receiver.renewMessageLock(msgs[0].lockToken);
   }
 
   // Compute expected lock expiry time after renewing lock after 5 seconds
@@ -389,7 +389,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
 
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   const msgs = await receiver.receiveMessages(1);
@@ -424,7 +424,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
@@ -456,7 +456,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
       );
 
       await delay(5000);
-      await receiver.renewLock(brokeredMessage);
+      await receiver.renewMessageLock(brokeredMessage);
 
       // Compute expected lock expiry time after renewing lock after 5 seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -499,7 +499,7 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {

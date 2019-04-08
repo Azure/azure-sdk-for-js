@@ -349,7 +349,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
 
   const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
@@ -376,7 +376,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   );
 
   await delay(5000);
-  await sessionClient.renewLock();
+  await sessionClient.renewSessionLock();
 
   // Compute expected lock expiry time after renewing lock after 5 seconds
   expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -399,7 +399,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
 
   let sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
@@ -440,7 +440,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
   const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
@@ -475,7 +475,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
       );
 
       await delay(5000);
-      await sessionClient.renewLock();
+      await sessionClient.renewSessionLock();
 
       // Compute expected lock expiry time after renewing lock after 5 seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -517,7 +517,7 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSessionSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
 
   const sessionClient = receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,

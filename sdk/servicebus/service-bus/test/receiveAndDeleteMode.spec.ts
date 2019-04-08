@@ -100,7 +100,7 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   });
 
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -201,7 +201,7 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     testMessages: SendableMessageInfo,
     autoCompleteFlag: boolean
   ): Promise<void> {
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
     const receivedMsgs: ServiceBusMessage[] = [];
 
     receiver.registerMessageHandler(
@@ -394,7 +394,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await afterEachTest();
   });
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -687,7 +687,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   async function testRenewLock(): Promise<void> {
     const msg = await sendReceiveMsg(TestMessage.getSample());
 
-    await receiver.renewLock(msg).catch((err) => testError(err));
+    await (<Receiver>receiver).renewMessageLock(msg).catch((err) => testError(err));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
