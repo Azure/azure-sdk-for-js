@@ -33,11 +33,12 @@ export {
   RoutingStorageContainerProperties,
   RouteProperties,
   FallbackRouteProperties,
+  EnrichmentProperties,
   StorageEndpointProperties,
   MessagingEndpointProperties,
   CloudToDeviceProperties,
   FeedbackProperties,
-  OperationsMonitoringProperties,
+  IotHubPropertiesDeviceStreams,
   IotHubSkuInfo
 } from "../models/mappers";
 
