@@ -16,7 +16,7 @@ export const appId: msRest.OperationURLParameter = {
     required: true,
     serializedName: "appId",
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
