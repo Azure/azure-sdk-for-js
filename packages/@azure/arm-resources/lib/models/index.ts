@@ -318,6 +318,11 @@ export interface ProviderResourceType {
    */
   apiVersions?: string[];
   /**
+   * @member {string} [capabilities] The additional capabilities offered by
+   * this resource type.
+   */
+  capabilities?: string;
+  /**
    * @member {{ [propertyName: string]: string }} [properties] The properties.
    */
   properties?: { [propertyName: string]: string };
@@ -342,11 +347,18 @@ export interface Provider {
   namespace?: string;
   /**
    * @member {string} [registrationState] The registration state of the
-   * provider.
+   * resource provider.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly registrationState?: string;
+  /**
+   * @member {string} [registrationPolicy] The registration policy of the
+   * resource provider.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly registrationPolicy?: string;
   /**
    * @member {ProviderResourceType[]} [resourceTypes] The collection of
    * provider resource types.
