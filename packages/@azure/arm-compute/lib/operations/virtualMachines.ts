@@ -323,7 +323,7 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  powerOff(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  powerOff(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesPowerOffOptionalParams): Promise<msRest.RestResponse> {
     return this.beginPowerOff(resourceGroupName,vmName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -365,8 +365,7 @@ export class VirtualMachines {
   }
 
   /**
-   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
-   * differencing OS disks.
+   * Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param [options] The optional parameters
@@ -527,7 +526,7 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPowerOff(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPowerOff(resourceGroupName: string, vmName: string, options?: Models.VirtualMachinesBeginPowerOffOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -593,8 +592,7 @@ export class VirtualMachines {
   }
 
   /**
-   * Reimages (upgrade the operating system) virtual machine. This operation is only supported for
-   * differencing OS disks.
+   * Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param [options] The optional parameters
@@ -1093,6 +1091,7 @@ const beginPowerOffOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.skipShutdown,
     Parameters.apiVersion0
   ],
   headerParameters: [
