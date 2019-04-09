@@ -49,7 +49,7 @@ async function afterEachTest(): Promise<void> {
   await ns.close();
 }
 
-describe("Unpartitioned Queue - Lock Renewal", function (): void {
+describe("Unpartitioned Queue - Lock Renewal", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
   });
@@ -58,25 +58,25 @@ describe("Unpartitioned Queue - Lock Renewal", function (): void {
     await afterEachTest();
   });
 
-  it("Batch Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Batch Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Batch Receiver: complete() after lock expiry with throws error", async function (): Promise<
+  it("Batch Receiver: complete() after lock expiry with throws error", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Streaming Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testStreamingReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function (): Promise<
+  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -86,7 +86,7 @@ describe("Unpartitioned Queue - Lock Renewal", function (): void {
     });
   });
 
-  it("Streaming Receiver: lock will not expire until configured time", async function (): Promise<
+  it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -96,7 +96,7 @@ describe("Unpartitioned Queue - Lock Renewal", function (): void {
     });
   });
 
-  it("Streaming Receiver: lock expires sometime after configured time", async function (): Promise<
+  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -106,7 +106,7 @@ describe("Unpartitioned Queue - Lock Renewal", function (): void {
     });
   }).timeout(90000);
 
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function (): Promise<
+  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -117,7 +117,7 @@ describe("Unpartitioned Queue - Lock Renewal", function (): void {
   });
 });
 
-describe("Partitioned Queue - Lock Renewal", function (): void {
+describe("Partitioned Queue - Lock Renewal", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
   });
@@ -126,25 +126,25 @@ describe("Partitioned Queue - Lock Renewal", function (): void {
     await afterEachTest();
   });
 
-  it("Batch Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Batch Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Batch Receiver: complete() after lock expiry with throws error", async function (): Promise<
+  it("Batch Receiver: complete() after lock expiry with throws error", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Streaming Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testStreamingReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function (): Promise<
+  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -155,7 +155,7 @@ describe("Partitioned Queue - Lock Renewal", function (): void {
     // Complete fails as expected
   });
 
-  it("Streaming Receiver: lock will not expire until configured time", async function (): Promise<
+  it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -165,7 +165,7 @@ describe("Partitioned Queue - Lock Renewal", function (): void {
     });
   });
 
-  it("Streaming Receiver: lock expires sometime after configured time", async function (): Promise<
+  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -175,7 +175,7 @@ describe("Partitioned Queue - Lock Renewal", function (): void {
     });
   }).timeout(90000);
 
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function (): Promise<
+  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -186,7 +186,7 @@ describe("Partitioned Queue - Lock Renewal", function (): void {
   });
 });
 
-describe("Unpartitioned Subscription - Lock Renewal", function (): void {
+describe("Unpartitioned Subscription - Lock Renewal", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
   });
@@ -195,25 +195,25 @@ describe("Unpartitioned Subscription - Lock Renewal", function (): void {
     await afterEachTest();
   });
 
-  it("Batch Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Batch Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Batch Receiver: complete() after lock expiry with throws error", async function (): Promise<
+  it("Batch Receiver: complete() after lock expiry with throws error", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Streaming Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testStreamingReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function (): Promise<
+  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -224,7 +224,7 @@ describe("Unpartitioned Subscription - Lock Renewal", function (): void {
     // Complete fails as expected
   });
 
-  it("Streaming Receiver: lock will not expire until configured time", async function (): Promise<
+  it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -234,7 +234,7 @@ describe("Unpartitioned Subscription - Lock Renewal", function (): void {
     });
   });
 
-  it("Streaming Receiver: lock expires sometime after configured time", async function (): Promise<
+  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -244,7 +244,7 @@ describe("Unpartitioned Subscription - Lock Renewal", function (): void {
     });
   }).timeout(90000);
 
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function (): Promise<
+  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -255,7 +255,7 @@ describe("Unpartitioned Subscription - Lock Renewal", function (): void {
   });
 });
 
-describe("Partitioned Subscription - Lock Renewal", function (): void {
+describe("Partitioned Subscription - Lock Renewal", function(): void {
   beforeEach(async () => {
     await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
   });
@@ -264,25 +264,25 @@ describe("Partitioned Subscription - Lock Renewal", function (): void {
     await afterEachTest();
   });
 
-  it("Batch Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Batch Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Batch Receiver: complete() after lock expiry with throws error", async function (): Promise<
+  it("Batch Receiver: complete() after lock expiry with throws error", async function(): Promise<
     void
   > {
     await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: renewLock() resets lock duration each time.", async function (): Promise<
+  it("Streaming Receiver: renewLock() resets lock duration each time.", async function(): Promise<
     void
   > {
     await testStreamingReceiverManualLockRenewalHappyCase(senderClient, receiverClient);
   });
 
-  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function (): Promise<
+  it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -293,7 +293,7 @@ describe("Partitioned Subscription - Lock Renewal", function (): void {
     // Complete fails as expected
   });
 
-  it("Streaming Receiver: lock will not expire until configured time", async function (): Promise<
+  it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -303,7 +303,7 @@ describe("Partitioned Subscription - Lock Renewal", function (): void {
     });
   });
 
-  it("Streaming Receiver: lock expires sometime after configured time", async function (): Promise<
+  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -313,7 +313,7 @@ describe("Partitioned Subscription - Lock Renewal", function (): void {
     });
   }).timeout(90000);
 
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function (): Promise<
+  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
     void
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
@@ -340,7 +340,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
 
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   const msgs = await receiver.receiveMessages(1);
@@ -365,7 +365,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
 
   await delay(5000);
   if (msgs[0].lockToken) {
-    await receiver.renewLock(msgs[0].lockToken);
+    await receiver.renewMessageLock(msgs[0].lockToken);
   }
 
   // Compute expected lock expiry time after renewing lock after 5 seconds
@@ -389,7 +389,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
   receiverClient: QueueClient | SubscriptionClient
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
 
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
   const msgs = await receiver.receiveMessages(1);
@@ -424,7 +424,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
@@ -456,7 +456,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
       );
 
       await delay(5000);
-      await receiver.renewLock(brokeredMessage);
+      await receiver.renewMessageLock(brokeredMessage);
 
       // Compute expected lock expiry time after renewing lock after 5 seconds
       expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -499,7 +499,7 @@ async function testAutoLockRenewalConfigBehavior(
 ): Promise<void> {
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSample();
-  await senderClient.createSender().sendMessage(testMessage);
+  await senderClient.createSender().send(testMessage);
   const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
   const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {

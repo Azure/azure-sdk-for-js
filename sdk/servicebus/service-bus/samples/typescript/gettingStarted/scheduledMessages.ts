@@ -6,7 +6,13 @@
   to learn about scheduling messages.
 */
 
-import { Namespace, SendableMessageInfo, OnMessage, OnError } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ReceiveMode,
+  SendableMessageInfo,
+  OnMessage,
+  OnError
+} from "@azure/service-bus";
 import { delay } from "rhea-promise";
 
 // Define connection string and related Service Bus entity names here
@@ -27,7 +33,7 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await sendScheduledMessages(ns);
 
@@ -38,10 +44,10 @@ async function main(): Promise<void> {
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(ns: Namespace): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+async function sendScheduledMessages(ns: ServiceBusClient): Promise<void> {
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   const messages: SendableMessageInfo[] = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -58,8 +64,8 @@ async function sendScheduledMessages(ns: Namespace): Promise<void> {
   await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
 }
 
-async function receiveMessages(ns: Namespace): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+async function receiveMessages(ns: ServiceBusClient): Promise<void> {
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
@@ -75,17 +81,18 @@ async function receiveMessages(ns: Namespace): Promise<void> {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  const receiver = client.getReceiver();
-  receiver.receive(onMessageHandler, onErrorHandler);
+  let receiver = client.createReceiver(ReceiveMode.peekLock);
+  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
+  receiver = client.createReceiver(ReceiveMode.peekLock);
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
-  receiver.receive(onMessageHandler, onErrorHandler);
+  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);

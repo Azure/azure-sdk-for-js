@@ -134,7 +134,7 @@ describe("Errors with non existing Namespace", function(): void {
     const client = namespace.createQueueClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -146,7 +146,7 @@ describe("Errors with non existing Namespace", function(): void {
     const client = namespace.createTopicClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -158,7 +158,7 @@ describe("Errors with non existing Namespace", function(): void {
     const client = namespace.createQueueClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch(testError);
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
@@ -169,7 +169,7 @@ describe("Errors with non existing Namespace", function(): void {
     const client = namespace.createTopicClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -243,7 +243,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     const client = namespace.createQueueClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -253,7 +253,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     const client = namespace.createTopicClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -265,7 +265,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     const client = namespace.createQueueClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -277,7 +277,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     const client = namespace.createTopicClient("some-name");
     await client
       .createSender()
-      .sendMessage({ body: "hello" })
+      .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -363,7 +363,7 @@ describe("Test createFromAadTokenCredentials", function(): void {
 
     const sender = clients.senderClient.createSender();
     const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
-    await sender.sendMessage(testMessages);
+    await sender.send(testMessages);
     const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -468,7 +468,7 @@ describe("Errors after close()", function(): void {
 
     // Normal send/receive
     const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await sender.sendMessage(testMessage);
+    await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveMessages(1, 3);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     await receivedMsgs[0].complete();
@@ -501,13 +501,13 @@ describe("Errors after close()", function(): void {
   async function testSender(expectedErrorMsg: string): Promise<void> {
     const testMessage = TestMessage.getSample();
     let errorSend: string = "";
-    await sender.sendMessage(testMessage).catch((err) => {
+    await sender.send(testMessage).catch((err) => {
       errorSend = err.message;
     });
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
 
     let errorSendBatch: string = "";
-    await sender.sendMessages([testMessage]).catch((err) => {
+    await sender.sendBatch([testMessage]).catch((err) => {
       errorSendBatch = err.message;
     });
     should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
@@ -612,11 +612,13 @@ describe("Errors after close()", function(): void {
       "Expected error not thrown for receiveDeferredMessages()"
     );
 
-    let errorRenewLock: string = "";
-    await receiver.renewLock("randomLockToken").catch((err) => {
-      errorRenewLock = err.message;
-    });
-    should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
+    if (!useSessions) {
+      let errorRenewLock: string = "";
+      await (<Receiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
+        errorRenewLock = err.message;
+      });
+      should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
+    }
   }
 
   /**

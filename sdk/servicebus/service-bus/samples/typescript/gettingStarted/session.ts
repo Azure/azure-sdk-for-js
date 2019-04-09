@@ -8,7 +8,13 @@
   sessions in Service Bus.
 */
 
-import { OnError, delay, Namespace, ServiceBusMessage } from "@azure/service-bus";
+import {
+  OnError,
+  delay,
+  ServiceBusClient,
+  ReceiveMode,
+  ServiceBusMessage
+} from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
@@ -29,7 +35,7 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   try {
     await sendMessage(ns, listOfScientists[0], "session-1");
@@ -51,10 +57,10 @@ async function main(): Promise<void> {
   }
 }
 
-async function sendMessage(ns: Namespace, scientist: any, sessionId: string): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+async function sendMessage(ns: ServiceBusClient, scientist: any, sessionId: string): Promise<void> {
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -68,10 +74,10 @@ async function sendMessage(ns: Namespace, scientist: any, sessionId: string): Pr
   await client.close();
 }
 
-async function receiveMessages(ns: Namespace, sessionId: string): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+async function receiveMessages(ns: ServiceBusClient, sessionId: string): Promise<void> {
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
-  const receiver = await client.getSessionReceiver({ sessionId: sessionId });
+  const receiver = client.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
 
   const onMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
@@ -79,7 +85,7 @@ async function receiveMessages(ns: Namespace, sessionId: string): Promise<void> 
   const onError: OnError = (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  receiver.receive(onMessage, onError);
+  receiver.registerMessageHandler(onMessage, onError);
   await delay(5000);
 
   await client.close();
