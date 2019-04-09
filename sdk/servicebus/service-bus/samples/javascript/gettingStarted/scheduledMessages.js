@@ -6,7 +6,7 @@
   to learn about scheduling messages.
 */
 
-const { Namespace, delay } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -26,7 +26,7 @@ const listOfScientists = [
 ];
 
 async function main(){
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await sendScheduledMessages(ns);
 
@@ -38,9 +38,9 @@ async function main(){
 
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(ns){
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -58,7 +58,7 @@ async function sendScheduledMessages(ns){
 }
 
 async function receiveMessages(ns) {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
@@ -74,17 +74,18 @@ async function receiveMessages(ns) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  const receiver = client.getReceiver();
-  receiver.receive(onMessageHandler, onErrorHandler);
+  let receiver = client.createReceiver(ReceiveMode.peekLock);
+  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
-
+  receiver = client.createReceiver(ReceiveMode.peekLock);
+  
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
-  receiver.receive(onMessageHandler, onErrorHandler);
+  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
   await delay(5000);
   await receiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);

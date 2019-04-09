@@ -10,8 +10,8 @@
     Here, assign "owner" role to your account.
 */
 
-const { Namespace } = require("@azure/service-bus");
-const { loginWithUsernamePassword } = require("ms-rest-azure");
+const { ServiceBusClient } = require("@azure/service-bus");
+const { loginWithUsernamePassword } = require("@azure/ms-rest-nodeauth");
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
@@ -24,7 +24,7 @@ async function main() {
     tokenAudience: "https://servicebus.azure.net/"
   });
 
-  const ns = Namespace.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and to send/receive messages
