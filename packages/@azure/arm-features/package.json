@@ -44,7 +44,6 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "lib/**/*.ts",
-    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
@@ -53,6 +52,5 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-features.js.map'\" -o ./dist/arm-features.min.js ./dist/arm-features.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false,
-  "authPublish": true
+  "sideEffects": false
 }

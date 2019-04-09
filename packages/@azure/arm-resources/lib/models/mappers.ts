@@ -414,6 +414,12 @@ export const ProviderResourceType: msRest.CompositeMapper = {
           }
         }
       },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "String"
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {
@@ -451,6 +457,13 @@ export const Provider: msRest.CompositeMapper = {
       registrationState: {
         readOnly: true,
         serializedName: "registrationState",
+        type: {
+          name: "String"
+        }
+      },
+      registrationPolicy: {
+        readOnly: true,
+        serializedName: "registrationPolicy",
         type: {
           name: "String"
         }
