@@ -1,11 +1,11 @@
 {
-  "name": "@azure/arm-servicebus",
+  "name": "@azure/arm-analysisservices",
   "author": "Microsoft Corporation",
-  "description": "ServiceBusManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "3.2.0",
+  "description": "AnalysisServicesManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "2.3.0",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.3.2",
-    "@azure/ms-rest-js": "^1.8.1",
+    "@azure/ms-rest-azure-js": "^1.1.0",
+    "@azure/ms-rest-js": "^1.1.0",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -16,17 +16,16 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-servicebus.js",
-  "module": "./esm/serviceBusManagementClient.js",
-  "types": "./esm/serviceBusManagementClient.d.ts",
+  "main": "./dist/arm-analysisservices.js",
+  "module": "./esm/analysisServicesManagementClient.js",
+  "types": "./esm/analysisServicesManagementClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-servicebus",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/analysisservices/arm-analysisservices",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -44,15 +43,14 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "src/**/*.ts",
-    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-servicebus.js.map'\" -o ./dist/arm-servicebus.min.js ./dist/arm-servicebus.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-analysisservices.js.map'\" -o ./dist/arm-analysisservices.min.js ./dist/arm-analysisservices.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "authPublish": true
 }
