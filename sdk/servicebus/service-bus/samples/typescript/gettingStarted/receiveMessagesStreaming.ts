@@ -5,21 +5,21 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { OnMessage, OnError, delay, Namespace } from "@azure/service-bus";
+import { OnMessage, OnError, delay, ServiceBusClient, ReceiveMode } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
 
 async function main(): Promise<void> {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
-  const receiver = client.getReceiver();
+  const receiver = client.createReceiver(ReceiveMode.peekLock);
 
   const onMessageHandler: OnMessage = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);
@@ -30,7 +30,7 @@ async function main(): Promise<void> {
   };
 
   try {
-    receiver.receive(onMessageHandler, onErrorHandler, { autoComplete: false });
+    receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
 
     // Waiting long enough before closing the receiver to receive messages
     await delay(5000);

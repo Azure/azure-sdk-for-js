@@ -16,16 +16,14 @@
   to learn about session state.
 */
 
-import { Namespace } from "@azure/service-bus";
+import { ServiceBusClient, ReceiveMode } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const userEventsQueueName = "";
-
-let ns: Namespace;
+const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main(): Promise<void> {
-  ns = Namespace.createFromConnectionString(connectionString);
   try {
     await runScenario();
   } finally {
@@ -74,10 +72,12 @@ async function runScenario(): Promise<void> {
 }
 
 async function getSessionState(sessionId: string): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
 
-  const sessionReceiver = await client.getSessionReceiver({ sessionId: sessionId });
+  const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
+    sessionId: sessionId
+  });
 
   const sessionState = await sessionReceiver.getState();
   if (sessionState) {
@@ -92,9 +92,9 @@ async function getSessionState(sessionId: string): Promise<void> {
 }
 
 async function sendMessagesForSession(shoppingEvents: any[], sessionId: string): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
@@ -108,12 +108,14 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string):
 }
 
 async function processMessageFromSession(sessionId: string): Promise<void> {
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const client = ns.createQueueClient(userEventsQueueName);
 
-  const sessionReceiver = await client.getSessionReceiver({ sessionId: sessionId });
+  const sessionReceiver = client.createReceiver(ReceiveMode.peekLock, {
+    sessionId: sessionId
+  });
 
-  const messages = await sessionReceiver.receiveBatch(1, 10);
+  const messages = await sessionReceiver.receiveMessages(1, 10);
 
   // Custom logic for processing the messages
   if (messages.length > 0) {
