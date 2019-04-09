@@ -7,5 +7,6 @@
  */
 
 export {
+  ClusterConfigurations,
   ErrorResponse
 } from "../models/mappers";

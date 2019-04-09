@@ -30,6 +30,7 @@ export {
   ErrorResponse,
   Errors,
   ExecuteScriptActionParameters,
+  GatewaySettings,
   HardwareProfile,
   LinuxOperatingSystemProfile,
   OsProfile,
@@ -47,5 +48,6 @@ export {
   StorageAccount,
   StorageProfile,
   TrackedResource,
+  UpdateGatewaySettingsParameters,
   VirtualNetworkProfile
 } from "../models/mappers";
