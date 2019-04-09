@@ -62,7 +62,7 @@ async function sendMessages(): Promise<void> {
       };
       messagesToProcess.add(msgId);
       msgId++;
-      await sender.sendMessage(message);
+      await sender.send(message);
       await delay(2000); // Throttling send to not increase queue size
     }
   } finally {

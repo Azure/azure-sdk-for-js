@@ -6,19 +6,17 @@
   to the Dead Letter Queue
 */
 
-import { ServiceBusMessage, Namespace } from "@azure/service-bus";
+import { ServiceBusMessage, ServiceBusClient, ReceiveMode, QueueClient } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
 const queueName = "";
 
-const deadLetterQueueName = Namespace.getDeadLetterQueuePath(queueName);
-// const deadLetterQueueName = Namespace.getDeadLetterTopicPath(topicName, subscriptionName);
-
-let ns: Namespace;
+// If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
+const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);
+const ns: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main(): Promise<void> {
-  ns = Namespace.createFromConnectionString(connectionString);
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -28,18 +26,18 @@ async function main(): Promise<void> {
 
 async function processDeadletterMessageQueue(): Promise<void> {
   const client = ns.createQueueClient(deadLetterQueueName);
-  const receiver = client.getReceiver();
+  const receiver = client.createReceiver(ReceiveMode.peekLock);
 
-  const message = await receiver.receiveBatch(1);
+  const messages = await receiver.receiveMessages(1);
 
-  if (message.length > 0) {
-    console.log(">>>>> Received the message from DLQ - ", message[0].body);
+  if (messages.length > 0) {
+    console.log(">>>>> Received the message from DLQ - ", messages[0].body);
 
     // Do something with the message retrieved from DLQ
-    await fixAndResendMessage(message[0]);
+    await fixAndResendMessage(messages[0]);
 
     // Mark message as complete/processed.
-    await message[0].complete();
+    await messages[0].complete();
   } else {
     console.log(">>>> Error: No messages were received from the DLQ.");
   }
@@ -49,9 +47,9 @@ async function processDeadletterMessageQueue(): Promise<void> {
 
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void> {
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = oldMessage.clone();

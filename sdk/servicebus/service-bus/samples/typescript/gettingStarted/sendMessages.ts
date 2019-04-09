@@ -6,7 +6,7 @@
   to learn about Queues, Topics and Subscriptions.
 */
 
-import { Namespace, SendableMessageInfo } from "@azure/service-bus";
+import { ServiceBusClient, SendableMessageInfo } from "@azure/service-bus";
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -26,11 +26,11 @@ const listOfScientists = [
 ];
 
 async function main(): Promise<void> {
-  const ns = Namespace.createFromConnectionString(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics, use createTopicClient to send to a topic
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = ns.createQueueClient(queueName);
-  const sender = client.getSender();
+  const sender = client.createSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {

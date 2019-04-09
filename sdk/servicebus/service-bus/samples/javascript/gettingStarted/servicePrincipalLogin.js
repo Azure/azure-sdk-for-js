@@ -15,8 +15,8 @@
        tab. Here, assign "owner" role to the registered application.
 */
 
-const { Namespace } = require("@azure/service-bus");
-const { loginWithServicePrincipalSecret } = require("ms-rest-azure");
+const { ServiceBusClient } = require("@azure/service-bus");
+const { loginWithServicePrincipalSecret } = require("@azure/ms-rest-nodeauth");
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
@@ -31,7 +31,7 @@ async function main() {
     tokenAudience: "https://servicebus.azure.net/"
   });
 
-  const ns = Namespace.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and send/receive messages
