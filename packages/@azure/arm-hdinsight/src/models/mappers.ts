@@ -1280,6 +1280,66 @@ export const ClusterDiskEncryptionParameters: msRest.CompositeMapper = {
   }
 };
 
+export const UpdateGatewaySettingsParameters: msRest.CompositeMapper = {
+  serializedName: "UpdateGatewaySettingsParameters",
+  type: {
+    name: "Composite",
+    className: "UpdateGatewaySettingsParameters",
+    modelProperties: {
+      isCredentialEnabled: {
+        serializedName: "restAuthCredential\\.isEnabled",
+        defaultValue: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      userName: {
+        serializedName: "restAuthCredential\\.username",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "restAuthCredential\\.password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GatewaySettings: msRest.CompositeMapper = {
+  serializedName: "GatewaySettings",
+  type: {
+    name: "Composite",
+    className: "GatewaySettings",
+    modelProperties: {
+      isCredentialEnabled: {
+        readOnly: true,
+        serializedName: "restAuthCredential\\.isEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      userName: {
+        readOnly: true,
+        serializedName: "restAuthCredential\\.username",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        readOnly: true,
+        serializedName: "restAuthCredential\\.password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const OperationResource: msRest.CompositeMapper = {
   serializedName: "OperationResource",
   type: {
@@ -1625,6 +1685,32 @@ export const UsagesListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Usage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClusterConfigurations: msRest.CompositeMapper = {
+  serializedName: "ClusterConfigurations",
+  type: {
+    name: "Composite",
+    className: "ClusterConfigurations",
+    modelProperties: {
+      configurations: {
+        serializedName: "configurations",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
             }
           }
         }
