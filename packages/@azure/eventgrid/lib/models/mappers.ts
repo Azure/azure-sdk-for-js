@@ -1120,6 +1120,55 @@ export const IotHubDeviceDisconnectedEventData: msRest.CompositeMapper = {
   }
 };
 
+export const DeviceTelemetryEventProperties: msRest.CompositeMapper = {
+  serializedName: "DeviceTelemetryEventProperties",
+  type: {
+    name: "Composite",
+    className: "DeviceTelemetryEventProperties",
+    modelProperties: {
+      body: {
+        serializedName: "body",
+        type: {
+          name: "Object"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      systemProperties: {
+        serializedName: "systemProperties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IotHubDeviceTelemetryEventData: msRest.CompositeMapper = {
+  serializedName: "IotHubDeviceTelemetryEventData",
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceTelemetryEventData",
+    modelProperties: {
+      ...DeviceTelemetryEventProperties.type.modelProperties
+    }
+  }
+};
+
 export const DeviceTwinMetadata: msRest.CompositeMapper = {
   serializedName: "DeviceTwinMetadata",
   type: {
@@ -1377,6 +1426,63 @@ export const ContainerRegistryImageDeletedEventData: msRest.CompositeMapper = {
   }
 };
 
+export const ContainerRegistryArtifactEventData: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryArtifactEventData",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryArtifactEventData",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "Composite",
+          className: "ContainerRegistryArtifactEventTarget"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryChartPushedEventData: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryChartPushedEventData",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartPushedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryChartDeletedEventData: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryChartDeletedEventData",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartDeletedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
 export const ContainerRegistryEventTarget: msRest.CompositeMapper = {
   serializedName: "ContainerRegistryEventTarget",
   type: {
@@ -1499,6 +1605,58 @@ export const ContainerRegistryEventSource: msRest.CompositeMapper = {
       },
       instanceID: {
         serializedName: "instanceID",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryArtifactEventTarget: msRest.CompositeMapper = {
+  serializedName: "ContainerRegistryArtifactEventTarget",
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryArtifactEventTarget",
+    modelProperties: {
+      mediaType: {
+        serializedName: "mediaType",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "size",
+        type: {
+          name: "Number"
+        }
+      },
+      digest: {
+        serializedName: "digest",
+        type: {
+          name: "String"
+        }
+      },
+      repository: {
+        serializedName: "repository",
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
         type: {
           name: "String"
         }
@@ -1825,6 +1983,39 @@ export const MediaJobOutputAsset: msRest.CompositeMapper = {
         serializedName: "assetName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputProgressEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputProgress",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputProgressEventData",
+    modelProperties: {
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      progress: {
+        serializedName: "progress",
+        type: {
+          name: "Number"
+        }
+      },
+      jobCorrelationData: {
+        serializedName: "jobCorrelationData",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2539,6 +2730,191 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: msRest.Composite
       discontinuityGap: {
         readOnly: true,
         serializedName: "discontinuityGap",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MapsGeofenceEventProperties: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceEventProperties",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceEventProperties",
+    modelProperties: {
+      expiredGeofenceGeometryId: {
+        serializedName: "expiredGeofenceGeometryId",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      geometries: {
+        serializedName: "geometries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MapsGeofenceGeometry"
+            }
+          }
+        }
+      },
+      invalidPeriodGeofenceGeometryId: {
+        serializedName: "invalidPeriodGeofenceGeometryId",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      isEventPublished: {
+        serializedName: "isEventPublished",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const MapsGeofenceEnteredEventData: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceEnteredEventData",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceEnteredEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceExitedEventData: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceExitedEventData",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceExitedEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceResultEventData: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceResultEventData",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceResultEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceGeometry: msRest.CompositeMapper = {
+  serializedName: "MapsGeofenceGeometry",
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceGeometry",
+    modelProperties: {
+      deviceId: {
+        serializedName: "deviceId",
+        type: {
+          name: "String"
+        }
+      },
+      distance: {
+        serializedName: "distance",
+        type: {
+          name: "Number"
+        }
+      },
+      geometryId: {
+        serializedName: "geometryId",
+        type: {
+          name: "String"
+        }
+      },
+      nearestLat: {
+        serializedName: "nearestLat",
+        type: {
+          name: "Number"
+        }
+      },
+      nearestLon: {
+        serializedName: "nearestLon",
+        type: {
+          name: "Number"
+        }
+      },
+      udId: {
+        serializedName: "udId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppConfigurationKeyValueModifiedEventData: msRest.CompositeMapper = {
+  serializedName: "AppConfigurationKeyValueModifiedEventData",
+  type: {
+    name: "Composite",
+    className: "AppConfigurationKeyValueModifiedEventData",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppConfigurationKeyValueDeletedEventData: msRest.CompositeMapper = {
+  serializedName: "AppConfigurationKeyValueDeletedEventData",
+  type: {
+    name: "Composite",
+    className: "AppConfigurationKeyValueDeletedEventData",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
