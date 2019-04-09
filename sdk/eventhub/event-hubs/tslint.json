@@ -30,12 +30,7 @@
         "variable-declaration": "onespace"
       }
     ],
-    "import-blacklist": [
-      true,
-      {
-        "rhea/typings/types": ["Typed"]
-      }
-    ],
+    "import-blacklist": [true, "rhea", ["rhea/typings.*$"]],
     "prefer-const": true,
     "no-construct": true,
     "no-duplicate-variable": true,
