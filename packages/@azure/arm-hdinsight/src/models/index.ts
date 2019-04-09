@@ -738,6 +738,46 @@ export interface ClusterDiskEncryptionParameters {
 }
 
 /**
+ * The update gateway settings request parameters.
+ */
+export interface UpdateGatewaySettingsParameters {
+  /**
+   * Indicates whether or not the gateway settings based authorization is enabled. Default value:
+   * true.
+   */
+  isCredentialEnabled?: boolean;
+  /**
+   * The gateway settings user name.
+   */
+  userName?: string;
+  /**
+   * The gateway settings user password.
+   */
+  password?: string;
+}
+
+/**
+ * Gateway settings.
+ */
+export interface GatewaySettings {
+  /**
+   * Indicates whether or not the gateway settings based authorization is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isCredentialEnabled?: string;
+  /**
+   * The gateway settings user name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly userName?: string;
+  /**
+   * The gateway settings user password.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly password?: string;
+}
+
+/**
  * The azure async operation response.
  */
 export interface OperationResource {
@@ -928,6 +968,16 @@ export interface UsagesListResult {
    * The list of usages.
    */
   value?: Usage[];
+}
+
+/**
+ * The configuration object for the specified cluster.
+ */
+export interface ClusterConfigurations {
+  /**
+   * The configuration object for the specified configuration for the specified cluster.
+   */
+  configurations?: { [propertyName: string]: { [propertyName: string]: string } };
 }
 
 /**
@@ -1261,6 +1311,26 @@ export type ClustersListResponse = ClusterListResult & {
 };
 
 /**
+ * Contains response data for the getGatewaySettings operation.
+ */
+export type ClustersGetGatewaySettingsResponse = GatewaySettings & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GatewaySettings;
+    };
+};
+
+/**
  * Contains response data for the beginCreate operation.
  */
 export type ClustersBeginCreateResponse = Cluster & {
@@ -1437,6 +1507,26 @@ export type LocationsListUsagesResponse = UsagesListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: UsagesListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ConfigurationsListResponse = ClusterConfigurations & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterConfigurations;
     };
 };
 
