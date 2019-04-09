@@ -7,28 +7,28 @@ trigger:
   - master
 
 jobs:
-  - job: Staging
-    pool:
-      vmImage: ubuntu-16.04
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "6.x"
-        displayName: "Install Node.js"
+  # - job: Staging
+  #   pool:
+  #     vmImage: ubuntu-16.04
+  #   steps:
+  #     - task: NodeTool@0
+  #       inputs:
+  #         versionSpec: "6.x"
+  #       displayName: "Install Node.js"
 
-      - script: npm install
-        displayName: "npm install"
+  #     - script: npm install
+  #       displayName: "npm install"
 
-      - script: npm run build
-        displayName: "npm run build"
+  #     - script: npm run build
+  #       displayName: "npm run build"
 
-      - script: npm run test
-        displayName: "npm run test"
-        env:
-          ACCOUNT_HOST: $(stagingEndpoint)
-          ACCOUNT_KEY: $(stagingKey)
-          MOCHA_TIMEOUT: 100000
-          TESTS_MULTIREGION: true
+  #     - script: npm run test
+  #       displayName: "npm run test"
+  #       env:
+  #         ACCOUNT_HOST: $(stagingEndpoint)
+  #         ACCOUNT_KEY: $(stagingKey)
+  #         MOCHA_TIMEOUT: 100000
+  #         TESTS_MULTIREGION: true
   - job: Emulator
     pool:
       vmImage: vs2017-win2016
