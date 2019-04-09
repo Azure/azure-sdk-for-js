@@ -1,6 +1,7 @@
 omitted_paths:
   - documentation/ServicePrincipal/*
   - "packages/@azure/arm-*"
+  - "sdk/*/arm-*"
   - "packages/@azure/cognitiveservices-*"
 language: js
 root_check_enabled: True
