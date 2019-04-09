@@ -7,8 +7,8 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 */
 
-const { Namespace } = require("@azure/service-bus");
-const { interactiveLogin } = require("ms-rest-azure");
+const { ServiceBusClient } = require("@azure/service-bus");
+const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
 // Define Service Bus Endpoint here
 const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
@@ -18,7 +18,7 @@ async function main() {
     tokenAudience: "https://servicebus.azure.net/"
   });
 
-  const ns = Namespace.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const ns = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and send/receive messages

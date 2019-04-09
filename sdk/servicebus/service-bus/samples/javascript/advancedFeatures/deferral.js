@@ -8,7 +8,7 @@
   message deferral.
 */
 
-const { Namespace, delay } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
 
 // Define connection string and related Service Bus entity names here
 const connectionString = "";
@@ -21,10 +21,10 @@ async function main() {
 
 // Shuffle and send messages
 async function sendMessages() {
-  const nsSend = Namespace.createFromConnectionString(connectionString);
-  // If using Topics, use createTopicClient to send to a topic
+  const nsSend = ServiceBusClient.createFromConnectionString(connectionString);
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const sendClient = nsSend.createQueueClient(queueName);
-  const sender = sendClient.getSender();
+  const sender = sendClient.createSender();
 
   const data = [
     { step: 1, title: "Shop" },
@@ -58,9 +58,9 @@ async function sendMessages() {
 }
 
 async function receiveMessage() {
-  const nsRcv = Namespace.createFromConnectionString(connectionString);
+  const nsRcv = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // If using Topics & Subscriptions, use createSubscriptionClient to receive from the subscription
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const receiveClient = nsRcv.createQueueClient(queueName);
 
   const deferredSteps = new Map();
@@ -98,13 +98,13 @@ async function receiveMessage() {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    let receiver = receiveClient.getReceiver();
-    receiver.receive(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
+    let receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
+    receiver.registerMessageHandler(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = receiveClient.getReceiver();
+    receiver = receiveClient.createReceiver(ReceiveMode.peekLock);
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;

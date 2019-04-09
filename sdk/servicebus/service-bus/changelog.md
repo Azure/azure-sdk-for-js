@@ -1,4 +1,4 @@
-# 2019-04-05 1.0.0-preview.2
+# 2019-04-08 1.0.0-preview.2
 
 ### Breaking Changes
 
@@ -20,9 +20,10 @@ meant to do.
 * The function to get a receiver for a session enabled Queue/Subsciption, `getSessionReceiver` is no
 longer supported. Use `createReceiver` instead and pass the `sessionOptions` parameter to provide
 `sessionId` and the duration until which you want to lock the session.
-* `send` and `sendBatch` functions on the sender are renamed to `sendMessage` and `sendMessages`
 * `receive` and `receiveBatch` functions on the reciever are renamed to `registerMessageHandler` and
 `receiveMessages`
+* `renewLock` on the receiver is renamed to `renewMessageLock`. In case of receiver from sessions,
+this is renamed to `renewSessionLock`.
 * A third way of receiving messages is introduced on the receiver via `getMessageIterator` function
 which returns an async iterator over messages.
 
