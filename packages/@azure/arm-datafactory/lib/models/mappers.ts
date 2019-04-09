@@ -12332,6 +12332,7 @@ export const SSISLogLocation: msRest.CompositeMapper = {
     className: "SSISLogLocation",
     modelProperties: {
       logPath: {
+        required: true,
         serializedName: "logPath",
         type: {
           name: "Object"

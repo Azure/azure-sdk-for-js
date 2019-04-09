@@ -15585,10 +15585,10 @@ export interface SSISAccessCredential {
  */
 export interface SSISLogLocation {
   /**
-   * @member {any} [logPath] The SSIS package execution log path. Type: string
+   * @member {any} logPath The SSIS package execution log path. Type: string
    * (or Expression with resultType string).
    */
-  logPath?: any;
+  logPath: any;
   /**
    * @member {SSISAccessCredential} [accessCredential] The package execution
    * log access credential.
