@@ -9,11 +9,11 @@
  */
 
 export {
+  TenantAccessGetEntityTagHeaders,
+  ErrorResponse,
+  ErrorFieldContract,
   AccessInformationContract,
   TenantAccessGetHeaders,
-  CloudError,
-  AccessInformationUpdateParameters,
-  ErrorResponse,
-  ErrorFieldContract
+  AccessInformationUpdateParameters
 } from "../models/mappers";
 

@@ -313,7 +313,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AuthorizationServerCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -385,7 +385,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch1,
+    Parameters.ifMatch0,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -397,10 +397,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationServerContract
+      bodyMapper: Mappers.AuthorizationServerContract,
+      headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.AuthorizationServerContract
+      bodyMapper: Mappers.AuthorizationServerContract,
+      headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -422,7 +424,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   requestBody: {
@@ -454,7 +456,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.ifMatch0,
+    Parameters.ifMatch1,
     Parameters.acceptLanguage
   ],
   responses: {
@@ -482,7 +484,7 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AuthorizationServerCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

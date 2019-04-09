@@ -21,7 +21,8 @@ export {
   OperationTagResourceContractProperties,
   ProductTagResourceContractProperties,
   ProductEntityBaseParameters,
-  CloudError,
+  ErrorResponse,
+  ErrorFieldContract,
   ApiContractProperties,
   ApiVersionSetContractDetails
 } from "../models/mappers";
