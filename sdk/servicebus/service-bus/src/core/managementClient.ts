@@ -33,7 +33,7 @@ import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
 import { ReceiveMode } from "../serviceBusMessage";
 import { toBuffer, throwErrorIfConnectionClosed } from "../util/utils";
-import { Typed } from "rhea/typings/types";
+import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 
 /**
