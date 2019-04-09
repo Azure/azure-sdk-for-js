@@ -9,10 +9,22 @@ export { BaseLease, BaseLeaseInfo } from "./baseLease";
 export { LeaseManager } from "./leaseManager";
 export { CheckpointManager } from "./checkpointManager";
 export {
-  OnReceivedError, EPHDiagnosticInfo, EventProcessorHostOptions, FromConnectionStringOptions,
-  FromTokenProviderOptions, OnEphError, OnReceivedMessage
+  OnReceivedError,
+  EPHDiagnosticInfo,
+  EventProcessorHostOptions,
+  FromConnectionStringOptions,
+  FromTokenProviderOptions,
+  OnEphError,
+  OnReceivedMessage
 } from "./modelTypes";
 export {
-  delay, EventData, OnError, EventPosition, EventHubPartitionRuntimeInformation,
-  EventHubRuntimeInformation, MessagingError, DataTransformer, aadEventHubsAudience
+  delay,
+  EventData,
+  OnError,
+  EventPosition,
+  EventHubPartitionRuntimeInformation,
+  EventHubRuntimeInformation,
+  MessagingError,
+  DataTransformer,
+  aadEventHubsAudience
 } from "@azure/event-hubs";
