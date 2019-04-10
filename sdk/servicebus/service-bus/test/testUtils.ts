@@ -51,8 +51,7 @@ export enum ClientType {
   UnpartitionedSubscriptionWithSessions,
   TopicFilterTestTopic,
   TopicFilterTestDefaultSubscription,
-  TopicFilterTestSubscription,
-  TopicFilterMultipleSubscriptions
+  TopicFilterTestSubscription
 }
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
@@ -186,7 +185,7 @@ export async function getTopicSubscriptionClients(
   const subscription1Name =
     process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
   const subscription2Name =
-    process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
+    process.env.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
   if (process.env.CLEAN_NAMESPACE) {
     await recreateTopic(topicName, {
       enableBatchedOperations: true
