@@ -286,13 +286,16 @@ export class SessionReceiver {
   private _receiveMode: ReceiveMode;
   private _messageSession: MessageSession | undefined;
   private _sessionOptions: SessionReceiverOptions;
+  private _isClosed: boolean = false;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
    * @readonly
    */
   public get isClosed(): boolean {
-    return this.sessionId ? !this._context.messageSessions[this.sessionId] : false;
+    return (
+      this._isClosed || (this.sessionId ? !this._context.messageSessions[this.sessionId] : false)
+    );
   }
 
   /**
@@ -524,7 +527,9 @@ export class SessionReceiver {
     }
     this._createMessageSessionIfDoesntExist()
       .then(() => {
-        this._messageSession!.receive(onMessage, onError, options);
+        if (!this._isClosed) {
+          this._messageSession!.receive(onMessage, onError, options);
+        }
       })
       .catch((err) => {
         onError(err);
@@ -554,9 +559,11 @@ export class SessionReceiver {
    * @returns {Promise<void>}
    */
   async close(): Promise<void> {
+    this._isClosed = true;
     try {
       if (this._messageSession) {
         await this._messageSession.close();
+        this._messageSession.isReceivingMessages = false;
       }
     } catch (err) {
       err = err instanceof Error ? err : new Error(JSON.stringify(err));
