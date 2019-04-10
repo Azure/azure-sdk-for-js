@@ -51,7 +51,8 @@ export enum ClientType {
   UnpartitionedSubscriptionWithSessions,
   TopicFilterTestTopic,
   TopicFilterTestDefaultSubscription,
-  TopicFilterTestSubscription
+  TopicFilterTestSubscription,
+  TopicFilterMultipleSubscriptions
 }
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
@@ -172,6 +173,41 @@ async function recreateSubscription(
         }
       );
     });
+}
+
+export async function getTopicSubscriptionClients(
+  namespace: ServiceBusClient
+): Promise<{
+  topicClient: TopicClient;
+  subscriptionClients: SubscriptionClient[];
+}> {
+  const subscriptionClients: SubscriptionClient[] = [];
+  const topicName = process.env.TOPIC_FILTER_NAME || "topic-filter";
+  const subscription1Name =
+    process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-subscription";
+  const subscription2Name =
+    process.env.TOPIC_FILTER_SUBSCRIPTION_NAME || "topic-filter-default-subscription";
+  if (process.env.CLEAN_NAMESPACE) {
+    await recreateTopic(topicName, {
+      enableBatchedOperations: true
+    });
+    await recreateSubscription(topicName, subscription1Name, {
+      lockDuration: defaultLockDuration,
+      enableBatchedOperations: true
+    });
+    await recreateSubscription(topicName, subscription2Name, {
+      lockDuration: defaultLockDuration,
+      enableBatchedOperations: true
+    });
+  }
+
+  subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription1Name));
+  subscriptionClients.push(namespace.createSubscriptionClient(topicName, subscription2Name));
+
+  return {
+    topicClient: namespace.createTopicClient(topicName),
+    subscriptionClients
+  };
 }
 
 export async function getSenderReceiverClients(
