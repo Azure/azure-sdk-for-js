@@ -123,18 +123,15 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ReceiveOptions} [options]     Receive options.
    * @return {StreamingReceiver} An instance of StreamingReceiver.
    */
-  static async create(context: ClientEntityContext, options?: ReceiveOptions): Promise<void> {
+  static async create(
+    context: ClientEntityContext,
+    options?: ReceiveOptions
+  ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == undefined) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
-    sReceiver
-      ._init()
-      .then(() => {
-        context.streamingReceiver = sReceiver;
-      })
-      .catch((err) => {
-        throw err;
-      });
+    context.streamingReceiver = sReceiver;
+    return sReceiver;
   }
 }
