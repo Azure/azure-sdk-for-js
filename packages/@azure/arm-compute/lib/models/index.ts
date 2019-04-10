@@ -172,7 +172,7 @@ export interface Resource extends BaseResource {
  * set are allocated to different nodes to maximize availability. For more
  * information about availability sets, see [Manage the availability of virtual
  * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
- * <br><br> For more information on Azure planned maintainance, see [Planned
+ * <br><br> For more information on Azure planned maintenance, see [Planned
  * maintenance for virtual machines in
  * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
  * <br><br> Currently, a VM can only be added to availability set at creation
@@ -642,12 +642,13 @@ export interface Usage {
 /**
  * @interface
  * An interface representing VirtualMachineReimageParameters.
- * Paramaters for Reimaging Virtual Machine. Default value for OSDisk : true.
+ * Parameters for Reimaging Virtual Machine. NOTE: Virtual Machine OS disk will
+ * always be reimaged
  *
  */
 export interface VirtualMachineReimageParameters {
   /**
-   * @member {boolean} [tempDisk] Specified whether to reimage temp disk.
+   * @member {boolean} [tempDisk] Specifies whether to reimage temp disk.
    * Default value: false.
    */
   tempDisk?: boolean;
@@ -926,15 +927,15 @@ export interface VirtualHardDisk {
 /**
  * @interface
  * An interface representing DiffDiskSettings.
- * Describes the parameters of differencing disk settings that can be be
- * specified for operating system disk. <br><br> NOTE: The differencing disk
- * settings can only be specified for managed disk.
+ * Describes the parameters of ephemeral disk settings that can be specified
+ * for operating system disk. <br><br> NOTE: The ephemeral disk settings can
+ * only be specified for managed disk.
  *
  */
 export interface DiffDiskSettings {
   /**
-   * @member {DiffDiskOptions} [option] Specifies the differencing disk
-   * settings for operating system disk. Possible values include: 'Local'
+   * @member {DiffDiskOptions} [option] Specifies the ephemeral disk settings
+   * for operating system disk. Possible values include: 'Local'
    */
   option?: DiffDiskOptions;
 }
@@ -1009,8 +1010,8 @@ export interface OSDisk {
    */
   writeAcceleratorEnabled?: boolean;
   /**
-   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the differencing
-   * Disk Settings for the operating system disk used by the virtual machine.
+   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the ephemeral Disk
+   * Settings for the operating system disk used by the virtual machine.
    */
   diffDiskSettings?: DiffDiskSettings;
   /**
@@ -1360,9 +1361,9 @@ export interface VaultCertificate {
    * be added. The specified certificate store is implicitly in the
    * LocalMachine account. <br><br>For Linux VMs, the certificate file is
    * placed under the /var/lib/waagent directory, with the file name
-   * <UppercaseThumbprint>.crt for the X509 certificate file and
-   * <UppercaseThumbpring>.prv for private key. Both of these files are .pem
-   * formatted.
+   * &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and
+   * &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are
+   * .pem formatted.
    */
   certificateStore?: string;
 }
@@ -1395,9 +1396,10 @@ export interface VaultSecretGroup {
 export interface OSProfile {
   /**
    * @member {string} [computerName] Specifies the host OS name of the virtual
-   * machine. <br><br> **Max-length (Windows):** 15 characters <br><br>
-   * **Max-length (Linux):** 64 characters. <br><br> For naming conventions and
-   * restrictions see [Azure infrastructure services implementation
+   * machine. <br><br> This name cannot be updated after the VM is created.
+   * <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length
+   * (Linux):** 64 characters. <br><br> For naming conventions and restrictions
+   * see [Azure infrastructure services implementation
    * guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
    */
   computerName?: string;
@@ -1874,7 +1876,7 @@ export interface VirtualMachine extends Resource {
    * nodes to maximize availability. For more information about availability
    * sets, see [Manage the availability of virtual
    * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintainance, see [Planned
+   * <br><br> For more information on Azure planned maintenance, see [Planned
    * maintenance for virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
    * <br><br> Currently, a VM can only be added to availability set at creation
@@ -1988,7 +1990,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * nodes to maximize availability. For more information about availability
    * sets, see [Manage the availability of virtual
    * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintainance, see [Planned
+   * <br><br> For more information on Azure planned maintenance, see [Planned
    * maintenance for virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
    * <br><br> Currently, a VM can only be added to availability set at creation
@@ -2536,9 +2538,9 @@ export interface VirtualMachineScaleSetOSDisk {
    */
   createOption: DiskCreateOptionTypes;
   /**
-   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the differencing
-   * Disk Settings for the operating system disk used by the virtual machine
-   * scale set.
+   * @member {DiffDiskSettings} [diffDiskSettings] Specifies the ephemeral disk
+   * Settings for the operating system disk used by the virtual machine scale
+   * set.
    */
   diffDiskSettings?: DiffDiskSettings;
   /**
@@ -2728,7 +2730,7 @@ export interface VirtualMachineScaleSetUpdateStorageProfile {
 export interface ApiEntityReference {
   /**
    * @member {string} [id] The ARM resource id in the form of
-   * /subscriptions/{SubcriptionId}/resourceGroups/{ResourceGroupName}/...
+   * /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
    */
   id?: string;
 }
@@ -3149,6 +3151,11 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {string[]} [provisionAfterExtensions] Collection of extension
+   * names after which this extension needs to be provisioned.
+   */
+  provisionAfterExtensions?: string[];
 }
 
 /**
@@ -3317,6 +3324,13 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   overprovision?: boolean;
   /**
+   * @member {boolean} [doNotRunExtensionsOnOverprovisionedVMs] When
+   * Overprovision is enabled, extensions are launched only on the requested
+   * number of VMs which are finally kept. This property will hence ensure that
+   * the extensions do not run on the extra overprovisioned VMs.
+   */
+  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+  /**
    * @member {string} [uniqueId] Specifies the ID which uniquely identifies a
    * Virtual Machine Scale Set.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -3329,7 +3343,7 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   singlePlacementGroup?: boolean;
   /**
-   * @member {boolean} [zoneBalance] Whether to force stictly even Virtual
+   * @member {boolean} [zoneBalance] Whether to force strictly even Virtual
    * Machine distribution cross x-zones in case there is zone outage.
    */
   zoneBalance?: boolean;
@@ -3780,7 +3794,7 @@ export interface UpgradeOperationHistoricalStatusInfoProperties {
    */
   readonly runningStatus?: UpgradeOperationHistoryStatus;
   /**
-   * @member {RollingUpgradeProgressInfo} [progress] Counts of the VM's in each
+   * @member {RollingUpgradeProgressInfo} [progress] Counts of the VMs in each
    * state.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -3926,6 +3940,41 @@ export interface VirtualMachineScaleSetVMInstanceView {
 
 /**
  * @interface
+ * An interface representing VirtualMachineScaleSetVMNetworkProfileConfiguration.
+ * Describes a virtual machine scale set VM network profile.
+ *
+ */
+export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
+  /**
+   * @member {VirtualMachineScaleSetNetworkConfiguration[]}
+   * [networkInterfaceConfigurations] The list of network configurations.
+   */
+  networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
+}
+
+/**
+ * @interface
+ * An interface representing VirtualMachineScaleSetVMProtectionPolicy.
+ * The protection policy of a virtual machine scale set VM.
+ *
+ */
+export interface VirtualMachineScaleSetVMProtectionPolicy {
+  /**
+   * @member {boolean} [protectFromScaleIn] Indicates that the virtual machine
+   * scale set VM shouldn't be considered for deletion during a scale-in
+   * operation.
+   */
+  protectFromScaleIn?: boolean;
+  /**
+   * @member {boolean} [protectFromScaleSetActions] Indicates that model
+   * updates or actions (including scale-in) initiated on the virtual machine
+   * scale set should not be applied to the virtual machine scale set VM.
+   */
+  protectFromScaleSetActions?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachineScaleSetVM.
  * Describes a virtual machine scale set virtual machine.
  *
@@ -3993,6 +4042,12 @@ export interface VirtualMachineScaleSetVM extends Resource {
    */
   networkProfile?: NetworkProfile;
   /**
+   * @member {VirtualMachineScaleSetVMNetworkProfileConfiguration}
+   * [networkProfileConfiguration] Specifies the network profile configuration
+   * of the virtual machine.
+   */
+  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
+  /**
    * @member {DiagnosticsProfile} [diagnosticsProfile] Specifies the boot
    * diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
    */
@@ -4004,7 +4059,7 @@ export interface VirtualMachineScaleSetVM extends Resource {
    * nodes to maximize availability. For more information about availability
    * sets, see [Manage the availability of virtual
    * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-   * <br><br> For more information on Azure planned maintainance, see [Planned
+   * <br><br> For more information on Azure planned maintenance, see [Planned
    * maintenance for virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
    * <br><br> Currently, a VM can only be added to availability set at creation
@@ -4030,6 +4085,19 @@ export interface VirtualMachineScaleSetVM extends Resource {
    * <br><br> Minimum api-version: 2015-06-15
    */
   licenseType?: string;
+  /**
+   * @member {string} [modelDefinitionApplied] Specifies whether the model
+   * applied to the virtual machine is the model of the virtual machine scale
+   * set or the customized model for the virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly modelDefinitionApplied?: string;
+  /**
+   * @member {VirtualMachineScaleSetVMProtectionPolicy} [protectionPolicy]
+   * Specifies the protection policy of the virtual machine.
+   */
+  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
   /**
    * @member {Plan} [plan] Specifies information about the marketplace image
    * used to create the virtual machine. This element is only used for
@@ -4178,8 +4246,8 @@ export interface LogAnalyticsInputBase {
    */
   groupByThrottlePolicy?: boolean;
   /**
-   * @member {boolean} [groupByOperationName] Group query result by  by
-   * Operation Name.
+   * @member {boolean} [groupByOperationName] Group query result by Operation
+   * Name.
    */
   groupByOperationName?: boolean;
   /**
@@ -4243,6 +4311,21 @@ export interface LogAnalyticsOperationResult {
    * the server.**
    */
   readonly properties?: LogAnalyticsOutput;
+}
+
+/**
+ * @interface
+ * An interface representing VMScaleSetConvertToSinglePlacementGroupInput.
+ */
+export interface VMScaleSetConvertToSinglePlacementGroupInput {
+  /**
+   * @member {string} [activePlacementGroupId] Id of the placement group in
+   * which you want future virtual machine instances to be placed. To query
+   * placement group Id, please use Virtual Machine Scale Set VMs - Get API. If
+   * not provided, the platform will choose one with maximum number of virtual
+   * machine instances.
+   */
+  activePlacementGroupId?: string;
 }
 
 /**
@@ -4438,7 +4521,7 @@ export interface ResourceSkuCosts {
 /**
  * @interface
  * An interface representing ResourceSkuCapabilities.
- * Describes The SKU capabilites object.
+ * Describes The SKU capabilities object.
  *
  */
 export interface ResourceSkuCapabilities {
@@ -4683,7 +4766,7 @@ export interface CreationData {
   /**
    * @member {DiskCreateOption} createOption This enumerates the possible
    * sources of a disk's creation. Possible values include: 'Empty', 'Attach',
-   * 'FromImage', 'Import', 'Copy', 'Restore'
+   * 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'
    */
   createOption: DiskCreateOption;
   /**
@@ -4711,7 +4794,7 @@ export interface CreationData {
 /**
  * @interface
  * An interface representing SourceVault.
- * The vault id is an Azure Resource Manager Resoure id in the form
+ * The vault id is an Azure Resource Manager Resource id in the form
  * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
  *
  */
@@ -4761,19 +4844,11 @@ export interface KeyVaultAndKeyReference {
 
 /**
  * @interface
- * An interface representing EncryptionSettings.
- * Encryption settings for disk or snapshot
+ * An interface representing EncryptionSettingsElement.
+ * Encryption settings for one disk volume.
  *
  */
-export interface EncryptionSettings {
-  /**
-   * @member {boolean} [enabled] Set this flag to true and provide
-   * DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
-   * this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to
-   * disable encryption. If EncryptionSettings is null in the request object,
-   * the existing settings remain unchanged.
-   */
-  enabled?: boolean;
+export interface EncryptionSettingsElement {
   /**
    * @member {KeyVaultAndSecretReference} [diskEncryptionKey] Key Vault Secret
    * Url and vault id of the disk encryption key
@@ -4781,9 +4856,32 @@ export interface EncryptionSettings {
   diskEncryptionKey?: KeyVaultAndSecretReference;
   /**
    * @member {KeyVaultAndKeyReference} [keyEncryptionKey] Key Vault Key Url and
-   * vault id of the key encryption key
+   * vault id of the key encryption key. KeyEncryptionKey is optional and when
+   * provided is used to unwrap the disk encryption key.
    */
   keyEncryptionKey?: KeyVaultAndKeyReference;
+}
+
+/**
+ * @interface
+ * An interface representing EncryptionSettingsCollection.
+ * Encryption settings for disk or snapshot
+ *
+ */
+export interface EncryptionSettingsCollection {
+  /**
+   * @member {boolean} enabled Set this flag to true and provide
+   * DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
+   * this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to
+   * disable encryption. If EncryptionSettings is null in the request object,
+   * the existing settings remain unchanged.
+   */
+  enabled: boolean;
+  /**
+   * @member {EncryptionSettingsElement[]} [encryptionSettings] A collection of
+   * encryption settings, one for each disk volume.
+   */
+  encryptionSettings?: EncryptionSettingsElement[];
 }
 
 /**
@@ -4821,6 +4919,12 @@ export interface Disk extends Resource {
    */
   osType?: OperatingSystemTypes;
   /**
+   * @member {HyperVGeneration} [hyperVGeneration] The hypervisor generation of
+   * the Virtual Machine. Applicable to OS disks only. Possible values include:
+   * 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
+  /**
    * @member {CreationData} creationData Disk source information. CreationData
    * information cannot be changed after the disk has been created.
    */
@@ -4834,10 +4938,11 @@ export interface Disk extends Resource {
    */
   diskSizeGB?: number;
   /**
-   * @member {EncryptionSettings} [encryptionSettings] Encryption settings for
-   * disk or snapshot
+   * @member {EncryptionSettingsCollection} [encryptionSettingsCollection]
+   * Encryption settings collection used for Azure Disk Encryption, can contain
+   * multiple encryption settings per disk or snapshot.
    */
-  encryptionSettings?: EncryptionSettings;
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
   /**
    * @member {string} [provisioningState] The disk provisioning state.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -4856,6 +4961,14 @@ export interface Disk extends Resource {
    * - MB here uses the ISO notation, of powers of 10.
    */
   diskMBpsReadWrite?: number;
+  /**
+   * @member {DiskState} [diskState] The state of the disk. Possible values
+   * include: 'Unattached', 'Attached', 'Reserved', 'ActiveSAS',
+   * 'ReadyToUpload', 'ActiveUpload'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly diskState?: DiskState;
 }
 
 /**
@@ -4879,10 +4992,11 @@ export interface DiskUpdate {
    */
   diskSizeGB?: number;
   /**
-   * @member {EncryptionSettings} [encryptionSettings] Encryption settings for
-   * disk or snapshot
+   * @member {EncryptionSettingsCollection} [encryptionSettingsCollection]
+   * Encryption settings collection used be Azure Disk Encryption, can contain
+   * multiple encryption settings per disk or snapshot.
    */
-  encryptionSettings?: EncryptionSettings;
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
   /**
    * @member {number} [diskIOPSReadWrite] The number of IOPS allowed for this
    * disk; only settable for UltraSSD disks. One operation can transfer between
@@ -4933,7 +5047,8 @@ export interface SnapshotSku {
  */
 export interface GrantAccessData {
   /**
-   * @member {AccessLevel} access Possible values include: 'None', 'Read'
+   * @member {AccessLevel} access Possible values include: 'None', 'Read',
+   * 'Write'
    */
   access: AccessLevel;
   /**
@@ -4988,6 +5103,12 @@ export interface Snapshot extends Resource {
    */
   osType?: OperatingSystemTypes;
   /**
+   * @member {HyperVGeneration} [hyperVGeneration] The hypervisor generation of
+   * the Virtual Machine. Applicable to OS disks only. Possible values include:
+   * 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
+  /**
    * @member {CreationData} creationData Disk source information. CreationData
    * information cannot be changed after the disk has been created.
    */
@@ -5001,10 +5122,11 @@ export interface Snapshot extends Resource {
    */
   diskSizeGB?: number;
   /**
-   * @member {EncryptionSettings} [encryptionSettings] Encryption settings for
-   * disk or snapshot
+   * @member {EncryptionSettingsCollection} [encryptionSettingsCollection]
+   * Encryption settings collection used be Azure Disk Encryption, can contain
+   * multiple encryption settings per disk or snapshot.
    */
-  encryptionSettings?: EncryptionSettings;
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
   /**
    * @member {string} [provisioningState] The disk provisioning state.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -5034,10 +5156,11 @@ export interface SnapshotUpdate {
    */
   diskSizeGB?: number;
   /**
-   * @member {EncryptionSettings} [encryptionSettings] Encryption settings for
-   * disk or snapshot
+   * @member {EncryptionSettingsCollection} [encryptionSettingsCollection]
+   * Encryption settings collection used be Azure Disk Encryption, can contain
+   * multiple encryption settings per disk or snapshot.
    */
-  encryptionSettings?: EncryptionSettings;
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Resource tags
    */
@@ -5075,7 +5198,7 @@ export interface GalleryIdentifier {
 export interface Gallery extends Resource {
   /**
    * @member {string} [description] The description of this Shared Image
-   * Gallery resource. This property is updateable.
+   * Gallery resource. This property is updatable.
    */
   description?: string;
   /**
@@ -5136,7 +5259,7 @@ export interface ResourceRange {
  * @interface
  * An interface representing RecommendedMachineConfiguration.
  * The properties describe the recommended machine configuration for this Image
- * Definition. These properties are updateable.
+ * Definition. These properties are updatable.
  *
  */
 export interface RecommendedMachineConfiguration {
@@ -5196,7 +5319,7 @@ export interface ImagePurchasePlan {
 export interface GalleryImage extends Resource {
   /**
    * @member {string} [description] The description of this gallery Image
-   * Definition resource. This property is updateable.
+   * Definition resource. This property is updatable.
    */
   description?: string;
   /**
@@ -5228,7 +5351,7 @@ export interface GalleryImage extends Resource {
   /**
    * @member {Date} [endOfLifeDate] The end of life date of the gallery Image
    * Definition. This property can be used for decommissioning purposes. This
-   * property is updateable.
+   * property is updatable.
    */
   endOfLifeDate?: Date;
   /**
@@ -5267,7 +5390,7 @@ export interface GalleryImage extends Resource {
 export interface GalleryArtifactPublishingProfileBase {
   /**
    * @member {TargetRegion[]} [targetRegions] The target regions where the
-   * Image Version is going to be replicated to. This property is updateable.
+   * Image Version is going to be replicated to. This property is updatable.
    */
   targetRegions?: TargetRegion[];
   /**
@@ -5288,7 +5411,7 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
    * @member {number} [replicaCount] The number of replicas of the Image
    * Version to be created per region. This property would take effect for a
    * region when regionalReplicaCount is not specified. This property is
-   * updateable.
+   * updatable.
    */
   replicaCount?: number;
   /**
@@ -5307,9 +5430,15 @@ export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPub
   /**
    * @member {Date} [endOfLifeDate] The end of life date of the gallery Image
    * Version. This property can be used for decommissioning purposes. This
-   * property is updateable.
+   * property is updatable.
    */
   endOfLifeDate?: Date;
+  /**
+   * @member {StorageAccountType} [storageAccountType] Specifies the storage
+   * account type to be used to store the image. This property is not
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   */
+  storageAccountType?: StorageAccountType;
 }
 
 /**
@@ -5493,9 +5622,15 @@ export interface TargetRegion {
   name: string;
   /**
    * @member {number} [regionalReplicaCount] The number of replicas of the
-   * Image Version to be created per region. This property is updateable.
+   * Image Version to be created per region. This property is updatable.
    */
   regionalReplicaCount?: number;
+  /**
+   * @member {StorageAccountType} [storageAccountType] Specifies the storage
+   * account type to be used to store the image. This property is not
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   */
+  storageAccountType?: StorageAccountType;
 }
 
 /**
@@ -5591,7 +5726,7 @@ export interface ContainerServiceMasterProfile {
    */
   dnsPrefix: string;
   /**
-   * @member {string} [fqdn] FDQN for the master.
+   * @member {string} [fqdn] FQDN for the master.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -5638,7 +5773,7 @@ export interface ContainerServiceAgentPoolProfile {
    */
   dnsPrefix: string;
   /**
-   * @member {string} [fqdn] FDQN for the agent pool.
+   * @member {string} [fqdn] FQDN for the agent pool.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
@@ -5891,6 +6026,23 @@ export interface VirtualMachinesGetOptionalParams extends msRest.RequestOptionsB
 
 /**
  * @interface
+ * An interface representing VirtualMachinesPowerOffOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachinesPowerOffOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [skipShutdown] The parameter to request non-graceful VM
+   * shutdown. True value for this flag indicates non-graceful shutdown whereas
+   * false indicates otherwise. Default value for this flag is false if not
+   * specified. Default value: false .
+   */
+  skipShutdown?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachinesReimageOptionalParams.
  * Optional Parameters.
  *
@@ -5902,6 +6054,23 @@ export interface VirtualMachinesReimageOptionalParams extends msRest.RequestOpti
    * to the Reimage Virtual Machine operation.
    */
   parameters?: VirtualMachineReimageParameters;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualMachinesBeginPowerOffOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachinesBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [skipShutdown] The parameter to request non-graceful VM
+   * shutdown. True value for this flag indicates non-graceful shutdown whereas
+   * false indicates otherwise. Default value for this flag is false if not
+   * specified. Default value: false .
+   */
+  skipShutdown?: boolean;
 }
 
 /**
@@ -5961,6 +6130,13 @@ export interface VirtualMachineScaleSetsPowerOffOptionalParams extends msRest.Re
    * virtual machine instance IDs from the VM scale set.
    */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+  /**
+   * @member {boolean} [skipShutdown] The parameter to request non-graceful VM
+   * shutdown. True value for this flag indicates non-graceful shutdown whereas
+   * false indicates otherwise. Default value for this flag is false if not
+   * specified. Default value: false .
+   */
+  skipShutdown?: boolean;
 }
 
 /**
@@ -6081,6 +6257,13 @@ export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams extends msRe
    * virtual machine instance IDs from the VM scale set.
    */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+  /**
+   * @member {boolean} [skipShutdown] The parameter to request non-graceful VM
+   * shutdown. True value for this flag indicates non-graceful shutdown whereas
+   * false indicates otherwise. Default value for this flag is false if not
+   * specified. Default value: false .
+   */
+  skipShutdown?: boolean;
 }
 
 /**
@@ -6227,6 +6410,23 @@ export interface VirtualMachineScaleSetVMsListOptionalParams extends msRest.Requ
 
 /**
  * @interface
+ * An interface representing VirtualMachineScaleSetVMsPowerOffOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [skipShutdown] The parameter to request non-graceful VM
+   * shutdown. True value for this flag indicates non-graceful shutdown whereas
+   * false indicates otherwise. Default value for this flag is false if not
+   * specified. Default value: false .
+   */
+  skipShutdown?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing VirtualMachineScaleSetVMsBeginReimageOptionalParams.
  * Optional Parameters.
  *
@@ -6239,6 +6439,23 @@ export interface VirtualMachineScaleSetVMsBeginReimageOptionalParams extends msR
    * ScaleSet.
    */
   vmScaleSetVMReimageInput?: VirtualMachineScaleSetVMReimageParameters;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualMachineScaleSetVMsBeginPowerOffOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {boolean} [skipShutdown] The parameter to request non-graceful VM
+   * shutdown. True value for this flag indicates non-graceful shutdown whereas
+   * false indicates otherwise. Default value for this flag is false if not
+   * specified. Default value: false .
+   */
+  skipShutdown?: boolean;
 }
 
 /**
@@ -6837,12 +7054,29 @@ export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubs
 export type DiskStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS';
 
 /**
- * Defines values for DiskCreateOption.
- * Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore'
+ * Defines values for HyperVGeneration.
+ * Possible values include: 'V1', 'V2'
  * @readonly
  * @enum {string}
  */
-export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy' | 'Restore';
+export type HyperVGeneration = 'V1' | 'V2';
+
+/**
+ * Defines values for DiskCreateOption.
+ * Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy' | 'Restore' | 'Upload';
+
+/**
+ * Defines values for DiskState.
+ * Possible values include: 'Unattached', 'Attached', 'Reserved', 'ActiveSAS', 'ReadyToUpload',
+ * 'ActiveUpload'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskState = 'Unattached' | 'Attached' | 'Reserved' | 'ActiveSAS' | 'ReadyToUpload' | 'ActiveUpload';
 
 /**
  * Defines values for SnapshotStorageAccountTypes.
@@ -6854,11 +7088,19 @@ export type SnapshotStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'Stan
 
 /**
  * Defines values for AccessLevel.
- * Possible values include: 'None', 'Read'
+ * Possible values include: 'None', 'Read', 'Write'
  * @readonly
  * @enum {string}
  */
-export type AccessLevel = 'None' | 'Read';
+export type AccessLevel = 'None' | 'Read' | 'Write';
+
+/**
+ * Defines values for StorageAccountType.
+ * Possible values include: 'Standard_LRS', 'Standard_ZRS'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS';
 
 /**
  * Defines values for AggregatedReplicationState.
