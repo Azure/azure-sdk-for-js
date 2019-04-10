@@ -1040,49 +1040,8 @@ describe("Streaming - Not receive messages after receiver is closed", function()
     await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
     await testReceiveMessages();
   });
-});
 
-describe("Streaming - Receive And Delete mode. To not delete messages after receiver is closed", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
-
-  async function testReceiveMessages(): Promise<void> {
-    const totalNumOfMessages = 5;
-    let num = 1;
-    while (num <= totalNumOfMessages) {
-      const message = {
-        messageId: num,
-        body: "test",
-        label: `${num}`,
-        partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
-      };
-      num++;
-      await sender.send(message);
-    }
-
-    const receivedMsgs: ServiceBusMessage[] = [];
-
-    const onMessageHandler = async (brokeredMessage: ServiceBusMessage) => {
-      receivedMsgs.push(brokeredMessage);
-      await brokeredMessage.complete();
-    };
-
-    receiver.registerMessageHandler(onMessageHandler, unExpectedErrorHandler, {
-      autoComplete: false
-    });
-    await receiver.close();
-
-    await delay(5000);
-    should.equal(
-      receivedMsgs.length,
-      0,
-      `Expected 0 messages, but received ${receivedMsgs.length}`
-    );
-    await testPeekMsgsLength(receiverClient, totalNumOfMessages - 1);
-  }
-
-  it("Partitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+  it("Partitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1093,7 +1052,7 @@ describe("Streaming - Receive And Delete mode. To not delete messages after rece
     await testReceiveMessages();
   });
 
-  it("Partitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
+  it("Partitioned Subscription: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1104,7 +1063,7 @@ describe("Streaming - Receive And Delete mode. To not delete messages after rece
     await testReceiveMessages();
   });
 
-  it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -1115,7 +1074,7 @@ describe("Streaming - Receive And Delete mode. To not delete messages after rece
     await testReceiveMessages();
   });
 
-  it("UnPartitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
+  it("UnPartitioned Subscription: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
     void
   > {
     await beforeEachTest(

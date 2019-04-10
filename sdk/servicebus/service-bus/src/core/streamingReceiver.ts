@@ -106,7 +106,7 @@ export class StreamingReceiver extends MessageReceiver {
     }
     this._init()
       .then(() => {
-        if (this._receiver) {
+        if (!this.isClosed && this._receiver) {
           this._receiver.addCredit(this.maxConcurrentCalls);
         }
       })
