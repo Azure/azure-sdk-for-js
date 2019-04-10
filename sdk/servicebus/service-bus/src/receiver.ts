@@ -74,12 +74,18 @@ export class Receiver {
     if (!onError || typeof onError !== "function") {
       throw new Error("'onError' is a required parameter and must be of type 'function'.");
     }
-    const sReceiver = StreamingReceiver.create(this._context, {
+    StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: this._receiveMode
-    });
-    this._context.streamingReceiver = sReceiver;
-    return sReceiver.receive(onMessage, onError);
+    })
+      .then((sReceiver) => {
+        if (!this.isClosed && this._context.streamingReceiver) {
+          return sReceiver.receive(onMessage, onError);
+        }
+      })
+      .catch((err) => {
+        onError(err);
+      });
   }
 
   /**

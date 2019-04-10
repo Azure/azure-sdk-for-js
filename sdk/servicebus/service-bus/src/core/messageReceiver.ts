@@ -327,9 +327,21 @@ export class MessageReceiver extends LinkEntity {
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
+      if (this.isClosed) {
+        if (this._receiver) {
+          await this._receiver.close();
+        }
+        log.error(
+          "[%s] Not calling the user's message handler and exiting receiver " +
+            "as the receiver '%s' is closed by client",
+          this._context.namespace.connectionId,
+          this.name
+        );
+        return;
+      }
       if (
         this.receiveMode === ReceiveMode.peekLock &&
-        (this.isClosed || !this._receiver || !this._receiver.isOpen())
+        (!this._receiver || !this._receiver.isOpen())
       ) {
         log.error(
           "[%s] Not calling the user's message handler for the current message " +

@@ -56,7 +56,11 @@ function unExpectedErrorHandler(err: Error): void {
   }
 }
 
-async function beforeEachTest(senderType: ClientType, receiverType: ClientType): Promise<void> {
+async function beforeEachTest(
+  senderType: ClientType,
+  receiverType: ClientType,
+  receiveMode?: ReceiveMode
+): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -95,7 +99,10 @@ async function beforeEachTest(senderType: ClientType, receiverType: ClientType):
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
 
-  sessionReceiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+  if (!receiveMode) {
+    receiveMode = ReceiveMode.peekLock;
+  }
+  sessionReceiver = <SessionReceiver>receiverClient.createReceiver(receiveMode, {
     sessionId: TestMessage.sessionId
   });
 
@@ -1349,6 +1356,92 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     await beforeEachTest(
       ClientType.UnpartitionedTopicWithSessions,
       ClientType.UnpartitionedSubscriptionWithSessions
+    );
+    await testReceiveMessages();
+  });
+});
+
+describe("Sessions Streaming - Receive And Delete mode. To not delete messages after receiver is closed", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testReceiveMessages(): Promise<void> {
+    const totalNumOfMessages = 5;
+    let num = 1;
+    while (num <= totalNumOfMessages) {
+      const message = {
+        messageId: num,
+        body: "test",
+        label: `${num}`,
+        sessionId: TestMessage.sessionId,
+        partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
+      };
+      num++;
+      await sender.send(message);
+    }
+
+    const receivedMsgs: ServiceBusMessage[] = [];
+
+    const onMessageHandler = async (brokeredMessage: ServiceBusMessage) => {
+      receivedMsgs.push(brokeredMessage);
+      await brokeredMessage.complete();
+    };
+
+    sessionReceiver.registerMessageHandler(onMessageHandler, unExpectedErrorHandler, {
+      autoComplete: false
+    });
+    await sessionReceiver.close();
+
+    await delay(5000);
+    should.equal(
+      receivedMsgs.length,
+      0,
+      `Expected 0 messages, but received ${receivedMsgs.length}`
+    );
+    await testPeekMsgsLength(receiverClient, totalNumOfMessages);
+  }
+
+  it("Partitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedQueueWithSessions,
+      ClientType.PartitionedQueueWithSessions,
+      ReceiveMode.receiveAndDelete
+    );
+    await testReceiveMessages();
+  });
+
+  it("Partitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.PartitionedTopicWithSessions,
+      ClientType.PartitionedSubscriptionWithSessions,
+      ReceiveMode.receiveAndDelete
+    );
+    await testReceiveMessages();
+  });
+
+  it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedQueueWithSessions,
+      ClientType.UnpartitionedQueueWithSessions,
+      ReceiveMode.receiveAndDelete
+    );
+    await testReceiveMessages();
+  });
+
+  it("UnPartitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      ClientType.UnpartitionedTopicWithSessions,
+      ClientType.UnpartitionedSubscriptionWithSessions,
+      ReceiveMode.receiveAndDelete
     );
     await testReceiveMessages();
   });
