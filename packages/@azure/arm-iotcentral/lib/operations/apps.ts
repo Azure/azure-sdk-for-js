@@ -223,6 +223,30 @@ export class Apps {
   }
 
   /**
+   * Get all available application templates.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsListTemplatesResponse>
+   */
+  listTemplates(options?: msRest.RequestOptionsBase): Promise<Models.AppsListTemplatesResponse>;
+  /**
+   * @param callback The callback
+   */
+  listTemplates(callback: msRest.ServiceCallback<Models.AppTemplatesResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listTemplates(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppTemplatesResult>): void;
+  listTemplates(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppTemplatesResult>, callback?: msRest.ServiceCallback<Models.AppTemplatesResult>): Promise<Models.AppsListTemplatesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listTemplatesOperationSpec,
+      callback) as Promise<Models.AppsListTemplatesResponse>;
+  }
+
+  /**
    * Create or update the metadata of an IoT Central application. The usual pattern to modify a
    * property is to retrieve the IoT Central application metadata and security metadata, and then
    * combine them with the modified values in a new body to update the IoT Central application.
@@ -339,6 +363,34 @@ export class Apps {
       },
       listByResourceGroupNextOperationSpec,
       callback) as Promise<Models.AppsListByResourceGroupNextResponse>;
+  }
+
+  /**
+   * Get all available application templates.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsListTemplatesNextResponse>
+   */
+  listTemplatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppsListTemplatesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listTemplatesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AppTemplatesResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listTemplatesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppTemplatesResult>): void;
+  listTemplatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppTemplatesResult>, callback?: msRest.ServiceCallback<Models.AppTemplatesResult>): Promise<Models.AppsListTemplatesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listTemplatesNextOperationSpec,
+      callback) as Promise<Models.AppsListTemplatesNextResponse>;
   }
 }
 
@@ -476,6 +528,29 @@ const checkSubdomainAvailabilityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listTemplatesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/appTemplates",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppTemplatesResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/IoTApps/{resourceName}",
@@ -604,6 +679,27 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AppListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails
+    }
+  },
+  serializer
+};
+
+const listTemplatesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
