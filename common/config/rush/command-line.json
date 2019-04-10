@@ -90,6 +90,51 @@
     //    */
     //   "shellCommand": "node common/scripts/my-global-command.js"
     // }
+    {
+      "commandKind": "bulk",
+      "name": "test",
+      "summary": "Test projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "unit-node",
+      "summary": "Run live tests for Node packages",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "unit-browser",
+      "summary": "Run live tests for browser bundles",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "extract-api",
+      "summary": "Run API Extractor on projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "lint",
+      "summary": "Lint projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "clean",
+      "summary": "Clean projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "pack",
+      "summary": "Pack projects",
+      "enableParallelism": true
+    }
   ],
 
   /**
