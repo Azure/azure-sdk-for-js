@@ -108,10 +108,6 @@ export interface OnError {
  */
 export class MessageReceiver extends LinkEntity {
   /**
-   * @property {boolean} isClosed Returns true if this receiver is closed.
-   */
-  isClosed: boolean;
-  /**
    * @property {string} receiverType The type of receiver: "batching" or "streaming".
    */
   receiverType: ReceiverType;
@@ -245,7 +241,6 @@ export class MessageReceiver extends LinkEntity {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
-    this.isClosed = false;
     if (!options) options = {};
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
@@ -327,18 +322,6 @@ export class MessageReceiver extends LinkEntity {
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
-      if (this.isClosed) {
-        if (this._receiver) {
-          await this._receiver.close();
-        }
-        log.error(
-          "[%s] Not calling the user's message handler and exiting receiver " +
-            "as the receiver '%s' is closed by client",
-          this._context.namespace.connectionId,
-          this.name
-        );
-        return;
-      }
       if (
         this.receiveMode === ReceiveMode.peekLock &&
         (!this._receiver || !this._receiver.isOpen())
@@ -833,7 +816,6 @@ export class MessageReceiver extends LinkEntity {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    this.isClosed = true;
     log.receiver(
       "[%s] Closing the [%s]Receiver for entity '%s'.",
       this._context.namespace.connectionId,

@@ -78,9 +78,9 @@ export class Receiver {
       ...options,
       receiveMode: this._receiveMode
     })
-      .then((sReceiver) => {
+      .then(() => {
         if (!this.isClosed && this._context.streamingReceiver) {
-          return sReceiver.receive(onMessage, onError);
+          return this._context.streamingReceiver.receive(onMessage, onError);
         }
       })
       .catch((err) => {
