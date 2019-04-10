@@ -174,7 +174,7 @@ async function recreateSubscription(
     });
 }
 
-export async function getTopicSubscriptionClients(
+export async function getTopicClientWithTwoSubscriptionClients (
   namespace: ServiceBusClient
 ): Promise<{
   topicClient: TopicClient;
