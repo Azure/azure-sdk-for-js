@@ -22,9 +22,8 @@ Documentation of the supported SDKs can be found here:
   - data plane SDKs like `@azure/batch`, `@azure/graph`, etc.
 
 ## Authentication
-
-- For Node.js-based authentication, look at [ms-rest-nodeauth](https://npmjs.com/package/ms-rest-nodeauth).
-- For browser-based authentication, look at [ms-rest-browserauth](https://npmjs.com/package/ms-rest-browserauth).
+- For Node.js-based authentication, look at [@azure/ms-rest-nodeauth](https://npmjs.com/package/@azure/ms-rest-nodeauth).
+- For browser-based authentication, look at [@azure/ms-rest-browserauth](https://npmjs.com/package/@azure/ms-rest-browserauth).
   - The browser authentication storage is a little more complicated, so we encourage you to [read about how it works](https://github.com/Azure/ms-rest-browserauth/blob/master/README.md) before putting it in your application.
 
 ## Need Help?
