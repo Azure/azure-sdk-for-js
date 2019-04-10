@@ -34,6 +34,7 @@ export {
   ApplicationGatewayRequestRoutingRule,
   ApplicationGatewayRewriteRule,
   ApplicationGatewayRewriteRuleActionSet,
+  ApplicationGatewayRewriteRuleCondition,
   ApplicationGatewayRewriteRuleSet,
   ApplicationGatewaySku,
   ApplicationGatewaySslCertificate,
@@ -123,6 +124,9 @@ export {
   LocalNetworkGateway,
   ManagedServiceIdentity,
   ManagedServiceIdentityUserAssignedIdentitiesValue,
+  MatchCondition,
+  MatchVariable,
+  NetworkIntentPolicy,
   NetworkInterface,
   NetworkInterfaceDnsSettings,
   NetworkInterfaceIPConfiguration,
@@ -139,6 +143,8 @@ export {
   P2SVpnServerConfigVpnClientRootCertificate,
   PatchRouteFilter,
   PatchRouteFilterRule,
+  PeerExpressRouteCircuitConnection,
+  PolicySettings,
   Probe,
   ProtocolCustomSettingsFormat,
   PublicIPAddress,
@@ -181,5 +187,7 @@ export {
   VpnClientRootCertificate,
   VpnConnection,
   VpnGateway,
-  VpnSite
+  VpnSite,
+  WebApplicationFirewallCustomRule,
+  WebApplicationFirewallPolicy
 } from "../models/mappers";

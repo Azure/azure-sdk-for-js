@@ -9,7 +9,7 @@ This package contains an isomorphic SDK for PostgreSQLManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-postgresql
 ```
 
@@ -19,13 +19,13 @@ npm install @azure/arm-postgresql
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -49,7 +49,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 

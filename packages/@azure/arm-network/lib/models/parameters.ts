@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-11-01',
+    defaultValue: '2018-12-01',
     type: {
       name: "String"
     }
@@ -472,6 +472,19 @@ export const peeringName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "peeringName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const policyName: msRest.OperationURLParameter = {
+  parameterPath: "policyName",
+  mapper: {
+    required: true,
+    serializedName: "policyName",
+    constraints: {
+      MaxLength: 128
+    },
     type: {
       name: "String"
     }
