@@ -3,7 +3,7 @@
 
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "1.0.0-preview.1"
+  version: "1.0.0-preview.2"
 };
 
 export const messageDispositionTimeout = 20000;
