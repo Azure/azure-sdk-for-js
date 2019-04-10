@@ -7,10 +7,19 @@
  */
 
 export {
+  discriminators,
+  BaseResource,
   CloudError,
-  LogSpecification,
-  Operation,
-  OperationDisplay,
-  OperationListResult,
-  ServiceSpecification
+  Configuration,
+  Database,
+  FirewallRule,
+  FirewallRuleListResult,
+  LogFile,
+  ProxyResource,
+  Server,
+  ServerSecurityAlertPolicy,
+  Sku,
+  StorageProfile,
+  TrackedResource,
+  VirtualNetworkRule
 } from "../models/mappers";

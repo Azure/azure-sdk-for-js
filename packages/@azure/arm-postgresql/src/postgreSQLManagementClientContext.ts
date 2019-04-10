@@ -12,22 +12,21 @@ import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
-const packageName = "@azure/arm-keyvault";
-const packageVersion = "1.2.1";
+const packageName = "@azure/arm-postgresql";
+const packageVersion = "4.3.0";
 
-export class KeyVaultManagementClientContext extends msRestAzure.AzureServiceClient {
+export class PostgreSQLManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
   apiVersion?: string;
 
   /**
-   * Initializes a new instance of the KeyVaultManagementClient class.
+   * Initializes a new instance of the PostgreSQLManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The subscription ID that identifies an Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.KeyVaultManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PostgreSQLManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -45,7 +44,7 @@ export class KeyVaultManagementClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
-    this.apiVersion = '2018-02-14';
+    this.apiVersion = '2017-12-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

@@ -7,10 +7,8 @@
  */
 
 export {
+  discriminators,
   CloudError,
-  LogSpecification,
-  Operation,
-  OperationDisplay,
-  OperationListResult,
-  ServiceSpecification
+  NameAvailability,
+  NameAvailabilityRequest
 } from "../models/mappers";

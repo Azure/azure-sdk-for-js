@@ -1,6 +1,6 @@
-## Azure PostgreSQLManagementClient SDK for JavaScript
+## Azure KeyVaultManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK for PostgreSQLManagementClient.
+This package contains an isomorphic SDK for KeyVaultManagementClient.
 
 ### Currently supported environments
 
@@ -10,12 +10,12 @@ This package contains an isomorphic SDK for PostgreSQLManagementClient.
 ### How to Install
 
 ```bash
-npm install @azure/arm-postgresql
+npm install @azure/arm-keyvault
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get servers as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get vaults as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -29,14 +29,14 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { PostgreSQLManagementClient, PostgreSQLManagementModels, PostgreSQLManagementMappers } from "@azure/arm-postgresql";
+import { KeyVaultManagementClient, KeyVaultManagementModels, KeyVaultManagementMappers } from "@azure/arm-keyvault";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new PostgreSQLManagementClient(creds, subscriptionId);
+  const client = new KeyVaultManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
-  const serverName = "testserverName";
-  client.servers.get(resourceGroupName, serverName).then((result) => {
+  const vaultName = "testvaultName";
+  client.vaults.get(resourceGroupName, vaultName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get servers as an example written in JavaScript.
+#### browser - Authentication, client creation and get vaults as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -62,11 +62,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-postgresql sample</title>
+    <title>@azure/arm-keyvault sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-postgresql/dist/arm-postgresql.js"></script>
+    <script src="node_modules/@azure/arm-keyvault/dist/arm-keyvault.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -78,10 +78,10 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmPostgresql.PostgreSQLManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmKeyvault.KeyVaultManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
-        const serverName = "testserverName";
-        client.servers.get(resourceGroupName, serverName).then((result) => {
+        const vaultName = "testvaultName";
+        client.vaults.get(resourceGroupName, vaultName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

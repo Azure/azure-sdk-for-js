@@ -7,10 +7,8 @@
  */
 
 export {
-  CloudError,
-  LogSpecification,
+  ErrorResponse,
   Operation,
   OperationDisplay,
-  OperationListResult,
-  ServiceSpecification
+  OperationListResult
 } from "../models/mappers";
