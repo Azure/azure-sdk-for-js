@@ -2901,8 +2901,9 @@ export interface ApiManagementServiceBaseProperties {
   /**
    * @member {boolean} [enableClientCertificate] Property only meant to be used
    * for Consumption SKU Service. This enforces a client certificate to be
-   * presented on each request to the gateway and enabled ability to
-   * authenticate the certificate in the policy. Default value: false .
+   * presented on each request to the gateway. This also enable the ability to
+   * authenticate the certificate in the policy on the gateway. Default value:
+   * false .
    */
   enableClientCertificate?: boolean;
   /**
@@ -3095,8 +3096,9 @@ export interface ApiManagementServiceResource extends ApimResource {
   /**
    * @member {boolean} [enableClientCertificate] Property only meant to be used
    * for Consumption SKU Service. This enforces a client certificate to be
-   * presented on each request to the gateway and enabled ability to
-   * authenticate the certificate in the policy. Default value: false .
+   * presented on each request to the gateway. This also enable the ability to
+   * authenticate the certificate in the policy on the gateway. Default value:
+   * false .
    */
   enableClientCertificate?: boolean;
   /**
@@ -3263,8 +3265,9 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
   /**
    * @member {boolean} [enableClientCertificate] Property only meant to be used
    * for Consumption SKU Service. This enforces a client certificate to be
-   * presented on each request to the gateway and enabled ability to
-   * authenticate the certificate in the policy. Default value: false .
+   * presented on each request to the gateway. This also enable the ability to
+   * authenticate the certificate in the policy on the gateway. Default value:
+   * false .
    */
   enableClientCertificate?: boolean;
   /**
@@ -9763,7 +9766,7 @@ export type PolicyScopeContract = 'Tenant' | 'Product' | 'Api' | 'Operation' | '
 
 /**
  * Defines values for ExportFormat.
- * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'OpenApi3'
+ * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'OpenApi'
  * @readonly
  * @enum {string}
  */
@@ -13074,6 +13077,29 @@ export type NotificationRecipientUserListByNotificationResponse = RecipientUserC
 };
 
 /**
+ * Contains response data for the checkEntityExists operation.
+ */
+export type NotificationRecipientUserCheckEntityExistsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
+};
+
+/**
  * Contains response data for the createOrUpdate operation.
  */
 export type NotificationRecipientUserCreateOrUpdateResponse = RecipientUserContract & {
@@ -13108,6 +13134,29 @@ export type NotificationRecipientEmailListByNotificationResponse = RecipientEmai
        * The response body as parsed JSON or XML
        */
       parsedBody: RecipientEmailCollection;
+    };
+};
+
+/**
+ * Contains response data for the checkEntityExists operation.
+ */
+export type NotificationRecipientEmailCheckEntityExistsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
     };
 };
 

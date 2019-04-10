@@ -81,9 +81,9 @@ export class NotificationRecipientEmail {
    * 'AccountClosedPublisher', 'QuotaLimitApproachingPublisherNotificationMessage'
    * @param email Email identifier.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse>
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -94,7 +94,7 @@ export class NotificationRecipientEmail {
    * @param email Email identifier.
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: msRest.ServiceCallback<void>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -106,8 +106,8 @@ export class NotificationRecipientEmail {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, email: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +117,7 @@ export class NotificationRecipientEmail {
         options
       },
       checkEntityExistsOperationSpec,
-      callback);
+      callback) as Promise<Models.NotificationRecipientEmailCheckEntityExistsResponse>;
   }
 
   /**
@@ -265,6 +265,7 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
+    404: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
