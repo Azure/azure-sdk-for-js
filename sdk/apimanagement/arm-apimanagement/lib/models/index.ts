@@ -159,11 +159,11 @@ export interface ApiExportResult {
    */
   id?: string;
   /**
-   * @member {ExportFormat} [exportFormat] Format in which the Api Details are
-   * exported to the Storage Blob with Sas Key valid for 5 minutes. Possible
-   * values include: 'Swagger', 'Wsdl', 'Wadl', 'OpenApi'
+   * @member {ExportResultFormat} [exportResultFormat] Format in which the Api
+   * Details are exported to the Storage Blob with Sas Key valid for 5 minutes.
+   * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'OpenApi'
    */
-  exportFormat?: ExportFormat;
+  exportResultFormat?: ExportResultFormat;
   /**
    * @member {ApiExportResultValue} [value] The object defining the schema of
    * the exported Api Detail
@@ -9514,12 +9514,12 @@ export interface UserIdentityCollection extends Array<UserIdentityContract> {
 }
 
 /**
- * Defines values for ExportFormat.
+ * Defines values for ExportResultFormat.
  * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'OpenApi'
  * @readonly
  * @enum {string}
  */
-export type ExportFormat = 'swagger-link-json' | 'wsdl-link+xml' | 'wadl-link-json' | 'openapi-link';
+export type ExportResultFormat = 'swagger-link-json' | 'wsdl-link+xml' | 'wadl-link-json' | 'openapi-link';
 
 /**
  * Defines values for ProductState.
@@ -9795,6 +9795,14 @@ export type TemplateName = 'applicationApprovedNotificationMessage' | 'accountCl
  * @enum {string}
  */
 export type PolicyScopeContract = 'Tenant' | 'Product' | 'Api' | 'Operation' | 'All';
+
+/**
+ * Defines values for ExportFormat.
+ * Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'Openapi'
+ * @readonly
+ * @enum {string}
+ */
+export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link' | 'openapi-link';
 
 /**
  * Defines values for VersioningScheme1.

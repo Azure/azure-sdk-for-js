@@ -198,7 +198,7 @@ export const ApiExportResult: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      exportFormat: {
+      exportResultFormat: {
         serializedName: "format",
         type: {
           name: "String"
