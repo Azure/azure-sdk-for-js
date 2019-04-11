@@ -174,6 +174,8 @@ async function recreateSubscription(
     });
 }
 
+// TODO: Currently, this utility only supports working with a single pair of sender receiver at a time.
+// For working with multiple entities such as with multiple subscriptions on a single topic, refactor the tests setup.
 export async function getSenderReceiverClients(
   namespace: ServiceBusClient,
   senderClientType: ClientType,
