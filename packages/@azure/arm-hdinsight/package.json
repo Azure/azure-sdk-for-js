@@ -2,10 +2,10 @@
   "name": "@azure/arm-hdinsight",
   "author": "Microsoft Corporation",
   "description": "HDInsightManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.3.1",
-    "@azure/ms-rest-js": "^1.2.6",
+    "@azure/ms-rest-azure-js": "^1.3.2",
+    "@azure/ms-rest-js": "^1.8.1",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -43,7 +43,7 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "lib/**/*.ts",
+    "src/**/*.ts",
     "README.md",
     "rollup.config.js",
     "tsconfig.json"
