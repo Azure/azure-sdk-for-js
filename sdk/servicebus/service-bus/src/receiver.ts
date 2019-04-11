@@ -231,13 +231,14 @@ export class Receiver {
         // Make sure that we clear the map of deferred messages
         this._context.requestResponseLockedMessages.clear();
       }
-      this._isClosed = true;
     } catch (err) {
       err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
         `An error occurred while closing the receiver for "${this._context.entityPath}":\n${err}`
       );
       throw err;
+    } finally {
+      this._isClosed = true;
     }
   }
 
@@ -575,7 +576,6 @@ export class SessionReceiver {
    * @returns {Promise<void>}
    */
   async close(): Promise<void> {
-    this._isClosed = true;
     try {
       if (this._messageSession) {
         await this._messageSession.close();
@@ -589,6 +589,8 @@ export class SessionReceiver {
         }":\n${err}`
       );
       throw err;
+    } finally {
+      this._isClosed = true;
     }
   }
 
