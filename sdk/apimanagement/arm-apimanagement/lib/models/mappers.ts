@@ -7350,7 +7350,7 @@ export const UserTokenParameters: msRest.CompositeMapper = {
     modelProperties: {
       keyType: {
         required: true,
-        serializedName: "keyType",
+        serializedName: "properties.keyType",
         defaultValue: 'primary',
         type: {
           name: "Enum",
@@ -7362,7 +7362,7 @@ export const UserTokenParameters: msRest.CompositeMapper = {
       },
       expiry: {
         required: true,
-        serializedName: "expiry",
+        serializedName: "properties.expiry",
         type: {
           name: "DateTime"
         }

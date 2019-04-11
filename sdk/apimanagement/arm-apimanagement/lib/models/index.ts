@@ -5285,7 +5285,7 @@ export interface UserTokenResult {
 /**
  * @interface
  * An interface representing UserTokenParameters.
- * Parameters supplied to the Get User Token operation.
+ * Get User Token parameters.
  *
  */
 export interface UserTokenParameters {
