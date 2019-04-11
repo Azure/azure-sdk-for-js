@@ -655,9 +655,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ApiManagementServiceResource
     },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
