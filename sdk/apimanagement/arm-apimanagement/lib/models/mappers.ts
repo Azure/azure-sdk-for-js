@@ -7238,13 +7238,13 @@ export const DeployConfigurationParameters: msRest.CompositeMapper = {
     modelProperties: {
       branch: {
         required: true,
-        serializedName: "branch",
+        serializedName: "properties.branch",
         type: {
           name: "String"
         }
       },
       force: {
-        serializedName: "force",
+        serializedName: "properties.force",
         type: {
           name: "Boolean"
         }
@@ -7261,13 +7261,13 @@ export const SaveConfigurationParameter: msRest.CompositeMapper = {
     modelProperties: {
       branch: {
         required: true,
-        serializedName: "branch",
+        serializedName: "properties.branch",
         type: {
           name: "String"
         }
       },
       force: {
-        serializedName: "force",
+        serializedName: "properties.force",
         type: {
           name: "Boolean"
         }
@@ -7317,7 +7317,7 @@ export const AccessInformationUpdateParameters: msRest.CompositeMapper = {
     className: "AccessInformationUpdateParameters",
     modelProperties: {
       enabled: {
-        serializedName: "enabled",
+        serializedName: "properties.enabled",
         type: {
           name: "Boolean"
         }

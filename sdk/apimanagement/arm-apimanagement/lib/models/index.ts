@@ -5195,7 +5195,7 @@ export interface OperationResultContract {
 /**
  * @interface
  * An interface representing DeployConfigurationParameters.
- * Parameters supplied to the Deploy Configuration operation.
+ * Deploy Tenant Configuration Contract.
  *
  */
 export interface DeployConfigurationParameters {
@@ -5214,7 +5214,7 @@ export interface DeployConfigurationParameters {
 /**
  * @interface
  * An interface representing SaveConfigurationParameter.
- * Parameters supplied to the Save Tenant Configuration operation.
+ * Save Tenant Configuration Contract details.
  *
  */
 export interface SaveConfigurationParameter {
@@ -5259,7 +5259,7 @@ export interface AccessInformationContract {
 /**
  * @interface
  * An interface representing AccessInformationUpdateParameters.
- * Tenant access information update parameters of the API Management service
+ * Tenant access information update parameters.
  *
  */
 export interface AccessInformationUpdateParameters {
