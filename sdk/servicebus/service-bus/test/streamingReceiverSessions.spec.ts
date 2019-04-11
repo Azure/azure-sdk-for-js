@@ -1287,6 +1287,7 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
   async function testReceiveMessages(): Promise<void> {
     const totalNumOfMessages = 5;
     let num = 1;
+    const messages = [];
     while (num <= totalNumOfMessages) {
       const message = {
         messageId: num,
@@ -1296,8 +1297,9 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
         partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
       };
       num++;
-      await sender.send(message);
+      messages.push(message);
     }
+    await sender.sendBatch(messages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
 

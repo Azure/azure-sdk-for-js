@@ -235,7 +235,7 @@ describe("Streaming - Misc Tests", function(): void {
   });
 });
 
-describe("Streaming - Complete message", function(): void {
+describe.only("Streaming - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
@@ -981,6 +981,7 @@ describe("Streaming - Not receive messages after receiver is closed", function()
   async function testReceiveMessages(): Promise<void> {
     const totalNumOfMessages = 5;
     let num = 1;
+    const messages = [];
     while (num <= totalNumOfMessages) {
       const message = {
         messageId: num,
@@ -989,8 +990,9 @@ describe("Streaming - Not receive messages after receiver is closed", function()
         partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
       };
       num++;
-      await sender.send(message);
+      messages.push(message);
     }
+    await sender.sendBatch(messages);
 
     const receivedMsgs: ServiceBusMessage[] = [];
 
