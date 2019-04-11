@@ -10,9 +10,12 @@
 
 export {
   discriminators,
-  OperationListResult,
-  Operation,
-  OperationDisplay,
-  CloudError
+  MetricBaselinesResponse,
+  SingleMetricBaseline,
+  TimeSeriesBaseline,
+  MetricSingleDimension,
+  SingleBaseline,
+  BaselineMetadata,
+  ErrorResponse
 } from "../models/mappers";
 
