@@ -74,12 +74,23 @@ export class Receiver {
     if (!onError || typeof onError !== "function") {
       throw new Error("'onError' is a required parameter and must be of type 'function'.");
     }
-    const sReceiver = StreamingReceiver.create(this._context, {
+    StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: this._receiveMode
-    });
-    this._context.streamingReceiver = sReceiver;
-    return sReceiver.receive(onMessage, onError);
+    })
+      .then(async (sReceiver) => {
+        if (!sReceiver) {
+          return;
+        }
+        if (!this.isClosed) {
+          return sReceiver.receive(onMessage, onError);
+        } else {
+          await sReceiver.close();
+        }
+      })
+      .catch((err) => {
+        onError(err);
+      });
   }
 
   /**
@@ -220,13 +231,14 @@ export class Receiver {
         // Make sure that we clear the map of deferred messages
         this._context.requestResponseLockedMessages.clear();
       }
-      this._isClosed = true;
     } catch (err) {
       err = err instanceof Error ? err : new Error(JSON.stringify(err));
       log.error(
         `An error occurred while closing the receiver for "${this._context.entityPath}":\n${err}`
       );
       throw err;
+    } finally {
+      this._isClosed = true;
     }
   }
 
@@ -286,13 +298,16 @@ export class SessionReceiver {
   private _receiveMode: ReceiveMode;
   private _messageSession: MessageSession | undefined;
   private _sessionOptions: SessionReceiverOptions;
+  private _isClosed: boolean = false;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
    * @readonly
    */
   public get isClosed(): boolean {
-    return this.sessionId ? !this._context.messageSessions[this.sessionId] : false;
+    return (
+      this._isClosed || (this.sessionId ? !this._context.messageSessions[this.sessionId] : false)
+    );
   }
 
   /**
@@ -523,8 +538,15 @@ export class SessionReceiver {
       throw new Error("'onError' is a required parameter and must be of type 'function'.");
     }
     this._createMessageSessionIfDoesntExist()
-      .then(() => {
-        this._messageSession!.receive(onMessage, onError, options);
+      .then(async () => {
+        if (!this._messageSession) {
+          return;
+        }
+        if (!this._isClosed) {
+          this._messageSession.receive(onMessage, onError, options);
+        } else {
+          await this._messageSession.close();
+        }
       })
       .catch((err) => {
         onError(err);
@@ -557,6 +579,7 @@ export class SessionReceiver {
     try {
       if (this._messageSession) {
         await this._messageSession.close();
+        this._messageSession = undefined;
       }
     } catch (err) {
       err = err instanceof Error ? err : new Error(JSON.stringify(err));
@@ -566,6 +589,8 @@ export class SessionReceiver {
         }":\n${err}`
       );
       throw err;
+    } finally {
+      this._isClosed = true;
     }
   }
 
