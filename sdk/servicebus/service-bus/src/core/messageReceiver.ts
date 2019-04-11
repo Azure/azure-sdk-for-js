@@ -108,10 +108,6 @@ export interface OnError {
  */
 export class MessageReceiver extends LinkEntity {
   /**
-   * @property {boolean} isClosed Returns true if this receiver is closed.
-   */
-  isClosed: boolean;
-  /**
    * @property {string} receiverType The type of receiver: "batching" or "streaming".
    */
   receiverType: ReceiverType;
@@ -245,7 +241,6 @@ export class MessageReceiver extends LinkEntity {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
-    this.isClosed = false;
     if (!options) options = {};
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
@@ -821,7 +816,6 @@ export class MessageReceiver extends LinkEntity {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    this.isClosed = true;
     log.receiver(
       "[%s] Closing the [%s]Receiver for entity '%s'.",
       this._context.namespace.connectionId,

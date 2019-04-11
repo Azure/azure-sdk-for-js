@@ -235,7 +235,7 @@ describe("Streaming - Misc Tests", function(): void {
   });
 });
 
-describe.only("Streaming - Complete message", function(): void {
+describe("Streaming - Complete message", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });

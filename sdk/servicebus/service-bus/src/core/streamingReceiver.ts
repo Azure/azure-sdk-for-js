@@ -98,7 +98,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._onMessage = onMessage;
     this._onError = onError;
 
-    if (!this.isClosed && this._receiver) {
+    if (this._receiver) {
       this._receiver.addCredit(this.maxConcurrentCalls);
     }
   }
@@ -109,7 +109,7 @@ export class StreamingReceiver extends MessageReceiver {
    *
    * @param {ClientEntityContext} context    The connection context.
    * @param {ReceiveOptions} [options]     Receive options.
-   * @return {StreamingReceiver} An instance of StreamingReceiver.
+   * @return {Promise<StreamingReceiver>} A promise that resolves with an instance of StreamingReceiver.
    */
   static async create(
     context: ClientEntityContext,

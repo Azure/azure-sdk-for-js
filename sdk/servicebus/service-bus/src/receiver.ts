@@ -79,7 +79,10 @@ export class Receiver {
       receiveMode: this._receiveMode
     })
       .then(async (sReceiver) => {
-        if (!this.isClosed && sReceiver) {
+        if (!sReceiver) {
+          return;
+        }
+        if (!this.isClosed) {
           return sReceiver.receive(onMessage, onError);
         } else {
           await sReceiver.close();
@@ -535,10 +538,13 @@ export class SessionReceiver {
     }
     this._createMessageSessionIfDoesntExist()
       .then(async () => {
-        if (!this._isClosed && this._messageSession) {
+        if (!this._messageSession) {
+          return;
+        }
+        if (!this._isClosed) {
           this._messageSession.receive(onMessage, onError, options);
         } else {
-          await this._messageSession!.close();
+          await this._messageSession.close();
         }
       })
       .catch((err) => {
