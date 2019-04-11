@@ -78,9 +78,11 @@ export class Receiver {
       ...options,
       receiveMode: this._receiveMode
     })
-      .then((sReceiver) => {
-        if (!this.isClosed && this._context.streamingReceiver) {
+      .then(async (sReceiver) => {
+        if (!this.isClosed && sReceiver) {
           return sReceiver.receive(onMessage, onError);
+        } else {
+          await sReceiver.close();
         }
       })
       .catch((err) => {
@@ -532,9 +534,11 @@ export class SessionReceiver {
       throw new Error("'onError' is a required parameter and must be of type 'function'.");
     }
     this._createMessageSessionIfDoesntExist()
-      .then(() => {
-        if (!this._isClosed) {
-          this._messageSession!.receive(onMessage, onError, options);
+      .then(async () => {
+        if (!this._isClosed && this._messageSession) {
+          this._messageSession.receive(onMessage, onError, options);
+        } else {
+          await this._messageSession!.close();
         }
       })
       .catch((err) => {
@@ -569,7 +573,7 @@ export class SessionReceiver {
     try {
       if (this._messageSession) {
         await this._messageSession.close();
-        this._messageSession.isReceivingMessages = false;
+        this._messageSession = undefined;
       }
     } catch (err) {
       err = err instanceof Error ? err : new Error(JSON.stringify(err));
