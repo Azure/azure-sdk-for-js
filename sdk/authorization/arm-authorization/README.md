@@ -1,6 +1,6 @@
-## Azure ApplicationInsightsManagementClient SDK for JavaScript
+## Azure AuthorizationManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK for ApplicationInsightsManagementClient.
+This package contains an isomorphic SDK for AuthorizationManagementClient.
 
 ### Currently supported environments
 
@@ -10,12 +10,12 @@ This package contains an isomorphic SDK for ApplicationInsightsManagementClient.
 ### How to Install
 
 ```
-npm install @azure/arm-appinsights
+npm install @azure/arm-authorization
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list classicAdministrators as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -29,12 +29,12 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ApplicationInsightsManagementClient, ApplicationInsightsManagementModels, ApplicationInsightsManagementMappers } from "@azure/arm-appinsights";
+import { AuthorizationManagementClient, AuthorizationManagementModels, AuthorizationManagementMappers } from "@azure/arm-authorization";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ApplicationInsightsManagementClient(creds, subscriptionId);
-  client.operations.list().then((result) => {
+  const client = new AuthorizationManagementClient(creds, subscriptionId);
+  client.classicAdministrators.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list operations as an example written in JavaScript.
+#### browser - Authentication, client creation and list classicAdministrators as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -60,11 +60,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-appinsights sample</title>
+    <title>@azure/arm-authorization sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-appinsights/dist/arm-appinsights.js"></script>
+    <script src="node_modules/@azure/arm-authorization/dist/arm-authorization.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -76,8 +76,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmAppinsights.ApplicationInsightsManagementClient(res.creds, subscriptionId);
-        client.operations.list().then((result) => {
+        const client = new Azure.ArmAuthorization.AuthorizationManagementClient(res.creds, subscriptionId);
+        client.classicAdministrators.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -96,4 +96,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fpackages%2F%40azure%2Farm-appinsights%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/authorization/arm-authorization/README.png)
