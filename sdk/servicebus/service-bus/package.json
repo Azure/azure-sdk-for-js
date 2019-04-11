@@ -28,7 +28,7 @@
     "debug": "^3.1.0",
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
-    "rhea-promise": "^0.1.14",
+    "rhea-promise": "^0.1.15",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
