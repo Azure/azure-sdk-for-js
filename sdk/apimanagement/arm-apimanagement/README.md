@@ -9,23 +9,23 @@ This package contains an isomorphic SDK for ApiManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-apimanagement
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listByService policy as an example written in TypeScript.
+#### nodejs - Authentication, client creation and listByService api as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
+```bash
 npm install @azure/ms-rest-nodeauth
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -36,8 +36,12 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ApiManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
   const serviceName = "testserviceName";
-  const scope = "Tenant";
-  client.policy.listByService(resourceGroupName, serviceName, scope).then((result) => {
+  const filter = "testfilter";
+  const top = 1;
+  const skip = 1;
+  const tags = "testtags";
+  const expandApiVersionSet = true;
+  client.api.listByService(resourceGroupName, serviceName, filter, top, skip, tags, expandApiVersionSet).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -46,11 +50,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and listByService policy as an example written in JavaScript.
+#### browser - Authentication, client creation and listByService api as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -82,8 +86,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmApimanagement.ApiManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const serviceName = "testserviceName";
-        const scope = "Tenant";
-        client.policy.listByService(resourceGroupName, serviceName, scope).then((result) => {
+        const filter = "testfilter";
+        const top = 1;
+        const skip = 1;
+        const tags = "testtags";
+        const expandApiVersionSet = true;
+        client.api.listByService(resourceGroupName, serviceName, filter, top, skip, tags, expandApiVersionSet).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -100,6 +108,3 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/apimanagement/arm-apimanagement/README.png)
