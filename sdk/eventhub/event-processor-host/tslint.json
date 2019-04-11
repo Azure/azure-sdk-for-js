@@ -30,6 +30,7 @@
         "variable-declaration": "onespace"
       }
     ],
+    "import-blacklist": [true, "rhea", ["rhea/.*"]],
     "prefer-const": true,
     "no-construct": true,
     "no-duplicate-variable": true,
