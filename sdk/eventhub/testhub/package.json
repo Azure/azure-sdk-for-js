@@ -19,6 +19,7 @@
     "ms-rest-azure": "^2.5.9",
     "ms-rest": "^2.3.3",
     "rhea": "^1.0.4",
+    "rimraf": "^2.6.2",
     "tslib": "^1.9.3",
     "typescript": "^3.2.2",
     "uuid": "^3.3.2",
@@ -29,6 +30,11 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build"
+    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "lint": "true",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "prepare": "npm run build",
+    "test": "true"
   }
 }

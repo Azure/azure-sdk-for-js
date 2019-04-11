@@ -28,9 +28,10 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "typescript": "^3.2.2",
+    "rimraf": "^2.6.2",
     "rollup": "^1.0.0",
     "rollup-plugin-node-resolve": "^4.2.0",
+    "typescript": "^3.2.2",
     "uglify-js": "^3.4.9"
   },
   "files": [
@@ -40,8 +41,12 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js 2>&1 && npm run minify",
+    "clean": "rimraf dist esm test-dist typings *.tgz *.log",
+    "lint": "true",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/keyvault.js.map'\" -o ./dist/keyvault.min.js ./dist/keyvault.js 2>&1",
-    "prepack": "npm install && npm run build"
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test": "true"
   },
   "sideEffects": false
 }

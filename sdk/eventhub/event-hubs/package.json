@@ -78,20 +78,22 @@
     "typings/src"
   ],
   "scripts": {
-    "tslint": "tslint -p . -c tslint.json",
-    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "tsc": "tsc",
-    "prebuild": "rimraf dist && rimraf typings",
-    "build": "npm run tslint && tsc -p . && rollup -c 2>&1",
     "build-browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build-node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build-samples": "cd examples && tsc -p .",
-    "test": "npm run build",
-    "unit-node": "npm run build-test && mocha -t 120000 test-dist/index.js",
+    "build-test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
+    "build": "tsc -p . && rollup -c 2>&1",
+    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "coverage": "npm run build-test && nyc --reporter=lcov mocha -t 120000 test-dist/index.js",
-    "prepack": "npm i && npm run build",
-    "extract-api": "tsc -p . && api-extractor run --local"
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "lint": "tslint -p . -c tslint.json",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "pretest": "npm run build-test",
+    "test": "npm run build",
+    "tsc": "tsc",
+    "unit-node": "npm run build-test && mocha -t 120000 test-dist/index.js"
   }
 }
