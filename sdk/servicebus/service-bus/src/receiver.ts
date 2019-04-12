@@ -320,6 +320,8 @@ export class SessionReceiver {
 
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
+   * This is defined only when the underlying messageSession has been created.
+   * The value until which it would be locked until is 30 seconds.
    * @readonly
    */
   public get sessionLockedUntilUtc(): Date | undefined {
@@ -341,8 +343,7 @@ export class SessionReceiver {
   }
 
   /**
-   * Renews the lock on the session.
-   * Check the `sessionLockedUntilUtc` property on the reciever for the time when the lock expires.
+   * Renews the lock on the session to be set to 30 seconds from the moment of invocation.
    *
    * When the lock on the session expires
    * - no more messages can be received using this receiver
