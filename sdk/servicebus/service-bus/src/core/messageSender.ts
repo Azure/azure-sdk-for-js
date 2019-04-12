@@ -28,7 +28,8 @@ import {
 import { SendableMessageInfo } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, throwErrorIfConnectionClosed } from "../util/utils";
+import { getUniqueName } from "../util/utils";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
  * @internal
