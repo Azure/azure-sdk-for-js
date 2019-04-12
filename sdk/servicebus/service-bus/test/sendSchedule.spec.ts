@@ -164,9 +164,16 @@ describe("Schedule single message", function(): void {
   });
 
   async function testScheduleMessage(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-    await senderClient.createSender().scheduleMessage(scheduleTime, testMessages);
+    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from
+
+    // Randomly choose scheduleMessage/scheduleMessages as the latter is expected to convert single
+    // input to array and then use it
+    if (Math.round(Math.random())) {
+      await senderClient.createSender().scheduleMessage(scheduleTime, testMessage);
+    } else {
+      await senderClient.createSender().scheduleMessages(scheduleTime, testMessage as any);
+    }
 
     const msgs = await receiver.receiveMessages(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -178,8 +185,8 @@ describe("Schedule single message", function(): void {
       true,
       "Enqueued time must be greater than scheduled time"
     ); // checking received message enqueue time is greater or equal to the scheduled time.
-    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
     await msgs[0].complete();
 
