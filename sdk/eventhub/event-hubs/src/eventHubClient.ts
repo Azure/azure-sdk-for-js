@@ -109,9 +109,8 @@ export interface EventHubClientOptions<T> extends ClientOptions {
     */
      webSocket?: WebSocketImpl<T>;
 
-  /***
-     * @property {webSocketConstructorOptions} - Options to be passed to the function returned by
-     * rhea.websocket_connect()
+    /**
+     * @property {webSocketConstructorOptions} - Options to be passed to the WebSocket constructor
      */
     webSocketConstructorOptions?: T;
 }
@@ -334,7 +333,7 @@ export class EventHubClient {
        config.webSocket = options.webSocket;
        config.webSocketEndpointPath = "$servicebus/websocket";
        if (options.webSocketConstructorOptions){
-           config.webSocketConstructorOptions = options.webSocketConstructorOptions;
+          config.webSocketConstructorOptions = options.webSocketConstructorOptions;
         }
     }
     if (!config.entityPath) {
