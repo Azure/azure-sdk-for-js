@@ -320,9 +320,7 @@ export class SessionReceiver {
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return (
-      (this._messageSession && this._messageSession.sessionId) || this._sessionOptions.sessionId
-    );
+    return this._messageSession && this._messageSession.sessionId;
   }
 
   /**
