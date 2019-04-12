@@ -384,6 +384,45 @@ describe("Schedule multiple messages", function(): void {
   });
 });
 
+describe("Schedule invalid inputs", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  async function testMissingInputMessage(): Promise<void> {
+    const sender = senderClient.createSender();
+
+    let singleMsgError: Error | undefined;
+    let multipleMsgsError: Error | undefined;
+
+    try {
+      await sender.scheduleMessage(new Date(), undefined as any);
+    } catch (err) {
+      singleMsgError = err;
+    }
+    try {
+      await sender.scheduleMessages(new Date(), undefined as any);
+    } catch (err) {
+      multipleMsgsError = err;
+    }
+
+    should.equal(singleMsgError && singleMsgError.name, "TypeError");
+    should.equal(singleMsgError && singleMsgError.message, `Missing parameter "message"`);
+    should.equal(multipleMsgsError && multipleMsgsError.name, "TypeError");
+    should.equal(multipleMsgsError && multipleMsgsError.message, `Missing parameter "messages"`);
+  }
+
+  it("Queue: Missing message when scheduling", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await testMissingInputMessage();
+  });
+
+  it("Topic: Missing message when scheduling", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await testMissingInputMessage();
+  });
+});
+
 describe("Cancel single Scheduled message", function(): void {
   afterEach(async () => {
     await afterEachTest();
