@@ -15,7 +15,7 @@ import {
   ReceiveMode
 } from "../src";
 
-import { TestMessage, getSenderReceiverClients, ClientType } from "./testUtils";
+import { TestMessage, getSenderReceiverClients, TestClientType } from "./testUtils";
 
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
@@ -28,8 +28,8 @@ let sender: Sender;
 let receiver: Receiver | SessionReceiver;
 
 async function beforeEachTest(
-  senderType: ClientType,
-  receiverType: ClientType,
+  senderType: TestClientType,
+  receiverType: TestClientType,
   useSessions?: boolean
 ): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
@@ -111,21 +111,21 @@ describe("Test invalid parameters in peek", function(): void {
   }
 
   it("Queue: Test invalid maxMessageCount in peek", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testInValidMaxMessageCountValue();
     await testInValidMaxMessageCountType();
   });
 
   it("Subscription: Test invalid maxMessageCount in peek", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testInValidMaxMessageCountValue();
     await testInValidMaxMessageCountType();
   });
 
   it("Queue with sessions: Test invalid maxMessageCount in peek", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testInValidMaxMessageCountValue();
@@ -138,8 +138,8 @@ describe("Test invalid parameters in peek", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testInValidMaxMessageCountValue();
@@ -178,14 +178,14 @@ describe("Test invalid parameters in peek", function(): void {
   it("Queue: Test invalid fromSequenceNumber in peekBySequenceNumber", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testInValidSequenceNumberType();
   });
 
   it("Subscription: Test invalid fromSequenceNumber in peekBySequenceNumber", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testInValidSequenceNumberType();
   });
 
@@ -193,8 +193,8 @@ describe("Test invalid parameters in peek", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testInValidSequenceNumberType();
@@ -205,8 +205,8 @@ describe("Test invalid parameters in peek", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testInValidSequenceNumberType();
