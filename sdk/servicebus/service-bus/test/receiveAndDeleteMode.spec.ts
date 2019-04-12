@@ -22,7 +22,7 @@ import { DispositionType } from "../src/serviceBusMessage";
 import {
   TestMessage,
   getSenderReceiverClients,
-  ClientType,
+  TestClientType,
   purge,
   checkWithTimeout
 } from "./testUtils";
@@ -50,8 +50,8 @@ let receiverClient: QueueClient | SubscriptionClient;
 let receiver: Receiver | SessionReceiver;
 
 async function beforeEachTest(
-  senderType: ClientType,
-  receiverType: ClientType,
+  senderType: TestClientType,
+  receiverType: TestClientType,
   useSessions?: boolean,
   receiveMode?: ReceiveMode
 ): Promise<void> {
@@ -124,14 +124,14 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testNoSettlement();
   });
 
   it("Partitioned Subscription: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testNoSettlement();
   });
 
@@ -153,8 +153,8 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testNoSettlement(true);
@@ -164,8 +164,8 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testNoSettlement(true);
@@ -175,8 +175,8 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testNoSettlement(true);
@@ -186,8 +186,8 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testNoSettlement(true);
@@ -253,14 +253,14 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testNoSettlement(true);
   });
 
   it("Partitioned Subscription: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testNoSettlement(true);
   });
 
@@ -282,8 +282,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testNoSettlement(true, true);
@@ -293,8 +293,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testNoSettlement(true, true);
@@ -304,8 +304,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testNoSettlement(true, true);
@@ -315,8 +315,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testNoSettlement(true, true);
@@ -325,14 +325,14 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testNoSettlement(false);
   });
 
   it("Partitioned Subscription: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testNoSettlement(false);
   });
 
@@ -354,8 +354,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testNoSettlement(false, true);
@@ -365,8 +365,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testNoSettlement(false, true);
@@ -376,8 +376,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testNoSettlement(false, true);
@@ -387,8 +387,8 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testNoSettlement(false, true);
@@ -443,12 +443,12 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   }
 
   it("Partitioned Queue: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.complete);
   });
 
   it("Partitioned Subscription: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.complete);
   });
 
@@ -466,8 +466,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 
   it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.complete, true);
@@ -477,8 +477,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.complete, true);
@@ -486,8 +486,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 
   it("Unpartitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.complete, true);
@@ -497,20 +497,20 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.complete, true);
   });
 
   it("Partitioned Queue: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.abandon);
   });
 
   it("Partitioned Subscription: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.abandon);
   });
 
@@ -528,8 +528,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 
   it("Partitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.abandon, true);
@@ -539,8 +539,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.abandon, true);
@@ -548,8 +548,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 
   it("Unpartitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.abandon, true);
@@ -559,20 +559,20 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.abandon, true);
   });
 
   it("Partitioned Queue: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.defer);
   });
 
   it("Partitioned Subscription: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.defer);
   });
 
@@ -590,8 +590,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 
   it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.defer, true);
@@ -601,8 +601,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.defer, true);
@@ -610,8 +610,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 
   it("Unpartitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.defer, true);
@@ -621,20 +621,20 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.defer, true);
   });
 
   it("Partitioned Queue: deadLetter() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.deadletter);
   });
 
   it("Partitioned Subscription: deadLetter() throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.deadletter);
   });
 
@@ -652,8 +652,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
 
   it("Partitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.deadletter, true);
@@ -663,8 +663,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.deadletter, true);
@@ -674,8 +674,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testSettlement(DispositionType.deadletter, true);
@@ -685,8 +685,8 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.deadletter, true);
@@ -701,12 +701,12 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   }
 
   it("Partitioned Queue: Renew message lock throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testRenewLock();
   });
 
   it("Partitioned Subscription: Renew message lock throws error", async function(): Promise<void> {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testRenewLock();
   });
 
@@ -759,14 +759,14 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueue,
-      ClientType.PartitionedQueue,
+      TestClientType.PartitionedQueue,
+      TestClientType.PartitionedQueue,
       undefined,
       ReceiveMode.peekLock
     );
     await deferMessage();
     await afterEachTest();
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await receiveDeferredMessage();
     await afterEachTest();
   });
@@ -775,14 +775,14 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopic,
-      ClientType.PartitionedSubscription,
+      TestClientType.PartitionedTopic,
+      TestClientType.PartitionedSubscription,
       undefined,
       ReceiveMode.peekLock
     );
     await deferMessage();
     await afterEachTest();
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await receiveDeferredMessage();
     await afterEachTest();
   }); */
@@ -791,14 +791,14 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueue,
-      ClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue,
       undefined,
       ReceiveMode.peekLock
     );
     await deferMessage();
     await afterEachTest();
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await receiveDeferredMessage();
     await afterEachTest();
   });
@@ -807,14 +807,17 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopic,
-      ClientType.UnpartitionedSubscription,
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription,
       undefined,
       ReceiveMode.peekLock
     );
     await deferMessage();
     await afterEachTest();
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await receiveDeferredMessage();
     await afterEachTest();
   });
@@ -823,16 +826,16 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true,
       ReceiveMode.peekLock
     );
     await deferMessage(true);
     await afterEachTest();
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await receiveDeferredMessage();
@@ -843,16 +846,16 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true,
       ReceiveMode.peekLock
     );
     await deferMessage(true);
     await afterEachTest();
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await receiveDeferredMessage();
@@ -863,16 +866,16 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true,
       ReceiveMode.peekLock
     );
     await deferMessage(true);
     await afterEachTest();
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await receiveDeferredMessage();
@@ -883,16 +886,16 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true,
       ReceiveMode.peekLock
     );
     await deferMessage(true);
     await afterEachTest();
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await receiveDeferredMessage();
