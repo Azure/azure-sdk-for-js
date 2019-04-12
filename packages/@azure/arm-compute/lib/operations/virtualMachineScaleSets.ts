@@ -354,7 +354,9 @@ export class VirtualMachineScaleSets {
   }
 
   /**
-   * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+   * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which
+   * don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual
+   * machine is reset to initial state.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
@@ -417,6 +419,42 @@ export class VirtualMachineScaleSets {
       },
       forceRecoveryServiceFabricPlatformUpdateDomainWalkOperationSpec,
       callback) as Promise<Models.VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse>;
+  }
+
+  /**
+   * Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the virtual machine scale set to create or update.
+   * @param parameters The input object for ConvertToSinglePlacementGroup API.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the virtual machine scale set to create or update.
+   * @param parameters The input object for ConvertToSinglePlacementGroup API.
+   * @param callback The callback
+   */
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the virtual machine scale set to create or update.
+   * @param parameters The input object for ConvertToSinglePlacementGroup API.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  convertToSinglePlacementGroup(resourceGroupName: string, vmScaleSetName: string, parameters: Models.VMScaleSetConvertToSinglePlacementGroupInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmScaleSetName,
+        parameters,
+        options
+      },
+      convertToSinglePlacementGroupOperationSpec,
+      callback);
   }
 
   /**
@@ -633,7 +671,9 @@ export class VirtualMachineScaleSets {
   }
 
   /**
-   * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+   * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which
+   * don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual
+   * machine is reset to initial state.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
@@ -960,6 +1000,33 @@ const forceRecoveryServiceFabricPlatformUpdateDomainWalkOperationSpec: msRest.Op
   serializer
 };
 
+const convertToSinglePlacementGroupOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/convertToSinglePlacementGroup",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.VMScaleSetConvertToSinglePlacementGroupInput,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
@@ -1123,6 +1190,7 @@ const beginPowerOffOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.skipShutdown,
     Parameters.apiVersion0
   ],
   headerParameters: [
