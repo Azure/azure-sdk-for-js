@@ -7,7 +7,7 @@ import { MessageSender } from "./core/messageSender";
 import { ManagementClient, ManagementClientOptions } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
 import { Dictionary, AmqpError } from "rhea-promise";
-import { Client } from "./client";
+import { Client, ClientType } from "./client";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
@@ -74,6 +74,11 @@ export interface ClientEntityContextBase {
    * receiving messages from multiple message sessions.
    */
   sessionManager?: SessionManager;
+
+  /**
+   * @property {ClientType} [clientType] Type of the client, used mostly for logging
+   */
+  clientType: ClientType;
 }
 
 /**
@@ -103,6 +108,7 @@ export namespace ClientEntityContext {
    */
   export function create(
     entityPath: string,
+    clientType: ClientType,
     context: ConnectionContext,
     options?: ClientEntityContextOptions
   ): ClientEntityContext {
@@ -110,6 +116,7 @@ export namespace ClientEntityContext {
     const entityContext: ClientEntityContextBase = {
       namespace: context,
       entityPath: entityPath,
+      clientType: clientType,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
       isSessionEnabled: !!options.isSessionEnabled,
       messageSessions: {},
