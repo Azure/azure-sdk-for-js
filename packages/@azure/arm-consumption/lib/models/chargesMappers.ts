@@ -9,14 +9,14 @@
  */
 
 export {
-  ChargesListResult,
   ChargeSummary,
   Resource,
   BaseResource,
   ErrorResponse,
   ErrorDetails,
   UsageDetail,
-  MeterDetails,
+  MeterDetailsResponse,
+  UsageDetailsDownloadResponse,
   Marketplace,
   Balance,
   BalancePropertiesNewPurchasesDetailsItem,
@@ -25,6 +25,7 @@ export {
   ReservationDetail,
   PriceSheetResult,
   PriceSheetProperties,
+  MeterDetails,
   Forecast,
   ForecastPropertiesConfidenceLevelsItem,
   ManagementGroupAggregatedCostResult,
