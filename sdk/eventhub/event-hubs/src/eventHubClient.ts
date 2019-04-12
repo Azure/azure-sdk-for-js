@@ -21,7 +21,7 @@ import { IotHubClient } from "./iothub/iothubClient";
 
 /**
  * Describes the required shape of WebSocket constructors.
- * @interface WebSocketImpl<T>
+ * @interface WebSocketImpl
  */
 export interface WebSocketImpl<T> {
   new(url: string, protocols?: string | string[], options?: T): WebSocketInstance;
@@ -99,18 +99,18 @@ export interface ClientOptions extends ClientOptionsBase {
 
 /**
  * Describes the options that can be provided while creating the EventHub Client.
- * @interface EventHubClientOptions<T>
+ * @interface EventHubClientOptions
  */
 export interface EventHubClientOptions<T> extends ClientOptions {
    /**
-    * @property {WebSocketImpl<T>} [webSocket] - The WebSocket constructor used to create an AMQP connection
+    * @property {WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
     * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
     * TCP socket will be used if a WebSocket constructor is not provided.
     */
      webSocket?: WebSocketImpl<T>;
 
   /***
-     * @property {T} {webSocketConstructorOptions} - Options to be passed to the function returned by
+     * @property {webSocketConstructorOptions} - Options to be passed to the function returned by
      * rhea.websocket_connect()
      */
     webSocketConstructorOptions?: T;
@@ -331,11 +331,11 @@ export class EventHubClient {
     }
     const config = EventHubConnectionConfig.create(connectionString, path);
     if (options && options.webSocket) {
-      config.webSocket = options.webSocket;
-      config.webSocketEndpointPath = "$servicebus/websocket";
-      if (options.webSocketConstructorOptions){
-      config.webSocketConstructorOptions = options.webSocketConstructorOptions;
-      }
+       config.webSocket = options.webSocket;
+       config.webSocketEndpointPath = "$servicebus/websocket";
+       if (options.webSocketConstructorOptions){
+           config.webSocketConstructorOptions = options.webSocketConstructorOptions;
+        }
     }
     if (!config.entityPath) {
       throw new Error(`Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
