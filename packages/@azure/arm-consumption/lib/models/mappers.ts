@@ -87,6 +87,51 @@ export const MeterDetails: msRest.CompositeMapper = {
   }
 };
 
+export const MeterDetailsResponse: msRest.CompositeMapper = {
+  serializedName: "MeterDetailsResponse",
+  type: {
+    name: "Composite",
+    className: "MeterDetailsResponse",
+    modelProperties: {
+      meterName: {
+        readOnly: true,
+        serializedName: "meterName",
+        type: {
+          name: "String"
+        }
+      },
+      meterCategory: {
+        readOnly: true,
+        serializedName: "meterCategory",
+        type: {
+          name: "String"
+        }
+      },
+      meterSubCategory: {
+        readOnly: true,
+        serializedName: "meterSubCategory",
+        type: {
+          name: "String"
+        }
+      },
+      unitOfMeasure: {
+        readOnly: true,
+        serializedName: "unitOfMeasure",
+        type: {
+          name: "String"
+        }
+      },
+      serviceFamily: {
+        readOnly: true,
+        serializedName: "serviceFamily",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -137,88 +182,95 @@ export const UsageDetail: msRest.CompositeMapper = {
     className: "UsageDetail",
     modelProperties: {
       ...Resource.type.modelProperties,
-      billingPeriodId: {
+      billingAccountId: {
         readOnly: true,
-        serializedName: "properties.billingPeriodId",
+        serializedName: "properties.billingAccountId",
         type: {
           name: "String"
         }
       },
-      invoiceId: {
+      billingAccountName: {
         readOnly: true,
-        serializedName: "properties.invoiceId",
+        serializedName: "properties.billingAccountName",
         type: {
           name: "String"
         }
       },
-      usageStart: {
+      billingPeriodStartDate: {
         readOnly: true,
-        serializedName: "properties.usageStart",
+        serializedName: "properties.billingPeriodStartDate",
         type: {
           name: "DateTime"
         }
       },
-      usageEnd: {
+      billingPeriodEndDate: {
         readOnly: true,
-        serializedName: "properties.usageEnd",
+        serializedName: "properties.billingPeriodEndDate",
         type: {
           name: "DateTime"
         }
       },
-      instanceName: {
+      billingProfileId: {
         readOnly: true,
-        serializedName: "properties.instanceName",
+        serializedName: "properties.billingProfileId",
         type: {
           name: "String"
         }
       },
-      instanceId: {
+      billingProfileName: {
         readOnly: true,
-        serializedName: "properties.instanceId",
+        serializedName: "properties.billingProfileName",
         type: {
           name: "String"
         }
       },
-      instanceLocation: {
+      accountOwnerId: {
         readOnly: true,
-        serializedName: "properties.instanceLocation",
+        serializedName: "properties.accountOwnerId",
         type: {
           name: "String"
         }
       },
-      currency: {
+      accountName: {
         readOnly: true,
-        serializedName: "properties.currency",
+        serializedName: "properties.accountName",
         type: {
           name: "String"
         }
       },
-      usageQuantity: {
+      subscriptionId: {
         readOnly: true,
-        serializedName: "properties.usageQuantity",
+        serializedName: "properties.subscriptionId",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      billableQuantity: {
+      subscriptionName: {
         readOnly: true,
-        serializedName: "properties.billableQuantity",
+        serializedName: "properties.subscriptionName",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      pretaxCost: {
+      date: {
         readOnly: true,
-        serializedName: "properties.pretaxCost",
+        serializedName: "properties.date",
         type: {
-          name: "Number"
+          name: "DateTime"
         }
       },
-      isEstimated: {
+      product: {
         readOnly: true,
-        serializedName: "properties.isEstimated",
+        serializedName: "properties.product",
         type: {
-          name: "Boolean"
+          name: "String"
+        }
+      },
+      partNumber: {
+        readOnly: true,
+        serializedName: "properties.partNumber",
+        type: {
+          name: "String"
         }
       },
       meterId: {
@@ -233,40 +285,47 @@ export const UsageDetail: msRest.CompositeMapper = {
         serializedName: "properties.meterDetails",
         type: {
           name: "Composite",
-          className: "MeterDetails"
+          className: "MeterDetailsResponse"
         }
       },
-      subscriptionGuid: {
+      quantity: {
         readOnly: true,
-        serializedName: "properties.subscriptionGuid",
+        serializedName: "properties.quantity",
         type: {
-          name: "Uuid"
+          name: "Number"
         }
       },
-      subscriptionName: {
+      effectivePrice: {
         readOnly: true,
-        serializedName: "properties.subscriptionName",
+        serializedName: "properties.effectivePrice",
+        type: {
+          name: "Number"
+        }
+      },
+      cost: {
+        readOnly: true,
+        serializedName: "properties.cost",
+        type: {
+          name: "Number"
+        }
+      },
+      unitPrice: {
+        readOnly: true,
+        serializedName: "properties.unitPrice",
+        type: {
+          name: "Number"
+        }
+      },
+      billingCurrency: {
+        readOnly: true,
+        serializedName: "properties.billingCurrency",
         type: {
           name: "String"
         }
       },
-      accountName: {
+      resourceLocation: {
         readOnly: true,
-        serializedName: "properties.accountName",
-        type: {
-          name: "String"
-        }
-      },
-      departmentName: {
-        readOnly: true,
-        serializedName: "properties.departmentName",
-        type: {
-          name: "String"
-        }
-      },
-      product: {
-        readOnly: true,
-        serializedName: "properties.product",
+        serializedName: "properties.resourceLocation",
         type: {
           name: "String"
         }
@@ -278,6 +337,48 @@ export const UsageDetail: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      resourceId: {
+        readOnly: true,
+        serializedName: "properties.resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceName: {
+        readOnly: true,
+        serializedName: "properties.resourceName",
+        type: {
+          name: "String"
+        }
+      },
+      serviceInfo1: {
+        readOnly: true,
+        serializedName: "properties.serviceInfo1",
+        type: {
+          name: "String"
+        }
+      },
+      serviceInfo2: {
+        readOnly: true,
+        serializedName: "properties.serviceInfo2",
+        type: {
+          name: "String"
+        }
+      },
+      additionalInfo: {
+        readOnly: true,
+        serializedName: "properties.additionalInfo",
+        type: {
+          name: "String"
+        }
+      },
+      invoiceSection: {
+        readOnly: true,
+        serializedName: "properties.invoiceSection",
+        type: {
+          name: "String"
+        }
+      },
       costCenter: {
         readOnly: true,
         serializedName: "properties.costCenter",
@@ -285,16 +386,37 @@ export const UsageDetail: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      partNumber: {
+      resourceGroup: {
         readOnly: true,
-        serializedName: "properties.partNumber",
+        serializedName: "properties.resourceGroup",
         type: {
           name: "String"
         }
       },
-      resourceGuid: {
+      reservationId: {
         readOnly: true,
-        serializedName: "properties.resourceGuid",
+        serializedName: "properties.reservationId",
+        type: {
+          name: "String"
+        }
+      },
+      reservationName: {
+        readOnly: true,
+        serializedName: "properties.reservationName",
+        type: {
+          name: "String"
+        }
+      },
+      productOrderId: {
+        readOnly: true,
+        serializedName: "properties.productOrderId",
+        type: {
+          name: "String"
+        }
+      },
+      productOrderName: {
+        readOnly: true,
+        serializedName: "properties.productOrderName",
         type: {
           name: "String"
         }
@@ -306,23 +428,90 @@ export const UsageDetail: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      chargesBilledSeparately: {
+      isAzureCreditEligible: {
         readOnly: true,
-        serializedName: "properties.chargesBilledSeparately",
+        serializedName: "properties.isAzureCreditEligible",
         type: {
           name: "Boolean"
         }
       },
-      location: {
+      term: {
         readOnly: true,
-        serializedName: "properties.location",
+        serializedName: "properties.term",
         type: {
           name: "String"
         }
       },
-      additionalProperties: {
+      publisherName: {
         readOnly: true,
-        serializedName: "properties.additionalProperties",
+        serializedName: "properties.publisherName",
+        type: {
+          name: "String"
+        }
+      },
+      publisherType: {
+        readOnly: true,
+        serializedName: "properties.publisherType",
+        type: {
+          name: "String"
+        }
+      },
+      planName: {
+        readOnly: true,
+        serializedName: "properties.planName",
+        type: {
+          name: "String"
+        }
+      },
+      isAmortizedCost: {
+        readOnly: true,
+        serializedName: "properties.isAmortizedCost",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isActualCost: {
+        readOnly: true,
+        serializedName: "properties.isActualCost",
+        type: {
+          name: "Boolean"
+        }
+      },
+      chargeType: {
+        readOnly: true,
+        serializedName: "properties.chargeType",
+        type: {
+          name: "String"
+        }
+      },
+      frequency: {
+        readOnly: true,
+        serializedName: "properties.frequency",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UsageDetailsDownloadResponse: msRest.CompositeMapper = {
+  serializedName: "UsageDetailsDownloadResponse",
+  type: {
+    name: "Composite",
+    className: "UsageDetailsDownloadResponse",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      downloadUrl: {
+        readOnly: true,
+        serializedName: "properties.downloadUrl",
+        type: {
+          name: "String"
+        }
+      },
+      expiryTime: {
+        readOnly: true,
+        serializedName: "properties.expiryTime",
         type: {
           name: "String"
         }
@@ -1776,12 +1965,32 @@ export const ResourceAttributes: msRest.CompositeMapper = {
   }
 };
 
-export const QueryOptions: msRest.CompositeMapper = {
+export const UsageDetailsListDownloadHeaders: msRest.CompositeMapper = {
+  serializedName: "usagedetailslist-download-headers",
   type: {
     name: "Composite",
-    className: "QueryOptions",
+    className: "UsageDetailsListDownloadHeaders",
     modelProperties: {
-      apply: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      oDataEntityId: {
+        serializedName: "odata-entityid",
         type: {
           name: "String"
         }
@@ -1835,6 +2044,36 @@ export const MarketplacesListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Marketplace"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BudgetsListResult: msRest.CompositeMapper = {
+  serializedName: "BudgetsListResult",
+  type: {
+    name: "Composite",
+    className: "BudgetsListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Budget"
             }
           }
         }
@@ -1925,36 +2164,6 @@ export const ReservationRecommendationsListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ReservationRecommendation"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BudgetsListResult: msRest.CompositeMapper = {
-  serializedName: "BudgetsListResult",
-  type: {
-    name: "Composite",
-    className: "BudgetsListResult",
-    modelProperties: {
-      value: {
-        readOnly: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Budget"
             }
           }
         }
