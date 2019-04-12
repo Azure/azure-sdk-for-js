@@ -29,7 +29,7 @@
     "stream": "stream-browserify"
   },
   "peerDependencies": {
-    "rhea-promise": "^0.1.14"
+    "rhea-promise": "^0.1.15"
   },
   "devDependencies": {
     "@types/async-lock": "^1.1.0",
@@ -52,7 +52,7 @@
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^13.3.0",
-    "rhea-promise": "^0.1.14",
+    "rhea-promise": "^0.1.15",
     "rimraf": "^2.6.2",
     "rollup": "^1.1.2",
     "rollup-plugin-commonjs": "^9.2.0",

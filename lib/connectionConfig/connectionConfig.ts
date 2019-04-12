@@ -2,26 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
-
-/**
- * Describes the required shape of WebSocket instances.
- * @interface WebSocketInstance
- */
-export interface WebSocketInstance {
-  send: Function;
-  onmessage: Function | null;
-  onopen: Function | null;
-  onclose: Function | null;
-  onerror: Function | null;
-}
-
-/**
- * Describes the required shape of WebSocket constructors.
- * @interface WebSocketImpl
- */
-export interface WebSocketImpl {
-  new(url: string, protocols?: string | string[]): WebSocketInstance;
-}
+import { WebSocketImpl } from "rhea-promise";
 
 /**
  * Describes the options that can be provided while creating a connection config.
@@ -80,6 +61,11 @@ export interface ConnectionConfig {
    * connection over WebSockets.
    */
   webSocketEndpointPath?: string;
+
+  /**
+   * @property {any} [webSocketConstructorOptions] - Options to be passed to the WebSocket constructor
+   */
+  webSocketConstructorOptions?: any;
 }
 
 /**
