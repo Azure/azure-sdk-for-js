@@ -343,12 +343,12 @@ export class SessionReceiver {
   }
 
   /**
-   * Renews the lock on the session to extend by the lock duration value as set on Service Bus entity.
+   * Renews the lock on the session for the duration as specified during the Queue/Subscription
+   * creation. Check the `lockedUntilUtc` property on the Service Bus entity client for the time when the lock expires.
    *
-   * When the lock on the session expires
-   * - no more messages can be received using this receiver
-   * - messages already received but not settled will land back in the Queue/Subscription for the
-   * next receiver to receive
+   * If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   * before the session lock expires, then the message lands back in the Queue/Subscription for the next
+   * receive operation.
    *
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
