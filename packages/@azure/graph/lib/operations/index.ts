@@ -10,10 +10,11 @@
 
 export * from "./signedInUser";
 export * from "./applications";
+export * from "./applicationOperations";
 export * from "./deletedApplications";
 export * from "./groups";
 export * from "./servicePrincipals";
 export * from "./users";
 export * from "./objects";
 export * from "./domains";
-export * from "./oAuth2";
+export * from "./oAuth2PermissionGrantOperations";

@@ -19,13 +19,14 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
   // Operation groups
   signedInUser: operations.SignedInUser;
   applications: operations.Applications;
+  application: operations.ApplicationOperations;
   deletedApplications: operations.DeletedApplications;
   groups: operations.Groups;
   servicePrincipals: operations.ServicePrincipals;
   users: operations.Users;
   objects: operations.Objects;
   domains: operations.Domains;
-  oAuth2: operations.OAuth2;
+  oAuth2PermissionGrant: operations.OAuth2PermissionGrantOperations;
 
   /**
    * Initializes a new instance of the GraphRbacManagementClient class.
@@ -37,13 +38,14 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
     super(credentials, tenantID, options);
     this.signedInUser = new operations.SignedInUser(this);
     this.applications = new operations.Applications(this);
+    this.application = new operations.ApplicationOperations(this);
     this.deletedApplications = new operations.DeletedApplications(this);
     this.groups = new operations.Groups(this);
     this.servicePrincipals = new operations.ServicePrincipals(this);
     this.users = new operations.Users(this);
     this.objects = new operations.Objects(this);
     this.domains = new operations.Domains(this);
-    this.oAuth2 = new operations.OAuth2(this);
+    this.oAuth2PermissionGrant = new operations.OAuth2PermissionGrantOperations(this);
   }
 }
 
