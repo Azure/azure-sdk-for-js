@@ -16,7 +16,7 @@ import {
   CorrelationFilter,
   ReceiveMode
 } from "../src";
-import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
+import { getSenderReceiverClients, TestClientType, purge, checkWithTimeout } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
@@ -43,7 +43,7 @@ let ns: ServiceBusClient;
 let subscriptionClient: SubscriptionClient;
 let topicClient: TopicClient;
 
-async function beforeEachTest(receiverType: ClientType): Promise<void> {
+async function beforeEachTest(receiverType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -55,7 +55,7 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
 
   ns = ServiceBusClient.createFromConnectionString(process.env.SERVICEBUS_CONNECTION_STRING);
 
-  const clients = await getSenderReceiverClients(ns, ClientType.TopicFilterTestTopic, receiverType);
+  const clients = await getSenderReceiverClients(ns, TestClientType.TopicFilterTestTopic, receiverType);
   topicClient = clients.senderClient as TopicClient;
   subscriptionClient = clients.receiverClient as SubscriptionClient;
 
@@ -64,7 +64,7 @@ async function beforeEachTest(receiverType: ClientType): Promise<void> {
   if (peekedSubscriptionMsg.length) {
     chai.assert.fail("Please use an empty Subscription for integration testing");
   }
-  if (receiverType === ClientType.TopicFilterTestSubscription) {
+  if (receiverType === TestClientType.TopicFilterTestSubscription) {
     await removeAllRules(subscriptionClient);
   }
 }
@@ -172,7 +172,7 @@ async function addRules(
 
 describe("addRule()", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -317,7 +317,7 @@ describe("addRule()", function(): void {
 
 describe("removeRule()", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -362,7 +362,7 @@ describe("removeRule()", function(): void {
 
 describe("getRules()", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -437,7 +437,7 @@ describe("getRules()", function(): void {
 
 describe("Default Rule - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestDefaultSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestDefaultSubscription);
   });
 
   afterEach(async () => {
@@ -462,7 +462,7 @@ describe("Default Rule - Send/Receive", function(): void {
 
 describe("Boolean Filter - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -495,7 +495,7 @@ describe("Boolean Filter - Send/Receive", function(): void {
 
 describe("Sql Filter - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {
@@ -583,7 +583,7 @@ describe("Sql Filter - Send/Receive", function(): void {
 
 describe("Correlation Filter - Send/Receive", function(): void {
   beforeEach(async () => {
-    await beforeEachTest(ClientType.TopicFilterTestSubscription);
+    await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
 
   afterEach(async () => {

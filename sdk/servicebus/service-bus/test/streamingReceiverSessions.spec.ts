@@ -2,31 +2,30 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
+import {
+  delay,
+  QueueClient,
+  ServiceBusClient,
+  ServiceBusMessage,
+  SubscriptionClient,
+  TopicClient
+} from "../src";
+import { SessionReceiver } from "../src/receiver";
+import { Sender } from "../src/sender";
+import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";
+import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
+import {
+  checkWithTimeout,
+  TestClientType,
+  getSenderReceiverClients,
+  purge,
+  TestMessage
+} from "./testUtils";
+const should = chai.should();
 dotenv.config();
 chai.use(chaiAsPromised);
-import {
-  ServiceBusClient,
-  QueueClient,
-  ServiceBusMessage,
-  TopicClient,
-  SubscriptionClient,
-  delay
-} from "../src";
-
-import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";
-
-import {
-  TestMessage,
-  getSenderReceiverClients,
-  ClientType,
-  purge,
-  checkWithTimeout
-} from "./testUtils";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receiver";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -57,8 +56,8 @@ function unExpectedErrorHandler(err: Error): void {
 }
 
 async function beforeEachTest(
-  senderType: ClientType,
-  receiverType: ClientType,
+  senderType: TestClientType,
+  receiverType: TestClientType,
   receiveMode?: ReceiveMode
 ): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
@@ -150,8 +149,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testAutoComplete();
   });
@@ -160,8 +159,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testAutoComplete();
   });
@@ -170,8 +169,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testAutoComplete();
   });
@@ -180,8 +179,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testAutoComplete();
   });
@@ -218,8 +217,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testManualComplete();
   });
@@ -228,8 +227,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testManualComplete();
   });
@@ -238,8 +237,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testManualComplete();
   });
@@ -248,8 +247,8 @@ describe("Sessions Streaming - Misc Tests", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testManualComplete();
   });
@@ -289,8 +288,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testComplete(false);
   });
@@ -299,8 +298,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testComplete(false);
   });
@@ -309,8 +308,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testComplete(false);
   });
@@ -319,8 +318,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testComplete(false);
   });
@@ -329,8 +328,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testComplete(true);
   });
@@ -339,8 +338,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testComplete(true);
   });
@@ -349,8 +348,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testComplete(true);
   });
@@ -359,8 +358,8 @@ describe("Sessions Streaming - Complete message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testComplete(true);
   });
@@ -415,8 +414,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testAbandon(false);
   });
@@ -425,8 +424,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testAbandon(false);
   });
@@ -435,8 +434,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testAbandon(false);
   });
@@ -445,8 +444,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testAbandon(false);
   });
@@ -455,8 +454,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testAbandon(true);
   });
@@ -465,8 +464,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testAbandon(true);
   });
@@ -475,8 +474,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testAbandon(true);
   });
@@ -485,8 +484,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testAbandon(true);
   });
@@ -541,8 +540,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDefer(false);
   });
@@ -551,8 +550,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDefer(false);
   });
@@ -561,8 +560,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDefer(false);
   });
@@ -571,8 +570,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDefer(false);
   });
@@ -581,8 +580,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDefer(true);
   });
@@ -591,8 +590,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDefer(true);
   });
@@ -601,8 +600,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDefer(true);
   });
@@ -611,8 +610,8 @@ describe("Sessions Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDefer(true);
   });
@@ -663,8 +662,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDeadletter(false);
   });
@@ -673,8 +672,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDeadletter(false);
   });
@@ -683,8 +682,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDeadletter(false);
   });
@@ -693,8 +692,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDeadletter(false);
   });
@@ -703,8 +702,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testDeadletter(true);
   });
@@ -713,8 +712,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testDeadletter(true);
   });
@@ -723,8 +722,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testDeadletter(true);
   });
@@ -733,8 +732,8 @@ describe("Sessions Streaming - Deadletter message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testDeadletter(true);
   });
@@ -747,9 +746,10 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
 
   async function testMultipleReceiveCalls(): Promise<void> {
     let errorMessage;
-    const expectedErrorMessage = `The receiver for session "${TestMessage.sessionId}" in "${
-      receiverClient.entityPath
-    }" is already receiving messages.`;
+    const expectedErrorMessage = getAlreadyReceivingErrorMsg(
+      receiverClient.entityPath,
+      TestMessage.sessionId
+    );
     sessionReceiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
@@ -785,8 +785,8 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testMultipleReceiveCalls();
   });
@@ -795,8 +795,8 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testMultipleReceiveCalls();
   });
@@ -805,8 +805,8 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testMultipleReceiveCalls();
   });
@@ -815,8 +815,8 @@ describe("Sessions Streaming - Multiple Receive Operations", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testMultipleReceiveCalls();
   });
@@ -883,8 +883,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
 
   it("Partitioned Queue: complete() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
@@ -893,8 +893,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
@@ -903,8 +903,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
@@ -913,16 +913,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.complete);
   });
 
   it("Partitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
@@ -931,16 +931,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
 
   it("UnPartitioned Queue: abandon() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
@@ -949,16 +949,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.abandon);
   });
 
   it("Partitioned Queue: defer() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
@@ -967,16 +967,16 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
 
   it("UnPartitioned Queue: defer() throws error(with sessions)", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
@@ -985,8 +985,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.defer);
   });
@@ -995,8 +995,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -1005,8 +1005,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -1015,8 +1015,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -1025,8 +1025,8 @@ describe("Sessions Streaming - Settle an already Settled message throws error", 
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testSettlement(DispositionType.deadletter);
   });
@@ -1067,8 +1067,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testUserError();
   });
@@ -1077,8 +1077,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testUserError();
   });
@@ -1087,8 +1087,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testUserError();
   });
@@ -1097,8 +1097,8 @@ describe("Sessions Streaming - User Error", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testUserError();
   });
@@ -1162,8 +1162,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1172,8 +1172,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1182,8 +1182,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1192,8 +1192,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1202,8 +1202,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1212,8 +1212,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testConcurrency();
   });
@@ -1222,8 +1222,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testConcurrency();
   });
@@ -1232,8 +1232,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testConcurrency(1);
   });
@@ -1242,8 +1242,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testConcurrency(2);
   });
@@ -1252,8 +1252,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testConcurrency();
   });
@@ -1262,8 +1262,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testConcurrency(1);
   });
@@ -1272,8 +1272,8 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testConcurrency(2);
   });
@@ -1326,8 +1326,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await testReceiveMessages();
   });
@@ -1336,8 +1336,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await testReceiveMessages();
   });
@@ -1346,8 +1346,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await testReceiveMessages();
   });
@@ -1356,8 +1356,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await testReceiveMessages();
   });
@@ -1366,8 +1366,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       ReceiveMode.receiveAndDelete
     );
     await testReceiveMessages();
@@ -1377,8 +1377,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       ReceiveMode.receiveAndDelete
     );
     await testReceiveMessages();
@@ -1388,8 +1388,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       ReceiveMode.receiveAndDelete
     );
     await testReceiveMessages();
@@ -1399,8 +1399,8 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       ReceiveMode.receiveAndDelete
     );
     await testReceiveMessages();
