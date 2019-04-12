@@ -26,7 +26,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-policy",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/policy/arm-policy",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -43,7 +43,7 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "lib/**/*.ts",
+    "src/**/*.ts",
     "README.md",
     "rollup.config.js",
     "tsconfig.json"
