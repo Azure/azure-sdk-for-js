@@ -30,6 +30,7 @@
         "variable-declaration": "onespace"
       }
     ],
+    "import-blacklist": [true, "rhea", ["rhea/.*"]],
     "prefer-const": true,
     "no-construct": true,
     "no-duplicate-variable": true,
@@ -45,28 +46,15 @@
     "no-var-keyword": true,
     "no-floating-promises": true,
     "no-return-await": true,
-    "triple-equals": [
-      true,
-      "allow-null-check",
-      "allow-undefined-check"
-    ],
+    "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
     "use-isnan": true,
     "eofline": true,
-    "indent": [
-      true,
-      "spaces"
-    ],
+    "indent": [true, "spaces"],
     "no-trailing-whitespace": true,
     "arrow-parens": true,
     "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
-    "interface-name": [
-      true,
-      "never-prefix"
-    ],
+    "comment-format": [true, "check-space"],
+    "interface-name": [true, "never-prefix"],
     "jsdoc-format": true,
     "new-parens": true,
     "one-line": [
@@ -76,18 +64,9 @@
       "check-else",
       "check-open-brace"
     ],
-    "one-variable-per-declaration": [
-      true,
-      "ignore-for-loop"
-    ],
-    "semicolon": [
-      true,
-      "always"
-    ],
-    "curly": [
-      true,
-      "ignore-same-line"
-    ],
+    "one-variable-per-declaration": [true, "ignore-for-loop"],
+    "semicolon": [true, "always"],
+    "curly": [true, "ignore-same-line"],
     "variable-name": [
       true,
       "check-format",
