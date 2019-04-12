@@ -969,7 +969,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
     });
 
-    it.only("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
+    it("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
       void
     > {
       await beforeEachTest(
