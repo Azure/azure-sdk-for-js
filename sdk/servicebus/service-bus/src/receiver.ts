@@ -370,7 +370,7 @@ export class SessionReceiver {
 
   /**
    * Renews the lock on the session for the duration as specified during the Queue/Subscription
-   * creation. Check the `lockedUntilUtc` property on the Service Bus entity client for the time when the lock expires.
+   * creation. Check the `sessionLockedUntilUtc` property on the SessionReceiver for the time when the lock expires.
    *
    * When the lock on the session expires
    * - No more messages can be received using this receiver
