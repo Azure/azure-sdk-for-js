@@ -1,3 +1,3 @@
 let nock = require('nock');
 
-const testInfo = {"queueName":"queue155510368472808619"}
+module.exports.testInfo = {"queueName":"queue155510753488701305"}

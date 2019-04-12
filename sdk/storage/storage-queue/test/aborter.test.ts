@@ -18,14 +18,14 @@ describe("Aborter", function() {
 
   beforeEach(async () => {
     recorder = record(testSuiteTitle, this.ctx.currentTest!.title);
-    recorder.before();
+    uniqueTestInfo = recorder.before();
     if (process.env.TEST_MODE === "record") {
       queueName = getUniqueName("queue");
-      queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
       uniqueTestInfo.queueName = queueName;
     } else if (process.env.TEST_MODE === "playback") {
       queueName = uniqueTestInfo.queueName;
     }
+    queueURL = QueueURL.fromServiceURL(serviceURL, queueName);
   });
 
   afterEach(async () => {
