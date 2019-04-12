@@ -12,7 +12,12 @@ import {
   SessionMessageHandlerOptions,
   SessionReceiverOptions
 } from "./session/messageSession";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import {
+  getAlreadyReceivingErrorMsg,
+  getOpenReceiverErrorMsg,
+  getReceiverClosedErrorMsg,
+  throwErrorIfConnectionClosed
+} from "./util/errors";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
@@ -143,8 +148,6 @@ export class Receiver {
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
-      this._throwIfReceiverOrConnectionClosed();
-      this._throwIfAlreadyReceiving();
       const currentBatch = await this.receiveMessages(1);
       yield currentBatch[0];
     }
@@ -261,22 +264,24 @@ export class Receiver {
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (
-      (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) ||
-      (this._context.batchingReceiver &&
-        this._context.batchingReceiver.isOpen() &&
-        this._context.batchingReceiver.isReceivingMessages)
-    ) {
-      throw new Error(
-        `The receiver for "${this._context.entityPath}" is already receiving messages.`
-      );
+    if (this.isReceivingMessages()) {
+      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath);
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      throw new Error("The receiver has been closed and can no longer be used.");
+      const errorMessage = getReceiverClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType
+      );
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
   }
 }
@@ -315,7 +320,9 @@ export class SessionReceiver {
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return (this._messageSession && this._messageSession.sessionId) || undefined;
+    return (
+      (this._messageSession && this._messageSession.sessionId) || this._sessionOptions.sessionId
+    );
   }
 
   /**
@@ -338,6 +345,25 @@ export class SessionReceiver {
     this._context = context;
     this._receiveMode = receiveMode;
     this._sessionOptions = sessionOptions;
+
+    if (sessionOptions.sessionId) {
+      sessionOptions.sessionId = sessionOptions.sessionId.toString();
+
+      // Check if receiver for given session already exists
+      if (
+        this._context.messageSessions[sessionOptions.sessionId] &&
+        this._context.messageSessions[sessionOptions.sessionId].isOpen()
+      ) {
+        const errorMessage = getOpenReceiverErrorMsg(
+          this._context.clientType,
+          this._context.entityPath,
+          sessionOptions.sessionId
+        );
+        const error = new Error(errorMessage);
+        log.error(`[${this._context.namespace.connectionId}] %O`, error);
+        throw error;
+      }
+    }
   }
 
   /**
@@ -561,8 +587,6 @@ export class SessionReceiver {
    */
   async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
     while (true) {
-      this._throwIfReceiverOrConnectionClosed();
-      this._throwIfAlreadyReceiving();
       const currentBatch = await this.receiveMessages(1);
       yield currentBatch[0];
     }
@@ -606,7 +630,14 @@ export class SessionReceiver {
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      throw new Error("The receiver has been closed and can no longer be used.");
+      const errorMessage = getReceiverClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType,
+        this.sessionId!
+      );
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
   }
 
@@ -621,18 +652,22 @@ export class SessionReceiver {
         .maxSessionAutoRenewLockDurationInSeconds,
       receiveMode: this._receiveMode
     });
-    if (this._messageSession.sessionId) {
-      delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+    // By this point, we should have a valid sessionId on the messageSession
+    // If not, the receiver cannot be used, so throw error.
+    if (!this._messageSession.sessionId) {
+      const error = new Error("Something went wrong. Cannot lock a session.");
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
+    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
   }
 
   private _throwIfAlreadyReceiving(): void {
     if (this.isReceivingMessages()) {
-      throw new Error(
-        `The receiver for session "${this.sessionId}" in "${
-          this._context.entityPath
-        }" is already receiving messages.`
-      );
+      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath, this.sessionId);
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
   }
 }

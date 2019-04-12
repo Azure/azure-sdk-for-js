@@ -5,7 +5,6 @@ import Long from "long";
 import * as log from "../log";
 import { generate_uuid } from "rhea-promise";
 import { isBuffer } from "util";
-import { ConnectionContext } from "../connectionContext";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -161,77 +160,4 @@ export function toBuffer(input: any): Buffer {
   }
   log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
-}
-
-/**
- * @internal
- * Throws InvalidOperationError if the current AMQP connection is closed.
- * @param context The ConnectionContext associated with the current AMQP connection.
- */
-export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
-  if (context && context.wasConnectionCloseCalled) {
-    throw new Error("The underlying AMQP connection is closed.");
-  }
-}
-
-/**
- * @internal
- * Logs and Throws TypeError if given parameter is undefined or null
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to check
- * @param parameterValue Value of the parameter to check
- */
-export function throwTypeErrorIfParameterMissing(
-  connectionId: string,
-  parameterName: string,
-  parameterValue: any
-): void {
-  if (parameterValue === undefined || parameterValue === null) {
-    const error = new TypeError(`Missing parameter "${parameterName}"`);
-    log.error(`[${connectionId}] %O`, error);
-    throw error;
-  }
-}
-
-/**
- * @internal
- * Logs and Throws TypeError if given parameter is not of expected type
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to type check
- * @param parameterValue Value of the parameter to type check
- * @param expectedType Expected type of the parameter
- */
-export function throwTypeErrorIfParameterTypeMismatch(
-  connectionId: string,
-  parameterName: string,
-  parameterValue: any,
-  expectedType: string
-): void {
-  if (typeof parameterValue !== expectedType) {
-    const error = new TypeError(
-      `The parameter "${parameterName}" should be of type "${expectedType}"`
-    );
-    log.error(`[${connectionId}] %O`, error);
-    throw error;
-  }
-}
-
-/**
- * @internal
- * Logs and Throws TypeError if given parameter is not of type `Long`
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param parameterName Name of the parameter to type check
- * @param parameterValue Value of the parameter to type check
- */
-export function throwTypeErrorIfParameterNotLong(
-  connectionId: string,
-  parameterName: string,
-  parameterValue: any
-): TypeError | undefined {
-  if (Long.isLong(parameterValue)) {
-    return;
-  }
-  const error = new TypeError(`The parameter "${parameterName}" should be of type "Long"`);
-  log.error(`[${connectionId}] %O`, error);
-  throw error;
 }

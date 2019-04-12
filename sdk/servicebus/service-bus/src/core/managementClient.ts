@@ -32,13 +32,13 @@ import {
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
 import { ReceiveMode } from "../serviceBusMessage";
+import { toBuffer } from "../util/utils";
 import {
-  toBuffer,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch
-} from "../util/utils";
+} from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 

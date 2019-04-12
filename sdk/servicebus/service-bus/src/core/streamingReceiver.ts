@@ -12,7 +12,7 @@ import {
 import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
-import { throwErrorIfConnectionClosed } from "../util/utils";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
  * Describes the options to control receiving of messages in streaming mode.
