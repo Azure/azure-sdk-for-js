@@ -16,13 +16,7 @@ import {
   CorrelationFilter,
   ReceiveMode
 } from "../src";
-import {
-  getSenderReceiverClients,
-  ClientType,
-  purge,
-  checkWithTimeout,
-  getTopicSubscriptionClients
-} from "./testUtils";
+import { getSenderReceiverClients, ClientType, purge, checkWithTimeout } from "./testUtils";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionClient): Promise<void> {
