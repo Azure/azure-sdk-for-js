@@ -5,9 +5,12 @@ import * as Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
-import { ScheduleMessage } from "./core/managementClient";
 import { ClientEntityContext } from "./clientEntityContext";
-import { getSenderClosedErrorMsg, throwErrorIfConnectionClosed } from "./util/errors";
+import {
+  getSenderClosedErrorMsg,
+  throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterMissing
+} from "./util/errors";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -86,10 +89,10 @@ export class Sender {
     message: SendableMessageInfo
   ): Promise<Long> {
     this._throwIfSenderOrConnectionClosed();
-    const scheduleMessages: ScheduleMessage[] = [
-      { message: message, scheduledEnqueueTimeUtc: scheduledEnqueueTimeUtc }
-    ];
-    const result = await this._context.managementClient!.scheduleMessages(scheduleMessages);
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
+    message.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
+    SendableMessageInfo.validate(message);
+    const result = await this._context.managementClient!.scheduleMessages([message]);
     return result[0];
   }
 
@@ -108,13 +111,15 @@ export class Sender {
     messages: SendableMessageInfo[]
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
-    const scheduleMessages: ScheduleMessage[] = messages.map((message) => {
-      return {
-        message,
-        scheduledEnqueueTimeUtc
-      };
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
+    if (!Array.isArray(messages)) {
+      messages = [messages];
+    }
+    messages.forEach((message) => {
+      message.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
+      SendableMessageInfo.validate(message);
     });
-    return this._context.managementClient!.scheduleMessages(scheduleMessages);
+    return this._context.managementClient!.scheduleMessages(messages);
   }
 
   /**

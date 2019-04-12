@@ -135,22 +135,6 @@ export interface PeekOptions {
 }
 
 /**
- * Provides information about the message to be scheduled.
- * @interface ScheduleMessage
- */
-export interface ScheduleMessage {
-  /**
-   * @property message - The message to be scheduled
-   */
-  message: SendableMessageInfo;
-  /**
-   * @property scheduledEnqueueTimeUtc - The UTC time at which the message should be available
-   * for processing.
-   */
-  scheduledEnqueueTimeUtc: Date;
-}
-
-/**
  * @internal
  * Options to set when updating the disposition status
  */
@@ -462,48 +446,27 @@ export class ManagementClient extends LinkEntity {
    * @param messages - An array of messages that needs to be scheduled.
    * @returns Promise<number> The sequence numbers of messages that were scheduled.
    */
-  async scheduleMessages(messages: ScheduleMessage[]): Promise<Long[]> {
+  async scheduleMessages(messages: SendableMessageInfo[]): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(messages)) {
-      throw new Error("'messages' is a required parameter of type 'Array'.");
-    }
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
-      if (typeof item.message !== "object") {
-        throw new Error("'message' is a required property and must be of type 'object'.");
-      }
-      if (!(item.scheduledEnqueueTimeUtc instanceof Date)) {
-        throw new Error(
-          "'scheduledEnqueueTimeUtc' is a required property and must be of type 'Date'."
-        );
-      }
-      const now = Date.now();
-      const enqueueTimeInMs = item.scheduledEnqueueTimeUtc.getTime();
-      if (enqueueTimeInMs < now) {
-        throw new Error(
-          `Cannot schedule messages in the past. Given scheduledEnqueueTimeUtc` +
-            `(${enqueueTimeInMs}) < current time (${now}).`
-        );
-      }
-      item.message.scheduledEnqueueTimeUtc = item.scheduledEnqueueTimeUtc;
-      if (!item.message.messageId) item.message.messageId = generate_uuid();
-      SendableMessageInfo.validate(item.message);
-      const amqpMessage = SendableMessageInfo.toAmqpMessage(item.message);
+      if (!item.messageId) item.messageId = generate_uuid();
+      const amqpMessage = SendableMessageInfo.toAmqpMessage(item);
 
       try {
         const entry: any = {
           message: RheaMessageUtil.encode(amqpMessage),
-          "message-id": item.message.messageId
+          "message-id": item.messageId
         };
-        if (item.message.sessionId) {
-          entry[Constants.sessionIdMapKey] = item.message.sessionId;
+        if (item.sessionId) {
+          entry[Constants.sessionIdMapKey] = item.sessionId;
         }
-        if (item.message.partitionKey) {
-          entry["partition-key"] = item.message.partitionKey;
+        if (item.partitionKey) {
+          entry["partition-key"] = item.partitionKey;
         }
-        if (item.message.viaPartitionKey) {
-          entry["via-partition-key"] = item.message.viaPartitionKey;
+        if (item.viaPartitionKey) {
+          entry["via-partition-key"] = item.viaPartitionKey;
         }
 
         const wrappedEntry = types.wrap_map(entry);
