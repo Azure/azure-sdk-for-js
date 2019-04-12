@@ -156,7 +156,7 @@ const createOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    202: {
+    201: {
       headersMapper: Mappers.VoiceModelCreateHeaders
     },
     400: {

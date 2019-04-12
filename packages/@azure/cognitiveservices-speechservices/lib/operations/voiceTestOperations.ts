@@ -187,7 +187,7 @@ const createOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    202: {
+    201: {
       headersMapper: Mappers.VoiceTestCreateHeaders
     },
     400: {

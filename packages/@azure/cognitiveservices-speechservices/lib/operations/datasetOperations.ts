@@ -266,7 +266,7 @@ const uploadOperationSpec: msRest.OperationSpec = {
   ],
   contentType: "multipart/form-data",
   responses: {
-    202: {
+    201: {
       headersMapper: Mappers.DatasetUploadHeaders
     },
     400: {

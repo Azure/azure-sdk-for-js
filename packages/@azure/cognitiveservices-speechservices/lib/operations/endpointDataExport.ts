@@ -139,7 +139,7 @@ const createOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    202: {
+    201: {
       bodyMapper: Mappers.ErrorContent,
       headersMapper: Mappers.EndpointDataExportCreateHeaders
     },

@@ -156,6 +156,9 @@ const createOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    204: {
+      headersMapper: Mappers.AccuracyTestCreateHeaders
+    },
     401: {
       bodyMapper: Mappers.ErrorContent,
       headersMapper: Mappers.AccuracyTestCreateHeaders
