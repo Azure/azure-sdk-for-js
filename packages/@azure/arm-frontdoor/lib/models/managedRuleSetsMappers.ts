@@ -10,10 +10,14 @@
 
 export {
   discriminators,
-  FrontDoorListResult,
-  FrontDoor,
+  ManagedRuleSetDefinitionList,
+  ManagedRuleSetDefinition,
   Resource,
   BaseResource,
+  ManagedRuleGroupDefinition,
+  ManagedRuleDefinition,
+  ErrorResponse,
+  FrontDoor,
   RoutingRule,
   SubResource,
   RouteConfiguration,
@@ -26,9 +30,6 @@ export {
   CustomHttpsConfiguration,
   KeyVaultCertificateSourceParametersVault,
   BackendPoolsSettings,
-  ErrorResponse,
-  ValidateCustomDomainInput,
-  ValidateCustomDomainOutput,
   ForwardingConfiguration,
   CacheConfiguration,
   RedirectConfiguration,
@@ -41,9 +42,6 @@ export {
   ManagedRuleSet,
   ManagedRuleGroupOverride,
   ManagedRuleOverride,
-  FrontendEndpointLink,
-  ManagedRuleSetDefinition,
-  ManagedRuleGroupDefinition,
-  ManagedRuleDefinition
+  FrontendEndpointLink
 } from "../models/mappers";
 
