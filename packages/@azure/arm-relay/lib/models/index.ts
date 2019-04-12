@@ -107,7 +107,7 @@ export interface HybridConnection extends Resource {
    */
   requiresClientAuthorization?: boolean;
   /**
-   * @member {string} [userMetadata] The usermetadata is a placeholder to store
+   * @member {string} [userMetadata] The userMetadata is a placeholder to store
    * user-defined string data for the hybrid connection endpoint. For example,
    * it can be used to store descriptive data, such as a list of teams and
    * their contact information. Also, user-defined configuration settings can
@@ -166,7 +166,7 @@ export interface WcfRelay extends Resource {
    */
   requiresTransportSecurity?: boolean;
   /**
-   * @member {string} [userMetadata] The usermetadata is a placeholder to store
+   * @member {string} [userMetadata] The userMetadata is a placeholder to store
    * user-defined string data for the WCF Relay endpoint. For example, it can
    * be used to store descriptive data, such as list of teams and their contact
    * information. Also, user-defined configuration settings can be stored.
@@ -333,7 +333,7 @@ export interface AccessKeys {
  * @interface
  * An interface representing RegenerateAccessKeyParameters.
  * Parameters supplied to the regenerate authorization rule operation,
- * specifies which key neeeds to be reset.
+ * specifies which key needs to be reset.
  *
  */
 export interface RegenerateAccessKeyParameters {
@@ -444,7 +444,7 @@ export interface Operation {
 /**
  * @interface
  * An interface representing ErrorResponse.
- * Error reponse indicates Relay service is not able to process the incoming
+ * Error response indicates Relay service is not able to process the incoming
  * request. The reason is provided in the error message.
  *
  */
