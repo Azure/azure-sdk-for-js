@@ -5,7 +5,7 @@ import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { Receiver, SessionReceiver } from "./receiver";
 import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client } from "./client";
+import { Client, ClientType } from "./client";
 import { CorrelationFilter, RuleDescription } from "./core/managementClient";
 import { SessionReceiverOptions } from "./session/messageSession";
 import {
@@ -72,7 +72,11 @@ export class SubscriptionClient implements Client {
 
     this.entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, "SubscriptionClient", context);
+    this._context = ClientEntityContext.create(
+      this.entityPath,
+      ClientType.SubscriptionClient,
+      context
+    );
 
     this.topicName = topicName;
     this.subscriptionName = subscriptionName;
@@ -199,7 +203,7 @@ export class SubscriptionClient implements Client {
         this._currentReceiver = new Receiver(this._context, receiveMode);
         return this._currentReceiver;
       }
-      const errorMessage = getOpenReceiverErrorMsg("SubscriptionClient", this.entityPath);
+      const errorMessage = getOpenReceiverErrorMsg(ClientType.SubscriptionClient, this.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;

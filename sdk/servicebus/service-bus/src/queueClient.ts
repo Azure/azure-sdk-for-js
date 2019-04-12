@@ -5,7 +5,7 @@ import * as Long from "long";
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client } from "./client";
+import { Client, ClientType } from "./client";
 import { SessionReceiverOptions } from "./session/messageSession";
 import { Sender } from "./sender";
 import { Receiver, SessionReceiver } from "./receiver";
@@ -58,7 +58,7 @@ export class QueueClient implements Client {
     throwErrorIfConnectionClosed(context);
     this.entityPath = name;
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, "QueueClient", context);
+    this._context = ClientEntityContext.create(this.entityPath, ClientType.QueueClient, context);
   }
 
   /**
@@ -204,7 +204,7 @@ export class QueueClient implements Client {
         this._currentReceiver = new Receiver(this._context, receiveMode);
         return this._currentReceiver;
       }
-      const errorMessage = getOpenReceiverErrorMsg("QueueClient", this.entityPath);
+      const errorMessage = getOpenReceiverErrorMsg(ClientType.QueueClient, this.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;

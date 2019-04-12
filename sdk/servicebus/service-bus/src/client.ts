@@ -29,4 +29,8 @@ export interface Client {
 /**
  * @internal
  */
-export type ClientType = "QueueClient" | "TopicClient" | "SubscriptionClient";
+export enum ClientType {
+  QueueClient = "QueueClient",
+  TopicClient = "TopicClient",
+  SubscriptionClient = "SubscriptionClient"
+}

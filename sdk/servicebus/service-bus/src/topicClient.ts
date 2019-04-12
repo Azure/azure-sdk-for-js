@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { Client } from "./client";
+import { Client, ClientType } from "./client";
 import { Sender } from "./sender";
 import {
   getOpenSenderErrorMsg,
@@ -52,7 +52,7 @@ export class TopicClient implements Client {
     throwErrorIfConnectionClosed(context);
     this.entityPath = name;
     this.id = `${this.entityPath}/${generate_uuid()}`;
-    this._context = ClientEntityContext.create(this.entityPath, "TopicClient", context);
+    this._context = ClientEntityContext.create(this.entityPath, ClientType.TopicClient, context);
   }
 
   /**
