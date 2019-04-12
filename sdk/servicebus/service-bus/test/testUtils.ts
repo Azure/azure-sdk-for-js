@@ -31,7 +31,8 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      sessionId: TestMessage.sessionId
+      sessionId: TestMessage.sessionId,
+      partitionKey: "dummy"
     };
   }
 }

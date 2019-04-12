@@ -163,9 +163,6 @@ export class Receiver {
    */
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     return this._context.managementClient!.renewLock(lockTokenOrMessage);
   }
 
@@ -179,9 +176,6 @@ export class Receiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     return this._context.managementClient!.receiveDeferredMessage(
       sequenceNumber,
       this._receiveMode
@@ -198,9 +192,6 @@ export class Receiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode
@@ -436,9 +427,6 @@ export class SessionReceiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
     if (!this.sessionId) {
       await this._createMessageSessionIfDoesntExist();
@@ -460,9 +448,6 @@ export class SessionReceiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    if (this._receiveMode !== ReceiveMode.peekLock) {
-      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
-    }
     // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
     if (!this.sessionId) {
       await this._createMessageSessionIfDoesntExist();
