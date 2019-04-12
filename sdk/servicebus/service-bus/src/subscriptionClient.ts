@@ -250,9 +250,10 @@ export class SubscriptionClient implements Client {
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwErrorIfClientOrConnectionClosed();
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: maxMessageCount
-    });
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount
+    );
   }
 
   //#region topic-filters

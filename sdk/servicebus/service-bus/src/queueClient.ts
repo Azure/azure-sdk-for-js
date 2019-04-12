@@ -254,9 +254,10 @@ export class QueueClient implements Client {
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwErrorIfClientOrConnectionClosed();
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      messageCount: maxMessageCount
-    });
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount
+    );
   }
 
   // /**
