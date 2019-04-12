@@ -17,7 +17,7 @@ import {
   ReceiveMode
 } from "../src";
 
-import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
+import { TestMessage, getSenderReceiverClients, TestClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
 
@@ -42,8 +42,8 @@ let sender: Sender;
 let receiver: Receiver | SessionReceiver;
 
 async function beforeEachTest(
-  senderType: ClientType,
-  receiverType: ClientType,
+  senderType: TestClientType,
+  receiverType: TestClientType,
   useSessions?: boolean
 ): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
@@ -184,14 +184,14 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Partitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testAbandon();
   });
 
   it("Partitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testAbandon();
   });
 
@@ -199,8 +199,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testAbandon(true);
@@ -210,8 +210,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testAbandon(true);
@@ -220,14 +220,14 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Unpartitioned Queue: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testAbandon();
   });
 
   it("Unpartitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
     await testAbandon();
   });
 
@@ -235,8 +235,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testAbandon(true);
@@ -246,8 +246,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testAbandon(true);
@@ -267,14 +267,14 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Partitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testDefer();
   });
 
   it("Partitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testDefer();
   });
 
@@ -282,8 +282,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testDefer(true);
@@ -293,8 +293,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testDefer(true);
@@ -303,14 +303,14 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Unpartitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testDefer();
   });
 
   it("Unpartitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
     await testDefer();
   });
 
@@ -318,8 +318,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testDefer(true);
@@ -329,8 +329,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testDefer(true);
@@ -368,14 +368,14 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Partitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedQueue, ClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testDeadletter();
   });
 
   it("Partitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.PartitionedTopic, ClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
     await testDeadletter();
   });
 
@@ -383,8 +383,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions,
       true
     );
     await testDeadletter(true);
@@ -394,8 +394,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       true
     );
     await testDeadletter(true);
@@ -404,14 +404,14 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Unpartitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.UnpartitionedQueue, ClientType.UnpartitionedQueue);
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await testDeadletter();
   });
 
   it("Unpartitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(ClientType.UnpartitionedTopic, ClientType.UnpartitionedSubscription);
+    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
     await testDeadletter();
   });
 
@@ -419,8 +419,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions,
       true
     );
     await testDeadletter(true);
@@ -430,8 +430,8 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testDeadletter(true);

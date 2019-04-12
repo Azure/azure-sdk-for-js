@@ -13,7 +13,7 @@ import {
   OnAmqpEventAsPromise
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
-import { throwErrorIfConnectionClosed } from "../util/utils";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for

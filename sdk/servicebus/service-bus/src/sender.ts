@@ -7,7 +7,7 @@ import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
 import { ScheduleMessage } from "./core/managementClient";
 import { ClientEntityContext } from "./clientEntityContext";
-import { throwErrorIfConnectionClosed } from "./util/utils";
+import { getSenderClosedErrorMsg, throwErrorIfConnectionClosed } from "./util/errors";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -166,7 +166,13 @@ export class Sender {
   private _throwIfSenderOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
-      throw new Error("The sender has been closed and can no longer be used.");
+      const errorMessage = getSenderClosedErrorMsg(
+        this._context.entityPath,
+        this._context.clientType
+      );
+      const error = new Error(errorMessage);
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
     }
   }
 }
