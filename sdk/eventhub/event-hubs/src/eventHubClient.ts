@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-import { Delivery } from "rhea-promise";
+import { Delivery, WebSocketInstance } from "rhea-promise";
 import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
 } from "@azure/ms-rest-nodeauth";
 import {
-  MessagingError, DataTransformer, TokenProvider, EventHubConnectionConfig, AadTokenProvider
+  MessagingError, DataTransformer, TokenProvider, EventHubConnectionConfig, AadTokenProvider,
 } from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { EventData } from "./eventData";
@@ -18,6 +18,15 @@ import { EventHubSender } from "./eventHubSender";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { IotHubClient } from "./iothub/iothubClient";
+
+/**
+ * Describes the required shape of WebSocket constructors.
+ * @interface WebSocketImpl<T>
+ */
+export interface WebSocketImpl<T> {
+  new(url: string, protocols?: string | string[], options?: T): WebSocketInstance;
+}
+
 
 /**
  * Describes the options that one can set while receiving messages.
@@ -88,6 +97,24 @@ export interface ClientOptions extends ClientOptionsBase {
   tokenProvider?: TokenProvider;
 }
 
+/**
+ * Describes the options that can be provided while creating the EventHub Client.
+ * @interface EventHubClientOptions<T>
+ */
+export interface EventHubClientOptions<T> extends ClientOptions {
+   /**
+    * @property {WebSocketImpl<T>} [webSocket] - The WebSocket constructor used to create an AMQP connection
+    * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
+    * TCP socket will be used if a WebSocket constructor is not provided.
+    */
+     webSocket?: WebSocketImpl<T>;
+
+  /***
+     * @property {T} {webSocketConstructorOptions} - Options to be passed to the function returned by
+     * rhea.websocket_connect()
+     */
+    webSocketConstructorOptions?: T;
+}
 /**
  * @class EventHubClient
  * Describes the EventHub client.
@@ -295,15 +322,21 @@ export class EventHubClient {
    * Creates an EventHub Client from connection string.
    * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {string} [path] - EventHub path of the form 'my-event-hub-name'
-   * @param {ClientOptions} [options] Options that can be provided during client creation.
+   * @param {EventHubClientOptions} [options] Options that can be provided during client creation.
    * @returns {EventHubClient} - An instance of the eventhub client.
    */
-  static createFromConnectionString(connectionString: string, path?: string, options?: ClientOptions): EventHubClient {
+  static createFromConnectionString<T>(connectionString: string, path?: string, options?: EventHubClientOptions<T>): EventHubClient {
     if (!connectionString || (connectionString && typeof connectionString !== "string")) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const config = EventHubConnectionConfig.create(connectionString, path);
-
+    if (options && options.webSocket) {
+      config.webSocket = options.webSocket;
+      config.webSocketEndpointPath = "$servicebus/websocket";
+      if (options.webSocketConstructorOptions){
+      config.webSocketConstructorOptions = options.webSocketConstructorOptions;
+      }
+    }
     if (!config.entityPath) {
       throw new Error(`Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
         `you must provide "path", while creating the client`);
