@@ -320,7 +320,7 @@ export class SessionReceiver {
 
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
-   * This is defined only when the underlying messageSession has been created.
+   * This is defined only when the underlying AMQP receiver link has been created.
    * The value until which it would be locked until is 30 seconds.
    * @readonly
    */
