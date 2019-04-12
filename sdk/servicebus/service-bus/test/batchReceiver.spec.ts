@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
-dotenv.config();
-chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
-  ServiceBusMessage,
   delay,
+  QueueClient,
+  ReceiveMode,
   SendableMessageInfo,
-  ReceiveMode
+  ServiceBusClient,
+  ServiceBusMessage,
+  SubscriptionClient,
+  TopicClient
 } from "../src";
-
-import { TestMessage, getSenderReceiverClients, ClientType, purge } from "./testUtils";
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
+import { getAlreadyReceivingErrorMsg } from "../src/util/utils";
+import { ClientType, getSenderReceiverClients, purge, TestMessage } from "./testUtils";
+const should = chai.should();
+dotenv.config();
+chai.use(chaiAsPromised);
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -814,14 +814,11 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
     await delay(5000);
 
     let errorMessage;
-    let expectedErrorMessage = `The receiver for "${
-      receiverClient.entityPath
-    }" is already receiving messages.`;
-    if (useSessions) {
-      expectedErrorMessage = `The receiver for session "${TestMessage.sessionId}" in "${
-        receiverClient.entityPath
-      }" is already receiving messages.`;
-    }
+    const expectedErrorMessage = getAlreadyReceivingErrorMsg(
+      receiverClient.entityPath,
+      useSessions ? TestMessage.sessionId : undefined
+    );
+
     try {
       await receiver.receiveMessages(1);
     } catch (err) {

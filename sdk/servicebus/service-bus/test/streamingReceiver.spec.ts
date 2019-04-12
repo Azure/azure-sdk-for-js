@@ -2,32 +2,31 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
-dotenv.config();
-chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  QueueClient,
-  ServiceBusMessage,
-  TopicClient,
-  SubscriptionClient,
   delay,
-  ReceiveMode
+  QueueClient,
+  ReceiveMode,
+  ServiceBusClient,
+  ServiceBusMessage,
+  SubscriptionClient,
+  TopicClient
 } from "../src";
-
-import { DispositionType } from "../src/serviceBusMessage";
-
-import {
-  TestMessage,
-  getSenderReceiverClients,
-  ClientType,
-  purge,
-  checkWithTimeout
-} from "./testUtils";
 import { Receiver } from "../src/receiver";
 import { Sender } from "../src/sender";
+import { DispositionType } from "../src/serviceBusMessage";
+import { getAlreadyReceivingErrorMsg } from "../src/util/utils";
+import {
+  checkWithTimeout,
+  ClientType,
+  getSenderReceiverClients,
+  purge,
+  TestMessage
+} from "./testUtils";
+const should = chai.should();
+dotenv.config();
+chai.use(chaiAsPromised);
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -605,9 +604,7 @@ describe("Streaming - Multiple Receiver Operations", function(): void {
 
   async function testMultipleReceiveCalls(): Promise<void> {
     let errorMessage;
-    const expectedErrorMessage = `The receiver for "${
-      receiverClient.entityPath
-    }" is already receiving messages.`;
+    const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiverClient.entityPath);
     receiver.registerMessageHandler((msg: ServiceBusMessage) => {
       return msg.complete();
     }, unExpectedErrorHandler);
