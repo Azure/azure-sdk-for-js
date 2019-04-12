@@ -781,6 +781,45 @@ export const FallbackRouteProperties: msRest.CompositeMapper = {
   }
 };
 
+export const EnrichmentProperties: msRest.CompositeMapper = {
+  serializedName: "EnrichmentProperties",
+  type: {
+    name: "Composite",
+    className: "EnrichmentProperties",
+    modelProperties: {
+      key: {
+        required: true,
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      endpointNames: {
+        required: true,
+        serializedName: "endpointNames",
+        constraints: {
+          MinItems: 1
+        },
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RoutingProperties: msRest.CompositeMapper = {
   serializedName: "RoutingProperties",
   type: {
@@ -811,6 +850,18 @@ export const RoutingProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "FallbackRouteProperties"
+        }
+      },
+      enrichments: {
+        serializedName: "enrichments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EnrichmentProperties"
+            }
+          }
         }
       }
     }
@@ -944,17 +995,17 @@ export const CloudToDeviceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const OperationsMonitoringProperties: msRest.CompositeMapper = {
-  serializedName: "OperationsMonitoringProperties",
+export const IotHubPropertiesDeviceStreams: msRest.CompositeMapper = {
+  serializedName: "IotHubProperties_deviceStreams",
   type: {
     name: "Composite",
-    className: "OperationsMonitoringProperties",
+    className: "IotHubPropertiesDeviceStreams",
     modelProperties: {
-      events: {
-        serializedName: "events",
+      streamingEndpoints: {
+        serializedName: "streamingEndpoints",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Sequence",
+          element: {
             type: {
               name: "String"
             }
@@ -1078,11 +1129,11 @@ export const IotHubProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      operationsMonitoringProperties: {
-        serializedName: "operationsMonitoringProperties",
+      deviceStreams: {
+        serializedName: "deviceStreams",
         type: {
           name: "Composite",
-          className: "OperationsMonitoringProperties"
+          className: "IotHubPropertiesDeviceStreams"
         }
       },
       features: {
@@ -1237,6 +1288,13 @@ export const OperationDisplay: msRest.CompositeMapper = {
       operation: {
         readOnly: true,
         serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -1808,14 +1866,14 @@ export const RoutingTwinProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "RoutingTwinProperties",
     modelProperties: {
-      desiredProperties: {
-        serializedName: "desiredProperties",
+      desired: {
+        serializedName: "desired",
         type: {
           name: "Object"
         }
       },
-      reportedProperties: {
-        serializedName: "reportedProperties",
+      reported: {
+        serializedName: "reported",
         type: {
           name: "Object"
         }
@@ -2108,6 +2166,23 @@ export const ImportDevicesRequest: msRest.CompositeMapper = {
       outputBlobContainerUri: {
         required: true,
         serializedName: "outputBlobContainerUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FailoverInput: msRest.CompositeMapper = {
+  serializedName: "FailoverInput",
+  type: {
+    name: "Composite",
+    className: "FailoverInput",
+    modelProperties: {
+      failoverRegion: {
+        required: true,
+        serializedName: "failoverRegion",
         type: {
           name: "String"
         }
