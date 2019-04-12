@@ -1709,6 +1709,38 @@ export interface UsageDetailsListOptionalParams extends msRest.RequestOptionsBas
 
 /**
  * @interface
+ * An interface representing UsageDetailsListDownloadOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface UsageDetailsListDownloadOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [metric] Allows to select different type of cost/usage
+   * records. Allowed values: Usage, ActualCost, AmortizedCost. Default is
+   * ActualCost.
+   */
+  metric?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UsageDetailsListBeginDownloadOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface UsageDetailsListBeginDownloadOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [metric] Allows to select different type of cost/usage
+   * records. Allowed values: Usage, ActualCost, AmortizedCost. Default is
+   * ActualCost.
+   */
+  metric?: string;
+}
+
+/**
+ * @interface
  * An interface representing MarketplacesListOptionalParams.
  * Optional Parameters.
  *

@@ -44,7 +44,7 @@ export class UsageDetailsList {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsageDetailsListDownloadResponse>
    */
-  download(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.UsageDetailsListDownloadResponse> {
+  download(scope: string, options?: Models.UsageDetailsListDownloadOptionalParams): Promise<Models.UsageDetailsListDownloadResponse> {
     return this.beginDownload(scope,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.UsageDetailsListDownloadResponse>;
   }
@@ -66,7 +66,7 @@ export class UsageDetailsList {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDownload(scope: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownload(scope: string, options?: Models.UsageDetailsListBeginDownloadOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         scope,
@@ -86,7 +86,8 @@ const beginDownloadOperationSpec: msRest.OperationSpec = {
     Parameters.scope
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.metric
   ],
   headerParameters: [
     Parameters.acceptLanguage
