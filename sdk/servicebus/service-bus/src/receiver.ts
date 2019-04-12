@@ -321,7 +321,7 @@ export class SessionReceiver {
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
    * This is defined only when the underlying AMQP receiver link has been created.
-   * The value until which it would be locked until is 30 seconds.
+   * The value until which it would be locked until is determined by the lock duration set on the Service Bus entity.
    * @readonly
    */
   public get sessionLockedUntilUtc(): Date | undefined {
@@ -343,7 +343,7 @@ export class SessionReceiver {
   }
 
   /**
-   * Renews the lock on the session to be set to 30 seconds from the moment of invocation.
+   * Renews the lock on the session to extend by the lock duration value as set on Service Bus entity.
    *
    * When the lock on the session expires
    * - no more messages can be received using this receiver
