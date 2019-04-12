@@ -26,35 +26,7 @@ import {
 import { getSenderReceiverClients, ClientType, TestMessage, purge, getEnvVars } from "./testUtils";
 import long from "long";
 
-function testFalsyValues(testFn: Function): void {
-  [undefined, "", 0].forEach(function(value: string | number | undefined): void {
-    testFn(value);
-  });
-}
-
-describe("Create Namespace", function(): void {
-  it("throws error when there is no connection string", function(): void {
-    testFalsyValues(function(value: any): void {
-      const test = function(): void {
-        ServiceBusClient.createFromConnectionString(value);
-      };
-      test.should.throw(
-        Error,
-        "'connectionString' is a required parameter and must be of type: 'string'."
-      );
-    });
-  });
-
-  it("creates an Namespace from a connection string", function(): void {
-    const namespace = ServiceBusClient.createFromConnectionString(
-      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-    );
-    namespace.should.be.an.instanceof(ServiceBusClient);
-    should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
-  });
-});
-
-describe("Clients with no name", function(): void {
+describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
   let namespace: ServiceBusClient;
   beforeEach(() => {
     namespace = ServiceBusClient.createFromConnectionString(
@@ -65,43 +37,57 @@ describe("Clients with no name", function(): void {
     return namespace.close();
   });
 
-  it("throws error when creating queue client with no name", function(): void {
-    testFalsyValues(function(value: any): void {
-      const test = function(): void {
-        namespace.createQueueClient(value);
-      };
-      test.should.throw(Error, "'queueName' is a required parameter and must be of type 'string'.");
-    });
+  it("Creates an Namespace from a connection string", function(): void {
+    namespace.should.be.an.instanceof(ServiceBusClient);
+    should.equal(namespace.name, "sb://a/", "Name of the namespace is different than expected");
   });
 
-  it("throws error when creating topic client with no name", function(): void {
-    testFalsyValues(function(value: any): void {
-      const test = function(): void {
-        namespace.createTopicClient(value);
-      };
-      test.should.throw(Error, "'topicName' is a required parameter and must be of type 'string'.");
-    });
+  it("Creates clients after coercing name to string", function(): void {
+    const queueClient = namespace.createQueueClient(1 as any);
+    should.equal(queueClient.entityPath, "1");
+
+    const topicClient = namespace.createTopicClient(1 as any);
+    should.equal(topicClient.entityPath, "1");
+
+    const subscriptionClient = namespace.createSubscriptionClient(1 as any, 2 as any);
+    should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
   });
 
-  it("throws error when creating subscription client with no topic name", function(): void {
-    testFalsyValues(function(value: any): void {
-      const test = function(): void {
-        namespace.createSubscriptionClient(value, "some-name");
-      };
-      test.should.throw(Error, "'topicName' is a required parameter and must be of type 'string'.");
-    });
-  });
+  it("Throws error if client name cannot be coerced to string", function(): void {
+    const expectedErrorMsg = "Cannot read property 'toString' of undefined";
+    let queueError = "";
+    let topicError = "";
+    let topicErrorInSubscription = "";
+    let subscriptionErrorInSubscription = "";
 
-  it("throws error when creating subscription client with no subscription name", function(): void {
-    testFalsyValues(function(value: any): void {
-      const test = function(): void {
-        namespace.createSubscriptionClient("some-name", value);
-      };
-      test.should.throw(
-        Error,
-        "'subscriptionName' is a required parameter and must be of type 'string'."
-      );
-    });
+    try {
+      namespace.createQueueClient(undefined as any);
+    } catch (err) {
+      queueError = err && err.message;
+    }
+
+    try {
+      namespace.createTopicClient(undefined as any);
+    } catch (err) {
+      topicError = err && err.message;
+    }
+
+    try {
+      namespace.createSubscriptionClient(undefined as any, "boo");
+    } catch (err) {
+      topicErrorInSubscription = err && err.message;
+    }
+
+    try {
+      namespace.createSubscriptionClient("boo", undefined as any);
+    } catch (err) {
+      subscriptionErrorInSubscription = err && err.message;
+    }
+
+    should.equal(queueError, expectedErrorMsg);
+    should.equal(topicError, expectedErrorMsg);
+    should.equal(topicErrorInSubscription, expectedErrorMsg);
+    should.equal(subscriptionErrorInSubscription, expectedErrorMsg);
   });
 });
 

@@ -66,12 +66,12 @@ export class SubscriptionClient implements Client {
   constructor(topicName: string, subscriptionName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
 
+    this.topicName = topicName.toString();
+    this.subscriptionName = subscriptionName.toString();
+
     this.entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
     this.id = `${this.entityPath}/${generate_uuid()}`;
     this._context = ClientEntityContext.create(this.entityPath, context);
-
-    this.topicName = topicName;
-    this.subscriptionName = subscriptionName;
   }
 
   /**

@@ -106,12 +106,6 @@ export namespace ClientEntityContext {
     context: ConnectionContext,
     options?: ClientEntityContextOptions
   ): ClientEntityContext {
-    if (!entityPath || typeof entityPath !== "string") {
-      throw new Error("'entityPath' is a required parameter and must be of type 'string'.");
-    }
-    if (!context || typeof context !== "object") {
-      throw new Error("'context' is a required parameter and must be of type 'object'.");
-    }
     if (!options) options = {};
     const entityContext: ClientEntityContextBase = {
       namespace: context,
