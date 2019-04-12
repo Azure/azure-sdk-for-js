@@ -16,7 +16,7 @@ import {
 } from "../src";
 import { Receiver, SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
-import { getAlreadyReceivingErrorMsg } from "../src/util/utils";
+import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, getSenderReceiverClients, purge, TestMessage } from "./testUtils";
 const should = chai.should();
 dotenv.config();
@@ -147,7 +147,10 @@ describe("Batch Receiver - Settle message", function(): void {
   });
 
   it("Unpartitioned Subscription: complete() removes message", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testComplete();
   });
 
@@ -241,7 +244,10 @@ describe("Batch Receiver - Settle message", function(): void {
   it("Unpartitioned Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testAbandon();
   });
 
@@ -364,7 +370,10 @@ describe("Batch Receiver - Settle message", function(): void {
   it("Unpartitioned Subscription: Multiple abandons until maxDeliveryCount.", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testAbandonMsgsTillMaxDeliveryCount();
   });
 
@@ -392,7 +401,10 @@ describe("Batch Receiver - Settle message", function(): void {
   it("Unpartitioned Subscription with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testAbandonMsgsTillMaxDeliveryCount(true);
   });
 
@@ -467,7 +479,10 @@ describe("Batch Receiver - Settle message", function(): void {
   it("Unpartitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDefer();
   });
 
@@ -549,7 +564,10 @@ describe("Batch Receiver - Settle message", function(): void {
   it("Unpartitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDeadletter();
   });
 
@@ -706,7 +724,10 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
   it("Unpartitioned Subscription: Throws error when dead lettering a dead lettered message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDeadletter(TestMessage.getSample());
   });
 
@@ -742,7 +763,10 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
   it("Unpartitioned Subscription: Abandon a message received from dead letter queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testAbandon(TestMessage.getSample());
   });
 
@@ -798,7 +822,10 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
   it("Unpartitioned Subscription: Defer a message received from dead letter queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDefer(TestMessage.getSample());
   });
 });
@@ -881,7 +908,10 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
   it("Unpartitioned Subscription: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testParallelReceiveCalls();
   });
 
@@ -1009,7 +1039,10 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
   it("Unpartitioned Subscription: Multiple sequential receiveMessages calls", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testSequentialReceiveBatchCalls();
   });
 
@@ -1116,7 +1149,10 @@ describe("Batch Receiver - Others", function(): void {
   it("Unpartitioned Subscription: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testNoSettlement();
   });
 
@@ -1165,7 +1201,10 @@ describe("Batch Receiver - Others", function(): void {
   it("Unpartitioned Subscription: Receive n messages but subscription only has m messages, where m < n", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
 
     await testAskForMore();
   });

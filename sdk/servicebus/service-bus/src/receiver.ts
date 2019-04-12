@@ -17,7 +17,7 @@ import {
   getOpenReceiverErrorMsg,
   getReceiverClosedErrorMsg,
   throwErrorIfConnectionClosed
-} from "./util/utils";
+} from "./util/errors";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.

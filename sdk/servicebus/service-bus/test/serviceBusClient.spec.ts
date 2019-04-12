@@ -26,7 +26,7 @@ import {
   getOpenSenderErrorMsg,
   getReceiverClosedErrorMsg,
   getSenderClosedErrorMsg
-} from "../src/util/utils";
+} from "../src/util/errors";
 import {
   TestClientType,
   getEnvVars,

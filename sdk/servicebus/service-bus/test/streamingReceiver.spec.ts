@@ -16,7 +16,7 @@ import {
 import { Receiver } from "../src/receiver";
 import { Sender } from "../src/sender";
 import { DispositionType } from "../src/serviceBusMessage";
-import { getAlreadyReceivingErrorMsg } from "../src/util/utils";
+import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import {
   checkWithTimeout,
   TestClientType,
@@ -172,7 +172,10 @@ describe("Streaming - Misc Tests", function(): void {
   it("UnPartitioned Subscription: AutoComplete removes the message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testAutoComplete();
   });
 
@@ -229,7 +232,10 @@ describe("Streaming - Misc Tests", function(): void {
   it("UnPartitioned Subscription: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testManualComplete();
   });
 });
@@ -279,7 +285,10 @@ describe("Streaming - Complete message", function(): void {
   });
 
   it("UnPartitioned Subscription: complete() removes message", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testComplete(false);
   });
 
@@ -307,7 +316,10 @@ describe("Streaming - Complete message", function(): void {
   it("UnPartitioned Subscription with autoComplete: complete() removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testComplete(true);
   });
 });
@@ -390,7 +402,10 @@ describe("Streaming - Abandon message", function(): void {
   it("Unpartitioned Subscription: Multiple abandons until maxDeliveryCount", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testMultipleAbandons();
   });
 });
@@ -464,7 +479,10 @@ describe("Streaming - Defer message", function(): void {
   it("UnPartitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDefer(false);
   });
 
@@ -492,7 +510,10 @@ describe("Streaming - Defer message", function(): void {
   it("UnPartitioned Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDefer(true);
   });
 });
@@ -564,7 +585,10 @@ describe("Streaming - Deadletter message", function(): void {
   it("UnPartitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDeadletter(false);
   });
 
@@ -592,7 +616,10 @@ describe("Streaming - Deadletter message", function(): void {
   it("UnPartitioned Subscription with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDeadletter(true);
   });
 });
@@ -660,7 +687,10 @@ describe("Streaming - Multiple Receiver Operations", function(): void {
   it("UnPartitioned Subscription: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testMultipleReceiveCalls();
   });
 });
@@ -740,7 +770,10 @@ describe("Streaming - Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Subscription: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testSettlement(DispositionType.complete);
   });
 
@@ -760,7 +793,10 @@ describe("Streaming - Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Subscription: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testSettlement(DispositionType.abandon);
   });
 
@@ -780,7 +816,10 @@ describe("Streaming - Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Subscription: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testSettlement(DispositionType.defer);
   });
 
@@ -800,7 +839,10 @@ describe("Streaming - Settle an already Settled message throws error", () => {
   });
 
   it("UnPartitioned Subscription: deadLetter() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testSettlement(DispositionType.deadletter);
   });
 });
@@ -859,7 +901,10 @@ describe("Streaming - User Error", function(): void {
   it("UnPartitioned Subscription: onError handler is called for user error", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testUserError();
   });
 });
@@ -955,17 +1000,26 @@ describe("Streaming - maxConcurrentCalls", function(): void {
   });
 
   it("Unpartitioned Subscription: no maxConcurrentCalls passed", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testConcurrency();
   });
 
   it("Unpartitioned Queue: pass 1 for maxConcurrentCalls", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testConcurrency(1);
   });
 
   it("Unpartitioned Queue: pass 2 for maxConcurrentCalls", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testConcurrency(2);
   });
 });
@@ -1036,7 +1090,10 @@ describe("Streaming - Not receive messages after receiver is closed", function()
   it("UnPartitioned Subscription: Not receive messages after receiver is closed", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testReceiveMessages();
   });
 

@@ -15,7 +15,7 @@ import {
 import { SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
 import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";
-import { getAlreadyReceivingErrorMsg } from "../src/util/utils";
+import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import {
   checkWithTimeout,
   TestClientType,

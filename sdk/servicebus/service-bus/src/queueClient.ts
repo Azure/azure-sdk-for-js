@@ -14,7 +14,7 @@ import {
   getOpenSenderErrorMsg,
   throwErrorIfClientOrConnectionClosed,
   throwErrorIfConnectionClosed
-} from "./util/utils";
+} from "./util/errors";
 import { AmqpError, generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
 

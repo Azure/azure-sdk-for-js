@@ -7,7 +7,7 @@ import { MessageSender } from "./core/messageSender";
 import { SendableMessageInfo } from "./serviceBusMessage";
 import { ScheduleMessage } from "./core/managementClient";
 import { ClientEntityContext } from "./clientEntityContext";
-import { getSenderClosedErrorMsg, throwErrorIfConnectionClosed } from "./util/utils";
+import { getSenderClosedErrorMsg, throwErrorIfConnectionClosed } from "./util/errors";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
