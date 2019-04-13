@@ -420,10 +420,7 @@ export class SessionReceiver {
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
-    // Peek doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
-    }
+    await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
   }
 
@@ -443,10 +440,7 @@ export class SessionReceiver {
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
-    // Peek doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
-    }
+    await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
       sessionId: this.sessionId!,
       messageCount: maxMessageCount
@@ -466,10 +460,7 @@ export class SessionReceiver {
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
-    }
+    await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.receiveDeferredMessage(
       sequenceNumber,
       this._receiveMode,
@@ -490,10 +481,7 @@ export class SessionReceiver {
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    // receiveDeferredMessage doesnt need an AMQP receiver link unless no sessionId was given
-    if (!this.sessionId) {
-      await this._createMessageSessionIfDoesntExist();
-    }
+    await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       this._receiveMode,
