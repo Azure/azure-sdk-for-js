@@ -2,19 +2,17 @@
 
 ## Install the library
 
-Run the below in your sample folder to install the npm package for Azure Storage Blob library.
+Run the below in your samples folder to install the npm package for Azure Storage Blob library.
 
 ```bash
 npm install @azure/storage-blob
 ```
 
-## Get connection string for Service Bus & names for Queues/Topics/Subscriptions
+## Get account credentials of your storage account
 
 - In the [Azure Portal](https://portal.azure.com), go to **Dashboard > Storage > _your-storage-account_**.
-- Note down the "AccountName" and "AccountKey" obtained at **Access keys** under **Settings** tab.
-- "AccountSAS" can be obtained at "Shared access signature" under **Settings** tab.
-
-Before running any of the samples, update with the credentials you have noted down above.
+- Note down the "AccountName", "AccountKey" obtained at **Access keys** and "AccountSAS" from **Shared access signature** under **Settings** tab.
+  Before running any of the samples, update with the credentials you have noted down above.
 
 ## Running a Javascript sample
 
