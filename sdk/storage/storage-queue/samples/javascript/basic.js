@@ -12,12 +12,12 @@ const {
     SharedKeyCredential,
     AnonymousCredential,
     TokenCredential
-} = require(".."); // Change to "@azure/storage-queue" in your package
+} = require("../.."); // Change to "@azure/storage-queue" in your package
 
 async function main() {
     // Enter your storage account name and shared key
-    const account = "<account>";
-    const accountKey = "<accountkey>";
+    const account = "";
+    const accountKey = "";
 
     // Use SharedKeyCredential with storage account and account key
     const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
@@ -33,8 +33,12 @@ async function main() {
     const pipeline = StorageURL.newPipeline(sharedKeyCredential, {
         // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
         // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
-        retryOptions: { maxTries: 4 }, // Retry options
-        telemetry: { value: "BasicSample V10.0.0" } // Customized telemetry string
+        retryOptions: {
+            maxTries: 4
+        }, // Retry options
+        telemetry: {
+            value: "BasicSample V10.0.0"
+        } // Customized telemetry string
     });
 
     // List queues
