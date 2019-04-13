@@ -24,7 +24,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/loganalytics",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/loganalytics/loganalytics",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -41,7 +41,7 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "lib/**/*.ts",
+    "src/**/*.ts",
     "rollup.config.js",
     "tsconfig.json"
   ],
