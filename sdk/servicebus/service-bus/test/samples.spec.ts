@@ -4,7 +4,7 @@ import path from "path";
 
 // Since `npm run build-samples` now update the typescript samples to make them debuggable,
 // we now have the below tests to ensure such updates dont get checked in.
-describe.only("Ensure typescript samples use published package", function(): void {
+describe("Ensure typescript samples use published package", function(): void {
   const regex = new RegExp('from "@azure/service-bus"');
 
   function testSamples(folder: string): void {
