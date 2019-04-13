@@ -66,43 +66,6 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", functio
     const subscriptionClient = namespace.createSubscriptionClient(1 as any, 2 as any);
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
   });
-
-  it("Throws error if client name cannot be coerced to string", function(): void {
-    const expectedErrorMsg = "Cannot read property 'toString' of undefined";
-    let queueError = "";
-    let topicError = "";
-    let topicErrorInSubscription = "";
-    let subscriptionErrorInSubscription = "";
-
-    try {
-      namespace.createQueueClient(undefined as any);
-    } catch (err) {
-      queueError = err && err.message;
-    }
-
-    try {
-      namespace.createTopicClient(undefined as any);
-    } catch (err) {
-      topicError = err && err.message;
-    }
-
-    try {
-      namespace.createSubscriptionClient(undefined as any, "boo");
-    } catch (err) {
-      topicErrorInSubscription = err && err.message;
-    }
-
-    try {
-      namespace.createSubscriptionClient("boo", undefined as any);
-    } catch (err) {
-      subscriptionErrorInSubscription = err && err.message;
-    }
-
-    should.equal(queueError, expectedErrorMsg);
-    should.equal(topicError, expectedErrorMsg);
-    should.equal(topicErrorInSubscription, expectedErrorMsg);
-    should.equal(subscriptionErrorInSubscription, expectedErrorMsg);
-  });
 });
 
 describe("Errors with non existing Namespace", function(): void {
