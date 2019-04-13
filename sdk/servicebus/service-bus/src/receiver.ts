@@ -317,16 +317,16 @@ export class SessionReceiver {
 
   /**
    * @property {string} [sessionId] The sessionId for the message session.
+   * Will return undefined until a AMQP receiver link has been successfully set up for the session.
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return (
-      (this._messageSession && this._messageSession.sessionId) || this._sessionOptions.sessionId
-    );
+    return this._messageSession && this._messageSession.sessionId;
   }
 
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
+   * Will return undefined until a AMQP receiver link has been successfully set up for the session.
    * @readonly
    */
   public get sessionLockedUntilUtc(): Date | undefined {
