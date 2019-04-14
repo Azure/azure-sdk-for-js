@@ -333,6 +333,7 @@ export class SessionReceiver {
   private _messageSession: MessageSession | undefined;
   private _sessionOptions: SessionReceiverOptions;
   private _isClosed: boolean = false;
+  private _sessionId: string | undefined;
 
   /**
    * @property {boolean} [isClosed] Denotes if close() was called on this receiver.
@@ -349,7 +350,7 @@ export class SessionReceiver {
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return this._messageSession && this._messageSession.sessionId;
+    return this._sessionId;
   }
 
   /**
@@ -715,6 +716,7 @@ export class SessionReceiver {
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
     }
+    this._sessionId = this._messageSession.sessionId;
     delete this._context.expiredMessageSessions[this._messageSession.sessionId];
   }
 
