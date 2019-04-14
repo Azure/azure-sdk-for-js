@@ -33,7 +33,12 @@ import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
 import { ReceiveMode } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import {
+  throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterMissing,
+  throwTypeErrorIfParameterNotLong,
+  throwTypeErrorIfParameterTypeMismatch
+} from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 
@@ -114,25 +119,6 @@ const validCorrelationProperties = [
   "contentType",
   "userProperties"
 ];
-
-/**
- * @internal
- * Describes the options that can be provided while peeking a message.
- * @interface PeekOptions
- */
-export interface PeekOptions {
-  /**
-   * The number of messages that need to be peeked.
-   * - **Default: `1`**.
-   */
-  messageCount?: number;
-  /**
-   * The id of the session for which the messages need to be peeked.
-   * This should only be provided if messages are being fetched from a `session enabled` Queue or
-   * Topic.
-   */
-  sessionId?: string;
-}
 
 /**
  * Provides information about the message to be scheduled.
@@ -266,9 +252,7 @@ export class ManagementClient extends LinkEntity {
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), {
-      messageCount: messageCount
-    });
+    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
   }
 
   /**
@@ -291,45 +275,51 @@ export class ManagementClient extends LinkEntity {
     if (sessionId == undefined) {
       throw new Error("'sessionId' is a required parameter and must be of type 'string'.");
     }
-    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), {
-      sessionId: sessionId,
-      messageCount: messageCount
-    });
+    return this.peekBySequenceNumber(
+      this._lastPeekedSequenceNumber.add(1),
+      messageCount,
+      sessionId
+    );
   }
 
   /**
    * Peeks the desired number of messages from the specified sequence number.
    * @param {Long} fromSequenceNumber The sequence number from where to read the message.
-   * @param {PeekOptions} [options] Options that can be provided while peeking messages.
+   * @param {number} messageCount The number of messages to retrieve. Default value `1`.
+   * @param {string} sessionId The sessionId from which messages need to be peeked.
    * @returns Promise<ReceivedMessageInfo[]>
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
-    options?: PeekOptions
+    maxMessageCount?: number,
+    sessionId?: string
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!options) options = {};
-    if (fromSequenceNumber == undefined || !Long.isLong(fromSequenceNumber)) {
-      throw new Error(
-        "'fromSequenceNumber' is a required parameter and must be an instance of 'Long'."
-      );
+    const connId = this._context.namespace.connectionId;
+
+    // Checks for fromSequenceNumber
+    throwTypeErrorIfParameterMissing(connId, "fromSequenceNumber", fromSequenceNumber);
+    throwTypeErrorIfParameterNotLong(connId, "fromSequenceNumber", fromSequenceNumber);
+
+    // Checks for maxMessageCount
+    if (maxMessageCount !== undefined) {
+      throwTypeErrorIfParameterTypeMismatch(connId, "maxMessageCount", maxMessageCount, "number");
+      if (maxMessageCount <= 0) {
+        return [];
+      }
+    } else {
+      maxMessageCount = 1;
     }
-    if (options.messageCount != undefined && typeof options.messageCount !== "number") {
-      throw new Error("'messageCount' must be of type 'number'.");
-    }
-    if (options.sessionId != undefined && typeof options.sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'.");
-    }
-    if (options.messageCount == undefined) options.messageCount = 1;
+
     const messageList: ReceivedMessageInfo[] = [];
     try {
       const messageBody: any = {};
       messageBody[Constants.fromSequenceNumber] = types.wrap_long(
         Buffer.from(fromSequenceNumber.toBytesBE())
       );
-      messageBody[Constants.messageCount] = types.wrap_int(options.messageCount);
-      if (options.sessionId) {
-        messageBody[Constants.sessionIdMapKey] = options.sessionId;
+      messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount);
+      if (sessionId) {
+        messageBody[Constants.sessionIdMapKey] = sessionId;
       }
       const request: AmqpMessage = {
         body: messageBody,

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "../log";
+import Long from "long";
 import { ClientType } from "../client";
 import { ConnectionContext } from "../connectionContext";
 
@@ -136,4 +137,66 @@ export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: stri
     return `The receiver for "${entityPath}" is already receiving messages.`;
   }
   return `The receiver for session "${sessionId}" for "${entityPath}" is already receiving messages.`;
+}
+
+/**
+ * @internal
+ * Logs and Throws TypeError if given parameter is undefined or null
+ * @param connectionId Id of the underlying AMQP connection used for logging
+ * @param parameterName Name of the parameter to check
+ * @param parameterValue Value of the parameter to check
+ */
+export function throwTypeErrorIfParameterMissing(
+  connectionId: string,
+  parameterName: string,
+  parameterValue: any
+): void {
+  if (parameterValue === undefined || parameterValue === null) {
+    const error = new TypeError(`Missing parameter "${parameterName}"`);
+    log.error(`[${connectionId}] %O`, error);
+    throw error;
+  }
+}
+
+/**
+ * @internal
+ * Logs and Throws TypeError if given parameter is not of expected type
+ * @param connectionId Id of the underlying AMQP connection used for logging
+ * @param parameterName Name of the parameter to type check
+ * @param parameterValue Value of the parameter to type check
+ * @param expectedType Expected type of the parameter
+ */
+export function throwTypeErrorIfParameterTypeMismatch(
+  connectionId: string,
+  parameterName: string,
+  parameterValue: any,
+  expectedType: string
+): void {
+  if (typeof parameterValue !== expectedType) {
+    const error = new TypeError(
+      `The parameter "${parameterName}" should be of type "${expectedType}"`
+    );
+    log.error(`[${connectionId}] %O`, error);
+    throw error;
+  }
+}
+
+/**
+ * @internal
+ * Logs and Throws TypeError if given parameter is not of type `Long`
+ * @param connectionId Id of the underlying AMQP connection used for logging
+ * @param parameterName Name of the parameter to type check
+ * @param parameterValue Value of the parameter to type check
+ */
+export function throwTypeErrorIfParameterNotLong(
+  connectionId: string,
+  parameterName: string,
+  parameterValue: any
+): TypeError | undefined {
+  if (Long.isLong(parameterValue)) {
+    return;
+  }
+  const error = new TypeError(`The parameter "${parameterName}" should be of type "Long"`);
+  log.error(`[${connectionId}] %O`, error);
+  throw error;
 }
