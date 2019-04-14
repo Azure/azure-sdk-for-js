@@ -320,13 +320,13 @@ export class SessionReceiver {
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return (
-      (this._messageSession && this._messageSession.sessionId) || this._sessionOptions.sessionId
-    );
+    return this._messageSession && this._messageSession.sessionId;
   }
 
   /**
    * @property {Date} [sessionLockedUntilUtc] The time in UTC until which the session is locked.
+   * This is defined only when the underlying AMQP receiver link has been created.
+   * The value until which it would be locked until is determined by the lock duration set on the Service Bus entity.
    * @readonly
    */
   public get sessionLockedUntilUtc(): Date | undefined {
@@ -367,13 +367,14 @@ export class SessionReceiver {
   }
 
   /**
-   * Renews the lock on the session.
-   * Check the `sessionLockedUntilUtc` property on the reciever for the time when the lock expires.
+   * Renews the lock on the session for the duration as specified during the Queue/Subscription
+   * creation. Check the `sessionLockedUntilUtc` property on the SessionReceiver for the time when the lock expires.
    *
    * When the lock on the session expires
-   * - no more messages can be received using this receiver
-   * - messages already received but not settled will land back in the Queue/Subscription for the
-   * next receiver to receive
+   * - No more messages can be received using this receiver
+   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   *   before the session lock expires, then the message lands back in the Queue/Subscription for the next
+   *   receive operation.
    *
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    */
@@ -446,10 +447,11 @@ export class SessionReceiver {
     if (!this.sessionId) {
       await this._createMessageSessionIfDoesntExist();
     }
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      sessionId: this.sessionId!,
-      messageCount: maxMessageCount
-    });
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount,
+      this.sessionId
+    );
   }
 
   /**
