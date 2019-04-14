@@ -120,19 +120,28 @@ async function deferMessage(testMessages: SendableMessageInfo): Promise<ServiceB
   const sequenceNumber = receivedMsgs[0].sequenceNumber;
   await receivedMsgs[0].defer();
 
-  const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
-  if (!deferredMsgs) {
+  let deferredMsg: ServiceBusMessage | undefined;
+
+  // Randomly choose receiveDeferredMessage/receiveDeferredMessages as the latter is expected to
+  // convert single input to array and then use it
+  if (Math.round(Math.random())) {
+    deferredMsg = await receiver.receiveDeferredMessage(sequenceNumber);
+  } else {
+    [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber as any);
+  }
+
+  if (!deferredMsg) {
     throw "No message received for sequence number";
   }
-  should.equal(deferredMsgs.body, testMessages.body, "MessageBody is different than expected");
+  should.equal(deferredMsg.body, testMessages.body, "MessageBody is different than expected");
   should.equal(
-    deferredMsgs.messageId,
+    deferredMsg.messageId,
     testMessages.messageId,
     "MessageId is different than expected"
   );
-  should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
+  should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
-  return deferredMsgs;
+  return deferredMsg;
 }
 
 async function completeDeferredMessage(
@@ -227,7 +236,10 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Unpartitioned Subscription: Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testAbandon();
   });
 
@@ -310,7 +322,10 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Unpartitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDefer();
   });
 
@@ -411,7 +426,10 @@ describe("Abandon/Defer/Deadletter deferred message", function(): void {
   it("Unpartitioned Subscription: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.UnpartitionedTopic, TestClientType.UnpartitionedSubscription);
+    await beforeEachTest(
+      TestClientType.UnpartitionedTopic,
+      TestClientType.UnpartitionedSubscription
+    );
     await testDeadletter();
   });
 
