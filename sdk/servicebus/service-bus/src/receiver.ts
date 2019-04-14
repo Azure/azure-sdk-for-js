@@ -441,10 +441,11 @@ export class SessionReceiver {
   ): Promise<ReceivedMessageInfo[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      sessionId: this.sessionId!,
-      messageCount: maxMessageCount
-    });
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount,
+      this.sessionId
+    );
   }
 
   /**
