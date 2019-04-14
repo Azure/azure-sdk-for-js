@@ -97,9 +97,12 @@ export class Sender {
       scheduledEnqueueTimeUtc
     );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
-    message.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-    SendableMessageInfo.validate(message);
-    const result = await this._context.managementClient!.scheduleMessages([message]);
+
+    const messages = [message];
+    const result = await this._context.managementClient!.scheduleMessages(
+      scheduledEnqueueTimeUtc,
+      messages
+    );
     return result[0];
   }
 
@@ -127,11 +130,8 @@ export class Sender {
     if (!Array.isArray(messages)) {
       messages = [messages];
     }
-    messages.forEach((message) => {
-      message.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      SendableMessageInfo.validate(message);
-    });
-    return this._context.managementClient!.scheduleMessages(messages);
+
+    return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
   }
 
   /**

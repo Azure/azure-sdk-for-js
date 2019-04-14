@@ -433,15 +433,20 @@ export class ManagementClient extends LinkEntity {
   /**
    * Schedules an array of messages to appear on Service Bus at a later time.
    *
+   * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - An array of messages that needs to be scheduled.
    * @returns Promise<number> The sequence numbers of messages that were scheduled.
    */
-  async scheduleMessages(messages: SendableMessageInfo[]): Promise<Long[]> {
+  async scheduleMessages(
+    scheduledEnqueueTimeUtc: Date,
+    messages: SendableMessageInfo[]
+  ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
+      item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
       const amqpMessage = SendableMessageInfo.toAmqpMessage(item);
 
       try {
