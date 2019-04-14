@@ -320,9 +320,7 @@ export class SessionReceiver {
    * @readonly
    */
   public get sessionId(): string | undefined {
-    return (
-      (this._messageSession && this._messageSession.sessionId) || this._sessionOptions.sessionId
-    );
+    return this._messageSession && this._messageSession.sessionId;
   }
 
   /**
@@ -446,10 +444,11 @@ export class SessionReceiver {
     if (!this.sessionId) {
       await this._createMessageSessionIfDoesntExist();
     }
-    return this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, {
-      sessionId: this.sessionId!,
-      messageCount: maxMessageCount
-    });
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount,
+      this.sessionId
+    );
   }
 
   /**
