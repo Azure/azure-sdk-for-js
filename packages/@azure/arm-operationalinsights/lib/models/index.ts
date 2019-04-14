@@ -264,8 +264,7 @@ export interface ManagementGroup {
 export interface Sku {
   /**
    * @member {SkuNameEnum} name The name of the SKU. Possible values include:
-   * 'Free', 'Standard', 'Premium', 'Unlimited', 'PerNode', 'PerGB2018',
-   * 'Standalone'
+   * 'Free', 'Standard', 'Premium', 'PerNode', 'PerGB2018', 'Standalone'
    */
   name: SkuNameEnum;
 }
@@ -452,7 +451,7 @@ export interface WorkspaceListUsagesResult extends Array<UsageMetric> {
 /**
  * @interface
  * An interface representing the WorkspaceListManagementGroupsResult.
- * The list workspace managmement groups operation response.
+ * The list workspace management groups operation response.
  *
  * @extends Array<ManagementGroup>
  */
@@ -500,12 +499,11 @@ export type DataSourceKind = 'AzureActivityLog' | 'ChangeTrackingPath' | 'Change
 
 /**
  * Defines values for SkuNameEnum.
- * Possible values include: 'Free', 'Standard', 'Premium', 'Unlimited', 'PerNode', 'PerGB2018',
- * 'Standalone'
+ * Possible values include: 'Free', 'Standard', 'Premium', 'PerNode', 'PerGB2018', 'Standalone'
  * @readonly
  * @enum {string}
  */
-export type SkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'Unlimited' | 'PerNode' | 'PerGB2018' | 'Standalone';
+export type SkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB2018' | 'Standalone';
 
 /**
  * Defines values for EntityStatus.
