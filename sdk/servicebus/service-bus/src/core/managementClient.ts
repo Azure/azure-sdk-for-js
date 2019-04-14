@@ -521,16 +521,10 @@ export class ManagementClient extends LinkEntity {
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(sequenceNumbers)) {
-      throw new Error("'sequenceNumbers' is a required parameter of type 'Array'.");
-    }
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
       const sequenceNumber = sequenceNumbers[i];
-      if (!Long.isLong(sequenceNumber)) {
-        throw new Error("An item in the 'sequenceNumbers' Array must be an instance of 'Long'.");
-      }
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
@@ -585,34 +579,6 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * Receives a specific deferred message identified by `sequenceNumber` of the `Message`.
-   * @param sequenceNumber The sequence number of the message that will be received.
-   * @param receiveMode The mode in which the receiver was created.
-   * @returns Promise<ServiceBusMessage | undefined>
-   * - Returns `ServiceBusMessage` identified by sequence number.
-   * - Returns `undefined` if no such message is found.
-   * - Throws an error if the message has not been deferred.
-   */
-  async receiveDeferredMessage(
-    sequenceNumber: Long,
-    receiveMode: ReceiveMode,
-    sessionId?: string
-  ): Promise<ServiceBusMessage | undefined> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Long.isLong(sequenceNumber)) {
-      throw new Error(
-        "'sequenceNumber' is a required parameter and must be an instance of 'Long'."
-      );
-    }
-    let message: ServiceBusMessage | undefined = undefined;
-    const messages = await this.receiveDeferredMessages([sequenceNumber], receiveMode, sessionId);
-    if (messages.length) {
-      message = messages[0];
-    }
-    return message;
-  }
-
-  /**
    * Receives a list of deferred messages identified by `sequenceNumbers`.
    * @param sequenceNumbers A list containing the sequence numbers to receive.
    * @param receiveMode The mode in which the receiver was created.
@@ -627,26 +593,12 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string
   ): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!Array.isArray(sequenceNumbers)) {
-      throw new Error("'sequenceNumbers' is a required parameter and must be of type 'Array'.");
-    }
-
-    if (typeof receiveMode !== "number") {
-      throw new Error("'receiveMode' is a required parameter with value 1 or 2.");
-    }
-
-    if (sessionId && typeof sessionId !== "string") {
-      throw new Error("'sessionId' must be of type 'string'.");
-    }
 
     const messageList: ServiceBusMessage[] = [];
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
       const sequenceNumber = sequenceNumbers[i];
-      if (!Long.isLong(sequenceNumber)) {
-        throw new Error("An item in the 'sequenceNumbers' Array must be an instance of 'Long'.");
-      }
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {

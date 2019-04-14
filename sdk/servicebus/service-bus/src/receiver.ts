@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import * as Long from "long";
+import Long from "long";
 import * as log from "./log";
 import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
@@ -16,7 +16,10 @@ import {
   getAlreadyReceivingErrorMsg,
   getOpenReceiverErrorMsg,
   getReceiverClosedErrorMsg,
-  throwErrorIfConnectionClosed
+  throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterMissing,
+  throwTypeErrorIfParameterNotLong,
+  throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 
 /**
@@ -182,13 +185,25 @@ export class Receiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    throwTypeErrorIfParameterNotLong(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
-    return this._context.managementClient!.receiveDeferredMessage(
-      sequenceNumber,
+    const messages = await this._context.managementClient!.receiveDeferredMessages(
+      [sequenceNumber],
       this._receiveMode
     );
+    return messages[0];
   }
 
   /**
@@ -201,6 +216,20 @@ export class Receiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers)) {
+      sequenceNumbers = [sequenceNumbers];
+    }
+    throwTypeErrorIfParameterNotLongArray(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -464,6 +493,17 @@ export class SessionReceiver {
    */
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    throwTypeErrorIfParameterNotLong(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }
@@ -471,11 +511,12 @@ export class SessionReceiver {
     if (!this.sessionId) {
       await this._createMessageSessionIfDoesntExist();
     }
-    return this._context.managementClient!.receiveDeferredMessage(
-      sequenceNumber,
+    const messages = await this._context.managementClient!.receiveDeferredMessages(
+      [sequenceNumber],
       this._receiveMode,
       this.sessionId
     );
+    return messages[0];
   }
 
   /**
@@ -488,6 +529,20 @@ export class SessionReceiver {
    */
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers)) {
+      sequenceNumbers = [sequenceNumbers];
+    }
+    throwTypeErrorIfParameterNotLongArray(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error("The operation is only supported in 'PeekLock' receive mode.");
     }

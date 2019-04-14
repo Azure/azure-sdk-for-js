@@ -9,7 +9,9 @@ import { ClientEntityContext } from "./clientEntityContext";
 import {
   getSenderClosedErrorMsg,
   throwErrorIfConnectionClosed,
-  throwTypeErrorIfParameterMissing
+  throwTypeErrorIfParameterMissing,
+  throwTypeErrorIfParameterNotLong,
+  throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 
 /**
@@ -89,6 +91,11 @@ export class Sender {
     message: SendableMessageInfo
   ): Promise<Long> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "scheduledEnqueueTimeUtc",
+      scheduledEnqueueTimeUtc
+    );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
     message.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
     SendableMessageInfo.validate(message);
@@ -111,6 +118,11 @@ export class Sender {
     messages: SendableMessageInfo[]
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "scheduledEnqueueTimeUtc",
+      scheduledEnqueueTimeUtc
+    );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
     if (!Array.isArray(messages)) {
       messages = [messages];
@@ -129,6 +141,16 @@ export class Sender {
    */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
+    throwTypeErrorIfParameterNotLong(
+      this._context.namespace.connectionId,
+      "sequenceNumber",
+      sequenceNumber
+    );
     return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
@@ -139,6 +161,19 @@ export class Sender {
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
+    if (!Array.isArray(sequenceNumbers)) {
+      sequenceNumbers = [sequenceNumbers];
+    }
+    throwTypeErrorIfParameterNotLongArray(
+      this._context.namespace.connectionId,
+      "sequenceNumbers",
+      sequenceNumbers
+    );
     return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 

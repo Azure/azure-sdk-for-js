@@ -200,3 +200,23 @@ export function throwTypeErrorIfParameterNotLong(
   log.error(`[${connectionId}] %O`, error);
   throw error;
 }
+
+/**
+ * @internal
+ * Logs and Throws TypeError if given parameter is not an array of type `Long`
+ * @param connectionId Id of the underlying AMQP connection used for logging
+ * @param parameterName Name of the parameter to type check
+ * @param parameterValue Value of the parameter to type check
+ */
+export function throwTypeErrorIfParameterNotLongArray(
+  connectionId: string,
+  parameterName: string,
+  parameterValue: Array<any>
+): TypeError | undefined {
+  if (parameterValue.every((item) => Long.isLong(item))) {
+    return;
+  }
+  const error = new TypeError(`The parameter "${parameterName}" should be an array of type "Long"`);
+  log.error(`[${connectionId}] %O`, error);
+  throw error;
+}
