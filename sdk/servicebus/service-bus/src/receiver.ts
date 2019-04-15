@@ -171,7 +171,7 @@ export class Receiver {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error(
-        "The 'rewnewMessageLock' operation is only supported in 'PeekLock' receive mode."
+        "The 'renewMessageLock' operation is only supported in 'PeekLock' receive mode."
       );
     }
     throwTypeErrorIfParameterMissing(
