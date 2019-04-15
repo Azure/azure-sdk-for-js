@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { name, version } from "../../package.json";
+
 export const packageJsonInfo = {
-  name: "@azure/service-bus",
-  version: "1.0.0-preview.1"
+  name: name,
+  version: version
 };
 
 export const messageDispositionTimeout = 20000;
