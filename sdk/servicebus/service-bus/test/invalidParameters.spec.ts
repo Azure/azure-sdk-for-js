@@ -428,7 +428,9 @@ describe("Invalid parameters in SessionReceiver", function(): void {
     should.equal(caughtError && caughtError.message, `Missing parameter "fromSequenceNumber"`);
   });
 
-  it("RegisterMessageHandler: Missing onMessage in Receiver", async function(): Promise<void> {
+  it("RegisterMessageHandler: Missing onMessage in SessionReceiver", async function(): Promise<
+    void
+  > {
     let caughtError: Error | undefined;
     try {
       await sessionReceiver.registerMessageHandler(undefined as any, undefined as any);
@@ -439,7 +441,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
     should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
   });
 
-  it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function(): Promise<
+  it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function(): Promise<
     void
   > {
     let caughtError: Error | undefined;
@@ -455,7 +457,7 @@ describe("Invalid parameters in SessionReceiver", function(): void {
     );
   });
 
-  it("RegisterMessageHandler: Missing onError in Receiver", async function(): Promise<void> {
+  it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
       await sessionReceiver.registerMessageHandler(
@@ -471,7 +473,9 @@ describe("Invalid parameters in SessionReceiver", function(): void {
     should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
   });
 
-  it("RegisterMessageHandler: Wrong type for onError in Receiver", async function(): Promise<void> {
+  it("RegisterMessageHandler: Wrong type for onError in SessionReceiver", async function(): Promise<
+    void
+  > {
     let caughtError: Error | undefined;
     try {
       await sessionReceiver.registerMessageHandler(
