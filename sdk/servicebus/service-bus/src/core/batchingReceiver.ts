@@ -50,11 +50,6 @@ export class BatchingReceiver extends MessageReceiver {
    */
   receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== "number")) {
-      throw new Error(
-        "'maxMessageCount' is a required parameter of type number with a value " + "greater than 0."
-      );
-    }
 
     if (idleTimeoutInSeconds == undefined) {
       idleTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
