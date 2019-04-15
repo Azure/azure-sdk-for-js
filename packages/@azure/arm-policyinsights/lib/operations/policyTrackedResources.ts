@@ -266,7 +266,7 @@ const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.policyTrackedResourcesResource
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.filter
   ],
@@ -292,7 +292,7 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.filter
   ],
@@ -319,7 +319,7 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.filter
   ],
@@ -345,7 +345,7 @@ const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.policyTrackedResourcesResource
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.filter
   ],
