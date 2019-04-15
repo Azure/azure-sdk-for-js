@@ -220,3 +220,23 @@ export function throwTypeErrorIfParameterNotLongArray(
   log.error(`[${connectionId}] %O`, error);
   throw error;
 }
+
+/**
+ * @internal
+ * Logs and Throws TypeError if given parameter is an empty string
+ * @param connectionId Id of the underlying AMQP connection used for logging
+ * @param parameterName Name of the parameter to type check
+ * @param parameterValue Value of the parameter to type check
+ */
+export function throwTypeErrorIfParameterIsEmptyString(
+  connectionId: string,
+  parameterName: string,
+  parameterValue: string
+): TypeError | undefined {
+  if (parameterValue !== "") {
+    return;
+  }
+  const error = new TypeError(`Empty string not allowed in parameter "${parameterName}"`);
+  log.error(`[${connectionId}] %O`, error);
+  throw error;
+}

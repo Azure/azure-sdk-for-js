@@ -37,7 +37,8 @@ import {
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterTypeMismatch
+  throwTypeErrorIfParameterTypeMismatch,
+  throwTypeErrorIfParameterIsEmptyString
 } from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
@@ -1077,6 +1078,11 @@ export class ManagementClient extends LinkEntity {
     throwErrorIfConnectionClosed(this._context.namespace);
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
+    throwTypeErrorIfParameterIsEmptyString(
+      this._context.namespace.connectionId,
+      "ruleName",
+      ruleName
+    );
 
     try {
       const request: AmqpMessage = {
@@ -1129,6 +1135,11 @@ export class ManagementClient extends LinkEntity {
 
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
+    throwTypeErrorIfParameterIsEmptyString(
+      this._context.namespace.connectionId,
+      "ruleName",
+      ruleName
+    );
 
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "filter", filter);
     if (

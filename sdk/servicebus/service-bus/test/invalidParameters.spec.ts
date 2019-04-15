@@ -222,6 +222,20 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
     should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
   });
 
+  it("AddRule: Empty string as ruleName", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await subscriptionClient.addRule("", false);
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(
+      caughtError && caughtError.message,
+      `Empty string not allowed in parameter "ruleName"`
+    );
+  });
+
   it("AddRule: Missing filter", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
@@ -256,6 +270,20 @@ describe("Invalid parameters in SubscriptionClient", function(): void {
     }
     should.equal(caughtError && caughtError.name, "TypeError");
     should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
+  });
+
+  it("RemoveRule: Empty string as ruleName", async function(): Promise<void> {
+    let caughtError: Error | undefined;
+    try {
+      await subscriptionClient.removeRule("");
+    } catch (error) {
+      caughtError = error;
+    }
+    should.equal(caughtError && caughtError.name, "TypeError");
+    should.equal(
+      caughtError && caughtError.message,
+      `Empty string not allowed in parameter "ruleName"`
+    );
   });
 
   it("Add and Remove Rule: Coerce RuleName into string", async function(): Promise<void> {
