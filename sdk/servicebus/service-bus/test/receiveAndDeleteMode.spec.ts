@@ -687,7 +687,14 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   async function testRenewLock(): Promise<void> {
     const msg = await sendReceiveMsg(TestMessage.getSample());
 
-    await (<Receiver>receiver).renewMessageLock(msg).catch((err) => testError(err));
+    await (<Receiver>receiver).renewMessageLock(msg).catch((err) => {
+      should.equal(
+        err.message,
+        "The 'renewMessageLock' operation is only supported in 'PeekLock' receive mode.",
+        "ErrorMessage is different than expected"
+      );
+      errorWasThrown = true;
+    });
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
