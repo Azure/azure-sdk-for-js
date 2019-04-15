@@ -22,7 +22,7 @@ import {
 import {
   TestMessage,
   getSenderReceiverClients,
-  ClientType,
+  TestClientType,
   purge,
   checkWithTimeout
 } from "./testUtils";
@@ -54,7 +54,7 @@ function unExpectedErrorHandler(err: Error): void {
 
 const testSessionId2 = "my-session2";
 
-async function beforeEachTest(senderType: ClientType, sessionType: ClientType): Promise<void> {
+async function beforeEachTest(senderType: TestClientType, sessionType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
@@ -112,8 +112,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await test_batching();
   });
@@ -122,8 +122,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await test_batching();
   });
@@ -132,8 +132,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await test_batching();
   });
@@ -142,8 +142,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await test_batching();
   });
@@ -189,8 +189,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await test_streaming();
   });
@@ -199,8 +199,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await test_streaming();
   });
@@ -209,8 +209,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await test_streaming();
   });
@@ -219,8 +219,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await test_streaming();
   });
@@ -294,8 +294,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -305,8 +305,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -316,8 +316,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -327,8 +327,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testComplete_batching();
@@ -382,32 +382,32 @@ describe("Session State", function(): void {
   }
   it("Partitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
   it("Partitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
   it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
   it("Unpartitioned Subscription - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
@@ -455,51 +455,51 @@ describe("Peek session", function(): void {
 
   it("Partitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await peekSession(true);
   });
   it("Partitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await peekSession(true);
   });
   it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await peekSession(true);
   });
   it("Unpartitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await peekSession(true);
   });
 
   it("Partitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedQueueWithSessions,
-      ClientType.PartitionedQueueWithSessions
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedQueueWithSessions
     );
     await peekSession(false);
   });
   it("Partitioned Subscription - Peek Session without sessionId", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.PartitionedTopicWithSessions,
-      ClientType.PartitionedSubscriptionWithSessions
+      TestClientType.PartitionedTopicWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions
     );
     await peekSession(false);
   });
   it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
     await beforeEachTest(
-      ClientType.UnpartitionedQueueWithSessions,
-      ClientType.UnpartitionedQueueWithSessions
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
     await peekSession(false);
   });
@@ -507,8 +507,8 @@ describe("Peek session", function(): void {
     void
   > {
     await beforeEachTest(
-      ClientType.UnpartitionedTopicWithSessions,
-      ClientType.UnpartitionedSubscriptionWithSessions
+      TestClientType.UnpartitionedTopicWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
     );
     await peekSession(false);
   });
