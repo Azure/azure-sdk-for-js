@@ -1,9 +1,10 @@
 {
-  "name": "@azure/loganalytics",
+  "name": "@azure/graph",
   "author": "Microsoft Corporation",
-  "description": "LogAnalyticsClient Library with typescript type definitions for node.js and browser.",
-  "version": "0.2.0",
+  "description": "GraphRbacManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "4.3.0",
   "dependencies": {
+    "@azure/ms-rest-azure-js": "^1.1.0",
     "@azure/ms-rest-js": "^1.1.0",
     "tslib": "^1.9.3"
   },
@@ -15,16 +16,16 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/loganalytics.js",
-  "module": "./esm/logAnalyticsClient.js",
-  "types": "./esm/logAnalyticsClient.d.ts",
+  "main": "./dist/graph.js",
+  "module": "./esm/graphRbacManagementClient.js",
+  "types": "./esm/graphRbacManagementClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/loganalytics/loganalytics",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/graphrbac/graph",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -47,7 +48,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/loganalytics.js.map'\" -o ./dist/loganalytics.min.js ./dist/loganalytics.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/graph.js.map'\" -o ./dist/graph.min.js ./dist/graph.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,

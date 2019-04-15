@@ -1,6 +1,6 @@
-## An isomorphic javascript sdk for - LogAnalyticsClient
+## Azure GraphRbacManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK for LogAnalyticsClient.
+This package contains an isomorphic SDK for GraphRbacManagementClient.
 
 ### Currently supported environments
 
@@ -10,12 +10,12 @@ This package contains an isomorphic SDK for LogAnalyticsClient.
 ### How to Install
 
 ```
-npm install @azure/loganalytics
+npm install @azure/graph
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and execute query as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get signedInUser as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -27,19 +27,14 @@ npm install @azure/ms-rest-nodeauth
 
 ```ts
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { LogAnalyticsClient, LogAnalyticsModels, LogAnalyticsMappers } from "@azure/loganalytics";
+import { GraphRbacManagementClient, GraphRbacManagementModels, GraphRbacManagementMappers } from "@azure/graph";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new LogAnalyticsClient(creds, subscriptionId);
-  const workspaceId = "testworkspaceId";
-  const body: LogAnalyticsModels.QueryBody = {
-    query: "testquery",
-    timespan: "testtimespan",
-    workspaces: ["testworkspaces"]
-  };
-  client.query.execute(workspaceId, body).then((result) => {
+  const client = new GraphRbacManagementClient(creds, subscriptionId);
+  client.signedInUser.get().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -48,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and execute query as an example written in JavaScript.
+#### browser - Authentication, client creation and get signedInUser as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -65,10 +60,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/loganalytics sample</title>
+    <title>@azure/graph sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/loganalytics/dist/loganalytics.js"></script>
+    <script src="node_modules/@azure/graph/dist/graph.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -80,14 +76,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.Loganalytics.LogAnalyticsClient(res.creds, subscriptionId);
-        const workspaceId = "testworkspaceId";
-        const body = {
-          query: "testquery",
-          timespan: "testtimespan",
-          workspaces: ["testworkspaces"]
-        };
-        client.query.execute(workspaceId, body).then((result) => {
+        const client = new Azure.Graph.GraphRbacManagementClient(res.creds, subscriptionId);
+        client.signedInUser.get().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -106,4 +96,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/loganalytics/loganalytics/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/graphrbac/graph/README.png)
