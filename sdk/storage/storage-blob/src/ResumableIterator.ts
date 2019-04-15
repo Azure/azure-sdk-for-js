@@ -9,7 +9,7 @@ export interface ResumePoint {
   /**
    * @member {string} [nextMarker] Marker to retrieve next listing segment.
    */
-  nextMarker: string;
+  nextMarker?: string;
   /**
    * @member {number} [lastIndex] last index of the item within the current segment.
    */

@@ -39,11 +39,11 @@ async function main() {
     pipeline
   );
 
-  let marker;
+  let markerd;
   do {
     const listContainersResponse = await serviceURL.listContainersSegment(
-      Aborter.none,
-      marker
+      marker,
+      { abortSignal: Aborter.none }
     );
 
     marker = listContainersResponse.nextMarker;
@@ -81,8 +81,8 @@ async function main() {
   marker = undefined;
   do {
     const listBlobsResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      marker
+      marker,
+      { abortSignal: Aborter.none }
     );
 
     marker = listBlobsResponse.nextMarker;
